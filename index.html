@@ -3,95 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>গণিত খাতা | BAcademy Ultra Realistic</title>
+    <title>BILAS ACADEMY | Master Study Hub</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Hind+Siliguri:wght@500;600;700&display=swap" rel="stylesheet">
     
     <style>
+        :root {
+            --paper-bg: #fdf6e3;
+            --ink-color: #1e3a8a;
+            --margin-color: rgba(220, 38, 38, 0.4);
+            --line-bg: #e2d7bf;
+        }
+
         body { 
             font-family: 'Hind Siliguri', sans-serif; 
             margin: 0; overflow: hidden;
-            background-color: #2c1b18; 
-            background-image: radial-gradient(circle at 50% 30%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.5) 100%),
-                              url('https://www.transparenttextures.com/patterns/wood-pattern.png');
-            background-blend-mode: multiply;
+            background-color: #000000;
         }
 
         .handwritten {
             font-family: 'Caveat', 'Hind Siliguri', cursive;
-            font-style: italic; letter-spacing: -0.5px; color: #1e3a8a;
+            font-style: italic; letter-spacing: -0.5px;
         }
 
-        /* 1. 3D LEATHER BOOK COVER */
-        .leather-cover {
-            background-color: #1e293b; background-image: url('https://www.transparenttextures.com/patterns/leather.png');
-            box-shadow: inset 4px 0 10px rgba(0,0,0,0.4), 20px 20px 40px rgba(0,0,0,0.8);
-            border-radius: 4px 15px 15px 4px; border: 1.5px solid #334155;
-            position: relative; transform-origin: left center;
-            transition: transform 1s cubic-bezier(0.64, 0.04, 0.35, 1), opacity 0.6s ease;
-            transform-style: preserve-3d;
+        /* MASTER HUB BOOKS */
+        .hub-book {
+            box-shadow: inset 2px 0 5px rgba(0,0,0,0.4), 10px 10px 20px rgba(0,0,0,0.8);
+            border-radius: 4px 12px 12px 4px; position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer; background-image: url('https://www.transparenttextures.com/patterns/leather.png');
+            display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px;
+            aspect-ratio: 1 / 1.3;
         }
-        .cover-open { transform: rotateY(-110deg); opacity: 0; pointer-events: none; }
+        .hub-book:active { transform: scale(0.95); }
+        
+        .book-spine { position: absolute; left: 0; top: 0; bottom: 0; width: 12px; background: rgba(0,0,0,0.3); border-radius: 4px 0 0 4px; border-right: 1px solid rgba(255,255,255,0.1); }
 
-        /* 2. REAL PAPER STACK (YELLOWISH) */
+        /* THEMES */
+        .theme-math { --paper-bg: #fdf6e3; --ink-color: #1e3a8a; --margin-color: rgba(220, 38, 38, 0.4); --line-bg: #e2d7bf; border-left-color: #1e293b; }
+        .theme-bangla { --paper-bg: #f0fdf4; --ink-color: #065f46; --margin-color: rgba(22, 163, 74, 0.4); --line-bg: #bbf7d0; border-left-color: #064e3b; }
+        .theme-english { --paper-bg: #f8fafc; --ink-color: #334155; --margin-color: rgba(220, 38, 38, 0.4); --line-bg: #cbd5e1; border-left-color: #7f1d1d; }
+        .theme-gk { --paper-bg: #ffffff; --ink-color: #0f172a; --margin-color: rgba(148, 163, 184, 0.4); --line-bg: #f1f5f9; border-left-color: #0f172a; }
+
+        /* PAPER BASE */
         .paper-stack {
-            background-color: #fdf6e3; 
-            background-image: repeating-linear-gradient(transparent, transparent 31px, #e2d7bf 31px, #e2d7bf 32px);
-            background-attachment: local; border-radius: 2px 20px 20px 2px; border-left: 20px solid #1e293b;
-            box-shadow: 1px 1px 0 #fff, 5px 5px 0 #d9cfb8, 20px 20px 40px rgba(0,0,0,0.6);
+            background-color: var(--paper-bg);
+            background-image: repeating-linear-gradient(transparent, transparent 31px, var(--line-bg) 31px, var(--line-bg) 32px);
+            border-radius: 2px 20px 20px 2px; border-left: 20px solid;
+            box-shadow: 1px 1px 0 #fff, 5px 5px 0 var(--line-bg), 20px 20px 40px rgba(0,0,0,0.8);
             height: 96vh; margin: 2vh auto; position: relative; overflow: hidden;
-        }
-
-        .paper-stack::before {
-            content: ''; position: absolute; top: 0; bottom: 0; left: 45px; width: 2px;
-            background-color: rgba(220, 38, 38, 0.4); z-index: 1; pointer-events: none;
-        }
-        .top-margin-line {
-            position: absolute; top: 75px; left: 0; right: 0; height: 2px;
-            background-color: rgba(220, 38, 38, 0.4); z-index: 50; pointer-events: none;
-        }
-
-        .home-btn-container { position: absolute; top: 15px; left: 8px; z-index: 100; }
-
-        .page-content { 
-            position: relative; z-index: 10; padding-left: 60px; padding-right: 15px; 
-            height: 100%; overflow-y: auto; overflow-x: hidden;
+            transition: all 0.5s ease;
         }
         
-        .custom-header { display: flex; align-items: center; gap: 10px; padding-top: 5px; margin-bottom: 25px; }
-        .search-container { flex: 1; position: relative; }
-        .line-input { background: transparent; border: none; border-bottom: 1.5px solid #1e3a8a; color: #1e3a8a; width: 100%; outline: none; }
+        .paper-stack::before { 
+            content: ''; position: absolute; top: 0; bottom: 0; left: 45px; width: 2px; 
+            background-color: var(--margin-color); z-index: 41; pointer-events: none; 
+        }
 
-        /* TAPED PHOTO STYLE (No White/Polaroid Border) */
+        .text-ink { color: var(--ink-color); }
+        .border-ink { border-color: var(--ink-color); }
+
+        .theme-header {
+            background-color: var(--paper-bg); 
+            position: sticky; top: 0; z-index: 40; padding-top: 0.8rem; padding-bottom: 0.6rem;
+            margin-left: -60px; padding-left: 60px; 
+            margin-right: -15px; padding-right: 15px; 
+            border-bottom: 2px solid var(--margin-color);
+        }
+
+        .page-content { position: relative; z-index: 10; padding-left: 60px; padding-right: 15px; height: 100%; overflow-y: auto; overflow-x: hidden; }
+        .line-input { background: transparent; border: none; border-bottom: 1.5px solid; width: 100%; outline: none; }
+
         .taped-photo {
-            background: #ffffff; padding: 1px; /* Minimal frame edge */
-            box-shadow: 3px 6px 15px rgba(0,0,0,0.3); border: none;
-            transform: rotate(-1.5deg); margin: 35px auto 15px auto; width: 100%; max-width: 320px;
-            position: relative;
+            background: #ffffff; padding: 4px; box-shadow: 3px 6px 15px rgba(0,0,0,0.3);
+            transform: rotate(-1.5deg); margin: 35px auto 15px auto; width: 100%; max-width: 320px; position: relative;
         }
-        /* Sticky Tape Effect (Non-transparent, solid matte white, positioned in the middle) */
         .taped-photo::before {
-            content: ''; position: absolute;
-            top: -15px; left: 50%; transform: translateX(-50%) rotate(2deg);
-            width: 100px; height: 35px;
-            background-color: #fdfdfd; /* Solid matte white */
-            border: 1px solid rgba(0,0,0,0.05);
-            box-shadow: 1px 2px 4px rgba(0,0,0,0.1);
-            z-index: 40;
-            border-radius: 2px;
+            content: ''; position: absolute; top: -15px; left: 50%; transform: translateX(-50%) rotate(2deg);
+            width: 100px; height: 35px; background-color: #fdfdfd; border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 1px 2px 4px rgba(0,0,0,0.1); z-index: 40; border-radius: 2px;
         }
         
-        /* Full Screen Viewer */
-        #fullscreenViewer {
-            position: fixed; inset: 0; z-index: 700; background: rgba(0,0,0,0.98);
-            display: none; flex-direction: column; align-items: center; justify-content: center;
-        }
-
+        #fullscreenViewer { position: fixed; inset: 0; z-index: 700; background: rgba(0,0,0,0.98); display: none; flex-direction: column; align-items: center; justify-content: center; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
 
-        /* Page Flip Animations */
         .flip-out-fwd { animation: flipOutF 0.3s forwards; transform-origin: left center; }
         .flip-in-fwd { animation: flipInF 0.3s forwards; transform-origin: left center; }
         .flip-out-bwd { animation: flipOutB 0.3s forwards; transform-origin: left center; }
@@ -100,28 +97,61 @@
         @keyframes flipInF { from { transform: rotateY(90deg); opacity: 0; } to { transform: rotateY(0deg); opacity: 1; } }
         @keyframes flipOutB { to { transform: rotateY(90deg); opacity: 0; } }
         @keyframes flipInB { from { transform: rotateY(-90deg); opacity: 0; } to { transform: rotateY(0deg); opacity: 1; } }
+        
+        .fade-out { animation: fadeO 0.4s forwards; }
+        .fade-in { animation: fadeI 0.4s forwards; display: flex !important; }
+        @keyframes fadeO { to { opacity: 0; visibility: hidden; } }
+        @keyframes fadeI { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body class="text-slate-900">
 
-    <div id="tableOverlay" class="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-slate-900" style="background-image: url('https://images.unsplash.com/photo-1551269901-5c5e14c25df7?q=80&w=2069&auto=format&fit=crop'); background-size: cover; background-position: center;">
-        <div class="absolute inset-0 bg-black/30"></div>
-        <div id="mathBook" class="leather-cover w-full h-[75vh] max-w-[320px] flex flex-col justify-between p-8 cursor-pointer relative" onclick="openBook()">
-            <div class="text-center mt-8">
-                <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 border-[3px] border-[#fbbf24] bg-[#1e293b]">
-                    <i data-lucide="calculator" class="w-8 h-8 text-[#fbbf24]"></i>
+    <div id="masterHome" class="fixed inset-0 z-[200] flex flex-col items-center pt-10 px-4 overflow-y-auto pb-6" style="background-image: url('https://images.unsplash.com/photo-1551269901-5c5e14c25df7?q=80&w=2069&auto=format&fit=crop'); background-size: cover; background-position: center;">
+        <div class="absolute inset-0 bg-black/60 pointer-events-none"></div>
+        
+        <div class="relative z-10 w-full flex flex-col items-center h-full">
+            <div class="text-center mb-8 mt-4">
+                <h1 class="text-4xl font-extrabold text-white tracking-widest uppercase" style="text-shadow: 2px 2px 10px rgba(0,0,0,0.9);">BILAS ACADEMY</h1>
+                <p class="text-white/80 text-sm tracking-[0.1em] mt-3 font-bold shadow-black drop-shadow-md handwritten">"পরিশ্রম সৌভাগ্যের প্রসূতি"</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-5 w-full max-w-sm flex-grow content-start">
+                <div onclick="openNotebook('bangla', 'বাংলা খাতা')" class="hub-book" style="background-color: #064e3b; border: 1px solid #065f46;">
+                    <div class="book-spine"></div>
+                    <div class="w-10 h-10 rounded-full border-2 flex items-center justify-center mb-3" style="border-color: #a7f3d0; background-color: #064e3b;">
+                        <i data-lucide="feather" style="color: #a7f3d0; width: 20px; height: 20px;"></i>
+                    </div>
+                    <h2 class="text-xl font-bold uppercase tracking-wider text-center leading-tight drop-shadow-md" style="color: #a7f3d0;">বাংলা</h2>
+                    <p class="text-[8px] uppercase tracking-widest mt-2 text-center drop-shadow-md" style="color: rgba(167, 243, 208, 0.8);">সাহিত্য ও ব্যাকরণ</p>
                 </div>
-                <h1 class="text-4xl font-extrabold text-[#fbbf24] tracking-tight uppercase">গণিত খাতা</h1>
-                <p class="text-white font-bold mt-2 tracking-[0.2em] opacity-80 text-[10px] uppercase"></p>
-                <div class="mt-8 px-2">
-                    <p class="text-blue-100 italic text-[11px] leading-relaxed opacity-70 handwritten">
-                        "পরিশ্রম সৌভাগ্যের প্রসূতি"
-                    </p>
+                <div onclick="openNotebook('english', 'English Notes')" class="hub-book" style="background-color: #7f1d1d; border: 1px solid #991b1b;">
+                    <div class="book-spine"></div>
+                    <div class="w-10 h-10 rounded-full border-2 flex items-center justify-center mb-3" style="border-color: #fecaca; background-color: #7f1d1d;">
+                        <i data-lucide="book-open" style="color: #fecaca; width: 20px; height: 20px;"></i>
+                    </div>
+                    <h2 class="text-xl font-bold uppercase tracking-wider text-center leading-tight drop-shadow-md" style="color: #fecaca;">English</h2>
+                    <p class="text-[8px] uppercase tracking-widest mt-2 text-center drop-shadow-md" style="color: rgba(254, 202, 202, 0.8);">Grammar & Vocab</p>
+                </div>
+                <div onclick="openNotebook('math', 'গণিত খাতা')" class="hub-book" style="background-color: #1e293b; border: 1px solid #334155;">
+                    <div class="book-spine"></div>
+                    <div class="w-10 h-10 rounded-full border-2 flex items-center justify-center mb-3" style="border-color: #fbbf24; background-color: #1e293b;">
+                        <i data-lucide="calculator" style="color: #fbbf24; width: 20px; height: 20px;"></i>
+                    </div>
+                    <h2 class="text-xl font-bold uppercase tracking-wider text-center leading-tight drop-shadow-md" style="color: #fbbf24;">গণিত</h2>
+                    <p class="text-[8px] uppercase tracking-widest mt-2 text-center drop-shadow-md" style="color: rgba(251, 191, 36, 0.8);">শর্টকাট ও বেসিক</p>
+                </div>
+                <div onclick="openNotebook('gk', 'সা. জ্ঞান')" class="hub-book" style="background-color: #0f172a; border: 1px solid #1e293b;">
+                    <div class="book-spine"></div>
+                    <div class="w-10 h-10 rounded-full border-2 flex items-center justify-center mb-3" style="border-color: #e2e8f0; background-color: #0f172a;">
+                        <i data-lucide="globe" style="color: #e2e8f0; width: 20px; height: 20px;"></i>
+                    </div>
+                    <h2 class="text-xl font-bold uppercase tracking-wider text-center leading-tight drop-shadow-md" style="color: #e2e8f0;">সা. জ্ঞান</h2>
+                    <p class="text-[8px] uppercase tracking-widest mt-2 text-center drop-shadow-md" style="color: rgba(226, 232, 240, 0.8);">বিসিএস ও জব প্রস্তুতি</p>
                 </div>
             </div>
-            <div class="text-center">
-                <button class="bg-[#fbbf24] text-slate-900 px-6 py-2.5 rounded-md font-extrabold shadow-xl mb-4">খাতা খুলুন</button>
-                <p class="text-white/50 text-[10px] tracking-widest font-mono uppercase">© বিলাস ২০২৬</p>
+            
+            <div class="w-full text-center mt-auto pt-8">
+                <p class="text-white/50 text-[11px] tracking-widest font-mono uppercase font-bold">©️ বিলাস। ২০২৬।</p>
             </div>
         </div>
     </div>
@@ -132,59 +162,63 @@
     </div>
 
     <div id="mainApp" class="hidden max-w-2xl mx-auto w-[96%] paper-stack">
-        <div class="top-margin-line"></div>
-
-        <div class="home-btn-container">
-            <button onclick="goHome()" class="text-red-500/70 hover:text-red-600 transition-colors p-2">
-                <i data-lucide="home" class="w-7 h-7"></i>
+        
+        <div class="absolute top-1 left-[3px] z-50 flex flex-col gap-3">
+            <button onclick="goBackToDesk()" class="text-red-600/80 hover:text-red-700 flex flex-col items-center group">
+                <i data-lucide="library" class="w-5 h-5 group-active:scale-90 transition-transform"></i>
+                <span class="text-[8px] font-bold mt-0.5">ডেস্ক</span>
+            </button>
+            <button onclick="goHome()" class="text-blue-600/80 hover:text-blue-700 flex flex-col items-center group">
+                <i data-lucide="home" class="w-5 h-5 group-active:scale-90 transition-transform"></i>
+                <span class="text-[8px] font-bold mt-0.5">হোম</span>
             </button>
         </div>
 
+        <div class="fixed bottom-6 right-6 z-[100] flex flex-col-reverse items-end gap-3">
+            <button onclick="toggleQuickMenu()" class="w-12 h-12 rounded-full bg-slate-800 text-white shadow-lg flex items-center justify-center border-2 border-white/20 active:scale-90 transition-transform">
+                <i data-lucide="layers" class="w-6 h-6"></i>
+            </button>
+            <div id="quickMenu" class="hidden flex-col gap-3 mb-1">
+                <button onclick="quickSwitch('gk', 'সা. জ্ঞান')" class="w-10 h-10 rounded-full bg-[#0f172a] text-[#e2e8f0] border border-white shadow-md flex items-center justify-center"><i data-lucide="globe" class="w-5 h-5"></i></button>
+                <button onclick="quickSwitch('english', 'English Notes')" class="w-10 h-10 rounded-full bg-[#7f1d1d] text-[#fecaca] border border-white shadow-md flex items-center justify-center"><i data-lucide="book-open" class="w-5 h-5"></i></button>
+                <button onclick="quickSwitch('bangla', 'বাংলা খাতা')" class="w-10 h-10 rounded-full bg-[#064e3b] text-[#a7f3d0] border border-white shadow-md flex items-center justify-center"><i data-lucide="feather" class="w-5 h-5"></i></button>
+                <button onclick="quickSwitch('math', 'গণিত খাতা')" class="w-10 h-10 rounded-full bg-[#1e293b] text-[#fbbf24] border border-white shadow-md flex items-center justify-center"><i data-lucide="calculator" class="w-5 h-5"></i></button>
+            </div>
+        </div>
+
         <div id="pageContent" class="page-content no-scrollbar">
-            <header class="sticky top-0 z-40 bg-[#fdf6e3]/95 pt-4">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-bold handwritten flex items-center gap-2">
-                        <i data-lucide="pen-tool" class="text-red-600 w-5 h-5"></i> Math Notes
+            <header class="theme-header">
+                <div class="flex justify-center items-center mb-3 relative w-full">
+                    <h2 id="appTitle" class="text-2xl font-bold handwritten flex items-center gap-2 text-ink">
+                        <i data-lucide="pen-tool" class="text-red-600 w-5 h-5"></i> <span>Math Notes</span>
                     </h2>
-                    <button onclick="loadDataManually()" class="text-blue-900 opacity-60"><i data-lucide="refresh-cw" class="w-5 h-5"></i></button>
+                    <span id="statsBadge" class="absolute right-0 text-[10px] font-bold bg-ink text-white px-2 py-1 rounded-full opacity-80 hidden">০ টি</span>
                 </div>
 
-                <div class="custom-header">
-                    <div id="backBtnContainer" class="hidden">
-                        <button onclick="navigateBack()" class="flex items-center gap-1 handwritten font-bold text-red-600 px-2 py-1">
-                            <i data-lucide="corner-down-left" class="w-4 h-4"></i> পাতা উল্টান
-                        </button>
-                    </div>
-                    <div id="placeholder" class="w-16"></div>
-                    <div class="search-container">
-                        <input type="text" id="searchInput" oninput="executeSearch()" placeholder="টপিক খুঁজুন..." class="handwritten line-input text-base focus:outline-none">
-                        <i data-lucide="search" class="absolute right-0 top-0.5 text-blue-300 w-4 h-4"></i>
-                    </div>
+                <div class="search-container relative w-full mt-2">
+                    <input type="text" id="searchInput" oninput="executeSearch()" placeholder="টপিক খুঁজুন..." class="handwritten line-input text-xl text-ink border-ink pb-1 pr-10">
+                    <i data-lucide="search" class="absolute right-1 top-0.5 text-ink opacity-70 w-7 h-7"></i>
                 </div>
             </header>
 
             <main class="pb-24">
                 <div id="loader" class="hidden flex flex-col items-center justify-center py-10">
-                    <i data-lucide="loader" class="w-8 h-8 animate-spin text-blue-600"></i>
-                    <p class="text-xs font-bold mt-2">ডেটা লোড হচ্ছে...</p>
+                    <i data-lucide="loader" class="w-8 h-8 animate-spin text-ink"></i>
                 </div>
-                <div id="view-dashboard" class="flex flex-col mt-4"></div>
+                <div id="view-dashboard" class="flex flex-col mt-2"></div>
                 <div id="view-topics" class="hidden flex flex-col">
-                    <h2 id="chapterHeading" class="text-2xl font-bold handwritten border-b-2 border-red-400/30 mb-4 inline-block mt-2"></h2>
+                    <h2 id="chapterHeading" class="text-2xl font-bold handwritten border-b-2 mb-4 inline-block mt-4 text-ink border-ink/30"></h2>
                     <div id="topicList" class="flex flex-col"></div>
                 </div>
                 <div id="view-image" class="hidden flex flex-col items-center">
-                    <h3 id="imageTitle" class="w-full text-xl font-bold handwritten mb-3 leading-tight text-center"></h3>
-                    
+                    <h3 id="imageTitle" class="w-full text-xl font-bold handwritten mt-2 mb-3 leading-tight text-center text-ink"></h3>
                     <div class="taped-photo" onclick="openFullImage()">
                         <div class="absolute inset-0 z-30 cursor-zoom-in"></div>
-                        <iframe id="driveFrame" class="w-full h-[38vh] pointer-events-none border-none" src=""></iframe>
+                        <iframe id="driveFrame" class="w-full h-[38vh] pointer-events-none border-none bg-white" src=""></iframe>
                     </div>
-                    
-                    <p id="imageNote" class="text-center mt-3 handwritten text-xs font-bold opacity-80 italic px-2 leading-relaxed"></p>
-                    
-                    <div class="mt-10 w-full px-4">
-                        <a id="videoBtn" href="#" target="_blank" class="hidden items-center justify-center gap-3 bg-red-600 text-white py-3 rounded-full text-base font-bold shadow-lg transform active:scale-95 transition-all">
+                    <p id="imageNote" class="text-center mt-3 handwritten text-xs font-bold opacity-80 italic px-2 leading-relaxed text-ink"></p>
+                    <div class="mt-10 w-full px-4 text-center">
+                        <a id="videoBtn" href="#" target="_blank" class="hidden items-center justify-center gap-3 bg-red-600 text-white py-3 rounded-full text-base font-bold shadow-lg transform active:scale-95 transition-all mx-auto">
                             <i data-lucide="play-circle" class="w-6 h-6"></i> ভিডিও ক্লাস দেখুন
                         </a>
                     </div>
@@ -194,35 +228,92 @@
     </div>
 
     <script>
-        // Google Sheet CSV URL
-        const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQWvEMlB8yjZ96rWKGPmXIevhTjaFZ_SuLb_42IGHdRNAcljvveIJAPnSHlz13tu6wyr1X8D3lYUxJm/pub?gid=566628590&single=true&output=csv";
-        
+        const DB_URLS = {
+            math: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWvEMlB8yjZ96rWKGPmXIevhTjaFZ_SuLb_42IGHdRNAcljvveIJAPnSHlz13tu6wyr1X8D3lYUxJm/pub?gid=566628590&single=true&output=csv',
+            bangla: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWvEMlB8yjZ96rWKGPmXIevhTjaFZ_SuLb_42IGHdRNAcljvveIJAPnSHlz13tu6wyr1X8D3lYUxJm/pub?gid=840059015&single=true&output=csv',
+            english: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWvEMlB8yjZ96rWKGPmXIevhTjaFZ_SuLb_42IGHdRNAcljvveIJAPnSHlz13tu6wyr1X8D3lYUxJm/pub?gid=1921260160&single=true&output=csv',
+            gk: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWvEMlB8yjZ96rWKGPmXIevhTjaFZ_SuLb_42IGHdRNAcljvveIJAPnSHlz13tu6wyr1X8D3lYUxJm/pub?gid=570235809&single=true&output=csv'
+        };
+
+        let memoryCache = { math: null, bangla: null, english: null, gk: null };
+        let currentSubject = '';
         let rawData = [], groupedChapters = {}, currentViewState = 'dashboard';
 
-        function openBook() {
-            document.getElementById('mathBook').classList.add('cover-open'); 
-            setTimeout(() => {
-                document.getElementById('tableOverlay').classList.add('hidden');
-                document.getElementById('mainApp').classList.remove('hidden');
-                history.replaceState({view: 'dashboard'}, '', '#dashboard');
-                loadDataManually(); 
-            }, 800);
+        function toggleQuickMenu() {
+            const menu = document.getElementById('quickMenu');
+            if(menu) { menu.classList.toggle('hidden'); menu.classList.toggle('flex'); }
         }
 
-        // ক্রোম ব্রাউজারের CORS পলিসি বাইপাস করার জন্য সরাসরি XMLHttpRequest ব্যবহার
-        function loadDataManually() {
-            document.getElementById('loader').classList.replace('hidden', 'flex');
+        function quickSwitch(subject, title) {
+            toggleQuickMenu();
+            if(subject === currentSubject) return;
+            openNotebook(subject, title, true);
+        }
+
+        function openNotebook(subject, title, isQuickSwitch = false) {
+            try {
+                currentSubject = subject;
+                const titleSpan = document.querySelector('#appTitle span');
+                if(titleSpan) titleSpan.innerText = title;
+                const app = document.getElementById('mainApp');
+                if(app) app.className = `hidden max-w-2xl mx-auto w-[96%] paper-stack theme-${subject}`;
+
+                if(!isQuickSwitch) {
+                    const desk = document.getElementById('masterHome');
+                    if(desk) desk.classList.add('fade-out');
+                    setTimeout(() => {
+                        if(desk) desk.classList.add('hidden');
+                        if(app) app.classList.remove('hidden');
+                        try { history.pushState({view: 'dashboard', sub: subject}, '', `#${subject}`); } catch(e){}
+                        loadDataForSubject();
+                    }, 300);
+                } else {
+                    if(app) app.classList.remove('hidden');
+                    const sInput = document.getElementById('searchInput');
+                    if(sInput) sInput.value = '';
+                    performPageFlip('view-dashboard', () => {}, true);
+                    try { history.pushState({view: 'dashboard', sub: subject}, '', `#${subject}`); } catch(e){}
+                    loadDataForSubject();
+                }
+                setTimeout(() => { if(typeof lucide !== 'undefined') lucide.createIcons(); }, 350);
+            } catch(e) {}
+        }
+
+        function goBackToDesk() {
+            if(currentViewState !== 'dashboard') {
+                const sInput = document.getElementById('searchInput');
+                if(sInput) sInput.value = '';
+                performPageFlip('view-dashboard', () => renderDashboard(), true);
+                currentViewState = 'dashboard';
+            }
+            const app = document.getElementById('mainApp');
+            if(app) app.classList.add('hidden');
+            const stats = document.getElementById('statsBadge');
+            if(stats) stats.classList.add('hidden');
+            const desk = document.getElementById('masterHome');
+            if(desk) { desk.classList.remove('hidden', 'fade-out'); desk.classList.add('fade-in'); }
+            try { history.pushState({view: 'hub'}, '', '#hub'); } catch(e){}
+            setTimeout(() => { if(desk) desk.classList.remove('fade-in'); }, 400);
+        }
+
+        function loadDataForSubject() {
+            const stats = document.getElementById('statsBadge');
+            if(stats) stats.classList.add('hidden');
+            if(memoryCache[currentSubject]) {
+                rawData = memoryCache[currentSubject];
+                processData();
+                return;
+            }
+            const loader = document.getElementById('loader');
+            if(loader) { loader.classList.remove('hidden'); loader.classList.add('flex'); }
+            const viewDash = document.getElementById('view-dashboard');
+            if(viewDash) viewDash.innerHTML = '';
             var xhr = new XMLHttpRequest();
-            // Cache buster adds timestamp to prevent caching issues
-            xhr.open("GET", GOOGLE_SHEET_CSV_URL + "&cache=" + new Date().getTime(), true);
+            xhr.open("GET", DB_URLS[currentSubject] + "&cache=" + new Date().getTime(), true);
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4) {
-                    document.getElementById('loader').classList.replace('flex', 'hidden');
-                    if (xhr.status == 200) {
-                        parseCSV(xhr.responseText);
-                    } else {
-                        document.getElementById('loader').innerHTML = "<p class='text-red-500 font-bold handwritten'>ডেটা লোড হতে পারছে না। ব্রাউজার রিফ্রেশ করুন।</p>";
-                    }
+                    if(loader) { loader.classList.remove('flex'); loader.classList.add('hidden'); }
+                    if (xhr.status == 200) { parseCSV(xhr.responseText); } 
                 }
             };
             xhr.send();
@@ -230,176 +321,174 @@
 
         function parseCSV(text) {
             let lines = text.split("\n");
-            // Handle header and remove potential quotes/spaces
+            if(lines.length === 0) return;
             let headers = lines[0].split(",").map(h => h.trim().replace(/^"|"$/g, ''));
-            
-            rawData = [];
+            let tempData = [];
             for (let i = 1; i < lines.length; i++) {
                 if (lines[i].trim() == "") continue;
                 let obj = {};
-                // Simple CSV split (handles quotes if data fields aren't complex)
                 let currentline = lines[i].split(",").map(c => c.trim().replace(/^"|"$/g, ''));
                 if (currentline.length < 2) continue;
-                headers.forEach((h, idx) => {
-                    obj[h] = currentline[idx];
-                });
-                rawData.push(obj);
+                headers.forEach((h, idx) => { obj[h] = currentline[idx]; });
+                tempData.push(obj);
             }
+            rawData = tempData;
+            memoryCache[currentSubject] = rawData; 
             processData();
         }
 
         function processData() {
             groupedChapters = {};
             rawData.forEach(item => {
-                if (!groupedChapters[item.Chapter]) groupedChapters[item.Chapter] = [];
-                groupedChapters[item.Chapter].push(item);
+                const ch = item.Chapter || 'অন্যান্য';
+                if (!groupedChapters[ch]) groupedChapters[ch] = [];
+                groupedChapters[ch].push(item);
             });
+            const badge = document.getElementById('statsBadge');
+            if(badge) { badge.innerText = `${rawData.length} টি নোট`; badge.classList.remove('hidden'); }
             renderDashboard();
         }
 
         function renderDashboard(list = null) {
             const container = document.getElementById('view-dashboard');
+            if(!container) return;
             container.innerHTML = '';
             if (list) {
+                if(list.length === 0) container.innerHTML = `<p class="text-center mt-10 opacity-50 handwritten text-ink">কিছু পাওয়া যায়নি!</p>`;
                 list.forEach(item => container.innerHTML += buildTopicCard(item));
             } else {
                 Object.keys(groupedChapters).forEach(name => {
                     container.innerHTML += `
-                        <div onclick="openChapter('${name}')" class="flex items-center gap-3 py-3 border-b border-blue-200/30 cursor-pointer group ink-hover">
-                            <i data-lucide="book" class="w-5 h-5 text-blue-400 opacity-40"></i>
-                            <div class="flex-1 flex justify-between items-center pr-2"><h3 class="text-xl font-bold handwritten">${name}</h3><p class="text-[10px] font-bold text-red-400 uppercase tracking-tighter">${groupedChapters[name].length} Notes</p></div>
+                        <div onclick="openChapter('${name}')" class="flex items-center gap-3 py-3 border-b border-ink/20 cursor-pointer group ink-hover">
+                            <i data-lucide="book" class="w-5 h-5 text-ink opacity-40"></i>
+                            <div class="flex-1 flex justify-between items-center pr-2"><h3 class="text-xl font-bold handwritten text-ink">${name}</h3><p class="text-[10px] font-bold text-red-500 uppercase tracking-tighter">${groupedChapters[name].length} Notes</p></div>
                         </div>`;
                 });
             }
-            lucide.createIcons();
+            if(typeof lucide !== 'undefined') lucide.createIcons();
         }
 
         function buildTopicCard(item) {
             const data = encodeURIComponent(JSON.stringify(item));
-            return `<div onclick="openViewer('${data}')" class="flex items-center justify-between py-3 border-b border-blue-200/30 cursor-pointer group pr-2 ink-hover">
-                    <h4 class="font-bold text-lg handwritten">${item.Topic}</h4>
-                    <i data-lucide="arrow-right" class="w-4 h-4 text-blue-200"></i>
+            return `<div onclick="openViewer('${data}')" class="flex items-center justify-between py-3 border-b border-ink/20 cursor-pointer group pr-2 ink-hover">
+                    <h4 class="font-bold text-lg handwritten text-ink">${item.Topic}</h4>
+                    <i data-lucide="arrow-right" class="w-4 h-4 text-ink opacity-50"></i>
                 </div>`;
         }
 
         function openChapter(name) {
-            // Push topics state with backward true since we are going deeper
-            history.pushState({view: 'topics', chapter: name}, '', '#'+name);
+            try { history.pushState({view: 'topics', chapter: name, sub: currentSubject}, '', '#'+name); } catch(e){}
             performPageFlip('view-topics', () => {
-                document.getElementById('chapterHeading').innerText = name;
-                document.getElementById('topicList').innerHTML = '';
-                groupedChapters[name].forEach(i => document.getElementById('topicList').innerHTML += buildTopicCard(i));
+                const heading = document.getElementById('chapterHeading');
+                if(heading) heading.innerText = name;
+                const list = document.getElementById('topicList');
+                if(list) {
+                    list.innerHTML = '';
+                    if(groupedChapters[name]) groupedChapters[name].forEach(i => list.innerHTML += buildTopicCard(i));
+                }
             });
         }
 
         function openViewer(jsonStr) {
             const item = JSON.parse(decodeURIComponent(jsonStr));
-            history.pushState({view: 'image', topic: item}, '', '#topic');
+            try { history.pushState({view: 'image', topic: item, sub: currentSubject}, '', '#topic'); } catch(e){}
             performPageFlip('view-image', () => {
-                document.getElementById('imageTitle').innerText = item.Topic;
-                document.getElementById('imageNote').innerText = item.Short_Note || "";
-                let link = item.ImageLink;
+                const title = document.getElementById('imageTitle');
+                if(title) title.innerText = item.Topic || "";
+                const note = document.getElementById('imageNote');
+                if(note) note.innerText = item.Short_Note || "";
+                let link = item.ImageLink || "";
                 if(link.includes('drive.google.com')) {
                     const match = link.match(/[-\w]{25,}/);
                     if(match) link = `https://drive.google.com/file/d/${match[0]}/preview`;
                 }
-                document.getElementById('driveFrame').src = link;
-                document.getElementById('fullscreenFrame').src = link;
+                const dFrame = document.getElementById('driveFrame');
+                if(dFrame) dFrame.src = link;
+                const fFrame = document.getElementById('fullscreenFrame');
+                if(fFrame) fFrame.src = link;
                 const vBtn = document.getElementById('videoBtn');
-                if(item.Video_Link && item.Video_Link.startsWith('http')) {
-                    vBtn.href = item.Video_Link;
-                    vBtn.classList.replace('hidden', 'flex');
-                } else {
-                    vBtn.classList.replace('flex', 'hidden');
+                if(vBtn) {
+                    if(item.Video_Link && item.Video_Link.startsWith('http')) { vBtn.href = item.Video_Link; vBtn.classList.remove('hidden'); vBtn.classList.add('flex'); } 
+                    else { vBtn.classList.remove('flex'); vBtn.classList.add('hidden'); }
                 }
             });
         }
 
         function goHome() {
             if(currentViewState === 'dashboard') return;
-            document.getElementById('searchInput').value = '';
-            // Reset search view, chapter view and topics view state.
-            history.pushState({view: 'dashboard'}, '', '#dashboard');
+            const sInput = document.getElementById('searchInput');
+            if(sInput) sInput.value = '';
+            try { history.pushState({view: 'dashboard', sub: currentSubject}, '', `#${currentSubject}`); } catch(e){}
             performPageFlip('view-dashboard', renderDashboard, true);
         }
-
-        function navigateBack() {
-            history.back();
-        }
         
-        // Handle physical/browser back button for real page flip transitions
         window.addEventListener('popstate', function(event) {
-            // Check if full screen is open, close it first
-            if (document.getElementById('fullscreenViewer').style.display === 'flex') {
-                closeFullImageUI();
-                return;
-            }
-            // Decide backward flip destination based on history state
-            const state = event.state ? event.state.view : 'dashboard';
-            if (state === 'dashboard') {
-                document.getElementById('searchInput').value = ''; // Reset search.
-                performPageFlip('view-dashboard', renderDashboard, true); // Backward flip.
-            } else if (state === 'topics') {
-                // Topic state stores the chapter name
+            const viewer = document.getElementById('fullscreenViewer');
+            if (viewer && viewer.style.display === 'flex') { closeFullImageUI(); return; }
+            const state = event.state ? event.state.view : 'hub';
+            if(state === 'hub') { goBackToDesk(); }
+            else if (state === 'dashboard') {
+                const sInput = document.getElementById('searchInput');
+                if(sInput) sInput.value = '';
+                performPageFlip('view-dashboard', renderDashboard, true);
+            } 
+            else if (state === 'topics') {
                 const chapterName = event.state.chapter;
                 performPageFlip('view-topics', () => {
-                    document.getElementById('chapterHeading').innerText = chapterName;
-                    document.getElementById('topicList').innerHTML = '';
-                    groupedChapters[chapterName].forEach(i => document.getElementById('topicList').innerHTML += buildTopicCard(i));
-                }, true); // Backward flip from image view back to topics for chapter.
-            } else if (state === 'image') {
-                 // Going back from fullscreen photo? Image state is already correct.
+                    const heading = document.getElementById('chapterHeading');
+                    if(heading) heading.innerText = chapterName;
+                    const list = document.getElementById('topicList');
+                    if(list) {
+                        list.innerHTML = '';
+                        if(groupedChapters[chapterName]) groupedChapters[chapterName].forEach(i => list.innerHTML += buildTopicCard(i));
+                    }
+                }, true); 
             }
         });
 
         function performPageFlip(targetViewId, logicCallback, isBackward = false) {
             const page = document.getElementById('pageContent');
+            if(!page) return;
             const outClass = isBackward ? 'flip-out-bwd' : 'flip-out-fwd';
             const inClass = isBackward ? 'flip-in-bwd' : 'flip-in-fwd';
-            
             page.classList.remove('flip-out-fwd', 'flip-in-fwd', 'flip-out-bwd', 'flip-in-bwd');
             page.classList.add(outClass);
-            
             setTimeout(() => {
-                document.getElementById('view-dashboard').classList.add('hidden');
-                document.getElementById('view-topics').classList.add('hidden');
-                document.getElementById('view-image').classList.add('hidden');
-                
+                const d = document.getElementById('view-dashboard');
+                const t = document.getElementById('view-topics');
+                const i = document.getElementById('view-image');
+                if(d) d.classList.add('hidden');
+                if(t) t.classList.add('hidden');
+                if(i) i.classList.add('hidden');
                 if(logicCallback) logicCallback();
-                
-                document.getElementById(targetViewId).classList.remove('hidden');
-                document.getElementById('backBtnContainer').classList.toggle('hidden', targetViewId === 'view-dashboard');
-                document.getElementById('placeholder').classList.toggle('hidden', targetViewId !== 'view-dashboard');
-                
+                const target = document.getElementById(targetViewId);
+                if(target) target.classList.remove('hidden');
                 page.classList.replace(outClass, inClass);
                 currentViewState = targetViewId.replace('view-', '');
-                setTimeout(() => { page.classList.remove(inClass); lucide.createIcons(); }, 300); 
+                setTimeout(() => { page.classList.remove(inClass); if(typeof lucide !== 'undefined') lucide.createIcons(); }, 300); 
             }, 300); 
         }
 
         function openFullImage() {
-            history.pushState({view: 'fullscreen'}, '', '#full');
-            document.getElementById('fullscreenViewer').style.display = 'flex';
+            const frameSrc = document.getElementById('driveFrame').src;
+            if(frameSrc && frameSrc !== window.location.href) {
+                try { history.pushState({view: 'fullscreen'}, '', '#full'); } catch(e){}
+                const viewer = document.getElementById('fullscreenViewer');
+                if(viewer) viewer.style.display = 'flex';
+            }
         }
         function closeFullImage() { history.back(); }
-        function closeFullImageUI() { document.getElementById('fullscreenViewer').style.display = 'none'; }
+        function closeFullImageUI() { const viewer = document.getElementById('fullscreenViewer'); if(viewer) viewer.style.display = 'none'; }
 
         function executeSearch() {
             const q = document.getElementById('searchInput').value.toLowerCase();
-            // If search is cleared, reset dashboard chapter list
-            if(!q) { if(currentViewState !== 'dashboard') history.back(); else renderDashboard(); return; }
-            const res = rawData.filter(i => i.Topic.toLowerCase().includes(q));
-            // Render on dashboard view, hiding chapter list
-            document.getElementById('searchInput').value = q; // Preserve query in input.
-            // Flip but render on dashboard.
-            if(currentViewState === 'dashboard') {
-               renderDashboard(res); 
-            } else {
-               performPageFlip('view-dashboard', () => renderDashboard(res), true); 
-            }
+            if(!q) { if(currentViewState !== 'dashboard') goHome(); else renderDashboard(); return; }
+            const res = rawData.filter(i => i.Topic && i.Topic.toLowerCase().includes(q));
+            if(currentViewState === 'dashboard') { renderDashboard(res); } 
+            else { performPageFlip('view-dashboard', () => renderDashboard(res), true); }
         }
 
-        window.onload = () => lucide.createIcons();
+        window.onload = () => { if(typeof lucide !== 'undefined') lucide.createIcons(); try { history.replaceState({view: 'hub'}, '', '#hub'); } catch(e){} };
     </script>
 </body>
 </html>
