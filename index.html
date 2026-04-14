@@ -193,7 +193,7 @@
                 </div>
 
                 <div class="search-container relative w-full mt-2">
-                    <input type="text" id="searchInput" oninput="executeSearch()" placeholder="টপিক খুঁজুন..." class="handwritten line-input text-xl text-ink border-ink pb-1 pr-10">
+                    <input type="text" id="searchInput" oninput="executeSearch()" placeholder="খুঁজুন..." class="handwritten line-input text-xl text-ink border-ink pb-1 pr-10">
                     <i data-lucide="search" class="absolute right-1 top-0.5 text-ink opacity-70 w-7 h-7"></i>
                 </div>
             </header>
@@ -203,15 +203,20 @@
                     <i data-lucide="loader" class="w-8 h-8 animate-spin text-ink"></i>
                 </div>
                 <div id="view-dashboard" class="flex flex-col mt-2"></div>
+                
                 <div id="view-topics" class="hidden flex flex-col">
                     <h2 id="chapterHeading" class="text-2xl font-bold handwritten border-b-2 mb-4 inline-block mt-4 text-ink border-ink/30"></h2>
                     <div id="topicList" class="flex flex-col"></div>
                 </div>
+
+                <div id="view-subtopics" class="hidden flex flex-col">
+                    <h2 id="subtopicHeading" class="text-2xl font-bold handwritten border-b-2 mb-4 inline-block mt-4 text-ink border-ink/30"></h2>
+                    <div id="subtopicList" class="flex flex-col"></div>
+                </div>
+
                 <div id="view-image" class="hidden flex flex-col items-center">
                     <h3 id="imageTitle" class="w-full text-xl font-bold handwritten mt-2 mb-4 leading-tight text-center text-ink"></h3>
-                    
                     <div id="imageContainer" class="w-full flex flex-col items-center gap-6"></div>
-                    
                     <p id="imageNote" class="text-center mt-3 handwritten text-xs font-bold opacity-80 italic px-2 leading-relaxed text-ink"></p>
                     <div class="mt-10 w-full px-4 text-center">
                         <a id="videoBtn" href="#" target="_blank" class="hidden items-center justify-center gap-3 bg-red-600 text-white py-3 rounded-full text-base font-bold shadow-lg transform active:scale-95 transition-all mx-auto">
@@ -323,7 +328,6 @@
             for (let i = 1; i < lines.length; i++) {
                 if (lines[i].trim() == "") continue;
                 
-                // Advanced CSV parsing to handle commas inside quotes
                 let currentline = [];
                 let inQuotes = false;
                 let val = '';
@@ -364,7 +368,14 @@
             container.innerHTML = '';
             if (list) {
                 if(list.length === 0) container.innerHTML = `<p class="text-center mt-10 opacity-50 handwritten text-ink">কিছু পাওয়া যায়নি!</p>`;
-                list.forEach(item => container.innerHTML += buildTopicCard(item));
+                list.forEach(item => {
+                    const data = encodeURIComponent(JSON.stringify(item));
+                    const displayName = item.Subtopic ? `${item.Topic} > ${item.Subtopic}` : item.Topic;
+                    container.innerHTML += `<div onclick="openViewer('${data}')" class="flex items-center justify-between py-3 border-b border-ink/20 cursor-pointer group pr-2 ink-hover">
+                        <h4 class="font-bold text-lg handwritten text-ink">${displayName}</h4>
+                        <i data-lucide="arrow-right" class="w-4 h-4 text-ink opacity-50"></i>
+                    </div>`;
+                });
             } else {
                 Object.keys(groupedChapters).forEach(name => {
                     container.innerHTML += `
@@ -377,42 +388,94 @@
             if(typeof lucide !== 'undefined') lucide.createIcons();
         }
 
-        function buildTopicCard(item) {
-            const data = encodeURIComponent(JSON.stringify(item));
-            return `<div onclick="openViewer('${data}')" class="flex items-center justify-between py-3 border-b border-ink/20 cursor-pointer group pr-2 ink-hover">
-                    <h4 class="font-bold text-lg handwritten text-ink">${item.Topic}</h4>
-                    <i data-lucide="arrow-right" class="w-4 h-4 text-ink opacity-50"></i>
-                </div>`;
-        }
-
-        function openChapter(name) {
-            try { history.pushState({view: 'topics', chapter: name, sub: currentSubject}, '', '#'+name); } catch(e){}
+        // Modified to handle Topics and Subtopics logic
+        function openChapter(chapterName) {
+            try { history.pushState({view: 'topics', chapter: chapterName, sub: currentSubject}, '', '#'+chapterName); } catch(e){}
             performPageFlip('view-topics', () => {
                 const heading = document.getElementById('chapterHeading');
-                if(heading) heading.innerText = name;
+                if(heading) heading.innerText = chapterName;
                 const list = document.getElementById('topicList');
                 if(list) {
                     list.innerHTML = '';
-                    if(groupedChapters[name]) groupedChapters[name].forEach(i => list.innerHTML += buildTopicCard(i));
+                    let chapterItems = rawData.filter(i => i.Chapter === chapterName);
+                    
+                    // Group by Topic
+                    let topicsInChapter = {};
+                    chapterItems.forEach(item => {
+                        const t = item.Topic || 'অজানা টপিক';
+                        if(!topicsInChapter[t]) topicsInChapter[t] = [];
+                        topicsInChapter[t].push(item);
+                    });
+                    
+                    Object.keys(topicsInChapter).forEach(topicName => {
+                        const items = topicsInChapter[topicName];
+                        // If it has Subtopics, show folder style
+                        if(items.some(i => i.Subtopic && i.Subtopic.trim() !== "")) {
+                            list.innerHTML += `<div onclick="openSubtopicView('${chapterName}', '${topicName}')" class="flex items-center justify-between py-3 border-b border-ink/20 cursor-pointer group pr-2 ink-hover">
+                                <div class="flex flex-col">
+                                    <h4 class="font-bold text-lg handwritten text-ink">${topicName}</h4>
+                                    <span class="text-[10px] font-bold text-red-500 uppercase opacity-80">${items.length} Subtopics</span>
+                                </div>
+                                <i data-lucide="chevron-right" class="w-5 h-5 text-ink opacity-70"></i>
+                            </div>`;
+                        } else {
+                            // Just a single normal topic
+                            const data = encodeURIComponent(JSON.stringify(items[0]));
+                            list.innerHTML += `<div onclick="openViewer('${data}')" class="flex items-center justify-between py-3 border-b border-ink/20 cursor-pointer group pr-2 ink-hover">
+                                <h4 class="font-bold text-lg handwritten text-ink">${topicName}</h4>
+                                <i data-lucide="arrow-right" class="w-4 h-4 text-ink opacity-50"></i>
+                            </div>`;
+                        }
+                    });
+                }
+            });
+        }
+
+        // NEW: Open Subtopic List
+        function openSubtopicView(chapterName, topicName) {
+            try { history.pushState({view: 'subtopics', chapter: chapterName, topic: topicName, sub: currentSubject}, '', '#subtopics'); } catch(e){}
+            performPageFlip('view-subtopics', () => {
+                const heading = document.getElementById('subtopicHeading');
+                if(heading) heading.innerText = topicName;
+                const list = document.getElementById('subtopicList');
+                if(list) {
+                    list.innerHTML = '';
+                    let items = rawData.filter(i => i.Chapter === chapterName && i.Topic === topicName);
+                    
+                    items.forEach(item => {
+                        const subName = item.Subtopic || 'নোট';
+                        const data = encodeURIComponent(JSON.stringify(item));
+                        list.innerHTML += `<div onclick="openViewer('${data}')" class="flex items-center justify-between py-3 border-b border-ink/20 cursor-pointer group pr-2 ink-hover">
+                            <h4 class="font-bold text-lg handwritten text-ink pl-4 border-l-2 border-red-400/50">${subName}</h4>
+                            <i data-lucide="arrow-right" class="w-4 h-4 text-ink opacity-50"></i>
+                        </div>`;
+                    });
                 }
             });
         }
 
         function openViewer(jsonStr) {
             const item = JSON.parse(decodeURIComponent(jsonStr));
+            let link = item.ImageLink || item.Video_Link || "";
+            
+            // SMART LINK HANDLER: If it's an HTML file or normal website link
+            if (link.endsWith('.html') || (link.startsWith('http') && !link.includes('drive.google.com') && !link.includes('youtube.com'))) {
+                window.location.href = link; 
+                return;
+            }
+
+            // Normal Google Drive Image Viewer
             try { history.pushState({view: 'image', topic: item, sub: currentSubject}, '', '#topic'); } catch(e){}
             performPageFlip('view-image', () => {
                 const title = document.getElementById('imageTitle');
-                if(title) title.innerText = item.Topic || "";
+                if(title) title.innerText = item.Subtopic ? `${item.Topic} > ${item.Subtopic}` : (item.Topic || "");
                 
                 const note = document.getElementById('imageNote');
                 if(note) note.innerText = item.Short_Note || "";
                 
-                // Handle Multiple Images
                 const container = document.getElementById('imageContainer');
                 if(container) {
                     container.innerHTML = '';
-                    // Split links by comma, space or pipe
                     let links = (item.ImageLink || "").split(/[,|\s]+/).map(l => l.trim()).filter(l => l);
                     
                     if(links.length > 0) {
@@ -422,7 +485,6 @@
                                 const match = embedLink.match(/[-\w]{25,}/);
                                 if(match) embedLink = `https://drive.google.com/file/d/${match[0]}/preview`;
                             }
-                            // Create a taped photo frame for each link
                             container.innerHTML += `
                             <div class="taped-photo" onclick="openFullImage('${embedLink}')">
                                 <div class="absolute inset-0 z-30 cursor-zoom-in"></div>
@@ -430,7 +492,7 @@
                             </div>`;
                         });
                     } else {
-                        container.innerHTML = `<p class="text-sm opacity-50 italic text-ink mt-4">কোনো ছবি যুক্ত করা হয়নি</p>`;
+                        container.innerHTML = `<p class="text-sm opacity-50 italic text-ink mt-4">কোনো ছবি বা নোট যুক্ত করা হয়নি</p>`;
                     }
                 }
                 
@@ -453,6 +515,7 @@
         window.addEventListener('popstate', function(event) {
             const viewer = document.getElementById('fullscreenViewer');
             if (viewer && viewer.style.display === 'flex') { closeFullImageUI(); return; }
+            
             const state = event.state ? event.state.view : 'hub';
             if(state === 'hub') { goBackToDesk(); }
             else if (state === 'dashboard') {
@@ -468,9 +531,54 @@
                     const list = document.getElementById('topicList');
                     if(list) {
                         list.innerHTML = '';
-                        if(groupedChapters[chapterName]) groupedChapters[chapterName].forEach(i => list.innerHTML += buildTopicCard(i));
+                        let chapterItems = rawData.filter(i => i.Chapter === chapterName);
+                        let topicsInChapter = {};
+                        chapterItems.forEach(item => {
+                            const t = item.Topic || 'অজানা টপিক';
+                            if(!topicsInChapter[t]) topicsInChapter[t] = [];
+                            topicsInChapter[t].push(item);
+                        });
+                        Object.keys(topicsInChapter).forEach(topicName => {
+                            const items = topicsInChapter[topicName];
+                            if(items.some(i => i.Subtopic && i.Subtopic.trim() !== "")) {
+                                list.innerHTML += `<div onclick="openSubtopicView('${chapterName}', '${topicName}')" class="flex items-center justify-between py-3 border-b border-ink/20 cursor-pointer group pr-2 ink-hover">
+                                    <div class="flex flex-col">
+                                        <h4 class="font-bold text-lg handwritten text-ink">${topicName}</h4>
+                                        <span class="text-[10px] font-bold text-red-500 uppercase opacity-80">${items.length} Subtopics</span>
+                                    </div>
+                                    <i data-lucide="chevron-right" class="w-5 h-5 text-ink opacity-70"></i>
+                                </div>`;
+                            } else {
+                                const data = encodeURIComponent(JSON.stringify(items[0]));
+                                list.innerHTML += `<div onclick="openViewer('${data}')" class="flex items-center justify-between py-3 border-b border-ink/20 cursor-pointer group pr-2 ink-hover">
+                                    <h4 class="font-bold text-lg handwritten text-ink">${topicName}</h4>
+                                    <i data-lucide="arrow-right" class="w-4 h-4 text-ink opacity-50"></i>
+                                </div>`;
+                            }
+                        });
                     }
                 }, true); 
+            }
+            else if (state === 'subtopics') {
+                const chapterName = event.state.chapter;
+                const topicName = event.state.topic;
+                performPageFlip('view-subtopics', () => {
+                    const heading = document.getElementById('subtopicHeading');
+                    if(heading) heading.innerText = topicName;
+                    const list = document.getElementById('subtopicList');
+                    if(list) {
+                        list.innerHTML = '';
+                        let items = rawData.filter(i => i.Chapter === chapterName && i.Topic === topicName);
+                        items.forEach(item => {
+                            const subName = item.Subtopic || 'নোট';
+                            const data = encodeURIComponent(JSON.stringify(item));
+                            list.innerHTML += `<div onclick="openViewer('${data}')" class="flex items-center justify-between py-3 border-b border-ink/20 cursor-pointer group pr-2 ink-hover">
+                                <h4 class="font-bold text-lg handwritten text-ink pl-4 border-l-2 border-red-400/50">${subName}</h4>
+                                <i data-lucide="arrow-right" class="w-4 h-4 text-ink opacity-50"></i>
+                            </div>`;
+                        });
+                    }
+                }, true);
             }
         });
 
@@ -484,10 +592,13 @@
             setTimeout(() => {
                 const d = document.getElementById('view-dashboard');
                 const t = document.getElementById('view-topics');
+                const st = document.getElementById('view-subtopics');
                 const i = document.getElementById('view-image');
                 if(d) d.classList.add('hidden');
                 if(t) t.classList.add('hidden');
+                if(st) st.classList.add('hidden');
                 if(i) i.classList.add('hidden');
+                
                 if(logicCallback) logicCallback();
                 const target = document.getElementById(targetViewId);
                 if(target) target.classList.remove('hidden');
@@ -512,7 +623,7 @@
         function executeSearch() {
             const q = document.getElementById('searchInput').value.toLowerCase();
             if(!q) { if(currentViewState !== 'dashboard') goHome(); else renderDashboard(); return; }
-            const res = rawData.filter(i => i.Topic && i.Topic.toLowerCase().includes(q));
+            const res = rawData.filter(i => (i.Topic && i.Topic.toLowerCase().includes(q)) || (i.Subtopic && i.Subtopic.toLowerCase().includes(q)));
             if(currentViewState === 'dashboard') { renderDashboard(res); } 
             else { performPageFlip('view-dashboard', () => renderDashboard(res), true); }
         }
