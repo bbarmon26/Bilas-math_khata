@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Preposition 'To' - Premium Reading Mode</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;600&family=Inter:wght@400;600&display=swap');
+
+        :root {
+            /* Premium Dark Theme Colors */
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-blur: 15px;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --accent-color: #38bdf8; /* Sky Blue */
+            --accent-glow: rgba(56, 189, 248, 0.3);
+            --pron-color: #fbbf24; /* Amber */
+            --fav-color: #f43f5e; /* Rose */
+            --card-radius: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', 'Hind Siliguri', sans-serif;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        /* Header Section (Scrolls away) */
+        header {
+            padding: 40px 20px 20px 20px;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 8px;
+            font-weight: 300;
+        }
+
+        /* Sticky Glass Control Bar */
+        .sticky-controls {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 15px 20px;
+            background: rgba(15, 23, 42, 0.7); /* Semi-transparent dark */
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+            border-bottom: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        /* Search Input */
+        .search-wrapper {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        #searchBox {
+            width: 100%;
+            padding: 14px 20px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            font-family: inherit;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        #searchBox:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 15px var(--accent-glow);
+            background: rgba(255, 255, 255, 0.07);
+        }
+
+        #searchBox::placeholder {
+            color: rgba(255,255,255, 0.3);
+        }
+
+        /* Modern Tabs */
+        .tabs {
+            display: flex;
+            background: rgba(0,0,0,0.2);
+            padding: 4px;
+            border-radius: 12px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: var(--glass-bg);
+            color: var(--accent-color);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 1px solid var(--glass-border);
+        }
+
+        /* List Container */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .word-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* Glass Cards */
+        .word-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(5px);
+            border-radius: var(--card-radius);
+            padding: 18px 20px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: transform 0.2s, background 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .word-card:active {
+            transform: scale(0.98);
+            background: rgba(255,255,255, 0.06);
+        }
+
+        /* Left Side (English) */
+        .content-left {
+            flex: 1;
+        }
+
+        .english-word {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+        }
+
+        .to-particle {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            opacity: 0.7;
+        }
+
+        .pronunciation {
+            font-size: 0.95rem;
+            color: var(--pron-color);
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        /* Right Side (Bengali) */
+        .content-right {
+            flex: 1;
+            text-align: right;
+            padding-left: 15px;
+            border-left: 1px solid rgba(255,255,255,0.1);
+            margin-left: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            min-height: 50px;
+        }
+
+        .bengali-meaning {
+            font-size: 1.25rem;
+            color: #e2e8f0;
+            line-height: 1.4;
+        }
+
+        /* Heart Animation */
+        .fav-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            margin-left: 15px;
+            padding: 5px;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0.8;
+        }
+
+        .fav-btn:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .fav-btn:active {
+            transform: scale(0.8);
+        }
+
+        .heart-filled { color: var(--fav-color); text-shadow: 0 0 10px rgba(244, 63, 94, 0.4); }
+        .heart-empty { color: var(--text-secondary); }
+
+        /* Alphabet Header */
+        .alpha-header {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin: 25px 0 10px 5px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.8;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            background: var(--glass-bg);
+            border-radius: var(--card-radius);
+            border: 1px dashed var(--glass-border);
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569; 
+        }
+
+        @media (max-width: 480px) {
+            .english-word { font-size: 1.2rem; }
+            .bengali-meaning { font-size: 1.1rem; }
+            .word-card { flex-direction: row; align-items: center; } 
+            .content-right { border-left: none; } /* Removed border on mobile for cleaner look */
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Appropriate Preposition</h1>
+    <div class="subtitle">এগুলির পরে সর্বদা to বসে</div>
+</header>
+
+<div class="sticky-controls">
+    <div class="search-wrapper">
+        <input type="text" id="searchBox" onkeyup="handleSearch()" placeholder="Search word..." autocomplete="off">
+    </div>
+    <div class="tabs">
+        <button class="tab-btn active" id="tabAll" onclick="switchTab('all')">All Words</button>
+        <button class="tab-btn" id="tabFav" onclick="switchTab('favorites')">Favorites ❤️</button>
+    </div>
+</div>
+
+<div class="container">
+    <ul id="wordList" class="word-list">
+        </ul>
+</div>
+
+<script>
+    // Database
+    const rawData = [
+        { eng: "Abhorrent", pron: "অ্যাব্‌হোরেন্ট", ben: "বীতৃষ্ণাজনক" },
+        { eng: "Acceptable", pron: "এক্সেপ্টেবল", ben: "গ্রহণযোগ্য" },
+        { eng: "Access", pron: "অ্যাকসেস", ben: "প্রবেশাধিকার" },
+        { eng: "Accessible", pron: "অ্যাকসেসিবল", ben: "অভিগম্য" },
+        { eng: "Accustomed", pron: "অ্যাকাসটমড", ben: "অভ্যস্ত" },
+        { eng: "Adapt", pron: "অ্যাডাপ্ট", ben: "মানিয়ে নেয়া" },
+        { eng: "Addicted", pron: "অ্যাডিকটেড", ben: "আসক্ত" },
+        { eng: "Adequate", pron: "অ্যাডিকোয়েট", ben: "যথেষ্ট" },
+        { eng: "Adhere", pron: "অ্যাডহেয়ার", ben: "লেগে থাকা" },
+        { eng: "Adjacent", pron: "অ্যাডজাসেন্ট", ben: "সংলগ্ন" },
+        { eng: "Adverse", pron: "অ্যাডভার্স", ben: "বৈরী" },
+        { eng: "Agreeable", pron: "এগ্রিয়েবল", ben: "গ্রহণযোগ্য" },
+        { eng: "Alive", pron: "অ্যালাইভ", ben: "সচেতন" },
+        { eng: "Allergic", pron: "অ্যালার্জিক", ben: "বিরূপ" },
+        { eng: "Alternative", pron: "অল্টারনেটিভ", ben: "বিকল্প" },
+        { eng: "Amenable", pron: "আমেনেবল", ben: "অনুগত" },
+        { eng: "Answer", pron: "অ্যানসার", ben: "জবাব দেওয়া" },
+        { eng: "Appoint", pron: "অ্যাপয়েন্ট", ben: "নিয়োগ দেওয়া" },
+        { eng: "Appropriate", pron: "অ্যাপ্রোপ্রিয়েট", ben: "যথাযথ" },
+        { eng: "Averse", pron: "অ্যাভার্স", ben: "বিমুখ" },
+        { eng: "Belong", pron: "বিলং", ben: "অধিকারে থাকা" },
+        { eng: "Blind", pron: "ব্লাইন্ড", ben: "পক্ষপাতী" },
+        { eng: "Blow", pron: "ব্লো", ben: "আঘাত" },
+        { eng: "Callous", pron: "ক্যালাস", ben: "উদাসীন" },
+        { eng: "Close", pron: "ক্লোজ", ben: "সন্নিবিষ্ট" },
+        { eng: "Compare", pron: "কম্পেয়ার", ben: "তুলনা করা" },
+        { eng: "Concede", pron: "কনসিড", ben: "সম্মতি দেওয়া" },
+        { eng: "Concession", pron: "কনসেশন", ben: "ছাড়" },
+        { eng: "Conducive", pron: "কনডিউসিভ", ben: "উপকারী" },
+        { eng: "Conform", pron: "কনফর্ম", ben: "মেনে চলা" },
+        { eng: "Congenial", pron: "কনজেনিয়াল", ben: "রুচিসম্মত" },
+        { eng: "Contiguous", pron: "কনটিগুয়াস", ben: "নিকটস্থ" },
+        { eng: "Contrary", pron: "কন্ট্রারি", ben: "বিরুদ্ধ" },
+        { eng: "Contribute", pron: "কন্ট্রিবিউট", ben: "দান করা" },
+        { eng: "Devoted", pron: "ডিভোটেড", ben: "আসক্ত" },
+        { eng: "Duty", pron: "ডিউটি", ben: "দায়িত্ব" },
+        { eng: "Equal", pron: "ইকুয়াল", ben: "সমান" },
+        { eng: "Essential", pron: "এসেনশিয়াল", ben: "প্রয়োজনীয়" },
+        { eng: "Faithful", pron: "ফেইথফুল", ben: "বিশ্বস্ত" },
+        { eng: "Fatal", pron: "ফেটাল", ben: "মারাত্মক" },
+        { eng: "Favorable", pron: "ফেভারেবল", ben: "সুবিধাজনক" },
+        { eng: "Happen", pron: "হ্যাপেন", ben: "ঘটা" },
+        { eng: "Hostile", pron: "হোস্টাইল", ben: "বৈরী" },
+        { eng: "Incidental", pron: "ইনসিডেনটাল", ben: "প্রাসঙ্গিক" },
+        { eng: "Indifferent", pron: "ইনডিফারেন্ট", ben: "উদাসীন" },
+        { eng: "Inimical", pron: "ইনিমিকাল", ben: "প্রতিকূল" },
+        { eng: "Introduce", pron: "ইন্ট্রোডিউস", ben: "পরিচিত করানো" },
+        { eng: "Invitation", pron: "ইনভাইটেশন", ben: "দাওয়াত" },
+        { eng: "Invite", pron: "ইনভাইট", ben: "দাওয়াত দেওয়া" },
+        { eng: "Liability", pron: "লায়াবিলিটি", ben: "দায়-দায়িত্ব" },
+        { eng: "Liable", pron: "লায়াবল", ben: "অধীন" },
+        { eng: "Listen", pron: "লিসেন", ben: "শোনা" },
+        { eng: "Loyal", pron: "লয়াল", ben: "অনুগত" },
+        { eng: "Object", pron: "অবজেক্ট", ben: "অভিযোগ করা" },
+        { eng: "Objection", pron: "অবজেকশন", ben: "অভিযোগ" },
+        { eng: "Obligation", pron: "অবলিগেশন", ben: "বাধ্যতা" },
+        { eng: "Obliged", pron: "অবলাইজড", ben: "বাধ্য" },
+        { eng: "Paramount", pron: "প্যারামাউন্ট", ben: "শ্রেষ্ঠতর" },
+        { eng: "Partial", pron: "পার্শিয়াল", ben: "পক্ষপাতী" },
+        { eng: "Preface", pron: "প্রিফেস", ben: "ভূমিকা" },
+        { eng: "Prefer", pron: "প্রিফার", ben: "অধিক পছন্দ করা" },
+        { eng: "Preferable", pron: "প্রিফারেবল", ben: "অধিক পছন্দনীয়" },
+        { eng: "Prior", pron: "প্রায়র", ben: "পূর্ববর্তী" },
+        { eng: "Relative", pron: "রিলেটিভ", ben: "প্রাসঙ্গিক" },
+        { eng: "Relevant", pron: "রেলিভেন্ট", ben: "প্রাসঙ্গিক" },
+        { eng: "Similar", pron: "সিমিলার", ben: "সমতুল্য" },
+        { eng: "Subject", pron: "সাবজেক্ট", ben: "অধীন" },
+        { eng: "Submit", pron: "সাবমিট", ben: "পেশ করা" },
+        { eng: "Subscribe", pron: "সাবস্ক্রাইব", ben: "চাঁদা দেওয়া" },
+        { eng: "Subsequent", pron: "সাবসিকোয়েন্ট", ben: "উত্তরকালীন" },
+        { eng: "Subsidiary", pron: "সাবসিডিয়ারি", ben: "অধীন" },
+        { eng: "Succumb", pron: "সাকাম্ব", ben: "বশীভূত হওয়া" },
+        { eng: "Victim", pron: "ভিকটিম", ben: "শিকার" },
+        { eng: "Yield", pron: "ইল্ড", ben: "প্রদান করা" }
+    ];
+
+    // Initialize with local storage check
+    let vocabulary = rawData.map(item => {
+        const storedFav = localStorage.getItem(`fav_${item.eng}`);
+        return { ...item, isFavorite: storedFav === 'true' };
+    });
+
+    let activeTab = 'all';
+    let searchText = '';
+    const listContainer = document.getElementById('wordList');
+    const tabAll = document.getElementById('tabAll');
+    const tabFav = document.getElementById('tabFav');
+
+    function switchTab(tab) {
+        activeTab = tab;
+        if (tab === 'all') {
+            tabAll.classList.add('active');
+            tabFav.classList.remove('active');
+        } else {
+            tabAll.classList.remove('active');
+            tabFav.classList.add('active');
+        }
+        // Scroll back to top smoothly
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        render();
+    }
+
+    function handleSearch() {
+        searchText = document.getElementById('searchBox').value.toLowerCase();
+        render();
+    }
+
+    function toggleFavorite(engWord) {
+        const index = vocabulary.findIndex(item => item.eng === engWord);
+        if (index !== -1) {
+            vocabulary[index].isFavorite = !vocabulary[index].isFavorite;
+            // Save to localStorage
+            localStorage.setItem(`fav_${engWord}`, vocabulary[index].isFavorite);
+            render();
+        }
+    }
+
+    function render() {
+        listContainer.innerHTML = '';
+        let currentLetter = '';
+
+        const filteredList = vocabulary.filter(item => {
+            const matchesText = item.eng.toLowerCase().includes(searchText) || 
+                                item.ben.includes(searchText);
+            const matchesTab = activeTab === 'all' || (activeTab === 'favorites' && item.isFavorite);
+            return matchesText && matchesTab;
+        });
+
+        if(filteredList.length === 0) {
+            listContainer.innerHTML = `<div class="empty-state">
+                ${activeTab === 'favorites' ? 'No favorites added yet.' : 'No words found.'}
+            </div>`;
+            return;
+        }
+
+        filteredList.forEach(item => {
+            if (searchText === '' && activeTab === 'all') {
+                const firstLetter = item.eng.charAt(0).toUpperCase();
+                if (firstLetter !== currentLetter) {
+                    currentLetter = firstLetter;
+                    const header = document.createElement('div');
+                    header.className = 'alpha-header';
+                    header.innerText = currentLetter;
+                    listContainer.appendChild(header);
+                }
+            }
+
+            const li = document.createElement('li');
+            li.className = 'word-card';
+            
+            const heartClass = item.isFavorite ? 'heart-filled' : 'heart-empty';
+            const heartIcon = item.isFavorite ? '❤️' : '🤍';
+
+            li.innerHTML = `
+                <div class="content-left">
+                    <div class="english-word">${item.eng} <span class="to-particle">to</span></div>
+                    <div class="pronunciation">/${item.pron}/</div>
+                </div>
+                <div class="content-right">
+                    <div class="bengali-meaning">${item.ben}</div>
+                </div>
+                <button class="fav-btn ${heartClass}" onclick="toggleFavorite('${item.eng}')">
+                    ${heartIcon}
+                </button>
+            `;
+            listContainer.appendChild(li);
+        });
+    }
+
+    // Initial Render
+    render();
+
+</script>
+</body>
+</html>
