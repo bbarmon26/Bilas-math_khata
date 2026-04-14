@@ -28,7 +28,6 @@
             font-style: italic; letter-spacing: -0.5px;
         }
 
-        /* MASTER HUB BOOKS */
         .hub-book {
             box-shadow: inset 2px 0 5px rgba(0,0,0,0.4), 10px 10px 20px rgba(0,0,0,0.8);
             border-radius: 4px 12px 12px 4px; position: relative;
@@ -41,13 +40,11 @@
         
         .book-spine { position: absolute; left: 0; top: 0; bottom: 0; width: 12px; background: rgba(0,0,0,0.3); border-radius: 4px 0 0 4px; border-right: 1px solid rgba(255,255,255,0.1); }
 
-        /* THEMES */
         .theme-math { --paper-bg: #fdf6e3; --ink-color: #1e3a8a; --margin-color: rgba(220, 38, 38, 0.4); --line-bg: #e2d7bf; border-left-color: #1e293b; }
         .theme-bangla { --paper-bg: #f0fdf4; --ink-color: #065f46; --margin-color: rgba(22, 163, 74, 0.4); --line-bg: #bbf7d0; border-left-color: #064e3b; }
         .theme-english { --paper-bg: #f8fafc; --ink-color: #334155; --margin-color: rgba(220, 38, 38, 0.4); --line-bg: #cbd5e1; border-left-color: #7f1d1d; }
         .theme-gk { --paper-bg: #ffffff; --ink-color: #0f172a; --margin-color: rgba(148, 163, 184, 0.4); --line-bg: #f1f5f9; border-left-color: #0f172a; }
 
-        /* PAPER BASE */
         .paper-stack {
             background-color: var(--paper-bg);
             background-image: repeating-linear-gradient(transparent, transparent 31px, var(--line-bg) 31px, var(--line-bg) 32px);
@@ -78,7 +75,7 @@
 
         .taped-photo {
             background: #ffffff; padding: 4px; box-shadow: 3px 6px 15px rgba(0,0,0,0.3);
-            transform: rotate(-1.5deg); margin: 35px auto 15px auto; width: 100%; max-width: 320px; position: relative;
+            transform: rotate(-1.5deg); margin: 15px auto 25px auto; width: 100%; max-width: 320px; position: relative;
         }
         .taped-photo::before {
             content: ''; position: absolute; top: -15px; left: 50%; transform: translateX(-50%) rotate(2deg);
@@ -211,11 +208,10 @@
                     <div id="topicList" class="flex flex-col"></div>
                 </div>
                 <div id="view-image" class="hidden flex flex-col items-center">
-                    <h3 id="imageTitle" class="w-full text-xl font-bold handwritten mt-2 mb-3 leading-tight text-center text-ink"></h3>
-                    <div class="taped-photo" onclick="openFullImage()">
-                        <div class="absolute inset-0 z-30 cursor-zoom-in"></div>
-                        <iframe id="driveFrame" class="w-full h-[38vh] pointer-events-none border-none bg-white" src=""></iframe>
-                    </div>
+                    <h3 id="imageTitle" class="w-full text-xl font-bold handwritten mt-2 mb-4 leading-tight text-center text-ink"></h3>
+                    
+                    <div id="imageContainer" class="w-full flex flex-col items-center gap-6"></div>
+                    
                     <p id="imageNote" class="text-center mt-3 handwritten text-xs font-bold opacity-80 italic px-2 leading-relaxed text-ink"></p>
                     <div class="mt-10 w-full px-4 text-center">
                         <a id="videoBtn" href="#" target="_blank" class="hidden items-center justify-center gap-3 bg-red-600 text-white py-3 rounded-full text-base font-bold shadow-lg transform active:scale-95 transition-all mx-auto">
@@ -320,15 +316,28 @@
         }
 
         function parseCSV(text) {
-            let lines = text.split("\n");
+            let lines = text.split(/\r?\n/);
             if(lines.length === 0) return;
             let headers = lines[0].split(",").map(h => h.trim().replace(/^"|"$/g, ''));
             let tempData = [];
             for (let i = 1; i < lines.length; i++) {
                 if (lines[i].trim() == "") continue;
-                let obj = {};
-                let currentline = lines[i].split(",").map(c => c.trim().replace(/^"|"$/g, ''));
+                
+                // Advanced CSV parsing to handle commas inside quotes
+                let currentline = [];
+                let inQuotes = false;
+                let val = '';
+                for(let char of lines[i]) {
+                    if(char === '"') inQuotes = !inQuotes;
+                    else if(char === ',' && !inQuotes) {
+                        currentline.push(val.trim().replace(/^"|"$/g, ''));
+                        val = '';
+                    } else val += char;
+                }
+                currentline.push(val.trim().replace(/^"|"$/g, ''));
+
                 if (currentline.length < 2) continue;
+                let obj = {};
                 headers.forEach((h, idx) => { obj[h] = currentline[idx]; });
                 tempData.push(obj);
             }
@@ -395,17 +404,36 @@
             performPageFlip('view-image', () => {
                 const title = document.getElementById('imageTitle');
                 if(title) title.innerText = item.Topic || "";
+                
                 const note = document.getElementById('imageNote');
                 if(note) note.innerText = item.Short_Note || "";
-                let link = item.ImageLink || "";
-                if(link.includes('drive.google.com')) {
-                    const match = link.match(/[-\w]{25,}/);
-                    if(match) link = `https://drive.google.com/file/d/${match[0]}/preview`;
+                
+                // Handle Multiple Images
+                const container = document.getElementById('imageContainer');
+                if(container) {
+                    container.innerHTML = '';
+                    // Split links by comma, space or pipe
+                    let links = (item.ImageLink || "").split(/[,|\s]+/).map(l => l.trim()).filter(l => l);
+                    
+                    if(links.length > 0) {
+                        links.forEach((link) => {
+                            let embedLink = link;
+                            if(embedLink.includes('drive.google.com')) {
+                                const match = embedLink.match(/[-\w]{25,}/);
+                                if(match) embedLink = `https://drive.google.com/file/d/${match[0]}/preview`;
+                            }
+                            // Create a taped photo frame for each link
+                            container.innerHTML += `
+                            <div class="taped-photo" onclick="openFullImage('${embedLink}')">
+                                <div class="absolute inset-0 z-30 cursor-zoom-in"></div>
+                                <iframe class="w-full h-[38vh] pointer-events-none border-none bg-white" src="${embedLink}"></iframe>
+                            </div>`;
+                        });
+                    } else {
+                        container.innerHTML = `<p class="text-sm opacity-50 italic text-ink mt-4">কোনো ছবি যুক্ত করা হয়নি</p>`;
+                    }
                 }
-                const dFrame = document.getElementById('driveFrame');
-                if(dFrame) dFrame.src = link;
-                const fFrame = document.getElementById('fullscreenFrame');
-                if(fFrame) fFrame.src = link;
+                
                 const vBtn = document.getElementById('videoBtn');
                 if(vBtn) {
                     if(item.Video_Link && item.Video_Link.startsWith('http')) { vBtn.href = item.Video_Link; vBtn.classList.remove('hidden'); vBtn.classList.add('flex'); } 
@@ -469,11 +497,12 @@
             }, 300); 
         }
 
-        function openFullImage() {
-            const frameSrc = document.getElementById('driveFrame').src;
-            if(frameSrc && frameSrc !== window.location.href) {
+        function openFullImage(link) {
+            if(link) {
                 try { history.pushState({view: 'fullscreen'}, '', '#full'); } catch(e){}
                 const viewer = document.getElementById('fullscreenViewer');
+                const frame = document.getElementById('fullscreenFrame');
+                if(frame) frame.src = link;
                 if(viewer) viewer.style.display = 'flex';
             }
         }
