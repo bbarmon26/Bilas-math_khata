@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>তৎপুরুষ সমাস - নিয়ম ও টেকনিক (BILAS ACADEMY)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tiro+Bangla&display=swap');
+        
+        body {
+            font-family: 'Tiro Bangla', 'Arial', sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            border-top: 12px solid #0284c7;
+        }
+        .header-main {
+            text-align: center;
+            border-bottom: 4px dashed #bae6fd;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+        }
+        .header-main h1 { color: #0284c7; font-size: 2.5rem; margin: 0; }
+        
+        .main-title {
+            background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-size: 1.6rem;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 10px rgba(2, 132, 199, 0.2);
+        }
+
+        /* Rule & Tech Layout */
+        .rule-box {
+            background: #e0f2fe;
+            border-left: 6px solid #0284c7;
+            padding: 15px 20px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #0c4a6e;
+            border-radius: 0 8px 8px 0;
+            margin-top: 40px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .rule-highlight {
+            background: #0284c7;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 1.2rem;
+        }
+        
+        .tech-box {
+            background: #fffbeb;
+            border: 2px dashed #f59e0b;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .sub-tech {
+            background: #fef08a;
+            color: #854d0e;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 1.15rem;
+            margin-bottom: 8px;
+            display: inline-block;
+            border-left: 4px solid #ca8a04;
+        }
+
+        /* Example Card Grid */
+        .ex-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+            gap: 15px;
+        }
+
+        .ex-card {
+            background: #fdfdfd;
+            border: 1px solid #e2e8f0;
+            padding: 15px;
+            border-radius: 10px;
+            transition: 0.3s;
+            border-left: 5px solid #0ea5e9;
+        }
+        .ex-card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.08); border-color: #0284c7; }
+        
+        .main-line { display: flex; align-items: center; margin-bottom: 8px; }
+        .word { font-size: 1.5rem; font-weight: bold; color: #0f172a; width: 160px; }
+        .arrow { font-weight: bold; margin: 0 15px; font-size: 1.4rem; color: #0284c7; }
+        .text-part { font-size: 1.2rem; color: #1e293b; font-weight: bold; }
+        .del-v { color: #ef4444; text-decoration: line-through; background: #fee2e2; padding: 0 5px; border-radius: 3px; margin: 0 4px; }
+        
+        .logic {
+            font-size: 0.95rem;
+            color: #475569;
+            background: #f1f5f9;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border-left: 3px solid #cbd5e1;
+            display: block;
+        }
+        .keyword { color: #db2777; font-weight: bold; }
+
+        .footer {
+            margin-top: 60px;
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #0284c7;
+            border-top: 4px solid #bae6fd;
+            padding-top: 25px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-main">
+        <h1>তৎপুরুষ সমাস - লজিক্যাল মাস্টার ক্লাস</h1>
+        <p><strong>BILAS ACADEMY:</strong> নিয়ম + স্পেশাল টেকনিক + প্রচুর উদাহরণ</p>
+    </div>
+
+    <div class="rule-box" style="border-left-color: #db2777; background: #fdf2f8; color: #831843;">
+        <div>১। ২য়া তৎপুরুষ (কর্ম)</div>
+        <div class="rule-highlight" style="background: #db2777;">নিয়ম: 'কে, রে, ব্যাপিয়া' লোপ পাবে</div>
+    </div>
+    <div class="tech-box" style="border-color: #f472b6; background: #fff1f2;">
+        <div class="sub-tech" style="background:#fce7f3; color:#be185d; border-color:#db2777;">T1: সমস্তপদের শেষে ➔ প্রাপ্ত, পন্ন, গত, আশ্রিত, অতীত থাকলে।</div><br>
+        <div class="sub-tech" style="background:#fce7f3; color:#be185d; border-color:#db2777;">T2: সময়/স্থানের ব্যাপ্তি বোঝালে।</div><br>
+        <div class="sub-tech" style="background:#fce7f3; color:#be185d; border-color:#db2777;">T3: সমস্তপদের দ্বারা কোনো কাজ বোঝালে।</div>
+    </div>
+
+    <div class="ex-grid">
+        <div class="ex-card" style="border-left-color: #db2777;">
+            <div class="main-line"><div class="word">দুঃখপ্রাপ্ত</div> <div class="arrow" style="color:#db2777;">➔</div> <div class="text-part">দুঃখ<span class="del-v">কে</span> <span class="keyword">প্রাপ্ত</span></div></div>
+            <div class="logic">টেকনিক (T1): শেষে 'প্রাপ্ত' আছে।</div>
+        </div>
+        <div class="ex-card" style="border-left-color: #db2777;">
+            <div class="main-line"><div class="word">বিপদাপন্ন</div> <div class="arrow" style="color:#db2777;">➔</div> <div class="text-part">বিপদ<span class="del-v">কে</span> আ<span class="keyword">পন্ন</span></div></div>
+            <div class="logic">টেকনিক (T1): শেষে 'পন্ন' আছে।</div>
+        </div>
+        <div class="ex-card" style="border-left-color: #db2777;">
+            <div class="main-line"><div class="word">শরণাগত</div> <div class="arrow" style="color:#db2777;">➔</div> <div class="text-part">শরণ<span class="del-v">কে</span> <span class="keyword">গত</span></div></div>
+            <div class="logic">টেকনিক (T1): শেষে 'গত' আছে।</div>
+        </div>
+        <div class="ex-card" style="border-left-color: #db2777;">
+            <div class="main-line"><div class="word">দুঃখাতীত</div> <div class="arrow" style="color:#db2777;">➔</div> <div class="text-part">দুঃখ<span class="del-v">কে</span> <span class="keyword">অতীত</span></div></div>
+            <div class="logic">টেকনিক (T1): শেষে 'অতীত' আছে।</div>
+        </div>
+        <div class="ex-card" style="border-left-color: #db2777;">
+            <div class="main-line"><div class="word">চিরসুখী</div> <div class="arrow" style="color:#db2777;">➔</div> <div class="text-part">চিরকাল <span class="del-v">ব্যাপিয়া</span> সুখী</div></div>
+            <div class="logic">টেকনিক (T2): 'চির' দিয়ে সময়ের ব্যাপ্তি বোঝাচ্ছে।</div>
+        </div>
+        <div class="ex-card" style="border-left-color: #db2777;">
+            <div class="main-line"><div class="word">চিরশত্রু</div> <div class="arrow" style="color:#db2777;">➔</div> <div class="text-part">চিরকাল <span class="del-v">ব্যাপিয়া</span> শত্রু</div></div>
+            <div class="logic">টেকনিক (T2): সময়ের ব্যাপ্তি বোঝাচ্ছে।</div>
+        </div>
+        <div class="ex-card" style="border-left-color: #db2777;">
+            <div class="main-line"><div class="word">বইপড়া</div> <div class="arrow" style="color:#db2777;">➔</div> <div class="text-part">বই<span class="del-v">কে</span> পড়া</div></div>
+            <div class="logic">টেকনিক (T3): 'পড়া' একটি কাজ।</div>
+        </div>
+        <div class="ex-card" style="border-left-color: #db2777;">
+            <div class="main-line"><div class="word">রথদেখা</div> <div class="arrow" style="color:#db2777;">➔</div> <div class="text-part">রথ<span class="del-v">কে</span> দেখা</div></div>
+            <div class="logic">টেকনিক (T3): 'দেখা' একটি কাজ।</div>
+        </div>
+    </div>
+
+    <div class="rule-box" style="border-left-color: #ea580c; background: #fff7ed; color: #7c2d12;">
+        <div>২। ৩য়া তৎপুরুষ (করণ)</div>
+        <div class="rule-highlight" style="background: #ea580c;">নিয়ম: 'দ্বারা, দিয়া, কর্তৃক' লোপ পাবে</div>
+    </div>
+    <div class="tech-box" style="border-color: #fb923c; background: #fffbeb;">
+        <div class="sub-tech" style="background:#ffedd5; color:#c2410c; border-color:#ea580c;">T1: এটা দ্বারা ওটা হবে (উপকরণ)।</div><br>
+        <div class="sub-tech" style="background:#ffedd5; color:#c2410c; border-color:#ea580c;">T2: সমস্তপদের শেষে ➔ উন, হীন, শূন্য, কম থাকলে।</div>
+    </div>
+
+    <div class="ex-grid">
+        <div class="ex-card" style="border-left-color: #ea580c;">
+            <div class="main-line"><div class="word">মনগড়া</div> <div class="arrow" style="color:#ea580c;">➔</div> <div class="text-part">মন <span class="del-v">দ্বারা</span> গড়া</div></div>
+            <div class="logic">টেকনিক (T1): মনের দ্বারা গড়া হচ্ছে (মাধ্যম)।</div>
+        </div>
+        <div class="ex-card" style="border-left-color: #ea580c;">
+            <div class="main-line"><div class="word">হীরকখচিত</div> <div class="arrow" style="color:#ea580c;">➔</div> <div class="text-part">হীরক <span class="del-v">দ্বারা</span> খচিত</div></div>
+            <div class="logic">টেকনিক (T1): হীরকের দ্বারা খচিত হচ্ছে।</div>
+        </div>
+        <div class="ex-card" style="border-left-color: #ea580c;">
+            <div class="main-line"><div class="word">শ্রমলব্ধ</div> <div class="arrow" style="color:#ea580c;">➔</div> <div class="text-part">শ্রম <span class="del-v">দ্বারা</span> লব্ধ</div></div>
+            <div class="logic">টেকনিক (T1): শ্রমের দ্বারা লব্ধ (পাওয়া) হচ্ছে।</div>
+        </div>
+        <div class="ex-card" style="border-left-color: #ea580c;">
+            <div class="main-line"><div class="word">মধুমাখা</div> <div class="arrow" style="color:#ea580c;">➔</div> <div class="text-part">মধু <span class="del-v">দিয়া</span> মাখা</div></div>
+            <div class="logic">টেকনিক (T1): মধুর দ্বারা মাখা।</div>
+        </div>
+        <div class="ex-card" style="border-left-color: #ea580c;">
+            <div class="main-line"><div class="word">বিদ্যাহীন</div> <div class="arrow" style="color:#ea580c;">➔</div> <div class="text-part">বিদ্যা <span class="del-v">দ্বারা</span> <span class="keyword">হীন</span></div></div>
+            <div class="logic">টেকনিক (T2): শেষে 'হীন' আছে।</div>
+        </div>
+        <div class="ex-card" style="border-left-color: #ea580c;">
+            <div class="main-line"><div class="word">জ্ঞানশূন্য</div> <div class="arrow" style="color:#ea580c;">➔</div> <div class="text-part">জ্ঞান <span class="del-v">দ্বারা</span> <span class="keyword">শূন্য</span></div></div>
+            <div class="logic">টেকনিক (T2): শেষে 'শূন্য' আছে।</div>
+        </div>
+        <div class="ex-card" style="border-left-color: #ea580c;">
+            <div class="main-line"><div class="word">একোন</div> <div class="arrow" style="color:#ea580c;">➔</div> <div class="text-part">এক <span class="del-v">দ্বারা</span> <span class="keyword">উন</span></div></div>
+            <div class="logic">টেকনিক (T2): শেষে 'উন' (কম) আছে।</div>
+        </div>
+        <div class="ex-card" style="border-left-color: #ea580c;">
+            <div class="main-line"><div class="word">আক্কেলহীন</div> <div class="arrow" style="color:#ea580c;">➔</div> <div class="text-part">আক্কেল <span class="del-v">দ্বারা</span> <span class="keyword">হীন</span></div></div>
+            <div class="logic">টেকনিক (T2): শেষে 'হীন' আছে।</div>
+        </div>
+    </div>
+
+    <div class="rule-box" style="border-left-color: #16a34a; background: #f0fdf4; color: #14532d;">
+        <div>৩। ৪র্থী তৎপুরুষ (সম্প্রদান)</div>
+        <div class="rule-highlight" style="background: #16a34a;">নিয়ম: 'জন্য, নিমিত্ত' লোপ পাবে</div>
+    </div>
+    <div class="tech-box" style="border-color: #4ade80; background: #f0fdf4;">
+        <div class="sub-tech" style="background:#dcfce7; color:#15803d; border-color:#16a34a;">T1: এটার জন্য ➔ ওটা হবে (উদ্দেশ্য/নিমিত্ত)।</div><br>
+        <div class="sub-tech" style="background:#dcfce7; color:#15803d; border-color:#16a34a;">T2: নিঃস্বার্থ ভক্তি/শ্রদ্ধা বোঝালে 'কে/রে' লোপ পায়।</div>
+    </div>
+
+    <div class="ex-grid">
+        <div class="ex-card" style="border-left-color: #16a34a;">
+            <div class="main-line"><div class="word">বসতবাটি</div> <div class="arrow" style="color:#16a34a;">➔</div> <div class="text-part">বসতের <span class="del-v">জন্য</span> বাটি</div></div>
+            <div class="logic">টেকনিক (T1): বসতের (এটার) জন্য বাটি (ওটা) হবে।</div>
+        </div>
+        <div class="ex-card" style="border-left-color: #16a34a;">
+            <div class="main-line"><div class="word">রান্নাঘর</div> <div class="arrow" style="color:#16a34a;">➔</div> <div class="text-part">রান্নার <span class="del-v">জন্য</span> ঘর</div></div>
+            <div class="logic">টেকনিক (T1): রান্নার জন্য ঘর হবে।</div>
+        </div>
+        <div class="ex-card" style="border-left-color: #16a34a;">
+            <div class="main-line"><div class="word">হজযাত্রা</div> <div class="arrow" style="color:#16a34a;">➔</div> <div class="text-part">হজের <span class="del-v">জন্য</span> যাত্রা</div></div>
+            <div class="logic">টেকনিক (T1): হজের জন্য যাত্রা হবে।</div>
+        </div>
+        <div class="ex-card" style="border-left-color: #16a34a;">
+            <div class="main-line"><div class="word">ডাকমাশুল</div> <div class="arrow" style="color:#16a34a;">➔</div> <div class="text-part">ডাকের <span class="del-v">নিমিত্ত</span> মাশুল</div></div>
+            <div class="logic">টেকনিক (T1): ডাকের জন্য মাশুল হবে।</div>
+        </div>
+        <div class="ex-card" style="border-left-color: #16a34a;">
+            <div class="main-line"><div class="word">গুরুভক্তি</div> <div class="arrow" style="color:#16a34a;">➔</div> <div class="text-part">গুরু<span class="del-v">কে</span> ভক্তি</div></div>
+            <div class="logic">টেকনিক (T2): নিঃস্বার্থ ভক্তি বোঝাচ্ছে।</div>
+        </div>
+        <div class="ex-card" style="border-left-color: #16a34a;">
+            <div class="main-line"><div class="word">দেবদত্ত</div> <div class="arrow" style="color:#16a34a;">➔</div> <div class="text-part">দেব<span class="del-v">কে</span> দত্ত</div></div>
+            <div class="logic">টেকনিক (T2): দেবতাকে নিঃস্বার্থ দান।</div>
+        </div>
+    </div>
+
+    <div class="rule-box" style="border-left-color: #9333ea; background: #faf5ff; color: #581c87;">
+        <div>৪। ৫মী তৎপুরুষ (অপাদান)</div>
+        <div class="rule-highlight" style="background: #9333ea;">নিয়ম: 'হতে, থেকে, চেয়ে' লোপ পাবে</div>
+    </div>
+    <div class="tech-box" style="border-color: #c084fc; background: #faf5ff;">
+        <div class="sub-tech" style="background:#f3e8ff; color:#7e22ce; border-color:#9333ea;">T1: বিয়োজন (-) বা সম্পর্ক ছেদ/পালানো বোঝাবে।</div><br>
+        <div class="sub-tech" style="background:#f3e8ff; color:#7e22ce; border-color:#9333ea;">T2: তুলনা, ভয়, উৎপন্ন বোঝাবে।</div>
+    </div>
+
+    <div class="ex-grid">
+        <div class="ex-card" style="border-left-color: #9333ea;">
+            <div class="main-line"><div class="word">স্কুলপালানো</div> <div class="arrow" style="color:#9333ea;">➔</div> <div class="text-part">স্কুল <span class="del-v">থেকে</span> পালানো</div></div>
+            <div class="logic">টেকনিক (T1): স্কুল থেকে বিয়োজন বা পালানো।</div>
+        </div>
+        <div class="ex-card" style="border-left-color: #9333ea;">
+            <div class="main-line"><div class="word">খাঁচাছাড়া</div> <div class="arrow" style="color:#9333ea;">➔</div> <div class="text-part">খাঁচা <span class="del-v">থেকে</span> ছাড়া</div></div>
+            <div class="logic">টেকনিক (T1): খাঁচা থেকে ছেদ বা বিয়োজন।</div>
+        </div>
+        <div class="ex-card" style="border-left-color: #9333ea;">
+            <div class="main-line"><div class="word">ধর্মচ্যুত</div> <div class="arrow" style="color:#9333ea;">➔</div> <div class="text-part">ধর্ম <span class="del-v">থেকে</span> চ্যুত</div></div>
+            <div class="logic">টেকনিক (T1): ধর্ম থেকে ছেদ।</div>
+        </div>
+        <div class="ex-card" style="border-left-color: #9333ea;">
+            <div class="main-line"><div class="word">জেলমুক্ত</div> <div class="arrow" style="color:#9333ea;">➔</div> <div class="text-part">জেল <span class="del-v">হতে</span> মুক্ত</div></div>
+            <div class="logic">টেকনিক (T1): জেল থেকে বিয়োজন।</div>
+        </div>
+        <div class="ex-card" style="border-left-color: #9333ea;">
+            <div class="main-line"><div class="word">প্রাণপ্রিয়</div> <div class="arrow" style="color:#9333ea;">➔</div> <div class="text-part">প্রাণের <span class="del-v">চেয়ে</span> প্রিয়</div></div>
+            <div class="logic">টেকনিক (T2): 'চেয়ে' দিয়ে তুলনা বোঝাচ্ছে।</div>
+        </div>
+        <div class="ex-card" style="border-left-color: #9333ea;">
+            <div class="main-line"><div class="word">ভীতিপ্রদ</div> <div class="arrow" style="color:#9333ea;">➔</div> <div class="text-part">ভয় <span class="del-v">হতে</span> প্রদ</div></div>
+            <div class="logic">টেকনিক (T2): ভয় থেকে উৎপন্ন।</div>
+        </div>
+    </div>
+
+    <div class="rule-box" style="border-left-color: #2563eb; background: #eff6ff; color: #1e3a8a;">
+        <div>৫। ৬ষ্ঠী তৎপুরুষ (সম্বন্ধ)</div>
+        <div class="rule-highlight" style="background: #2563eb;">নিয়ম: 'র, এর' লোপ পাবে</div>
+    </div>
+    <div class="tech-box" style="border-color: #60a5fa; background: #eff6ff;">
+        <div class="sub-tech" style="background:#dbeafe; color:#1d4ed8; border-color:#2563eb;">T1: কালের বা স্থানের অংশ বোঝালে।</div><br>
+        <div class="sub-tech" style="background:#dbeafe; color:#1d4ed8; border-color:#2563eb;">T2: বহুবচন পরপদে থাকলে (সমাজ, মন্ডলী)।</div><br>
+        <div class="sub-tech" style="background:#dbeafe; color:#1d4ed8; border-color:#2563eb;">T3: পূর্বপদে রাজ থাকলে / রাজা শ্রেষ্ঠ অর্থে বসলে।</div>
+    </div>
+
+    <div class="ex-grid">
+        <div class="ex-card" style="border-left-color: #2563eb;">
+            <div class="main-line"><div class="word">পূর্বাহ্ণ</div> <div class="arrow" style="color:#2563eb;">➔</div> <div class="text-part">অহ্ন<span class="del-v">এর</span> পূর্ব ভাগ</div></div>
+            <div class="logic">টেকনিক (T1): দিনের (কালের) একটি অংশ।</div>
+        </div>
+        <div class="ex-card" style="border-left-color: #2563eb;">
+            <div class="main-line"><div class="word">মধ্যাহ্ণ</div> <div class="arrow" style="color:#2563eb;">➔</div> <div class="text-part">অহ্ন<span class="del-v">এর</span> মধ্য ভাগ</div></div>
+            <div class="logic">টেকনিক (T1): কালের অংশ।</div>
+        </div>
+        <div class="ex-card" style="border-left-color: #2563eb;">
+            <div class="main-line"><div class="word">ছাত্রসমাজ</div> <div class="arrow" style="color:#2563eb;">➔</div> <div class="text-part">ছাত্রদ<span class="del-v">ের</span> সমাজ</div></div>
+            <div class="logic">টেকনিক (T2): 'সমাজ' শব্দটি বহুবচন (সমষ্টি) বোঝাচ্ছে।</div>
+        </div>
+        <div class="ex-card" style="border-left-color: #2563eb;">
+            <div class="main-line"><div class="word">পণ্ডিতমন্ডলী</div> <div class="arrow" style="color:#2563eb;">➔</div> <div class="text-part">পণ্ডিতদ<span class="del-v">ের</span> মন্ডলী</div></div>
+            <div class="logic">টেকনিক (T2): 'মন্ডলী' বহুবচন বোঝাচ্ছে।</div>
+        </div>
+        <div class="ex-card" style="border-left-color: #2563eb;">
+            <div class="main-line"><div class="word">রাজহাঁস</div> <div class="arrow" style="color:#2563eb;">➔</div> <div class="text-part">হাঁস<span class="del-v">ের</span> রাজা</div></div>
+            <div class="logic">টেকনিক (T3): 'রাজা' শ্রেষ্ঠ অর্থে বসছে।</div>
+        </div>
+        <div class="ex-card" style="border-left-color: #2563eb;">
+            <div class="main-line"><div class="word">রাজপথ</div> <div class="arrow" style="color:#2563eb;">➔</div> <div class="text-part">পথ<span class="del-v">এর</span> রাজা</div></div>
+            <div class="logic">টেকনিক (T3): 'রাজা' শ্রেষ্ঠ অর্থে।</div>
+        </div>
+    </div>
+
+    <div class="rule-box" style="border-left-color: #0d9488; background: #f0fdfa; color: #134e4a;">
+        <div>৬। ৭মী তৎপুরুষ (অধিকরণ)</div>
+        <div class="rule-highlight" style="background: #0d9488;">নিয়ম: 'এ, য়, তে' লোপ পাবে</div>
+    </div>
+    <div class="tech-box" style="border-color: #34d399; background: #f0fdfa;">
+        <div class="sub-tech" style="background:#ccfbf1; color:#0f766e; border-color:#0d9488;">T1: ১ম অংশকে কোথায়, কখন, কী বিষয়ে—প্রশ্ন করে উত্তর পাওয়া গেলে।</div>
+    </div>
+
+    <div class="ex-grid">
+        <div class="ex-card" style="border-left-color: #0d9488;">
+            <div class="main-line"><div class="word">গাছপাকা</div> <div class="arrow" style="color:#0d9488;">➔</div> <div class="text-part">গাছ<span class="del-v">ে</span> পাকা</div></div>
+            <div class="logic">টেকনিক (T1): 'কোথায়' পাকা? ➔ গাছে (স্থান)।</div>
+        </div>
+        <div class="ex-card" style="border-left-color: #0d9488;">
+            <div class="main-line"><div class="word">বাক্সবন্দি</div> <div class="arrow" style="color:#0d9488;">➔</div> <div class="text-part">বাক্স<span class="del-v">ে</span> বন্দি</div></div>
+            <div class="logic">টেকনিক (T1): 'কোথায়' বন্দি? ➔ বাক্সে।</div>
+        </div>
+        <div class="ex-card" style="border-left-color: #0d9488;">
+            <div class="main-line"><div class="word">গোলাভরা</div> <div class="arrow" style="color:#0d9488;">➔</div> <div class="text-part">গোলা<span class="del-v">য়</span> ভরা</div></div>
+            <div class="logic">টেকনিক (T1): 'কোথায়' ভরা? ➔ গোলায়।</div>
+        </div>
+        <div class="ex-card" style="border-left-color: #0d9488;">
+            <div class="main-line"><div class="word">রাতকানা</div> <div class="arrow" style="color:#0d9488;">➔</div> <div class="text-part">রাত<span class="del-v">ে</span> কানা</div></div>
+            <div class="logic">টেকনিক (T1): 'কখন' কানা? ➔ রাতে (সময়)।</div>
+        </div>
+        <div class="ex-card" style="border-left-color: #0d9488;">
+            <div class="main-line"><div class="word">দিবানিদ্রা</div> <div class="arrow" style="color:#0d9488;">➔</div> <div class="text-part">দিবা<span class="del-v">য়</span> নিদ্রা</div></div>
+            <div class="logic">টেকনিক (T1): 'কখন' নিদ্রা? ➔ দিবায়।</div>
+        </div>
+        <div class="ex-card" style="border-left-color: #0d9488;">
+            <div class="main-line"><div class="word">ভোজনপটু</div> <div class="arrow" style="color:#0d9488;">➔</div> <div class="text-part">ভোজন<span class="del-v">ে</span> পটু</div></div>
+            <div class="logic">টেকনিক (T1): 'কী বিষয়ে' পটু? ➔ ভোজনে (বিষয়)।</div>
+        </div>
+    </div>
+
+    <div class="footer">
+        ©️ । BILAS ACADEMY । 2026
+    </div>
+</div>
+
+</body>
+</html>
