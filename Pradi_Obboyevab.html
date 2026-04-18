@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>প্রাদি ও অব্যয়ীভাব সমাস - মাস্টার ক্লাস (BILAS ACADEMY)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tiro+Bangla&display=swap');
+        
+        body {
+            font-family: 'Tiro Bangla', 'Arial', sans-serif;
+            background-color: #f0fdfa;
+            color: #0f172a;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 35px;
+            max-width: 950px;
+            margin: 0 auto;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border-top: 10px solid #0d9488;
+        }
+        .main-header {
+            text-align: center;
+            padding-bottom: 25px;
+            border-bottom: 3px dashed #99f6e4;
+            margin-bottom: 35px;
+        }
+        .main-header h1 { color: #0d9488; font-size: 2.3rem; margin: 0; }
+        
+        /* কবিতা বা ছন্দের বক্স */
+        .rhyme-box {
+            background: linear-gradient(135deg, #ccfbf1 0%, #f0fdfa 100%);
+            border: 2px solid #5eead4;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+            position: relative;
+        }
+        .rhyme-title {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #0d9488;
+            color: white;
+            padding: 2px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        .rhyme-text {
+            font-size: 1.4rem;
+            color: #134e4a;
+            font-weight: bold;
+            font-style: italic;
+        }
+        .excluded {
+            color: #ef4444;
+            text-decoration: line-through;
+            font-weight: normal;
+        }
+
+        .section-header {
+            background: #14b8a6;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 1.5rem;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+
+        /* টেকনিক কার্ড */
+        .tech-card {
+            background: #fff7ed;
+            border: 2px solid #fb923c;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+        .tech-title { color: #c2410c; font-weight: bold; border-bottom: 2px solid #ffedd5; font-size: 1.2rem; }
+
+        /* কালার কোডিং */
+        .prefix { color: #be185d; font-weight: bold; background: #fdf2f8; padding: 2px 6px; border-radius: 4px; border: 1px solid #fbcfe8; }
+        .arrow { color: #8b5cf6; font-weight: bold; margin: 0 10px; font-size: 1.3rem; }
+        .meaning { color: #059669; font-weight: bold; }
+        .logic { display: block; margin-top: 5px; font-size: 0.95rem; color: #475569; background: #f8fafc; padding: 8px 12px; border-radius: 5px; border-left: 4px solid #94a3b8; }
+
+        /* উদাহরণ সারি */
+        .ex-row {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 15px;
+            padding: 18px;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+        .ex-row:hover { border-color: #14b8a6; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .word { font-size: 1.4rem; font-weight: bold; width: 200px; display: inline-block; color: #0f172a; }
+        
+        .alert {
+            background-color: #fee2e2;
+            color: #b91c1c;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 6px solid #ef4444;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+
+        .footer {
+            margin-top: 70px;
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #0d9488;
+            border-top: 4px solid #ccfbf1;
+            padding-top: 25px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="main-header">
+        <h1>প্রাদি ও অব্যয়ীভাব সমাস</h1>
+        <p><strong>মূল মন্ত্র:</strong> এখানে উপসর্গের খেলা চলে এবং <strong>পূর্বপদের অর্থই</strong> প্রধান হয়।</p>
+    </div>
+
+    <div class="rhyme-box">
+        <div class="rhyme-title">মনে রাখার ম্যাজিক ছন্দ</div>
+        <div class="rhyme-text">
+            "প্রগতির <span class="excluded">রচে</span> প্রতিহিংসার প্রবচন, প্রভাতে প্রবন্ধে <span class="excluded">পরে</span> অনুতাপের পরিভ্রমণ প্রশিক্ষিত প্রতিকূলে উন্নিদ্র প্রবাদ অতিকায় দুর্দিনে অভিমুখে প্রভাব"
+        </div>
+        <p style="margin-top: 15px; color: #0f766e; font-weight: bold;">
+            (বি.দ্র: লাল চিহ্নিত 'রচে' ও 'পরে' বাদে এই ছন্দের সবগুলোই <span style="background: #0d9488; color:white; padding: 2px 8px; border-radius: 4px;">প্রাদি সমাস</span>)
+        </p>
+    </div>
+
+    <div class="section-header">১. প্রাদি সমাস</div>
+    <div class="tech-card">
+        <span class="tech-title">খাতার টেকনিক: বিশেষ উপসর্গ (প্র, প্রতি, অনু, পরি, অভি...)</span><br>
+        উপরের কবিতার শব্দগুলো মুখস্থ থাকলেই প্রাদি সমাস নিয়ে আর কোনো চিন্তা নেই। পরীক্ষায় এগুলোই ঘুরিয়ে ফিরিয়ে আসে।
+    </div>
+
+    <div class="ex-row">
+        <span class="word">প্রগতি</span> <span class="arrow">➔</span> <span class="prefix">প্র</span> (প্রকৃষ্ট) যে গতি
+        <span class="logic"><strong>ব্যাখ্যা:</strong> গতির উৎকর্ষ বোঝাতে 'প্র' ব্যবহৃত হয়েছে। এটি প্রাদি সমাসের শ্রেষ্ঠ উদাহরণ।</span>
+    </div>
+    <div class="ex-row">
+        <span class="word">প্রভাত</span> <span class="arrow">➔</span> <span class="prefix">প্র</span> (প্রকৃষ্ট রূপে) ভাত (আলোকিত)
+    </div>
+    <div class="ex-row">
+        <span class="word">অনুতাপ</span> <span class="arrow">➔</span> <span class="prefix">অনু</span>-তে (পশ্চাতে) যে তাপ
+        <span class="logic"><strong>ব্যাখ্যা:</strong> অনু মানে পেছনে। মনের ভেতরে যে অনুশোচনার তাপ জন্মায়।</span>
+    </div>
+    <div class="ex-row">
+        <span class="word">পরিভ্রমণ</span> <span class="arrow">➔</span> <span class="prefix">পরি</span> (চতুর্দিকে) যে ভ্রমণ
+    </div>
+    <div class="ex-row">
+        <span class="word">অভিমুখ</span> <span class="arrow">➔</span> <span class="prefix">অিভ</span> (সম্মুখে) যে মুখ
+    </div>
+    <div class="ex-row">
+        <span class="word">অতিকায়</span> <span class="arrow">➔</span> <span class="prefix">অতি</span> (বিশাল) যে কায়া বা শরীর
+    </div>
+
+    <div class="section-header">২. অব্যয়ীভাব সমাস</div>
+    
+    <div class="tech-card" style="background: #f0f9ff; border-color: #0ea5e9;">
+        <span class="tech-title" style="color: #0369a1; border-color: #bae6fd;">খাতার টেকনিক-১: "ম্যাজিক ৭ উপসর্গ"</span><br>
+        শব্দের শুরুতে <span class="prefix">অ, অনা, বে, বি, না, নি, স</span> — এই সাতটি উপসর্গ + প্রাদী সমাসের উদাহরণগুলো বাদে উপসর্গ দিয়ে তৈরি বাকি প্রায় সবগুলোই <strong>অব্যয়ীভাব সমাস</strong>।
+    </div>
+
+    <div class="ex-row">
+        <span class="word">নিরামিষ</span> <span class="arrow">➔</span> <span class="prefix">নি</span> (আমিষের) <span class="meaning">অভাব</span>
+        <span class="logic"><strong>ব্যাখ্যা:</strong> এখানে 'নি' উপসর্গটি 'অভাব' অর্থ প্রকাশ করছে।</span>
+    </div>
+    <div class="ex-row">
+        <span class="word">অনাদর</span> <span class="arrow">➔</span> <span class="prefix">অনা</span> (আদরের) <span class="meaning">অভাব</span>
+    </div>
+    <div class="ex-row">
+        <span class="word">বেহায়া</span> <span class="arrow">➔</span> <span class="prefix">বে</span> (হায়ার) <span class="meaning">অভাব</span>
+    </div>
+    <div class="ex-row">
+        <span class="word">সজল</span> <span class="arrow">➔</span> <span class="prefix">স</span> (জলের) <span class="meaning">সহিত</span>
+    </div>
+    
+    <div class="alert">ব্যতিক্রম মনে রাখুন: <strong>'উদ্বাহু'</strong> দেখতে অব্যয়ীভাবের মতো হলেও এটি আসলে <strong>বহুব্রীহি সমাস</strong>।</div>
+
+    <div class="tech-card" style="background: #fdf2f8; border-color: #db2777; margin-top: 30px;">
+        <span class="tech-title" style="color: #9d174d; border-color: #fbcfe8;">খাতার টেকনিক-২: "যথা" এর জাদু</span><br>
+        শব্দের শুরুতে <span class="prefix" style="background:#fce7f3; color:#be185d;">যথা</span> থাকলেই সেটি <strong>অব্যয়ীভাব</strong>। <br>
+        <span class="arrow">➔</span> ব্যাসবাক্যে 'যথা' সরিয়ে শেষে <span class="meaning">অতিক্রম না করে</span> লিখতে হয়।
+    </div>
+
+    <div class="ex-row">
+        <span class="word">যথারীতি</span> <span class="arrow">➔</span> রীতিকে <span class="meaning">অতিক্রম না করে</span>
+    </div>
+    <div class="ex-row">
+        <span class="word">যথাবিধি</span> <span class="arrow">➔</span> বিধিকে <span class="meaning">অতিক্রম না করে</span>
+    </div>
+    <div class="ex-row">
+        <span class="word">যথাসম্ভব</span> <span class="arrow">➔</span> সম্ভবকে <span class="meaning">অতিক্রম না করে</span>
+    </div>
+
+    <div class="alert" style="background: #fffbeb; color: #92400e; border-left-color: #f59e0b;">
+        সতর্কতা: <strong>'যথোচিত'</strong> শব্দটি কিন্তু <strong>কর্মধারয় সমাস</strong> (যা উচিত তাই যথোচিত)।
+    </div>
+
+    <div class="section-header" style="background: #475569;">অব্যয়ীভাবের অন্যান্য গুরুত্বপূর্ণ উদাহরণ</div>
+    
+    <div class="ex-row">
+        <span class="word">উপকূল</span> <span class="arrow">➔</span> কূলের <span class="meaning">সমীপ্যে</span> (নিকটে)
+        <span class="logic"><strong>ব্যাখ্যা:</strong> 'উপ' উপসর্গটি এখানে সামীপ্য বা নিকট অর্থ দিচ্ছে।</span>
+    </div>
+    <div class="ex-row">
+        <span class="word">হাভাতে</span> <span class="arrow">➔</span> ভাতের <span class="meaning">অভাব</span>
+    </div>
+    <div class="ex-row">
+        <span class="word">প্রতিচ্ছবি</span> <span class="arrow">➔</span> ছবির <span class="meaning">সদৃশ</span> (মতো)
+    </div>
+    <div class="ex-row">
+        <span class="word">আপাদমস্তক</span> <span class="arrow">➔</span> পা থেকে মাথা <span class="meaning">পর্যন্ত</span>
+    </div>
+    <div class="ex-row">
+        <span class="word">প্রতিদিন</span> <span class="arrow">➔</span> দিন দিন (<span class="meaning">বীপসা</span> বা পুনরাবৃত্তি)
+    </div>
+
+    <div class="footer">
+        ©️ । BILAS ACADEMY । 2026
+    </div>
+</div>
+
+</body>
+</html>
