@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @page {
+            size: A4;
+            margin: 15mm;
+            background-color: #f8fafc;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            color: #1e293b;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #3b82f6;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 22pt;
+            color: #1e3a8a;
+        }
+        .summary-box {
+            background-color: #f1f5f9;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 14pt;
+            font-weight: bold;
+            color: #0f172a;
+            margin-bottom: 25px;
+            border: 2px dashed #94a3b8;
+        }
+        .section-title {
+            color: #1e40af;
+            font-size: 14pt;
+            background: #dbeafe;
+            padding: 8px 15px;
+            border-radius: 5px;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            display: inline-block;
+            font-weight: bold;
+            border-left: 5px solid #2563eb;
+        }
+        
+        /* Table for Samas Types & Dominance */
+        .type-table {
+            width: 80%;
+            margin: 0 auto 30px auto;
+            border-collapse: collapse;
+            font-size: 12pt;
+        }
+        .type-table td {
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            vertical-align: middle;
+        }
+        .type-table .arrow-cell {
+            text-align: center;
+            color: #3b82f6;
+            font-weight: bold;
+            font-size: 14pt;
+        }
+        .highlight-red { color: #dc2626; font-weight: bold; }
+        .highlight-blue { color: #2563eb; font-weight: bold; }
+
+        /* Diagram for Dwanda */
+        .dwanda-diagram {
+            text-align: center;
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #fffbeb;
+            border: 2px solid #fde68a;
+            border-radius: 10px;
+        }
+        .dwanda-box {
+            display: inline-block;
+            border: 2px solid #1e293b;
+            padding: 5px 15px;
+            font-weight: bold;
+            font-size: 14pt;
+            background: #fff;
+        }
+        
+        /* Technique Box */
+        .technique-box {
+            margin: 15px 0 20px 20px;
+            padding: 12px;
+            border-left: 4px solid #e11d48;
+            background-color: #fff1f2;
+            color: #9f1239;
+            font-size: 11pt;
+            border-radius: 0 8px 8px 0;
+        }
+        .technique-title {
+            font-weight: bold;
+            color: #be123c;
+            margin-bottom: 5px;
+            font-size: 12pt;
+        }
+
+        .note-box {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 11pt;
+            color: #166534;
+        }
+
+        .examples {
+            font-size: 12pt;
+            padding-left: 20px;
+            color: #334155;
+            line-height: 1.8;
+        }
+
+        /* Nipatone Siddho list */
+        .nipatone-list {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+        .nipatone-list li {
+            margin-bottom: 8px;
+            font-size: 12pt;
+        }
+        .nipatone-list span.eq {
+            color: #2563eb;
+            font-weight: bold;
+            margin: 0 10px;
+        }
+
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 12pt;
+            font-weight: bold;
+            color: #64748b;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 15px;
+        }
+        
+        .page-break {
+            page-break-after: always;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>(সমাস) পার্ট ২: প্রকারভেদ ও দ্বন্দ্ব সমাস</h1>
+        </div>
+
+        <div class="summary-box">
+            সমাস = ৬ প্রকার &nbsp; | &nbsp; প্রধানত = ৬ প্রকার &nbsp; | &nbsp; মূলত = ৪ প্রকার
+        </div>
+
+        <p style="text-align: center; font-size: 12pt; margin-bottom: 5px;"><strong>পদের প্রাধান্যের ভিত্তিতে সমাসের প্রকারভেদ:</strong></p>
+        <table class="type-table">
+            <tr>
+                <td style="width: 40%;">১. <span class="highlight-blue">দ্বন্দ্ব</span> সমাস</td>
+                <td class="arrow-cell" style="width: 10%;">➔</td>
+                <td style="width: 50%;" class="highlight-red">উভয়পদ প্রধান</td>
+            </tr>
+            <tr>
+                <td>২. <span class="highlight-blue">দ্বিগু</span> সমাস</td>
+                <td rowspan="3" class="arrow-cell">➔</td>
+                <td rowspan="3" class="highlight-red">পরপদ প্রধান</td>
+            </tr>
+            <tr>
+                <td>৩. <span class="highlight-blue">কর্মধারয়</span> সমাস</td>
+            </tr>
+            <tr>
+                <td>৪. <span class="highlight-blue">তৎপুরুষ</span> সমাস</td>
+            </tr>
+            <tr>
+                <td>৫. <span class="highlight-blue">অব্যয়ীভাব</span> সমাস</td>
+                <td class="arrow-cell">➔</td>
+                <td class="highlight-red">পূর্বপদ প্রধান</td>
+            </tr>
+            <tr>
+                <td>৬. <span class="highlight-blue">বহুব্রীহি</span> সমাস</td>
+                <td class="arrow-cell">➔</td>
+                <td class="highlight-red">অন্যপদ / ৩য় পদ প্রধান</td>
+            </tr>
+        </table>
+
+        <div class="dwanda-diagram">
+            <div style="margin-bottom: 15px;">
+                <div class="dwanda-box">দ্বন্দ্ব</div>
+                <span style="font-size: 18pt; color: #3b82f6; vertical-align: middle; margin: 0 15px;">➔</span>
+                <span style="font-size: 14pt; font-weight: bold; color: #dc2626;">উভয়পদ প্রধান</span>
+            </div>
+            
+            <div style="border-top: 2px dashed #f59e0b; padding-top: 15px; display: inline-block;">
+                <span style="color: #ea580c; font-weight: bold; font-size: 12pt;">ব্যাসবাক্য:</span> 
+                ৩টি অব্যয় মাঝখানে বসে ➔ <span style="font-size: 14pt; font-weight: bold; color: #b91c1c;">এবং, ও, আর</span>
+            </div>
+        </div>
+
+        <div class="section-title">দ্বন্দ্ব সমাসের প্রকারভেদ</div>
+
+        <div style="font-weight: bold; font-size: 12pt; color: #0f172a; margin-top: 10px;">★ মিলনার্থক দ্বন্দ্ব:</div>
+        <div class="examples">
+            মা-বাবা, চাচা-চাচি, নানা-নানি, ফুফা-ফুপি, খালা-খালু, চা-বিস্কুট, সোনা-রুপা, খাতা-কলম।
+        </div>
+        <div class="technique-box">
+            <div class="technique-title">টেকনিক:</div>
+            পদ দুটি একে অন্যের পরিপূরক হবে।
+        </div>
+
+        <div style="font-weight: bold; font-size: 12pt; color: #0f172a;">★ বিপরীতার্থক দ্বন্দ্ব:</div>
+        <div class="examples">
+            সুখ-দুঃখ, জীবন-মরণ, হাসি-কান্না, লেন-দেন, দেনা-পাওনা, ওপর-নীচ, ছোট-বড়।
+        </div>
+        <div class="technique-box">
+            <div class="technique-title">টেকনিক:</div>
+            সকল বিপরীত শব্দ। { Exact Opposite }
+        </div>
+
+        <div style="font-weight: bold; font-size: 12pt; color: #0f172a; margin-top: 20px;">★ বিরোধার্থক দ্বন্দ্ব:</div>
+        <div class="examples">
+            অহি-নকুল, সাপ-নেউল, আদা-কাঁচকলা, দা-কুমড়া, স্বর্গ-নরক, স্বর্গ-মর্ত্য।
+        </div>
+        <br>
+
+        <div style="font-weight: bold; font-size: 12pt; color: #0f172a;">★ সমার্থক দ্বন্দ্ব:</div>
+        <div class="examples">
+            হাট-বাজার, লোকজন, আদর-সোহাগ, জামা-কাপড়, মাথা-মুন্ডু, কল-কারখানা, টাকা-পয়সা, ঘর-বাড়ি, ঘর-দুয়ার।
+        </div>
+        <div class="technique-box">
+            <div class="technique-title">টেকনিক:</div>
+            সকল সমার্থক শব্দ। { দুটি পদই একই অর্থ প্রকাশ করে }
+        </div>
+
+        <div style="font-weight: bold; font-size: 12pt; color: #0f172a;">★ প্রায় সমার্থক দ্বন্দ্ব:</div>
+        <div class="examples">
+            কলম-টলম, নৌকা-টৌকা, চা-টা, ভাত-টাত, ক্লাস-টাস, প্রেম-ট্রেম।
+        </div>
+        <div class="technique-box">
+            <div class="technique-title">টেকনিক:</div>
+            প্রথমাংশ বাস্তবে বিদ্যমান, তবে শেষাংশ প্রথমাংশের আদলে তৈরি হলেও বাস্তবে বিদ্যমান নয়।
+        </div>
+        <div class="note-box">
+            <strong>বি.দ্র:</strong> তবে এমন কিছু প্রায় সমার্থক দ্বন্দ্বের উদাহরণও দেখতে পাওয়া যায় যার দুটি অংশই বাস্তবে বিদ্যমান। যেমন: রাস্তা-ঘাট, অলি-গলি, নামাজ-রোজা, খেলা-ধুলা।
+        </div>
+
+        <div style="font-weight: bold; font-size: 12pt; color: #0f172a; margin-top: 20px;">★ একশেষ দ্বন্দ্ব:</div>
+        <p style="margin: 5px 0 10px 20px; font-style: italic; color: #475569;">পরপদের প্রাধান্য বেশি থাকে।</p>
+        <div class="examples">
+            • সে ও তুমি = তোমরা<br>
+            • সে, তুমি ও আমি = আমরা 
+            <span style="font-size: 10pt; color: #be123c; margin-left: 10px;">(পরপদের প্রাধান্য বেশি, কিন্তু পূর্ব পদেরও সামান্য প্রাধান্য আছে)</span><br>
+            • জায়া ও পতি = দম্পতি
+        </div>
+        <br>
+
+        <div style="font-weight: bold; font-size: 12pt; color: #0f172a;">★ বহুপদী দ্বন্দ্ব:</div>
+        <p style="margin: 5px 0 10px 20px; font-style: italic; color: #475569;">সমস্তপদে দুই বা ততোধিক পদ থাকে।</p>
+        <div class="examples">
+            নাক-কান-গলা, চাঁদ-তারা-সূর্য, সাহেব-বিবি-গোলাম।
+        </div>
+        <br>
+
+        <div style="font-weight: bold; font-size: 12pt; color: #0f172a;">★ অলুক দ্বন্দ্ব:</div>
+        <div class="technique-box" style="display: inline-block; padding: 8px 15px; margin: 10px 0 10px 20px;">
+            { পরে শিখব }
+        </div>
+        <br>
+
+        <div style="font-weight: bold; font-size: 12pt; color: #0f172a;">★ নিপাতনে সিদ্ধ দ্বন্দ্ব:</div>
+        <ul class="nipatone-list">
+            <li>১. অহ ও রাত্রি <span class="eq">=</span> অহোরাত্র</li>
+            <li>২. অহ ও নিশা <span class="eq">=</span> অহর্নিশ</li>
+            <li>৩. দিবা ও রাত্রি <span class="eq">=</span> দিবারাত্র</li>
+            <li>৪. কুশ ও লব <span class="eq">=</span> কুশীলব</li>
+            <li>৫. দ্যৌ ও পৃথিবী <span class="eq">=</span> দ্যাবাপৃথিবী</li>
+        </ul>
+
+        <div style="text-align: center; margin-top: 40px;">
+            <span style="background-color: #fee2e2; color: #b91c1c; padding: 10px 20px; font-weight: bold; border-radius: 5px; font-size: 14pt; border: 2px solid #fca5a5;">
+                দ্বন্দ্ব সমাস শেষ
+            </span>
+        </div>
+
+        <div class="footer">
+            ©️ । BILAS ACADEMY । 2026
+        </div>
+    </div>
+</body>
+</html>
