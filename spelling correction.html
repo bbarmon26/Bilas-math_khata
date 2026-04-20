@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ইংরেজি শব্দভাণ্ডার - বিপুর</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header {
+            text-align: center;
+            background: linear-gradient(135deg, #1a73e8, #0d47a1);
+            color: white;
+            width: 100%;
+            max-width: 500px;
+            padding: 15px 0;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .container {
+            width: 100%;
+            max-width: 500px;
+        }
+        #searchBar {
+            width: 100%;
+            padding: 12px 20px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            font-size: 16px;
+            outline: none;
+            box-sizing: border-box;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .word-card {
+            background: white;
+            margin-bottom: 10px;
+            padding: 12px 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-left: 5px solid #1a73e8;
+            transition: transform 0.2s;
+        }
+        .word-card:active {
+            transform: scale(0.98);
+        }
+        .word-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .word-spelling {
+            font-size: 1.15em;
+            font-weight: bold;
+            color: #202124;
+        }
+        .word-no {
+            font-size: 0.75em;
+            color: #1a73e8;
+            background: #e8f0fe;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-weight: bold;
+        }
+        .word-pronunciation {
+            color: #d93025;
+            font-size: 1em;
+            margin: 4px 0;
+            font-weight: 500;
+        }
+        .word-meaning {
+            color: #188038;
+            font-size: 1em;
+            border-top: 1px solid #f1f3f4;
+            padding-top: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h2 style="margin:0;">Vocabulary List</h2>
+        <p style="margin:3px 0 0 0; font-size:0.85em;">সঠিক বানান, উচ্চারণ ও অর্থ</p>
+    </div>
+
+    <div class="container">
+        <input type="text" id="searchBar" onkeyup="filterWords()" placeholder="শব্দটি খুঁজুন (Search)...">
+
+        <div id="wordList">
+            <script>
+                const words = [
+                    ["Abbreviate", "অ্যাবরিভিয়েট", "শব্দ সংক্ষিপ্ত করা"],
+                    ["Abhorrence", "অ্যাবভোরেন্স", "ঘৃণা"],
+                    ["Accelerate", "অ্যাকসেলারেট", "ত্বরান্বিত করা"],
+                    ["Accession", "অ্যাকসেশন", "বৃদ্ধি বা যোগ"],
+                    ["Accommodate", "অ্যাকোমোডেট", "আবাসিত করা"],
+                    ["Accomplishment", "অ্যাকমপ্লিসমেন্ট", "সম্পাদন"],
+                    ["Achievement", "অ্যাচিভমেন্ট", "অর্জন, সিদ্ধিলাভ, কৃতিত্ব"],
+                    ["Acknowledge", "অ্যাকনলেজ", "প্রাপ্তিস্বীকার করা"],
+                    ["Acquaintance", "অ্যাকুয়েন্টেন্স", "প্রত্যক্ষ পরিচিতি"],
+                    ["Admittance", "অ্যাডমিটেন্স", "প্রবেশের অনুমতি"],
+                    ["Adolescence", "অ্যাডোলেসেন্স", "নবযৌবন, বয়ঃসন্ধি"],
+                    ["Aggressive", "অ্যাগ্রেসিভ", "আগ্রাসী, আক্রমণাত্মক"],
+                    ["Allottee", "অ্যালটি", "অংশপ্রাপক"],
+                    ["Aluminium", "অ্যালুমিনিয়াম", "এলুমিনিয়াম"],
+                    ["Ambassador", "অ্যাম্বাসেডর", "রাষ্ট্রদূত"],
+                    ["Assassination", "অ্যাসাসিনেশন", "গুপ্তহত্যা (রাজনৈতিক)"],
+                    ["Assessment", "অ্যাসেসমেন্ট", "মূল্য নির্ধারণ"],
+                    ["Attorney", "অ্যাটর্নি", "আইনজীবী"],
+                    ["Auditorium", "অডিটোরিয়াম", "শ্রবণশালা, মিলনায়তন"],
+                    ["Barrack", "ব্যারাক", "সেনানিবাস"],
+                    ["Battalion", "ব্যাটালিয়ন", "সৈন্যদল বিশেষ"],
+                    ["Bibliography", "বিব্লিওগ্রাফি", "গ্রন্থতালিকা"],
+                    ["Billionaire", "বিলিওনেয়ার", "ধনকুবের"],
+                    ["Bouquet", "বোকে", "ফুলের তোড়া"],
+                    ["Boycott", "বয়কট", "বর্জন"],
+                    ["Brochure", "ব্রোশিওর", "ছোট পুস্তিকা"],
+                    ["Camouflage", "ক্যামোফ্লাজ", "ছদ্মবেশ"],
+                    ["Catalogue", "ক্যাটালগ", "তালিকা"],
+                    ["Caterpillar", "ক্যাটারপিলার", "শুঁয়াপোকা"],
+                    ["Cigarette", "সিগারেট", "সিগারেট"],
+                    ["Colonel", "কার্নেল", "উচ্চ পদস্থ সেনাপতি"],
+                    ["Colleague", "কলিগ", "সহকর্মী"],
+                    ["Commission", "কমিশন", "ক্ষমতা প্রদান"],
+                    ["Committee", "কমিটি", "সমিতি"],
+                    ["Configuration", "কনফিগারেশন", "বাহ্যিক গঠন"],
+                    ["Connoisseur", "কনাসুর", "রস পণ্ডিত"],
+                    ["Constellation", "কনস্টেলেশন", "নক্ষত্রপুঞ্জ"],
+                    ["Correction", "কারেকশন", "সংশোধন"],
+                    ["Councillor", "কাউন্সিলর", "উপদেষ্টা"],
+                    ["Curriculum", "কারিকুলাম", "পাঠ্যক্রম"],
+                    ["Decennial", "ডিসেনিয়াল", "দশবার্ষিক"],
+                    ["Diarrhoea", "ডায়রিয়া", "ডায়রিয়া"],
+                    ["Dysentery", "ডিসেন্ট্রি", "আমাশয়"],
+                    ["Dilemma", "ডিলেমা", "উভয় সংকট"],
+                    ["Dinosaur", "ডাইনোসর", "ডাইনোসর"],
+                    ["Diphtheria", "ডিপথেরিয়া", "কণ্ঠনালীর সংক্রামক রোগ"],
+                    ["Embarrass", "এ্যামব্যারাস", "বিব্রত করা"],
+                    ["Entrepreneur", "অঁন্ট্রাপ্রেনার", "উদ্যোক্তা"],
+                    ["Gazette", "গেজেট", "সরকারি ইশতেহার"],
+                    ["Giraffe", "জিরাফ", "জিরাফ"],
+                    ["Glossary", "গ্লসারি", "শব্দকোষ"],
+                    ["Grammar", "গ্রামার", "ব্যাকরণ"],
+                    ["Grasshopper", "গ্রাস হপার", "ফড়িং"],
+                    ["Guarantee", "গ্যারান্টি", "নিশ্চয়তা"],
+                    ["Guerrilla", "গেরিলা", "গেরিলা যোদ্ধা"],
+                    ["Guillotine", "গিলোতিন", "মস্তকচ্ছেদ যন্ত্র"],
+                    ["Guinness", "গিনেস", "পানীয় বিশেষ"],
+                    ["Gymnasium", "জিমনেশিয়াম", "ব্যায়ামাগার"],
+                    ["Gynaecology", "গাইনোকোলজি", "স্ত্রী রোগ বিজ্ঞান"],
+                    ["Hallucination", "হ্যালুসিনেশন", "অলিক অস্তিত্বে বিশ্বাস"],
+                    ["Hippopotamus", "হিপোপটেমাস", "জলহস্তী"],
+                    ["Heterogeneous", "হেটেরোজেনাস", "ভিন্ন জাতীয়"],
+                    ["Homogeneous", "হোমোজেনাস", "সমজাতীয়"],
+                    ["Humorous", "হিউমারাস", "কৌতুকপূর্ণ"],
+                    ["Idiosyncrasy", "ইডিওসিংক্রেসি", "স্বকীয়তা"],
+                    ["Intellectual", "ইনটেলেকচুয়াল", "বুদ্ধিজীবী"],
+                    ["Inaugural", "ইনঅগুরাল", "উদ্বোধনী"],
+                    ["Interrupt", "ইন্টারাপ্ট", "ব্যাহত করা"],
+                    ["Jamboree", "জ্যাম্বোরি", "স্কাউট সম্মেলন"],
+                    ["Kaleidoscope", "ক্যালাইডোস্কোপ", "খেলনা বিশেষ"],
+                    ["Kindergarten", "কিন্ডারগার্টেন", "শিশুতোষ বিদ্যালয়"],
+                    ["Leisure", "লেজার", "অবসর"],
+                    ["Lieutenant", "লেফট্যানেন্ট", "নিম্নপদস্থ সেনাপতি"],
+                    ["Lilliputian", "লিলিফুশিয়ান", "ক্ষুদ্রকায়"],
+                    ["Litterateur", "লিটারেচার", "সাহিত্যিক"],
+                    ["Machinery", "মেশিনারি", "প্রশাসন ব্যবস্থা"],
+                    ["Measles", "মিজলস", "হাম রোগ"],
+                    ["Mediterranean", "মেডিটেরানিয়ান", "ভূমধ্যসাগরীয়"],
+                    ["Memorandum", "মেমোরেন্ডাম", "স্মারক লিপি"],
+                    ["Millennium", "মিলেনিয়াম", "সহস্রাব্দ"],
+                    ["Millionaire", "মিলিয়নেয়ার", "লাখপতি"],
+                    ["Misspell", "মিসপেল", "ভুল বানান করা"],
+                    ["Mosquito", "মসকিটো", "মশা"],
+                    ["Occasion", "অকেশন", "উপলক্ষ্য"],
+                    ["Orchestra", "অর্কেস্ট্রা", "বাদকদল"],
+                    ["Paleontology", "প্যালিওন্টোলজি", "জীবাশ্ম বিজ্ঞান"],
+                    ["Parallelogram", "প্যারালেলোগ্রাম", "সামন্তরিক"],
+                    ["Paraffin", "প্যারাফিন", "প্যারাফিন তেল"],
+                    ["Perpendicular", "পারপেন্ডিকুলার", "উলম্ব/খাড়া"],
+                    ["Phenomenon", "ফেনোমেনন", "বিস্ময়কর ঘটনা"],
+                    ["Pneumonia", "নিউমোনিয়া", "নিউমোনিয়া রোগ"],
+                    ["Possession", "পজেশন", "দখল, মালিকানা"],
+                    ["Posthumous", "পোস্টহিউমাস", "মরণোত্তর"],
+                    ["Proprietor", "প্রোপ্রাইটর", "মালিক"],
+                    ["Psychology", "সাইকোলজি", "মনোবিজ্ঞান"],
+                    ["Quorum", "কোরাম", "ন্যূনতম উপস্থিতি"],
+                    ["Questionnaire", "কোয়েশ্চেনিয়ার", "প্রশ্নাবলী"],
+                    ["Quarantine", "কোয়ারেন্টাইন", "বন্দীকাল"],
+                    ["Referendum", "রেফারেন্ডাম", "গণভোট"],
+                    ["Refrigerator", "রেফ্রিজারেটর", "হিমাঙ্ক যন্ত্র"],
+                    ["Renaissance", "রেনেসাঁ", "নবজাগরণ"],
+                    ["Rescission", "রিসিশন", "বাতিলকরণ"],
+                    ["Reservoir", "রিজার্ভার", "জলাধার"],
+                    ["Remittance", "রেমিটেন্স", "প্রেরিত অর্থ"],
+                    ["Restaurant", "রেস্টুরেন্ট", "রেস্তোরাঁ"],
+                    ["Rhythm", "রিদম", "ছন্দ, তাল"],
+                    ["Satellite", "স্যাটেলাইট", "উপগ্রহ"],
+                    ["Schedule", "শিডিউল", "তালিকা, তফসিল"],
+                    ["Schizophrenia", "সিজোফ্রেনিয়া", "মানসিক রোগ"],
+                    ["Scenery", "সিনারি", "দৃশ্য"],
+                    ["Secretariat", "সেক্রেটারিয়েট", "সচিবালয়"],
+                    ["Semester", "সেমিস্টার", "শিক্ষাবর্ষের অর্ধাংশ"],
+                    ["Souvenir", "সুভেনিয়ার", "স্মারক"],
+                    ["Sovereignty", "সোভরেইনটি", "সার্বভৌমত্ব"],
+                    ["Spelling", "স্পেলিং", "বানান"],
+                    ["Summary", "সামারি", "সারসংক্ষেপ"],
+                    ["Superintendent", "সুপারিনটেনডেন্ট", "অধ্যক্ষ/তত্ত্বাবধায়ক"],
+                    ["Surrender", "সারেন্ডার", "আত্মসমর্পণ"],
+                    ["Terracotta", "টেরাকোটা", "পোড়ামাটির শিল্প"],
+                    ["Transmission", "ট্রান্সমিশন", "প্রেরণ"],
+                    ["Transparency", "ট্রান্সপারেন্সি", "স্বচ্ছতা"],
+                    ["Tuberculosis", "টিউবারকিউলোসিস", "যক্ষ্মা রোগ"],
+                    ["Tsunami", "সুনামি", "সামুদ্রিক ঘূর্ণিঝড়/সুনামি"],
+                    ["Tuition", "টিউশন", "শিক্ষা দান"],
+                    ["Vacuum", "ভ্যাকুয়াম", "শূন্যস্থান"],
+                    ["Vaccination", "ভ্যাক্সিনেশন", "টিকাদান"],
+                    ["Varsity", "ভার্সিটি", "বিশ্ববিদ্যালয়"],
+                    ["Voluntary", "ভলান্টারি", "স্বেচ্ছাকৃত"],
+                    ["Warrant", "ওয়ারেন্ট", "পরোয়ানা"],
+                    ["Warrantee", "ওয়ারেন্টি", "নিশ্চয়তাপত্র"]
+                ];
+
+                const listContainer = document.getElementById('wordList');
+                words.forEach((item, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'word-card';
+                    card.innerHTML = `
+                        <div class="word-row">
+                            <span class="word-spelling">${item[0]}</span>
+                            <span class="word-no">#${index + 1}</span>
+                        </div>
+                        <div class="word-pronunciation">${item[1]}</div>
+                        <div class="word-meaning">${item[2]}</div>
+                    `;
+                    listContainer.appendChild(card);
+                });
+
+                function filterWords() {
+                    let input = document.getElementById('searchBar').value.toLowerCase();
+                    let cards = document.getElementsByClassName('word-card');
+                    for (let i = 0; i < cards.length; i++) {
+                        let text = cards[i].innerText.toLowerCase();
+                        cards[i].style.display = text.includes(input) ? "" : "none";
+                    }
+                }
+            </script>
+        </div>
+    </div>
+</body>
+</html>
