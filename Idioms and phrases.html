@@ -229,8 +229,7 @@
     const titleColors = ['#10b981', '#f59e0b', '#3b82f6', '#8b5cf6', '#ec4899', '#14b8a6', '#f43f5e'];
 
     // আপনার দেওয়া ২১৭টি ডেটা নিচের এই অ্যারেতে বসিয়ে দিন
- 
-const idiomsData = [
+ const idiomsData = [
     {number: 1, idiom: "Get by heart", idiomPron: "গেট বাই হার্ট", meaningEn: "Memorize", meaningBn: "মুখস্থ করা", exampleEn: "The student got the whole poem by heart.", exampleBn: "ছাত্রটি পুরো কবিতাটি মুখস্থ করেছিল।"},
     {number: 2, idiom: "At large", idiomPron: "অ্যাট লার্জ", meaningEn: "Free", meaningBn: "মুক্ত", exampleEn: "The notorious criminal is still at large.", exampleBn: "কুখ্যাত অপরাধীটি এখনো ধরাছোঁয়ার বাইরে।"},
     {number: 3, idiom: "Dog days", idiomPron: "ডগ ডেজ", meaningEn: "Hot weather", meaningBn: "খুব গরমের দিন", exampleEn: "It is hard to work outside during the dog days.", exampleBn: "গরমের দিনে বাইরে কাজ করা খুব কঠিন।"},
@@ -450,11 +449,11 @@ const idiomsData = [
     {number: 217, idiom: "Nip in the bud", idiomPron: "নিপ ইন দ্য বাড", meaningEn: "Destroy at start", meaningBn: "অঙ্কুরে বিনষ্ট করা", exampleEn: "All bad habits should be nipped in the bud.", exampleBn: "সব খারাপ অভ্যাস অঙ্কুরেই বিনষ্ট করা উচিত।"}
 ];
 
-
-    const studyContainer = document.getElementById('study-view');
+const studyContainer = document.getElementById('study-view');
     const practiceContainer = document.getElementById('practice-view');
 
     // ডাটা থেকে HTML জেনারেট করা (সার্চ রেজাল্ট অনুযায়ী)
+    
     function renderApp(dataArray) {
         let studyHTML = '';
         let practiceHTML = '';
