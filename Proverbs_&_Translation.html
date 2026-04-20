@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proverbs & Translations Mastery</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap');
+
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary-accent: #3b82f6;
+            --proverb-badge: #10b981;
+            --translation-badge: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            color: var(--primary-accent);
+            margin-bottom: 5px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Search Bar Styles */
+        .search-container {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        #searchInput {
+            width: 100%;
+            max-width: 500px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            background-color: var(--card-bg);
+            color: var(--text-main);
+            font-size: 1.1rem;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        #searchInput:focus {
+            border-color: var(--primary-accent);
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+        }
+
+        #searchInput::placeholder {
+            color: #64748b;
+        }
+
+        /* Navigation Buttons */
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .nav-btn {
+            background-color: var(--card-bg);
+            color: var(--text-main);
+            border: 2px solid #334155;
+            padding: 10px 25px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            font-weight: 600;
+        }
+
+        .nav-btn.active, .nav-btn:hover {
+            background-color: var(--primary-accent);
+            border-color: var(--primary-accent);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Views */
+        .view-section {
+            display: none;
+        }
+
+        .view-section.active {
+            display: block;
+        }
+
+        /* Card Styles */
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            border: 1px solid #334155;
+            transition: transform 0.2s, border-color 0.3s;
+            position: relative;
+        }
+
+        .card:hover {
+            border-color: #475569;
+        }
+
+        .badge {
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            color: #fff;
+        }
+
+        .badge.proverb { background-color: var(--proverb-badge); }
+        .badge.translation { background-color: var(--translation-badge); }
+
+        .bn-text {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #f8fafc;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .en-text {
+            font-size: 1.3rem;
+            color: #e2e8f0;
+            font-weight: 500;
+            font-family: 'Poppins', sans-serif;
+            border-left: 4px solid var(--primary-accent);
+            padding-left: 15px;
+            background: rgba(59, 130, 246, 0.05);
+            padding-top: 8px;
+            padding-bottom: 8px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* Practice Mode Specifics */
+        .practice-card {
+            cursor: pointer;
+        }
+        
+        .practice-card::after {
+            content: '▼ ইংরেজি দেখুন';
+            position: absolute;
+            right: 20px;
+            top: 25px;
+            font-size: 0.9rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .practice-card.open::after {
+            content: '▲ লুকান';
+        }
+
+        .hidden-details {
+            display: none;
+            margin-top: 15px;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .practice-card.open .hidden-details {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .no-result {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 1.2rem;
+            margin-top: 30px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Proverbs & Translations</h1>
+        <p style="color: #94a3b8; font-size: 1.1rem;">চাকরির প্রস্তুতির জন্য ১৮৩টি গুরুত্বপূর্ণ বাক্য</p>
+    </header>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" oninput="searchData()" placeholder="বাংলা বা ইংরেজি লিখে খুঁজুন...">
+    </div>
+
+    <div class="nav-buttons">
+        <button class="nav-btn active" onclick="switchTab('study')">Study Mode (পড়ুন)</button>
+        <button class="nav-btn" onclick="switchTab('practice')">Practice Mode (প্র্যাকটিস)</button>
+    </div>
+
+    <div id="study-view" class="view-section active"></div>
+
+    <div id="practice-view" class="view-section"></div>
+</div>
+
+<script>
+    // ১৮৩টি Proverbs ও Translations ডেটা
+    const appData = [
+        // Proverbs (1-50)
+        { n: 1, type: "Proverb", bn: "অতি লোভে তাঁতি নষ্ট।", en: "All covet, all lost / Grasp all, lose all" },
+        { n: 2, type: "Proverb", bn: "অসার তর্জন-গর্জনই সার।", en: "Empty vessels sound much" },
+        { n: 3, type: "Proverb", bn: "ইটটি মারলে পাটকেলটি খেতে হয়।", en: "Tit for tat" },
+        { n: 4, type: "Proverb", bn: "উলুবনে মুক্তা ছড়ানো।", en: "Cast pearls before swine" },
+        { n: 5, type: "Proverb", bn: "একতাই বল।", en: "Unity is strength" },
+        { n: 6, type: "Proverb", bn: "চোর পালালে বুদ্ধি বাড়ে।", en: "After death comes the doctor" },
+        { n: 7, type: "Proverb", bn: "জ্ঞানই বল।", en: "Knowledge is power" },
+        { n: 8, type: "Proverb", bn: "ঝোপ বুঝে কোপ মার।", en: "Make hay while the sun shines" },
+        { n: 9, type: "Proverb", bn: "টাকায় টাকা হয়।", en: "Money begets money" },
+        { n: 10, type: "Proverb", bn: "দশের লাঠি একের বোঝা।", en: "Many a little makes a mickle" },
+        { n: 11, type: "Proverb", bn: "কষ্ট বিনা কেষ্ট মেলে না / দুঃখ বিনা সুখ লাভ হয় কি?", en: "No pains, no gains" },
+        { n: 12, type: "Proverb", bn: "সততাই সর্বোৎকৃষ্ট পন্থা।", en: "Honesty is the best policy" },
+        { n: 13, type: "Proverb", bn: "সবুরে মেওয়া ফলে।", en: "Patience has its reward" },
+        { n: 14, type: "Proverb", bn: "আগে ঘর তবে তো পর।", en: "Charity begins at home" },
+        { n: 15, type: "Proverb", bn: "আপন চরকায় তেল দাও।", en: "Oil your own machine" },
+        { n: 16, type: "Proverb", bn: "জোর যার মুল্লুক তার।", en: "Might is right" },
+        { n: 17, type: "Proverb", bn: "তেলা মাথায় তেল দেওয়া।", en: "Carry coal to Newcastle" },
+        { n: 18, type: "Proverb", bn: "নানা মুনির নানা মত।", en: "Many men, many minds" },
+        { n: 19, type: "Proverb", bn: "নুন আনতে পান্তা ফুরায়।", en: "After meat comes mustard" },
+        { n: 20, type: "Proverb", bn: "বিদ্যা অনন্ত, জীবন সংক্ষিপ্ত।", en: "Art is long, life is short" },
+        { n: 21, type: "Proverb", bn: "বজ্র আঁটুনি ফস্কা গেরো।", en: "Penny wise, pound foolish" },
+        { n: 22, type: "Proverb", bn: "বিপদে ধৈর্য ধারণ কর।", en: "Have patience in danger" },
+        { n: 23, type: "Proverb", bn: "মানুষ মাত্রই ভুল।", en: "To err is human" },
+        { n: 24, type: "Proverb", bn: "অসময়ের বন্ধুই প্রকৃত বন্ধু।", en: "A friend in need is a friend indeed" },
+        { n: 25, type: "Proverb", bn: "অল্পবিদ্যা ভয়ঙ্করী।", en: "A little learning is a dangerous thing" },
+        { n: 26, type: "Proverb", bn: "অভাবে স্বভাব নষ্ট।", en: "Necessity knows no law" },
+        { n: 27, type: "Proverb", bn: "অধিক সন্ন্যাসীতে গাজন নষ্ট।", en: "Too many cooks spoil the broth" },
+        { n: 28, type: "Proverb", bn: "আয় বুঝে ব্যয় কর।", en: "Cut your coat according to your cloth" },
+        { n: 29, type: "Proverb", bn: "ইচ্ছা থাকলে উপায় হয়।", en: "Where there is a will, there is a way" },
+        { n: 30, type: "Proverb", bn: "কয়লা ধুইলে ময়লা যায় না।", en: "Ethiopian will not change his skin" },
+        { n: 31, type: "Proverb", bn: "কারও পৌষ মাস কারও সর্বনাশ।", en: "Nero fiddles while Rome burns" },
+        { n: 32, type: "Proverb", bn: "চকচক করিলেই সোনা হয় না।", en: "All that glitters is not gold" },
+        { n: 33, type: "Proverb", bn: "দশে মিলে করি কাজ, হারি জিতি নাহি লাজ।", en: "Two heads are better than one" },
+        { n: 34, type: "Proverb", bn: "নাচতে না জানলে উঠান বাঁকা।", en: "A bad workman quarrels with his tools" },
+        { n: 35, type: "Proverb", bn: "নাই মামার চেয়ে কানা মামা ভালো।", en: "Something is better than nothing" },
+        { n: 36, type: "Proverb", bn: "প্রয়োজনই আবিষ্কারের প্রসূতি।", en: "Necessity is the mother of invention" },
+        { n: 37, type: "Proverb", bn: "যেমন কর্ম তেমন ফল।", en: "As you sow, so will you reap / As you make your bed, so you must lie on it" },
+        { n: 38, type: "Proverb", bn: "যত গর্জে তত বর্ষে না।", en: "Barking dogs seldom bite" },
+        { n: 39, type: "Proverb", bn: "সময়ের এক ফোঁড় অসময়ের দশ ফোঁড়।", en: "A stitch in time saves nine" },
+        { n: 40, type: "Proverb", bn: "হাতি ঘোড়া গেল তল, মশা বলে কত জল।", en: "Fools rush in where angels fear to tread" },
+        { n: 41, type: "Proverb", bn: "নীরবতা হিরণ্ময়।", en: "Silence is golden" },
+        { n: 42, type: "Proverb", bn: "সঙ্গ দেখে লোক চেনা যায়।", en: "A man is known by the company he keeps" },
+        { n: 43, type: "Proverb", bn: "ভিক্ষার চাল কাঁড়া আর আঁকাড়া।", en: "Beggars can't be choosers" },
+        { n: 44, type: "Proverb", bn: "এক মাঘে শীত যায় না।", en: "One swallow does not make a summer" },
+        { n: 45, type: "Proverb", bn: "একতায় উত্থান, বিভেদে পতন।", en: "United we stand, divided we fall" },
+        { n: 46, type: "Proverb", bn: "বিনয় মহত্ত্বের ভূষণ।", en: "Modesty is the embellishment of greatness" },
+        { n: 47, type: "Proverb", bn: "বিপদ কখনো একা আসে না।", en: "Misfortune never comes alone" },
+        { n: 48, type: "Proverb", bn: "যেমন গুরু তেমন চেলা।", en: "Like priest, like pupil" },
+        { n: 49, type: "Proverb", bn: "ভাবিয়া করিও কাজ।", en: "Look before you leap" },
+        { n: 50, type: "Proverb", bn: "চাহিদা যত বেশি, দাম তত চড়া।", en: "The greater the demand, the higher the price" },
+        
+        // Translations (51-183)
+        { n: 51, type: "Translation", bn: "কর্তৃপক্ষ তাকে তিরস্কার করলো।", en: "The authorities took him to task." },
+        { n: 52, type: "Translation", bn: "সকাল থেকে গুঁড়ি গুঁড়ি বৃষ্টি হচ্ছে।", en: "It has been drizzling since morning." },
+        { n: 53, type: "Translation", bn: "আমার ক্ষুধা নেই।", en: "I have no appetite." },
+        { n: 54, type: "Translation", bn: "এ কথা আর মুখেও আনিও না।", en: "Don't utter this any more." },
+        { n: 55, type: "Translation", bn: "তাড়াতাড়ি কর।", en: "Hurry up." },
+        { n: 56, type: "Translation", bn: "ভিন্ন ভিন্ন লোকের ভিন্ন ভিন্ন মত।", en: "Many men many minds." },
+        { n: 57, type: "Translation", bn: "তার ঠাণ্ডা লেগেছে।", en: "He has caught cold." },
+        { n: 58, type: "Translation", bn: "এখানে এতো গরম যে কাজ করা যায় না।", en: "It is too hot to work here." },
+        { n: 59, type: "Translation", bn: "বিপদ কখনো একা আসে না।", en: "Misfortune never comes alone." },
+        { n: 60, type: "Translation", bn: "টাকায় টাকা আনে।", en: "Money begets money." },
+        { n: 61, type: "Translation", bn: "আমি লিখতে জানি।", en: "I know how to write." },
+        { n: 62, type: "Translation", bn: "অন্যের দোষ ধরো না।", en: "Do not find faults with others." },
+        { n: 63, type: "Translation", bn: "আমি অপমান অপেক্ষা মৃত্যু পছন্দ করি।", en: "I prefer death to dishonour." },
+        { n: 64, type: "Translation", bn: "লাইনটি কেটে দাও।", en: "Pen through the line." },
+        { n: 65, type: "Translation", bn: "সততাই সর্বোৎকৃষ্ট পন্থা।", en: "Honesty is the best policy." },
+        { n: 66, type: "Translation", bn: "ভুল করা মানুষের স্বভাব।", en: "To err is human." },
+        { n: 67, type: "Translation", bn: "ডাক্তার ডাক।", en: "Call in a doctor." },
+        { n: 68, type: "Translation", bn: "দু'য়ে দু'য়ে চার হয়।", en: "Two and two make four." },
+        { n: 69, type: "Translation", bn: "আমার যাওয়ার কথা ছিল।", en: "I was supposed to go." },
+        { n: 70, type: "Translation", bn: "তুমি আসলে আমি যাব।", en: "If you come, I will go." },
+        { n: 71, type: "Translation", bn: "আমি তাকে যেতে দিলাম।", en: "I let him go." },
+        { n: 72, type: "Translation", bn: "তুমি দেখতে তোমার বাবার মতো।", en: "You resemble your father." },
+        { n: 73, type: "Translation", bn: "ধনীরা সব সময় সুখী নয়।", en: "The rich are not always happy." },
+        { n: 74, type: "Translation", bn: "গরু ঘাস খেয়ে বাঁচে।", en: "The cow lives on grass." },
+        { n: 75, type: "Translation", bn: "শেহতাজ সাঁতার কাটতে পারে।", en: "Shehtaz knows how to swim." },
+        { n: 76, type: "Translation", bn: "এখন সোয়া তিনটা বাজে।", en: "It is a quarter past three." },
+        { n: 77, type: "Translation", bn: "মেধার বলে একজন শিক্ষার্থী জীবনে সফল হয়।", en: "A student succeeds in life by dint of merit." },
+        { n: 78, type: "Translation", bn: "তুমি কি কখনো কক্সবাজার গিয়েছো?", en: "Have you ever been to Cox's Bazar?" },
+        { n: 79, type: "Translation", bn: "আমি, তুমি ও সে দায়ী।", en: "I, you and he are responsible." },
+        { n: 80, type: "Translation", bn: "সমাজ বিরোধীরা এখনো ধরা ছোঁয়ার বাইরে।", en: "The anti-socials are still at large." },
+        { n: 81, type: "Translation", bn: "চেয়ারটি কাঠের তৈরি।", en: "The chair is made of wood." },
+        { n: 82, type: "Translation", bn: "এই চাকরিটা আমার খুবই প্রয়োজন।", en: "I need this job badly." },
+        { n: 83, type: "Translation", bn: "সে কঠোর পরিশ্রম করে, তাই না?", en: "He works hard, doesn't he?" },
+        { n: 84, type: "Translation", bn: "মেয়েটি হাসতে হাসতে ঘরে প্রবেশ করলো।", en: "The girl entered the room laughing." },
+        { n: 85, type: "Translation", bn: "আমি, তুমি ও সে স্কুলে যাবো।", en: "You, he and I will go to school." },
+        { n: 86, type: "Translation", bn: "চোরে চোরে মাসতুতো ভাই।", en: "Birds of the same feather flock together." },
+        { n: 87, type: "Translation", bn: "আমার বন্ধু নাই বললেই চলে।", en: "I have few friends." },
+        { n: 88, type: "Translation", bn: "মানবজাতি এখন সংকটাপন্ন।", en: "Mankind is at stake now." },
+        { n: 89, type: "Translation", bn: "এটা আমার সাধ্যাতীত।", en: "This is beyond my reach." },
+        { n: 90, type: "Translation", bn: "আমি এইচএসসি পাশ করেছি।", en: "I have passed the HSC examination." },
+        { n: 91, type: "Translation", bn: "সে সাঁতার জানে না।", en: "He does not know how to swim." },
+        { n: 92, type: "Translation", bn: "বাতিটি জ্বালিয়ে দাও।", en: "Light the lamp." },
+        { n: 93, type: "Translation", bn: "লোকটি মর-মর অবস্থা।", en: "The man is about to die." },
+        { n: 94, type: "Translation", bn: "তেল পানিতে ভাসে।", en: "Oil floats on water." },
+        { n: 95, type: "Translation", bn: "এখন সোয়া দশটা বাজে।", en: "It is a quarter past ten now." },
+        { n: 96, type: "Translation", bn: "সুমনেরা তিন ভাই।", en: "Sumon has two brothers." },
+        { n: 97, type: "Translation", bn: "সে ভাগ্যহারা।", en: "He is out of luck." },
+        { n: 98, type: "Translation", bn: "তোমার বাবার পেশা কি?", en: "What is your father's profession?" },
+        { n: 99, type: "Translation", bn: "আমি চা পান করি না।", en: "I do not take tea." },
+        { n: 100, type: "Translation", bn: "আল্লাহ তোমার মঙ্গল করুন।", en: "May Allah bless you." },
+        { n: 101, type: "Translation", bn: "সে অংকে কাঁচা।", en: "He is weak in mathematics." },
+        { n: 102, type: "Translation", bn: "আমার যদি পাখির মতো ডানা থাকতো!", en: "Had I the wings of a bird!" },
+        { n: 103, type: "Translation", bn: "দেশকে ভালোবাসতে হবে।", en: "We ought to love our country." },
+        { n: 104, type: "Translation", bn: "বেলা পড়ে আসছে।", en: "The day is declining." },
+        { n: 105, type: "Translation", bn: "অতীতকে মুছে ফেল।", en: "Let bygones be bygones." },
+        { n: 106, type: "Translation", bn: "সে সাঁতার দিয়ে নদী পার হলো।", en: "She swam across the river." },
+        { n: 107, type: "Translation", bn: "আমি লোকটিকে মাঠে বসে থাকতে দেখেছিলাম।", en: "I saw the man sitting in the field." },
+        { n: 108, type: "Translation", bn: "আমি তাকে উপহাস করিনি।", en: "I did not laugh at him." },
+        { n: 109, type: "Translation", bn: "সাতদিন যাবৎ গুঁড়ি গুঁড়ি বৃষ্টি হচ্ছে।", en: "It has been drizzling for seven days." },
+        { n: 110, type: "Translation", bn: "বাংলাদেশ ১৯৭১ সালে স্বাধীন হয়।", en: "Bangladesh became independent in 1971." },
+        { n: 111, type: "Translation", bn: "বর্ষা আরম্ভ হয়েছে।", en: "The rains have set in." },
+        { n: 112, type: "Translation", bn: "আমি যদি তার নামটি আগে জানতাম।", en: "If I had known his name before." },
+        { n: 113, type: "Translation", bn: "মুক্তিযুদ্ধে ত্রিশ লক্ষ লোক প্রাণ বিসর্জন দিয়েছিল।", en: "Thirty lacs people sacrificed their lives in the liberation war." },
+        { n: 114, type: "Translation", bn: "জাহাজটি নোঙর করল।", en: "The ship was anchored." },
+        { n: 115, type: "Translation", bn: "যত বেশি তত খুশি।", en: "The more, the merrier." },
+        { n: 116, type: "Translation", bn: "জাতীয় স্মৃতিসৌধ ঢাকার উপজেলা সাভারে অবস্থিত।", en: "The National Mausoleum is located at Savar Upazila in Dhaka." },
+        { n: 117, type: "Translation", bn: "আপনি যা বলেছেন তা নির্দোষ মিথ্যা।", en: "What you have said is a white lie." },
+        { n: 118, type: "Translation", bn: "আত্মবিশ্বাস হচ্ছে নিজের প্রতি বিশ্বাস।", en: "Self-reliance is dependency on thyself." },
+        { n: 119, type: "Translation", bn: "নাচতে না জানলে উঠান বাঁকা।", en: "A bad worker quarrels with his tools." },
+        { n: 120, type: "Translation", bn: "কয়লা ধুইলে ময়লা যায় না।", en: "A black will take no other hue." },
+        { n: 121, type: "Translation", bn: "দশটা বাজতে দশ মিনিট বাকি।", en: "It is ten minutes to ten." },
+        { n: 122, type: "Translation", bn: "আজ খুব গরম, তাই না?", en: "It is very hot today, isn't it?" },
+        { n: 123, type: "Translation", bn: "বই পড়লে আমাদের জ্ঞান বাড়ে।", en: "If we read books, we will increase our knowledge." },
+        { n: 124, type: "Translation", bn: "সঙ্গীদের চেয়ে মধুর আর কিছু নাই।", en: "Nothing is sweeter than companions." },
+        { n: 125, type: "Translation", bn: "তাহারা আসিতে রাজি হইলো না।", en: "They did not agree to come." },
+        { n: 126, type: "Translation", bn: "তোমাকে তোমার কর্মফল মানতেই হবে।", en: "As you make your bed so you must lie on it." },
+        { n: 127, type: "Translation", bn: "মাতৃস্নেহ কখনো শেষ হয় না।", en: "Love of mother never ends." },
+        { n: 128, type: "Translation", bn: "বয়সে সে আমার চেয়ে বড়।", en: "He is senior to me in respect of age." },
+        { n: 129, type: "Translation", bn: "বলা সহজ করা কঠিন।", en: "Easier said than done." },
+        { n: 130, type: "Translation", bn: "শিক্ষাই জাতির মেরুদণ্ড।", en: "Education is the backbone of a nation." },
+        { n: 131, type: "Translation", bn: "শিক্ষাহীন মানুষ পশুর সমান।", en: "A man without education is similar to animal." },
+        { n: 132, type: "Translation", bn: "নিরক্ষর মানুষ দেশের জন্য বোঝা।", en: "Illiterate people are a burden for the country." },
+        { n: 133, type: "Translation", bn: "শিক্ষা ছাড়া কোন জাতিই উন্নতি করতে পারে না।", en: "No nation can prosper neglecting education." },
+        { n: 134, type: "Translation", bn: "যে জাতি যত বেশি শিক্ষিত সে জাতি তত বেশি উন্নত।", en: "The more educated the nation is, the more advanced the nation is." },
+        { n: 135, type: "Translation", bn: "নড়াইল চিত্রা নদীর তীরে অবস্থিত।", en: "Narail is located on the bank of the Chitra river." },
+        { n: 136, type: "Translation", bn: "আমি নড়াইল হয়ে ঢাকা যাবো।", en: "I will go to Dhaka through Narail." },
+        { n: 137, type: "Translation", bn: "মুক্তিযোদ্ধারা আমাদের অহংকার।", en: "Freedom fighters are our pride." },
+        { n: 138, type: "Translation", bn: "ঘুমন্ত শিশুকে ঘুমাতে দাও।", en: "Let the sleeping baby sleep." },
+        { n: 139, type: "Translation", bn: "পরিশ্রম সৌভাগ্যের প্রসূতি।", en: "Industry is the key to success." },
+        { n: 140, type: "Translation", bn: "তিনি নিয়মিত অফিস করেন।", en: "He works in his office regularly." },
+        { n: 141, type: "Translation", bn: "বঙ্গোপসাগর বাংলাদেশের দক্ষিণে অবস্থিত।", en: "The Bay of Bengal is situated on the south of Bangladesh." },
+        { n: 142, type: "Translation", bn: "ডাক্তার আসিবার পূর্বে রোগী মারা গেলেন।", en: "The patient had died before the doctor came." },
+        { n: 143, type: "Translation", bn: "অল্প বিদ্যা ভয়ঙ্করী।", en: "A little learning is a dangerous thing." },
+        { n: 144, type: "Translation", bn: "তিনি রোজ খবরের কাগজ পড়েন।", en: "He reads newspaper everyday." },
+        { n: 145, type: "Translation", bn: "সুন্দরবন বাংলাদেশের দক্ষিণে অবস্থিত।", en: "The Sundarban is to the South of Bangladesh." },
+        { n: 146, type: "Translation", bn: "লোভে পাপ পাপে মৃত্যু।", en: "Greed leads to sin and sin leads to death." },
+        { n: 147, type: "Translation", bn: "মা ছেলেটিকে দুধ খাওয়াচ্ছে।", en: "The mother is suckling the boy." },
+        { n: 148, type: "Translation", bn: "চকচক করলেই সোনা হয় না।", en: "All that glitters is not gold." },
+        { n: 149, type: "Translation", bn: "তুমি যতক্ষণ না ফেরো ততক্ষণ আমি অপেক্ষা করবো।", en: "I will wait for you until you come back." },
+        { n: 150, type: "Translation", bn: "২৬ মার্চ আমাদের জাতীয় ও স্বাধীনতা দিবস।", en: "26 March is our National and Independence Day." },
+        { n: 151, type: "Translation", bn: "আমার একটি হাত ঘড়ি আছে।", en: "I have a wrist-watch." },
+        { n: 152, type: "Translation", bn: "ধূমপান স্বাস্থ্যের জন্য ক্ষতিকর।", en: "Smoking is injurious to health." },
+        { n: 153, type: "Translation", bn: "সে হাসতে হাসতে চলে গেল।", en: "He went away laughing." },
+        { n: 154, type: "Translation", bn: "মুক্তিযোদ্ধারা জাতির শ্রেষ্ঠ সন্তান।", en: "Freedom fighters are the best children of the nation." },
+        { n: 155, type: "Translation", bn: "বারোটা বাজতে পনের মিনিট বাকি।", en: "It is a quarter to twelve." },
+        { n: 156, type: "Translation", bn: "সকলের সাথে বন্ধুত্ব কারও সাথে বৈরিতা নয়।", en: "Friendship to all, enmity to none." },
+        { n: 157, type: "Translation", bn: "শিশুটি কাঁদতে কাঁদতে আমার কাছে এলো।", en: "The child came to me crying." },
+        { n: 158, type: "Translation", bn: "পানি পরিবেশের একটি গুরুত্বপূর্ণ উপাদান।", en: "Water is an important element of the environment." },
+        { n: 159, type: "Translation", bn: "এটা উদ্ভিদ, প্রাণী এবং মানব জীবনের জন্য অপরিহার্য।", en: "It is essential for the lives of human, animal and plant." },
+        { n: 160, type: "Translation", bn: "বিশুদ্ধ পানি আমাদের জন্য নিরাপদ হলেও দূষিত পানি আমাদের স্বাস্থ্যের জন্য ক্ষতিকর।", en: "Although pure water is safe for us, contaminated water is harmful for our health." },
+        { n: 161, type: "Translation", bn: "পানি বিভিন্নভাবে দূষিত হতে পারে।", en: "Water can be contaminated in various ways." },
+        { n: 162, type: "Translation", bn: "দূষিত পানি পান করে আমরা অসুস্থ হতে পারি।", en: "We can get sick by drinking contaminated water." },
+        { n: 163, type: "Translation", bn: "জ্ঞানীরা বেশী কথা বলে না।", en: "The wise do not talk much." },
+        { n: 164, type: "Translation", bn: "এবারের সংগ্রাম মুক্তির সংগ্রাম।", en: "Struggle this time is the struggle for liberation." },
+        { n: 165, type: "Translation", bn: "তুমি কি কখনো বিদেশ গিয়েছ?", en: "Have you ever been abroad?" },
+        { n: 166, type: "Translation", bn: "বঙ্গবন্ধু বক্তৃতায় অদ্বিতীয় ছিলেন।", en: "As an orator Bangabandhu was second to none." },
+        { n: 167, type: "Translation", bn: "সে আমার মনের মতো লোক।", en: "He is a man after my heart." },
+        { n: 168, type: "Translation", bn: "মানুষ মানুষের জন্য।", en: "Man is for mankind." },
+        { n: 169, type: "Translation", bn: "আমি, তুমি ও সে দৌড়াচ্ছে।", en: "You, he and I are running." },
+        { n: 170, type: "Translation", bn: "তুমি কি সাঁতার কাটতে জানো?", en: "Do you know how to swim?" },
+        { n: 171, type: "Translation", bn: "সময় চলে যায়।", en: "Time flies." },
+        { n: 172, type: "Translation", bn: "আব্দুর রহিম কি স্কুলে যায়?", en: "Does Abdur Rahim go to school?" },
+        { n: 173, type: "Translation", bn: "সে শুধু বুদ্ধিমান নয় মেধাবীও বটে।", en: "He is not only intelligent but also talented." },
+        { n: 174, type: "Translation", bn: "যদিও সে বৃদ্ধ, তথাপি সে কর্মক্ষম।", en: "Though he is old, he is active." },
+        { n: 175, type: "Translation", bn: "সভা আরম্ভ হওয়ার পূর্বে আমি উপস্থিত হয়েছিলাম।", en: "I had been present before the meeting started." },
+        { n: 176, type: "Translation", bn: "সে কি স্কুলে যাচ্ছে না?", en: "Isn't he going to school?" },
+        { n: 177, type: "Translation", bn: "কুকথা বাতাসে ছড়ায়।", en: "Bad news travels fast." },
+        { n: 178, type: "Translation", bn: "সময়ের এক ফোঁড় অসময়ের দশ ফোঁড়।", en: "A stitch in time saves nine." },
+        { n: 179, type: "Translation", bn: "কলেজে যাবার পূর্বে সে ভাত খাইয়া থাকিবে।", en: "He will have eaten rice before he goes to college." },
+        { n: 180, type: "Translation", bn: "সদা সত্য কথা বলবে।", en: "Always speak the truth." },
+        { n: 181, type: "Translation", bn: "আমার খুব ক্ষুধা পেয়েছে।", en: "I am hungry." },
+        { n: 182, type: "Translation", bn: "মেয়েটি অংকে কাঁচা।", en: "The girl is weak in mathematics." },
+        { n: 183, type: "Translation", bn: "শিশুটির সর্দি হয়েছে।", en: "The child has caught a cold." }
+    ];
+
+    const studyContainer = document.getElementById('study-view');
+    const practiceContainer = document.getElementById('practice-view');
+
+    // ডাটা থেকে HTML জেনারেট করা
+    function renderApp(dataArray) {
+        let studyHTML = '';
+        let practiceHTML = '';
+
+        if (dataArray.length === 0) {
+            studyHTML = '<div class="no-result">কোনো ফলাফল পাওয়া যায়নি! 😞</div>';
+            practiceHTML = '<div class="no-result">কোনো ফলাফল পাওয়া যায়নি! 😞</div>';
+        } else {
+            dataArray.forEach((item) => {
+                const badgeClass = item.type === "Proverb" ? "proverb" : "translation";
+
+                // Study Mode Card
+                studyHTML += `
+                    <div class="card">
+                        <span class="badge ${badgeClass}">${item.type}</span>
+                        <div class="bn-text">${item.n}. ${item.bn}</div>
+                        <div class="en-text">${item.en}</div>
+                    </div>
+                `;
+
+                // Practice Mode Card
+                practiceHTML += `
+                    <div class="card practice-card" onclick="togglePracticeCard(this)">
+                        <span class="badge ${badgeClass}">${item.type}</span>
+                        <div class="bn-text">${item.n}. ${item.bn}</div>
+                        <div class="hidden-details">
+                            <div class="en-text">${item.en}</div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        studyContainer.innerHTML = studyHTML;
+        practiceContainer.innerHTML = practiceHTML;
+    }
+
+    // Search Function
+    function searchData() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        
+        const filteredData = appData.filter(item => {
+            return item.bn.toLowerCase().includes(query) || 
+                   item.en.toLowerCase().includes(query) ||
+                   item.type.toLowerCase().includes(query);
+        });
+
+        renderApp(filteredData);
+    }
+
+    // Tab Change Function
+    function switchTab(tabId) {
+        document.querySelectorAll('.view-section').forEach(section => {
+            section.classList.remove('active');
+        });
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+
+        if(tabId === 'study') {
+            document.getElementById('study-view').classList.add('active');
+            document.querySelectorAll('.nav-btn')[0].classList.add('active');
+        } else {
+            document.getElementById('practice-view').classList.add('active');
+            document.querySelectorAll('.nav-btn')[1].classList.add('active');
+        }
+    }
+
+    // Toggle Answer in Practice Mode
+    function togglePracticeCard(element) {
+        element.classList.toggle('open');
+    }
+
+    // অ্যাপ চালু করার সময় সব ডেটা দেখাবে
+    renderApp(appData);
+</script>
+
+</body>
+</html>
