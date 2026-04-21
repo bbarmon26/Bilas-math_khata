@@ -45,7 +45,7 @@
             margin-bottom: 5px;
         }
 
-        /* Search Bar Styles */
+        /* Search Bar */
         .search-container {
             text-align: center;
             margin-bottom: 25px;
@@ -70,14 +70,11 @@
             box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
         }
 
-        #searchInput::placeholder {
-            color: #64748b;
-        }
-
         /* Navigation Buttons */
         .nav-buttons {
             display: flex;
             justify-content: center;
+            flex-wrap: wrap;
             gap: 15px;
             margin-bottom: 30px;
         }
@@ -86,7 +83,7 @@
             background-color: var(--card-bg);
             color: var(--text-main);
             border: 2px solid #334155;
-            padding: 10px 25px;
+            padding: 10px 20px;
             font-size: 1.1rem;
             border-radius: 8px;
             cursor: pointer;
@@ -101,13 +98,10 @@
             box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
         }
 
-        /* Views */
-        .view-section {
-            display: none;
-        }
-
-        .view-section.active {
-            display: block;
+        #btn-favorites.active {
+            background-color: #f59e0b;
+            border-color: #f59e0b;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
         }
 
         /* Card Styles */
@@ -119,16 +113,42 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
             border: 1px solid #334155;
             transition: transform 0.2s, border-color 0.3s;
+            position: relative; /* For Star Button */
         }
 
         .card:hover {
             border-color: #475569;
         }
 
+        /* Favorite Star Button */
+        .fav-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            font-size: 2rem;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            outline: none;
+            z-index: 10;
+        }
+
+        .fav-btn.active {
+            color: #f59e0b; /* Golden Yellow */
+            text-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+        }
+
+        .fav-btn:hover {
+            transform: scale(1.15);
+        }
+
         .idiom-title {
             font-size: 1.6rem;
             font-weight: 700;
             margin-bottom: 15px;
+            padding-right: 40px; /* Space for star */
         }
 
         .meaning-line {
@@ -154,13 +174,12 @@
         /* Practice Mode Specifics */
         .practice-card {
             cursor: pointer;
-            position: relative;
         }
         
         .practice-card::after {
             content: '▼ চাপ দিন';
             position: absolute;
-            right: 20px;
+            right: 65px; /* Moved away from star */
             top: 30px;
             font-size: 0.9rem;
             color: #64748b;
@@ -210,18 +229,20 @@
     </div>
 
     <div class="nav-buttons">
-        <button class="nav-btn active" onclick="switchTab('study')">Study Mode (পড়ুন)</button>
-        <button class="nav-btn" onclick="switchTab('practice')">Practice Mode (প্র্যাকটিস)</button>
+        <button id="btn-study" class="nav-btn active" onclick="switchTab('study')">Study Mode</button>
+        <button id="btn-practice" class="nav-btn" onclick="switchTab('practice')">Practice</button>
+        <button id="btn-favorites" class="nav-btn" onclick="switchTab('favorites')">⭐ Favorites</button>
     </div>
 
-    <div id="study-view" class="view-section active"></div>
-
-    <div id="practice-view" class="view-section"></div>
+    <div id="app-content"></div>
 </div>
 
 <script>
     const titleColors = ['#10b981', '#f59e0b', '#3b82f6', '#8b5cf6', '#ec4899', '#14b8a6', '#f43f5e'];
 
+    // ==========================================
+    // নিচে আপনার ২১৭ টি ডেটা পেস্ট করুন
+    // ==========================================
     const idiomsData = [
         {number: 1, idiom: "Get by heart", idiomPron: "গেট বাই হার্ট", meaningEn: "Memorize", meaningBn: "মুখস্থ করা", exampleEn: "The student got the whole poem by heart.", exampleBn: "ছাত্রটি পুরো কবিতাটি মুখস্থ করেছিল।"},
         {number: 2, idiom: "At large", idiomPron: "অ্যাট লার্জ", meaningEn: "Free", meaningBn: "মুক্ত", exampleEn: "The notorious criminal is still at large.", exampleBn: "কুখ্যাত অপরাধীটি এখনো ধরাছোঁয়ার বাইরে।"},
@@ -300,7 +321,7 @@
         {number: 75, idiom: "White lie", idiomPron: "হোয়াইট লাই", meaningEn: "Harmless lie", meaningBn: "নির্দোষ মিথ্যা", exampleEn: "I told a white lie so I wouldn't hurt her feelings.", exampleBn: "আমি একটি নির্দোষ মিথ্যা বলেছিলাম যাতে তার খারাপ না লাগে।"},
         {number: 76, idiom: "Wild goose chase", idiomPron: "ওয়াইল্ড গুজ চেজ", meaningEn: "Pointless search", meaningBn: "পণ্ডশ্রম", exampleEn: "Looking for his lost ring in the river was a wild goose chase.", exampleBn: "নদীতে তার হারানো আংটি খোঁজা একটি পণ্ডশ্রম ছিল।"},
         {number: 77, idiom: "Take aback", idiomPron: "টেক অ্যাব্যাক", meaningEn: "Surprise", meaningBn: "অবাক করা", exampleEn: "I was completely taken aback by his rude behavior.", exampleBn: "তার অভদ্র আচরণে আমি পুরোপুরি অবাক হয়েছিলাম।"},
-        {number: 78, idiom: "Vicious circle", idiomPron: "ভিসিয়াস সার্কেল", meaningEn: "Bad cycle", meaningBn: "দুষ্টচক্র", exampleEn: "He is caught in the vicious circle of poverty and debt.", exampleBn: "সে দারিদ্র্য ও ঋণের দুষ্টচক্রে আটকা পড়েছে।"},
+        {number: 78, idiom: "Vicious circle", idiomPron: "ভিসিয়াস সার্কেল", meaningEn: "Bad cycle", meaningBn: "দুষ্টচক্র", exampleEn: "He is caught in the vicious circle of poverty and debt.",     exampleBn: "সে দারিদ্র্য ও ঋণের দুষ্টচক্রে আটকা পড়েছে।"},
         {number: 79, idiom: "Over head and ears", idiomPron: "ওভার হেড অ্যান্ড ইয়ারস", meaningEn: "Deeply", meaningBn: "গভীরভাবে", exampleEn: "The company is in debt over head and ears.", exampleBn: "কোম্পানিটি গভীরভাবে ঋণে নিমজ্জিত।"},
         {number: 80, idiom: "At home", idiomPron: "অ্যাট হোম", meaningEn: "Familiar/Skilled", meaningBn: "দক্ষ", exampleEn: "He is quite at home in English grammar.", exampleBn: "সে ইংরেজি গ্রামারে বেশ দক্ষ।"},
         {number: 81, idiom: "Foot loose and fancy-free", idiomPron: "ফুট লুজ অ্যান্ড ফ্যান্সি-ফ্রি", meaningEn: "Carefree", meaningBn: "দায়িত্বমুক্ত", exampleEn: "As a bachelor, he is foot loose and fancy-free.", exampleBn: "অবিবাহিত হিসেবে সে একদম দায়িত্বমুক্ত।"},
@@ -442,22 +463,72 @@
         {number: 217, idiom: "Nip in the bud", idiomPron: "নিপ ইন দ্য বাড", meaningEn: "Destroy at start", meaningBn: "অঙ্কুরে বিনষ্ট করা", exampleEn: "All bad habits should be nipped in the bud.", exampleBn: "সব খারাপ অভ্যাস অঙ্কুরেই বিনষ্ট করা উচিত।"}
     ];
 
-    const studyContainer = document.getElementById('study-view');
-    const practiceContainer = document.getElementById('practice-view');
+     let currentTab = 'study';
+    // ব্রাউজার থেকে সেভ করা ফেভারিটস খুঁজে বের করা
+    let favorites = JSON.parse(localStorage.getItem('idiomFavs')) || [];
 
-    // ডাটা থেকে HTML জেনারেট করা (সার্চ রেজাল্ট অনুযায়ী)
-    function renderApp(dataArray) {
-        let studyHTML = '';
-        let practiceHTML = '';
-
-        if (dataArray.length === 0) {
-            studyHTML = '<div class="no-result">কোনো ফলাফল পাওয়া যায়নি! 😞</div>';
-            practiceHTML = '<div class="no-result">কোনো ফলাফল পাওয়া যায়নি! 😞</div>';
+    // ফেভারিট সেভ বা ডিলিট করার ফাংশন
+    function toggleFavorite(id, event) {
+        event.stopPropagation(); // Practice কার্ডে চাপ দিলে যেন খুলে না যায়
+        
+        if(favorites.includes(id)) {
+            // আগে থেকে ফেভারিট থাকলে বাদ দেবে
+            favorites = favorites.filter(favId => favId !== id);
         } else {
-            dataArray.forEach((item, index) => {
-                const color = titleColors[index % titleColors.length];
+            // নতুন করে ফেভারিট লিস্টে যোগ করবে
+            favorites.push(id);
+        }
+        
+        // ব্রাউজারে সেভ করা
+        localStorage.setItem('idiomFavs', JSON.stringify(favorites));
+        renderCards(); // UI আপডেট করা
+    }
 
-                // উচ্চারণ এবং নতুন উদাহরণ যোগ করা হয়েছে
+    // ট্যাব চেঞ্জ করার ফাংশন
+    function switchTab(tabId) {
+        currentTab = tabId;
+        document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById('btn-' + tabId).classList.add('active');
+        renderCards();
+    }
+
+    // Practice কার্ড ওপেন/ক্লোজ করার ফাংশন
+    function togglePracticeCard(element) {
+        element.classList.toggle('open');
+    }
+
+    // সার্চ ফাংশন
+    function searchIdioms() {
+        renderCards();
+    }
+
+    // স্ক্রিনে কার্ডগুলো দেখানোর ফাংশন
+    function renderCards() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        
+        // সার্চ অনুযায়ী ফিল্টার
+        let dataToRender = idiomsData.filter(item => {
+            return item.idiom.toLowerCase().includes(query) || 
+                   item.meaningEn.toLowerCase().includes(query) || 
+                   item.meaningBn.includes(query);
+        });
+
+        // যদি Favorites ট্যাবে থাকি, তবে শুধু সেভ করাগুলো দেখাবো
+        if(currentTab === 'favorites') {
+            dataToRender = dataToRender.filter(item => favorites.includes(item.number));
+        }
+
+        let html = '';
+
+        if (dataToRender.length === 0) {
+            html = '<div class="no-result">কোনো ফলাফল বা ফেভারিট পাওয়া যায়নি! 😞</div>';
+        } else {
+            dataToRender.forEach((item, index) => {
+                const color = titleColors[index % titleColors.length];
+                const isFav = favorites.includes(item.number);
+                const starIcon = isFav ? '★' : '☆';
+                const starClass = isFav ? 'fav-btn active' : 'fav-btn';
+
                 const detailsHTML = `
                     <div class="pronunciation-line" style="color: #94a3b8; font-size: 1.1rem; margin-bottom: 5px;">
                         <strong>উচ্চারণ:</strong> ${item.idiomPron}
@@ -469,66 +540,33 @@
                     </div>
                 `;
 
-                studyHTML += `
-                    <div class="card">
-                        <div class="idiom-title" style="color: ${color}">${item.number}. ${item.idiom}</div>
-                        <div>${detailsHTML}</div>
-                    </div>
-                `;
-
-                practiceHTML += `
-                    <div class="card practice-card" onclick="togglePracticeCard(this)">
-                        <div class="idiom-title" style="color: ${color}">${item.number}. ${item.idiom}</div>
-                        <div class="hidden-details">
-                            ${detailsHTML}
+                if (currentTab === 'practice') {
+                    html += `
+                        <div class="card practice-card" onclick="togglePracticeCard(this)">
+                            <button class="${starClass}" onclick="toggleFavorite(${item.number}, event)">${starIcon}</button>
+                            <div class="idiom-title" style="color: ${color}">${item.number}. ${item.idiom}</div>
+                            <div class="hidden-details">
+                                ${detailsHTML}
+                            </div>
                         </div>
-                    </div>
-                `;
+                    `;
+                } else {
+                    html += `
+                        <div class="card">
+                            <button class="${starClass}" onclick="toggleFavorite(${item.number}, event)">${starIcon}</button>
+                            <div class="idiom-title" style="color: ${color}">${item.number}. ${item.idiom}</div>
+                            <div>${detailsHTML}</div>
+                        </div>
+                    `;
+                }
             });
         }
 
-        studyContainer.innerHTML = studyHTML;
-        practiceContainer.innerHTML = practiceHTML;
+        document.getElementById('app-content').innerHTML = html;
     }
 
-    // Search Function
-    function searchIdioms() {
-        const query = document.getElementById('searchInput').value.toLowerCase();
-        
-        const filteredData = idiomsData.filter(item => {
-            return item.idiom.toLowerCase().includes(query) || 
-                   item.meaningEn.toLowerCase().includes(query) || 
-                   item.meaningBn.includes(query);
-        });
-
-        renderApp(filteredData);
-    }
-
-    // Tab Change Function
-    function switchTab(tabId) {
-        document.querySelectorAll('.view-section').forEach(section => {
-            section.classList.remove('active');
-        });
-        document.querySelectorAll('.nav-btn').forEach(btn => {
-            btn.classList.remove('active');
-        });
-
-        if(tabId === 'study') {
-            document.getElementById('study-view').classList.add('active');
-            document.querySelectorAll('.nav-btn')[0].classList.add('active');
-        } else {
-            document.getElementById('practice-view').classList.add('active');
-            document.querySelectorAll('.nav-btn')[1].classList.add('active');
-        }
-    }
-
-    // Toggle Answer in Practice Mode
-    function togglePracticeCard(element) {
-        element.classList.toggle('open');
-    }
-
-    // অ্যাপ চালু করার সময় সব ডেটা দেখাবে
-    renderApp(idiomsData);
+    // অ্যাপ চালু করা
+    renderCards();
 </script>
 
 </body>
