@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>কারক কমপ্লিট মাস্টারক্লাস ও কুইজ</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap');
+
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #cbd5e1;
+            
+            --kortri: #3b82f6; 
+            --kormo: #10b981; 
+            --koron: #f59e0b;
+            --samprodan: #8b5cf6;
+            --opadan: #ec4899;
+            --odhikoron: #14b8a6;
+            --quiz-accent: #facc15;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container { max-width: 950px; margin: 0 auto; }
+
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px dashed #334155;
+        }
+
+        header h1 { font-size: 2.2rem; color: #fcd34d; margin-bottom: 5px; }
+        header p { color: var(--text-muted); font-size: 1.1rem; }
+
+        /* Tabs */
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .nav-btn {
+            background-color: var(--card-bg);
+            color: var(--text-main);
+            border: 2px solid #334155;
+            padding: 12px 25px;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            font-weight: 700;
+        }
+
+        .nav-btn.active {
+            background-color: var(--kortri);
+            border-color: var(--kortri);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        #btn-quiz.active {
+            background-color: var(--quiz-accent);
+            border-color: var(--quiz-accent);
+            color: #0f172a;
+            box-shadow: 0 4px 12px rgba(250, 204, 21, 0.4);
+        }
+
+        /* Views */
+        .view-section { display: none; animation: fadeIn 0.4s; }
+        .view-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Notes Styles (Same as before) */
+        .karok-section { background-color: var(--card-bg); border-radius: 12px; padding: 25px; margin-bottom: 30px; border-top: 5px solid; }
+        .section-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 15px; display: inline-block; padding: 5px 15px; border-radius: 8px; color: #fff; }
+        .definition { font-size: 1.2rem; margin-bottom: 20px; padding-left: 15px; border-left: 4px solid #94a3b8; background: rgba(255,255,255,0.03); padding: 10px 15px; border-radius: 0 8px 8px 0; }
+        .highlight { color: #f472b6; font-weight: 700; border-bottom: 1px dashed #f472b6;}
+        .pro-tip { background-color: #312e81; border-left: 5px solid #a78bfa; padding: 15px; border-radius: 0 8px 8px 0; margin: 20px 0; }
+        .pro-tip strong { color: #c4b5fd; font-size: 1.2rem; }
+        .vs-box { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; background: #0f172a; border: 1px dashed #64748b; padding: 15px; border-radius: 8px; margin-top: 15px; }
+        .vs-item { padding: 15px; border-radius: 6px; }
+        .vs-item.left-side { background: rgba(52, 211, 153, 0.1); border-left: 3px solid #34d399; }
+        .vs-item.right-side { background: rgba(244, 63, 94, 0.1); border-left: 3px solid #f43f5e; }
+
+        /* Quiz Styles */
+        .quiz-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--quiz-accent);
+        }
+        .question-text {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .option-btn {
+            background: #0f172a;
+            border: 2px solid #334155;
+            color: #e2e8f0;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-family: inherit;
+            cursor: pointer;
+            transition: 0.2s;
+            text-align: left;
+        }
+        .option-btn:hover:not(:disabled) {
+            background: #1e293b;
+            border-color: var(--quiz-accent);
+        }
+        .option-btn.correct { background: #065f46; border-color: #10b981; color: #fff; }
+        .option-btn.wrong { background: #7f1d1d; border-color: #f43f5e; color: #fff; }
+        
+        .explanation-box {
+            display: none;
+            margin-top: 15px;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid var(--quiz-accent);
+            border-radius: 0 8px 8px 0;
+            color: #cbd5e1;
+            font-size: 1.1rem;
+            animation: fadeIn 0.4s;
+        }
+        
+        @media (max-width: 600px) {
+            .vs-box, .options-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>কারক প্রো-মাস্টারি</h1>
+        <p>বইয়ের শর্টকাট টেকনিক ও স্মার্ট কুইজ সিস্টেম</p>
+    </header>
+
+    <div class="nav-buttons">
+        <button id="btn-notes" class="nav-btn active" onclick="switchTab('notes')">📖 স্টাডি মোড</button>
+        <button id="btn-quiz" class="nav-btn" onclick="switchTab('quiz')">📝 নিজেকে যাচাই করুন</button>
+    </div>
+
+    <div id="notes-view" class="view-section active">
+        <div class="karok-section" style="border-top-color: var(--kortri);">
+            <div class="section-title" style="background-color: var(--kortri);">১. কর্তৃকারক (যে কাজ করে)</div>
+            <div class="definition">
+                <strong>শর্টকাট:</strong> ক্রিয়াকে <em>কে / কারা</em> দিয়ে প্রশ্ন করলে উত্তর পাওয়া যায়।
+            </div>
+            <div class="pro-tip">
+                <strong>🎯 প্রো-টিপস: বস্তুও কর্তা হতে পারে!</strong> 
+                যদি কোনো বস্তু নিজে নিজে কাজ সম্পন্ন করে বলে মনে হয়, তবে সেটিও কর্তৃকারক।
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><span class="highlight">বাঁশি</span> বাজে ওই দূরে। (বাঁশি নিজে বাজছে)</li>
+                    <li><span class="highlight">স্রোতে</span> নৌকাটি উলটাইয়া দিল। (উল্টানোর কাজ স্রোত করেছে)</li>
+                    <li><span class="highlight">জল</span> পড়ে, পাতা নড়ে।</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="karok-section" style="border-top-color: var(--kormo);">
+            <div class="section-title" style="background-color: var(--kormo);">২. কর্মকারক (যাকে আশ্রয় করে কাজ হয়)</div>
+            <div class="definition">
+                <strong>শর্টকাট:</strong> ক্রিয়াকে <em>কী / কাকে</em> দিয়ে প্রশ্ন করলে উত্তর পাওয়া যায়।
+            </div>
+            <div class="pro-tip" style="background-color: #451a03; border-color: #facc15;">
+                <strong style="color:#facc15;">🔥 চূড়ান্ত সতর্কতা: 'কাকে' দিয়ে প্রশ্ন করলেই কর্মকারক নয়!</strong><br>
+                বাক্যে যদি ব্যক্তি নিজেই কাজ করতে বাধ্য হয়, তবে সে কর্তৃকারক (প্রযোজ্য কর্তা) হয়ে যাবে।
+                <div class="vs-box">
+                    <div class="vs-item left-side">
+                        <strong>কর্মকারক (কাজ অন্য কেউ করে)</strong><br>
+                        - <span class="highlight">রহিমকে</span> ডাকো। (তুমি ডাকবে)<br>
+                        - <span class="highlight">তাকে</span> যেতে দাও।
+                    </div>
+                    <div class="vs-item right-side">
+                        <strong>কর্তৃকারক (সে নিজেই কাজ করবে)</strong><br>
+                        - <span class="highlight">রহিমকে</span> যেতে হবে। (রহিম নিজেই যাবে)<br>
+                        - <span class="highlight">আমার</span> যাওয়া হবে না।
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="karok-section" style="border-top-color: var(--koron);">
+            <div class="section-title" style="background-color: var(--koron);">৩. করণ কারক (যন্ত্র/উপায়)</div>
+            <div class="definition">
+                <strong>শর্টকাট:</strong> <em>কী দিয়ে / কীসের দ্বারা / কী উপায়ে</em> প্রশ্ন করলে উত্তর পাওয়া যায়।
+            </div>
+            <div class="pro-tip">
+                <strong>🎯 প্রো-টিপস: খেলার প্যাঁচ!</strong> 
+                খেলার 'উপকরণ' (যা দিয়ে খেলা হয়) বোঝালে <strong>করণ কারক</strong>। আর শুধু 'খেলার নাম' বোঝালে <strong>কর্মকারক</strong>।
+                <div class="vs-box">
+                    <div class="vs-item left-side">
+                        <strong>করণ (উপকরণ)</strong><br>
+                        ছেলেরা <span class="highlight">তাস/মার্বেল</span> খেলে।
+                    </div>
+                    <div class="vs-item right-side">
+                        <strong>কর্ম (খেলার নাম)</strong><br>
+                        ছেলেরা <span class="highlight">ক্রিকেট/হাডুডু</span> খেলে।
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="karok-section" style="border-top-color: var(--samprodan);">
+            <div class="section-title" style="background-color: var(--samprodan);">৪. সম্প্রদান কারক</div>
+            <div class="definition">
+                <strong>শর্টকাট:</strong> যাকে স্বত্ব ত্যাগ করে (নিঃস্বার্থভাবে) দান করা হয়।
+            </div>
+            <div class="pro-tip" style="background-color: #451a03; border-color: #facc15;">
+                <strong style="color:#facc15;">🔥 শর্ত বা প্রতিদান থাকলে কর্মকারক!</strong><br>
+                <span class="highlight">ভিখারিকে</span> ভিক্ষা দাও (সম্প্রদান) <strong>VS</strong> <span class="highlight">ধোপাকে</span> কাপড় দাও (কর্মকারক)।
+            </div>
+        </div>
+
+        <div class="karok-section" style="border-top-color: var(--opadan);">
+            <div class="section-title" style="background-color: var(--opadan);">৫. অপাদান কারক</div>
+            <div class="definition">
+                <strong>শর্টকাট:</strong> বিচ্যুত, উৎপন্ন, আরম্ভ এবং <strong>ভীত (ভয় পাওয়া)</strong> বোঝালে। (কোথা হতে / কী থেকে)
+            </div>
+            <div class="pro-tip">
+                <strong>🎯 প্রো-টিপস: ভয়ের উৎস সবসময় অপাদান!</strong><br>
+                যেমন: <span class="highlight">বাঘকে</span> ভয় পায় না কে? <span class="highlight">পরীক্ষার</span> ভয়ে জ্বর এসেছে। (এগুলো অপাদান)
+            </div>
+        </div>
+
+        <div class="karok-section" style="border-top-color: var(--odhikoron);">
+            <div class="section-title" style="background-color: var(--odhikoron);">৬. অধিকরণ কারক</div>
+            <div class="definition">
+                <strong>শর্টকাট:</strong> ক্রিয়া সম্পাদনের সময়, স্থান বা বিষয়। (কোথায় / কখন / কী বিষয়ে)
+            </div>
+            <div class="pro-tip" style="background-color: #451a03; border-color: #facc15;">
+                <strong style="color:#facc15;">🔥 তিলে তৈল আছে VS তিলে তৈল হয়</strong><br>
+                ভেতরে বিদ্যমান থাকলে অধিকরণ (<span class="highlight">তিলে</span> তৈল আছে)। আর উৎপন্ন হওয়া বোঝালে অপাদান (<span class="highlight">তিলে</span> তৈল হয়)।
+            </div>
+        </div>
+    </div>
+
+
+    <div id="quiz-view" class="view-section">
+        <div id="quiz-container"></div>
+    </div>
+
+</div>
+
+<script>
+    // Tab Switching Logic
+    function switchTab(tabId) {
+        document.querySelectorAll('.view-section').forEach(section => section.classList.remove('active'));
+        document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+        
+        document.getElementById(tabId + '-view').classList.add('active');
+        document.getElementById('btn-' + tabId).classList.add('active');
+
+        if (tabId === 'quiz') {
+            loadQuiz();
+        }
+    }
+
+    // Quiz Question Bank
+    const quizQuestions = [
+        {
+            q: "<span class='highlight'>তিলে</span> তৈল আছে। - দাগাঙ্কিত শব্দটি কোন কারক?",
+            options: ["কর্মকারক", "করণ কারক", "অপাদান কারক", "অধিকরণ কারক"],
+            ans: 3,
+            exp: "💡 প্রো-টিপ: তিলের ভেতরে তেল 'বিদ্যমান' আছে (স্থান/আধার বোঝাচ্ছে)। তাই এটি অধিকরণ কারক।"
+        },
+        {
+            q: "<span class='highlight'>তিলে</span> তৈল হয়। - এটি কোন কারক?",
+            options: ["কর্তৃকারক", "করণ কারক", "অপাদান কারক", "অধিকরণ কারক"],
+            ans: 2,
+            exp: "💡 প্রো-টিপ: তিল থেকে তেল 'উৎপন্ন' বা 'জাত' হয়। উৎপন্ন হওয়া বোঝালে অপাদান কারক হয়।"
+        },
+        {
+            q: "<span class='highlight'>রহিমকে</span> যেতে হবে। - এটি কোন কারক?",
+            options: ["কর্তৃকারক", "কর্মকারক", "সম্প্রদান কারক", "অপাদান কারক"],
+            ans: 0,
+            exp: "🔥 সাবধান! 'কাকে' দিয়ে প্রশ্ন করলেও এখানে যাওয়ার কাজটা রহিম নিজেই করবে। তাই এটি কর্তৃকারক (প্রযোজ্য কর্তা)।"
+        },
+        {
+            q: "<span class='highlight'>রহিমকে</span> ডাকো। - এটি কোন কারক?",
+            options: ["কর্তৃকারক", "কর্মকারক", "করণ কারক", "অধিকরণ কারক"],
+            ans: 1,
+            exp: "💡 ডাকার কাজটা রহিম করছে না, অন্য কেউ করছে। তাই 'কাকে' প্রশ্ন করে পাওয়া রহিম এখানে কর্মকারক।"
+        },
+        {
+            q: "ছেলেরা <span class='highlight'>তাস</span> খেলে। - এটি কোন কারক?",
+            options: ["কর্মকারক", "করণ কারক", "অপাদান কারক", "অধিকরণ কারক"],
+            ans: 1,
+            exp: "💡 প্রো-টিপ: 'তাস' হলো খেলার একটি উপকরণ (যার সাহায্যে খেলা হয়)। যন্ত্র বা সহায়ক হলে করণ কারক হয়।"
+        },
+        {
+            q: "ছেলেরা <span class='highlight'>ক্রিকেট</span> খেলে। - এটি কোন কারক?",
+            options: ["কর্তৃকারক", "কর্মকারক", "করণ কারক", "অধিকরণ কারক"],
+            ans: 1,
+            exp: "💡 প্রো-টিপ: 'ক্রিকেট' কোনো উপকরণ বা বস্তু নয়, এটি শুধুই একটি খেলার নাম। কী খেলে? ক্রিকেট (কর্মকারক)।"
+        },
+        {
+            q: "<span class='highlight'>বাঘকে</span> ভয় পায় না কে? - এটি কোন কারক?",
+            options: ["কর্মকারক", "করণ কারক", "অপাদান কারক", "অধিকরণ কারক"],
+            ans: 2,
+            exp: "💡 প্রো-টিপ: ভয়ের উৎস (যা থেকে ভয় উৎপন্ন হয়) সবসময় অপাদান কারক হয়।"
+        },
+        {
+            q: "<span class='highlight'>স্রোতে</span> নৌকাটি উলটাইয়া দিল। - এটি কোন কারক?",
+            options: ["কর্তৃকারক", "কর্মকারক", "করণ কারক", "অপাদান কারক"],
+            ans: 0,
+            exp: "💡 প্রো-টিপ: নৌকাটি উল্টানোর কাজটি 'স্রোত' নিজেই করেছে। জড়বস্তু কাজ করলেও সে কর্তৃকারক হয়।"
+        },
+        {
+            q: "ট্রেন <span class='highlight'>ঢাকা</span> ছাড়ল। - এটি কোন কারক?",
+            options: ["কর্মকারক", "করণ কারক", "অপাদান কারক", "অধিকরণ কারক"],
+            ans: 2,
+            exp: "💡 প্রো-টিপ: ঢাকা থেকে 'বিচ্যুত' বা আলাদা হওয়া বোঝাচ্ছে। বিচ্যুত হলে অপাদান কারক হয়।"
+        },
+        {
+            q: "<span class='highlight'>ধোপাকে</span> কাপড় দাও। - এটি কোন কারক?",
+            options: ["কর্তৃকারক", "কর্মকারক", "সম্প্রদান কারক", "অধিকরণ কারক"],
+            ans: 1,
+            exp: "🔥 সাবধান! ধোপাকে কাপড় দিলে তা ধুয়ে ফেরত নেওয়া হয় (স্বত্ব ত্যাগ করা হয় না)। তাই এটি কর্মকারক।"
+        }
+    ];
+
+    // Shuffle Array for Randomizing Quiz
+    function shuffle(array) {
+        let currentIndex = array.length, randomIndex;
+        while (currentIndex !== 0) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+            [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+        }
+        return array;
+    }
+
+    // Render Quiz
+    function loadQuiz() {
+        const quizContainer = document.getElementById('quiz-container');
+        let html = '';
+        
+        // Randomly select 5 questions for a quick test
+        const selectedQuestions = shuffle([...quizQuestions]).slice(0, 10);
+
+        selectedQuestions.forEach((item, qIndex) => {
+            html += `
+                <div class="quiz-card">
+                    <div class="question-text">${qIndex + 1}. ${item.q}</div>
+                    <div class="options-grid">
+                        ${item.options.map((opt, oIndex) => `
+                            <button class="option-btn" id="btn-${qIndex}-${oIndex}" onclick="checkAnswer(${qIndex}, ${oIndex}, ${item.ans})">
+                                ${opt}
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div class="explanation-box" id="exp-${qIndex}">
+                        ${item.exp}
+                    </div>
+                </div>
+            `;
+        });
+
+        quizContainer.innerHTML = html;
+    }
+
+    // Check Answer Logic
+    function checkAnswer(qIndex, selectedOpt, correctOpt) {
+        // Disable all buttons in this question
+        for(let i = 0; i < 4; i++) {
+            document.getElementById(`btn-${qIndex}-${i}`).disabled = true;
+        }
+
+        // Highlight selected and correct
+        const selectedBtn = document.getElementById(`btn-${qIndex}-${selectedOpt}`);
+        const correctBtn = document.getElementById(`btn-${qIndex}-${correctOpt}`);
+
+        if (selectedOpt === correctOpt) {
+            selectedBtn.classList.add('correct');
+        } else {
+            selectedBtn.classList.add('wrong');
+            correctBtn.classList.add('correct');
+        }
+
+        // Show Explanation
+        document.getElementById(`exp-${qIndex}`).style.display = 'block';
+    }
+
+</script>
+
+</body>
+</html>
