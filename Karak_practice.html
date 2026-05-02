@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>কারক ও বিভক্তি মাস্টার - আল্টিমেট প্রো</title>
+    <style>
+        /* Modern Animated Background */
+        body {
+            font-family: 'Kalpurush', 'SolaimanLipi', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #1f1c2c, #928dab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            scroll-behavior: smooth;
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Glassmorphism Main Container */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            max-width: 850px;
+            width: 100%;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+            margin-bottom: 50px; /* নিচের দিকে একটু জায়গা রাখার জন্য */
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 32px;
+            background: linear-gradient(to right, #00f2fe, #4facfe, #00f2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            border-bottom: 2px dashed rgba(255,255,255,0.2);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        /* Toolbar Styles */
+        .toolbar {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .search-box {
+            flex-grow: 1;
+            padding: 15px 25px;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(0,0,0,0.4);
+            color: #fff;
+            font-size: 18px;
+            outline: none;
+            transition: 0.3s;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+        }
+        .search-box:focus {
+            border-color: #00f2fe;
+            background: rgba(0,0,0,0.6);
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+        }
+        .btn {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: #000;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(79, 172, 254, 0.6);
+        }
+        .btn-fav {
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+            box-shadow: 0 5px 15px rgba(246, 211, 101, 0.4);
+        }
+        .btn-fav:hover {
+            box-shadow: 0 8px 20px rgba(246, 211, 101, 0.6);
+        }
+
+        /* Item Styles - Reading Friendly */
+        .karak-item {
+            margin-bottom: 20px;
+            font-size: 20px;
+            line-height: 1.8;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            scroll-margin-top: 100px;
+        }
+        .karak-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-left: 4px solid #00f2fe;
+            transform: scale(1.01);
+        }
+        .serial {
+            color: #00f2fe;
+            font-weight: bold;
+            font-size: 22px;
+            min-width: 45px;
+        }
+        .sentence-content {
+            flex-grow: 1;
+            letter-spacing: 0.5px;
+        }
+        .karak-word {
+            background: rgba(255, 235, 59, 0.15);
+            border-bottom: 2px dashed #ffeb3b;
+            padding: 2px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #ffeb3b;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+        .karak-word:hover {
+            background: #ffeb3b;
+            color: #000;
+        }
+        .answer {
+            display: none;
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            color: #000;
+            padding: 6px 15px;
+            border-radius: 30px;
+            margin-left: 15px;
+            font-size: 17px;
+            animation: bounceIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(56, 239, 125, 0.4);
+            white-space: nowrap;
+        }
+        
+        /* Floating Right Navigator - Moved to Bottom Right */
+        .right-nav {
+            position: fixed;
+            right: 30px;
+            bottom: 30px; /* স্ক্রিনের একদম নিচে ডান কোণায় */
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end; /* কন্টেন্ট নিচে থেকে শুরু হবে */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 100;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden; 
+            width: 65px;
+            height: 65px;
+        }
+        .right-nav.expanded {
+            border-radius: 25px;
+            width: 70px;
+            height: 290px; /* প্যানেল খোলার পর উচ্চতা */
+            padding-top: 15px;
+            padding-bottom: 10px;
+            cursor: default;
+        }
+        
+        /* The rocket emoji always visible at the bottom */
+        .rocket-toggle {
+            font-size: 30px;
+            user-select: none;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 65px;
+        }
+        .right-nav.expanded .rocket-toggle {
+            transform: rotate(-45deg) scale(1.1);
+            height: 50px;
+        }
+
+        /* Panel contents, hidden until expanded */
+        .nav-panel-contents {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            height: 0;
+            pointer-events: none;
+        }
+        .right-nav.expanded .nav-panel-contents {
+            opacity: 1;
+            height: auto;
+            pointer-events: auto;
+            margin-bottom: 5px;
+        }
+
+        .nav-btn {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            border: none;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            transition: 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .nav-btn:hover {
+            background: #00f2fe;
+            color: #000;
+            transform: scale(1.1);
+        }
+        .jump-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            border-top: 1px dashed rgba(255,255,255,0.2);
+            border-bottom: 1px dashed rgba(255,255,255,0.2);
+            padding: 10px 0;
+        }
+        .jump-input {
+            width: 40px;
+            padding: 8px 5px;
+            border-radius: 8px;
+            border: 1px solid #4facfe;
+            background: rgba(0,0,0,0.5);
+            color: #fff;
+            text-align: center;
+            font-size: 14px;
+            outline: none;
+        }
+        .jump-input:focus {
+            background: #fff;
+            color: #000;
+        }
+        .jump-btn {
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        /* Favorite Icon */
+        .fav-icon {
+            cursor: pointer;
+            font-size: 26px;
+            color: rgba(255,255,255,0.2);
+            transition: 0.3s;
+            user-select: none;
+        }
+        .fav-icon.active {
+            color: #f6d365;
+            text-shadow: 0 0 15px rgba(246, 211, 101, 0.8);
+            transform: scale(1.2);
+        }
+
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.8) translateX(-20px); }
+            100% { opacity: 1; transform: scale(1) translateX(0); }
+        }
+        
+        .no-results {
+            text-align: center;
+            color: #ff4b2b;
+            font-size: 20px;
+            display: none;
+            padding: 30px;
+            background: rgba(255,0,0,0.1);
+            border-radius: 15px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .glass-panel { padding: 20px; margin-bottom: 100px; }
+            .right-nav {
+                right: 20px;
+                bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="glass-panel">
+        <h2>🎯 কারক ও বিভক্তি মাস্টার 📚</h2>
+        
+        <div class="toolbar">
+            <input type="text" id="searchInput" class="search-box" placeholder="🔍 যেকোনো বাক্য বা শব্দ খুঁজুন..." onkeyup="filterItems()">
+            <button class="btn btn-fav" id="favToggleBtn" onclick="toggleFavView()">⭐ ফেভারিটগুলো</button>
+            <button class="btn" onclick="scrollToLastRead()">🕒 শেষ পড়া স্থানে যান</button>
+        </div>
+
+        <div id="no-results" class="no-results">কোনো ফলাফল পাওয়া যায়নি! 😢</div>
+        <div id="karak-container"></div>
+    </div>
+
+    <div class="right-nav" id="rightNav" onclick="toggleNavPanel(event)">
+        <div class="nav-panel-contents">
+            <button class="nav-btn" onclick="window.scrollTo(0,0)" title="উপরে যান">⬆️</button>
+            
+            <div class="jump-container">
+                <input type="number" id="jumpInput" class="jump-input" placeholder="নং">
+                <button class="jump-btn" onclick="jumpToQuestion()">যান</button>
+            </div>
+            
+            <button class="nav-btn" onclick="window.scrollTo(0, document.body.scrollHeight)" title="নিচে যান">⬇️</button>
+        </div>
+        
+        <div class="rocket-toggle" title="কুইক ন্যাভিগেটর প্যানেল খুলুন/বন্ধ করুন">🚀</div>
+    </div>
+
+    <script>
+        // ৬৫ ও ৬৬ নম্বর পৃষ্ঠার ডেটা (১১৫টি প্রশ্ন)
+        const karakData = [
+            { sentence: "সর্বাঙ্গে ব্যথা, ঔষধ দেব কোথা-", word: "ঔষধ", answer: "কর্মকারকে শূন্য" },
+            { sentence: "আকাশে তো আমি রাখি নাই মোর উড়িবার ইতিহাস।", word: "আকাশে", answer: "অধিকরণে ৭মী" },
+            { sentence: "দ্বারা, দিয়া, কর্তৃক- ব্যাকরণ অনুযায়ী কোন বিভক্তি?", word: "দ্বারা, দিয়া, কর্তৃক", answer: "৩য়া বিভক্তি" },
+            { sentence: "রবীন্দ্রনাথ ঠাকুর কোন কারক বাদ দিতে চেয়েছিলেন?", word: "রবীন্দ্রনাথ ঠাকুর কোন কারক বাদ দিতে চেয়েছিলেন?", answer: "সম্প্রদান কারক" },
+            { sentence: "ধোপায় কাপড় কাঁচে।", word: "ধোপায়", answer: "কর্তৃ কারকে ৭মী" },
+            { sentence: "শিশুগণ দেয় মন নিজ নিজ পাঠে।", word: "শিশুগণ", answer: "কর্তৃ কারকে শূন্য" },
+            { sentence: "শিশুগণ দেয় মন নিজ নিজ পাঠে।", word: "পাঠে", answer: "অধিকরণে ৭মী" },
+            { sentence: "নতুন ধানে হবে নবান্ন।", word: "ধানে", answer: "করণে ৭মী" },
+            { sentence: "তিলে তৈল হয়।", word: "তিলে", answer: "অপাদানে ৭মী" },
+            { sentence: "আকাশের ঐ মিটি মিটি তারার সনে", word: "তারার", answer: "কর্মে ৬ষ্ঠী" },
+            { sentence: "ছাত্ররা বল খেলে।", word: "বল", answer: "করণে শূন্য" },
+            { sentence: "সৎ পাত্রে কন্যা দান কর।", word: "সৎ পাত্রে", answer: "সম্প্রদানে ৭মী" },
+            { sentence: "রিকশায় এসেছি।", word: "রিকশায়", answer: "করণকারকে ৭মী" },
+            { sentence: "গগনে উঠিল রবি লোহিত বরণ।", word: "গগনে", answer: "অধিকরণে ৭মী" },
+            { sentence: "খুব ঠকা খেয়েছি।", word: "ঠকা", answer: "কর্মে শূন্য" },
+            { sentence: "হৃদয় আমার নাচিবে আজিকে।", word: "আজিকে", answer: "অধিকরণে ২য়া" },
+            { sentence: "রকিব অঙ্কে কাঁচা।", word: "অঙ্কে", answer: "অধিকরণে ৭মী" },
+            { sentence: "চেষ্টায় সব হয়।", word: "চেষ্টায়", answer: "করণে ৭মী" },
+            { sentence: "আমি ঢাকা যাব।", word: "ঢাকা", answer: "অধিকরণে ৭মী" },
+            { sentence: "পলাতক দাসে দাও স্বাধীনতা।", word: "দাসে", answer: "সম্প্রদানে ৭মী" },
+            { sentence: "লোকমুখে খবর পেলাম।", word: "লোকমুখে", answer: "অপাদানে ৭মী" },
+            { sentence: "আমার সোনার ধানে গিয়েছে ভরে।", word: "ধানে", answer: "করণে ৭মী" },
+            { sentence: "তর্কে বিরত হও।", word: "তর্কে", answer: "অপাদানে ৭মী" },
+            { sentence: "পাখি সব করে রব রাতি পোহাইল।", word: "পাখি", answer: "কর্তৃ কারকে শূন্য" },
+            { sentence: "গৃহহীনে গৃহ দিলে আমি থাকি ঘরে।", word: "গৃহহীনে", answer: "সম্প্রদানে ৭মী" },
+            { sentence: "আমারে তুমি করিবে ত্রাণ, এ নহে মোর প্রার্থনা।", word: "আমারে", answer: "কর্মে ২য়া" },
+            { sentence: "জগতে কীর্তিমান হয় সাধনায়।", word: "সাধনায়", answer: "করণে ৭মী" },
+            { sentence: "জল পড়ে, পাতা নড়ে।", word: "জল পড়ে, পাতা নড়ে", answer: "কর্তৃ কারকে শূন্য" },
+            { sentence: "পড়ায় আমার মন বসে না।", word: "পড়ায়", answer: "অধিকরণে ৭মী" },
+            { sentence: "এমন মেয়ে আর দেখিনি।", word: "মেয়ে", answer: "কর্মে প্রথমা" },
+            { sentence: "ছেলেরা ক্রিকেট খেলে।", word: "ক্রিকেট", answer: "কর্মে শূন্য" },
+            { sentence: "কপোল ভাসিয়া গেল নয়ন জলে।", word: "নয়ন জলে", answer: "কর্মে শূন্য" },
+            { sentence: "এ সুতায় কাপড় হয় না।", word: "সুতায়", answer: "করণে ৭মী" },
+            { sentence: "দীনে দয়া কর।", word: "দীনে", answer: "সম্প্রদানে ৭মী" },
+            { sentence: "সোমবার থেকে পরীক্ষা শুরু।", word: "সোমবার থেকে", answer: "অপাদানে ৫মী" },
+            { sentence: "কান্নায় শোক মন্দীভূত হয়।", word: "কান্নায়", answer: "অধিকরণে ৭মী" },
+            { sentence: "ডাক্তার ডাক।", word: "ডাক্তার", answer: "কর্মে শূন্য" },
+            { sentence: "পাগলে কিনা বলে।", word: "পাগলে", answer: "কর্তায় ৭মী" },
+            { sentence: "নদীতে মাছ আছে।", word: "নদীতে", answer: "অধিকরণে ৭মী" },
+            { sentence: "তিলে তৈল আছে।", word: "তিলে", answer: "অধিকরণে ৭মী" },
+            { sentence: "পরাজয়ে ডরে না বীর।", word: "পরাজয়ে", answer: "অপাদানে ৭মী" },
+            { sentence: "টাকায় বাঘের দুধ মিলে।", word: "টাকায়", answer: "করণে ৭মী" },
+            { sentence: "শাওন রাতে যাবে।", word: "শাওন রাতে", answer: "অধিকরণে ৭মী" },
+            { sentence: "সে ফুর্তিতে আছে।", word: "ফুর্তিতে", answer: "অধিকরণে ৭মী" },
+            { sentence: "আমার যাওয়া হবে না।", word: "আমার", answer: "কর্তায় ৬ষ্ঠী" },
+            { sentence: "খুব এক ঘুম ঘুমিয়েছি।", word: "ঘুম", answer: "কর্মে শূন্য" },
+            { sentence: "শিকারী বিড়াল গোঁফে চেনা যায়।", word: "গোঁফে", answer: "করণে ৭মী" },
+            { sentence: "দেশের জন্য প্রাণ দাও।", word: "দেশের", answer: "সম্প্রদানে ৬ষ্ঠী" },
+            { sentence: "বিপদে মোরে করিবে ত্রাণ, এ নহে মোর প্রার্থনা।", word: "বিপদে", answer: "অপাদানে সপ্তমী" },
+            { sentence: "ফুলে ফুলে ঘর ভরেছে।", word: "ফুলে ফুলে", answer: "করণে সপ্তমী" },
+            { sentence: "বেলা যে পড়ে এল, জলকে চল।", word: "জলকে", answer: "নিমিত্তার্থে ৪র্থী" },
+            { sentence: "বাবাকে বড্ড ভয় হয়।", word: "বাবাকে", answer: "অপাদানে ২য়া" },
+            { sentence: "আমাকে এক খানা বই দাও।", word: "বই", answer: "কর্মে শূন্য" },
+            { sentence: "বিপদে মোরে রক্ষা কর।", word: "বিপদে", answer: "অপাদানে ৭মী" },
+            { sentence: "লোকটি কানে খাটো।", word: "কানে", answer: "করণে ৭মী" },
+            { sentence: "বাঁশি বাজে।", word: "বাঁশি", answer: "কর্তায় শূন্য" },
+            { sentence: "আকাশে চাঁদ উঠেছে।", word: "আকাশে", answer: "অধিকরণ ৭মী" },
+            { sentence: "এ কলমে ভালো লেখা হয়।", word: "কলমে", answer: "করণ ৭মী" },
+            { sentence: "সমিতিতে চাঁদা দাও।", word: "সমিতিতে", answer: "সম্প্রদান ৭মী" },
+            { sentence: "পাপে বিরত হও।", word: "পাপে", answer: "অপাদান ৭মী" },
+            { sentence: "অহংকার পতনের মূল।", word: "অহংকার", answer: "করণে শূন্য" },
+            { sentence: "সরোবরে পদ্ম ফুটে।", word: "সরোবরে", answer: "অধিকরণে সপ্তমী" },
+            { sentence: "বাজিল কাহার বীণা।", word: "বীণা", answer: "কর্মে শূন্য" },
+            { sentence: "পৃথিবীতে কে কার।", word: "পৃথিবীতে", answer: "অধিকরণে সপ্তমী" },
+            { sentence: "রহিম বাড়ী যায়।", word: "রহিম", answer: "কর্তৃকারকে শূন্য" },
+            { sentence: "ঘোড়াকে চাবুক মার।", word: "চাবুক", answer: "করণে শূন্য" },
+            { sentence: "প্রভাতে সূর্য উঠে।", word: "প্রভাতে", answer: "অধিকরণে ৭মী" },
+            { sentence: "শিক্ষককে শ্রদ্ধা কর।", word: "শিক্ষককে", answer: "সম্প্রদানে ৪র্থী" },
+            { sentence: "বোঁটা-আলগা ফল গাছে থাকে না।", word: "ফল", answer: "অপাদানে শূন্য" },
+            { sentence: "তাকে বল।", word: "তাকে", answer: "কর্ম কারকে ২য়া" },
+            { sentence: "আমার যাওয়া হয়নি।", word: "আমার", answer: "কর্তৃকারকে ৬ষ্ঠী" },
+            { sentence: "বুলবুলিতে ধান খেয়েছে খাজনা দিব কীসে?", word: "বুলবুলিতে", answer: "কর্তায় ৭মী" },
+            { sentence: "অন্ধজনে দেহ আলো।", word: "অন্ধজনে", answer: "সম্প্রদানে ৭মী" },
+            { sentence: "আমাকে যেতে হবে।", word: "আমাকে", answer: "কর্তায় ২য়া" },
+            { sentence: "নখের আঁচড় দিও না।", word: "আঁচড়", answer: "করণে শূন্য" },
+            { sentence: "গাঁয়ে মানে না, আপনি মোড়ল", word: "মোড়ল", answer: "কর্তায় ৭মী" },
+            { sentence: "জিজ্ঞাসিব জনে জনে", word: "জনে জনে", answer: "কর্মে ৭মী" },
+            { sentence: "এ দেহে প্রাণ নেই", word: "দেহে", answer: "অধিকরণে ৭মী" },
+            { sentence: "সকলকে মরতে হবে", word: "সকলকে", answer: "কর্তায় ২য়া" },
+            { sentence: "টাকায় টাকা হয়", word: "টাকায়", answer: "অপাদানে ৭মী" },
+            { sentence: "আমায় সহ্য কর", word: "আমায়", answer: "কর্মে ৭মী" },
+            { sentence: "নৌকা ঘাটে পৌঁছালো", word: "ঘাটে", answer: "অধিকরণে ৭মী" },
+            { sentence: "শরতে কাশফুল ফোটে।", word: "শরতে", answer: "অধিকরণে ৭মী" },
+            { sentence: "জ্ঞানের আলোয় আলোকিত হও।", word: "আলোয়", answer: "করণে ৭মী" },
+            { sentence: "কে তোমাকে ভয় পায়?", word: "তোমাকে", answer: "অপাদানে ২য়া" },
+            { sentence: "বাবা বাড়িতে আছেন", word: "বাড়িতে", answer: "অধিকরণে ৭মী" },
+            { sentence: "ফুলের গন্ধে ঘুম আসে না", word: "ফুলের", answer: "সম্বন্ধে ৬ষ্ঠী" },
+            { sentence: "ছাদ হতে নদী দেখা যায়", word: "ছাদ হতে", answer: "অধিকরণে ৫মী" },
+            { sentence: "শিক্ষককে জানাও", word: "শিক্ষককে", answer: "কর্মে ২য়া" },
+            { sentence: "আমার গানের মালা আমি করব কারে দান", word: "মালা", answer: "কর্মে শূন্য" },
+            { sentence: "আকাশ আজি মেঘলা যেয়ো নাকো একলা", word: "আকাশ", answer: "অধিকরণে শূন্য" },
+            { sentence: "অধ্যয়নে বিরত হতে নেই", word: "অধ্যয়নে", answer: "অপাদানে ৭মী" },
+            { sentence: "মাটিরে আমি যে বড় ভালোবাসি", word: "মাটিরে", answer: "কর্মে ৪র্থী" },
+            { sentence: "অর্থ অনর্থ ঘটায়", word: "অর্থ", answer: "কর্তৃকারকে শূন্য" },
+            { sentence: "অল্প শোকে কাতর, অধিক শোকে পাথর", word: "শোকে", answer: "করণে ৭মী" },
+            { sentence: "আজ হবে না, কাল এসো", word: "আজ", answer: "অধিকরণে শূন্য" },
+            { sentence: "এ মেঘে বৃষ্টি হয় না", word: "মেঘে", answer: "অপাদানে ৭মী" },
+            { sentence: "কাননে কুসুম কলি সকলি ফুটিল", word: "কুসুম কলি", answer: "কর্তৃকারকে শূন্য" },
+            { sentence: "করোনার কারণে স্কুল বন্ধ ছিল", word: "স্কুল", answer: "কর্মে শূন্য" },
+            { sentence: "বুলবুলিতে ধান খেয়েছে", word: "বুলবুলিতে", answer: "কর্তৃকারকে ৭মী" },
+            { sentence: "বাদলের ধারা ঝরে ঝর ঝর", word: "বাদলের", answer: "অপাদানে ৬ষ্ঠী" },
+            { sentence: "বোঁটা আলগা ফল গাছে থাকে না", word: "বোঁটা আলগা", answer: "অপাদানে শূন্য" },
+            { sentence: "গাড়ি স্টেশন ছাড়ল", word: "স্টেশন", answer: "অপাদানে শূন্য" },
+            { sentence: "হৃদয় আমার নাচের আজিকে", word: "আজিকে", answer: "অধিকরণে ২য়া" },
+            { sentence: "তিনি ব্যাকরণে পণ্ডিত", word: "ব্যাকরণে", answer: "অধিকরণে ৭মী" },
+            { sentence: "মন দিয়া কর সবে বিদ্যা উপার্জন", word: "মন দিয়া", answer: "করণে ৩য়া" },
+            { sentence: "জিজ্ঞাসিবে জনে জনে", word: "জনে জনে", answer: "কর্মে ৭মী" },
+            { sentence: "তার ধর্মে মতি আছে", word: "ধর্মে", answer: "অধিকরণে ৭মী" },
+            { sentence: "আজকে নগদ কালকে বাকি", word: "আজকে", answer: "অধিকরণে ২য়া" },
+            { sentence: "ফুলে ফুলে শহিদ মিনার ভরে গেছে", word: "ফুলে ফুলে", answer: "করণে ৭মী" },
+            { sentence: "ইট পাথরের বাড়ি বেশ শক্ত", word: "ইট পাথরের", answer: "করণে ৬ষ্ঠী" },
+            { sentence: "জল পড়ে, পাতা নড়ে", word: "জল পড়ে, পাতা নড়ে", answer: "কর্তৃকারকে শূন্য" },
+            { sentence: "সূর্য উঠলে অন্ধকার দূরীভূত হয়", word: "অন্ধকার", answer: "কর্মে শূন্য" },
+                        // তৃতীয় পাতা (পৃষ্ঠা ৬৭)
+            { sentence: "শিক্ষককে শ্রদ্ধা করিও", word: "শিক্ষককে", answer: "সম্প্রদানে ৪র্থী" },
+            { sentence: "আমি ভাত খাই", word: "ভাত", answer: "কর্মে শূন্য" },
+            { sentence: "ঘোড়াকে চাবুক মার", word: "চাবুক", answer: "করণে শূন্য" },
+            { sentence: "পুলিশ চোর ধরছে", word: "চোর", answer: "কর্মে শূন্য" },
+            { sentence: "ব্যায়ামে শরীর ভালো থাকে", word: "ব্যায়ামে", answer: "করণে ৭মী" },
+            { sentence: "প্রত্যুষে ভ্রমণ শরীরের জন্য ভালো", word: "প্রত্যুষে", answer: "অধিকরণে ৭মী" },
+            { sentence: "টিফিন খেয়ে নাও", word: "টিফিন", answer: "কর্মে শূন্য" },
+            { sentence: "জননীর সেবা কর", word: "জননীর", answer: "সম্প্রদানে ৬ষ্ঠী" },
+            { sentence: "বিকাল পাঁচটায় অফিস ছুটি হবে", word: "বিকাল পাঁচটায়", answer: "অধিকরণে ৭মী" },
+            { sentence: "পরীক্ষা আসিলে চোখে জল ঝরে", word: "চোখে", answer: "অপাদানে ৭মী" },
+            { sentence: "তারা বল খেলে", word: "বল", answer: "করণে শূন্য" },
+            { sentence: "শিক্ষককে শ্রদ্ধা কর", word: "শিক্ষককে", answer: "সম্প্রদানে ৪র্থী" },
+            { sentence: "গৃহহীনে গৃহ দিলে আমি থাকি ঘরে", word: "গৃহহীনে", answer: "সম্প্রদানে ৭মী" },
+            { sentence: "তার চোখ দিয়ে পানি পড়ছে", word: "চোখ দিয়ে", answer: "অপাদানে ৩য়া" },
+            { sentence: "গুরু দক্ষিণা দাও", word: "গুরু", answer: "সম্প্রদানে শূন্য" },
+            { sentence: "আমার যাওয়া হয়নি", word: "আমার", answer: "কর্তায় ৬ষ্ঠী" },
+            { sentence: "বাবাকে বড্ড ভয় পায়", word: "বাবাকে", answer: "অপাদানে ২য়া" },
+            { sentence: "ধোপাকে কাপড় দাও", word: "ধোপাকে", answer: "কর্মে ২য়া" },
+            { sentence: "তিনি চট্টগ্রাম যাচ্ছেন", word: "চট্টগ্রাম", answer: "অধিকরণে শূন্য" },
+            { sentence: "চেষ্টায় সব হয়", word: "চেষ্টায়", answer: "করণে ৭মী" },
+            { sentence: "লোভে পাপ, পাপে মৃত্যু", word: "পাপে", answer: "অপাদানে ৭মী" },
+            { sentence: "এ কলমে ভাল লেখা হয়", word: "কলমে", answer: "করণে ৭মী" },
+            { sentence: "ভিক্ষা দাও দেখিলে ভিক্ষুক", word: "ভিক্ষুক", answer: "সম্প্রদানে শূন্য" },
+            { sentence: "তুমি এখন বাড়ি যেতে পার", word: "বাড়ি", answer: "অধিকরণে শূন্য" },
+            { sentence: "কষ্ট না করলে কেষ্ট মেলে না", word: "কেষ্ট", answer: "কর্মে শূন্য" },
+            { sentence: "ফুলে ফুলে ঘর ভরেছে", word: "ফুলে ফুলে", answer: "করণে ৭মী" },
+            { sentence: "আমরা স্বাধীন বাংলাদেশের নাগরিক", word: "বাংলাদেশের", answer: "অধিকরণে ৬ষ্ঠী" },
+            { sentence: "নাগরিক সংকট অনুসন্ধানে রাতের গভীরে রাজা এদেশে এলেন", word: "রাজা", answer: "কর্তৃকারকে শূন্য" },
+            { sentence: "জগতে কীর্তিমান হও সাধনায়", word: "সাধনায়", answer: "করণে ৭মী" },
+            { sentence: "শুক্রবার স্কুল ছুটি", word: "শুক্রবার", answer: "অধিকরণে শূন্য" },
+            { sentence: "শিক্ষককে জানাও", word: "শিক্ষককে", answer: "কর্ম কারকে ২য়া" },
+            { sentence: "তিলে তৈল আছে", word: "তিলে", answer: "অধিকরণে ৭মী" },
+            { sentence: "বোঁটা-আলগা ফল গাছে থাকে না", word: "বোঁটা-আলগা", answer: "অপাদান কারকে" },
+            { sentence: "কত ধানে কত চাল হয় তা আমি জানি", word: "ধানে", answer: "কর্মে শূন্য বিভক্তি" },
+            { sentence: "অল্প শোকে কাতর, অধিক শোকে পাথর", word: "শোকে", answer: "করণে ৭মী" },
+            { sentence: "ঘরেতে ভ্রমর এলো গুনগুনিয়ে", word: "ঘরেতে", answer: "অধিকরণে ৭মী" },
+            { sentence: "দিনে দিনে শুধু বাড়িতেছ দেনা", word: "দিনে দিনে", answer: "অধিকরণে ৭মী" },
+            { sentence: "তুমি কাকাকে বারণ করে দাও।", word: "কাকাকে", answer: "কর্তৃকারকে ২য়া" },
+            { sentence: "ছাত্ররা ক্রিকেট খেলে", word: "ক্রিকেট", answer: "কর্মে শূন্য বা প্রথমা" },
+            { sentence: "পুলিশে খবর দাও", word: "পুলিশে", answer: "কর্মে ৭মী" },
+            { sentence: "আকাশ আজি মেঘলা যেয়ো নাকো একলা", word: "আকাশ", answer: "অধিকরণে শূন্য" },
+            { sentence: "ডাক্তার ডাক", word: "ডাক্তার", answer: "কর্মে প্রথমা" },
+            { sentence: "জাহাজে সাগর পার হওয়া যায়", word: "জাহাজে", answer: "করণে ৭মী" },
+            { sentence: "তোমার পূজার ছলে তোমায় ভুলেই থাকি", word: "পূজার ছলে", answer: "সম্প্রদানে ৬ষ্ঠী" },
+            { sentence: "বাবা বাড়ি নেই", word: "বাড়ি", answer: "অধিকরণে শূন্য" },
+            { sentence: "বাজারে লোক নাই", word: "বাজারে", answer: "অধিকরণে ৭মী" },
+            { sentence: "ভেড়া দিয়ে চাষ করা সম্ভব নয়", word: "ভেড়া দিয়ে", answer: "করণে ৫মী" },
+            { sentence: "ভাইয়ে ভাইয়ে বেশ মিল", word: "ভাইয়ে ভাইয়ে", answer: "কর্তায় ৭মী" },
+            { sentence: "শিশুগণ দেয় মন নিজ নিজ পাঠে", word: "পাঠে", answer: "অধিকরণে ৭মী" },
+            { sentence: "দশে মিলি করি কাজ", word: "দশে", answer: "কর্তৃকারকে ৭মী" },
+            { sentence: "গুণহীনে ত্যাগ কর", word: "গুণহীনে", answer: "কর্ম কারকে ৭মী" },
+            { sentence: "গাড়ি স্টেশন ছাড়ল", word: "গাড়ি", answer: "কর্তৃকারকে শূন্য" },
+            { sentence: "খেজুর রসে গুড় হয়", word: "খেজুর রসে", answer: "অপাদানে ৭মী" },
+            { sentence: "কূলে একা বসে আছি নাহি ভরসা", word: "কূলে", answer: "অধিকরণে ৭মী" },
+            { sentence: "অনলে পুড়িয়া গেল", word: "অনলে", answer: "করণে ৭মী" },
+            { sentence: "আমাদের একটি গল্প বলুন", word: "আমাদের", answer: "কর্মে ৬ষ্ঠী" },
+            { sentence: "অল্পবিদ্যা ভয়ঙ্করী", word: "অল্পবিদ্যা", answer: "কর্মে শূন্য" },
+            { sentence: "জগতে কীর্তিমান হও সাধনায়", word: "জগতে", answer: "অধিকরণে ৭মী" },
+            { sentence: "রেখ মা দাসেরে মনে", word: "দাসেরে", answer: "কর্মে ২য়া" },
+            { sentence: "বিপদে আমি না যেন করি ভয়", word: "বিপদে", answer: "অপাদানে ৭মী" },
+
+            // চতুর্থ পাতা (পৃষ্ঠা ৬৮)
+            { sentence: "বুলবুলিতে ধান খেয়েছে", word: "বুলবুলিতে", answer: "কর্তৃকারকে ৭মী" },
+            { sentence: "শিল্পীকে ডাকো", word: "শিল্পীকে", answer: "কর্মে ২য়া" },
+            { sentence: "শরতে ধরাতল শিশিরে ঝলমল", word: "শরতে", answer: "করণে ৭মী" },
+            { sentence: "পাঠে মন দাও", word: "পাঠে", answer: "অধিকরণে ৭মী" },
+            { sentence: "টাকার লোভ মানুষকে ধ্বংস করে", word: "টাকার", answer: "সম্বন্ধে ৬ষ্ঠী" },
+            { sentence: "হাসিতে তার মুক্তা ঝড়ে", word: "হাসিতে", answer: "অপাদানে ৭মী" },
+            { sentence: "একদিন পাপের ফল ফলিবে", word: "একদিন", answer: "অধিকরণে শূন্য" },
+            { sentence: "ব্যায়ামে শরীর ভাল থাকে", word: "ব্যায়ামে", answer: "করণে ৭মী" },
+            { sentence: "আমি কি ডরাই সখী ভিখারি রাঘবে?", word: "রাঘবে", answer: "অপাদানে ৭মী" },
+            { sentence: "নজরুল কর্তৃক অগ্নিবীণা রচিত হয়", word: "নজরুল কর্তৃক", answer: "কর্তৃকারকে ৩য়া" },
+            { sentence: "ডাকাতেরা গৃহস্বামীর মাথায় লাঠি মেরেছে", word: "লাঠি", answer: "করণে প্রথমা/শূন্য" },
+            { sentence: "জেলেরা নদী থেকে মাছ ধরছে", word: "মাছ", answer: "কর্মকারকে শূন্য" },
+            { sentence: "অন্ধজনে দেহ আলো, মৃতজনে দেহ প্রাণ", word: "অন্ধজনে", answer: "সম্প্রদানে ৭মী" },
+            { sentence: "গাছ থেকে পাতা পড়ে", word: "গাছ থেকে", answer: "অপাদানে ৫মী" },
+            { sentence: "অন্নহীনে অন্ন দাও", word: "অন্নহীনে", answer: "সম্প্রদানে ৭মী" },
+            { sentence: "আমাকে যেতে হবে", word: "আমাকে", answer: "কর্তায় ২য়া" },
+            { sentence: "রহিম সাহেব ঢাকায় বসবাস করেন", word: "ঢাকায়", answer: "অধিকরণে ৭মী" },
+            { sentence: "টাকায় টাকা হয়", word: "টাকায়", answer: "অপাদানে ৭মী" },
+            { sentence: "নদীতে এখন জোয়ার আসিবে", word: "নদীতে", answer: "অধিকরণে ৭মী" },
+            { sentence: "সর্বছাত্রে জ্ঞান দেন শিক্ষকগণ", word: "সর্বছাত্রে", answer: "সম্প্রদানে ৭মী" },
+            { sentence: "লোকটি কান্নায় ভেঙ্গে পড়ল", word: "কান্নায়", answer: "করণে ৭মী" },
+            { sentence: "সৈন্যদল যুদ্ধে যাচ্ছে", word: "সৈন্যদল", answer: "কর্তায় শূন্য" },
+            { sentence: "বিষের জ্বালায় বিশ্বজুড়ে", word: "জ্বালায়", answer: "করণে ৭মী" },
+            { sentence: "দুয়ারে দাঁড়ায়ে প্রার্থী", word: "দুয়ারে", answer: "অধিকরণে ৭মী" },
+            { sentence: "ছাগলে কিনা খায়", word: "ছাগলে", answer: "কর্তায় ৭মী" },
+            { sentence: "জমি থেকে ফসল পাই", word: "জমি থেকে", answer: "অপাদানে ৫মী" },
+            { sentence: "রাজীব বাংলা ব্যাকরণে ভালো", word: "ব্যাকরণে", answer: "অধিকরণে ৭মী" },
+            { sentence: "আলোয় আঁধার কেটে যায়", word: "আলোয়", answer: "করণে ৭মী" },
+            { sentence: "আকাশ মেঘে ঢাকা", word: "মেঘে", answer: "করণে ৭মী" },
+            { sentence: "কোথাও আমার হারিয়ে যেতে নাই মান", word: "আমার", answer: "কর্তায় ৬ষ্ঠী" },
+            { sentence: "খিলিপান দিয়ে ওষুধ খাবে", word: "খিলিপান দিয়ে", answer: "অধিকরণে ৩য়া" },
+            { sentence: "টাকায় কি না হয়", word: "টাকায়", answer: "করণে ৭মী" },
+            { sentence: "ছাদ থেকে নদী দেখা যায়", word: "ছাদ থেকে", answer: "অধিকরণে ৫মী" },
+            { sentence: "স্কুল পালানো ভালো না", word: "স্কুল", answer: "অপাদানে শূন্য" },
+            { sentence: "সমুদ্রজলে লবণ আছে", word: "সমুদ্রজলে", answer: "অধিকরণে ৭মী" },
+            { sentence: "ট্রেন ঢাকা ছাড়ল", word: "ঢাকা", answer: "অপাদানে শূন্য" },
+            { sentence: "গুরুজনে ভক্তি কর", word: "গুরুজনে", answer: "সম্প্রদানে ৭মী" },
+            { sentence: "টাকায় অসাধ্য সাধন হয়", word: "টাকায়", answer: "করণে ৭মী" },
+            { sentence: "পড়াশোনায় মন দাও", word: "পড়াশোনায়", answer: "অধিকরণে ৭মী" },
+            { sentence: "স্কুল পালিয়ে কেউ রবীন্দ্রনাথ হয় না", word: "স্কুল", answer: "অপাদানে শূন্য" },
+            { sentence: "আলোয় আঁধার কাটে", word: "আলোয়", answer: "করণে ৭মী" },
+            { sentence: "অসহায়কে সাহায্য করো", word: "অসহায়কে", answer: "সম্প্রদানে ৪র্থী" },
+            { sentence: "জসিম ইংরেজি ব্যাকরণে ভালো", word: "ব্যাকরণে", answer: "অধিকরণে ৭মী" },
+            { sentence: "বনে বাঘ আছে", word: "বনে", answer: "অধিকরণে ৭মী" },
+            { sentence: "কালির দাগ সহজে মুছে না", word: "কালির", answer: "করণে ৬ষ্ঠী" },
+
+            // পঞ্চম পাতা (পৃষ্ঠা ৬৯)
+            { sentence: "সব ঝিনুকে মুক্তা থাকে না", word: "ঝিনুকে", answer: "অপাদানে ৭মী" },
+            { sentence: "বড় হও নিজের চেষ্টায়", word: "চেষ্টায়", answer: "করণে ৭মী" },
+            { sentence: "টাকার লোভ ভাল নয়", word: "টাকার", answer: "সম্বন্ধে ৬ষ্ঠী" },
+            { sentence: "গৃহহীনে গৃহ দাও", word: "গৃহ", answer: "কর্মে শূন্য" },
+            { sentence: "তিনি ব্যাকরণে পণ্ডিত", word: "তিনি", answer: "কর্তৃ কারকে শূন্য" },
+            { sentence: "জলকে চল", word: "জলকে", answer: "নিমিত্তার্থে ৪র্থী" },
+            { sentence: "দুধে ছানা হয়", word: "দুধে", answer: "অপাদানে ৭মী" },
+            { sentence: "শুক্রবার কলেজ বন্ধ থাকে", word: "শুক্রবার", answer: "অধিকরণে শূন্য" },
+            { sentence: "জ্ঞানের আলোয় আলোকিত হও", word: "জ্ঞানের", answer: "সম্বন্ধে ৬ষ্ঠী" },
+            { sentence: "শিক্ষক ছাত্রদের অংক পড়াচ্ছেন", word: "শিক্ষক", answer: "কর্তায় শূন্য" },
+            { sentence: "এ অধীনে দায়িত্বভার অর্পণ করুন", word: "অধীনে", answer: "কর্মে ৭মী" },
+            { sentence: "বিদ্যালয়ে যত্ন কর", word: "বিদ্যালয়ে", answer: "অধিকরণে ৭মী" },
+            { sentence: "চিত্ত যেথা ভয়শূন্য উচ্চ যথা শির", word: "চিত্ত", answer: "কর্মে শূন্য" },
+            { sentence: "আমাদের ছাদে পানি পড়ে", word: "ছাদে", answer: "অপাদানে ৭মী" },
+            { sentence: "কালির দাগ সহজে ওঠে না", word: "কালির", answer: "করণে ৬ষ্ঠী" },
+            { sentence: "চাঁদ বুঝি তা জানে", word: "চাঁদ", answer: "কর্তায় শূন্য" },
+            { sentence: "আমার মনে জ্বলবে", word: "মনে", answer: "অধিকরণে ৭মী" },
+            { sentence: "এ বনে বাঘের ভয় নেই", word: "বনে", answer: "অপাদানে ৬ষ্ঠী" },
+            { sentence: "পাতায় পাতায় পড়ে নিশির শিশির", word: "পাতায় পাতায়", answer: "অধিকরণে ৭মী" },
+            { sentence: "এ বাড়িতে কেউ নেই", word: "বাড়িতে", answer: "অধিকরণে ৭মী" },
+            { sentence: "হরিণ দিয়ে চাষ করা সম্ভব নয়", word: "হরিণ দিয়ে", answer: "করণে ৩য়া" },
+            { sentence: "শিক্ষক ছাত্রদের পড়ান", word: "ছাত্রদের", answer: "কর্মে ৬ষ্ঠী" },
+            { sentence: "লোকমুখে একথা শোনা যায়", word: "লোকমুখে", answer: "অপাদানে ৭মী" },
+            { sentence: "ভিখারিকে ভিক্ষা দাও", word: "ভিখারিকে", answer: "সম্প্রদানে ৪র্থী" },
+            { sentence: "সারারাত বৃষ্টি হয়েছে", word: "সারারাত", answer: "অধিকরণে শূন্য" },
+            { sentence: "দেশের সেবা কর", word: "দেশের", answer: "সম্প্রদানে ৬ষ্ঠী" },
+            { sentence: "এটা তোমার বিবেচ্য।", word: "তোমার", answer: "কর্তৃ কারকে ৬ষ্ঠী" },
+            { sentence: "কালির দাগ দাও।", word: "কালির", answer: "করণে ৬ষ্ঠী" },
+            { sentence: "গরুতে গাড়ি টানে", word: "গরুতে", answer: "কর্তায় ৭মী" },
+            { sentence: "তার দেখা পাওয়া দুষ্কর।", word: "তার", answer: "কর্মে ৬ষ্ঠী" },
+            { sentence: "জটাতে তাপস চিনি", word: "জটাতে", answer: "করণে ৭মী" },
+            { sentence: "আমরা কানে শুনি", word: "কানে", answer: "করণে ৭মী" },
+            { sentence: "তুমি কি চাও?", word: "কি", answer: "কর্মে শূন্য" },
+            { sentence: "রাতে তারা দেখা যায়", word: "রাতে", answer: "অধিকরণে ৭মী" },
+            { sentence: "আমরা দেশের উন্নয়ন চাই।", word: "উন্নয়ন", answer: "কর্মে শূন্য" },
+            { sentence: "ছাদ দিয়ে পানি পড়ে।", word: "ছাদ দিয়ে", answer: "অপাদানে ৫মী" },
+                        // ষষ্ঠ পাতা (পৃষ্ঠা ৭০)
+            { sentence: "মানুষে ভাবে এক, হয় আর এক", word: "মানুষে", answer: "কর্তৃকারকে ৭মী" },
+            { sentence: "রেখো মা দাসেরে মনে", word: "দাসেরে", answer: "কর্ম কারকে ২য়া" },
+            { sentence: "বুদ্ধি খাটিয়ে কাজ করে", word: "বুদ্ধি", answer: "করণে শূন্য" },
+            { sentence: "সুখের চেয়ে শান্তি ভালো", word: "সুখের", answer: "অপাদানে ৫মী" },
+            { sentence: "কান্নায় শোক মন্দীভূত হয়", word: "কান্নায়", answer: "অধিকরণে ৭মী" },
+            { sentence: "আমি কি ডরাই সখি ভিখারি রাঘবে", word: "রাঘবে", answer: "অপাদানে ৭মী" },
+            { sentence: "তিলে তৈল হয়", word: "তিলে", answer: "অপাদানে ৭মী" },
+            { sentence: "পুকুরে মাছ আছে", word: "পুকুরে", answer: "অধিকরণে ৭মী" },
+            { sentence: "এ সন্তান হতে দুঃখ দূর হবে না", word: "সন্তান হতে", answer: "করণে ৫মী" },
+            { sentence: "কত ধানে কত চাল তা আমি জানি", word: "ধানে", answer: "অপাদানে ৭মী" },
+            { sentence: "জগতে কীর্তিমান হও সাধনায়", word: "জগতে", answer: "অধিকরণে ৭মী" },
+            { sentence: "কেন বঞ্চিত হবে ভোজনে", word: "ভোজনে", answer: "কর্মে ৭মী" },
+            { sentence: "প্রভাতে উঠিল রবি লোহিত বরণ", word: "প্রভাতে", answer: "অধিকরণে ৭মী" },
+            { sentence: "তোমার যাওয়া উচিত", word: "তোমার", answer: "কর্তায় ৬ষ্ঠী" },
+            { sentence: "আমা হতে এ কাজ হবেনা সাধন", word: "আমা হতে", answer: "কর্তায় ৫মী" },
+            { sentence: "দেশের জন্য প্রাণ দাও", word: "দেশের", answer: "সম্প্রদানে ৬ষ্ঠী" },
+            { sentence: "সকলকে মরতে হবে", word: "সকলকে", answer: "কর্তায় ২য়া" },
+            { sentence: "তিনি ব্যাকরণে পন্ডিত", word: "ব্যাকরণে", answer: "অধিকরণে ৭মী" },
+            { sentence: "ব্যায়ামে শরীর ভালো থাকে", word: "ব্যায়ামে", answer: "করণে ৭মী" },
+            { sentence: "সে অংকে কাঁচা", word: "অংকে", answer: "অধিকরণে ৭মী" },
+            { sentence: "নতুন ধানে হবে নবান্ন", word: "ধানে", answer: "করণে ৭মী" },
+            { sentence: "তার ধর্মে মতি আছে", word: "ধর্মে", answer: "অধিকরণে ৭মী" },
+            { sentence: "টাকার লোভ ভালো নয়", word: "টাকার", answer: "সম্বন্ধে ৬ষ্ঠী" },
+            { sentence: "জমিতে সোনা ফলে", word: "জমিতে", answer: "অধিকরণে ৭মী" },
+            { sentence: "আমি তাকে চিনি", word: "তাকে", answer: "কর্মে ৭মী" },
+            { sentence: "আকাশ মেঘে ঢাকা", word: "মেঘে", answer: "করণে ৭মী" },
+            { sentence: "বাঘের ভয়ে সকলে ভীত", word: "বাঘের", answer: "অপাদানে ৬ষ্ঠী" },
+            { sentence: "আমি আগামীকাল বাড়ি যাব", word: "বাড়ি", answer: "অধিকরণে শূন্য" },
+            { sentence: "জিজ্ঞাসিব জনে জনে", word: "জনে জনে", answer: "কর্মে ৭মী" },
+            { sentence: "সজীব ফুটবল খেলে", word: "সজীব", answer: "কর্তৃকারকে শূন্য" },
+            { sentence: "ডাক্তার ডাক", word: "ডাক্তার", answer: "কর্মকারকে শূন্য" },
+            { sentence: "লোকে বলে", word: "লোকে", answer: "কর্তৃকারকে ৭মী" },
+            { sentence: "টাকায় কি না হয়?", word: "টাকায়", answer: "করণে ৭মী" },
+            { sentence: "শিকারী বিড়াল গোঁফে চেনা যায়", word: "গোঁফে", answer: "করণে ৭মী" },
+            { sentence: "গাঁয়ে মানে না আপনি মোড়ল", word: "গাঁয়ে", answer: "কর্তায় ৭মী" },
+            { sentence: "এ দেহে প্রাণ নেই", word: "দেহে", answer: "অধিকরণে ৭মী" },
+            { sentence: "লোকমুখে শুনেছি", word: "লোকমুখে", answer: "অপাদানে ৭মী" },
+            { sentence: "বড় হও স্বীয় চেষ্টায়", word: "চেষ্টায়", answer: "করণে ৭মী" },
+            { sentence: "ক্ষুধার্তকে অন্ন দাও", word: "ক্ষুধার্তকে", answer: "সম্প্রদানে ৪র্থী" },
+            { sentence: "কপালের লিখন না যায় খন্ডন", word: "কপালের", answer: "অধিকরণে ৬ষ্ঠী" },
+            { sentence: "হিমালয় হতে গঙ্গা প্রবাহিত", word: "হিমালয় হতে", answer: "অপাদানে ৫মী" },
+            { sentence: "পাতা নড়ে", word: "পাতা", answer: "কর্তায় প্রথমা" },
+            { sentence: "নদীতে মাছ আছে", word: "নদীতে", answer: "অধিকরণে সপ্তমী" },
+            { sentence: "অবনি ঘর পড়ি যায়", word: "অবনি", answer: "অধিকরণে শূন্য" },
+            { sentence: "কেহ বাতায়ন পাশে চেয়ে রয় নীল আকাশে", word: "আকাশে", answer: "কর্মে শূন্য" },
+            { sentence: "দেশ থেকে পঙ্গপাল চলে গেছে", word: "দেশ থেকে", answer: "অপাদানে ৫মী" },
+            { sentence: "আমার যাওয়া হয়নি", word: "আমার", answer: "কর্তৃ কারকে ৬ষ্ঠী" },
+            { sentence: "নদীতে পানি আছে", word: "নদীতে", answer: "অধিকরণে ৭মী" },
+            { sentence: "হামিদ বই পড়ে", word: "হামিদ", answer: "কর্তৃ কারকে ১ম" },
+            { sentence: "বাবাকে বড্ড ভয় পাই", word: "বাবাকে", answer: "অপাদানে ২য়া" },
+            { sentence: "কুকর্মে বিরত হও", word: "কুকর্মে", answer: "অপাদানে ৭মী" },
+            { sentence: "মেঘে বৃষ্টি হয়", word: "মেঘে", answer: "অপাদানে ৭মী" },
+            { sentence: "শীতার্তকে বস্ত্র দাও", word: "শীতার্তকে", answer: "সম্প্রদানে ৪র্থী" },
+            { sentence: "গাড়ীটি স্টেশন ছাড়ল", word: "স্টেশন", answer: "অপাদানে শূন্য" },
+            { sentence: "টাকায় কি না হয়", word: "টাকায়", answer: "করণে ৭মী" },
+            { sentence: "খারাপ রঙে ভাল ছবি হয় না", word: "রঙে", answer: "করণে ৭মী" },
+            { sentence: "জনম তব কোন মহাকুলে", word: "মহাকুলে", answer: "অধিকরণে ৭মী" },
+            { sentence: "বেলা যে পড়ে এল জলকে চল", word: "জলকে", answer: "নিমিত্তার্থে ৪র্থী" },
+            { sentence: "গল্পটা সবাই জানে", word: "গল্পটা", answer: "কর্মে শূন্য" },
+            { sentence: "অসহায়কে সাহায্য কর", word: "অসহায়কে", answer: "সম্প্রদানে ৪র্থী" },
+            { sentence: "জসিম ইংরেজী ব্যাকরণে ভাল", word: "ব্যাকরণে", answer: "অধিকরণে ৭মী" },
+            { sentence: "জমি থেকে ফসল পাই", word: "জমি থেকে", answer: "অপাদানে ৫মী" },
+            { sentence: "বনে বাঘ আছে", word: "বনে", answer: "অধিকরণে ৭মী" },
+            { sentence: "আমারে তুমি করিবে ত্রাণ এ নহে মোর প্রার্থনা", word: "আমারে", answer: "কর্মে ২য়া" },
+            { sentence: "শরতে কাশফুল ফুটে", word: "শরতে", answer: "অধিকরণে ৭মী" },
+            { sentence: "জ্ঞানের আলোয় আলোকিত হও", word: "আলোয়", answer: "করণে ৭মী" },
+            { sentence: "শিক্ষক ছাত্রদের অঙ্ক পড়াচ্ছেন", word: "শিক্ষক", answer: "কর্তায় শূন্য" },
+            { sentence: "বিদ্যালয়ে যত্ন কর", word: "বিদ্যালয়ে", answer: "অধিকরণে ৭মী" },
+
+            // সপ্তম পাতা (পৃষ্ঠা ৭১)
+            { sentence: "চেষ্টায় সব হয়", word: "চেষ্টায়", answer: "করণে ৭মী" },
+            { sentence: "ভিক্ষুককে ভিক্ষা দাও", word: "ভিক্ষুককে", answer: "কর্মে শূন্য" },
+            { sentence: "বাঘকে ভয় পায় না কে", word: "বাঘকে", answer: "অপাদানে ২য়া" },
+            { sentence: "তিলে তৈল আছে", word: "তিলে", answer: "অধিকরণে ৭মী" },
+            { sentence: "গাড়ি স্টেশন ছাড়ে", word: "স্টেশন", answer: "অপাদানে শূন্য" },
+            { sentence: "এ অধীনে দায়িত্বভার অর্পণ করুন", word: "অধীনে", answer: "কর্মে ৭মী" },
+            { sentence: "তাকে বল", word: "তাকে", answer: "কর্ম কারকে ২য়া" },
+            { sentence: "জব্বার বই পড়ে", word: "জব্বার", answer: "কর্তৃ কারকে শূন্য" },
+            { sentence: "ফুলে ফুলে ঘর ভরেছে", word: "ফুলে ফুলে", answer: "করণে ৭মী" },
+            { sentence: "দোকান থেকে নদী দেখা যায়", word: "দোকান থেকে", answer: "অধিকরণে ৫মী" },
+            { sentence: "মশা মারতে কামান দাগা", word: "কামান", answer: "কর্মে শূন্য" },
+            { sentence: "টাকায় বাঘের দুধ মেলে", word: "টাকায়", answer: "করণে ৭মী" },
+            { sentence: "অহি নকুলকে এক খাঁচায় ধরে রেখেছে", word: "নকুলকে", answer: "কর্ম কারকে ২য়া" },
+            { sentence: "জাহাজে সাগর পার হওয়া যায়", word: "জাহাজে", answer: "করণে ৭মী" },
+            { sentence: "পরের মুখে শেখা বুলি", word: "মুখে", answer: "অপাদানে ৭মী" },
+            { sentence: "কপোল ভাসিয়া গেল নয়নের জলে", word: "নয়নের জলে", answer: "কর্মে শূন্য" },
+            { sentence: "মেঘ থেকে বৃষ্টি পড়ে", word: "মেঘ থেকে", answer: "অপাদানে ৫মী" },
+            { sentence: "ছেলেরা ফুটবল খেলছে", word: "ছেলেরা", answer: "কর্তৃ কারকে শূন্য" },
+            { sentence: "সৎপাত্রে কন্যা দান করা", word: "সৎপাত্রে", answer: "সম্প্রদানে ৭মী" },
+            { sentence: "গাছ থেকে পাতা পড়ে", word: "গাছ থেকে", answer: "অপাদানে ৫মী" },
+            { sentence: "ছেলেকে ডাক", word: "ছেলেকে", answer: "কর্মে ২য়া" },
+            { sentence: "দেশের জন্য প্রাণ দাও", word: "দেশের", answer: "সম্প্রদানে ৪র্থী" },
+            { sentence: "পুকুরে মাছ আছে", word: "পুকুরে", answer: "অধিকরণে ৭মী" },
+            { sentence: "গরুতে ঘাস খায়", word: "গরুতে", answer: "কর্তৃকারকে ৭মী" },
+            { sentence: "কবির কাজ হচ্ছে কাব্য সৃষ্টি করা", word: "কাব্য", answer: "কর্ম কারকে শূন্য" },
+            { sentence: "প্রিয়জনে যাহা দিতে চাই তাই দেই দেবতারে", word: "দেবতারে", answer: "সম্প্রদানে ৭মী" },
+            { sentence: "নেহাল অঙ্কে খুব কাঁচা", word: "অঙ্কে", answer: "অধিকরণে ৭মী" },
+            { sentence: "হৃদয়ে আমার নাচের আজিকে", word: "হৃদয়ে", answer: "অধিকরণে ২য়া" },
+            { sentence: "বাড়ি ঘুরে এস", word: "বাড়ি", answer: "অধিকরণে শূন্য" },
+            { sentence: "গুরুজনে কর নতি", word: "গুরুজনে", answer: "সম্প্রদানে ৭মী" },
+            { sentence: "আজকে করিম আসবে", word: "আজকে", answer: "অধিকরণে ২য়া" },
+            { sentence: "জেলেরা নদী থেকে মাছ ধরছে", word: "নদী থেকে", answer: "অধিকরণে ৫মী" },
+            { sentence: "দীনে দয়া কর", word: "দীনে", answer: "সম্প্রদানে ৭মী" },
+            { sentence: "এ কলমে ভালো লেখা হয় না", word: "কলমে", answer: "করণে ৭মী" },
+            { sentence: "পাখি ডাকে", word: "পাখি", answer: "কর্তায় শূন্য" },
+            { sentence: "আকাশের ঐ মিটি মিটি তারার সাথে", word: "তারার", answer: "কর্মে ৬ষ্ঠী" },
+            { sentence: "ছেলেটি অঙ্কে কাঁচা", word: "অঙ্কে", answer: "অধিকরণে ৭মী" },
+            { sentence: "সেখানে সাপের ভয় আছে", word: "সাপের", answer: "অপাদানে ৬ষ্ঠী" },
+            { sentence: "শিশুগণ দেয় মন নিজ নিজ পাঠে", word: "শিশুগণ", answer: "কর্তায় শূন্য" },
+            { sentence: "সোনার খাঁচায় রাখব তোমায়", word: "খাঁচায়", answer: "কর্মে শূন্য" },
+            { sentence: "তারা বল খেলে", word: "বল", answer: "করণে শূন্য" },
+            { sentence: "গৃহহীন চিরদিন থাকে পরাধীন", word: "গৃহহীন", answer: "কর্তৃ কারকে শূন্য" },
+            { sentence: "পাহাড় নাড়ায় সাধ্য কার?", word: "পাহাড়", answer: "কর্মে শূন্য" },
+            { sentence: "সাদা মেঘে বৃষ্টি হয় না", word: "মেঘে", answer: "অপাদানে ৭মী" },
+            { sentence: "জলে বাষ্প হয়", word: "জলে", answer: "অপাদানে ৭মী" },
+            { sentence: "থানায় এজহার দাও", word: "থানায়", answer: "অধিকরণে ৭মী" },
+            { sentence: "গরুতে দুধ দেয়", word: "গরুতে", answer: "কর্তৃকারকে ৭মী" },
+            { sentence: "এ সুতায় কাপড় হয় না", word: "সুতায়", answer: "করণে ৭মী" },
+            { sentence: "এ বাড়িতে কেউ নেই", word: "বাড়িতে", answer: "অধিকরণে ৭মী" },
+            { sentence: "সে আমাকে সবকিছু বলেছিল", word: "আমাকে", answer: "কর্মে ২য়া" },
+            { sentence: "সারারাত বৃষ্টি ছিল", word: "সারারাত", answer: "অধিকরণে শূন্য" },
+            { sentence: "বাড়ি থেকে নদী দেখা যায়", word: "বাড়ি থেকে", answer: "অধিকরণে ৫মী" },
+            { sentence: "মন দিয়া কর সবে বিদ্যা উপার্জন", word: "মন দিয়া", answer: "করণে ৩য়া" },
+            { sentence: "মানুষ ভাবে এক হয় আর এক", word: "মানুষ", answer: "কর্তায় শূন্য" },
+            { sentence: "ঝমঝম করে বৃষ্টি পড়ছে", word: "বৃষ্টি", answer: "কর্তৃকারকে শূন্য" },
+            { sentence: "রেখো মা দাসেরে মনে", word: "দাসেরে", answer: "কর্মে ২য়া" },
+            { sentence: "ফুলে শহিদ মিনার ভরে গেছে", word: "ফুলে", answer: "করণে ৭মী" },
+            { sentence: "আজকে নগদ কালকে বাকী", word: "আজকে", answer: "অধিকরণে ২য়া" },
+            { sentence: "সমিতিতে চাঁদা দাও", word: "সমিতিতে", answer: "সম্প্রদানে ৭মী" },
+            { sentence: "বিপদ থেকে বাঁচাও", word: "বিপদ থেকে", answer: "অপাদানে ৫মী" },
+            { sentence: "ধোপাকে কাপড় দাও", word: "ধোপাকে", answer: "কর্মে ২য়া" },
+            { sentence: "ছাদ থেকে পানি পড়ে", word: "ছাদ থেকে", answer: "অপাদানে ৫মী" },
+            { sentence: "অর্থই অনর্থের মূল", word: "অর্থই", answer: "কর্তায় শূন্য" },
+            { sentence: "আমাদের একটি গল্প বলুন", word: "আমাদের", answer: "কর্মে ৬ষ্ঠী" },
+            { sentence: "বাবাকে ভয় পাই", word: "বাবাকে", answer: "অপাদানে ২য়া" },
+            { sentence: "আত্মার সম্পর্কেই আত্মীয়", word: "আত্মার", answer: "করণে ৬ষ্ঠী" },
+            { sentence: "সজীব গণিতে দক্ষ", word: "গণিতে", answer: "অধিকরণে ৭মী" },
+
+            // অষ্টম পাতা (পৃষ্ঠা ৭২)
+            { sentence: "জ্যোৎস্নায় আলোকিত এই রাত্রি", word: "জ্যোৎস্নায়", answer: "করণে ৭মী" },
+            { sentence: "প্রাণপণে চেষ্টা কর", word: "প্রাণপণে", answer: "কর্মে শূন্য" },
+            { sentence: "সকলকে মরিতে হইবে", word: "সকলকে", answer: "কর্তায় ২য়া" },
+            { sentence: "লোকমুখে এ কথা শোনা যায়", word: "লোকমুখে", answer: "অপাদানে ৭মী" },
+            { sentence: "কপালের লেখা খন্ডাবে কে?", word: "কপালের", answer: "অধিকরণে ৬ষ্ঠী" },
+            { sentence: "জগতে কীর্তিমান হও সাধনায়", word: "জগতে", answer: "করণে ৭মী" },
+            { sentence: "রেখ মা দাসেরে মনে", word: "দাসেরে", answer: "কর্মে ২য়া" },
+            { sentence: "পুলিশ চোর ধরেছে", word: "পুলিশ", answer: "কর্তৃ কারকে শূন্য" },
+            { sentence: "কলমের খোঁচা দিওনা", word: "কলমের", answer: "করণে ৬ষ্ঠী" },
+            { sentence: "সরোবরে পদ্ম ফোটে", word: "সরোবরে", answer: "অধিকরণে ৭মী" },
+            { sentence: "বাঁশি বাজে", word: "বাঁশি", answer: "কর্তৃকারকে শূন্য" },
+            { sentence: "দেশের সেবা কর", word: "দেশের", answer: "সম্প্রদানে ৬ষ্ঠী" },
+            { sentence: "আষাঢ়ে বাদল নামে", word: "আষাঢ়ে", answer: "অধিকরণে ৭মী" },
+            { sentence: "ছাদ দিয়া পানি পড়ে", word: "ছাদ দিয়া", answer: "অপাদানে ৩য়া" },
+            { sentence: "অঙ্গে অটল সুনীল বরণ, রুনুরুনু রবে বাজে আভরণ", word: "রবে", answer: "অধিকরণে ৭মী" },
+            { sentence: "কাজে মন দাও", word: "কাজে", answer: "অধিকরণে ৭মী" },
+            { sentence: "রবীন্দ্রনাথ গীতাঞ্জলি লিখেছেন", word: "গীতাঞ্জলি", answer: "কর্মে শূন্য" },
+            { sentence: "শান্তির ললিত বাণী শোনাইবে ব্যর্থ পরিহাস", word: "বাণী", answer: "কর্মে শূন্য" },
+            { sentence: "আপন পাঠে মন দাও", word: "পাঠে", answer: "অধিকরণে ৭মী" },
+            { sentence: "নিজের চেষ্টায় বড় হও", word: "চেষ্টায়", answer: "করণে ৭মী" },
+            { sentence: "ছাদ থেকে পানি পড়ে", word: "ছাদ থেকে", answer: "অপাদানে ৫মী" },
+            { sentence: "শাক দিয়ে মাছ ঢাকা যায় না", word: "শাক দিয়ে", answer: "করণে ৩য়া" },
+            { sentence: "তিলে তৈল থাকে", word: "তিলে", answer: "অধিকরণে শূন্য" },
+            { sentence: "কি করি আজ ভেবে না পাই", word: "কি", answer: "অধিকরণে শূন্য" },
+            { sentence: "আমাদের সেনারা সাহসে দুর্জয়, যুদ্ধে অপরাজেয়", word: "সাহসে", answer: "অধিকরণে ৭মী" },
+            { sentence: "দেশের জন্য সেবা কর", word: "দেশের", answer: "সম্প্রদানে ৬ষ্ঠী" },
+            { sentence: "আজকে নগদ কালকে বাকী", word: "আজকে", answer: "অধিকরণে ২য়া" },
+            { sentence: "সকলকে মরতে হবে", word: "সকলকে", answer: "কর্তৃকারকে ২য়া" },
+            { sentence: "শুক্রবার থেকে পরীক্ষা শুরু", word: "শুক্রবার থেকে", answer: "অপাদানে ৫মী" },
+            { sentence: "আমার যাওয়া হয় নি", word: "আমার", answer: "কর্তৃকারকে ৬ষ্ঠী" },
+            { sentence: "প্রভাতে সূর্য উঠে", word: "প্রভাতে", answer: "অধিকরণে ৭মী" },
+            { sentence: "ডাক্তার ডাক", word: "ডাক্তার", answer: "কর্মে শূন্য" },
+            { sentence: "সে বই পড়ে", word: "বই", answer: "কর্মে শূন্য" },
+            { sentence: "দীনে দয়া কর", word: "দীনে", answer: "সম্প্রদানে ৭মী" },
+            { sentence: "সে অঙ্কে ভালো", word: "অ অঙ্কে", answer: "অধিকরণে ৭মী" },
+            { sentence: "ট্রেন স্টেশন ছাড়ল", word: "ট্রেন", answer: "কর্তৃকারকে শূন্য" },
+            { sentence: "কাঁচের জিনিস সহজে ভাঙে", word: "কাঁচের", answer: "করণে ৬ষ্ঠী" },
+            { sentence: "বড় হও নিজের চেষ্টায়", word: "চেষ্টায়", answer: "করণে ৭মী" },
+            { sentence: "একবার চোখের দেখা দেখব", word: "চোখের", answer: "করণে ৬ষ্ঠী" },
+            { sentence: "বাঘে মহিষে এক ঘাটে পানি খায়", word: "বাঘে মহিষে", answer: "কর্তায় ৭মী" },
+            { sentence: "সমুদ্রে লবণ আছে", word: "সমুদ্রে", answer: "অধিকরণে ৭মী" },
+            { sentence: "ব্যবহারে বংশের পরিচয়", word: "ব্যবহারে", answer: "করণে ৭মী" },
+            { sentence: "অন্নহীনে অন্ন দাও", word: "অন্নহীনে", answer: "সম্প্রদানে ৭মী" },
+            { sentence: "এ কলমে ভাল লেখা হয় না", word: "কলমে", answer: "করণে ৭মী" },
+            { sentence: "সকালে সূর্য উঠে", word: "সকালে", answer: "অধিকরণে ৭মী" },
+            { sentence: "মন দিয়ে পড়াশুনা কর", word: "মন দিয়ে", answer: "করণে ৩য়া" },
+            { sentence: "জমি থেকে ফসল পাই", word: "জমি থেকে", answer: "অপাদানে ৫মী" },
+            { sentence: "গরুতে ঘাস খায়", word: "গরুতে", answer: "কর্তায় ৭মী" },
+            { sentence: "এ সুতায় কাপড় হয় না", word: "সুতায়", answer: "করণে ৭মী" },
+            { sentence: "ওপারের হাটে যেতে হলে নৌকাতে নদী পার হতে হয়", word: "নৌকাতে", answer: "করণে ৭মী" },
+            { sentence: "এমন সুখের মরণ কয়জনে মরে", word: "মরণ", answer: "কর্মে শূন্য" },
+            { sentence: "ট্রেন কমলাপুর ছাড়লো", word: "কমলাপুর", answer: "অপাদানে শূন্য" },
+            { sentence: "তিলে তৈল আছে", word: "তিলে", answer: "অধিকরণে ৭মী" },
+            { sentence: "দুঃখীকে দয়া কর", word: "দুঃখীকে", answer: "সম্প্রদানে ৪র্থী" },
+            { sentence: "আলোয় আঁধার কাটে", word: "আলোয়", answer: "করণে ৭মী" },
+            { sentence: "শুক্রবার স্কুল বন্ধ", word: "শুক্রবার", answer: "অধিকরণে শূন্য" },
+            { sentence: "কাননে কুসুমকলি সকলি ফুটিল", word: "কাননে", answer: "অধিকরণে ৭মী" },
+            
+            // ২০২৫ সাল (পৃষ্ঠা ৭২ থেকে)
+            { sentence: "রবীন্দ্রনাথ গীতাঞ্জলি লিখেছেন", word: "গীতাঞ্জলি", answer: "কর্মে শূন্য" },
+            { sentence: "তিলে তৈল হয়", word: "তিলে", answer: "অপাদানে ৭মী" },
+            { sentence: "গুরুজনে করো ভক্তি", word: "গুরুজনে", answer: "সম্প্রদানে ৭মী" },
+            { sentence: "ভিক্ষা দাও দুয়ারে ভিক্ষুক", word: "ভিক্ষুক", answer: "সম্প্রদানে শূন্য" },
+            { sentence: "যেখানে বাঘের ভয় সেখানে রাত হয়", word: "বাঘের", answer: "অপাদানে ৬ষ্ঠী" },
+            { sentence: "কালির দাগ সহজে মোছে না", word: "কালির", answer: "করণে ৬ষ্ঠী" },
+            { sentence: "আমার যাওয়া হয় নি", word: "আমার", answer: "কর্তৃকারকে ৬ষ্ঠী" },
+            // নবম পাতা (পৃষ্ঠা ৭৩)
+            { sentence: "আমার যাওয়া হয়নি।", word: "আমার", answer: "কর্তৃকারকে ৬ষ্ঠী" },
+            { sentence: "ছাত্ররা বল খেলে", word: "বল", answer: "করণে শূন্য" },
+            { sentence: "বাবাকে বড্ড ভয় পাই।", word: "বাবাকে", answer: "অপাদানে ২য়া" },
+            { sentence: "ফুলে ফুলে ঘর ভরেছে", word: "ফুলে ফুলে", answer: "করণে ৭মী" },
+            { sentence: "তোমার দেখা পেলাম না", word: "তোমার", answer: "কর্মে ৬ষ্ঠী" },
+            { sentence: "এ দেহে প্রাণ নেই", word: "দেহে", answer: "অধিকরণে ৭মী" },
+            { sentence: "গাছে কাঁঠাল গোঁফে তেল", word: "গোঁফে", answer: "অধিকরণে ৭মী" },
+            { sentence: "ছাদ হইতে পানি পড়ে", word: "ছাদ হইতে", answer: "অপাদানে ৫মী" },
+            { sentence: "চোরে না শুনে ধর্মের কাহিনী", word: "চোরে", answer: "কর্তায় ৭মী" },
+            { sentence: "সর্বভূতে ধন দাও", word: "সর্বভূতে", answer: "সম্প্রদানে ৭মী" },
+            { sentence: "লোকটি কানে খাটো", word: "কানে", answer: "করণে ৭মী" },
+            { sentence: "তিলে তৈল হয়", word: "তিলে", answer: "অপাদানে ৭মী" },
+            { sentence: "সৎপাত্রে কন্যা দান কর", word: "সৎপাত্রে", answer: "সম্প্রদানে ৭মী" },
+            { sentence: "আয়ু যেন পদ্ম পাতায় নীড়।", word: "পাতায়", answer: "অধিকরণ কারক" },
+            { sentence: "জিজ্ঞাসিবে জনে জনে।", word: "জনে জনে", answer: "কর্মে ৭মী" },
+            { sentence: "খিলিপান দিয়ে ওষুধ খাবে।", word: "খিলিপান দিয়ে", answer: "অধিকরণে ৩য়া" },
+            { sentence: "ঘোড়াকে চাবুক মার।", word: "চাবুক", answer: "করণে শূন্য" },
+            { sentence: "গাড়ি স্টেশন ছাড়ে।", word: "স্টেশন", answer: "অপাদানে শূন্য" },
+            { sentence: "আপন পাঠে মন দাও", word: "পাঠে", answer: "অধিকরণে ৭মী" },
+            { sentence: "ফুলে ফুলে ঘর ভরেছে", word: "ফুলে ফুলে", answer: "করণে ৭মী" },
+            { sentence: "সর্বাঙ্গে ব্যথা, ঔষধ দিবো কোথা?", word: "সর্বাঙ্গে", answer: "অধিকরণে ৭মী" },
+            { sentence: "হেথায় সবার হবে মিলিবারে", word: "হেথায়", answer: "কর্তৃকারকে শূন্য" },
+            { sentence: "টাকায় কী না হয়?", word: "টাকায়", answer: "করণে ৭মী" },
+            { sentence: "পাগলে কিনা বলে, ছাগলে কিনা খায়", word: "পাগলে", answer: "কর্তায় ৭মী" },
+            { sentence: "আমারে তুমি করিবে ত্রাণ, এ নহে মোর প্রার্থনা।", word: "আমারে", answer: "কর্ম ২য়া" },
+            { sentence: "গাঁয়ে মানে না আপনি মোড়ল।", word: "গাঁয়ে", answer: "কর্তায় ৭মী" },
+            { sentence: "ট্রেনটি স্টেশন ছেড়ে গেল।", word: "স্টেশন", answer: "অপাদানে শূন্য" },
+            { sentence: "দেশের জন্য প্রাণ দাও।", word: "দেশের", answer: "সম্প্রদানে ৬ষ্ঠী" },
+            { sentence: "সে ঘর থেকে বেরিয়ে গেল।", word: "ঘর থেকে", answer: "অপাদানে ৫মী" },
+            { sentence: "শ্রম বিনা ধন লাভ হয় না।", word: "শ্রম বিনা", answer: "করণে শূন্য" },
+            { sentence: "অহংকারই পতনের মূল।", word: "অহংকারই", answer: "করণে শূন্য" },
+            { sentence: "পাছে লোকে কিছু বলে", word: "লোকে", answer: "কর্তায় ৭মী" },
+            { sentence: "কাননে কুসুমকলি সকলি ফুটিল", word: "কাননে", answer: "অধিকরণে ৭মী" },
+            { sentence: "কলমের খোঁচা দিও না", word: "কলমের", answer: "করণে ৬ষ্ঠী" },
+            { sentence: "রেখ মা দাসেরে মনে", word: "দাসেরে", answer: "কর্মে ২য়া" },
+            { sentence: "বেলা যে পড়ে গেল জলকে চল", word: "জলকে", answer: "নিমিত্তার্থে ৪র্থী" },
+            { sentence: "সাদা মেঘে বৃষ্টি হয় না", word: "মেঘে", answer: "অপাদানে ৭মী" },
+            { sentence: "কেন তোমায় দিইনি আমি সকল শূন্য করে", word: "তোমায়", answer: "সম্প্রদানে ৭মী" },
+            { sentence: "প্রভাতে উঠিল রবি লোহিত বরণ", word: "প্রভাতে", answer: "অধিকরণে ৭মী" },
+            { sentence: "দীনে দান কর", word: "দীনে", answer: "সম্প্রদানে ৭মী" },
+            { sentence: "বুলবুলিতে ধান খেয়েছে।", word: "বুলবুলিতে", answer: "কর্তৃ কারকে ৭মী" },
+            { sentence: "কুকর্মে বিরত হও।", word: "কুকর্মে", answer: "অপাদানে ৭মী" },
+            { sentence: "ছেলেটি বল দিয়ে খেলা করছে।", word: "বল দিয়ে", answer: "করণে ৩য়া" },
+            { sentence: "ট্রেনটি ঢাকা ছাড়লো।", word: "ঢাকা", answer: "অপাদানে শূন্য" },
+            { sentence: "মাতাপিতার সেবা কর।", word: "মাতাপিতার", answer: "সম্প্রদানে ৬ষ্ঠী" },
+            { sentence: "জ্ঞানে বিমল আনন্দ লাভ হয়।", word: "জ্ঞানে", answer: "করণে ৭মী" },
+            { sentence: "সূর্য উঠলে অন্ধকার দূর হয়।", word: "সূর্য", answer: "অধিকরণে শূন্য" },
+            { sentence: "নতুন ধানে হবে নবান্ন।", word: "ধানে", answer: "করণে ৭মী" },
+            { sentence: "সূর্যোদয়ে অন্ধকার দূরীভূত হয়", word: "সূর্যোদয়ে", answer: "অধিকরণে ৭মী" },
+            { sentence: "বুদ্ধি খাটিয়ে কাজ কর", word: "বুদ্ধি", answer: "করণে শূন্য" },
+            { sentence: "নেহাল অঙ্কে খুব কাঁচা", word: "অঙ্কে", answer: "অধিকরণে ৭মী" },
+            { sentence: "এ অধীনে দায়িত্বভার অর্পণ করুন", word: "অধীনে", answer: "কর্মে ৭মী" },
+            { sentence: "তিলে তৈল আছে", word: "তিলে", answer: "অধিকরণে ৭মী" },
+            { sentence: "পাইলটে ভাল লেখা হয়", word: "পাইলটে", answer: "করণে ৭মী" },
+            { sentence: "অর্থ অনর্থ ঘটায়", word: "অর্থ", answer: "কর্তায় শূন্য" },
+            { sentence: "পাখিতে ধান খায়", word: "পাখিতে", answer: "কর্তৃকারকে ৭মী" },
+            { sentence: "সরিষাতে তৈল হয়", word: "সরিষাতে", answer: "অপাদানে ৭মী" },
+            { sentence: "দরিদ্রকে সাহায্য করুন।", word: "দরিদ্রকে", answer: "সম্প্রদানে ৪র্থী" },
+            { sentence: "সে কলেরায় মারা গেছে", word: "কলেরায়", answer: "করণে ৭মী" },
+            { sentence: "চোরে না শুনে ধর্মের কাহিনী", word: "চোরে", answer: "কর্তায় ৭মী" },
+            { sentence: "গাছে কাঁঠাল গোঁফে তেল", word: "গোঁফে", answer: "অধিকরণে ৭মী" },
+            { sentence: "আমার যাওয়া হয়নি।", word: "আমার", answer: "কর্তৃকারকে ৬ষ্ঠী" },
+            { sentence: "বুলবুলিতে ধান খেয়েছে।", word: "বুলবুলিতে", answer: "কর্তায় ৭মী" },
+            { sentence: "চেষ্টায় সব হয়।", word: "চেষ্টায়", answer: "করণে ৭মী" },
+            { sentence: "সারারাত বৃষ্টি হয়েছে।", word: "সারারাত", answer: "অধিকরণে শূন্য" },
+            { sentence: "নজরুল কর্তৃক অগ্নিবীণা রচিত হয়েছে", word: "নজরুল কর্তৃক", answer: "কর্তৃকারকে ৩য়া" },
+            { sentence: "ছেলেটি বলের সঙ্গে যুদ্ধ করে।", word: "বলের সঙ্গে", answer: "কর্মকারকে ৬ষ্ঠী" },
+
+            // দশম পাতা (পৃষ্ঠা ৭৪)
+            { sentence: "আকাশ মেঘে ঢাকা।", word: "মেঘে", answer: "করণে ৭মী" },
+            { sentence: "এ জমিতে সোনা ফলে।", word: "জমিতে", answer: "অধিকরণে ৭মী" },
+            { sentence: "বোঁটা-আলগা ফল গাছে থাকেনা", word: "বোঁটা-আলগা", answer: "অপাদানে শূন্য" },
+            { sentence: "আমাদের সেনারা সাহসে দুর্জয়, যুদ্ধে অপরাজেয়", word: "সাহসে", answer: "অধিকরণে ৭মী" },
+            { sentence: "জগতে কীর্তিমান হয় সাধনায়", word: "সাধনায়", answer: "করণে ৭মী" },
+            { sentence: "গাঁয়ে মানে না, আপনি মোড়ল", word: "গাঁয়ে", answer: "কর্তায় ৭মী" },
+            { sentence: "রবীন্দ্রনাথ পড়লাম, নজরুল পড়লাম, এর সুরাহ খুঁজে পেলাম না।", word: "রবীন্দ্রনাথ", answer: "কর্মে শূন্য" },
+            { sentence: "শিকারি বিড়াল গোঁফে চেনা যায়।", word: "গোঁফে", answer: "করণে ৭মী" },
+            { sentence: "অন্ধজনে দেহ আলো।", word: "অন্ধজনে", answer: "সম্প্রদানে ৭মী" },
+            { sentence: "লোকমুখে শুনেছি", word: "লোকমুখে", answer: "অপাদানে ৭মী" },
+            { sentence: "বিপদে মোরে করিবে ত্রাণ, এ নহে মোর প্রার্থনা", word: "বিপদে", answer: "অপাদানে ৭মী" },
+            { sentence: "প্রভাতে সূর্য উদিত হয়", word: "প্রভাতে", answer: "অধিকরণে ৭মী" },
+            { sentence: "গাড়ী স্টেশন ছেড়েছে", word: "স্টেশন", answer: "অপাদানে শূন্য" },
+            { sentence: "আমার ভাত খাওয়া হলো না।", word: "ভাত", answer: "কর্মে শূন্য" },
+            { sentence: "নতুন ধানে হবে নবান্ন।", word: "ধানে", answer: "করণে ৭মী" },
+            { sentence: "'মন দিয়া কর সবে বিদ্যা উপার্জন'", word: "মন দিয়া", answer: "করণে ৩য়া" },
+            { sentence: "'কি করি আজ ভেবে না পাই।'", word: "আজ", answer: "অধিকরণে শূন্য" },
+            { sentence: "আষাঢ়ে বৃষ্টি নামে", word: "আষাঢ়ে", answer: "অধিকরণে ৭মী" },
+            { sentence: "গাছ হতে ফলটি পড়ল", word: "গাছ হতে", answer: "অপাদানে ৫মী" },
+            { sentence: "শিক্ষককে শ্রদ্ধা কর", word: "শিক্ষককে", answer: "সম্প্রদানে ৪র্থী" },
+            { sentence: "সব ঝিনুকে মুক্তা পাওয়া যায় না", word: "ঝিনুকে", answer: "অপাদানে ৭মী" },
+            { sentence: "টাকায় কি না নয়।", word: "টাকায়", answer: "করণে ৭মী" },
+            { sentence: "বাঘে-মহিষে এক ঘাটে জল খায়", word: "বাঘে-মহিষে", answer: "কর্তৃকারকে ৭মী" },
+            { sentence: "ঘোড়ায় গাড়ি টানে", word: "ঘোড়ায়", answer: "কর্তৃকারকে ৭মী" },
+            { sentence: "আকাশে চাঁদ উঠেছে", word: "আকাশে", answer: "অধিকরণ ৭মী" },
+            { sentence: "দশে মিলে করি কাজ।", word: "দশে", answer: "কর্তায় ৭মী" },
+            { sentence: "ছাদে বৃষ্টি পড়ে", word: "ছাদে", answer: "অধিকরণে ৭মী" },
+            { sentence: "কৃষক লাঙ্গল চষছে", word: "লাঙ্গল", answer: "করণে শূন্য" },
+            { sentence: "আগুনটা ভালো করে জ্বালা", word: "আগুনটা", answer: "কর্মে শূন্য" },
+            { sentence: "তোমার পূজার ছলে তোমায় ভুলে থাকি", word: "পূজার ছলে", answer: "সম্প্রদানে ৬ষ্ঠী" },
+            { sentence: "তুমি সন্ধ্যাকাশের তারার মতো।", word: "সন্ধ্যাকাশের", answer: "অধিকরণে ৬ষ্ঠী" },
+            { sentence: "কী হচ্ছে বাইরে?", word: "বাইরে", answer: "অধিকরণে ৭মী" },
+            { sentence: "রাম কর্তৃক রাবন নিহত হয়েছিল।", word: "রাম কর্তৃক", answer: "কর্তৃকারকে ৩য়া" },
+            { sentence: "আমি কলম দিয়ে লিখি", word: "কলম দিয়ে", answer: "করণ কারক" },
+            { sentence: "সব ঝিনুকে মুক্তো মিলে না", word: "ঝিনুকে", answer: "অপাদান কারকে ৭মী" },
+            { sentence: "সর্বাঙ্গে ব্যথা ঔষধ দিব কোথা", word: "ঔষধ", answer: "কর্মকারকে শূন্য" },
+            { sentence: "গাড়ি স্টেশন ছেড়েছে", word: "স্টেশন", answer: "অপাদানে ৭মী" },
+            { sentence: "পাছে লোকে কিছু বলে", word: "লোকে", answer: "কর্তৃকারকে ৭মী" },
+            { sentence: "কপোল ভাসিয়া গেল নয়নের জলে", word: "নয়নের জলে", answer: "কর্মে শূন্য" },
+            { sentence: "গাড়ি স্টেশন ছাড়ে", word: "স্টেশন", answer: "অপাদানে শূন্য" },
+            { sentence: "রকিব অঙ্কে কাঁচা", word: "অঙ্কে", answer: "অধিকরণে ৭মী" },
+            { sentence: "ধোপাকে কাপড় দাও।", word: "ধোপাকে", answer: "কর্মে ২য়া" },
+            { sentence: "সর্বভূতে ধন দাও।", word: "সর্বভূতে", answer: "সম্প্রদানে ৭মী" },
+            { sentence: "জল পড়ে পাতা নড়ে", word: "জল", answer: "কর্তায় শূন্য" },
+            { sentence: "আকাশে আজ অনেক তারা উঠেছে", word: "আকাশে", answer: "অধিকরণে ৭মী" },
+            { sentence: "তারা সবাই মিলে গল্প করছে", word: "গল্প", answer: "কর্মকারকে শূন্য" },
+            { sentence: "এ কলমে ভাল লিখে না", word: "কলমে", answer: "করণে ৭মী" },
+            { sentence: "গৃহহীনে গৃহ দাও", word: "গৃহহীনে", answer: "সম্প্রদানে ৭মী" },
+            { sentence: "সাহিদ অঙ্কে কাঁচা", word: "অঙ্কে", answer: "অধিকরণে ৭মী" },
+            { sentence: "বিপদে মোরে রক্ষা কর", word: "বিপদে", answer: "অপাদানে ৭মী" },
+            { sentence: "প্রাণপণে চেষ্টা কর", word: "প্রাণপণে", answer: "করণে ৭মী" },
+            { sentence: "মাকে বড্ড ভয় পাই", word: "মাকে", answer: "অপাদানে ২য়া" },
+            { sentence: "আমারে তুমি করিবে ত্রাণ এ নহে মোর প্রার্থনা", word: "আমারে", answer: "কর্মকারকে ২য়া" },
+            { sentence: "সব ঝিনুকে মুক্তা মেলে না", word: "ঝিনুকে", answer: "অপাদানে ৭মী" },
+            { sentence: "তিলে তৈল আছে।", word: "তিলে", answer: "অধিকরণে ৭মী" },
+            { sentence: "অন্ধজনে দেহ আলো।", word: "অন্ধজনে", answer: "সম্প্রদানে ৭মী" },
+            { sentence: "ছাত্ররা বল খেলে", word: "বল", answer: "করণে শূন্য" }
+
+        ];
+
+        let favorites = JSON.parse(localStorage.getItem('karakFavs')) || [];
+        let showOnlyFavs = false;
+        const container = document.getElementById('karak-container');
+
+        function renderItems(filterText = "") {
+            container.innerHTML = "";
+            let count = 0;
+
+            karakData.forEach((item, index) => {
+                const textForSearch = item.sentence.toLowerCase() + " " + item.answer.toLowerCase();
+                const isMatch = textForSearch.includes(filterText.toLowerCase());
+                const isFav = favorites.includes(index);
+
+                if (isMatch && (!showOnlyFavs || isFav)) {
+                    count++;
+                    let highlightedSentence;
+                    if (item.sentence.includes(item.word)) {
+                        highlightedSentence = item.sentence.replace(item.word, `<span class="karak-word" onclick="showAnswer(this, ${index})">${item.word}</span><span class="answer">✔️ ${item.answer}</span>`);
+                    } else {
+                        highlightedSentence = `<span class="karak-word" onclick="showAnswer(this, ${index})">${item.sentence}</span><span class="answer">✔️ ${item.answer}</span>`;
+                    }
+
+                    const div = document.createElement('div');
+                    div.className = 'karak-item';
+                    div.id = `item-${index + 1}`;
+                    
+                    const favClass = isFav ? 'fav-icon active' : 'fav-icon';
+                    
+                    div.innerHTML = `
+                        <span class="serial">${index + 1}.</span> 
+                        <div class="sentence-content">${highlightedSentence}</div>
+                        <span class="${favClass}" onclick="toggleFavorite(${index}, this)" title="ফেভারিট করুন">★</span>
+                    `;
+                    container.appendChild(div);
+                }
+            });
+
+            document.getElementById('no-results').style.display = count === 0 ? "block" : "none";
+        }
+
+        function showAnswer(element, index) {
+            const answerSpan = element.nextElementSibling;
+            if (answerSpan.style.display === "inline-block") {
+                answerSpan.style.display = "none";
+                element.style.background = "rgba(255, 235, 59, 0.15)";
+                element.style.color = "#ffeb3b";
+            } else {
+                answerSpan.style.display = "inline-block";
+                element.style.background = "#ffeb3b";
+                element.style.color = "#000";
+                localStorage.setItem('karakLastRead', index + 1);
+            }
+        }
+
+        function toggleFavorite(index, element) {
+            const favIndex = favorites.indexOf(index);
+            if (favIndex === -1) {
+                favorites.push(index);
+                element.classList.add('active');
+            } else {
+                favorites.splice(favIndex, 1);
+                element.classList.remove('active');
+                if(showOnlyFavs) renderItems(); 
+            }
+            localStorage.setItem('karakFavs', JSON.stringify(favorites));
+        }
+
+        function filterItems() {
+            const query = document.getElementById('searchInput').value;
+            renderItems(query);
+        }
+
+        function toggleFavView() {
+            showOnlyFavs = !showOnlyFavs;
+            const btn = document.getElementById('favToggleBtn');
+            if (showOnlyFavs) {
+                btn.innerHTML = "📖 সবগুলো দেখুন";
+                btn.style.background = "linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%)";
+            } else {
+                btn.innerHTML = "⭐ ফেভারিটগুলো";
+                btn.style.background = "linear-gradient(135deg, #f6d365 0%, #fda085 100%)";
+            }
+            renderItems(document.getElementById('searchInput').value);
+        }
+
+        function scrollToLastRead() {
+            const lastRead = localStorage.getItem('karakLastRead');
+            if (lastRead !== null) {
+                jumpToElement(lastRead);
+            } else {
+                alert("আপনার কোনো লাস্ট রিড ডেটা সেভ করা নেই! কোনো উত্তরের ওপর ক্লিক করুন।");
+            }
+        }
+
+        // Expand/Collapse the navigation panel
+        function toggleNavPanel(event) {
+            const navPanel = document.getElementById('rightNav');
+            
+            if (event.target.classList.contains('rocket-toggle') || event.target.id === 'rightNav') {
+                if (navPanel.classList.contains('expanded')) {
+                    navPanel.classList.remove('expanded');
+                } else {
+                    navPanel.classList.add('expanded');
+                    document.querySelector('.nav-panel-contents').onclick = (e) => e.stopPropagation();
+                }
+            }
+        }
+
+        function jumpToQuestion() {
+            const num = parseInt(document.getElementById('jumpInput').value);
+            if(num > 0 && num <= karakData.length) {
+                if(showOnlyFavs) toggleFavView(); 
+                document.getElementById('searchInput').value = ""; 
+                renderItems();
+                
+                document.getElementById('rightNav').classList.remove('expanded');
+                
+                setTimeout(() => { jumpToElement(num); }, 100);
+            } else {
+                alert(`অনুগ্রহ করে ১ থেকে ${karakData.length} এর মধ্যে একটি নম্বর দিন!`);
+            }
+        }
+
+        function jumpToElement(idNumber) {
+            const element = document.getElementById(`item-${idNumber}`);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                element.style.background = "rgba(0, 242, 254, 0.3)"; 
+                element.style.borderLeft = "4px solid #00f2fe";
+                setTimeout(() => {
+                    element.style.background = "rgba(255, 255, 255, 0.03)";
+                    element.style.borderLeft = "4px solid transparent";
+                }, 2500);
+            }
+        }
+
+        document.getElementById("jumpInput").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                jumpToQuestion();
+            }
+        });
+
+        document.addEventListener('click', function(event) {
+            const navPanel = document.getElementById('rightNav');
+            if (!navPanel.contains(event.target)) {
+                navPanel.classList.remove('expanded');
+            }
+        });
+
+        renderItems();
+    </script>
+</body>
+</html>
