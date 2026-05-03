@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>সন্ধি মাস্টার - আল্টিমেট প্রো</title>
+    <style>
+        /* Modern Animated Background for Sandhi */
+        body {
+            font-family: 'Kalpurush', 'SolaimanLipi', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(-45deg, #2b1055, #753a88, #4b134f, #1f0b3b);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            scroll-behavior: smooth;
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Glassmorphism Main Container */
+        .glass-panel {
+            background: rgba(20, 10, 40, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            max-width: 850px;
+            width: 100%;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            position: relative;
+            margin-bottom: 50px;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 32px;
+            background: linear-gradient(to right, #d4fc79, #96e6a1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            border-bottom: 2px dashed rgba(255,255,255,0.2);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        /* Toolbar Styles */
+        .toolbar {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .search-box {
+            flex-grow: 1;
+            padding: 15px 25px;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(0,0,0,0.4);
+            color: #fff;
+            font-size: 18px;
+            outline: none;
+            transition: 0.3s;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+        }
+        .search-box:focus {
+            border-color: #96e6a1;
+            background: rgba(0,0,0,0.6);
+            box-shadow: 0 0 15px rgba(150, 230, 161, 0.4);
+        }
+        .btn {
+            background: linear-gradient(135deg, #d4fc79, #96e6a1);
+            color: #000;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(150, 230, 161, 0.4);
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(150, 230, 161, 0.6);
+        }
+
+        /* Item Styles */
+        .sandhi-item {
+            margin-bottom: 20px;
+            font-size: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 15px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            scroll-margin-top: 100px;
+        }
+        .sandhi-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid #96e6a1;
+            transform: scale(1.01);
+        }
+        .sandhi-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+        .serial {
+            color: #96e6a1;
+            font-weight: bold;
+            font-size: 22px;
+            min-width: 45px;
+        }
+        .sandhi-word {
+            flex-grow: 1;
+            background: rgba(150, 230, 161, 0.15);
+            border-bottom: 2px dashed #96e6a1;
+            padding: 5px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: #d4fc79;
+            transition: 0.3s;
+            font-weight: bold;
+            font-size: 24px;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+        .sandhi-word:hover {
+            background: #96e6a1;
+            color: #000;
+        }
+        .answer {
+            display: none;
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            color: #000;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 22px;
+            animation: bounceIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-top: 10px;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(56, 239, 125, 0.4);
+        }
+        
+        /* Floating Right Navigator */
+        .right-nav {
+            position: fixed;
+            right: 30px;
+            bottom: 30px;
+            background: rgba(20, 10, 40, 0.85);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 100;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden; 
+            width: 65px;
+            height: 65px;
+        }
+        .right-nav.expanded {
+            border-radius: 25px;
+            width: 70px;
+            height: 290px;
+            padding-top: 15px;
+            padding-bottom: 10px;
+            cursor: default;
+        }
+        .rocket-toggle {
+            font-size: 30px;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 65px;
+        }
+        .nav-panel-contents {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            height: 0;
+            pointer-events: none;
+        }
+        .right-nav.expanded .nav-panel-contents {
+            opacity: 1;
+            height: auto;
+            pointer-events: auto;
+            margin-bottom: 5px;
+        }
+        .jump-input {
+            width: 40px;
+            padding: 8px 5px;
+            border-radius: 8px;
+            border: 1px solid #96e6a1;
+            background: rgba(0,0,0,0.5);
+            color: #fff;
+            text-align: center;
+            outline: none;
+        }
+        .jump-btn {
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.8) translateY(-10px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        
+        .fav-icon {
+            cursor: pointer;
+            font-size: 26px;
+            color: rgba(255,255,255,0.2);
+            transition: 0.3s;
+        }
+        .fav-icon.active {
+            color: #f6d365;
+            text-shadow: 0 0 15px rgba(246, 211, 101, 0.8);
+        }
+
+        @media (max-width: 768px) {
+            .glass-panel { padding: 20px; }
+            .right-nav { right: 20px; bottom: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="glass-panel">
+        <h2>✨ সন্ধি মাস্টার 📚</h2>
+        
+        <div class="toolbar">
+            <input type="text" id="searchInput" class="search-box" placeholder="🔍 সন্ধির শব্দ খুঁজুন..." onkeyup="filterItems()">
+            <button class="btn" id="favToggleBtn" onclick="toggleFavView()">⭐ ফেভারিটগুলো</button>
+            <button class="btn" onclick="scrollToLastRead()">🕒 শেষ পড়া স্থানে যান</button>
+        </div>
+
+        <div id="no-results" style="display:none; text-align:center;">কোনো ফলাফল পাওয়া যায়নি!</div>
+        <div id="sandhi-container"></div>
+    </div>
+
+    <div class="right-nav" id="rightNav" onclick="toggleNavPanel(event)">
+        <div class="nav-panel-contents">
+            <button style="background:none; border:none; cursor:pointer; font-size:20px;" onclick="window.scrollTo(0,0)">⬆️</button>
+            <div style="display:flex; flex-direction:column; gap:5px; align-items:center;">
+                <input type="number" id="jumpInput" class="jump-input" placeholder="নং">
+                <button class="jump-btn" onclick="jumpToQuestion()">যান</button>
+            </div>
+            <button style="background:none; border:none; cursor:pointer; font-size:20px;" onclick="window.scrollTo(0, document.body.scrollHeight)">⬇️</button>
+        </div>
+        <div class="rocket-toggle">🚀</div>
+    </div>
+
+    <script>
+        const sandhiData = [
+            // পৃষ্ঠা ২২
+            { word: "শিরশ্ছেদ", sandhi: "শিরঃ + ছেদ" },
+            { word: "কটাক্ষ", sandhi: "কট + অক্ষ" },
+            { word: "অধ্যুষিত", sandhi: "অধি + উষিত" },
+            { word: "ব্যর্থ", sandhi: "বি + অর্থ" },
+            { word: "জাত্যভিমান", sandhi: "জাতি + অভিমান" },
+            { word: "রাজর্ষি", sandhi: "রাজা + ঋষি" },
+            { word: "নবান্ন", sandhi: "নব + অন্ন" },
+            { word: "সংবাদ", sandhi: "সম্ + বাদ" },
+            { word: "যদিচ্ছা", sandhi: "যদি + ইচ্ছা" },
+            { word: "মহেশ", sandhi: "মহা + ঈশ" },
+            { word: "নয়ন", sandhi: "নে + অন" },
+            { word: "নিশ্চয়", sandhi: "নিঃ + চয়" },
+            { word: "ক্ষুধার্ত", sandhi: "ক্ষুধা + ঋত" },
+            { word: "সম্প্রীতি", sandhi: "সম্ + প্রীতি" },
+            { word: "ভাবুক", sandhi: "ভৌ + উক" },
+            { word: "ষষ্ঠ", sandhi: "ষষ্ + থ" },
+            { word: "মনীষা", sandhi: "মনস্ + ঈষা" },
+            { word: "বাগদান", sandhi: "বাক্ + দান" },
+            { word: "উদ্যম", sandhi: "উৎ + যম" },
+            { word: "চিত্তাকর্ষক", sandhi: "চিত্ত + আকর্ষণ" },
+            { word: "দিগ্বিদিক", sandhi: "দিক্ + বিদিক" },
+            { word: "স্বাধীন", sandhi: "স্ব + অধীন" },
+
+            // পৃষ্ঠা ২১
+            { word: "দর্শনীয়", sandhi: "দৃশ্ + অনীয়" },
+            { word: "পাবক", sandhi: "পৌ + অক" },
+            { word: "অপেক্ষা", sandhi: "অপ + ঈক্ষা" },
+            { word: "অন্যান্য", sandhi: "অন্য + অন্য" },
+            { word: "বৃষ্টি", sandhi: "বৃষ্ + তি" },
+            { word: "প্রচ্ছদ", sandhi: "প্র + ছদ" },
+            { word: "আকৃষ্ট", sandhi: "আকৃষ্ + ত" },
+            { word: "ষড়ঋতু", sandhi: "ষট্ + ঋতু" },
+            { word: "অত্যন্ত", sandhi: "অতি + অন্ত" },
+            { word: "পর্যালোচনা", sandhi: "পরি + আলোচনা" },
+            { word: "চতুষ্পদ", sandhi: "চতুঃ + পদ" },
+            { word: "ক্ষণিক", sandhi: "ক্ষণ + ইক" },
+            { word: "দংশন", sandhi: "দম্ + শন" },
+            { word: "তন্মধ্যে", sandhi: "তৎ + মধ্যে" },
+            { word: "নায়ক", sandhi: "নৈ + অক" },
+            { word: "ঈষদুষ্ণ", sandhi: "ঈষৎ + উষ্ণ" },
+            { word: "বিদ্যুদ্বেগ", sandhi: "বিদ্যুত্ + বেগ" },
+            { word: "যশোবন্ত", sandhi: "যশঃ + বন্ত" },
+            { word: "তদনুসারে", sandhi: "তৎ + অনুসারে" },
+            { word: "হিমালয়", sandhi: "হিম + আলয়" },
+            { word: "গবেষণা", sandhi: "গো + এষণা" },
+            { word: "উজ্জ্বল", sandhi: "উৎ + জ্বল" },
+            { word: "নয়ন", sandhi: "নে + অন" },
+            { word: "পরীক্ষা", sandhi: "পরি + ঈক্ষা" },
+            { word: "নায়ক", sandhi: "নৈ + অক" },
+            { word: "কথোপকথন", sandhi: "কথা + উপকথন" },
+            { word: "সম্পদ", sandhi: "সম্ + পদ" },
+            { word: "নায়ক", sandhi: "নৈ + অক" },
+            { word: "নাবিক", sandhi: "নৌ + ইক" },
+            { word: "মন্বন্তর", sandhi: "মনু + অন্তর" },
+            { word: "মৃন্ময়", sandhi: "মৃৎ + ময়" },
+            { word: "মনীষা", sandhi: "মনস্ + ঈষা" },
+            { word: "প্রতীক্ষা", sandhi: "প্রতি + ঈক্ষা" },
+            { word: "সম্মান", sandhi: "সম্ + মান" },
+            { word: "জলাশয়", sandhi: "জল + আশয়" },
+            { word: "ধনুষ্টঙ্কার", sandhi: "ধনুঃ + টঙ্কার" },
+            { word: "ক্ষুৎপিপাসা", sandhi: "ক্ষুদ্ + পিপাসা" },
+            { word: "পতঞ্জলি", sandhi: "পতৎ + অঞ্জলি" },
+            { word: "মস্যাধার", sandhi: "মসী + আধার" },
+            { word: "উল্লিখিত", sandhi: "উৎ + লিখিত" },
+            { word: "অন্বিত", sandhi: "অনু + ইত" },
+            { word: "যাবজ্জীবন", sandhi: "যাবৎ + জীবন" },
+            { word: "অহর্নিশ", sandhi: "অহঃ + নিশা" },
+            { word: "সাদৃশ্য", sandhi: "সদৃশ + য" },
+            { word: "দুচ্ছাই", sandhi: "দুর্ + ছাই" },
+            { word: "বনৌষধি", sandhi: "বন + ওষধি" },
+            { word: "যথেচ্ছা", sandhi: "যথা + ইচ্ছা" },
+            { word: "প্রতীক্ষা", sandhi: "প্রতি + ঈক্ষা" },
+            { word: "সন্তাপ", sandhi: "সম্ + তাপ" },
+            { word: "যশোভিলাষ", sandhi: "যশঃ + অভিলাষ" },
+            { word: "বধূক্তি", sandhi: "বধূ + উক্তি" },
+            { word: "নাতবৌ", sandhi: "নাতি + বৌ" },
+            { word: "সুবন্ত", sandhi: "সুপ্ + অন্ত" },
+            { word: "স্বাগত", sandhi: "সু + আগত" },
+            { word: "পদ্ধতি", sandhi: "পদ্ + হতি" },
+            { word: "ইত্যাদি", sandhi: "ইতি + আদি" },
+            { word: "গবাদি", sandhi: "গো + আদি" },
+            { word: "ইত্যাদি", sandhi: "ইতি + আদি" },
+            { word: "বনৌষধি", sandhi: "বন + ওষধি" },
+            { word: "মৃন্ময়", sandhi: "মৃৎ + ময়" },
+            { word: "সংসার", sandhi: "সম্ + সার" },
+            { word: "উপর্যুপরি", sandhi: "উপরি + উপরি" },
+            { word: "পুরস্কার", sandhi: "পুরঃ + কার" },
+            { word: "মরূদ্যান", sandhi: "মরু + উদ্যান" },
+            { word: "বনৌষধি", sandhi: "বন + ওষধি" },
+            { word: "সূর্যোদয়", sandhi: "সূর্য + উদয়" },
+            { word: "উত্তরাধিকার", sandhi: "উত্তর + অধিকার" },
+            { word: "সংরক্ষণ", sandhi: "সম্ + রক্ষণ" },
+            { word: "নাবিক", sandhi: "নৌ + ইক" },
+            { word: "গতানুগতিক", sandhi: "গত + অনুগতিক" },
+            { word: "গঙ্গোর্মি", sandhi: "গঙ্গা + ঊর্মি" },
+            { word: "ভূর্ধ্ব", sandhi: "ভূ + ঊর্ধ্ব" },
+            { word: "ণিজন্ত", sandhi: "নিচ্ + অন্ত" },
+            { word: "নায়ক", sandhi: "নৈ + অক" },
+            { word: "গবাদি", sandhi: "গো + আদি" },
+            { word: "সম্মান", sandhi: "সম্ + মান" },
+            { word: "কুজ্ঝটিকা", sandhi: "কুৎ + ঝটিকা" },
+            { word: "দুষ্কর", sandhi: "দুঃ + কর" },
+            { word: "পদ্ধতি", sandhi: "পদ্ + হতি" },
+            { word: "যথেষ্ট", sandhi: "যথা + ইষ্ট" },
+            { word: "প্রৌঢ়", sandhi: "প্র + ঊঢ়" },
+            { word: "আশ্চর্য", sandhi: "আ + চর্য" },
+            { word: "পরস্পর", sandhi: "পর + পর" },
+            { word: "একাদশ", sandhi: "এক + দশ" },
+            { word: "বিপজ্জনক", sandhi: "বিপদ্ + জনক" },
+            { word: "নীরোগ", sandhi: "নিঃ + রোগ" },
+            { word: "জলোকা", sandhi: "জল + ওকা" },
+            { word: "ধর্মাধর্ম", sandhi: "ধর্ম + অধর্ম" },
+            { word: "পরিচ্ছেদ", sandhi: "পরি + ছেদ" },
+            { word: "ইত্যবসরে", sandhi: "ইতি + অবসরে" },
+            { word: "চিত্তৈশ্বর্য", sandhi: "চিত্ত + ঐশ্বর্য" },
+            { word: "মার্তণ্ড", sandhi: "মার্ত + অণ্ড" },
+            { word: "কুলটা", sandhi: "কুল + অটা" },
+            { word: "বাগেশ্বরী", sandhi: "বাক্ + ঈশ্বরী" },
+            { word: "হৃৎকম্প", sandhi: "হৃদ্ + কম্প" },
+            { word: "উচ্ছেদ", sandhi: "উৎ + ছেদ" },
+            { word: "সংঘাত", sandhi: "সম্ + ঘাত" },
+            { word: "উপাচার্য", sandhi: "উপ + আচার্য" },
+            { word: "দৃষ্টান্ত", sandhi: "দৃষ্টি + অন্ত" },
+            { word: "দৃষ্টি", sandhi: "দৃশ্ + তি" },
+            { word: "মুখচ্ছবি", sandhi: "মুখ + ছবি" },
+            { word: "চলচ্চিত্র", sandhi: "চলৎ + চিত্র" },
+            { word: "উচ্ছৃঙ্খল", sandhi: "উৎ + শৃঙ্খল" },
+            { word: "বনস্পতি", sandhi: "বন + পতি" },
+            { word: "কিন্নর", sandhi: "কিম্ + নর" },
+            { word: "নীরস", sandhi: "নিঃ + রস" },
+            { word: "দাবানল", sandhi: "দাব + অনল" },
+            { word: "অধমর্ণ", sandhi: "অধম + ঋণ" },
+            { word: "দুঃস্থ", sandhi: "দুঃ + স্থ" },
+            { word: "সরোজ", sandhi: "সরঃ + জ" },
+
+            // পৃষ্ঠা ২০
+            { word: "কুজ্ঝটিকা", sandhi: "কুৎ + ঝটিকা" },
+            { word: "উপর্যুপরি", sandhi: "উপরি + উপরি" },
+            { word: "জ্যোতির্ময়", sandhi: "জ্যোতিঃ + ময়" },
+            { word: "নয়ন", sandhi: "নে + অন" },
+            { word: "বাগদান", sandhi: "বাক্ + দান" },
+            { word: "আশীর্বাদ", sandhi: "আশীঃ + বাদ" },
+            { word: "নীরোগ", sandhi: "নিঃ + রোগ" },
+            { word: "লঘূর্মি", sandhi: "লঘু + ঊর্মি" },
+            { word: "চলচ্ছক্তি", sandhi: "চলৎ + শক্তি" },
+            { word: "শয়ন", sandhi: "শে + অন" },
+            { word: "চলচ্চিত্র", sandhi: "চলৎ + চিত্র" },
+            { word: "নিরাকার", sandhi: "নিঃ + আকার" },
+            { word: "মরূদ্যান", sandhi: "মরু + উদ্যান" },
+            { word: "পরিচ্ছদ", sandhi: "পরি + ছদ" },
+            { word: "প্রৌঢ়", sandhi: "প্র + ঊঢ়" },
+            { word: "অন্বেষণ", sandhi: "অনু + এষণ" },
+            { word: "সজ্জন", sandhi: "সৎ + জন" },
+            { word: "কান্না", sandhi: "কাঁদ্ + না" },
+            { word: "হিতাহিত", sandhi: "হিত + অহিত" },
+            { word: "নীলোৎপল", sandhi: "নীল + উৎপল" },
+            { word: "অন্বেষণ", sandhi: "অনু + এষণ" },
+            { word: "পবন", sandhi: "পো + অন" },
+            { word: "বিদ্যালয়", sandhi: "বিদ্যা + আলয়" },
+            { word: "পদ্ধতি", sandhi: "পদ্ + হতি" },
+            { word: "মহৌষধ", sandhi: "মহা + ঔষধ" },
+            { word: "নবান্ন", sandhi: "নব + অন্ন" },
+            { word: "অতীত", sandhi: "অতি + ইত" },
+            { word: "অত্যুক্তি", sandhi: "অতি + উক্তি" },
+            { word: "দৈনিক", sandhi: "দিন + ইক" },
+            { word: "বাগাড়ম্বর", sandhi: "বাক্ + আড়ম্বর" },
+            { word: "বনস্পতি", sandhi: "বন + পতি" },
+            { word: "উপর্যুক্ত", sandhi: "উপরি + উক্ত" },
+            { word: "সঞ্চয়", sandhi: "সম্ + চয়" },
+            { word: "ষষ্ঠ", sandhi: "ষষ্ + থ" },
+            { word: "রক্তৌষ্ঠ", sandhi: "রক্ত + ওষ্ঠ" },
+            { word: "ঐতিহ্য", sandhi: "ইতিহ + য" },
+            { word: "প্রেষণ", sandhi: "প্র + এষণ" },
+            { word: "পদ্ধতি", sandhi: "পদ্ + হতি" },
+            { word: "মনোযোগ", sandhi: "মনঃ + যোগ" },
+            { word: "ব্যাকরণ", sandhi: "বি + আ + কৃ + অন" },
+            { word: "প্রত্যাবর্তন", sandhi: "প্রতি + আবর্তন" },
+            { word: "জলোচ্ছ্বাস", sandhi: "জল + উচ্ছ্বাস" },
+            { word: "বিদ্যোৎসাহী", sandhi: "বিদ্যা + উৎসাহী" },
+            { word: "পিপাসার্ত", sandhi: "পিপাসা + ঋত" },
+            { word: "নদ্যম্বু", sandhi: "নদী + অম্বু" },
+            { word: "অত্যুক্তি", sandhi: "অতি + উক্তি" },
+            { word: "ভাস্কর", sandhi: "ভাঃ + কর" },
+            { word: "পরমেশ", sandhi: "পরম + ঈশ" },
+            { word: "শুভেচ্ছা", sandhi: "শুভ + ইচ্ছা" },
+            { word: "দেবর্ষি", sandhi: "দেব + ঋষি" },
+            { word: "ষষ্ঠী", sandhi: "ষষ্ + তী" },
+            { word: "তপোবন", sandhi: "তপঃ + বন" },
+            { word: "গোষ্পদ", sandhi: "গো + পদ" },
+            { word: "গঙ্গোর্মি", sandhi: "গঙ্গা + ঊর্মি" },
+            { word: "ষোড়শ", sandhi: "ষট্ + দশ" },
+            { word: "অহরহ", sandhi: "অহঃ + অহ" },
+            { word: "সজ্জন", sandhi: "সৎ + জন" },
+            { word: "লবণ", sandhi: "লো + অন" },
+            { word: "স্বাগত", sandhi: "সু + আগত" },
+            { word: "মন্বন্তর", sandhi: "মনু + অন্তর" },
+            { word: "দুর্নীতি", sandhi: "দুঃ + নীতি" },
+            { word: "উদ্যোগ", sandhi: "উৎ + যোগ" },
+            { word: "প্রতিচ্ছবি", sandhi: "প্রতি + ছবি" },
+            { word: "কুড়িক", sandhi: "কুড়ি + এক" },
+            { word: "যথার্থ", sandhi: "যথা + অর্থ" },
+            { word: "বাগদান", sandhi: "বাক্ + দান" },
+            { word: "জনৈক", sandhi: "জন + এক" },
+            { word: "বাগদান", sandhi: "বাক্ + দান" },
+            { word: "তথৈবচ", sandhi: "তথা + এবচ" },
+            { word: "অতীত", sandhi: "অতি + ইত" },
+            { word: "তৃষ্ণার্ত", sandhi: "তৃষ্ণা + ঋত" },
+            { word: "নাবিক", sandhi: "নৌ + ইক" },
+            { word: "সন্দেশ", sandhi: "সম্ + দেশ" },
+            { word: "স্বৈর", sandhi: "স্ব + ঈর" },
+            { word: "অন্তর্ধান", sandhi: "অন্তঃ + ধান" },
+            { word: "নায়ক", sandhi: "নৈ + অক" },
+            { word: "রবীন্দ্র", sandhi: "রবি + ইন্দ্র" },
+            { word: "পদ্ধতি", sandhi: "পদ্ + হতি" },
+            { word: "ষড়ানন", sandhi: "ষট্ + আনন" },
+            { word: "পদ্ধতি", sandhi: "পদ্ + হতি" },
+            { word: "রাজর্ষি", sandhi: "রাজা + ঋষি" },
+            { word: "মহৈশ্বর্য", sandhi: "মহা + ঐশ্বর্য" },
+            { word: "উচ্ছ্বাস", sandhi: "উৎ + শ্বাস" },
+            { word: "শশাঙ্ক", sandhi: "শশ + অঙ্ক" },
+            { word: "ষড়যন্ত্র", sandhi: "ষট্ + যন্ত্র" },
+            { word: "নিগ্রহ", sandhi: "নিঃ + গ্রহ" },
+            { word: "তদ্ধিত", sandhi: "তৎ + হিত" },
+            { word: "তস্কর", sandhi: "তৎ + কর" },
+            { word: "পুরস্কার", sandhi: "পুরঃ + কার" },
+            { word: "অন্বয়", sandhi: "অনু + অয়" },
+            { word: "দ্যুলোক", sandhi: "দিব্ + লোক" },
+            { word: "গবাক্ষ", sandhi: "গো + অক্ষ" },
+            { word: "সংগীত", sandhi: "সম্ + গীত" },
+            { word: "মহৈশ্বর্য", sandhi: "মহা + ঐশ্বর্য" },
+            { word: "দুঃস্থ", sandhi: "দুঃ + স্থ" },
+            { word: "ইতস্তত", sandhi: "ইতঃ + ততঃ" },
+            { word: "হিতৈষী", sandhi: "হিত + এষী" },
+            { word: "স্বাধীন", sandhi: "স্ব + অধীন" },
+            { word: "সচ্চিন্তা", sandhi: "সৎ + চিন্তা" },
+            { word: "প্রিয়ংবদা", sandhi: "প্রিয়ম্ + বদা" },
+            { word: "পদ্ধতি", sandhi: "পদ্ + হতি" },
+            { word: "বদ্ধ", sandhi: "বধ্ + ত" },
+            { word: "অভ্যুদয়", sandhi: "অভি + উদয়" },
+            { word: "দুষ্কৃতি", sandhi: "দুঃ + কৃতি" },
+            { word: "শঙ্কা", sandhi: "শম্ + কা" },
+            { word: "ক্ষুধার্ত", sandhi: "ক্ষুধা + ঋত" },
+            { word: "তন্ময়", sandhi: "তৎ + ময়" },
+            { word: "সংকল্প", sandhi: "সম্ + কল্প" },
+            { word: "অতীত", sandhi: "অতি + ইত" },
+            { word: "মরূদ্যান", sandhi: "মরু + উদ্যান" },
+            { word: "দেবর্ষি", sandhi: "দেব + ঋষি" },
+                        // পৃষ্ঠা ১৯ (বাম, মধ্য ও ডান কলাম)
+            { word: "উচ্ছ্বাস", sandhi: "উৎ + শ্বাস" },
+            { word: "কুসুমাস্তীর্ণ", sandhi: "কুসুম + আস্তীর্ণ" },
+            { word: "জ্যোতির্ময়", sandhi: "জ্যোতিঃ + ময়" },
+            { word: "উন্নতি", sandhi: "উৎ + নতি" },
+            { word: "যথেষ্ট", sandhi: "যথা + ইষ্ট" },
+            { word: "আবিষ্কার", sandhi: "আবিঃ + কার" },
+            { word: "ক্ষুধার্ত", sandhi: "ক্ষুধা + ঋত" },
+            { word: "গ্রন্থাগার", sandhi: "গ্রন্থ + আগার" },
+            { word: "অভীপ্সা", sandhi: "অভি + ঈপ্সা" },
+            { word: "একত্রিত", sandhi: "একত্র + ইত" },
+            { word: "অধমর্ণ", sandhi: "অধম + ঋণ" },
+            { word: "অক্ষৌহিণী", sandhi: "অক্ষ + ঊহিণী" }, // বইয়ের ভুল ঠিক করা হয়েছে
+            { word: "প্রচ্ছদ", sandhi: "প্র + ছদ" },
+            { word: "বহিষ্কৃত", sandhi: "বহিঃ + কৃত" },
+            { word: "যশোবাঞ্ছা", sandhi: "যশঃ + ইচ্ছা" },
+            { word: "ভক্তি", sandhi: "ভজ্ + তি" },
+            { word: "কথামৃত", sandhi: "কথা + অমৃত" },
+            { word: "নীলোৎপল", sandhi: "নীল + উৎপল" },
+            { word: "উপর্যুপরি", sandhi: "উপরি + উপরি" },
+            { word: "স্বীয়", sandhi: "স্ব + ঈয়" },
+            { word: "কথাচ্ছলে", sandhi: "কথা + ছলে" },
+            { word: "সচ্চিন্তা", sandhi: "সৎ + চিন্তা" },
+            { word: "উত্থাপন", sandhi: "উৎ + স্থাপন" },
+            { word: "গৃহোর্ধ্ব", sandhi: "গৃহ + ঊর্ধ্ব" },
+            { word: "যজ্ঞ", sandhi: "যজ্ + ন" },
+            { word: "স্বৈর", sandhi: "স্ব + ঈর" },
+            { word: "অন্তলীন", sandhi: "অন্তঃ + লীন" },
+            { word: "মাতৃউপদেশ", sandhi: "মাতৃ + উপদেশ" },
+            { word: "দুগ্ধ", sandhi: "দুহ্ + ত" },
+            { word: "শশাঙ্ক", sandhi: "শশ + অঙ্ক" },
+            { word: "বৃহস্পতি", sandhi: "বৃহৎ + পতি" },
+            { word: "পুনরুক্ত", sandhi: "পুনঃ + উক্ত" },
+            { word: "হরিশ্চন্দ্র", sandhi: "হরিঃ + চন্দ্র" },
+            { word: "বিমুগ্ধ", sandhi: "বিমুহ্ + ত" },
+            { word: "কিন্নর", sandhi: "কিম্ + নর" },
+            { word: "আকৃষ্ট", sandhi: "আকৃষ্ + ত" },
+            { word: "শ্রবণ", sandhi: "শ্রু + অন" },
+            { word: "চার্বাক", sandhi: "চারু + বাক" },
+            { word: "নাতবৌ", sandhi: "নাতি + বৌ" },
+            { word: "বিচ্ছিন্ন", sandhi: "বি + ছিন্ন" }, // বইয়ের টাইপিং মিস্টেক ঠিক করা হয়েছে
+            { word: "সম্রাট", sandhi: "সম্ + রাট" },
+            { word: "বাচস্পতি", sandhi: "বাচঃ + পতি" },
+            { word: "হিতাহিত", sandhi: "হিত + অহিত" },
+            { word: "বহূর্ধ্ব", sandhi: "বহু + ঊর্ধ্ব" },
+            { word: "নিষ্ঠা", sandhi: "নিঃ + ঠা" },
+            { word: "অন্তর্ধান", sandhi: "অন্তঃ + ধান" },
+            { word: "স্বেচ্ছা", sandhi: "স্ব + ইচ্ছা" },
+            { word: "অলঙ্কার", sandhi: "অলম্ + কার" },
+            { word: "নদ্যম্বু", sandhi: "নদী + অম্বু" },
+            { word: "দ্বৈপায়ন", sandhi: "দ্বীপ + আয়ন" },
+            { word: "দর্শক", sandhi: "দৃশ + অক" },
+            { word: "দুর্নীতি", sandhi: "দুঃ + নীতি" },
+            { word: "প্রত্যুষ", sandhi: "প্রতি + উষ" },
+            { word: "অহংকার", sandhi: "অহম্ + কার" },
+            { word: "উত্থান", sandhi: "উৎ + স্থান" },
+            { word: "পরীক্ষা", sandhi: "পরি + ঈক্ষা" },
+            { word: "ইত্যাদি", sandhi: "ইতি + আদি" },
+            { word: "ষড়যন্ত্র", sandhi: "ষট্ + যন্ত্র" },
+            { word: "শিরশ্ছেদ", sandhi: "শিরঃ + ছেদ" },
+            { word: "নবান্ন", sandhi: "নব + অন্ন" },
+            { word: "জ্ঞানী", sandhi: "জ্ঞান + ইন্" },
+            { word: "দিগন্ত", sandhi: "দিক্ + অন্ত" },
+            { word: "উল্লাস", sandhi: "উৎ + লাস" },
+            { word: "সার্বভৌম", sandhi: "সর্বভূমি + অ" },
+            { word: "পর্যালোচনা", sandhi: "পরি + আলোচনা" },
+            { word: "সংবিধান", sandhi: "সম্ + বিধান" },
+            { word: "স্বল্প", sandhi: "সু + অল্প" },
+            { word: "প্রত্যুপকার", sandhi: "প্রতি + উপকার" },
+            { word: "অন্তরঙ্গ", sandhi: "অন্তঃ + অঙ্গ" },
+            { word: "বৃষ্টি", sandhi: "বৃষ্ + তি" },
+            { word: "স্বাধীন", sandhi: "স্ব + অধীন" },
+            { word: "তণ্বী", sandhi: "তনু + ঈ" },
+            { word: "সদুপায়", sandhi: "সৎ + উপায়" },
+            { word: "প্রত্যাশা", sandhi: "প্রতি + আশা" },
+            { word: "মহর্ষি", sandhi: "মহা + ঋষি" },
+            { word: "অহরহ", sandhi: "অহঃ + অহ" },
+            { word: "মহার্ঘ", sandhi: "মহা + অর্ঘ" },
+            { word: "গীতি", sandhi: "গৈ + তি" },
+            { word: "শীতার্ত", sandhi: "শীত + ঋত" },
+            { word: "মহৌষধ", sandhi: "মহা + ঔষধ" },
+            { word: "প্রত্যেক", sandhi: "প্রতি + এক" },
+            { word: "তদ্রূপ", sandhi: "তৎ + রূপ" },
+            { word: "পরিষ্কার", sandhi: "পরি + কার" },
+            { word: "সংস্কৃতি", sandhi: "সম্ + কৃতি" },
+            { word: "গায়ক", sandhi: "গৈ + অক" },
+            { word: "কিংবদন্তি", sandhi: "কিম্ + বদন্তি" },
+            { word: "উড্ডীন", sandhi: "উৎ + ডীন" },
+            { word: "ছাত্রী", sandhi: "ছাত্র + ঈ" },
+            { word: "নীরোগ", sandhi: "নিঃ + রোগ" },
+            { word: "সংলাপ", sandhi: "সম্ + লাপ" },
+            { word: "উচ্চারণ", sandhi: "উৎ + চারণ" },
+            { word: "উদ্যোগ", sandhi: "উৎ + যোগ" },
+            { word: "বিজ্ঞান", sandhi: "বি + জ্ঞা + অন" },
+            { word: "মনস্তাপ", sandhi: "মনঃ + তাপ" },
+            { word: "নাবিক", sandhi: "নৌ + ইক" },
+            { word: "স্বাধিকার", sandhi: "স্ব + অধিকার" },
+            { word: "অতীব", sandhi: "অতি + ইব" },
+            { word: "অব্ধি", sandhi: "অপ্ + ধি" },
+
+            // পৃষ্ঠা ১৮
+            { word: "কথোপকথন", sandhi: "কথা + উপকথন" },
+            { word: "অত্যন্ত", sandhi: "অতি + অন্ত" },
+            { word: "জলোচ্ছ্বাস", sandhi: "জল + উচ্ছ্বাস" },
+            { word: "আশ্চর্য", sandhi: "আ + চর্য" },
+            { word: "বিদ্যোৎসাহী", sandhi: "বিদ্যা + উৎসাহী" },
+            { word: "সদুপায়", sandhi: "সৎ + উপায়" },
+            { word: "ইত্যাদি", sandhi: "ইতি + আদি" },
+            { word: "ষষ্ঠ", sandhi: "ষষ্ + থ" },
+            { word: "পুনর্মিলন", sandhi: "পুনঃ + মিলন" },
+            { word: "ণিজন্ত", sandhi: "নিচ্ + অন্ত" },
+            { word: "সানুনাসিক", sandhi: "স + অনুনাসিক" },
+            { word: "সংস্কার", sandhi: "সম্ + কার" },
+            { word: "রত্নাকর", sandhi: "রত্ন + আকর" },
+            { word: "মহার্ঘ", sandhi: "মহা + অর্ঘ" },
+            { word: "জলোকা", sandhi: "জল + ওকা" },
+            { word: "তস্কর", sandhi: "তৎ + কর" },
+            { word: "পিত্রালয়", sandhi: "পিতৃ + আলয়" },
+            { word: "উচ্ছেদ", sandhi: "উৎ + ছেদ" },
+            { word: "গতানুগতিক", sandhi: "গত + অনুগতিক" },
+            { word: "শুদ্ধোদন", sandhi: "শুদ্ধ + ওদন" },
+            { word: "প্রত্যুষ", sandhi: "প্রতি + উষ" },
+            { word: "ক্ষুৎপিপাসা", sandhi: "ক্ষুদ্ + পিপাসা" },
+            { word: "দুর্গতি", sandhi: "দুঃ + গতি" },
+            { word: "মিথ্যুক", sandhi: "মিথ্যা + উক" },
+            { word: "সংশয়", sandhi: "সম্ + শয়" },
+            { word: "ষড়ানন", sandhi: "ষট্ + আনন" },
+            { word: "ক্ষণিক", sandhi: "ক্ষণ + ইক" },
+            { word: "দাবানল", sandhi: "দাব + অনল" },
+            { word: "শঙ্খ", sandhi: "শম্ + খ" },
+            { word: "পদ্ধতি", sandhi: "পদ্ + হতি" },
+            { word: "হিংসা", sandhi: "হিন্ + সা" },
+            { word: "স্বাধীন", sandhi: "স্ব + অধীন" },
+            { word: "দেবর্ষি", sandhi: "দেব + ঋষি" },
+            { word: "যদ্যপি", sandhi: "যদি + অপি" },
+            { word: "সংবিধান", sandhi: "সম্ + বিধান" },
+            { word: "অধ্যক্ষ", sandhi: "অধি + অক্ষ" },
+            { word: "যথাযথ", sandhi: "যথা + যথ" },
+            { word: "ভক্ত", sandhi: "ভজ্ + ত" },
+            { word: "অপেক্ষা", sandhi: "অপ + ঈক্ষা" },
+            { word: "বৈজ্ঞানিক", sandhi: "বিজ্ঞান + ইক" },
+            { word: "প্রাণান্ত", sandhi: "প্রাণ + অন্ত" },
+            { word: "বসুন্ধরা", sandhi: "বসুম্ + ধরা" },
+            { word: "প্রৌঢ়", sandhi: "প্র + ঊঢ়" },
+            { word: "ততোধিক", sandhi: "ততঃ + অধিক" },
+            { word: "কটূক্তি", sandhi: "কটু + উক্তি" },
+            { word: "আশাতীত", sandhi: "আশা + অতীত" },
+            { word: "পতঞ্জলি", sandhi: "পতৎ + অঞ্জলি" },
+            { word: "উপর্যুক্ত", sandhi: "উপরি + উক্ত" },
+            { word: "পরিষ্কার", sandhi: "পরি + কার" },
+            { word: "প্রিয়ংবদা", sandhi: "প্রিয়ম্ + বদা" },
+            { word: "বাগদান", sandhi: "বাক্ + দান" },
+            { word: "বরঞ্চ", sandhi: "বরম্ + চ" },
+            { word: "তথৈবচ", sandhi: "তথা + এবচ" },
+            { word: "তিরোধান", sandhi: "তিরঃ + ধান" },
+            { word: "নীরস", sandhi: "নিঃ + রস" },
+            { word: "যথেচ্ছা", sandhi: "যথা + ইচ্ছা" },
+            { word: "নরাধম", sandhi: "নর + অধম" },
+            { word: "ছাত্র", sandhi: "ছত্র + অ" },
+            { word: "সংকল্প", sandhi: "সম্ + কল্প" },
+            { word: "উৎকৃষ্ট", sandhi: "উৎকৃষ্ + ত" },
+            { word: "সন্তান", sandhi: "সম্ + তান" },
+            { word: "মস্যাধার", sandhi: "মসী + আধার" },
+            { word: "একোন", sandhi: "এক + ঊন" },
+            { word: "কুলটা", sandhi: "কুল + অটা" },
+            { word: "রক্তৌষ্ঠ", sandhi: "রক্ত + ওষ্ঠ" },
+            { word: "প্রত্যাশা", sandhi: "প্রতি + আশা" },
+            { word: "অর্ধেক", sandhi: "অর্ধ + এক" },
+            { word: "তিরস্কার", sandhi: "তিরঃ + কার" },
+            { word: "পরিচ্ছেদ", sandhi: "পরি + ছেদ" },
+            { word: "অগ্রাধিকার", sandhi: "অগ্র + অধিকার" }, // বইয়ের ভুল ঠিক করা হয়েছে
+            { word: "অতীত", sandhi: "অতি + ইত" },
+            { word: "সদৈব", sandhi: "সদা + এব" },
+            { word: "আচ্ছন্ন", sandhi: "আ + ছন্ন" },
+            { word: "রাজ্ঞী", sandhi: "রাজ্ + নী" },
+            { word: "গবেশ্বর", sandhi: "গো + ঈশ্বর" },
+            { word: "পবন", sandhi: "পো + অন" },
+            { word: "সন্ধি", sandhi: "সম্ + ধি" },
+            { word: "দৈনিক", sandhi: "দিন + ইক" },
+            { word: "তন্নিমিত্ত", sandhi: "তৎ + নিমিত্ত" },
+            { word: "যাবজ্জীবন", sandhi: "যাবৎ + জীবন" },
+            { word: "তিরোভাব", sandhi: "তিরঃ + ভাব" },
+            { word: "মনীষা", sandhi: "মনস্ + ঈষা" },
+            { word: "চতুষ্পদ", sandhi: "চতুঃ + পদ" },
+            { word: "প্রাতরাশ", sandhi: "প্রাতঃ + আশ" },
+            { word: "রাজর্ষি", sandhi: "রাজা + ঋষি" },
+            { word: "সংযত", sandhi: "সম্ + যত" },
+            { word: "বিপচ্চয়", sandhi: "বিপদ্ + চয়" },
+            { word: "ধনুষ্টঙ্কার", sandhi: "ধনুঃ + টঙ্কার" },
+            { word: "দুষ্কর", sandhi: "দুঃ + কর" },
+            { word: "উদ্বন্ধন", sandhi: "উৎ + বন্ধন" },
+            { word: "পুনরাবৃত্তি", sandhi: "পুনঃ + আবৃত্তি" },
+            { word: "দুষ্পাচ্য", sandhi: "দুঃ + পাচ্য" },
+            { word: "পাবক", sandhi: "পৌ + অক" },
+            { word: "ষড়ঋতু", sandhi: "ষট্ + ঋতু" },
+            { word: "নবোঢ়া", sandhi: "নব + ঊঢ়া" },
+            { word: "সংস্কৃতি", sandhi: "সম্ + কৃতি" },
+            { word: "মতৈক্য", sandhi: "মত + ঐক্য" },
+            { word: "দুর্ভিক্ষ", sandhi: "দুঃ + ভিক্ষ" },
+
+            // পৃষ্ঠা ১৭
+            { word: "সিংহাসন", sandhi: "সিংহ + আসন" },
+            { word: "হিতৈষী", sandhi: "হিত + এষী" },
+            { word: "হিমালয়", sandhi: "হিম + আলয়" },
+            { word: "হিমাদ্রি", sandhi: "হিম + অদ্রি" },
+            { word: "হিমার্ত", sandhi: "হিম + ঋত" },
+            { word: "হিংসা", sandhi: "হিন্ + সা" },
+            { word: "হিতৌদার্য", sandhi: "হিত + ঔদার্য" },
+            { word: "ণিজন্ত", sandhi: "নিচ্ + অন্ত" },
+            { word: "ক্ষিতীশ", sandhi: "ক্ষিতি + ঈশ" },
+            { word: "ক্ষুধার্ত", sandhi: "ক্ষুধা + ঋত" },
+            { word: "ক্ষণিক", sandhi: "ক্ষণ + ইক" },
+            { word: "ক্ষুৎপিপাসা", sandhi: "ক্ষুদ্ + পিপাসা" },
+            { word: "ক্ষুব্ধ", sandhi: "ক্ষুভ্ + ত" },
+            { word: "ক্ষুন্নিবৃত্তি", sandhi: "ক্ষুদ্ + নিবৃত্তি" },
+            { word: "তদ্রূপ", sandhi: "তৎ + রূপ" },
+            { word: "তদবধি", sandhi: "তৎ + অবধি" },
+            { word: "তদন্ত", sandhi: "তৎ + অন্ত" },
+            { word: "তস্কর", sandhi: "তৎ + কর" },
+            { word: "তৃষ্ণার্ত", sandhi: "তৃষ্ণা + ঋত" },
+            { word: "তপোবন", sandhi: "তপঃ + বন" },
+            { word: "ততোধিক", sandhi: "ততঃ + অধিক" },
+            { word: "তথৈব", sandhi: "তথা + এব" },
+            { word: "তথৈবচ", sandhi: "তথা + এবচ" },
+            { word: "তজ্জন্য", sandhi: "তদ্ + জন্য" },
+            { word: "তন্মধ্যে", sandhi: "তৎ + মধ্যে" },
+            { word: "তণ্বী", sandhi: "তনু + ঈ" },
+            { word: "তদ্ধিত", sandhi: "তৎ + হিত" },
+            { word: "সংযম", sandhi: "সম্ + যম" },
+            { word: "দুর্যোগ", sandhi: "দুঃ + যোগ" },
+            { word: "দিগন্ত", sandhi: "দিক্ + অন্ত" },
+            { word: "গবেষণা", sandhi: "গো + এষণা" },
+            { word: "সংরক্ষণ", sandhi: "সম্ + রক্ষণ" },
+            { word: "স্বাগত", sandhi: "সু + আগত" },
+            { word: "সজ্জন", sandhi: "সৎ + জন" },
+            { word: "একচ্ছত্র", sandhi: "এক + ছত্র" },
+            { word: "স্বচ্ছন্দ", sandhi: "স্ব + ছন্দ" },
+            { word: "সংসার", sandhi: "সম্ + সার" },
+            { word: "মহর্ষি", sandhi: "মহা + ঋষি" },
+            { word: "ষোড়শ", sandhi: "ষট্ + দশ" },
+            { word: "স্বল্প", sandhi: "সু + অল্প" },
+            { word: "নিশ্চয়", sandhi: "নিঃ + চয়" },
+            { word: "শতেক", sandhi: "শত + এক" },
+            { word: "মনোযোগ", sandhi: "মনঃ + যোগ" },
+            { word: "কর্ম", sandhi: "কৃ + ম" },
+            { word: "চুনারি", sandhi: "চুন + আরি" },
+            { word: "উন্নত", sandhi: "উৎ + নত" },
+            { word: "অত্যুক্তি", sandhi: "অতি + উক্তি" },
+            { word: "সঞ্চয়", sandhi: "সম্ + চয়" },
+            { word: "আশীর্বাদ", sandhi: "আশীঃ + বাদ" },
+            { word: "শুভেচ্ছা", sandhi: "শুভ + ইচ্ছা" },
+            { word: "অন্যান্য", sandhi: "অন্য + অন্য" },
+            { word: "নিরাময়", sandhi: "নিঃ + আময়" },
+            { word: "উদ্যোগ", sandhi: "উৎ + যোগ" },
+            { word: "উল্লাস", sandhi: "উৎ + লাস" },
+            { word: "প্রত্যাবর্তন", sandhi: "প্রতি + আবর্তন" },
+            { word: "গত্যন্তর", sandhi: "গতি + অন্তর" },
+            { word: "মরূদ্যান", sandhi: "মরু + উদ্যান" },
+            { word: "ভূর্ধ্ব", sandhi: "ভূ + ঊর্ধ্ব" },
+            { word: "অভ্যুত্থান", sandhi: "অভি + উত্থান" },
+            { word: "সন্তাপ", sandhi: "সম্ + তাপ" },
+            { word: "শঙ্কা", sandhi: "শম্ + কা" },
+            { word: "গোষ্পদ", sandhi: "গো + পদ" },
+            { word: "ভাস্কর", sandhi: "ভাঃ + কর" },
+            { word: "সংহার", sandhi: "সম্ + হার" },
+            { word: "ষড়যন্ত্র", sandhi: "ষট্ + যন্ত্র" },
+            { word: "অহরহ", sandhi: "অহঃ + অহ" },
+            { word: "বিদ্যালয়", sandhi: "বিদ্যা + আলয়" },
+            { word: "নীরোগ", sandhi: "নিঃ + রোগ" },
+            { word: "সংবাদ", sandhi: "সম্ + বাদ" },
+            { word: "উল্লেখ", sandhi: "উৎ + লেখ" },
+            { word: "নিষ্কর", sandhi: "নিঃ + কর" },
+            { word: "অদ্ভুত", sandhi: "অত্ + ভুত" },
+            { word: "বনস্পতি", sandhi: "বন + পতি" },
+            { word: "অন্বেষণ", sandhi: "অনু + এষণ" },
+            { word: "বিচ্ছেদ", sandhi: "বি + ছেদ" },
+            { word: "গবাক্ষ", sandhi: "গো + অক্ষ" },
+            { word: "পুরস্কার", sandhi: "পুরঃ + কার" },
+            { word: "নাবিক", sandhi: "নৌ + ইক" },
+            { word: "পরীক্ষা", sandhi: "পরি + ঈক্ষা" },
+            { word: "মনঃকষ্ট", sandhi: "মনঃ + কষ্ট" },
+            { word: "তচ্ছবি", sandhi: "তৎ + ছবি" },
+            { word: "উজ্জীবন", sandhi: "উৎ + জীবন" },
+            { word: "মৃন্ময়", sandhi: "মৃৎ + ময়" },
+            { word: "সম্পদ", sandhi: "সম্ + পদ" },
+            { word: "কৃষ্টি", sandhi: "কৃষ্ + তি" },
+            { word: "সর্বংসহা", sandhi: "সর্বম্ + সহা" },
+            { word: "দংশন", sandhi: "দম্ + শন" },
+            { word: "শয়ন", sandhi: "শে + অন" },
+            { word: "পুনরায়", sandhi: "পুনঃ + আয়" },
+            { word: "উচ্চারণ", sandhi: "উৎ + চারণ" },
+            { word: "চলচ্চিত্র", sandhi: "চলৎ + চিত্র" },
+            { word: "উজ্জ্বল", sandhi: "উৎ + জ্বল" },
+            { word: "সন্দর্শন", sandhi: "সম্ + দর্শন" },
+                        // পৃষ্ঠা ১৬ (বাম, মধ্য ও ডান কলাম)
+            { word: "ষড়ঋতু", sandhi: "ষট্ + ঋতু" },
+            { word: "ষড়যন্ত্র", sandhi: "ষট্ + যন্ত্র" },
+            { word: "ষড়জ", sandhi: "ষট্ + জ" },
+            { word: "ষড়ানন", sandhi: "ষট্ + আনন" },
+            { word: "ষণ্মাস", sandhi: "ষট্ + মাস" },
+            { word: "সদানন্দ", sandhi: "সৎ + আনন্দ" },
+            { word: "সদুপায়", sandhi: "সৎ + উপায়" },
+            { word: "সূর্যোদয়", sandhi: "সূর্য + উদয়" },
+            { word: "সচ্চরিত্র", sandhi: "সৎ + চরিত্র" },
+            { word: "সম্বন্ধ", sandhi: "সম্ + বন্ধ" }, // বইয়ের ভুল ঠিক করা হয়েছে
+            { word: "সম্মান", sandhi: "সম্ + মান" },
+            { word: "সদ্যোজাত", sandhi: "সদ্যঃ + জাত" },
+            { word: "সন্দেশ", sandhi: "সম্ + দেশ" },
+            { word: "গঙ্গোর্মি", sandhi: "গঙ্গা + ঊর্মি" },
+            { word: "গবেষণা", sandhi: "গো + এষণা" },
+            { word: "সরোবর", sandhi: "সরঃ + বর" },
+            { word: "সদৈব", sandhi: "সদা + এব" },
+            { word: "গঙ্গা", sandhi: "গম্ + গা" },
+            { word: "সজ্জন", sandhi: "সৎ + জন" },
+            { word: "সঞ্চয়", sandhi: "সম্ + চয়" },
+            { word: "সন্ন্যাস", sandhi: "সম্ + ন্যাস" },
+            { word: "গব্য", sandhi: "গো + য" },
+            { word: "গবাদি", sandhi: "গো + আদি" },
+            { word: "গবাক্ষ", sandhi: "গো + অক্ষ" },
+            { word: "সংস্কৃতি", sandhi: "সম্ + কৃতি" },
+            { word: "সংস্কার", sandhi: "সম্ + কার" },
+            { word: "সংশোধন", sandhi: "সম্ + শোধন" },
+            { word: "সংবাদ", sandhi: "সম্ + বাদ" },
+            { word: "সংযম", sandhi: "সম্ + যম" },
+            { word: "গন্তব্য", sandhi: "গম্ + তব্য" },
+            { word: "সন্তান", sandhi: "সম্ + তান" },
+            { word: "সন্তাপ", sandhi: "সম্ + তাপ" },
+            { word: "সংরক্ষা", sandhi: "সম্ + রক্ষা" },
+            { word: "সংরক্ষণ", sandhi: "সম্ + রক্ষণ" },
+            { word: "সংলাপ", sandhi: "সম্ + লাপ" },
+            { word: "সংকীর্ণ", sandhi: "সম্ + কীর্ণ" },
+            { word: "সংখ্যা", sandhi: "সম্ + খ্যা" },
+            { word: "সংসার", sandhi: "সম্ + সার" },
+            { word: "সংগীত", sandhi: "সম্ + গীত" },
+            { word: "সংহার", sandhi: "সম্ + হার" },
+            { word: "সংঘাত", sandhi: "সম্ + ঘাত" },
+            { word: "সপ্তাহ", sandhi: "সপ্ত + অহ" },
+            { word: "সপ্তর্ষি", sandhi: "সপ্ত + ঋষি" },
+            { word: "সংবিধান", sandhi: "সম্ + বিধান" },
+            { word: "সন্ধান", sandhi: "সম্ + ধান" },
+            { word: "সার্বভৌম", sandhi: "সর্বভূমি + ষ্ণ" },
+            { word: "গামছা", sandhi: "গা + মোছা" },
+            { word: "সান্নিধ্য", sandhi: "সন্নিধি + য" },
+            { word: "সদিচ্ছা", sandhi: "সৎ + ইচ্ছা" },
+            { word: "সচ্চিন্তা", sandhi: "সৎ + চিন্তা" },
+            { word: "সন্ধি", sandhi: "সম্ + ধি" },
+            { word: "সীমান্ত", sandhi: "সীমা + অন্ত" },
+            { word: "গীতি", sandhi: "গৈ + তি" },
+            { word: "সুবন্ত", sandhi: "সুপ্ + অন্ত" },
+            { word: "সুবাস্তু", sandhi: "সু + বাস্তু" },
+            { word: "হস্তাক্ষর", sandhi: "হস্ত + অক্ষর" },
+            { word: "ঘড়িয়াল", sandhi: "ঘড়ি + ইয়াল" },
+            { word: "শিরশ্ছেদ", sandhi: "শিরঃ + ছেদ" },
+            { word: "চলচ্ছক্তি", sandhi: "চলৎ + শক্তি" },
+            { word: "চলচ্চিত্র", sandhi: "চলৎ + চিত্র" },
+            { word: "চয়ন", sandhi: "চে + অন" },
+            { word: "চাদ্দিন", sandhi: "চার + দিন" },
+            { word: "চুনারি", sandhi: "চুন + আরি" },
+            { word: "চতুষ্পদ", sandhi: "চতুঃ + পদ" },
+            { word: "চতুরঙ্গ", sandhi: "চতুঃ + অঙ্গ" },
+            { word: "ছাত্রাবাস", sandhi: "ছাত্র + আবাস" },
+            { word: "জলোকা", sandhi: "জল + ওকা" },
+            { word: "জনৈক", sandhi: "জন + এক" },
+            { word: "জলাশয়", sandhi: "জল + আশয়" },
+            { word: "ঝঞ্ঝাট", sandhi: "ঝম্ + ঝাট" },
+            { word: "ঝরনা", sandhi: "ঝর্ + না" },
+            { word: "দিগন্ত", sandhi: "দিক্ + অন্ত" },
+            { word: "দিগনির্ণয়", sandhi: "দিক্ + নির্ণয়" },
+            { word: "দিগ্বিজয়", sandhi: "দিক্ + বিজয়" },
+            { word: "দিগ্বিদিক", sandhi: "দিক্ + বিদিক" },
+            { word: "নিন্দুক", sandhi: "নিন্দা + উক" },
+            { word: "নিষ্কর", sandhi: "নিঃ + কর" },
+            { word: "নিশ্চয়", sandhi: "নিঃ + চয়" },
+            { word: "নির্মাণ", sandhi: "নিঃ + মান" },
+            { word: "নিরবধি", sandhi: "নিঃ + অবধি" },
+            { word: "নিরাময়", sandhi: "নিঃ + আময়" },
+            { word: "নিরাকার", sandhi: "নিঃ + আকার" },
+            { word: "নিরীক্ষণ", sandhi: "নিঃ + ঈক্ষণ" },
+            { word: "নিকৃষ্ট", sandhi: "নিঃ + কৃষ্ট" }, // বইয়ের ভুল ঠিক করা হয়েছে
+            { word: "নিগ্রহ", sandhi: "নিঃ + গ্রহ" },
+            { word: "নিষ্ফল", sandhi: "নিঃ + ফল" },
+            { word: "নির্জন", sandhi: "নিঃ + জন" },
+            { word: "নিশ্চিন্ত", sandhi: "নিঃ + চিন্ত" },
+            { word: "নিশ্ছিদ্র", sandhi: "নিঃ + ছিদ্র" },
+            { word: "পিত্রর্থ", sandhi: "পিতৃ + অর্থ" },
+            { word: "পিত্রালয়", sandhi: "পিতৃ + আলয়" },
+            { word: "প্রিয়ংবদা", sandhi: "প্রিয়ম্ + বদা" },
+            { word: "বিদ্যালয়", sandhi: "বিদ্যা + আলয়" },
+            { word: "বিদ্যার্জন", sandhi: "বিদ্যা + অর্জন" },
+            { word: "বিচ্ছেদ", sandhi: "বি + ছেদ" },
+            { word: "বিশেষজ্ঞ", sandhi: "বিশেষ + জ্ঞ" },
+            { word: "বিপচ্ছায়া", sandhi: "বিপদ্ + ছায়া" },
+            { word: "বিপজ্জাল", sandhi: "বিপদ্ + জাল" },
+            { word: "বিচ্ছিন্ন", sandhi: "বি + ছিন্ন" },
+            { word: "মিশকালো", sandhi: "মিশি + কালো" },
+            { word: "মিশকাল", sandhi: "মিশি + কাল" },
+            { word: "লিঙ্গান্তর", sandhi: "লিঙ্গ + অন্তর" },
+            { word: "কিম্ভূত", sandhi: "কিম্ + ভূত" },
+            { word: "শিল্লোন্নত", sandhi: "শিল্প + উন্নত" },
+            { word: "শিরঃপীড়া", sandhi: "শিরঃ + পীড়া" },
+            { word: "কিন্তু", sandhi: "কিম্ + তু" },
+            { word: "কিঞ্চিৎ", sandhi: "কিম্ + চিৎ" },
+
+            // পৃষ্ঠা ১৫ (বাম, মধ্য ও ডান কলাম)
+            { word: "বৃহস্পতি", sandhi: "বৃহৎ + পতি" },
+            { word: "বৃষ্টি", sandhi: "বৃষ্ + তি" },
+            { word: "বনৌষধি", sandhi: "বন + ওষধি" },
+            { word: "বয়োবৃদ্ধি", sandhi: "বয়ঃ + বৃদ্ধি" },
+            { word: "বজ্জাত", sandhi: "বদ্ + জাত" },
+            { word: "বধূৎসব", sandhi: "বধূ + উৎসব" },
+            { word: "বনস্পতি", sandhi: "বন + পতি" },
+            { word: "বকচ্ছপ", sandhi: "বক + কচ্ছপ" },
+            { word: "বসুন্ধরা", sandhi: "বসুম্ + ধরা" },
+            { word: "বহূর্ধ্ব", sandhi: "বহু + ঊর্ধ্ব" },
+            { word: "বর্জন", sandhi: "বৃজ্ + অন" },
+            { word: "বাঙ্ময়", sandhi: "বাক্ + ময়" },
+            { word: "বাঙাল", sandhi: "বং + আল" },
+            { word: "বারংবার", sandhi: "বারম্ + বার" },
+            { word: "বাগদান", sandhi: "বাক্ + দান" },
+            { word: "বাগাড়ম্বর", sandhi: "বাক্ + আড়ম্বর" },
+            { word: "বাগীশ", sandhi: "বাক্ + ঈশ" },
+            { word: "বৃদ্ধ", sandhi: "বৃধ্ + ত" },
+            { word: "বহ্ন্যুৎসব", sandhi: "বহ্নি + উৎসব" },
+            { word: "ভূর্ধ্ব", sandhi: "ভূ + ঊর্ধ্ব" },
+            { word: "ভবেশ", sandhi: "ভব + ঈশ" },
+            { word: "ভক্ত", sandhi: "ভজ্ + ত" },
+            { word: "ভবন", sandhi: "ভো + অন" },
+            { word: "ভাস্কর", sandhi: "ভাঃ + কর" },
+            { word: "ভাবুক", sandhi: "ভৌ + উক" },
+            { word: "ভক্তি", sandhi: "ভজ্ + তি" },
+            { word: "ভুক্ত", sandhi: "ভুজ্ + ত" },
+            { word: "মৃদঙ্গ", sandhi: "মৃৎ + অঙ্গ" },
+            { word: "মৃন্ময়", sandhi: "মৃৎ + ময়" },
+            { word: "মৃত্যুঞ্জয়", sandhi: "মৃত্যুম্ + জয়" },
+            { word: "মনোযোগ", sandhi: "মনঃ + যোগ" },
+            { word: "মনোরম", sandhi: "মনঃ + রম" },
+            { word: "মনোহর", sandhi: "মনঃ + হর" },
+            { word: "মহেশ", sandhi: "মহা + ঈশ" },
+            { word: "মহেশ্বর", sandhi: "মহা + ঈশ্বর" },
+            { word: "মহৌষধ", sandhi: "মহা + ঔষধ" },
+            { word: "মহৌষধি", sandhi: "মহা + ওষধি" },
+            { word: "মহোৎসব", sandhi: "মহা + উৎসব" },
+            { word: "মহৈশ্বর্য", sandhi: "মহা + ঐশ্বর্য" },
+            { word: "মতৈক্য", sandhi: "মত + ঐক্য" },
+            { word: "মনস্কামনা", sandhi: "মনঃ + কামনা" },
+            { word: "মনঃকষ্ট", sandhi: "মনঃ + কষ্ট" },
+            { word: "মনীষা", sandhi: "মনস্ + ঈষা" },
+            { word: "মরূদ্যান", sandhi: "মরু + উদ্যান" },
+            { word: "একচ্ছত্র", sandhi: "এক + ছত্র" },
+            { word: "একাদশ", sandhi: "এক + দশ" },
+            { word: "একত্রিত", sandhi: "একত্র + ইত" },
+            { word: "মস্যাধার", sandhi: "মসী + আধার" },
+            { word: "মহাশয়", sandhi: "মহা + আশয়" },
+            { word: "মহার্ঘ", sandhi: "মহা + অর্ঘ" },
+            { word: "মহর্ষি", sandhi: "মহা + ঋষি" },
+            { word: "মন্বন্তর", sandhi: "মনু + অন্তর" },
+            { word: "মার্তণ্ড", sandhi: "মার্ত + অণ্ড" },
+            { word: "মুক্ত", sandhi: "মুচ্ + ত" },
+            { word: "মুখচ্ছবি", sandhi: "মুখ + ছবি" },
+            { word: "মতানৈক্য", sandhi: "মত + অনৈক্য" },
+            { word: "যথার্থ", sandhi: "যথা + অর্থ" },
+            { word: "যথাযথ", sandhi: "যথা + যথ" },
+            { word: "যদ্যপি", sandhi: "যদি + অপি" },
+            { word: "যথেচ্ছা", sandhi: "যথা + ইচ্ছা" },
+            { word: "যথেষ্ট", sandhi: "যথা + ইষ্ট" },
+            { word: "যথোচিত", sandhi: "যথা + উচিত" },
+            { word: "যশোবন্ত", sandhi: "যশঃ + বন্ত" },
+            { word: "যশোলাভ", sandhi: "যশঃ + লাভ" },
+            { word: "যশোভিলাষ", sandhi: "যশঃ + অভিলাষ" },
+            { word: "যজ্ঞ", sandhi: "যজ্ + ন" },
+            { word: "ঐকান্তিক", sandhi: "একান্ত + ইক" },
+            { word: "ষষ্ঠ", sandhi: "ষষ্ + থ" },
+            { word: "ষড়যন্ত্র", sandhi: "ষট্ + যন্ত্র" },
+            { word: "যন্ত্র", sandhi: "যম্ + ত্র" },
+            { word: "যাচ্ছেতাই", sandhi: "যা + ইচ্ছা + তাই" },
+            { word: "যাবজ্জীবন", sandhi: "যাবৎ + জীবন" },
+            { word: "যাচ্ঞা", sandhi: "যাচ্ + না" },
+            { word: "ঐচ্ছিক", sandhi: "इচ্ছা + ইক" },
+            { word: "ঐতিহ্য", sandhi: "ইতিহ + য" }, // বইয়ের ভুল ঠিক করা হয়েছে
+            { word: "শুদ্ধোদন", sandhi: "শুদ্ধ + ওদন" },
+            { word: "শুভেচ্ছা", sandhi: "শুভ + ইচ্ছা" },
+            { word: "রমেশ", sandhi: "রমা + ঈশ" },
+            { word: "রবীন্দ্র", sandhi: "রবি + ইন্দ্র" },
+            { word: "রাঁধুনি", sandhi: "রাঁধ্ + উনি" },
+            { word: "রাজ্ঞী", sandhi: "রাজ্ + নী" },
+            { word: "রান্না", sandhi: "রাঁধ্ + না" },
+            { word: "রাজর্ষি", sandhi: "রাজা + ঋষি" },
+            { word: "রত্নাকর", sandhi: "রত্ন + আকর" },
+            { word: "লতৌষধি", sandhi: "লতা + ওষধি" },
+            { word: "লবণ", sandhi: "লো + অন" },
+            { word: "কথাচ্ছলে", sandhi: "কথা + ছলে" },
+            { word: "কথামৃত", sandhi: "কথা + অমৃত" },
+            { word: "কৃষ্টি", sandhi: "কৃষ্ + তি" },
+            { word: "স্বৈরিণী", sandhi: "স্ব + ঈরিণী" },
+            { word: "কথোপকথন", sandhi: "কথা + উপকথন" },
+            { word: "শতেক", sandhi: "শত + এক" },
+            { word: "শঙ্কা", sandhi: "শম্ + কা" },
+            { word: "কর্ত্রী", sandhi: "কর্তৃ + ঈ" },
+            { word: "শশাঙ্ক", sandhi: "শশ + অঙ্ক" }, // বইয়ের বানান ঠিক করা হয়েছে
+            { word: "শ্রবণ", sandhi: "শ্রু + অন" },
+            { word: "শ্রীশ", sandhi: "শ্রী + ঈশ" },
+            { word: "শয়ন", sandhi: "শে + অন" },
+            { word: "কটূক্তি", sandhi: "কটু + উক্তি" },
+            { word: "শাঁখারি", sandhi: "শাঁখা + আরি" },
+            { word: "কাঁচকলা", sandhi: "কাঁচা + কলা" },
+            { word: "শাবক", sandhi: "শৌ + অক" },
+            { word: "শান্ত", sandhi: "শম্ + ত" },
+            { word: "শীতার্ত", sandhi: "শীত + ঋত" },
+            { word: "কুজ্ঝটিকা", sandhi: "কুৎ + ঝটিকা" },
+            { word: "কুলটা", sandhi: "কুল + অটা" },
+
+            // পৃষ্ঠা ১৪ (বাম, মধ্য ও ডান কলাম)
+            { word: "অঙ্কিত", sandhi: "অঙ্ক + ইত" },
+            { word: "ধনিক", sandhi: "ধন + ইক" }, // বইয়ের ভুল ঠিক করা হয়েছে
+            { word: "অত্যন্ত", sandhi: "অতি + অন্ত" },
+            { word: "অত্যাশ্চর্য", sandhi: "অতি + আশ্চর্য" },
+            { word: "অত্যাচার", sandhi: "অতি + আচার" },
+            { word: "অত্যধিক", sandhi: "অতি + অধিক" },
+            { word: "অতএব", sandhi: "অতঃ + এব" },
+            { word: "অতীব", sandhi: "অতি + ইব" },
+            { word: "অতীত", sandhi: "অতি + ইত" },
+            { word: "অত্যুক্তি", sandhi: "অতি + উক্তি" },
+            { word: "নদ্যম্বু", sandhi: "নদী + অম্বু" },
+            { word: "নদ্যাকার", sandhi: "নদী + আকার" },
+            { word: "ন্যূন", sandhi: "নি + ঊন" },
+            { word: "ন্যায়", sandhi: "নি + আয়" },
+            { word: "ইচ্ছাধীন", sandhi: "इচ্ছা + অধীন" },
+            { word: "নবোঢ়া", sandhi: "নব + ঊঢ়া" },
+            { word: "নরেন্দ্র", sandhi: "নর + ইন্দ্র" },
+            { word: "ইতোমধ্যে", sandhi: "ইতঃ + মধ্যে" },
+            { word: "নব্য", sandhi: "নব + য" },
+            { word: "নবান্ন", sandhi: "নব + অন্ন" },
+            { word: "নমস্কার", sandhi: "নমঃ + কার" },
+            { word: "নরাধম", sandhi: "নর + অধম" },
+            { word: "নয়ন", sandhi: "নে + অন" },
+            { word: "নাব্য", sandhi: "নৌ + য" },
+            { word: "নাগরিক", sandhi: "নগর + ইক" },
+            { word: "নায়ক", sandhi: "নৈ + অক" },
+            { word: "নাবিক", sandhi: "নৌ + ইক" },
+            { word: "নাতবৌ", sandhi: "নাতি + বৌ" },
+            { word: "নীরোগ", sandhi: "নিঃ + রোগ" },
+            { word: "নীরদ", sandhi: "নিঃ + রদ" },
+            { word: "নীরব", sandhi: "নিঃ + রব" },
+            { word: "নীরস", sandhi: "নিঃ + রস" },
+            { word: "নিরীহ", sandhi: "নিঃ + ঈহ" },
+            { word: "নীলিমা", sandhi: "নীল + ইমন" },
+            { word: "ইত্যাকার", sandhi: "ইতি + আকার" },
+            { word: "ইত্যাদি", sandhi: "ইতি + আদি" },
+            { word: "ইতস্তত", sandhi: "ইতঃ + ততঃ" },
+            { word: "পদস্খলন", sandhi: "পদঃ + স্খলন" },
+            { word: "পৃষ্ঠা", sandhi: "পৃষ্ + থা" },
+            { word: "পদ্ধতি", sandhi: "পদ্ + হতি" },
+            { word: "পরোপকার", sandhi: "পর + উপকার" },
+            { word: "পঞ্চার্ধ", sandhi: "পঞ্চ + অর্ধ" },
+            { word: "পঞ্চাধম", sandhi: "পঞ্চ + অধম" },
+            { word: "পবন", sandhi: "পো + অন" },
+            { word: "পর্যন্ত", sandhi: "পরি + অন্ত" },
+            { word: "পর্যালোচনা", sandhi: "পরি + আলোচনা" },
+            { word: "পরস্পর", sandhi: "পর + পর" },
+            { word: "পরমেশ", sandhi: "পরম + ঈশ" },
+            { word: "পরমৌষধ", sandhi: "পরম + ঔষধ" },
+            { word: "পরমাণু", sandhi: "পরম + অণু" },
+            { word: "পরীক্ষা", sandhi: "পরি + ঈক্ষা" },
+            { word: "ঈশ্বর", sandhi: "ঈশ + বর" },
+            { word: "পশ্চাচার", sandhi: "पश्च + আচার" },
+            { word: "প্রচ্ছদ", sandhi: "প্র + ছদ" },
+            { word: "প্রত্যেক", sandhi: "প্রতি + এক" },
+            { word: "প্রশ্নাবলি", sandhi: "প্রশ্ন + আবলি" },
+            { word: "প্রাদুর্ভাব", sandhi: "প্রাদুঃ + ভাব" },
+            { word: "প্রাতরাশ", sandhi: "প্রাতঃ + আশ" },
+            { word: "প্রত্যুষ", sandhi: "প্রতি + উষ" },
+            { word: "প্রত্যহ", sandhi: "প্রতি + অহ" },
+            { word: "প্রত্যাবর্তন", sandhi: "প্রতি + আবর্তন" },
+            { word: "প্রত্যাশা", sandhi: "প্রতি + আশা" },
+            { word: "প্রতীতি", sandhi: "প্রতি + ইতি" },
+            { word: "প্রতীক্ষা", sandhi: "প্রতি + ঈক্ষা" },
+            { word: "প্রত্যুপকার", sandhi: "প্রতি + উপকার" },
+            { word: "প্রত্যুত্তর", sandhi: "প্রতি + উত্তর" },
+            { word: "পাবক", sandhi: "পৌ + অক" },
+            { word: "পবিত্র", sandhi: "পো + ইত্র" },
+            { word: "পরিচ্ছদ", sandhi: "পরি + ছদ" },
+            { word: "পরিষ্কার", sandhi: "পরি + কার" },
+            { word: "পরিচ্ছেদ", sandhi: "পরি + ছেদ" },
+            { word: "পুনশ্চ", sandhi: "পুনঃ + চ" },
+            { word: "পুনরায়", sandhi: "পুনঃ + আয়" },
+            { word: "পুনরাধিকার", sandhi: "পুনঃ + অধিকার" },
+            { word: "পুনর্মিলন", sandhi: "পুনঃ + মিলন" },
+            { word: "পুরস্কার", sandhi: "পুরঃ + কার" },
+            { word: "পতঞ্জলি", sandhi: "পতৎ + অঞ্জলি" },
+            { word: "উদ্‌ঘাটন", sandhi: "উৎ + ঘাটন" },
+            { word: "উচ্চারণ", sandhi: "উৎ + চারণ" },
+            { word: "উচ্ছ্বাস", sandhi: "উৎ + শ্বাস" },
+            { word: "উচ্ছৃঙ্খল", sandhi: "উৎ + শৃঙ্খল" },
+            { word: "উদ্ধৃত", sandhi: "উৎ + হৃত" }, // বইয়ের ভুল ঠিক করা হয়েছে
+            { word: "উদ্ধার", sandhi: "উৎ + হার" },
+            { word: "উদ্যোগ", sandhi: "উৎ + যোগ" },
+            { word: "উচ্ছেদ", sandhi: "উৎ + ছেদ" },
+            { word: "উল্লেখ", sandhi: "উৎ + লেখ" },
+            { word: "ফলোদয়", sandhi: "ফল + উদয়" },
+            { word: "উদ্বোধন", sandhi: "উৎ + বোধন" },
+            { word: "উজ্জ্বল", sandhi: "উৎ + জ্বল" },
+            { word: "উন্নয়ন", sandhi: "উৎ + নয়ন" },
+            { word: "উন্নতি", sandhi: "উৎ + নতি" },
+            { word: "উপর্যুক্ত", sandhi: "উপরি + উক্ত" },
+            { word: "উপর্যুপরি", sandhi: "উপরি + উপরি" },
+            { word: "উত্তম", sandhi: "উদ্ + তম" },
+            { word: "উত্তমর্ণ", sandhi: "উত্তম + ঋণ" },
+            { word: "উত্থান", sandhi: "উৎ + স্থান" },
+            { word: "উত্থাপন", sandhi: "উৎ + স্থাপন" },
+            { word: "উল্লাস", sandhi: "উৎ + লাস" },
+            { word: "উদ্ধত", sandhi: "উৎ + হত" },
+            { word: "উৎকৃষ্ট", sandhi: "উৎকৃষ্ + ত" },
+            { word: "উল্লিখিত", sandhi: "উৎ + লিখিত" },
+            { word: "ফণীন্দ্র", sandhi: "ফণী + ইন্দ্র" },
+            { word: "ফুলদানি", sandhi: "ফুল + দানি" },
+            { word: "ব্যর্থ", sandhi: "বি + অর্থ" },
+            { word: "ব্যথাতুর", sandhi: "ব্যথা + আতুর" },
+            { word: "বৃহদারণ্যক", sandhi: "বৃহৎ + আরণ্যক" },
+                        // পৃষ্ঠা ১৩ (বাম, মধ্য ও ডান কলাম)
+            { word: "রত্নাকর", sandhi: "রত্ন + আকর" },
+            { word: "দ্যুলোক", sandhi: "দিব্ + লোক" },
+            { word: "ষড়ঋতু", sandhi: "ষট্ + ঋতু" },
+            { word: "প্রাতরাশ", sandhi: "প্রাতঃ + আশ" },
+            { word: "জনৈক", sandhi: "জন + এক" },
+            { word: "বাগাড়ম্বর", sandhi: "বাক্ + আড়ম্বর" },
+            { word: "রবীন্দ্র", sandhi: "রবি + ইন্দ্র" },
+            { word: "দ্বৈপায়ন", sandhi: "দ্বীপ + অয়ন" },
+            { word: "সদ্যোজাত", sandhi: "সদ্যঃ + জাত" },
+            { word: "দুরবস্থা", sandhi: "দুঃ + অবস্থা" },
+            { word: "শিরশ্ছেদ", sandhi: "শিরঃ + ছেদ" },
+            { word: "দৈনিক", sandhi: "দিন + ইক" },
+            { word: "স্বৈর", sandhi: "স্ব + ঈর" },
+            { word: "নৈতিক", sandhi: "নীতি + ইক" },
+            { word: "বৈদেশিক", sandhi: "বিদেশ + ইক" },
+            { word: "সৈনিক", sandhi: "সেনা + ইক" },
+            { word: "গৈরিক", sandhi: "গিরি + ইক" },
+            { word: "দ্বৈপায়ন", sandhi: "দ্বীপ + অয়ন" },
+            { word: "দৃষ্টান্ত", sandhi: "দৃষ্টি + অন্ত" },
+            { word: "দৃষ্টি", sandhi: "দৃশ্ + তি" },
+            { word: "দর্শনীয়", sandhi: "দৃশ্ + অনীয়" },
+            { word: "দংশন", sandhi: "দম্ + শন" }, // বইয়ের ভুল ঠিক করা হয়েছে
+            { word: "দীপালি", sandhi: "দীপ + আবলি" },
+            { word: "দীপ্ত", sandhi: "দীপ্ + ত" },
+            { word: "দ্যুলোক", sandhi: "দিব্ + লোক" },
+            { word: "দুস্থ", sandhi: "দুঃ + স্থ" }, // বইয়ের ভুল ঠিক করা হয়েছে
+            { word: "দুচ্ছাই", sandhi: "দুর্ + ছাই" },
+            { word: "দুষ্কর", sandhi: "দুঃ + কর" },
+            { word: "দুষ্পাচ্য", sandhi: "দুঃ + পাচ্য" },
+            { word: "দুর্যোগ", sandhi: "দুঃ + যোগ" },
+            { word: "দুরবস্থা", sandhi: "দুঃ + অবস্থা" },
+            { word: "দুরাত্মা", sandhi: "দুঃ + আত্মা" },
+            { word: "দুর্গতি", sandhi: "দুঃ + গতি" },
+            { word: "দুর্ঘটনা", sandhi: "দুঃ + ঘটনা" },
+            { word: "দুঃশাসন", sandhi: "দুঃ + শাসন" },
+            { word: "স্বচ্ছ", sandhi: "সু + অচ্ছ" },
+            { word: "স্বচ্ছন্দ", sandhi: "স্ব + ছন্দ" },
+            { word: "স্বল্প", sandhi: "সু + অল্প" },
+            { word: "স্বাধীন", sandhi: "স্ব + অধীন" },
+            { word: "স্বাগত", sandhi: "সু + আগত" },
+            { word: "স্বতঃস্ফূর্ত", sandhi: "স্বতঃ + স্ফূর্ত" },
+            { word: "দেবর্ষি", sandhi: "দেব + ঋষি" },
+            { word: "দেশান্তর", sandhi: "দেশ + অন্তর" },
+            { word: "দোলক", sandhi: "দুল্ + অক" },
+            { word: "স্বেচ্ছা", sandhi: "স্ব + ইচ্ছা" },
+            { word: "প্রেষণ", sandhi: "প্র + এষণ" },
+            { word: "প্রৌঢ়", sandhi: "প্র + ঊঢ়" },
+            { word: "বোধোদয়", sandhi: "বোধ + উদয়" },
+            { word: "শোকার্ত", sandhi: "শোক + ঋত" },
+            { word: "ষোড়শ", sandhi: "ষট্ + দশ" },
+            { word: "গোষ্পদ", sandhi: "গো + পদ" },
+            { word: "সোনালি", sandhi: "সোনা + আলি" },
+            { word: "ঘোড়াদৌড়", sandhi: "ঘোড়া + দৌড়" },
+            { word: "ঘোড়দা", sandhi: "ঘোট + দা" },
+            { word: "জ্যোতির্ময়", sandhi: "জ্যোতিঃ + ময়" },
+            { word: "জ্যোতির্বিদ", sandhi: "জ্যোতিঃ + বিদ" },
+            { word: "তেজস্বী", sandhi: "তেজঃ + বিন্" },
+            { word: "অর্ধেক", sandhi: "অর্ধ + এক" },
+            { word: "অধোগতি", sandhi: "অধঃ + গতি" },
+            { word: "অপেক্ষা", sandhi: "অপ + ঈক্ষা" },
+            { word: "অন্বেষণ", sandhi: "অনু + এষণ" },
+            { word: "অক্ষৌহিণী", sandhi: "অক্ষ + ঊহিণী" }, // বইয়ের ভুল ঠিক করা হয়েছে
+            { word: "অধ্যক্ষ", sandhi: "অধি + অক্ষ" },
+            { word: "অধমর্ণ", sandhi: "অধম + ঋণ" },
+            { word: "অধঃপতন", sandhi: "অধঃ + পতন" },
+            { word: "বিপচ্চিন্তা", sandhi: "বিপদ্ + চিন্তা" },
+            { word: "অন্যান্য", sandhi: "অন্য + অন্য" },
+            { word: "ধনুষ্টঙ্কার", sandhi: "ধনুঃ + টঙ্কার" },
+            { word: "ধনুবিদ্যা", sandhi: "ধনুঃ + বিদ্যা" },
+            { word: "অপরাপর", sandhi: "অপর + অপর" },
+            { word: "অভ্যাগত", sandhi: "অভি + আগত" },
+            { word: "অভীপ্সা", sandhi: "অভি + ঈপ্সা" },
+            { word: "অভ্যুদয়", sandhi: "অভি + উদয়" },
+            { word: "অরুণোদয়", sandhi: "অরুণ + উদয়" },
+            { word: "অসদুপায়", sandhi: "অসৎ + উপায়" },
+            { word: "অহরহ", sandhi: "অহঃ + অহ" },
+            { word: "অহংকার", sandhi: "অহম্ + কার" },
+            { word: "অহর্নিশ", sandhi: "অহঃ + নিশা" },
+            { word: "অন্বয়", sandhi: "অনু + অয়" },
+            { word: "অন্তস্তল", sandhi: "অন্তঃ + তল" },
+            { word: "অন্তর্ধান", sandhi: "অন্তঃ + ধান" },
+            { word: "অন্তর্ভুক্ত", sandhi: "অন্তঃ + ভুক্ত" },
+            { word: "অন্তরঙ্গ", sandhi: "অন্তঃ + অঙ্গ" },
+            { word: "অন্তর্গত", sandhi: "অন্তঃ + গত" },
+            { word: "আদ্যন্ত", sandhi: "আদি + অন্ত" },
+            { word: "আচ্ছন্ন", sandhi: "আ + ছন্ন" },
+            { word: "আচ্ছাদন", sandhi: "আ + ছাদন" },
+            { word: "আদ্যোপান্ত", sandhi: "আদ্য + উপান্ত" },
+            { word: "আলোয়", sandhi: "আলো + এ" },
+            { word: "আন্না", sandhi: "আর + না" },
+            { word: "আশ্চর্য", sandhi: "আ + চর্য" },
+            { word: "ধাত্রী", sandhi: "ধাতৃ + ঈ" },
+            { word: "আশাতীত", sandhi: "আশা + অতীত" },
+            { word: "আশীর্বাদ", sandhi: "আশীঃ + বাদ" },
+            { word: "আবিষ্কার", sandhi: "আবিঃ + কার" },
+            { word: "আবির্ভাব", sandhi: "আবিঃ + ভাব" }
+
+
+
+        ];
+
+        let favorites = JSON.parse(localStorage.getItem('sandhiFavs')) || [];
+        let showOnlyFavs = false;
+        const container = document.getElementById('sandhi-container');
+
+        function renderItems(filterText = "") {
+            container.innerHTML = "";
+            let count = 0;
+            sandhiData.forEach((item, index) => {
+                const textForSearch = item.word.toLowerCase() + " " + item.sandhi.toLowerCase();
+                const isMatch = textForSearch.includes(filterText.toLowerCase());
+                const isFav = favorites.includes(index);
+                if (isMatch && (!showOnlyFavs || isFav)) {
+                    count++;
+                    const div = document.createElement('div');
+                    div.className = 'sandhi-item';
+                    div.id = `item-${index + 1}`;
+                    div.innerHTML = `
+                        <div class="sandhi-header">
+                            <span class="serial">${index + 1}.</span> 
+                            <div class="sandhi-word" onclick="showAnswer(this, ${index})">${item.word}</div>
+                            <span class="fav-icon ${isFav ? 'active' : ''}" onclick="toggleFavorite(${index}, this)">★</span>
+                        </div>
+                        <div class="answer">
+                            ${item.sandhi}
+                        </div>
+                    `;
+                    container.appendChild(div);
+                }
+            });
+            document.getElementById('no-results').style.display = count === 0 ? "block" : "none";
+        }
+
+        function showAnswer(element, index) {
+            const answerDiv = element.parentElement.nextElementSibling;
+            if (answerDiv.style.display === "block") {
+                answerDiv.style.display = "none";
+                element.style.background = "rgba(150, 230, 161, 0.15)";
+                element.style.color = "#d4fc79";
+            } else {
+                answerDiv.style.display = "block";
+                element.style.background = "#96e6a1";
+                element.style.color = "#000";
+                localStorage.setItem('sandhiLastRead', index + 1);
+            }
+        }
+
+        function toggleFavorite(index, element) {
+            const favIndex = favorites.indexOf(index);
+            if (favIndex === -1) { favorites.push(index); element.classList.add('active'); }
+            else { favorites.splice(favIndex, 1); element.classList.remove('active'); if(showOnlyFavs) renderItems(); }
+            localStorage.setItem('sandhiFavs', JSON.stringify(favorites));
+        }
+
+        function filterItems() { renderItems(document.getElementById('searchInput').value); }
+
+        function toggleFavView() {
+            showOnlyFavs = !showOnlyFavs;
+            document.getElementById('favToggleBtn').innerHTML = showOnlyFavs ? "📖 সবগুলো দেখুন" : "⭐ ফেভারিটগুলো";
+            renderItems();
+        }
+
+        function scrollToLastRead() {
+            const lastRead = localStorage.getItem('sandhiLastRead');
+            if (lastRead) jumpToElement(lastRead);
+            else alert("কোনো লাস্ট রিড ডেটা নেই!");
+        }
+
+        function jumpToQuestion() {
+            const num = parseInt(document.getElementById('jumpInput').value);
+            if(num > 0 && num <= sandhiData.length) jumpToElement(num);
+            else alert("সঠিক নম্বর দিন!");
+        }
+
+        function jumpToElement(id) {
+            const el = document.getElementById(`item-${id}`);
+            if(el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                el.style.borderLeft = "4px solid #96e6a1";
+                setTimeout(() => { el.style.borderLeft = "4px solid transparent"; }, 2000);
+            }
+        }
+
+        function toggleNavPanel(e) {
+            if(e.target.closest('.rocket-toggle') || e.target.id === 'rightNav') {
+                document.getElementById('rightNav').classList.toggle('expanded');
+            }
+        }
+
+        renderItems();
+    </script>
+</body>
+</html>
