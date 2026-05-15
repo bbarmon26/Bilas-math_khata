@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BAcademy - ণত্ব ও ষত্ব বিধান (ভিজ্যুয়াল গাইড)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap');
+
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #0f172a; /* Deep Slate Background */
+            color: #f8fafc;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #38bdf8;
+            font-size: 36px;
+            margin-bottom: 30px;
+            text-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+        }
+
+        /* Category Header */
+        .section-header {
+            background: linear-gradient(90deg, #ec4899, #f43f5e);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+            display: inline-block;
+            font-size: 26px;
+            font-weight: bold;
+            margin: 40px 0 20px 0;
+            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);
+        }
+
+        /* Intro Box */
+        .intro {
+            background: #1e293b;
+            border: 2px solid #334155;
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+        .hl-word { background: #3b82f6; color: white; padding: 2px 8px; border-radius: 6px; font-weight: bold; }
+        .hl-letter { color: #f59e0b; font-weight: bold; font-size: 22px; }
+
+        /* Rule Card */
+        .rule-card {
+            background: #ffffff;
+            color: #0f172a;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            border-left: 8px solid #38bdf8;
+        }
+        
+        .rule-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #1e293b;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .rule-no {
+            background: #38bdf8;
+            color: white;
+            min-width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        /* Colorful Highlights inside text */
+        .c-red { color: #ef4444; font-weight: bold; }
+        .c-blue { color: #3b82f6; font-weight: bold; }
+        .c-green { color: #10b981; font-weight: bold; }
+        .c-purple { color: #8b5cf6; font-weight: bold; }
+
+        /* Examples & Exceptions */
+        .example-box {
+            background: #ecfdf5;
+            border-left: 4px solid #10b981;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            color: #065f46;
+            font-size: 19px;
+        }
+        .exception-box {
+            background: #fef2f2;
+            border-left: 4px solid #ef4444;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            color: #991b1b;
+            font-size: 19px;
+        }
+        
+        /* Warning Box */
+        .warning-card {
+            background: #fffbeb;
+            border: 2px dashed #f59e0b;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 15px;
+            color: #92400e;
+            font-size: 19px;
+        }
+        .warning-title { font-weight: bold; color: #d97706; font-size: 22px; margin-bottom: 10px; }
+
+        /* Magnet Visual CSS Art */
+        .magnet-theory {
+            background: #1e293b;
+            padding: 25px;
+            border-radius: 16px;
+            margin: 20px 0;
+            text-align: center;
+            border: 2px solid #38bdf8;
+        }
+        .magnet-graphics {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .magnet {
+            width: 80px; height: 80px;
+            border: 20px solid #ef4444;
+            border-right-color: transparent;
+            border-radius: 50%;
+            position: relative;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .magnet::after, .magnet::before {
+            content: ''; position: absolute; right: -10px; width: 20px; height: 20px; background: #94a3b8;
+        }
+        .magnet::before { top: -20px; }
+        .magnet::after { bottom: -20px; }
+        .magnet-text { position: absolute; font-weight: bold; color: white; font-size: 24px; left: -10px;}
+        
+        .wood-blocks { display: flex; flex-direction: column; gap: 5px; }
+        .wood { background: #8b5a2b; color: white; padding: 5px 15px; border-radius: 4px; font-weight: bold; box-shadow: 2px 2px 0 #5c3a18;}
+        
+        .iron { background: #94a3b8; color: #0f172a; padding: 15px 25px; border-radius: 50%; font-size: 30px; font-weight: bold; box-shadow: inset -3px -3px 10px rgba(0,0,0,0.3); }
+        .plus { font-size: 30px; font-weight: bold; color: #38bdf8; }
+
+        /* Compare Box (Robber vs Torch) */
+        .compare-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;
+        }
+        .compare-item {
+            background: #f1f5f9; padding: 15px; border-radius: 10px; text-align: center; border: 2px solid #cbd5e1;
+        }
+        .c-icon { font-size: 45px; margin-bottom: 5px; }
+        .c-title { font-weight: bold; font-size: 22px; color: #0f172a; }
+
+        /* Poem Box */
+        .poem {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            color: #38bdf8;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 20px;
+            line-height: 1.8;
+            border: 1px solid #38bdf8;
+            font-weight: bold;
+        }
+
+        /* Table */
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; background: white; }
+        th, td { padding: 10px; border: 1px solid #cbd5e1; text-align: center; font-size: 18px; }
+        th { background: #38bdf8; color: white; }
+
+        @media (max-width: 768px) {
+            .compare-grid { grid-template-columns: 1fr; }
+            .magnet { width: 60px; height: 60px; border-width: 15px; }
+            .wood { font-size: 14px; padding: 5px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>✨ ণত্ব ও ষত্ব বিধান - ভিজ্যুয়াল গাইড</h1>
+
+    <div class="intro">
+        বাংলা ভাষায় সাধারণত মূর্ধন্য-<span class="hl-letter">ণ</span> ও মূর্ধন্য-<span class="hl-letter">ষ</span> বর্ণ দুটির ব্যবহার নেই। উৎস অনুসারে শব্দ ৫ প্রকার হলেও, কেবল <span class="hl-word">তৎসম বা সংস্কৃত</span> শব্দের বানানেই <span class="hl-letter">ণ</span> ও <span class="hl-letter">ষ</span> ব্যবহৃত হয়।
+    </div>
+
+    <div class="section-header">ণ-ত্ব বিধান</div>
+
+    <div class="rule-card">
+        <div class="rule-title"><div class="rule-no">১</div> <span class="c-blue">ঋ, র, ষ</span> – এর পরে সাধারণত মূর্ধন্য-<span class="c-red">ণ</span> বসে।</div>
+        <div class="example-box"><b>যেমন:</b> ঋণ, তৃণ, ঘৃণা, রণ, সারণ, বর্ণ, কারণ, মরণ, ব্যাকরণ, দূষণ, ঘর্ষণ, ভীষণ, উষ্ণ ইত্যাদি।</div>
+    </div>
+
+    <div class="rule-card">
+        <div class="rule-title"><div class="rule-no">২</div> বাংলা ক্রিয়াপদের শেষে সর্বদা দন্ত্য-<span class="c-green">ন</span> বসে।</div>
+        <div class="example-box">পূর্বে ঋ, র, ষ থাকলেও <b>ন</b> বসবে। <b>যেমন:</b> ধরেন, করেন, করুন (বিশেষণ হলে 'করুণ'), মারেন, চরান।</div>
+    </div>
+
+    <div class="rule-card">
+        <div class="rule-title"><div class="rule-no">৩</div> <span class="c-purple">অ-তৎসম ও বিদেশি</span> শব্দে সর্বদা দন্ত্য-<span class="c-green">ন</span> বসে।</div>
+        <table>
+            <tr><th>ভুল বানান</th><th>সঠিক বানান</th><th>উৎস</th></tr>
+            <tr><td>দরুণ</td><td>দরু<span class="c-green">ন</span></td><td>ফারসি</td></tr>
+            <tr><td>ঝর্ণা</td><td>ঝর<span class="c-green">না</span></td><td>বাংলা</td></tr>
+            <tr><td>কর্ণার</td><td>কর্না<span class="c-green">র</span></td><td>ইংরেজি</td></tr>
+            <tr><td>ভাণ্ডার</td><td>ভান্ডা<span class="c-green">র</span></td><td>তদ্ভব</td></tr>
+        </table>
+    </div>
+
+    <div class="rule-card">
+        <div class="rule-title"><div class="rule-no">৪</div> তৎসম শব্দে <span class="c-blue">'ট' বর্গীয়</span> ধ্বনির যুক্ত ব্যঞ্জনে <span class="c-red">ণ</span> বসে।</div>
+        <div class="example-box"><b>যেমন:</b> কণ্টক, ঘণ্টা, কণ্ঠ, লুণ্ঠন, ভণ্ড, কাণ্ড, গুণ্ডা ইত্যাদি।</div>
+        <div class="exception-box"><b>ব্যতিক্রম:</b> অ-তৎসম শব্দে 'ন' বসে। যেমন: ঠান্ডা, স্ট্যান্ড, প্যান্ট, লন্ঠন।</div>
+        
+        <div class="compare-grid">
+            <div class="compare-item">
+                <div class="c-icon">🦹‍♂️</div>
+                <div class="c-title">লু<span class="c-red">ণ্ঠ</span>ন</div>
+                <div>অর্থ: লুট করা। সংস্কৃত শব্দ, তাই <span class="c-red">ণ</span> বসেছে।</div>
+            </div>
+            <div class="compare-item">
+                <div class="c-icon">🔦</div>
+                <div class="c-title">ল<span class="c-green">ন্ঠ</span>ন</div>
+                <div>অর্থ: মশাল। ইংরেজি (Lantern), তাই <span class="c-green">ন</span> বসেছে।</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="rule-card">
+        <div class="rule-title"><div class="rule-no">৫-৮</div> অন্যান্য সাধারণ নিয়ম:</div>
+        <div class="example-box"><b>৫. তদ্ভব শব্দে:</b> কান, সোনা, পরান, পর্ণ (পান)। (সবসময় <b>ন</b>)</div>
+        <div class="example-box"><b>৬. ণ-এর পরে:</b> গণনা, বর্ণনা, ক্ষুণ্ণ। (সবসময় <b>ন</b>)</div>
+        <div class="example-box"><b>৭. 'ত' বর্গীয় যুক্ত ব্যঞ্জনে:</b> দন্ত, ঘুমন্ত, প্রান্ত, গ্রন্থ, ক্রন্দন। (সবসময় <b>ন</b>)</div>
+        <div class="example-box"><b>৮. ত, থ, দ, ধ এর পরে:</b> কথোপকথন, দান, ধান। (সবসময় <b>ন</b>)</div>
+    </div>
+
+    <div class="rule-card">
+        <div class="rule-title"><div class="rule-no">৯</div> <span class="c-purple">সমাসবদ্ধ</span> পদে ণ-ত্ব বিধান খাটে না (সাধারণত <span class="c-green">ন</span> বসে)।</div>
+        <div class="example-box"><b>যেমন:</b> ত্রিনয়ন, দুর্নিবার, দুর্নাম, নির্নিমেষ, সর্বনাম, দুর্নীতি।</div>
+        
+        <div class="warning-card">
+            <div class="warning-title">⚠️ সতর্কতা: ত্রিহায়ণ vs ত্রিনয়ন</div>
+            যুক্তস্থলে যদি কোনো 'ন' বসানোর প্রয়োজন হয়, তবে তা দন্ত্য-<span class="c-green">ন</span> হবে। কিন্তু যুক্তস্থল ছাড়া অন্য জায়গায় নিয়মানুসারে <span class="c-red">ণ</span> বসতে পারে।<br><br>
+            ✔️ <b>ত্রিনয়ন / নির্নিমেষ:</b> যুক্তস্থলেই ন বসেছে।<br>
+            ✔️ <b>ত্রিহায়ণ / রথারোহণ:</b> যুক্তস্থলে ন বসেনি, ভেতরের শব্দে নিয়মানুসারে <span class="c-red">ণ</span> বসেছে।<br>
+            ✔️ <b>পূর্বাহ্ণ / অপরাহ্ণ:</b> যুক্তস্থলে ন বসেনি, তাই নিয়মানুসারে <span class="c-red">ণ</span>।
+        </div>
+    </div>
+
+    <div class="magnet-theory">
+        <h2 style="color: #f6d365; margin-top: 0;">🧲 ণত্ব বিধানের চুম্বক তত্ত্ব</h2>
+        <div style="color: white; font-size: 18px;">
+            চুম্বক লোহাকে আকর্ষণ করে। কিন্তু মাঝখানে কাঠ থাকলে আকর্ষণ করে না। 
+            তবে কিছু বিশেষ 'কাঠ' আছে যা ভেদ করে চুম্বক আকর্ষণ করতে পারে!
+        </div>
+        
+        <div class="magnet-graphics">
+            <div class="magnet"><span class="magnet-text">ঋ র ষ</span></div>
+            <div class="plus">➕</div>
+            <div class="wood-blocks">
+                <div class="wood">ক খ গ ঘ ঙ</div>
+                <div class="wood">প ফ ব ভ ম</div>
+                <div class="wood">য য় হ ং</div>
+            </div>
+            <div class="plus">➕</div>
+            <div class="iron">ণ</div>
+        </div>
+
+        <div style="color: #38bdf8; font-size: 19px; text-align: left; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px;">
+            ✔️ <b>রামায়ণ:</b> র (চুম্বক) + ম, য় (কাঠ) ভেদ করে + <b>ণ</b> (লোহা) বসেছে।<br>
+            ❌ <b>রসায়ন:</b> র (চুম্বক) এর পর 'স' কাঠ আছে, যা ভেদ করতে পারেনি, তাই <b>ন</b> বসেছে।
+        </div>
+    </div>
+
+    <div class="rule-card">
+        <div class="rule-title"><div class="rule-no">১১</div> যে সকল শব্দে <span class="c-red">স্বভাবতই মূর্ধন্য (ণ)</span> হয়:</div>
+        <div class="poem">
+            চাণক্য মাণিক্য গণ&nbsp;&nbsp;&nbsp;বাণিজ্য লবণ মণ<br>
+            বেণু বীণা কঙ্কণ কণিকা<br>
+            কল্যাণ শোণিত মণি&nbsp;&nbsp;&nbsp;স্থাণু গুণ পুণ্য বেণী<br>
+            ফণী অণু বিপণী গণিকা<br>
+            আপণ লাবণ্য বাণী&nbsp;&nbsp;&nbsp;নিপুণ ভণিতা পাণি<br>
+            গৌণ কোণ ভাণ পণ শাণ<br>
+            চিক্কণ নিক্কণ তূণ&nbsp;&nbsp;&nbsp;কফণি বণিক গুণ<br>
+            গণনা পিনাক পণ্য বাণ
+        </div>
+        <div class="warning-card">
+            <div class="warning-title">💡 লক্ষণীয়</div>
+            • <b>নিক্কণ</b> (আধুনিক বানান)।<br>
+            • <b>পিনাক</b> (অর্থ শিবের ধনুক)।<br>
+            • <b>আরও শব্দ:</b> গণিত, এণ, গণ্য, নগণ্য, কণা, আণবিক, উঁকুন, শোণ।
+        </div>
+    </div>
+
+    <div class="section-header" style="background: linear-gradient(90deg, #8b5cf6, #d946ef);">ষ-ত্ব বিধান</div>
+
+    <div class="intro">
+        যেখানে মূর্ধন্য-ণ বসে সেখানেই মূর্ধন্য-ষ বসে; যেখানে মূর্ধন্য-ণ বসে না সেখানে মূর্ধন্য-ষও বসে না।
+    </div>
+
+    <div class="rule-card">
+        <div class="rule-title"><div class="rule-no">১২-১৩</div> সাধারণ নিয়ম:</div>
+        <div class="example-box"><b>ঋ, র এর পরে:</b> ঋষি, ঔষধ, বর্ষা, ঘর্ষণ, কৃষক। (ব্যতিক্রম: দর্শন, দৃশ্য, স্পর্শ)</div>
+        <div class="example-box"><b>ক্রিয়াপদে:</b> ধরিস, করিস, মারিস। (সবসময় <b>স</b>)</div>
+        <div class="example-box"><b>'ট' বর্গীয় যুক্ত ব্যঞ্জনে:</b> কষ্ট, নষ্ট, কাষ্ঠ। (বিদেশি শব্দে <b>স</b>: স্টিল, স্টোর)</div>
+        <div class="example-box"><b>'ত' বর্গীয় যুক্ত ব্যঞ্জনে:</b> স্তবক, স্তূপ, বিস্তার। (সবসময় <b>স</b>)</div>
+        <div class="example-box"><b>'সাৎ' প্রত্যয়ে:</b> ধূলিসাৎ, আত্মসাৎ। (সবসময় <b>স</b>)</div>
+        <div class="example-box"><b>খাঁটি বাংলায়:</b> দেশি, বসবাস। (সবসময় <b>স/শ</b>)</div>
+    </div>
+
+    <div class="rule-card">
+        <div class="rule-title"><div class="rule-no">১৩</div> পুরুষবাচক সম্বোধনে <span class="c-blue">এষু</span>, স্ত্রীবাচকে <span class="c-green">আসু</span></div>
+        <div class="example-box">
+            <b>পুরুষ:</b> কল্যাণবরেষু, প্রিয়বরেষু, শ্রদ্ধাস্পদেষু。<br>
+            <b>স্ত্রী:</b> কল্যাণবরাসু, প্রিয়াসু, শ্রদ্ধাস্পদাসু।
+        </div>
+    </div>
+
+    <div class="rule-card">
+        <div class="rule-title"><div class="rule-no">১৪</div> 'অ/আ' এর পর <span class="c-green">স</span>, অন্য স্বরের পর <span class="c-blue">ষ</span></div>
+        <div class="example-box"><b>অ/আ:</b> পুরস্কার, নমস্কার, ভাস্কর, পরস্পর। (ব্যতিক্রম: বাষ্প)</div>
+        <div class="example-box"><b>ই/উ/অন্য:</b> পরিষ্কার, আবিষ্কার, চতুষ্পদ, নিষ্কাম, ভবিষ্যৎ, ভূমিষ্ঠ।</div>
+        
+        <div class="warning-card" style="border-color: #ef4444;">
+            <div class="warning-title" style="color:#ef4444;">⚠️ ব্যতিক্রমসমূহ</div>
+            ১. <b>নিস্তব্ধ, বিস্তার, বিস্তীর্ণ:</b> ই-কার থাকলেও ত-বর্গীয় ধ্বনি তাই <b>স</b>।<br>
+            ২. <b>স্ফুট/স্ফুর ধাতু:</b> পরিস্ফুট, বিস্ফোরণ (সবসময় <b>স</b>)।<br>
+            ৩. <b>অন্যান্য:</b> অভিসন্ধি, অনুসন্ধান, অনুসরণ, বিস্ময়, সুস্মিতা, সুসংবাদ (ই/উ থাকলেও <b>স</b>)।
+        </div>
+    </div>
+
+    <div class="rule-card">
+        <div class="rule-title"><div class="rule-no">১৫</div> যে সকল শব্দে <span class="c-blue">স্বভাবতই মূর্ধন্য (ষ)</span> হয়:</div>
+        <div class="poem">
+            ভাষা, ভাষ্য, আষাঢ়, উষর, ষণ্ড<br>
+            ভাষণ, ভূষণ, পাষাণ, পোষণ, পাষণ্ড<br>
+            তোষণ, বিষাণ, রোষ, কোষ, পৌষ<br>
+            আভাষ, অভিলাষ, সরিষা, ষোড়শ, কলুষ<br>
+            পুষ্প, পুরুষ, পোষ্য, প্রত্যুষ, শেষ<br>
+            বাষ্প, প্রদোষ, উষ্ম, নিকষ, বিশেষ<br>
+            তুষ, গণ্ডুষ, বিষ, বিশেষণ, দ্বেষ<br>
+            ভূষা, পুষা, দোষ, মহিষ ও মেষ<br>
+            ঔষধ, ওষধি, ঈষৎ, মানুষ করে শোষণ<br>
+            ষটচক্র, ষড়যন্ত্র, উষা, মূষিক, দূষণ
+        </div>
+        <div class="warning-card">
+            <div class="warning-title">⚙️ ধাতু বিশ্লেষণ সতর্কতা</div>
+            ধাতুতেই 'ষ' থাকলে তা স্বভাবতই 'ষ' এর নিয়মে পড়ে।<br>
+            ✔️ <b>কোষ</b> = √কুষ + অ (স্বভাবতই ষ)<br>
+            ✔️ <b>পাষাণ</b> = √পিষ্ + আন (স্বভাবতই ষ)<br>
+            ❌ <b>ভূমিষ্ঠ</b> = ভূমি + √স্থা + অ (ই-কারের নিয়মে ষ, স্বভাবতই নয়)
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
