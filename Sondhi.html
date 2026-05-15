@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BAcademy - তৎসম সন্ধি মাস্টার নোট (চিত্রসহ)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap');
+
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #0f172a; 
+            color: #f8fafc;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding-bottom: 80px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #38bdf8;
+            font-size: 38px;
+            margin-bottom: 30px;
+            text-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            position: sticky;
+            top: 10px;
+            z-index: 1000;
+            background: rgba(30, 41, 59, 0.85);
+            backdrop-filter: blur(15px);
+            padding: 12px;
+            border-radius: 50px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 35px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .nav-btn {
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            color: white;
+            transition: 0.3s;
+        }
+
+        /* Category Headers */
+        .section-header {
+            color: white;
+            padding: 15px 35px;
+            border-radius: 50px;
+            display: inline-block;
+            font-size: 30px;
+            font-weight: bold;
+            margin: 50px 0 25px 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        .bg-pink { background: linear-gradient(90deg, #ec4899, #f43f5e); }
+        .bg-green { background: linear-gradient(90deg, #10b981, #059669); }
+        .bg-purple { background: linear-gradient(90deg, #8b5cf6, #d946ef); }
+
+        /* Rule Cards */
+        .rule-card {
+            background: #ffffff;
+            color: #0f172a;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 35px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            border-left: 10px solid #38bdf8;
+            transition: 0.3s;
+        }
+        .rule-card:hover { transform: translateY(-3px); }
+        .card-pink { border-left-color: #f43f5e; }
+        .card-green { border-left-color: #10b981; }
+        .card-purple { border-left-color: #8b5cf6; }
+
+        .rule-title {
+            font-size: 26px;
+            font-weight: bold;
+            color: #1e293b;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            border-bottom: 2px dashed rgba(56, 189, 248, 0.2);
+            padding-bottom: 10px;
+        }
+
+        .rule-no {
+            background: #0f172a;
+            color: white;
+            min-width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+
+        /* Math Style from Notebook */
+        .math-eq {
+            font-size: 36px;
+            color: #ef4444;
+            font-weight: bold;
+            text-align: center;
+            background: #fef2f2;
+            padding: 15px;
+            border-radius: 15px;
+            border: 3px dashed #fca5a5;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        /* INFOGRAPHIC DIAGRAMS (Like the Book) */
+        .diagram-container {
+            background: #f8fafc;
+            border: 2px solid #cbd5e1;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        .diagram-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+        .char-box {
+            background: #1e293b;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        .char-box.result {
+            background: #ef4444; /* Red for result */
+            border: 3px solid #fca5a5;
+        }
+        .char-box.wide {
+            width: auto;
+            padding: 0 20px;
+            background: #3b82f6;
+        }
+        .arrow-right {
+            font-size: 35px;
+            color: #94a3b8;
+            font-weight: bold;
+        }
+        .diagram-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #475569;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 5px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Explanation Box */
+        .explanation {
+            background: #fffbeb;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #fde68a;
+            font-size: 20px;
+            color: #92400e;
+        }
+        .ex-title { font-weight: bold; color: #d97706; border-bottom: 1px solid #fde68a; padding-bottom: 5px; margin-bottom: 10px;}
+
+        /* Examples Box */
+        .example-box {
+            background: #ecfdf5;
+            border-left: 6px solid #10b981;
+            padding: 20px;
+            border-radius: 8px;
+            color: #065f46;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        /* Flow Visualization */
+        .flow-container {
+            display: flex;
+            justify-content: space-around;
+            background: #f1f5f9;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 2px solid #cbd5e1;
+        }
+        .flow-item { text-align: center; font-weight: bold; font-size: 24px; display: flex; flex-direction: column; align-items: center;}
+        .arrow { color: #ef4444; font-size: 30px; margin: 5px 0;}
+
+        /* Highlights */
+        .c-red { color: #ef4444; }
+        .hl-box { background: #e2e8f0; padding: 2px 10px; border-radius: 6px; }
+
+        @media (max-width: 768px) {
+            .rule-title { font-size: 22px; }
+            .math-eq { font-size: 28px; }
+            .flow-container { flex-direction: column; gap: 20px; }
+            .diagram-row { gap: 10px; }
+            .char-box { width: 45px; height: 45px; font-size: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>✨ তৎসম সন্ধি মাস্টার মডিউল <br><span style="font-size: 20px; color:#94a3b8;">(নোটবুক + চিত্রভিত্তিক গাইড)</span></h1>
+
+    <div class="navbar">
+        <button class="nav-btn bg-pink" onclick="document.getElementById('swara').scrollIntoView()">স্বরসন্ধি</button>
+        <button class="nav-btn bg-green" onclick="document.getElementById('byanjan').scrollIntoView()">ব্যঞ্জনসন্ধি</button>
+        <button class="nav-btn bg-purple" onclick="document.getElementById('visarga').scrollIntoView()">বিসর্গ সন্ধি</button>
+    </div>
+
+    <div id="swara" class="section-header bg-pink">তৎসম শব্দের স্বরসন্ধি (১৩টি নিয়ম)</div>
+
+    <div class="rule-card card-pink">
+        <div class="rule-title"><div class="rule-no">১</div> আ-কার <span class="hl-box">"া"</span> থাকলে বিচ্ছেদে <span class="c-red">অ/আ + অ/আ</span> হয়</div>
+        <div class="example-box">অন্যান্য = অন্য + অন্য<br>ছাত্রাবাস = ছাত্র + আবাস</div>
+    </div>
+
+    <div class="rule-card card-pink">
+        <div class="rule-title"><div class="rule-no">২</div> এ-কার <span class="hl-box">"ে"</span> থাকলে বিচ্ছেদে <span class="c-red">অ/আ + ই/ঈ</span> হয়</div>
+        <div class="explanation">
+            <div class="ex-title">💡 খাতার স্পেশাল টেকনিক:</div>
+            <span class="c-red">ঈক্ষা, ঈপ্সা, ঈশ</span> – এই শব্দগুলোতে সবসময় দীর্ঘ-ঈ <b>"ঈ"</b> ব্যবহার করবা।
+        </div>
+        <div class="example-box">অপেক্ষা = অপ + ঈক্ষা<br>নির্মলেন্দু = নির্মল + ইন্দু<br>মহেশ = মহা + ঈশ</div>
+    </div>
+
+    <div class="rule-card card-pink">
+        <div class="rule-title"><div class="rule-no">৩-৫</div> ঐ-কার, ও-কার, ঔ-কার এর নিয়ম</div>
+        <div class="example-box">
+            <b>ঐ (ৈ) = অ/আ + এ/ঐ:</b> মতৈক্য = মত + ঐক্য<br>
+            <b>ও (ো) = অ/আ + উ/ঊ:</b> দুর্গোৎসব = দুর্গা + উৎসব<br>
+            <b>ঔ (ৌ) = অ/আ + ও/ঔ:</b> মহৌষধ = মহা + ঔষধ
+        </div>
+    </div>
+
+    <div class="rule-card card-pink">
+        <div class="rule-title"><div class="rule-no">৬-৯</div> রেফ, ঈ-কার, য-ফলা এবং র্য এর নিয়ম</div>
+        <div class="example-box">
+            <b>রেফ (র্) = অ/আ + ঋ:</b> ক্ষুধার্ত = ক্ষুধা + ঋত<br>
+            <b>ঈ-কার (ী) = ই/ঈ + ই/ঈ:</b> অতীত = অতি + ইত<br>
+            <b>য-ফলা (্য) = ই/ঈ + অন্য স্বর:</b> অত্যন্ত = অতি + অন্ত<br>
+            <b>র্য = পরি + অ/আ/উ:</b> উপর্যুক্ত = উপরি + উক্ত
+        </div>
+    </div>
+
+    <div class="rule-card card-pink">
+        <div class="rule-title"><div class="rule-no">১৩</div> অয়, আয়, অব, আব থাকলে বিচ্ছেদে এ, ঐ, ও, ঔ হয়</div>
+        
+        <div class="diagram-container" style="border-color: #f43f5e;">
+            <div class="diagram-title" style="color: #f43f5e; border-color: #fca5a5;">স্বর পরিবর্তনের ছক</div>
+            <div class="diagram-row">
+                <div class="char-box wide">অয়</div><div class="arrow-right">➔</div><div class="char-box result">এ</div>
+            </div>
+            <div class="diagram-row">
+                <div class="char-box wide">আয়</div><div class="arrow-right">➔</div><div class="char-box result">ঐ</div>
+            </div>
+            <div class="diagram-row">
+                <div class="char-box wide">অব</div><div class="arrow-right">➔</div><div class="char-box result">ও</div>
+            </div>
+            <div class="diagram-row">
+                <div class="char-box wide">আব</div><div class="arrow-right">➔</div><div class="char-box result">ঔ</div>
+            </div>
+        </div>
+        
+        <div class="example-box">গবাদি = গো + আদি<br>নায়ক = নৈ + অক<br>ভাবুক = ভৌ + উক</div>
+    </div>
+
+
+    <div id="byanjan" class="section-header bg-green">তৎসম শব্দের ব্যঞ্জনসন্ধি (৭টি নিয়ম)</div>
+
+    <div class="rule-card card-green">
+        <div class="rule-title"><div class="rule-no" style="background:#059669">১</div> বর্গের ৩য় বর্ণ থাকলে বিচ্ছেদে ১ম বর্ণ হয়</div>
+        <div class="math-eq">৩ = ১</div>
+        
+        <div class="diagram-container">
+            <div class="diagram-title">বর্গীয় বর্ণের রূপান্তর চিত্র</div>
+            <div class="diagram-row">
+                <div class="char-box">গ</div><div class="arrow-right">➔</div><div class="char-box result">ক</div>
+            </div>
+            <div class="diagram-row">
+                <div class="char-box">জ</div><div class="arrow-right">➔</div><div class="char-box result">চ</div>
+            </div>
+            <div class="diagram-row">
+                <div class="char-box">ড</div><div class="arrow-right">➔</div><div class="char-box result">ট</div>
+            </div>
+            <div class="diagram-row">
+                <div class="char-box">দ</div><div class="arrow-right">➔</div><div class="char-box result">ত</div>
+            </div>
+            <div class="diagram-row">
+                <div class="char-box">ব</div><div class="arrow-right">➔</div><div class="char-box result">প</div>
+            </div>
+        </div>
+
+        <div class="example-box">কৃদন্ত = কৃৎ + অন্ত (দ -> ত)<br>বাগদান = বাক্ + দান (গ -> ক)<br>ষড়যন্ত্র = ষট্ + যন্ত্র (ড -> ট)</div>
+    </div>
+
+    <div class="rule-card card-green">
+        <div class="rule-title"><div class="rule-no" style="background:#059669">২</div> ৫ম বর্ণ বা অনুস্বার থাকলে বিচ্ছেদে 'ম্' হয়</div>
+        <div class="math-eq">৫ = ম</div>
+        
+        <div class="diagram-container">
+            <div class="diagram-title">ম-এর রূপান্তর চিত্র</div>
+            <div class="diagram-row">
+                <div class="char-box" style="background:#059669;">ঙ</div>
+                <div class="char-box" style="background:#059669;">ঞ</div>
+                <div class="char-box" style="background:#059669;">ণ</div>
+                <div class="char-box" style="background:#059669;">ন</div>
+                <div class="char-box" style="background:#059669;">ং</div>
+                <div class="arrow-right">➔</div>
+                <div class="char-box result">ম্</div>
+            </div>
+        </div>
+
+        <div class="example-box">অহংকার = অহম্ + কার<br>সন্ন্যাস = সম্ + ন্যাস</div>
+    </div>
+
+    <div class="rule-card card-green">
+        <div class="rule-title"><div class="rule-no" style="background:#059669">৩</div> দুটি ৫ম বর্ণ থাকলে প্রথমটি ১ম বর্ণ হয়</div>
+        <div class="math-eq">৫৫ = ১৫</div>
+        
+        <div class="diagram-container">
+            <div class="diagram-row">
+                <div class="char-box wide">৫ম</div><span style="font-size:30px; font-weight:bold;">+</span><div class="char-box wide">৫ম</div>
+                <div class="arrow-right">➔</div>
+                <div class="char-box result">১ম</div><span style="font-size:30px; font-weight:bold;">+</span><div class="char-box wide">৫ম</div>
+            </div>
+        </div>
+
+        <div class="example-box">উন্নত = উৎ + নত (ন+ন -> ত+ন)<br>মৃন্ময় = মৃৎ + ময় (ন+ম -> ত+ম)<br>জগন্নাথ = জগৎ + নাথ</div>
+    </div>
+
+    <div class="rule-card card-green">
+        <div class="rule-title"><div class="rule-no" style="background:#059669">৪</div> দ্বিত্ব ব্যঞ্জনে প্রথমটির বদলে ৎ/দ্ বসে</div>
+        <div class="explanation">
+            <div class="ex-title">💡 মনে রাখার কৌশল:</div>
+            চ্চ, জ্জ, ড্ড, ল্ল থাকলে প্রথম অক্ষরটা <b>ত বা দ হসন্ত (ৎ / দ্)</b> হয়ে যাবে।
+        </div>
+        <div class="example-box">উচ্চারণ = উৎ + চারণ<br>উচ্ছল = উৎ + ছল<br>বিপচ্চয় = বিপদ্ + চয়</div>
+    </div>
+
+    <div class="rule-card card-green">
+        <div class="rule-title"><div class="rule-no" style="background:#059669">৫-৬</div> দ্ধ এবং চ্ছ এর বিশেষ নিয়ম</div>
+        
+        <div class="diagram-container">
+            <div class="diagram-title">দ্ধ এর বিচ্ছেদ চিত্র</div>
+            <div class="diagram-row">
+                <div class="char-box wide" style="background:#059669;">দ্</div> <span style="font-size:30px; font-weight:bold;">+</span> <div class="char-box wide" style="background:#059669;">ধ</div>
+                <div class="arrow-right">➔</div>
+                <div class="char-box result" style="padding:0 10px; width:auto;">ৎ / দ্</div> <span style="font-size:30px; font-weight:bold;">+</span> <div class="char-box result">হ</div>
+            </div>
+        </div>
+
+        <div class="explanation">
+            <div class="ex-title">💡 "চ্ছ" ভাঙ্গার ৩টি বইয়ের নিয়ম:</div>
+            ① <b>চ লোপ পায়</b> (যেমন: বিচ্ছেদ = বি + ছেদ)<br>
+            ② <b>চ -> ৎ হয়</b> (যেমন: উচ্ছেদ = উৎ + ছেদ)<br>
+            ③ <b>চ -> ৎ এবং ছ -> শ হয়</b> (যেমন: উচ্ছ্বাস = উৎ + শ্বাস)
+        </div>
+        <div class="example-box">উদ্ধার = উৎ + হার<br>উচ্ছ্বাস = উৎ + শ্বাস</div>
+    </div>
+
+    <div class="rule-card card-green">
+        <div class="rule-title"><div class="rule-no" style="background:#059669">৭</div> ষ্ট = ষ্+ত এবং ষ্ঠ = ষ্+থ</div>
+        
+        <div class="diagram-container">
+            <div class="diagram-row">
+                <div class="char-box wide">ষ্ট</div><div class="arrow-right">➔</div><div class="char-box result">ষ্</div> <span style="font-size:30px; font-weight:bold;">+</span> <div class="char-box result">ত</div>
+            </div>
+            <div class="diagram-row">
+                <div class="char-box wide" style="background:#8b5cf6;">ষ্ঠ</div><div class="arrow-right">➔</div><div class="char-box result">ষ্</div> <span style="font-size:30px; font-weight:bold;">+</span> <div class="char-box result" style="background:#8b5cf6; border-color:#c4b5fd;">থ</div>
+            </div>
+        </div>
+
+        <div class="example-box">বৃষ্টি = বৃষ্ + তি<br>নিষ্ঠা = নিস্/নিষ্ + থা<br>নষ্ট = নষ্ + ত</div>
+    </div>
+
+    <div id="visarga" class="section-header bg-purple">তৎসম বিসর্গ সন্ধি (চেনার উপায়)</div>
+
+    <div class="rule-card card-purple">
+        <div class="rule-title"><div class="rule-no" style="background:#6d28d9">★</div> র্ , স্ , ষ্ এর সংক্ষিপ্ত রূপ হচ্ছে বিসর্গ (ঃ)</div>
+        <div class="explanation">
+            <div class="ex-title">💡 ম্যাজিক টেকনিক:</div>
+            শব্দের মাঝখানে <b>(ঃ), (ো), (রেফ), (র)</b> অথবা যুক্তবর্ণ হিসেবে <b>শ, স, ষ</b> থাকলে চোখ বন্ধ করে বুঝবা এটা বিসর্গ সন্ধি।
+        </div>
+        <div class="example-box">অন্তরঙ্গ = অন্তঃ + অঙ্গ<br>তপোবন = তপঃ + বন (ো -> ঃ)<br>তিরস্কার = তিরঃ + কার (স -> ঃ)</div>
+    </div>
+
+</div>
+
+</body>
+</html>
