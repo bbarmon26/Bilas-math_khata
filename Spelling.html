@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bilas Academy - Typing & Spelling Master v5</title>
+    <title>Bilas Academy - Typing & Spelling Master v6</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
@@ -144,6 +144,37 @@
             box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
         }
 
+        /* NEW: Display Mode Selector */
+        .display-mode-selector {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            background: rgba(0,0,0,0.2);
+            padding: 10px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .mode-btn {
+            padding: 6px 15px;
+            margin: 0 5px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: transparent;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+        
+        .mode-btn.active {
+            background: var(--accent-yellow);
+            color: #000;
+            border-color: var(--accent-yellow);
+            box-shadow: 0 0 10px rgba(253, 224, 71, 0.4);
+        }
+
         .word-stream {
             background: rgba(0,0,0,0.2);
             padding: 20px;
@@ -277,7 +308,7 @@
         .m-wrong { color: var(--error-red); }
         .m-right { color: var(--correct-green); font-weight: bold; }
 
-        /* ================= STUDY MODE (Mobile App Style) ================= */
+        /* ================= STUDY MODE ================= */
         .study-panel {
             background: var(--panel-bg);
             padding: 20px 10px;
@@ -351,7 +382,7 @@
         }
 
         .item-number {
-            width: 40px;
+            width: 50px;
             color: var(--text-muted);
             font-weight: bold;
         }
@@ -451,7 +482,7 @@
     <div class="container">
         <div class="tabs">
             <button class="tab-btn active" onclick="switchMode('typing')"><i class="fas fa-laptop-code"></i> লাইভ টাইপিং পরীক্ষা</button>
-            <button class="tab-btn" onclick="switchMode('study')"><i class="fas fa-mobile-alt"></i> বানান (অনুশীলন)</button>
+            <button class="tab-btn" onclick="switchMode('study')"><i class="fas fa-mobile-alt"></i> বানান মাস্টার (Mobile)</button>
         </div>
         
         <div class="lang-selector">
@@ -465,15 +496,21 @@
                 <div class="timer" id="timerClock">05:00</div>
             </div>
 
+            <div class="display-mode-selector">
+                <span style="color:var(--text-muted); margin-right:10px; font-weight:bold;"><i class="fas fa-eye"></i> স্ক্রিনে দেখাবে:</span>
+                <button class="mode-btn active" id="btn-mode-wrong" onclick="setDisplayMode('wrong')">ভুল বানান</button>
+                <button class="mode-btn" id="btn-mode-right" onclick="setDisplayMode('right')">সঠিক বানান</button>
+            </div>
+
             <div class="word-stream" id="wordStream">
                 </div>
 
             <textarea id="typeInput" class="type-input" placeholder="পরীক্ষা শুরু করতে নিচের বাটনে ক্লিক করুন..." disabled spellcheck="false" autocomplete="off"></textarea>
             
             <div class="btn-group-typing">
-                <button class="btn-start" id="startBtn" onclick="startExam()">Start </button>
-                <button class="btn-finish" id="finishBtn" onclick="finishExam()" style="display:none;"><i class="fas fa-check-circle"></i> </button>
-                <button class="btn-reload" id="reloadBtn" onclick="reloadExam()" style="display:none;"><i class="fas fa-sync-alt"></i> পুনরায় শুরু করুন </button>
+                <button class="btn-start" id="startBtn" onclick="startExam()">Start 5-Minute Exam</button>
+                <button class="btn-finish" id="finishBtn" onclick="finishExam()" style="display:none;"><i class="fas fa-check-circle"></i> আগেই শেষ করুন (Submit)</button>
+                <button class="btn-reload" id="reloadBtn" onclick="reloadExam()" style="display:none;"><i class="fas fa-sync-alt"></i> পুনরায় শুরু করুন (Reload / Shuffle)</button>
             </div>
 
             <div class="result-report" id="resultReport">
@@ -491,7 +528,7 @@
                     <h3>❌ ভুলগুলোর বিশ্লেষণ</h3>
                     <div style="max-height: 200px; overflow-y: auto;">
                         <table class="mistake-table" id="mistakeTable">
-                            <tr><th>আপনি টাইপ করেছেন (ভুল)</th><th>সঠিক বানানটি হতো</th></tr>
+                            <tr><th>আপনি টাইপ করেছেন</th><th>সঠিক বানানটি হতো</th></tr>
                         </table>
                     </div>
                 </div>
@@ -525,6 +562,345 @@
     </div>
 
 <script>
+    // এখানে আপনার আগের সম্পূর্ণ বাংলা এবং ইংরেজি ডেটাবেস বসিয়ে নিন
+    const db = [
+        { id: 1, wrong: "উৎথাপন", right: "উত্থাপন" },
+        { id: 2, wrong: "মহৌষধী", right: "মহৌষধি" },
+        // ... (আপনার ১-৪৭৮ পর্যন্ত বাংলা শব্দগুলো)
+        
+        { id: 1001, wrong: "Diarhea", right: "Diarrhoea", lang: 'en' },
+        { id: 1002, wrong: "Neumonina", right: "Pneumonia", lang: 'en' }
+        // ... (আপনার ১০০১-১২০৬ পর্যন্ত ইংরেজি শব্দগুলো)
+    ];
+
+    /* ================= GLOBAL, TABS & LANGUAGE ================= */
+    let currentLang = 'bn';
+    let typingDisplayMode = 'wrong'; // Default: shows wrong words
+
+    function setLanguage(lang) {
+        currentLang = lang;
+        document.getElementById('btn-bn').classList.remove('active');
+        document.getElementById('btn-en').classList.remove('active');
+        document.getElementById('btn-' + lang).classList.add('active');
+        
+        if (document.getElementById('typing-panel').classList.contains('active')) {
+            reloadExam();
+        } else {
+            renderStudyList();
+        }
+    }
+
+    function switchMode(mode) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
+        
+        if (mode === 'typing') {
+            document.querySelectorAll('.tab-btn')[0].classList.add('active');
+            document.getElementById('typing-panel').classList.add('active');
+            reloadExam();
+        } else {
+            document.querySelectorAll('.tab-btn')[1].classList.add('active');
+            document.getElementById('study-panel').classList.add('active');
+            renderStudyList();
+        }
+    }
+
+    // Set Display Mode (Wrong or Right word to show in box)
+    function setDisplayMode(mode) {
+        typingDisplayMode = mode;
+        document.getElementById('btn-mode-wrong').classList.remove('active');
+        document.getElementById('btn-mode-right').classList.remove('active');
+        document.getElementById('btn-mode-' + mode).classList.add('active');
+        
+        reloadExam();
+    }
+
+    function getFilteredDb() {
+        return db.filter(item => {
+            const itemLang = item.lang || 'bn';
+            return itemLang === currentLang;
+        });
+    }
+
+    /* ================= TYPING MODE LOGIC ================= */
+    let typingWords = [];
+    let isTypingActive = false;
+    let timerRef = null;
+    let timeLeft = 300; 
+    const wordStream = document.getElementById('wordStream');
+    const typeInput = document.getElementById('typeInput');
+    const timerClock = document.getElementById('timerClock');
+    const reportBox = document.getElementById('resultReport');
+
+    function generateStream() {
+        wordStream.innerHTML = '';
+        typingWords = [];
+        const activeDb = getFilteredDb();
+        
+        if(activeDb.length === 0) {
+            wordStream.innerHTML = `<p style="color:var(--text-muted); text-align:center;">এই ভাষার জন্য কোনো শব্দ যোগ করা হয়নি!</p>`;
+            document.getElementById('startBtn').disabled = true;
+            return;
+        }
+        document.getElementById('startBtn').disabled = false;
+
+        for (let i = 0; i < 150; i++) {
+            const randomItem = activeDb[Math.floor(Math.random() * activeDb.length)];
+            typingWords.push(randomItem);
+            
+            // NEW: Choose which word to display based on the toggle setting
+            const wordToShow = typingDisplayMode === 'wrong' ? randomItem.wrong : randomItem.right;
+            
+            const span = document.createElement('span');
+            span.innerText = wordToShow;
+            span.className = 'stream-word';
+            span.id = 'tw-' + i;
+            wordStream.appendChild(span);
+        }
+        highlightWord(0);
+    }
+
+    function highlightWord(index) {
+        document.querySelectorAll('.stream-word').forEach(w => w.classList.remove('active'));
+        const target = document.getElementById('tw-' + index);
+        if (target) {
+            target.classList.add('active');
+            wordStream.scrollTop = target.offsetTop - wordStream.offsetTop - 40;
+        }
+    }
+
+    function startExam() {
+        reportBox.style.display = 'none';
+        generateStream();
+        document.getElementById('startBtn').style.display = 'none';
+        document.getElementById('finishBtn').style.display = 'block';
+        document.getElementById('reloadBtn').style.display = 'block';
+        
+        typeInput.disabled = false;
+        typeInput.value = '';
+        typeInput.placeholder = "শুদ্ধ বানান টাইপ করে একটি করে স্পেস (Space) দিন...";
+        typeInput.focus();
+        isTypingActive = true;
+        timeLeft = 300;
+
+        timerRef = setInterval(() => {
+            timeLeft--;
+            const m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+            const s = (timeLeft % 60).toString().padStart(2, '0');
+            timerClock.innerText = `${m}:${s}`;
+            if (timeLeft <= 0) finishExam();
+        }, 1000);
+    }
+
+    function reloadExam() {
+        clearInterval(timerRef);
+        timerClock.innerText = "05:00";
+        typeInput.value = '';
+        typeInput.disabled = true;
+        isTypingActive = false;
+        reportBox.style.display = 'none';
+        document.getElementById('startBtn').style.display = 'block';
+        document.getElementById('finishBtn').style.display = 'none';
+        document.getElementById('reloadBtn').style.display = 'none';
+        generateStream();
+    }
+
+    typeInput.addEventListener('input', () => {
+        if (!isTypingActive) return;
+        const text = typeInput.value;
+        const words = text.trimStart().split(/\\s+/);
+        let ptr = words.length - 1;
+        if (text.endsWith(' ')) ptr = words.length;
+        highlightWord(ptr);
+    });
+
+    function finishExam() {
+        clearInterval(timerRef);
+        isTypingActive = false;
+        typeInput.disabled = true;
+        document.getElementById('finishBtn').style.display = 'none';
+
+        const typedText = typeInput.value.trim();
+        const typedArr = typedText.length > 0 ? typedText.split(/\\s+/) : [];
+        
+        let correctCount = 0;
+        let mistakes = 0;
+        let mistakeDetails = [];
+
+        // Evaluation always compares against the 'right' word, regardless of display mode
+        for (let i = 0; i < typedArr.length; i++) {
+            if (i < typingWords.length) {
+                const domWord = document.getElementById('tw-' + i);
+                if (typedArr[i] === typingWords[i].right) {
+                    correctCount++;
+                    if(domWord) domWord.className = 'stream-word correct';
+                } else {
+                    mistakes++;
+                    if(domWord) domWord.className = 'stream-word wrong';
+                    mistakeDetails.push({ typed: typedArr[i], correct: typingWords[i].right });
+                }
+            }
+        }
+
+        const charsWithSpace = typedText.length;
+        const charsWithoutSpace = typedText.replace(/\\s+/g, '').length;
+        const timeSpentSec = 300 - timeLeft;
+        const minsPassed = timeSpentSec > 0 ? timeSpentSec / 60 : 1/60;
+        
+        const wpmWith = Math.round((charsWithSpace / 5) / minsPassed);
+        const wpmWithout = Math.round((charsWithoutSpace / 5) / minsPassed);
+        const acc = typedArr.length > 0 ? Math.round((correctCount / typedArr.length) * 100) : 0;
+
+        document.getElementById('repWpmNoSpace').innerText = wpmWithout;
+        document.getElementById('repWpmSpace').innerText = wpmWith;
+        document.getElementById('repAccuracy').innerText = acc + '%';
+        document.getElementById('repTotal').innerText = typedArr.length;
+        document.getElementById('repCorrect').innerText = correctCount;
+        document.getElementById('repMistake').innerText = mistakes;
+
+        const mTable = document.getElementById('mistakeTable');
+        mTable.innerHTML = '<tr><th>আপনি টাইপ করেছেন</th><th>সঠিক বানানটি হতো</th></tr>';
+        if (mistakeDetails.length === 0) {
+            mTable.innerHTML += '<tr><td colspan="2" style="color:#10b981; font-weight:bold;">অসাধারণ! কোনো ভুল নেই। Passed!</td></tr>';
+        } else {
+            mistakeDetails.forEach(m => {
+                mTable.innerHTML += `<tr><td class="m-wrong">${m.typed}</td><td class="m-right">${m.correct}</td></tr>`;
+            });
+        }
+
+        reportBox.style.display = 'block';
+    }
+
+    /* ================= STUDY MODE LOGIC ================= */
+    const studyListDom = document.getElementById('studyList');
+    let showingFavsOnly = false;
+    
+    function getFavs() { return JSON.parse(localStorage.getItem('bilas_favs') || '[]'); }
+    function setFavs(favs) { localStorage.setItem('bilas_favs', JSON.stringify(favs)); }
+    function getLastRead() { return localStorage.getItem('bilas_last_read'); }
+    function setLastRead(id) { localStorage.setItem('bilas_last_read', id); }
+
+    function renderStudyList(filterText = '') {
+        studyListDom.innerHTML = '';
+        const favs = getFavs();
+        const activeDb = getFilteredDb();
+        
+        let displayCount = 0;
+
+        activeDb.forEach((item) => {
+            if (showingFavsOnly && !favs.includes(item.id)) return;
+            if (filterText && !item.wrong.toLowerCase().includes(filterText.toLowerCase()) && !item.right.toLowerCase().includes(filterText.toLowerCase())) return;
+
+            displayCount++;
+            const isFav = favs.includes(item.id);
+            
+            const div = document.createElement('div');
+            div.className = 'list-item';
+            div.id = 'list-item-' + item.id;
+            div.innerHTML = `
+                <div class="item-number">${item.id}.</div>
+                <div class="item-word-area" onclick="revealStudyWord(${item.id})">
+                    <span class="word-wrong">${item.wrong}</span>
+                    <span class="word-arrow"> ➔ </span>
+                    <span class="word-right">${item.right}</span>
+                </div>
+                <div class="item-star ${isFav ? 'active' : ''}" onclick="toggleFav(${item.id}, this); event.stopPropagation();">
+                    <i class="fas fa-star"></i>
+                </div>
+            `;
+            studyListDom.appendChild(div);
+        });
+
+        if(displayCount === 0) {
+            studyListDom.innerHTML = `<p style="color:var(--text-muted); text-align:center; margin-top:20px;">কোনো ডেটা পাওয়া যায়নি!</p>`;
+        }
+    }
+
+    function revealStudyWord(id) {
+        const row = document.getElementById('list-item-' + id);
+        if (row) {
+            row.classList.toggle('revealed');
+            setLastRead(id);
+        }
+    }
+
+    function toggleFav(id, starElement) {
+        let favs = getFavs();
+        if (favs.includes(id)) {
+            favs = favs.filter(fid => fid !== id);
+            starElement.classList.remove('active');
+            if(showingFavsOnly) renderStudyList();
+        } else {
+            favs.push(id);
+            starElement.classList.add('active');
+        }
+        setFavs(favs);
+    }
+
+    function filterStudyList() {
+        const text = document.getElementById('searchInput').value.trim();
+        renderStudyList(text);
+    }
+
+    function toggleFavFilter() {
+        showingFavsOnly = !showingFavsOnly;
+        document.querySelector('.btn-fav').style.background = showingFavsOnly ? '#fde047' : '#dcfce7';
+        document.querySelector('.btn-fav').style.color = showingFavsOnly ? '#854d0e' : '#166534';
+        renderStudyList(document.getElementById('searchInput').value);
+    }
+
+    function goToLastRead() {
+        const lastId = getLastRead();
+        if (lastId) {
+            showingFavsOnly = false;
+            document.querySelector('.btn-fav').style.background = '#dcfce7';
+            renderStudyList();
+            
+            setTimeout(() => {
+                const target = document.getElementById('list-item-' + lastId);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    target.style.border = "2px solid #a7f3d0";
+                    setTimeout(()=> target.style.border = "1px dashed rgba(255,255,255,0.1)", 2000);
+                }
+            }, 100);
+        } else {
+            alert("আপনি এখনো কোনো শব্দ পড়েননি!");
+        }
+    }
+
+    /* ================= ROCKET MENU LOGIC ================= */
+    const rMenu = document.getElementById('rocketMenu');
+    function toggleRocketMenu() { rMenu.classList.toggle('show'); }
+    function scrollToTop() { studyListDom.scrollTo({ top: 0, behavior: 'smooth' }); rMenu.classList.remove('show'); }
+    function scrollToBottom() { studyListDom.scrollTo({ top: studyListDom.scrollHeight, behavior: 'smooth' }); rMenu.classList.remove('show'); }
+
+    function promptJump() {
+        rMenu.classList.remove('show');
+        const num = prompt("কত নম্বর শব্দে যেতে চান?");
+        if (num && !isNaN(num)) {
+            showingFavsOnly = false;
+            renderStudyList();
+            setTimeout(() => {
+                const target = document.getElementById('list-item-' + num);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    target.style.border = "2px solid var(--accent-yellow)";
+                    setTimeout(()=> target.style.border = "1px dashed rgba(255,255,255,0.1)", 2000);
+                } else {
+                    alert("এই নম্বরের কোনো শব্দ এই তালিকায় নেই।");
+                }
+            }, 100);
+        }
+    }
+
+    // Default initialization
+    generateStream();
+</script>
+
+</body>
+</html>
+
     // Full Database (Bangla and English)
     // বাংলা শব্দের শেষে lang: 'en' লেখার দরকার নেই, কোড নিজে থেকেই ধরে নেবে ওগুলো বাংলা।
     // শুধু ইংরেজি শব্দের শেষে lang: 'en' যুক্ত করতে হবে।
