@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BILAS ACADEMY - সমার্থক শব্দ মাস্টার প্রো</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap');
+
+        :root {
+            --bg-grad: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --accent-cyan: #00e5ff;
+            --accent-purple: #b300ff;
+            --accent-gold: #ffcf54;
+            --accent-pink: #ff416c;
+            --card-radius: 20px;
+        }
+
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            margin: 0;
+            background: var(--bg-grad);
+            background-attachment: fixed;
+            color: var(--text-main);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Premium Header */
+        .header-section {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            background: rgba(15, 12, 41, 0.9);
+            backdrop-filter: blur(15px);
+            padding: 15px 20px;
+            transition: transform 0.4s ease;
+            border-bottom: 1px solid var(--glass-border);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .header-hide { transform: translateY(-110%); }
+
+        .brand-name {
+            display: block;
+            text-align: center;
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            background: linear-gradient(to right, var(--accent-cyan), var(--accent-purple), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0px 4px 15px rgba(179, 0, 255, 0.3);
+            margin-bottom: 15px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 14px 20px;
+            border-radius: 30px;
+            border: 1px solid rgba(179, 0, 255, 0.4);
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            outline: none;
+            font-size: 16px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            transition: all 0.3s;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+        .search-box:focus {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
+        }
+
+        .top-btns { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+        
+        .btn {
+            background: var(--glass-bg);
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn:hover, .btn.active-mode {
+            background: var(--accent-gold);
+            color: #000;
+            box-shadow: 0 0 15px rgba(255, 207, 84, 0.4);
+        }
+        .btn-cyan { border-color: var(--accent-cyan); color: var(--accent-cyan); }
+        .btn-cyan.active-mode { background: var(--accent-cyan); color: #000; box-shadow: 0 0 15px rgba(0, 229, 255, 0.4); }
+
+        /* Content Container */
+        .container { max-width: 700px; margin: 0 auto; padding: 220px 20px 100px 20px; }
+
+        .item-wrapper {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 20px;
+            scroll-margin-top: 230px;
+        }
+
+        .serial { 
+            color: var(--accent-purple); 
+            font-weight: 800; 
+            font-size: 18px; 
+            min-width: 25px; 
+            padding-top: 15px;
+            text-shadow: 0 0 10px rgba(179,0,255,0.5);
+        }
+
+        /* Premium Card Design */
+        .card {
+            flex-grow: 1;
+            background: rgba(20, 20, 35, 0.6);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--card-radius);
+            padding: 15px 20px;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        .card:hover { border-color: rgba(0, 229, 255, 0.3); }
+        .card:active { transform: scale(0.98); }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .q-text {
+            font-size: 22px;
+            color: var(--accent-cyan);
+            font-weight: 700;
+            text-shadow: 0 0 5px rgba(0,229,255,0.3);
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 10px;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            padding: 0;
+        }
+        .icon-btn:hover { color: #fff; transform: scale(1.1); }
+        .fav-btn.active { color: var(--accent-pink); filter: drop-shadow(0 0 8px var(--accent-pink)); }
+
+        /* Answer Details - Grid Smooth Animation */
+        .ans-wrapper {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .ans-wrapper.show { grid-template-rows: 1fr; }
+
+        .ans-details {
+            overflow: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .ans-wrapper.show .ans-details {
+            opacity: 1;
+            transition: opacity 0.4s ease 0.1s;
+        }
+
+        .ans-content {
+            margin-top: 15px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.15);
+            padding-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        /* Premium Tag Style */
+        .syn-tag {
+            background: linear-gradient(135deg, rgba(179,0,255,0.2), rgba(0,229,255,0.2));
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: 0.3s;
+        }
+        .syn-tag:hover {
+            background: linear-gradient(135deg, rgba(179,0,255,0.5), rgba(0,229,255,0.5));
+            transform: translateY(-2px);
+        }
+
+        /* Rocket Hub */
+        .rocket-hub { position: fixed; right: 20px; bottom: 30px; display: flex; flex-direction: column; align-items: center; z-index: 2000; }
+        .rocket-menu { display: none; flex-direction: column; gap: 12px; background: rgba(15, 12, 41, 0.95); padding: 20px 10px; border-radius: 40px; border: 1px solid var(--accent-cyan); margin-bottom: 15px; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.6); animation: slideUp 0.3s ease; }
+        .r-circle { width: 45px; height: 45px; background: rgba(0,0,0,0.5); border: 1px solid var(--accent-cyan); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px; cursor: pointer; }
+        .jump-box { width: 45px; height: 35px; background: #000; border: 1px solid var(--accent-pink); color: white; text-align: center; border-radius: 8px; font-size: 14px; outline: none; }
+        .go-btn { background: var(--accent-pink); border: none; padding: 6px; border-radius: 6px; font-weight: bold; color: #fff; cursor: pointer; font-size: 12px;}
+        .rocket-icon { font-size: 40px; cursor: pointer; filter: drop-shadow(0 0 10px var(--accent-cyan)); transition: 0.3s; }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed; top: 100px; left: 50%; transform: translateX(-50%);
+            background: var(--accent-cyan); color: #000; padding: 10px 20px;
+            border-radius: 30px; font-weight: bold; z-index: 3000;
+            opacity: 0; visibility: hidden; transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(0,229,255,0.4);
+        }
+        .toast.show { opacity: 1; visibility: visible; }
+    </style>
+</head>
+<body>
+
+<div class="header-section" id="header">
+    <span class="brand-name">সমার্থক শব্দ মাস্টার প্রো</span>
+    <div style="max-width:700px; margin: 0 auto;">
+        <input type="text" id="search" class="search-box" placeholder="খুঁজুন (যেমন: আকাশ, গগন)..." onkeyup="filter()">
+        <div class="top-btns">
+            <button class="btn btn-cyan active-mode" id="modeStudy" onclick="setMode('study')">📖 স্টাডি মোড</button>
+            <button class="btn btn-cyan" id="modePractice" onclick="setMode('practice')">🎯 প্র্যাকটিস মোড</button>
+            <button class="btn" id="favViewBtn" onclick="toggleFavView()">⭐ ফেভারিট</button>
+            <button class="btn" onclick="scrollToLastRead()">🕒 শেষ পড়া</button>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toastBox">কপি করা হয়েছে!</div>
+
+<div class="container">
+    <div id="main-list"></div>
+</div>
+
+<div class="rocket-hub">
+    <div class="rocket-menu" id="rocketMenu">
+        <div class="r-circle" onclick="window.scrollTo({top:0, behavior:'smooth'})">⬆️</div>
+        <input type="number" id="jumpInput" class="jump-box" placeholder="নং">
+        <button class="go-btn" onclick="jumpTo()">GO</button>
+        <div class="r-circle" onclick="window.scrollTo({top:document.body.scrollHeight, behavior:'smooth'})">⬇️</div>
+    </div>
+    <div class="rocket-icon" onclick="toggleRocket()">🚀</div>
+</div>
+
+<script>
+    // আপনার ৬৩টি শব্দের মাস্টার ডেটাবেস (প্রত্যেকটির ৫টি করে সমার্থক শব্দ)
+    const data = [
+        { w: "আকাশ (গগন)", s: ["আসমান", "অন্তরীক্ষ", "ব্যোম", "অম্বর", "শূন্য"] },
+        { w: "পৃথিবী", s: ["ধরণী", "ধরিত্রী", "বসুন্ধরা", "মেদিনী", "পৃথ্বী"] },
+        { w: "সূর্য (রবি)", s: ["ভানু", "আদিত্য", "তপন", "দিবাকর", "অর্ক"] },
+        { w: "চাঁদ (শশী)", s: ["চন্দ্র", "শশধর", "সুধাকর", "নিশাকর", "ইন্দু"] },
+        { w: "নদী", s: ["তটিনী", "প্রবাহিনী", "তরঙ্গিনী", "স্রোতস্বিনী", "নির্ঝরিণী"] },
+        { w: "সমুদ্র", s: ["জলধি", "সিন্ধু", "সাগর", "পারাবার", "রত্নাকর"] },
+        { w: "পানি (জল)", s: ["সলিল", "বারি", "নীর", "অম্বু", "তোয়"] },
+        { w: "পর্বত (গিরি)", s: ["পাহাড়", "অচল", "ভূধর", "শৈল", "অদ্রি"] },
+        { w: "মাটি", s: ["মৃত্তিকা", "অবনী", "ক্ষিতি", "মৃৎ", "ভূমি"] },
+        { w: "বাতাস (পবন)", s: ["বায়ু", "অনিল", "সমীর", "সমীরণ", "মারুত"] },
+        { w: "অগ্নি (আগুন)", s: ["অনল", "দহন", "পাবক", "বহ্নি", "হুতাশন"] },
+        { w: "অন্ধকার", s: ["আঁধার", "তিমির", "তমসা", "শর্বর", "তমঃ"] },
+        { w: "তরঙ্গ", s: ["ঢেউ", "ঊর্মি", "বীচি", "লহরী", "কল্লোল"] },
+        { w: "নীহার", s: ["শিশির", "তুষার", "হিম", "বরফ", "নীহারিকা"] },
+        { w: "গঙ্গা", s: ["ভাগীরথী", "জাহ্নবী", "সুরধুনী", "বিষ্ণুপদী", "মন্দাকিনী"] },
+        { w: "দিন", s: ["দিবা", "দিবস", "দিনমান", "অহঃ", "রোজ"] },
+        { w: "বিদ্যুৎ", s: ["বিজলি", "চপলা", "চঞ্চলা", "দামিনী", "ক্ষণপ্রভা"] },
+        { w: "পদ্ম", s: ["কমল", "কুমুদ", "পঙ্কজ", "শতদল", "সরোজ"] },
+        { w: "বৃক্ষ", s: ["উদ্ভিদ", "বিটপী", "মহীরুহ", "অটবী", "তরু"] },
+        { w: "বন", s: ["অরণ্য", "জঙ্গল", "কানন", "বিপিন", "কান্তার"] },
+        { w: "পাখি", s: ["বিহগ", "পক্ষী", "বিহঙ্গ", "খগ", "খেচর"] },
+        { w: "কোকিল", s: ["বসন্তদূত", "পিক", "পরভৃৎ", "কাকপুষ্ট", "পরপুষ্ট"] },
+        { w: "অশ্ব (ঘোড়া)", s: ["তুরগ", "ঘোটক", "বাজি", "হয়", "তুরঙ্গম"] },
+        { w: "হাতি (হস্তী)", s: ["গজ", "করী", "মাতঙ্গ", "কুঞ্জর", "ঐরাবত"] },
+        { w: "সিংহ", s: ["পশুরাজ", "কেশরী", "হরি", "মৃগেন্দ্র", "বনরাজ"] },
+        { w: "হরিণ", s: ["মৃগ", "কুরঙ্গ", "সারঙ্গ", "চমরী", "কৃষ্ণসার"] },
+        { w: "সাপ", s: ["সর্প", "ভুজঙ্গ", "ফণী", "নাগ", "উরগ"] },
+        { w: "ভ্রমর", s: ["ভোমরা", "অলি", "শিলীমুখ", "মধুপ", "ভৃঙ্গ"] },
+        { w: "ময়ূর", s: ["শিখী", "কলাপী", "কেকা", "বর্হী", "নীলকণ্ঠ"] },
+        { w: "ফুল", s: ["পুষ্প", "কুসুম", "প্রসূন", "মঞ্জরি", "কোরক"] },
+        { w: "চোখ (নয়ন)", s: ["নেত্র", "আঁখি", "লোচন", "চক্ষু", "দর্শনেন্দ্রিয়"] },
+        { w: "চুল", s: ["কেশ", "কুন্তল", "চিকুর", "অলক", "কচ"] },
+        { w: "দেহ (তনু)", s: ["শরীর", "গাত্র", "অঙ্গ", "কায়া", "বপু"] },
+        { w: "কন্যা", s: ["মেয়ে", "দুহিতা", "তনয়া", "আত্মজা", "সুতা"] },
+        { w: "ভাই (সহোদর)", s: ["ভ্রাতা", "সোদর", "ভায়াদ", "সগর্ভ", "আপন ভাই"] },
+        { w: "স্ত্রী (ভার্যা)", s: ["জায়া", "পত্নী", "গিন্নি", "অর্ধাঙ্গিনী", "সহধর্মিণী"] },
+        { w: "নারী", s: ["রমণী", "ললনা", "কামিনী", "মহিলা", "স্ত্রীলোক"] },
+        { w: "জন্ম", s: ["উৎপত্তি", "উদ্ভব", "সৃষ্টি", "ভূমিষ্ঠ", "আবির্ভাব"] },
+        { w: "কূল", s: ["তীর", "তট", "সৈকত", "পুলিন", "ধার"] },
+        { w: "পতাকা", s: ["নিশান", "কেতন", "ধ্বজা", "ঝান্ডা", "বৈজয়ন্তী"] },
+        { w: "ঘর (সদন)", s: ["গৃহ", "আলয়", "বাড়ি", "নিবাস", "ভবন"] },
+        { w: "রাজা", s: ["নৃপতি", "ভূপতি", "নরপতি", "সম্রাট", "মহীপাল"] },
+        { w: "দেবতা", s: ["অমর", "দেব", "সুর", "ত্রিদশ", "ঈশ্বর"] },
+        { w: "ঈশ্বর", s: ["আল্লাহ", "ভগবান", "খোদা", "প্রভু", "স্রষ্টা"] },
+        { w: "স্বর্ণ", s: ["সোনা", "কনক", "কাঞ্চন", "সুবর্ণ", "হেম"] },
+        { w: "তলোয়ার (খড়গ)", s: ["অসি", "কৃপাণ", "তরবারি", "চন্দ্রহাস", "শমশের"] },
+        { w: "ধন (নিধি)", s: ["রত্ন", "সম্পদ", "ভাণ্ডার", "ঐশ্বর্য", "বিভব"] },
+        { w: "গল্প", s: ["কাহিনি", "কথা", "উপাখ্যান", "আখ্যান", "রূপকথা"] },
+        { w: "আনন্দ", s: ["হর্ষ", "পুলক", "আহলাদ", "সুখ", "উল্লাস"] },
+        { w: "দয়া", s: ["অনুগ্রহ", "করুণা", "কৃপা", "অনুকম্পা", "মায়া"] },
+        { w: "ইচ্ছা", s: ["শখ", "আশা", "আকাঙ্ক্ষা", "বাসনা", "কামনা"] },
+        { w: "ঐক্য", s: ["একতা", "মিল", "অভেদ", "একাত্মতা", "সংহতি"] },
+        { w: "বিশ্ব (অখিল)", s: ["নিখিল", "সমগ্র", "ব্রহ্মাণ্ড", "জগৎ", "দুনিয়া"] },
+        { w: "ব্যবধান", s: ["অন্তর", "দূরত্ব", "আড়াল", "ছেদ", "পার্থক্য"] },
+        { w: "উত্তম", s: ["শ্রেষ্ঠ", "প্রকৃষ্ট", "সেরা", "ভালো", "উৎকৃষ্ট"] },
+        { w: "অক্ষয়", s: ["চিরন্তন", "চিরস্থায়ী", "অনন্ত", "অবিনশ্বর", "স্থায়ী"] },
+        { w: "গুপ্ত", s: ["গোপন", "লুক্কায়িত", "প্রচ্ছন্ন", "নিভৃত", "অপ্রকাশিত"] },
+        { w: "ঝোঁক", s: ["টান", "প্রবণতা", "আগ্রহ", "আসক্তি", "নেক"] },
+        { w: "ঠাট্টা", s: ["বিদ্রূপ", "পরিহাস", "উপহাস", "তামাশা", "কৌতুক"] },
+        { w: "নিত্য", s: ["সর্বদা", "অহরহ", "রোজ", "প্রতিদিন", "প্রত্যহ"] },
+        { w: "কম (উন)", s: ["দুর্বল", "হীন", "ন্যূন", "অল্প", "ঘাটতি"] },
+        { w: "অধিক", s: ["বেশি", "প্রচুর", "বিস্তর", "বহু", "পর্যাপ্ত"] },
+        { w: "মাতা (মা)", s: ["জননী", "প্রসূতি", "গর্ভধারিণী", "জন্মদাত্রী", "আম্মা"] }
+    ];
+
+    let favorites = JSON.parse(localStorage.getItem('bilasSynFavs')) || [];
+    let showFavs = false;
+    let currentMode = 'study'; // 'study' or 'practice'
+
+    let lastScroll = 0;
+    window.onscroll = () => {
+        let top = window.scrollY;
+        const header = document.getElementById('header');
+        if (top > lastScroll && top > 100) header.classList.add('header-hide');
+        else header.classList.remove('header-hide');
+        lastScroll = top;
+    };
+
+    function toggleRocket() {
+        const menu = document.getElementById('rocketMenu');
+        menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+    }
+
+    function setMode(mode) {
+        currentMode = mode;
+        document.getElementById('modeStudy').classList.remove('active-mode');
+        document.getElementById('modePractice').classList.remove('active-mode');
+        
+        if(mode === 'study') document.getElementById('modeStudy').classList.add('active-mode');
+        else document.getElementById('modePractice').classList.add('active-mode');
+        
+        render();
+    }
+
+    function speakWord(event, text) {
+        event.stopPropagation(); // Prevent card from expanding
+        // Removing brackets for speech
+        let cleanText = text.replace(/\\(.*?\\)/g, "").trim(); 
+        let msg = new SpeechSynthesisUtterance(cleanText);
+        msg.lang = 'bn-BD'; // Bengali Voice
+        window.speechSynthesis.speak(msg);
+    }
+
+    function copyData(event, word, synonyms) {
+        event.stopPropagation();
+        let textToCopy = `${word} এর সমার্থক শব্দ: ${synonyms.join(', ')}`;
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            const toast = document.getElementById('toastBox');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        });
+    }
+
+    function render() {
+        const list = document.getElementById('main-list');
+        list.innerHTML = "";
+        
+        data.forEach((item, index) => {
+            const isFav = favorites.includes(index);
+            if (showFavs && !isFav) return;
+
+            const showClass = currentMode === 'study' ? 'show' : '';
+            
+            // Create tags for synonyms
+            let synHtml = item.s.map(syn => `<span class="syn-tag">${syn}</span>`).join('');
+
+            const div = document.createElement('div');
+            div.className = 'item-wrapper';
+            div.id = `item-${index + 1}`;
+            div.innerHTML = `
+                <span class="serial">${index + 1}</span>
+                <div class="card" onclick="handleCardClick(${index})">
+                    <div class="card-header">
+                        <div class="q-text">${item.w}</div>
+                        <div class="action-btns">
+                            <button class="icon-btn" onclick="speakWord(event, '${item.w}')">🔊</button>
+                            <button class="icon-btn" onclick="copyData(event, '${item.w}', ['${item.s.join("','")}'])">📋</button>
+                            <button class="icon-btn fav-btn ${isFav ? 'active' : ''}" onclick="toggleFav(event, ${index})">❤</button>
+                        </div>
+                    </div>
+                    <div id="ans-${index}" class="ans-wrapper ${showClass}">
+                        <div class="ans-details">
+                            <div class="ans-content">
+                                ${synHtml}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            list.appendChild(div);
+        });
+    }
+
+    function handleCardClick(index) {
+        localStorage.setItem('bilasSynLastRead', index + 1);
+        if (currentMode === 'practice') {
+            const ansDiv = document.getElementById(`ans-${index}`);
+            ansDiv.classList.toggle('show');
+        }
+    }
+
+    function toggleFav(event, idx) {
+        event.stopPropagation();
+        const pos = favorites.indexOf(idx);
+        if (pos === -1) favorites.push(idx);
+        else favorites.splice(pos, 1);
+        localStorage.setItem('bilasSynFavs', JSON.stringify(favorites));
+        render();
+    }
+
+    function toggleFavView() {
+        showFavs = !showFavs;
+        document.getElementById('favViewBtn').innerText = showFavs ? "📖 সব দেখুন" : "⭐ ফেভারিট";
+        if(showFavs) document.getElementById('favViewBtn').classList.add('active-mode');
+        else document.getElementById('favViewBtn').classList.remove('active-mode');
+        render();
+    }
+
+    function filter() {
+        let val = document.getElementById('search').value.toLowerCase();
+        document.querySelectorAll('.item-wrapper').forEach(row => {
+            row.style.display = row.innerText.toLowerCase().includes(val) ? "flex" : "none";
+        });
+    }
+
+    function jumpTo() {
+        let num = document.getElementById('jumpInput').value;
+        let el = document.getElementById(`item-${num}`);
+        if(el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            toggleRocket();
+        }
+    }
+
+    function scrollToLastRead() {
+        let last = localStorage.getItem('bilasSynLastRead');
+        if(last) {
+            const el = document.getElementById(`item-${last}`);
+            if(el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+
+    // Initial Render
+    render();
+</script>
+</body>
+</html>
