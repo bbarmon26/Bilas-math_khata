@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BILAS ACADEMY - English Number Pro</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap');
+
+        :root {
+            /* Royal Premium Colors */
+            --bg-grad: linear-gradient(135deg, #0B0E14, #1A1F35, #0B0E14);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-main: #ffffff;
+            --accent-gold: #FFD700;
+            --accent-ruby: #FF3366;
+            --accent-glow: rgba(255, 215, 0, 0.4);
+            --card-radius: 18px;
+        }
+
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            margin: 0;
+            background: var(--bg-grad);
+            background-attachment: fixed;
+            color: var(--text-main);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Premium Dynamic Header */
+        .header-section {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            background: rgba(11, 14, 20, 0.75);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            padding: 15px 20px 20px 20px;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.15);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+        }
+
+        .header-hide { 
+            transform: translateY(-110%); 
+        }
+
+        .brand-name {
+            display: block;
+            text-align: center;
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            background: linear-gradient(to right, var(--accent-gold), #FFAA00, var(--accent-ruby));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0px 4px 15px var(--accent-glow);
+            margin-bottom: 15px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 14px 22px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            outline: none;
+            font-size: 16px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            transition: all 0.4s ease;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+        }
+        .search-box:focus {
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 20px var(--accent-glow);
+            background: rgba(20, 20, 30, 0.8);
+        }
+
+        .top-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+        
+        .btn {
+            background: var(--glass-bg);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #ddd;
+            padding: 8px 18px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        .btn:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+            background: rgba(255, 215, 0, 0.05);
+        }
+        .btn.active-mode {
+            background: linear-gradient(135deg, var(--accent-gold), #FFAA00);
+            color: #000;
+            border-color: transparent;
+            box-shadow: 0 4px 15px var(--accent-glow);
+        }
+
+        /* Content Container */
+        .container { max-width: 900px; margin: 0 auto; padding: 270px 20px 100px 15px; }
+
+        .item-wrapper {
+            display: flex;
+            align-items: center; 
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 22px;
+            scroll-margin-top: 250px;
+        }
+
+        /* Left Serial Number */
+        .serial { 
+            color: var(--accent-gold); 
+            font-weight: 800; 
+            font-size: 18px; 
+            width: 25px; 
+            text-align: center;
+            flex-shrink: 0;
+            text-shadow: 0 2px 5px rgba(255, 215, 0, 0.3);
+        }
+
+        /* Ultra Premium Card Design */
+        .card {
+            flex: 1; /* Takes up all remaining space */
+            background: rgba(26, 31, 53, 0.5);
+            border: 1px solid var(--glass-border);
+            border-left: 3px solid var(--accent-gold);
+            border-radius: var(--card-radius);
+            padding: 20px 25px;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            overflow: hidden;
+            min-width: 0;
+        }
+        .card:hover { 
+            border-color: rgba(255, 215, 0, 0.4); 
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 15px rgba(255, 215, 0, 0.1);
+        }
+        .card:active { transform: scale(0.98); }
+
+        /* Left - Center - Right Layout Strict */
+        .card-body {
+            display: flex;
+            flex-direction: row !important; /* Forces row everywhere */
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .word-box {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            flex: 1;
+            min-width: 0; 
+            word-wrap: break-word;
+        }
+
+        .left-box { text-align: left; }
+        .right-box { text-align: right; }
+
+        .word-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: 0.5px;
+            line-height: 1.2;
+        }
+        .right-box .word-title {
+            color: var(--accent-ruby);
+        }
+
+        .word-pronounce {
+            font-size: 14px;
+            color: var(--accent-gold);
+            font-style: italic;
+        }
+
+        .word-meaning {
+            font-size: 15px;
+            color: #A0AABF;
+        }
+
+        /* Center Favorite Button */
+        .center-fav-btn {
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.15);
+            font-size: 26px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 0 15px;
+            flex-shrink: 0;
+        }
+        .center-fav-btn:hover { 
+            color: #fff; 
+            transform: scale(1.15); 
+        }
+        .center-fav-btn.active { 
+            color: var(--accent-ruby); 
+            filter: drop-shadow(0 0 8px var(--accent-ruby)); 
+        }
+
+        /* Premium Practice Mode Overlay */
+        .ans-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .ans-inner {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .ans-wrapper:not(.show) .ans-inner {
+            filter: blur(6px);
+            opacity: 0.15;
+            transform: translateX(15px);
+        }
+
+        .ans-wrapper.show .ans-inner {
+            filter: blur(0);
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .tap-overlay {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            background: rgba(10, 15, 25, 0.85);
+            color: var(--accent-gold);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        .ans-wrapper:not(.show) .tap-overlay {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* ---- STRICT MOBILE SIDE-BY-SIDE FIX ---- */
+        @media screen and (max-width: 600px) {
+            .container { padding-top: 260px; } 
+            .card {
+                padding: 15px 15px;
+            }
+            .word-title {
+                font-size: 18px; 
+            }
+            .word-pronounce {
+                font-size: 12px;
+            }
+            .word-meaning {
+                font-size: 13px;
+            }
+            .center-fav-btn {
+                font-size: 22px;
+                padding: 0 10px;
+            }
+            .tap-overlay {
+                font-size: 11px;
+                padding: 4px 8px;
+            }
+            .serial { font-size: 16px; width: 20px; }
+        }
+
+        /* Rocket Hub */
+        .rocket-hub { position: fixed; right: 20px; bottom: 30px; display: flex; flex-direction: column; align-items: center; z-index: 2000; }
+        .rocket-menu { display: none; flex-direction: column; gap: 12px; background: rgba(11, 14, 20, 0.95); padding: 20px 10px; border-radius: 40px; border: 1px solid var(--accent-gold); margin-bottom: 15px; backdrop-filter: blur(15px); box-shadow: 0 10px 30px rgba(0,0,0,0.6); animation: slideUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .r-circle { width: 45px; height: 45px; background: rgba(0,0,0,0.6); border: 1px solid var(--accent-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px; cursor: pointer; transition: 0.3s; }
+        .r-circle:hover { background: var(--accent-gold); color: #000; }
+        .jump-box { width: 45px; height: 35px; background: #000; border: 1px solid var(--accent-ruby); color: white; text-align: center; border-radius: 8px; font-size: 14px; outline: none; }
+        .go-btn { background: linear-gradient(135deg, var(--accent-ruby), #ff0044); border: none; padding: 6px; border-radius: 6px; font-weight: bold; color: #fff; cursor: pointer; font-size: 12px; transition: 0.3s;}
+        .go-btn:hover { box-shadow: 0 0 10px rgba(255, 51, 102, 0.5); }
+        .rocket-icon { font-size: 40px; cursor: pointer; filter: drop-shadow(0 0 15px var(--accent-glow)); transition: transform 0.3s ease; }
+        .rocket-icon:hover { transform: scale(1.1) translateY(-5px); }
+        @keyframes slideUp { from { transform: translateY(20px) scale(0.9); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
+
+    </style>
+</head>
+<body>
+
+<div class="header-section" id="header">
+    <span class="brand-name">English Number Pro</span>
+    <div style="max-width:900px; margin: 0 auto;">
+        <input type="text" id="search" class="search-box" placeholder="খুঁজুন (যেমন: Man, শিশু)..." onkeyup="filter()">
+        <div class="top-btns">
+            <button class="btn active-mode" id="modeStudy" onclick="setMode('study')">📖 স্টাডি মোড</button>
+            <button class="btn" id="modePractice" onclick="setMode('practice')">🎯 প্র্যাকটিস মোড</button>
+            <button class="btn" id="favViewBtn" onclick="toggleFavView()">⭐ ফেভারিট</button>
+            <button class="btn" onclick="scrollToLastRead()">🕒 শেষ পড়া</button>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div id="main-list"></div>
+</div>
+
+<div class="rocket-hub">
+    <div class="rocket-menu" id="rocketMenu">
+        <div class="r-circle" onclick="window.scrollTo({top:0, behavior:'smooth'})">⬆️</div>
+        <input type="number" id="jumpInput" class="jump-box" placeholder="নং">
+        <button class="go-btn" onclick="jumpTo()">GO</button>
+        <div class="r-circle" onclick="window.scrollTo({top:document.body.scrollHeight, behavior:'smooth'})">⬇️</div>
+    </div>
+    <div class="rocket-icon" onclick="toggleRocket()">🚀</div>
+</div>
+
+<script>
+        // ডেটা ফরম্যাট: s = Singular, sp = Pronounce, sb = Bengali | p = Plural, pp = Pronounce, pb = Bengali
+    const data = [
+        { s: "Calf", sp: "কাফ", sb: "বাছুর", p: "Calves", pp: "কাভস", pb: "বাছুরগুলো" },
+        { s: "Thesis", sp: "থিসিস", sb: "অভিসন্দর্ভ / প্রবন্ধ", p: "Theses", pp: "থিসিস", pb: "প্রবন্ধগুলো" },
+        { s: "Child", sp: "চাইল্ড", sb: "শিশু", p: "Children", pp: "চিলড্রেন", pb: "শিশুরা" },
+        { s: "Equipment", sp: "ইকুইপমেন্ট", sb: "সরঞ্জাম", p: "Equipment", pp: "ইকুইপমেন্ট", pb: "সরঞ্জামাদি" },
+        { s: "Criterion", sp: "ক্রাইটেরিয়ন", sb: "মানদণ্ড", p: "Criteria", pp: "ক্রাইটেরিয়া", pb: "মানদণ্ডগুলো" },
+        { s: "Foot", sp: "ফুট", sb: "পায়ের পাতা", p: "Feet", pp: "ফিট", pb: "পায়ের পাতাগুলো" },
+        { s: "Mine", sp: "মাইন", sb: "খনি", p: "Mines", pp: "মাইনস", pb: "খনিগুলো" },
+        { s: "Datum", sp: "ডেটাম", sb: "উপাত্ত / তথ্য", p: "Data", pp: "ডেটা", pb: "উপাত্তগুলো" },
+        { s: "Woman", sp: "উওম্যান", sb: "নারী", p: "Women", pp: "উইমেন", pb: "নারীগণ" },
+        { s: "Oxen", sp: "অক্সেন", sb: "ষাঁড়গুলো", p: "Ox", pp: "অক্স", pb: "ষাঁড়" },
+        { s: "Furniture", sp: "ফার্নিচার", sb: "আসবাবপত্র", p: "Furniture", pp: "ফার্নিচার", pb: "আসবাবপত্র" },
+        { s: "Geese", sp: "গীজ", sb: "রাজহাঁসগুলো", p: "Goose", pp: "গুজ", pb: "রাজহাঁস" },
+        { s: "Tomato", sp: "টমেটো", sb: "টমেটো", p: "Tomatoes", pp: "টমেটোজ", pb: "টমেটোগুলো" },
+        { s: "Cliff", sp: "ক্লিফ", sb: "খাড়া পাহাড়", p: "Cliffs", pp: "ক্লিফস", pb: "খাড়া পাহাড়গুলো" },
+        { s: "Goose", sp: "গুজ", sb: "রাজহাঁস", p: "Geese", pp: "গীজ", pb: "রাজহাঁসগুলো" },
+        { s: "Louse", sp: "লাউস", sb: "উকুন", p: "Lice", pp: "লাইস", pb: "উকুনগুলো" },
+        { s: "Hundred", sp: "হান্ড্রেড", sb: "একশ", p: "Hundred", pp: "হান্ড্রেড", pb: "শতগুলো" },
+        { s: "Arch", sp: "আর্চ", sb: "খিলান", p: "Arches", pp: "আর্চেস", pb: "খিলানগুলো" },
+        { s: "Army", sp: "আর্মি", sb: "সেনাবাহিনী", p: "Armies", pp: "আর্মিস", pb: "সেনাবাহিনীগুলো" },
+        { s: "Hero", sp: "হিরো", sb: "বীর / নায়ক", p: "Heroes", pp: "হিরোজ", pb: "বীরগণ" },
+        { s: "Knife", sp: "নাইফ", sb: "ছুরি", p: "Knives", pp: "নাইভস", pb: "ছুরিগুলো" },
+        { s: "Ox", sp: "অক্স", sb: "ষাঁড়", p: "Oxen", pp: "অক্সেন", pb: "ষাঁড়গুলো" },
+        { s: "Baby", sp: "বেবি", sb: "শিশু / বাচ্চা", p: "Babies", pp: "বেবিজ", pb: "বাচ্চারা" },
+        { s: "Actor", sp: "অ্যাক্টর", sb: "অভিনেতা", p: "Actors", pp: "অ্যাক্টরস", pb: "অভিনেতারা" },
+        { s: "Sheep", sp: "শীপ", sb: "ভেড়া", p: "Sheep", pp: "শীপ", pb: "ভেড়াগুলো" },
+        { s: "Man", sp: "ম্যান", sb: "মানুষ", p: "Men", pp: "মেন", pb: "মানুষগুলো" },
+        { s: "Deer", sp: "ডিয়ার", sb: "হরিণ", p: "Deer", pp: "ডিয়ার", pb: "হরিণগুলো" },
+        { s: "Leaf", sp: "লিফ", sb: "পাতা", p: "Leaves", pp: "লিভস", pb: "পাতাগুলো" },
+        { s: "Unity", sp: "ইউনিটি", sb: "একতা", p: "Unities", pp: "ইউনিটিজ", pb: "একতাগুলো" },
+        { s: "Thief", sp: "থীফ", sb: "চোর", p: "Thieves", pp: "থীভস", pb: "চোরগুলো" },
+        { s: "Index", sp: "ইনডেক্স", sb: "সূচক", p: "Indexes/Indices", pp: "ইনডেক্সেস/ইনডিসেস", pb: "সূচকগুলো" },
+        { s: "Chief", sp: "চীফ", sb: "প্রধান", p: "Chiefs", pp: "চীফস", pb: "প্রধানগণ" },
+        { s: "Loaf", sp: "লোফ", sb: "পাউরুটি", p: "Loaves", pp: "লোভস", pb: "পাউরুটিগুলো" },
+        { s: "Medium", sp: "মিডিয়াম", sb: "মাধ্যম", p: "Media", pp: "মিডিয়া", pb: "মাধ্যমগুলো" },
+        { s: "Echo", sp: "ইকো", sb: "প্রতিধ্বনি", p: "Echoes", pp: "ইকোজ", pb: "প্রতিধ্বনিগুলো" },
+        { s: "Envoy", sp: "এনভয়", sb: "দূত", p: "Envoys", pp: "এনভয়েজ", pb: "দূতগণ" },
+        { s: "Information", sp: "ইনফরমেশন", sb: "তথ্য", p: "Information", pp: "ইনফরমেশন", pb: "তথ্যাদি" },
+        { s: "Fez", sp: "ফেজ", sb: "টুপি বিশেষ", p: "Fezzes", pp: "ফেজেস", pb: "টুপিগুলো" },
+        { s: "Wharf", sp: "ওয়ার্ফ", sb: "জেটি / ঘাট", p: "Wharves", pp: "ওয়ার্ভস", pb: "জেটিগুলো" },
+        { s: "Brother", sp: "ব্রাদার", sb: "ভাই", p: "Brethren", pp: "ব্রেদরেন", pb: "ভাইরা / ভ্রাতৃবৃন্দ" },
+        { s: "Man-of-war", sp: "ম্যান-অফ-ওয়ার", sb: "যুদ্ধজাহাজ", p: "Men-of-war", pp: "মেন-অফ-ওয়ার", pb: "যুদ্ধজাহাজগুলো" },
+        { s: "Lady", sp: "লেডি", sb: "ভদ্রমহিলা", p: "Ladies", pp: "লেডিজ", pb: "ভদ্রমহিলারা" },
+        { s: "Half", sp: "হাফ", sb: "অর্ধেক", p: "Halves", pp: "হাভস", pb: "অর্ধাংশগুলো" },
+        { s: "Potato", sp: "পটেটো", sb: "আলু", p: "Potatoes", pp: "পটেটোজ", pb: "আলুগুলো" },
+        { s: "Basis", sp: "বেসিস", sb: "ভিত্তি", p: "Bases", pp: "বেসেস", pb: "ভিত্তিগুলো" },
+        { s: "Analysis", sp: "অ্যানালাইসিস", sb: "বিশ্লেষণ", p: "Analyses", pp: "অ্যানালাইসেস", pb: "বিশ্লেষণগুলো" },
+        { s: "Syllabus", sp: "সিলেবাস", sb: "পাঠ্যসূচি", p: "Syllabi", pp: "সিলেবি", pb: "পাঠ্যসূচিগুলো" },
+        { s: "Circumstances", sp: "সারকামস্ট্যান্সেস", sb: "পরিস্থিতি", p: "Circumstances", pp: "সারকামস্ট্যান্সেস", pb: "পরিস্থিতিগুলো" },
+        { s: "Crisis", sp: "ক্রাইসিস", sb: "সংকট", p: "Crises", pp: "ক্রাইসেস", pb: "সংকটগুলো" },
+        { s: "Vegetables", sp: "ভেজিটেবলস", sb: "শাকসবজি", p: "Vegetables", pp: "ভেজিটেবলস", pb: "শাকসবজিগুলো" },
+        { s: "Tooth", sp: "টুথ", sb: "দাঁত", p: "Teeth", pp: "টিথ", pb: "দাঁতগুলো" },
+        { s: "Mouse", sp: "মাউস", sb: "ইঁদুর", p: "Mice", pp: "মাইস", pb: "ইঁদুরগুলো" },
+        { s: "Step Brother", sp: "স্টেপ ব্রাদার", sb: "সৎ ভাই", p: "Step Brothers", pp: "স্টেপ ব্রাদার্স", pb: "সৎ ভাইয়েরা" },
+        { s: "Lord-justice", sp: "লর্ড-জাস্টিস", sb: "প্রধান বিচারপতি", p: "Lords-justices", pp: "লর্ডস-জাস্টিসেস", pb: "প্রধান বিচারপতিগণ" },
+        { s: "Mosquito", sp: "মস্কুইটো", sb: "মশা", p: "Mosquitoes", pp: "মস্কুইটোজ", pb: "মশাগুলো" },
+        { s: "Appendix", sp: "অ্যাপেন্ডিক্স", sb: "পরিশিষ্ট", p: "Appendices", pp: "অ্যাপেন্ডিসেস", pb: "পরিশিষ্টগুলো" },
+        { s: "Self", sp: "সেল্ফ", sb: "সত্তা / নিজ", p: "Selves", pp: "সেলভস", pb: "সত্তাগুলো" },
+        { s: "Cloth", sp: "ক্লথ", sb: "কাপড়", p: "Clothes", pp: "ক্লোদস", pb: "পোশাক" },
+        { s: "Oasis", sp: "ওয়েসিস", sb: "মরূদ্যান", p: "Oases", pp: "ওয়েসেস", pb: "মরূদ্যানগুলো" },
+        { s: "Agendum", sp: "অ্যাজেন্ডাম", sb: "আলোচ্যসূচি", p: "Agenda", pp: "অ্যাজেন্ডা", pb: "আলোচ্যসূচিগুলো" },
+        { s: "Buffalo", sp: "বাফেলো", sb: "মহিষ", p: "Buffaloes", pp: "বাফেলোজ", pb: "মহিষগুলো" },
+        { s: "Wife", sp: "ওয়াইফ", sb: "স্ত্রী", p: "Wives", pp: "ওয়াইভস", pb: "স্ত্রীগণ" },
+        { s: "Story", sp: "স্টোরি", sb: "গল্প", p: "Stories", pp: "স্টোরিজ", pb: "গল্পগুলো" },
+        { s: "Salesman", sp: "সেলসম্যান", sb: "বিক্রয়কর্মী", p: "Salesmen", pp: "সেলসমেন", pb: "বিক্রয়কর্মীরা" },
+        { s: "Ovum", sp: "ওভাম", sb: "ডিম্বাণু", p: "Ova", pp: "ওভা", pb: "ডিম্বাণুগুলো" },
+        { s: "Staff", sp: "স্টাফ", sb: "কর্মী", p: "Staffs", pp: "স্টাফস", pb: "কর্মীবৃন্দ" },
+        { s: "Shelf", sp: "শেল্ফ", sb: "তাক", p: "Shelves", pp: "শেলভস", pb: "তাকগুলো" },
+        { s: "Pick-pocket", sp: "পিক-পকেট", sb: "পকেটমার", p: "Pickpockets", pp: "পিকপকেটস", pb: "পকেটমারগুলো" },
+        { s: "Mine", sp: "মাইন", sb: "আমার", p: "Ours/mines", pp: "আওয়ারস/মাইনস", pb: "আমাদেরগুলো" },
+        { s: "Cow", sp: "কাউ", sb: "গরু", p: "Cows", pp: "কাউজ", pb: "গরুগুলো" },
+        { s: "Larva", sp: "লার্ভা", sb: "শূককীট", p: "Larvae", pp: "লার্ভি", pb: "শূককীটগুলো" },
+        { s: "Bacterium", sp: "ব্যাকটেরিয়াম", sb: "জীবাণু", p: "Bacteria", pp: "ব্যাকটেরিয়া", pb: "জীবাণুগুলো" },
+        { s: "Alumnus", sp: "অ্যালামনাস", sb: "প্রাক্তন ছাত্র", p: "Alumni", pp: "অ্যালামনাই", pb: "প্রাক্তন ছাত্ররা" },
+        { s: "Erratum", sp: "এরাটাম", sb: "ভুল", p: "Errata", pp: "এরাটা", pb: "ভুলগুলো" },
+        { s: "Magus", sp: "ম্যাগাস", sb: "জাদুকর", p: "Magi", pp: "ম্যাজাই", pb: "জাদুকরগণ" },
+        { s: "Singular", sp: "সিঙ্গুলার", sb: "একবচন", p: "Singulars", pp: "সিঙ্গুলারস", pb: "একবচনগুলো" },
+        { s: "Poverty", sp: "পভার্টি", sb: "দারিদ্র্য", p: "Poverties", pp: "পভার্টিজ", pb: "দারিদ্র্যগুলো" },
+        { s: "Innings", sp: "ইনিংস", sb: "খেলার পর্ব", p: "Innings", pp: "ইনিংস", pb: "খেলার পর্বগুলো" },
+        { s: "Its", sp: "ইটস", sb: "এর", p: "Their", pp: "দেয়ার", pb: "তাদের" },
+        { s: "Genus", sp: "জেনাস", sb: "প্রজাতি", p: "Genera", pp: "জেনেরা", pb: "প্রজাতিগুলো" },
+        { s: "Brother-in-law", sp: "ব্রাদার-ইন-ল", sb: "শ্যালক / দেবর", p: "Brethren-in-law", pp: "ব্রেদরেন-ইন-ল", pb: "শ্যালকগণ" }
+    ];
+
+
+    let favorites = JSON.parse(localStorage.getItem('bilasNumberFavs')) || [];
+    let showFavs = false;
+    let currentMode = 'study'; 
+
+    let lastScroll = 0;
+    window.onscroll = () => {
+        let top = window.scrollY;
+        const header = document.getElementById('header');
+        if (top > lastScroll && top > 100) header.classList.add('header-hide');
+        else header.classList.remove('header-hide');
+        lastScroll = top;
+    };
+
+    function toggleRocket() {
+        const menu = document.getElementById('rocketMenu');
+        menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+    }
+
+    function setMode(mode) {
+        currentMode = mode;
+        document.getElementById('modeStudy').classList.remove('active-mode');
+        document.getElementById('modePractice').classList.remove('active-mode');
+        
+        if(mode === 'study') document.getElementById('modeStudy').classList.add('active-mode');
+        else document.getElementById('modePractice').classList.add('active-mode');
+        
+        render();
+    }
+
+    function render() {
+        const list = document.getElementById('main-list');
+        list.innerHTML = "";
+        
+        data.forEach((item, index) => {
+            const isFav = favorites.includes(index);
+            if (showFavs && !isFav) return;
+
+            const showClass = currentMode === 'study' ? 'show' : '';
+
+            const div = document.createElement('div');
+            div.className = 'item-wrapper';
+            div.id = `item-${index + 1}`;
+            div.innerHTML = `
+                <div class="serial">${index + 1}</div>
+                <div class="card" onclick="handleCardClick(${index})">
+                    <div class="card-body">
+                        <!-- Left Side (Singular) -->
+                        <div class="word-box left-box">
+                            <span class="word-title">${item.s}</span>
+                            <span class="word-pronounce">[ ${item.sp} ]</span>
+                            <span class="word-meaning">${item.sb}</span>
+                        </div>
+                        
+                        <!-- Center Favorite Button (Replaced Arrow) -->
+                        <button class="center-fav-btn ${isFav ? 'active' : ''}" onclick="toggleFav(event, ${index})">❤</button>
+
+                        <!-- Right Side (Plural) -->
+                        <div id="ans-${index}" class="word-box right-box ans-wrapper ${showClass}">
+                            <div class="ans-inner">
+                                <span class="word-title">${item.p}</span>
+                                <span class="word-pronounce">[ ${item.pp} ]</span>
+                                <span class="word-meaning">${item.pb}</span>
+                            </div>
+                            <div class="tap-overlay">👁️ Tap to view</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            list.appendChild(div);
+        });
+    }
+
+    function handleCardClick(index) {
+        localStorage.setItem('bilasNumberLastRead', index + 1);
+        if (currentMode === 'practice') {
+            const ansDiv = document.getElementById(`ans-${index}`);
+            ansDiv.classList.toggle('show');
+        }
+    }
+
+    function toggleFav(event, idx) {
+        event.stopPropagation();
+        const pos = favorites.indexOf(idx);
+        if (pos === -1) favorites.push(idx);
+        else favorites.splice(pos, 1);
+        localStorage.setItem('bilasNumberFavs', JSON.stringify(favorites));
+        render();
+    }
+
+    function toggleFavView() {
+        showFavs = !showFavs;
+        document.getElementById('favViewBtn').innerText = showFavs ? "📖 সব দেখুন" : "⭐ ফেভারিট";
+        if(showFavs) document.getElementById('favViewBtn').classList.add('active-mode');
+        else document.getElementById('favViewBtn').classList.remove('active-mode');
+        render();
+    }
+
+    function filter() {
+        let val = document.getElementById('search').value.toLowerCase();
+        document.querySelectorAll('.item-wrapper').forEach(row => {
+            row.style.display = row.innerText.toLowerCase().includes(val) ? "flex" : "none";
+        });
+    }
+
+    function jumpTo() {
+        let num = document.getElementById('jumpInput').value;
+        let el = document.getElementById(`item-${num}`);
+        if(el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            toggleRocket();
+        }
+    }
+
+    function scrollToLastRead() {
+        let last = localStorage.getItem('bilasNumberLastRead');
+        if(last) {
+            const el = document.getElementById(`item-${last}`);
+            if(el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+
+    // Initial Render
+    render();
+</script>
+</body>
+</html>

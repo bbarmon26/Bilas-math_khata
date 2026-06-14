@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BILAS ACADEMY - English Antonym Pro</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap');
+
+        :root {
+            /* Eye-Friendly Deep Ocean Theme */
+            --bg-grad: linear-gradient(135deg, #0f172a, #1e293b, #0f172a);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-main: #f8fafc;
+            --accent-left: #34d399; /* Soothing Emerald Green */
+            --accent-right: #fbbf24; /* Soft Amber/Gold */
+            --accent-heart: #f87171; /* Soft Rose Red */
+            --accent-glow: rgba(52, 211, 153, 0.3);
+            --card-radius: 18px;
+        }
+
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            margin: 0;
+            background: var(--bg-grad);
+            background-attachment: fixed;
+            color: var(--text-main);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Premium Dynamic Header */
+        .header-section {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            padding: 15px 20px 20px 20px;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease;
+            border-bottom: 1px solid rgba(52, 211, 153, 0.15);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .header-hide { 
+            transform: translateY(-110%); 
+        }
+
+        .brand-name {
+            display: block;
+            text-align: center;
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            background: linear-gradient(to right, var(--accent-left), #6ee7b7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0px 4px 15px var(--accent-glow);
+            margin-bottom: 15px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 14px 22px;
+            border-radius: 30px;
+            border: 1px solid rgba(52, 211, 153, 0.3);
+            background: rgba(0, 0, 0, 0.4);
+            color: #fff;
+            outline: none;
+            font-size: 16px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            transition: all 0.4s ease;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.3);
+        }
+        .search-box:focus {
+            border-color: var(--accent-left);
+            box-shadow: 0 0 20px var(--accent-glow);
+            background: rgba(15, 23, 42, 0.8);
+        }
+
+        .top-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+        
+        .btn {
+            background: var(--glass-bg);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #cbd5e1;
+            padding: 8px 18px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        .btn:hover {
+            border-color: var(--accent-left);
+            color: var(--accent-left);
+            background: rgba(52, 211, 153, 0.05);
+        }
+        .btn.active-mode {
+            background: linear-gradient(135deg, var(--accent-left), #10b981);
+            color: #000;
+            border-color: transparent;
+            box-shadow: 0 4px 15px var(--accent-glow);
+        }
+
+        /* Content Container */
+        .container { max-width: 900px; margin: 0 auto; padding: 270px 20px 100px 15px; }
+
+        .item-wrapper {
+            display: flex;
+            align-items: center; 
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 22px;
+            scroll-margin-top: 250px;
+        }
+
+        /* Left Serial Number */
+        .serial { 
+            color: var(--accent-left); 
+            font-weight: 800; 
+            font-size: 18px; 
+            width: 25px; 
+            text-align: center;
+            flex-shrink: 0;
+            text-shadow: 0 2px 5px rgba(52, 211, 153, 0.2);
+        }
+
+        /* Ultra Premium Eye-Friendly Card */
+        .card {
+            flex: 1;
+            background: rgba(30, 41, 59, 0.6); 
+            border: 1px solid var(--glass-border);
+            border-left: 3px solid var(--accent-left);
+            border-radius: var(--card-radius);
+            padding: 20px 25px;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            overflow: hidden;
+            min-width: 0;
+        }
+        .card:hover { 
+            border-color: rgba(52, 211, 153, 0.3); 
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), 0 0 15px rgba(52, 211, 153, 0.08);
+        }
+        .card:active { transform: scale(0.98); }
+
+        /* Left - Center - Right Layout Strict */
+        .card-body {
+            display: flex;
+            flex-direction: row !important;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .word-box {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex: 1;
+            min-width: 0; 
+            word-wrap: break-word;
+        }
+
+        .left-box { text-align: left; padding-right: 10px; }
+        .right-box { text-align: right; padding-left: 10px; }
+
+        .word-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent-left);
+            letter-spacing: 0.5px;
+            line-height: 1.2;
+        }
+        .right-box .word-title {
+            color: var(--accent-right);
+        }
+
+        .word-pronounce {
+            font-size: 14px;
+            color: #94a3b8;
+            font-style: italic;
+        }
+
+        .word-meaning {
+            font-size: 15px;
+            color: #cbd5e1;
+        }
+
+        /* Center Favorite Button */
+        .center-fav-btn {
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.1);
+            font-size: 26px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 0 15px;
+            flex-shrink: 0;
+        }
+        .center-fav-btn:hover { 
+            color: #fff; 
+            transform: scale(1.15); 
+        }
+        .center-fav-btn.active { 
+            color: var(--accent-heart); 
+            filter: drop-shadow(0 0 8px var(--accent-heart)); 
+        }
+
+        /* Premium Practice Mode Overlay */
+        .ans-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .ans-inner {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .ans-wrapper:not(.show) .ans-inner {
+            filter: blur(8px);
+            opacity: 0.2;
+            transform: translateX(15px);
+        }
+
+        .ans-wrapper.show .ans-inner {
+            filter: blur(0);
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .tap-overlay {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            background: rgba(15, 23, 42, 0.9);
+            color: var(--accent-left);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            border: 1px solid rgba(52, 211, 153, 0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        .ans-wrapper:not(.show) .tap-overlay {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* ---- STRICT MOBILE SIDE-BY-SIDE FIX ---- */
+        @media screen and (max-width: 600px) {
+            .container { padding-top: 260px; } 
+            .card {
+                padding: 15px 12px;
+            }
+            .word-title {
+                font-size: 18px; 
+            }
+            .word-pronounce {
+                font-size: 12px;
+            }
+            .word-meaning {
+                font-size: 13px;
+            }
+            .center-fav-btn {
+                font-size: 22px;
+                padding: 0 8px;
+            }
+            .tap-overlay {
+                font-size: 11px;
+                padding: 4px 8px;
+            }
+            .serial { font-size: 16px; width: 20px; }
+        }
+
+        /* Rocket Hub */
+        .rocket-hub { position: fixed; right: 20px; bottom: 30px; display: flex; flex-direction: column; align-items: center; z-index: 2000; }
+        .rocket-menu { display: none; flex-direction: column; gap: 12px; background: rgba(15, 23, 42, 0.95); padding: 20px 10px; border-radius: 40px; border: 1px solid var(--accent-left); margin-bottom: 15px; backdrop-filter: blur(15px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); animation: slideUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .r-circle { width: 45px; height: 45px; background: rgba(0,0,0,0.5); border: 1px solid var(--accent-left); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px; cursor: pointer; transition: 0.3s; }
+        .r-circle:hover { background: var(--accent-left); color: #000; }
+        .jump-box { width: 45px; height: 35px; background: #000; border: 1px solid var(--accent-heart); color: white; text-align: center; border-radius: 8px; font-size: 14px; outline: none; }
+        .go-btn { background: linear-gradient(135deg, var(--accent-heart), #e11d48); border: none; padding: 6px; border-radius: 6px; font-weight: bold; color: #fff; cursor: pointer; font-size: 12px; transition: 0.3s;}
+        .go-btn:hover { box-shadow: 0 0 10px rgba(248, 113, 113, 0.4); }
+        .rocket-icon { font-size: 40px; cursor: pointer; filter: drop-shadow(0 0 15px var(--accent-glow)); transition: transform 0.3s ease; }
+        .rocket-icon:hover { transform: scale(1.1) translateY(-5px); }
+        @keyframes slideUp { from { transform: translateY(20px) scale(0.9); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
+
+    </style>
+</head>
+<body>
+
+<div class="header-section" id="header">
+    <span class="brand-name">English Antonym Pro</span>
+    <div style="max-width:900px; margin: 0 auto;">
+        <input type="text" id="search" class="search-box" placeholder="খুঁজুন (যেমন: Diversity, বৈচিত্র্য)..." onkeyup="filter()">
+        <div class="top-btns">
+            <button class="btn active-mode" id="modeStudy" onclick="setMode('study')">📖 স্টাডি মোড</button>
+            <button class="btn" id="modePractice" onclick="setMode('practice')">🎯 প্র্যাকটিস মোড</button>
+            <button class="btn" id="favViewBtn" onclick="toggleFavView()">⭐ ফেভারিট</button>
+            <button class="btn" onclick="scrollToLastRead()">🕒 শেষ পড়া</button>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div id="main-list"></div>
+</div>
+
+<div class="rocket-hub">
+    <div class="rocket-menu" id="rocketMenu">
+        <div class="r-circle" onclick="window.scrollTo({top:0, behavior:'smooth'})">⬆️</div>
+        <input type="number" id="jumpInput" class="jump-box" placeholder="নং">
+        <button class="go-btn" onclick="jumpTo()">GO</button>
+        <div class="r-circle" onclick="window.scrollTo({top:document.body.scrollHeight, behavior:'smooth'})">⬇️</div>
+    </div>
+    <div class="rocket-icon" onclick="toggleRocket()">🚀</div>
+</div>
+
+<script>
+    const data = [
+        { w: "Diversity", wp: "ডাইভারসিটি", wm: "বৈচিত্র্য", ant: "Uniformity", antp: "ইউনিফর্মিটি" },
+        { w: "Coherent", wp: "কোহেরেন্ট", wm: "সম্মিলিত", ant: "Incoherent", antp: "ইনকোহেরেন্ট" },
+        { w: "Damn", wp: "ড্যাম", wm: "অভিশাপ", ant: "Blessing", antp: "ব্লেসিং" },
+        { w: "Minimize", wp: "মিনিমাইজ", wm: "ন্যূনতম", ant: "Maximize", antp: "ম্যাক্সিমাইজ" },
+        { w: "Handsome", wp: "হ্যান্ডসাম", wm: "সুদর্শন", ant: "Ugly", antp: "আগলি" },
+        { w: "Delete", wp: "ডিলিট", wm: "বাতিল করা", ant: "Insert", antp: "ইনসার্ট" },
+        { w: "Mobile", wp: "মোবাইল", wm: "ভ্রাম্যমাণ", ant: "Static", antp: "স্ট্যাটিক" },
+        { w: "Omnipotent", wp: "অমনিপোটেন্ট", wm: "সর্বশক্তিমান", ant: "Powerless", antp: "পাওয়ারলেস" },
+        { w: "Reluctant", wp: "রিল্যাকট্যান্ট", wm: "অনিচ্ছুক", ant: "Keen", antp: "কীন" },
+        { w: "Prodigal", wp: "প্রডিগাল", wm: "অপব্যয়ী", ant: "Economical", antp: "ইকোনমিক্যাল" },
+        { w: "Actual", wp: "অ্যাকচুয়াল", wm: "প্রকৃত", ant: "Unreal", antp: "আনরিয়েল" },
+        { w: "Narrow", wp: "ন্যারো", wm: "সংকীর্ণ", ant: "Wide", antp: "ওয়াইড" },
+        { w: "Arrive", wp: "অ্যারাইভ", wm: "পৌঁছা", ant: "Leave", antp: "লিভ" },
+        { w: "Give", wp: "গিভ", wm: "দেওয়া", ant: "Take", antp: "টেইক" },
+        { w: "Push", wp: "পুশ", wm: "ধাক্কা দেওয়া", ant: "Pull", antp: "পুল" },
+        { w: "Achieve", wp: "অ্যাচিভ", wm: "অর্জন করা", ant: "Fail", antp: "ফেইল" },
+        { w: "Win", wp: "উইন", wm: "জয় লাভ করা", ant: "Lose", antp: "লুজ" },
+        { w: "Honorable", wp: "অনারেবল", wm: "সম্মানিত", ant: "Salaried", antp: "স্যালারিড" },
+        { w: "Rich", wp: "রিচ", wm: "ধনী", ant: "Poor", antp: "পুওর" },
+        { w: "Dark", wp: "ডার্ক", wm: "অন্ধকার", ant: "Bright", antp: "ব্রাইট" },
+        { w: "Ugly", wp: "আগলি", wm: "কুৎসিত", ant: "Beautiful", antp: "বিউটিফুল" },
+        { w: "Lost", wp: "লস্ট", wm: "হারানো", ant: "Regain", antp: "রিগেইন" },
+        { w: "Far", wp: "ফার", wm: "দূরে", ant: "Near", antp: "নিয়ার" },
+        { w: "Consolidation", wp: "কনসোলিডেশন", wm: "দৃঢ়ীকরণ", ant: "Division", antp: "ডিভিশন" },
+        { w: "Enormous", wp: "ইনরমাস", wm: "বিশাল", ant: "Tiny", antp: "টাইনি" },
+        { w: "Difficult", wp: "ডিফিকাল্ট", wm: "কঠিন", ant: "Easy", antp: "ইজি" },
+        { w: "Candid", wp: "ক্যান্ডিড", wm: "সরল", ant: "Insincere", antp: "ইনসিনসিয়ার" },
+        { w: "Demise", wp: "ডিমাইজ", wm: "মৃত্যু", ant: "Birth", antp: "বার্থ" },
+        { w: "Elegance", wp: "এলিগেন্স", wm: "শালীনতা", ant: "Dullness", antp: "ডালনেস" },
+        { w: "Fertile", wp: "ফার্টাইল", wm: "উর্বর", ant: "Barren", antp: "ব্যারেন" },
+        { w: "Friendly", wp: "ফ্রেন্ডলি", wm: "বন্ধুসুলভ", ant: "Unfriendly", antp: "আনফ্রেন্ডলি" },
+        { w: "Kind", wp: "কাইন্ড", wm: "দয়া", ant: "Unkind", antp: "আনকাইন্ড" },
+        { w: "Grumpy", wp: "গ্রাম্পি", wm: "রুক্ষ মেজাজী", ant: "Good-Humored", antp: "গুড-হিউমার্ড" },
+        { w: "Ambiguous", wp: "অ্যাম্বিগুয়াস", wm: "দ্ব্যর্থক", ant: "Definite", antp: "ডেফিনিট" },
+        { w: "Optimistic", wp: "অপটিমিস্টিক", wm: "আশাবাদী", ant: "Negative", antp: "নেগেটিভ" },
+        { w: "Bright", wp: "ব্রাইট", wm: "উজ্জ্বল", ant: "Dark", antp: "ডার্ক" },
+        { w: "Nocturnal", wp: "নকটার্নাল", wm: "নৈশ", ant: "Daily", antp: "ডেইলি" },
+        { w: "Easy", wp: "ইজি", wm: "সহজ", ant: "Hard", antp: "হার্ড" },
+        { w: "Hot", wp: "হট", wm: "গরম", ant: "Cold", antp: "কোল্ড" },
+        { w: "Temporary", wp: "টেম্পোরারি", wm: "অস্থায়ী", ant: "Permanent", antp: "পারমানেন্ট" },
+        { w: "Practice", wp: "প্র্যাকটিস", wm: "অনুশীলন", ant: "Neglect", antp: "নিগ্লেক্ট" },
+        { w: "Slumber", wp: "স্লাম্বার", wm: "তন্দ্রা", ant: "Wake up", antp: "ওয়েইক আপ" },
+        { w: "Humble", wp: "হাম্বল", wm: "হীন করা", ant: "Noble", antp: "নোবল" },
+        { w: "Expending", wp: "এক্সপেন্ডিং", wm: "ব্যয়করণ", ant: "Save", antp: "সেইভ" },
+        { w: "Dote", wp: "ডোট", wm: "অত্যধিক অনুরাগ", ant: "Hate/Neglect", antp: "হেইট/নিগ্লেক্ট" },
+        { w: "Benign", wp: "বিনাইন", wm: "সদয়", ant: "Unfriendly", antp: "আনফ্রেন্ডলি" },
+        { w: "Magnify", wp: "ম্যাগনিফাই", wm: "অতিরিক্ত করা", ant: "Reduce", antp: "রিডিউস" },
+        { w: "Illusive", wp: "ইলুসিভ", wm: "অবাস্তব", ant: "Real", antp: "রিয়েল" },
+        { w: "Outset", wp: "আউটসেট", wm: "শুরু", ant: "End", antp: "এন্ড" },
+        { w: "Scarcity", wp: "স্কার্সিটি", wm: "ঘাটতি", ant: "Abundance", antp: "অ্যাবানডেন্স" },
+        { w: "Flimsy", wp: "ফ্লিমজি", wm: "পাতলা", ant: "Sturdy", antp: "স্টার্ডি" },
+        { w: "Heed", wp: "হীড", wm: "কর্ণপাত", ant: "Disregard", antp: "ডিসরিগার্ড" },
+        { w: "Patriot", wp: "প্যাট্রিয়ট", wm: "দেশপ্রেমিক", ant: "Traitor", antp: "ট্রেইটর" },
+        { w: "Succumb", wp: "সাকাম্ব", wm: "বশীভূত", ant: "Resist", antp: "রজিস্ট" },
+        { w: "Extraneous", wp: "এক্সট্রেনিয়াস", wm: "বহিরাগত", ant: "Material", antp: "মেটেরিয়াল" },
+        { w: "Vilify", wp: "ভিলিফাই", wm: "নিন্দা", ant: "Commend", antp: "কমেন্ড" },
+        { w: "Day", wp: "ডেই", wm: "দিন", ant: "Night", antp: "নাইট" },
+        { w: "Busy", wp: "বিজি", wm: "ব্যস্ত", ant: "Free", antp: "ফ্রি" },
+        { w: "Energetic", wp: "এনার্জেটিক", wm: "উদ্যমশীল", ant: "Inactive", antp: "ইনঅ্যাক্টিভ" },
+        { w: "Quick", wp: "কুইক", wm: "দ্রুত", ant: "Slow", antp: "স্লো" },
+        { w: "Seldom", wp: "সেলডম", wm: "কদাচিৎ", ant: "Frequently", antp: "ফ্রিকোয়েন্টলি" },
+        { w: "Annoy", wp: "অ্যানয়", wm: "বিরক্ত করা", ant: "Please", antp: "প্লীজ" },
+        { w: "Transparent", wp: "ট্রান্সপারেন্ট", wm: "স্বচ্ছ", ant: "Obscure", antp: "অবসকিউর" },
+        { w: "Joy", wp: "জয়", wm: "আনন্দ", ant: "Sorrow", antp: "সরো" },
+        { w: "Foreign", wp: "ফরেন", wm: "বিদেশী", ant: "Native", antp: "নেটিভ" },
+        { w: "Pessimistic", wp: "পেসিমিস্টিক", wm: "হতাশাপূর্ণ", ant: "Hopeful", antp: "হোপফুল" },
+        { w: "Misogyny", wp: "মিসোজিনি", wm: "নারী বিদ্বেষ", ant: "Feminist", antp: "ফেমিনিস্ট" },
+        { w: "Liquid", wp: "লিকুইড", wm: "তরল", ant: "Solid", antp: "সলিড" },
+        { w: "Correct", wp: "কারেক্ট", wm: "সঠিক", ant: "Incorrect", antp: "ইনকারেক্ট" },
+        { w: "Relevant", wp: "রেলেভেন্ট", wm: "প্রাসঙ্গিক", ant: "Irrelevant", antp: "ইরেলেভেন্ট" },
+        { w: "Men", wp: "মেন", wm: "পুরুষেরা", ant: "Women", antp: "উইমেন" },
+        { w: "Poor", wp: "পুওর", wm: "গরীব", ant: "Rich", antp: "রিচ" },
+        { w: "Friend", wp: "ফ্রেন্ড", wm: "বন্ধু", ant: "Foe", antp: "ফো" },
+        { w: "Die", wp: "ডাই", wm: "মারা যাওয়া", ant: "Born", antp: "বর্ন" },
+        { w: "Strong", wp: "স্ট্রং", wm: "দৃঢ়", ant: "Weak", antp: "উইক" },
+        { w: "Retreat", wp: "রিট্রিট", wm: "পিছিয়ে আসা", ant: "Advance", antp: "অ্যাডভান্স" },
+        { w: "Harbinger", wp: "হারবিঞ্জার", wm: "অগ্রদূত", ant: "Follower", antp: "ফলোয়ার" },
+        { w: "Trivial", wp: "ট্রিভিয়াল", wm: "তুচ্ছ", ant: "Significant", antp: "সিগনিফিক্যান্ট" },
+        { w: "Anarchy", wp: "অ্যানার্কি", wm: "বিশৃঙ্খলা", ant: "Peace", antp: "পিস" },
+        { w: "Effective", wp: "ইফেক্টিভ", wm: "ফলপ্রসূ", ant: "Ineffective", antp: "ইনইফেক্টিভ" },
+        { w: "Obligatory", wp: "অবলিগাটরি", wm: "আবশ্যক", ant: "Optional", antp: "অপশনাল" },
+        { w: "Healthy", wp: "হেলদি", wm: "স্বাস্থ্যকর", ant: "Unhealthy", antp: "আনহেলদি" },
+        { w: "Industrious", wp: "ইন্ডাস্ট্রিয়াস", wm: "পরিশ্রমী", ant: "Lazy", antp: "লেইজি" },
+        { w: "Heat", wp: "হীট", wm: "তাপ", ant: "Cold", antp: "কোল্ড" },
+        { w: "Expel", wp: "এক্সপেল", wm: "বহিষ্কার", ant: "Admit", antp: "অ্যাডমিট" },
+        { w: "Enmity", wp: "এনমিটি", wm: "শত্রুতা", ant: "Friendship", antp: "ফ্রেন্ডশিপ" },
+        { w: "Analysis", wp: "অ্যানালাইসিস", wm: "বিশ্লেষণ", ant: "Synthesis", antp: "সিন্থেসিস" },
+        { w: "Biased", wp: "বায়াসড", wm: "একপেশে", ant: "Unbiased", antp: "আনবায়াসড" },
+        { w: "Limpid", wp: "লিম্পিড", wm: "পরিষ্কার", ant: "Cloudy", antp: "ক্লাউডি" },
+        { w: "Populer", wp: "পপুলার", wm: "জনপ্রিয়", ant: "unpopuler", antp: "আনপপুলার" },
+        { w: "Accept", wp: "অ্যাকসেপ্ট", wm: "গ্রহণ করা", ant: "Reject", antp: "রিজেক্ট" },
+        { w: "Prim", wp: "প্রিম", wm: "আনুষ্ঠানিক", ant: "Casual", antp: "ক্যাজুয়াল" },
+        { w: "Unity", wp: "ইউনিটি", wm: "ঐক্য", ant: "Division", antp: "ডিভিশন" },
+        { w: "Wander", wp: "ওয়ান্ডার", wm: "অসংলগ্ন চিন্তা", ant: "Settle", antp: "সেটল" },
+        { w: "Greedy", wp: "গ্রীডি", wm: "লোভী", ant: "Generous", antp: "জেনার্যাস" },
+        { w: "Hate", wp: "হেইট", wm: "ঘৃণা করা", ant: "Love", antp: "লাভ" },
+        { w: "Evil", wp: "ইভিল", wm: "মন্দ", ant: "Good", antp: "গুড" },
+        { w: "Unique", wp: "ইউনিক", wm: "অদ্বিতীয়", ant: "Common", antp: "কমন" },
+        { w: "Liability", wp: "লায়াবিলিটি", wm: "দায়", ant: "Asset", antp: "অ্যাসেট" },
+        { w: "Indifference", wp: "ইনডিফারেন্স", wm: "নিরপেক্ষতা", ant: "Ardor", antp: "আর্ডর" },
+        { w: "Fumble", wp: "ফাম্বল", wm: "হাতড়ানো", ant: "Amend", antp: "অ্যামেন্ড" },
+        { w: "Loss", wp: "লস", wm: "ক্ষতি", ant: "Benefit", antp: "বেনিফিট" },
+        { w: "General", wp: "জেনারেল", wm: "সাধারণ", ant: "Specific", antp: "স্পেসিফিক" },
+        { w: "Indigenous", wp: "ইনডিজেনাস", wm: "দেশজ", ant: "Foreign", antp: "ফরেন" },
+        { w: "Seldom", wp: "সেলডম", wm: "কদাচিৎ", ant: "Often", antp: "অফেন" },
+        { w: "Unique", wp: "ইউনিক", wm: "অনন্য", ant: "Common", antp: "কমন" },
+        { w: "Delete", wp: "ডিলিট", wm: "মুছে ফেলা", ant: "Insert", antp: "ইনসার্ট" },
+        { w: "Bona-Fide", wp: "বোনাফাইড", wm: "খাঁটি", ant: "Fake", antp: "ফেইক" },
+        { w: "Swift", wp: "সুইফট", wm: "দ্রুত", ant: "Slow", antp: "স্লো" },
+        { w: "Extol", wp: "এক্সটোল", wm: "প্রশংসা", ant: "Criticize", antp: "ক্রিটিসাইজ" },
+        { w: "Adroit", wp: "অ্যাড্রয়েট", wm: "দক্ষ", ant: "Unskilful", antp: "আনস্কিলফুল" },
+        { w: "Candid", wp: "ক্যান্ডিড", wm: "সরল/সৎ", ant: "Dishonest", antp: "ডিসঅনেস্ট" },
+        { w: "Safe", wp: "সেইফ", wm: "নিরাপদ", ant: "Dangerous/unsafe", antp: "ডেইঞ্জারাস/আনসেইফ" },
+        { w: "Sweet", wp: "সুইট", wm: "মিষ্টি", ant: "Sour/Bitter", antp: "সাওয়ার/বিটার" },
+        { w: "Empty", wp: "এম্পটি", wm: "খালি", ant: "Full", antp: "ফুল" },
+        { w: "Assert", wp: "অ্যাসার্ট", wm: "জোর দিয়ে বলা", ant: "Deny", antp: "ডিনাই" },
+        { w: "Bizarre", wp: "বিজার", wm: "অস্বাভাবিক", ant: "Normal/usual", antp: "নরমাল/ইউজুয়াল" },
+        { w: "Honorary", wp: "অনারারি", wm: "অবৈতনিক", ant: "Salaried/Paid", antp: "স্যালারিড/পেইড" },
+        { w: "Innocent", wp: "ইনোসেন্ট", wm: "নির্দোষ", ant: "Guilty", antp: "গিল্টি" },
+        { w: "Calm", wp: "কাম", wm: "শান্ত", ant: "Restless", antp: "রেস্টলেস" },
+        { w: "Yield", wp: "ঈল্ড", wm: "উৎপাদন করা", ant: "Resist", antp: "রজিস্ট" },
+        { w: "Anarchy", wp: "অ্যানার্কি", wm: "বিশৃঙ্খলা", ant: "Order", antp: "অর্ডার" }
+    ];
+
+    let favorites = JSON.parse(localStorage.getItem('bilasAntonymFavs')) || [];
+    let showFavs = false;
+    let currentMode = 'study'; 
+
+    let lastScroll = 0;
+    window.onscroll = () => {
+        let top = window.scrollY;
+        const header = document.getElementById('header');
+        if (top > lastScroll && top > 100) header.classList.add('header-hide');
+        else header.classList.remove('header-hide');
+        lastScroll = top;
+    };
+
+    function toggleRocket() {
+        const menu = document.getElementById('rocketMenu');
+        menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+    }
+
+    function setMode(mode) {
+        currentMode = mode;
+        document.getElementById('modeStudy').classList.remove('active-mode');
+        document.getElementById('modePractice').classList.remove('active-mode');
+        
+        if(mode === 'study') document.getElementById('modeStudy').classList.add('active-mode');
+        else document.getElementById('modePractice').classList.add('active-mode');
+        
+        render();
+    }
+
+    function render() {
+        const list = document.getElementById('main-list');
+        list.innerHTML = "";
+        
+        data.forEach((item, index) => {
+            const isFav = favorites.includes(index);
+            if (showFavs && !isFav) return;
+
+            const showClass = currentMode === 'study' ? 'show' : '';
+
+            const div = document.createElement('div');
+            div.className = 'item-wrapper';
+            div.id = `item-${index + 1}`;
+            div.innerHTML = `
+                <div class="serial">${index + 1}</div>
+                <div class="card" onclick="handleCardClick(${index})">
+                    <div class="card-body">
+                        <!-- Left Side (Main Word) -->
+                        <div class="word-box left-box">
+                            <span class="word-title">${item.w}</span>
+                            <span class="word-pronounce">[ ${item.wp} ]</span>
+                            <span class="word-meaning">${item.wm}</span>
+                        </div>
+                        
+                        <!-- Center Favorite Button -->
+                        <button class="center-fav-btn ${isFav ? 'active' : ''}" onclick="toggleFav(event, ${index})">❤</button>
+
+                        <!-- Right Side (Antonym) -->
+                        <div id="ans-${index}" class="word-box right-box ans-wrapper ${showClass}">
+                            <div class="ans-inner">
+                                <span class="word-title">${item.ant}</span>
+                                <span class="word-pronounce">[ ${item.antp} ]</span>
+                            </div>
+                            <div class="tap-overlay">👁️ Tap to view</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            list.appendChild(div);
+        });
+    }
+
+    function handleCardClick(index) {
+        localStorage.setItem('bilasAntonymLastRead', index + 1);
+        if (currentMode === 'practice') {
+            const ansDiv = document.getElementById(`ans-${index}`);
+            ansDiv.classList.toggle('show');
+        }
+    }
+
+    function toggleFav(event, idx) {
+        event.stopPropagation();
+        const pos = favorites.indexOf(idx);
+        if (pos === -1) favorites.push(idx);
+        else favorites.splice(pos, 1);
+        localStorage.setItem('bilasAntonymFavs', JSON.stringify(favorites));
+        render();
+    }
+
+    function toggleFavView() {
+        showFavs = !showFavs;
+        document.getElementById('favViewBtn').innerText = showFavs ? "📖 সব দেখুন" : "⭐ ফেভারিট";
+        if(showFavs) document.getElementById('favViewBtn').classList.add('active-mode');
+        else document.getElementById('favViewBtn').classList.remove('active-mode');
+        render();
+    }
+
+    function filter() {
+        let val = document.getElementById('search').value.toLowerCase();
+        document.querySelectorAll('.item-wrapper').forEach(row => {
+            row.style.display = row.innerText.toLowerCase().includes(val) ? "flex" : "none";
+        });
+    }
+
+    function jumpTo() {
+        let num = document.getElementById('jumpInput').value;
+        let el = document.getElementById(`item-${num}`);
+        if(el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            toggleRocket();
+        }
+    }
+
+    function scrollToLastRead() {
+        let last = localStorage.getItem('bilasAntonymLastRead');
+        if(last) {
+            const el = document.getElementById(`item-${last}`);
+            if(el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+
+    // Initial Render
+    render();
+</script>
+</body>
+</html>

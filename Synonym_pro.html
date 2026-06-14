@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BILAS ACADEMY - English Synonym Pro</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap');
+
+        :root {
+            /* Eye-Friendly Deep Ocean Theme */
+            --bg-grad: linear-gradient(135deg, #0f172a, #1e293b, #0f172a);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-main: #f8fafc;
+            --accent-left: #34d399; /* Soothing Emerald Green */
+            --accent-right: #fbbf24; /* Soft Amber/Gold */
+            --accent-heart: #f87171; /* Soft Rose Red */
+            --accent-glow: rgba(52, 211, 153, 0.3);
+            --card-radius: 18px;
+        }
+
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            margin: 0;
+            background: var(--bg-grad);
+            background-attachment: fixed;
+            color: var(--text-main);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Premium Dynamic Header */
+        .header-section {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            padding: 15px 20px 20px 20px;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease;
+            border-bottom: 1px solid rgba(52, 211, 153, 0.15);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .header-hide { 
+            transform: translateY(-110%); 
+        }
+
+        .brand-name {
+            display: block;
+            text-align: center;
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            background: linear-gradient(to right, var(--accent-left), #6ee7b7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0px 4px 15px var(--accent-glow);
+            margin-bottom: 15px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 14px 22px;
+            border-radius: 30px;
+            border: 1px solid rgba(52, 211, 153, 0.3);
+            background: rgba(0, 0, 0, 0.4);
+            color: #fff;
+            outline: none;
+            font-size: 16px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            transition: all 0.4s ease;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.3);
+        }
+        .search-box:focus {
+            border-color: var(--accent-left);
+            box-shadow: 0 0 20px var(--accent-glow);
+            background: rgba(15, 23, 42, 0.8);
+        }
+
+        .top-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+        
+        .btn {
+            background: var(--glass-bg);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #cbd5e1;
+            padding: 8px 18px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        .btn:hover {
+            border-color: var(--accent-left);
+            color: var(--accent-left);
+            background: rgba(52, 211, 153, 0.05);
+        }
+        .btn.active-mode {
+            background: linear-gradient(135deg, var(--accent-left), #10b981);
+            color: #000;
+            border-color: transparent;
+            box-shadow: 0 4px 15px var(--accent-glow);
+        }
+
+        /* Content Container */
+        .container { max-width: 900px; margin: 0 auto; padding: 270px 20px 100px 15px; }
+
+        .item-wrapper {
+            display: flex;
+            align-items: center; 
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 22px;
+            scroll-margin-top: 250px;
+        }
+
+        /* Left Serial Number */
+        .serial { 
+            color: var(--accent-left); 
+            font-weight: 800; 
+            font-size: 18px; 
+            width: 25px; 
+            text-align: center;
+            flex-shrink: 0;
+            text-shadow: 0 2px 5px rgba(52, 211, 153, 0.2);
+        }
+
+        /* Ultra Premium Eye-Friendly Card */
+        .card {
+            flex: 1;
+            background: rgba(30, 41, 59, 0.6); 
+            border: 1px solid var(--glass-border);
+            border-left: 3px solid var(--accent-left);
+            border-radius: var(--card-radius);
+            padding: 20px 25px;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            overflow: hidden;
+            min-width: 0;
+        }
+        .card:hover { 
+            border-color: rgba(52, 211, 153, 0.3); 
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), 0 0 15px rgba(52, 211, 153, 0.08);
+        }
+        .card:active { transform: scale(0.98); }
+
+        /* Left - Center - Right Layout Strict */
+        .card-body {
+            display: flex;
+            flex-direction: row !important;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .word-box {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex: 1;
+            min-width: 0; 
+            word-wrap: break-word;
+        }
+
+        .left-box { text-align: left; padding-right: 10px; }
+        .right-box { text-align: right; padding-left: 10px; }
+
+        .word-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent-left);
+            letter-spacing: 0.5px;
+            line-height: 1.2;
+        }
+        .right-box .word-title {
+            color: var(--accent-right);
+        }
+
+        .word-pronounce {
+            font-size: 14px;
+            color: #94a3b8; /* Subtle blue-gray for pronunciation */
+            font-style: italic;
+        }
+
+        .word-meaning {
+            font-size: 15px;
+            color: #cbd5e1;
+        }
+
+        /* Center Favorite Button */
+        .center-fav-btn {
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.1);
+            font-size: 26px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 0 15px;
+            flex-shrink: 0;
+        }
+        .center-fav-btn:hover { 
+            color: #fff; 
+            transform: scale(1.15); 
+        }
+        .center-fav-btn.active { 
+            color: var(--accent-heart); 
+            filter: drop-shadow(0 0 8px var(--accent-heart)); 
+        }
+
+        /* Premium Practice Mode Overlay */
+        .ans-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .ans-inner {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .ans-wrapper:not(.show) .ans-inner {
+            filter: blur(8px);
+            opacity: 0.2;
+            transform: translateX(15px);
+        }
+
+        .ans-wrapper.show .ans-inner {
+            filter: blur(0);
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .tap-overlay {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            background: rgba(15, 23, 42, 0.9);
+            color: var(--accent-left);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            border: 1px solid rgba(52, 211, 153, 0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        .ans-wrapper:not(.show) .tap-overlay {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* ---- STRICT MOBILE SIDE-BY-SIDE FIX ---- */
+        @media screen and (max-width: 600px) {
+            .container { padding-top: 260px; } 
+            .card {
+                padding: 15px 12px;
+            }
+            .word-title {
+                font-size: 18px; 
+            }
+            .word-pronounce {
+                font-size: 12px;
+            }
+            .word-meaning {
+                font-size: 13px;
+            }
+            .center-fav-btn {
+                font-size: 22px;
+                padding: 0 8px;
+            }
+            .tap-overlay {
+                font-size: 11px;
+                padding: 4px 8px;
+            }
+            .serial { font-size: 16px; width: 20px; }
+        }
+
+        /* Rocket Hub */
+        .rocket-hub { position: fixed; right: 20px; bottom: 30px; display: flex; flex-direction: column; align-items: center; z-index: 2000; }
+        .rocket-menu { display: none; flex-direction: column; gap: 12px; background: rgba(15, 23, 42, 0.95); padding: 20px 10px; border-radius: 40px; border: 1px solid var(--accent-left); margin-bottom: 15px; backdrop-filter: blur(15px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); animation: slideUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .r-circle { width: 45px; height: 45px; background: rgba(0,0,0,0.5); border: 1px solid var(--accent-left); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px; cursor: pointer; transition: 0.3s; }
+        .r-circle:hover { background: var(--accent-left); color: #000; }
+        .jump-box { width: 45px; height: 35px; background: #000; border: 1px solid var(--accent-heart); color: white; text-align: center; border-radius: 8px; font-size: 14px; outline: none; }
+        .go-btn { background: linear-gradient(135deg, var(--accent-heart), #e11d48); border: none; padding: 6px; border-radius: 6px; font-weight: bold; color: #fff; cursor: pointer; font-size: 12px; transition: 0.3s;}
+        .go-btn:hover { box-shadow: 0 0 10px rgba(248, 113, 113, 0.4); }
+        .rocket-icon { font-size: 40px; cursor: pointer; filter: drop-shadow(0 0 15px var(--accent-glow)); transition: transform 0.3s ease; }
+        .rocket-icon:hover { transform: scale(1.1) translateY(-5px); }
+        @keyframes slideUp { from { transform: translateY(20px) scale(0.9); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
+
+    </style>
+</head>
+<body>
+
+<div class="header-section" id="header">
+    <span class="brand-name">English Synonym Pro</span>
+    <div style="max-width:900px; margin: 0 auto;">
+        <input type="text" id="search" class="search-box" placeholder="খুঁজুন (যেমন: Altruistic, দক্ষ)..." onkeyup="filter()">
+        <div class="top-btns">
+            <button class="btn active-mode" id="modeStudy" onclick="setMode('study')">📖 স্টাডি মোড</button>
+            <button class="btn" id="modePractice" onclick="setMode('practice')">🎯 প্র্যাকটিস মোড</button>
+            <button class="btn" id="favViewBtn" onclick="toggleFavView()">⭐ ফেভারিট</button>
+            <button class="btn" onclick="scrollToLastRead()">🕒 শেষ পড়া</button>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div id="main-list"></div>
+</div>
+
+<div class="rocket-hub">
+    <div class="rocket-menu" id="rocketMenu">
+        <div class="r-circle" onclick="window.scrollTo({top:0, behavior:'smooth'})">⬆️</div>
+        <input type="number" id="jumpInput" class="jump-box" placeholder="নং">
+        <button class="go-btn" onclick="jumpTo()">GO</button>
+        <div class="r-circle" onclick="window.scrollTo({top:document.body.scrollHeight, behavior:'smooth'})">⬇️</div>
+    </div>
+    <div class="rocket-icon" onclick="toggleRocket()">🚀</div>
+</div>
+
+<script>
+    const data = [
+        { w: "Altruistic", wp: "অলট্রুইস্টিক", wm: "কল্যাণময়", syn: "Unselfish", synp: "আনসেলফিশ" },
+        { w: "Ambiguous", wp: "অ্যাম্বিগুয়াস", wm: "দ্ব্যর্থক", syn: "Equivocal", synp: "ইকুইভোকাল" },
+        { w: "Dusk", wp: "ডাস্ক", wm: "গোধূলি", syn: "Twilight", synp: "টোয়াইলাইট" },
+        { w: "Competent", wp: "কম্পিটেন্ট", wm: "দক্ষ", syn: "Able/Capable", synp: "এবল/ক্যাপেবল" },
+        { w: "Deliberate", wp: "ডেলিবারেট", wm: "সুচিন্তিত", syn: "Intentional", synp: "ইনটেনশনাল" },
+        { w: "Heinous", wp: "হীনাস", wm: "ঘৃণ্য", syn: "Wicked", synp: "উইকেড" },
+        { w: "Sedulous", wp: "সেডিউলাস", wm: "অধ্যবসায়ী", syn: "Diligent", synp: "ডিলিজেন্ট" },
+        { w: "Counterfeit", wp: "কাউন্টারফিট", wm: "নকল", syn: "Fake", synp: "ফেইক" },
+        { w: "Gallant", wp: "গ্যালান্ট", wm: "সাহসী", syn: "Brave", synp: "ব্রেইভ" },
+        { w: "Illusive", wp: "ইলুসিভ", wm: "অলীক", syn: "Fake", synp: "ফেইক" },
+        { w: "Incredible", wp: "ইনক্রেডিবল", wm: "অবিশ্বাস্য", syn: "Unbelievable", synp: "আনবিলিভেবল" },
+        { w: "Tedious", wp: "টিডিয়াস", wm: "বিরক্তিকর", syn: "Boring", synp: "বোরিং" },
+        { w: "Delude", wp: "ডিলুড", wm: "প্রতারিত করা", syn: "Mislead", synp: "মিসলিড" },
+        { w: "Obdurate", wp: "অবডুরেট", wm: "একগুঁয়ে", syn: "Stubborn", synp: "স্টাবর্ন" },
+        { w: "At Home", wp: "অ্যাট হোম", wm: "দক্ষ", syn: "Skilled", synp: "স্কিলড" },
+        { w: "Twinkle", wp: "টুইঙ্কল", wm: "মিটমিট করে জ্বলা", syn: "Shine", synp: "শাইন" },
+        { w: "Defile", wp: "ডিফাইল", wm: "অপরিষ্কার", syn: "Spoil", synp: "স্পয়েল" },
+        { w: "Efficient", wp: "ইফিশিয়েন্ট", wm: "দক্ষ", syn: "Skilled", synp: "স্কিলড" },
+        { w: "Remark", wp: "রিমার্ক", wm: "মন্তব্য করা", syn: "Mention", synp: "মেনশন" },
+        { w: "Panic", wp: "প্যানিক", wm: "আতঙ্ক", syn: "Fear", synp: "ফিয়ার" },
+        { w: "Demolish", wp: "ডিমলিশ", wm: "ধ্বংস করা", syn: "Destroy", synp: "ডিস্ট্রয়" },
+        { w: "Pleasure", wp: "প্লেজার", wm: "আনন্দ", syn: "Happy", synp: "হ্যাপি" },
+        { w: "Increase", wp: "ইনক্রিস", wm: "বৃদ্ধি করা", syn: "Grow", synp: "গ্রো" },
+        { w: "Destroy", wp: "ডিস্ট্রয়", wm: "ধ্বংস", syn: "Ruin", synp: "রুইন" },
+        { w: "Lazy", wp: "লেইজি", wm: "অলস", syn: "Idle", synp: "আইডল" },
+        { w: "FALSE", wp: "ফলস", wm: "মিথ্যা", syn: "Wrong", synp: "রং" },
+        { w: "Fast", wp: "ফাস্ট", wm: "দ্রুত", syn: "Quick", synp: "কুইক" },
+        { w: "Expect", wp: "ইক্সপেক্ট", wm: "আশা করা", syn: "Hope", synp: "হোপ" },
+        { w: "Vacant", wp: "ভ্যাকেন্ট", wm: "খালি", syn: "Empty", synp: "এম্পটি" },
+        { w: "Clean", wp: "ক্লিন", wm: "পরিষ্কার", syn: "Pure", synp: "পিউর" },
+        { w: "Happiness", wp: "হ্যাপিনেস", wm: "সুখ", syn: "Joy", synp: "জয়" },
+        { w: "Big", wp: "বিগ", wm: "বড়", syn: "Large", synp: "লার্জ" },
+        { w: "Competent", wp: "কম্পিটেন্ট", wm: "যোগ্য", syn: "Able", synp: "এবল" },
+        { w: "Ordinary", wp: "অর্ডিনারি", wm: "সাধারণ", syn: "Common", synp: "কমন" },
+        { w: "Disturb", wp: "ডিস্টার্ব", wm: "বিরক্ত করা", syn: "Interrupt", synp: "ইন্টারাপ্ট" },
+        { w: "Keen", wp: "কীন", wm: "ধারালো", syn: "Sharp", synp: "শার্প" },
+        { w: "Morbidity", wp: "মরবিডিটি", wm: "উপসর্গ", syn: "Symptom", synp: "সিম্পটম" },
+        { w: "Multiple", wp: "মাল্টিপল", wm: "বহুবিধ", syn: "Many", synp: "ম্যানি" },
+        { w: "Potential", wp: "পটেনশিয়াল", wm: "সম্ভাব্য", syn: "Capability", synp: "ক্যাপাবিলিটি" },
+        { w: "Nostalgic", wp: "নস্টালজিক", wm: "গৃহকাতর", syn: "Homesick", synp: "হোমসিক" },
+        { w: "Isolation", wp: "আইসোলেশন", wm: "বিচ্ছিন্নকরণ", syn: "Separation", synp: "সেপারেশন" },
+        { w: "Skillful", wp: "স্কিলফুল", wm: "দক্ষ", syn: "Expert", synp: "এক্সপার্ট" },
+        { w: "Acquire", wp: "অ্যাকোয়ার", wm: "অর্জন করা", syn: "Obtain/Get", synp: "অবটেইন/গেট" },
+        { w: "Current", wp: "কারেন্ট", wm: "চলতি", syn: "Present/Live", synp: "প্রেজেন্ট/লাইভ" },
+        { w: "Eradicate", wp: "ইরাডিকেট", wm: "উচ্ছেদ করা", syn: "Remove", synp: "রিমুভ" },
+        { w: "Appoint", wp: "অ্যাপয়েন্ট", wm: "ধার্য করা", syn: "Nominate/Employ", synp: "নমিনেট/এমপ্লয়" },
+        { w: "Altitude", wp: "অ্যালটিটিউড", wm: "লব্ধের উচ্চতা", syn: "Height", synp: "হাইট" },
+        { w: "Perpetual", wp: "পারপেচুয়াল", wm: "চিরস্থায়ী", syn: "Eternal/immortal", synp: "ইটারনাল/ইমমর্টাল" },
+        { w: "Pitfall", wp: "পিটফল", wm: "চোরা গর্ত", syn: "Danger", synp: "ডেইঞ্জার" },
+        { w: "Inadvertent", wp: "ইনঅ্যাডভার্টেন্ট", wm: "অনিচ্ছাকৃত", syn: "Unintended", synp: "আনইনটেনডেড" },
+        { w: "Increase", wp: "ইনক্রিস", wm: "বৃদ্ধি", syn: "Growth", synp: "গ্রোথ" },
+        { w: "Calm", wp: "কাম", wm: "শান্ত", syn: "Quiet", synp: "কোয়ায়েট" },
+        { w: "Brief", wp: "ব্রিফ", wm: "সংক্ষিপ্ত", syn: "Short", synp: "শর্ট" },
+        { w: "Keen", wp: "কীন", wm: "ধারালো/তীক্ষ্ণ", syn: "Sharp", synp: "শার্প" },
+        { w: "Beautiful", wp: "বিউটিফুল", wm: "সুন্দর", syn: "Nice", synp: "নাইস" },
+        { w: "Morbidity", wp: "মরবিডিটি", wm: "বিষণ্ণতা", syn: "Sadness", synp: "স্যাডনেস" },
+        { w: "Academy", wp: "অ্যাকাডেমি", wm: "শিক্ষায়তন", syn: "School", synp: "স্কুল" },
+        { w: "Mobile", wp: "মোবাইল", wm: "ভ্রাম্যমাণ", syn: "Portable", synp: "পোর্টেবল" },
+        { w: "Skilled", wp: "স্কিলড", wm: "দক্ষ", syn: "Efficient", synp: "ইফিশিয়েন্ট" },
+        { w: "Modernization", wp: "মডার্নাইজেশন", wm: "আধুনিকীকরণ", syn: "Development/Industrialization", synp: "ডেভেলপমেন্ট/ইন্ডাস্ট্রিয়ালাইজেশন" },
+        { w: "Pertinent", wp: "পার্টিনেন্ট", wm: "প্রাসঙ্গিক", syn: "Relevant/Appropriate", synp: "রেলেভেন্ট/অ্যাপ্রোপ্রিয়েট" },
+        { w: "Bona-Fide", wp: "বোনাফাইড", wm: "খাঁটি", syn: "Genuine", synp: "জেনুইন" },
+        { w: "Swift", wp: "সুইফট", wm: "দ্রুত", syn: "Fast", synp: "ফাস্ট" },
+        { w: "Extol", wp: "এক্সটোল", wm: "প্রশংসা", syn: "Praise", synp: "প্রেইজ" },
+        { w: "Adroit", wp: "অ্যাড্রয়েট", wm: "দক্ষ", syn: "Skilful", synp: "স্কিলফুল" },
+        { w: "Candid", wp: "ক্যান্ডিড", wm: "সরল/সৎ", syn: "Honest", synp: "অনেস্ট" }
+    ];
+
+    let favorites = JSON.parse(localStorage.getItem('bilasEngSynonymFavs')) || [];
+    let showFavs = false;
+    let currentMode = 'study'; 
+
+    let lastScroll = 0;
+    window.onscroll = () => {
+        let top = window.scrollY;
+        const header = document.getElementById('header');
+        if (top > lastScroll && top > 100) header.classList.add('header-hide');
+        else header.classList.remove('header-hide');
+        lastScroll = top;
+    };
+
+    function toggleRocket() {
+        const menu = document.getElementById('rocketMenu');
+        menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+    }
+
+    function setMode(mode) {
+        currentMode = mode;
+        document.getElementById('modeStudy').classList.remove('active-mode');
+        document.getElementById('modePractice').classList.remove('active-mode');
+        
+        if(mode === 'study') document.getElementById('modeStudy').classList.add('active-mode');
+        else document.getElementById('modePractice').classList.add('active-mode');
+        
+        render();
+    }
+
+    function render() {
+        const list = document.getElementById('main-list');
+        list.innerHTML = "";
+        
+        data.forEach((item, index) => {
+            const isFav = favorites.includes(index);
+            if (showFavs && !isFav) return;
+
+            const showClass = currentMode === 'study' ? 'show' : '';
+
+            const div = document.createElement('div');
+            div.className = 'item-wrapper';
+            div.id = `item-${index + 1}`;
+            div.innerHTML = `
+                <div class="serial">${index + 1}</div>
+                <div class="card" onclick="handleCardClick(${index})">
+                    <div class="card-body">
+                        <!-- Left Side (Main Word) -->
+                        <div class="word-box left-box">
+                            <span class="word-title">${item.w}</span>
+                            <span class="word-pronounce">[ ${item.wp} ]</span>
+                            <span class="word-meaning">${item.wm}</span>
+                        </div>
+                        
+                        <!-- Center Favorite Button -->
+                        <button class="center-fav-btn ${isFav ? 'active' : ''}" onclick="toggleFav(event, ${index})">❤</button>
+
+                        <!-- Right Side (Synonym) -->
+                        <div id="ans-${index}" class="word-box right-box ans-wrapper ${showClass}">
+                            <div class="ans-inner">
+                                <span class="word-title">${item.syn}</span>
+                                <span class="word-pronounce">[ ${item.synp} ]</span>
+                            </div>
+                            <div class="tap-overlay">👁️ Tap to view</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            list.appendChild(div);
+        });
+    }
+
+    function handleCardClick(index) {
+        localStorage.setItem('bilasEngSynonymLastRead', index + 1);
+        if (currentMode === 'practice') {
+            const ansDiv = document.getElementById(`ans-${index}`);
+            ansDiv.classList.toggle('show');
+        }
+    }
+
+    function toggleFav(event, idx) {
+        event.stopPropagation();
+        const pos = favorites.indexOf(idx);
+        if (pos === -1) favorites.push(idx);
+        else favorites.splice(pos, 1);
+        localStorage.setItem('bilasEngSynonymFavs', JSON.stringify(favorites));
+        render();
+    }
+
+    function toggleFavView() {
+        showFavs = !showFavs;
+        document.getElementById('favViewBtn').innerText = showFavs ? "📖 সব দেখুন" : "⭐ ফেভারিট";
+        if(showFavs) document.getElementById('favViewBtn').classList.add('active-mode');
+        else document.getElementById('favViewBtn').classList.remove('active-mode');
+        render();
+    }
+
+    function filter() {
+        let val = document.getElementById('search').value.toLowerCase();
+        document.querySelectorAll('.item-wrapper').forEach(row => {
+            row.style.display = row.innerText.toLowerCase().includes(val) ? "flex" : "none";
+        });
+    }
+
+    function jumpTo() {
+        let num = document.getElementById('jumpInput').value;
+        let el = document.getElementById(`item-${num}`);
+        if(el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            toggleRocket();
+        }
+    }
+
+    function scrollToLastRead() {
+        let last = localStorage.getItem('bilasEngSynonymLastRead');
+        if(last) {
+            const el = document.getElementById(`item-${last}`);
+            if(el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+
+    // Initial Render
+    render();
+</script>
+</body>
+</html>

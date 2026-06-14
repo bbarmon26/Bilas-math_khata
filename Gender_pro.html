@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BILAS ACADEMY - English Gender Pro</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap');
+
+        :root {
+            --bg-grad: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --accent-cyan: #00e5ff;
+            --accent-green: #00ff88;
+            --accent-gold: #ffcf54;
+            --accent-pink: #ff416c;
+            --card-radius: 20px;
+        }
+
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            margin: 0;
+            background: var(--bg-grad);
+            background-attachment: fixed;
+            color: var(--text-main);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Premium Header */
+        .header-section {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            background: rgba(15, 12, 41, 0.9);
+            backdrop-filter: blur(15px);
+            padding: 15px 20px;
+            transition: transform 0.4s ease;
+            border-bottom: 1px solid var(--glass-border);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .header-hide { transform: translateY(-110%); }
+
+        .brand-name {
+            display: block;
+            text-align: center;
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            background: linear-gradient(to right, var(--accent-cyan), var(--accent-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0px 4px 15px rgba(0, 255, 136, 0.3);
+            margin-bottom: 15px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 14px 20px;
+            border-radius: 30px;
+            border: 1px solid rgba(0, 255, 136, 0.4);
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            outline: none;
+            font-size: 16px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            transition: all 0.3s;
+        }
+        .search-box:focus {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
+        }
+
+        .top-btns { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+        
+        .btn {
+            background: var(--glass-bg);
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn:hover, .btn.active-mode {
+            background: var(--accent-gold);
+            color: #000;
+            box-shadow: 0 0 15px rgba(255, 207, 84, 0.4);
+        }
+        .btn-cyan { border-color: var(--accent-cyan); color: var(--accent-cyan); }
+        .btn-cyan.active-mode { background: var(--accent-cyan); color: #000; box-shadow: 0 0 15px rgba(0, 229, 255, 0.4); }
+
+        /* Content Container */
+        .container { max-width: 700px; margin: 0 auto; padding: 220px 20px 100px 20px; }
+
+        .item-wrapper {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 20px;
+            scroll-margin-top: 230px;
+        }
+
+        .serial { 
+            color: var(--accent-green); 
+            font-weight: 800; 
+            font-size: 18px; 
+            min-width: 25px; 
+            padding-top: 15px;
+        }
+
+        /* Premium Card Design */
+        .card {
+            flex-grow: 1;
+            background: rgba(20, 20, 35, 0.6);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--card-radius);
+            padding: 15px 20px;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        .card:hover { border-color: rgba(0, 255, 136, 0.3); }
+        .card:active { transform: scale(0.98); }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .masc-text {
+            font-size: 22px;
+            color: var(--accent-cyan);
+            font-weight: 700;
+        }
+        
+        .pronounce {
+            font-size: 14px;
+            color: var(--accent-gold);
+            font-style: italic;
+            margin-right: 5px;
+        }
+
+        .masc-bengali {
+            font-size: 14px;
+            color: #aaa;
+            display: inline-block;
+        }
+
+        .action-btns { display: flex; gap: 10px; align-items: center; }
+
+        .icon-btn {
+            background: none; border: none; color: #888;
+            font-size: 20px; cursor: pointer; transition: 0.3s; padding: 0;
+        }
+        .icon-btn:hover { color: #fff; transform: scale(1.1); }
+        .fav-btn.active { color: var(--accent-pink); filter: drop-shadow(0 0 8px var(--accent-pink)); }
+
+        /* Answer Details - Grid Smooth Animation */
+        .ans-wrapper {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .ans-wrapper.show { grid-template-rows: 1fr; }
+
+        .ans-details { overflow: hidden; opacity: 0; transition: opacity 0.3s ease; }
+        .ans-wrapper.show .ans-details { opacity: 1; transition: opacity 0.4s ease 0.1s; }
+
+        .ans-content {
+            margin-top: 15px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.15);
+            padding-top: 15px;
+        }
+
+        .fem-box {
+            background: linear-gradient(135deg, rgba(0,255,136,0.1), rgba(0,229,255,0.1));
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            padding: 12px 15px;
+            border-radius: 12px;
+            display: inline-block;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .fem-text {
+            font-size: 22px;
+            color: var(--accent-green);
+            font-weight: bold;
+            display: block;
+            margin-bottom: 2px;
+        }
+        .fem-bengali {
+            font-size: 15px;
+            color: #ddd;
+        }
+
+        /* Rocket Hub */
+        .rocket-hub { position: fixed; right: 20px; bottom: 30px; display: flex; flex-direction: column; align-items: center; z-index: 2000; }
+        .rocket-menu { display: none; flex-direction: column; gap: 12px; background: rgba(15, 12, 41, 0.95); padding: 20px 10px; border-radius: 40px; border: 1px solid var(--accent-cyan); margin-bottom: 15px; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.6); animation: slideUp 0.3s ease; }
+        .r-circle { width: 45px; height: 45px; background: rgba(0,0,0,0.5); border: 1px solid var(--accent-cyan); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px; cursor: pointer; }
+        .jump-box { width: 45px; height: 35px; background: #000; border: 1px solid var(--accent-pink); color: white; text-align: center; border-radius: 8px; font-size: 14px; outline: none; }
+        .go-btn { background: var(--accent-pink); border: none; padding: 6px; border-radius: 6px; font-weight: bold; color: #fff; cursor: pointer; font-size: 12px;}
+        .rocket-icon { font-size: 40px; cursor: pointer; filter: drop-shadow(0 0 10px var(--accent-cyan)); transition: 0.3s; }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* Toast */
+        .toast {
+            position: fixed; top: 100px; left: 50%; transform: translateX(-50%);
+            background: var(--accent-green); color: #000; padding: 10px 20px;
+            border-radius: 30px; font-weight: bold; z-index: 3000;
+            opacity: 0; visibility: hidden; transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(0,255,136,0.4);
+        }
+        .toast.show { opacity: 1; visibility: visible; }
+    </style>
+</head>
+<body>
+
+<div class="header-section" id="header">
+    <span class="brand-name">English Gender Pro</span>
+    <div style="max-width:700px; margin: 0 auto;">
+        <input type="text" id="search" class="search-box" placeholder="খুঁজুন (যেমন: Actor, বাঘ)..." onkeyup="filter()">
+        <div class="top-btns">
+            <button class="btn btn-cyan active-mode" id="modeStudy" onclick="setMode('study')">📖 স্টাডি মোড</button>
+            <button class="btn btn-cyan" id="modePractice" onclick="setMode('practice')">🎯 প্র্যাকটিস মোড</button>
+            <button class="btn" id="favViewBtn" onclick="toggleFavView()">⭐ ফেভারিট</button>
+            <button class="btn" onclick="scrollToLastRead()">🕒 শেষ পড়া</button>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toastBox">কপি করা হয়েছে!</div>
+
+<div class="container">
+    <div id="main-list"></div>
+</div>
+
+<div class="rocket-hub">
+    <div class="rocket-menu" id="rocketMenu">
+        <div class="r-circle" onclick="window.scrollTo({top:0, behavior:'smooth'})">⬆️</div>
+        <input type="number" id="jumpInput" class="jump-box" placeholder="নং">
+        <button class="go-btn" onclick="jumpTo()">GO</button>
+        <div class="r-circle" onclick="window.scrollTo({top:document.body.scrollHeight, behavior:'smooth'})">⬇️</div>
+    </div>
+    <div class="rocket-icon" onclick="toggleRocket()">🚀</div>
+</div>
+
+<script>
+        // m: Word 1, mp: Word 1 Pronounce, mb: Word 1 Bengali
+    // f: Word 2, fp: Word 2 Pronounce, fb: Word 2 Bengali
+    const data = [
+        { m: "Actor", mp: "অ্যাক্টর", mb: "অভিনেতা", f: "Actress", fp: "অ্যাকট্রেস", fb: "অভিনেত্রী" },
+        { m: "Monk", mp: "মাংক", mb: "সন্ন্যাসী", f: "Nun", fp: "নান", fb: "সন্ন্যাসিনী" },
+        { m: "Pea-cock", mp: "পিকক", mb: "ময়ূর", f: "Pea-hen", fp: "পিহেন", fb: "ময়ূরী" },
+        { m: "Stag", mp: "স্ট্যাগ", mb: "পুরুষ হরিণ", f: "Hind", fp: "হাইন্ড", fb: "মাদী হরিণ" },
+        { m: "Duke", mp: "ডিউক", mb: "সম্ভ্রান্ত পুরুষ", f: "Duchess", fp: "ডাচেস", fb: "সম্ভ্রান্ত নারী" },
+        { m: "Author", mp: "অথর", mb: "লেখক", f: "Authoress", fp: "অথরেস", fb: "লেখিকা" },
+        { m: "Lord", mp: "লর্ড", mb: "প্রভু", f: "Lady", fp: "লেডি", fb: "বেগম" },
+        { m: "Governor", mp: "গভর্নর", mb: "শাসক", f: "Governess", fp: "গভর্নেস", fb: "শাসিকা" },
+        { m: "Nephew", mp: "নেফিউ", mb: "ভাইপো", f: "Niece", fp: "নিস", fb: "ভাইঝি" },
+        { m: "Dog", mp: "ডগ", mb: "কুকুর", f: "Bitch", fp: "বিচ", fb: "মাদী কুকুর" },
+        { m: "Drone", mp: "ড্রোন", mb: "পুরুষ মৌমাছি", f: "Bee", fp: "বি", fb: "স্ত্রী মৌমাছি" },
+        { m: "Horse", mp: "হর্স", mb: "ঘোড়া", f: "Mare", fp: "মেয়ার", fb: "মাদী ঘোড়া" },
+        { m: "Ewe", mp: "ইউ", mb: "ভেড়ী", f: "Ram", fp: "র‍্যাম", fb: "ভেড়া" },
+        { m: "Niece", mp: "নিস", mb: "ভাইঝি", f: "Nephew", fp: "নেফিউ", fb: "ভাইপো" },
+        { m: "Mare", mp: "মেয়ার", mb: "মাদী ঘোড়া", f: "Horse", fp: "হর্স", fb: "ঘোড়া" },
+        { m: "Bee", mp: "বি", mb: "স্ত্রী মৌমাছি", f: "Drone", fp: "ড্রোন", fb: "পুরুষ মৌমাছি" },
+        { m: "Ram", mp: "র‍্যাম", mb: "ভেড়া", f: "Ewe", fp: "ইউ", fb: "ভেড়ী" },
+        { m: "Fox", mp: "ফক্স", mb: "খেঁকশিয়াল", f: "Vixen", fp: "ভিক্সেন", fb: "মাদী খেঁকশিয়াল" },
+        { m: "Poet", mp: "পোয়েট", mb: "কবি", f: "Poetess", fp: "পোয়েটেস", fb: "মহিলা কবি" },
+        { m: "Uncle", mp: "আংকেল", mb: "চাচা", f: "Aunt", fp: "আন্ট", fb: "চাচি" },
+        { m: "God", mp: "গড", mb: "দেবতা", f: "Goddess", fp: "গডেস", fb: "দেবী" },
+        { m: "Milkman", mp: "মিল্কম্যান", mb: "গোয়ালা", f: "Milkmaid", fp: "মিল্কমেইড", fb: "গোয়ালিনী" },
+        { m: "Proprietor", mp: "প্রোপাইটর", mb: "মালিক", f: "Proprietress / Proprietrix", fp: "প্রোপাইট্রেস / প্রোপাইট্রিক্স", fb: "মালকিন" },
+        { m: "Master", mp: "মাস্টার", mb: "প্রভু", f: "Mistress", fp: "মিস্ট্রেস", fb: "কর্ত্রী" },
+        { m: "Widower", mp: "উইডোয়ার", mb: "বিপত্নীক", f: "Widow", fp: "উইডো", fb: "বিধবা" },
+        { m: "Host", mp: "হোস্ট", mb: "স্বাগতিক", f: "Hostess", fp: "হোস্টেস", fb: "গৃহকর্ত্রী" },
+        { m: "Prince", mp: "প্রিন্স", mb: "রাজকুমার", f: "Princess", fp: "প্রিন্সেস", fb: "রাজকুমারী" },
+        { m: "Gander", mp: "গ্যান্ডার", mb: "রাজহাঁস", f: "Goose", fp: "গুজ", fb: "মাদী রাজহাঁস" },
+        { m: "Bachelor", mp: "ব্যাচেলর", mb: "অবিবাহিত পুরুষ", f: "Spinster / Maid", fp: "স্পিনস্টার / মেইড", fb: "কুমারী নারী" },
+        { m: "Widow", mp: "উইডো", mb: "বিধবা", f: "Widower", fp: "উইডোয়ার", fb: "বিপত্নীক" },
+        { m: "Steward", mp: "স্টুয়ার্ড", mb: "পরিচারক", f: "Stewardess", fp: "স্টুয়ার্ডেস", fb: "পরিচারিকা" },
+        { m: "Mare", mp: "মেয়ার", mb: "মাদী ঘোড়া", f: "Horse / Stallion", fp: "হর্স / স্ট্যালিয়ন", fb: "ঘোড়া" },
+        { m: "Emperor", mp: "এম্পেরর", mb: "সম্রাট", f: "Empress", fp: "এম্প্রেস", fb: "সম্রাজ্ঞী" },
+        { m: "Monarch", mp: "মোনার্ক", mb: "সম্রাট", f: "-", fp: "-", fb: "-" },
+        { m: "Lady", mp: "লেডি", mb: "ভদ্রমহিলা", f: "Gentleman", fp: "জেন্টলম্যান", fb: "ভদ্রলোক" },
+        { m: "Doctor", mp: "ডক্টর", mb: "ডাক্তার", f: "Lady Doctor", fp: "লেডি ডক্টর", fb: "মহিলা ডাক্তার" },
+        { m: "King", mp: "কিং", mb: "রাজা", f: "Queen", fp: "কুইন", fb: "রানী" },
+        { m: "Tailor", mp: "টেইলর", mb: "দর্জি", f: "Seamstress", fp: "সিমস্ট্রেস", fb: "মহিলা দর্জি" },
+        { m: "Hero", mp: "হিরো", mb: "নায়ক", f: "Heroine", fp: "হিরোইন", fb: "নায়িকা" },
+        { m: "Bachelor", mp: "ব্যাচেলর", mb: "অবিবাহিত পুরুষ", f: "Spinster", fp: "স্পিনস্টার", fb: "কুমারী নারী" },
+        { m: "Witch", mp: "উইচ", mb: "ডাইনি", f: "Wizard", fp: "উইজার্ড", fb: "জাদুকর" },
+        { m: "Sir", mp: "স্যার", mb: "মহাশয়", f: "Madam", fp: "ম্যাডাম", fb: "মহাশয়া" },
+        { m: "Bull", mp: "বুল", mb: "ষাঁড়", f: "Cow", fp: "কাউ", fb: "গাভী" },
+        { m: "Wizard", mp: "উইজার্ড", mb: "জাদুকর", f: "Witch", fp: "উইচ", fb: "ডাইনি" },
+        { m: "Peer", mp: "পিয়ার", mb: "অভিজাত ব্যক্তি", f: "Peeress", fp: "পিয়ারেস", fb: "অভিজাত নারী" },
+        { m: "Votary", mp: "ভোটারি", mb: "উপাসক", f: "Votaress", fp: "ভোটারেস", fb: "উপাসিকা" },
+        { m: "Executor", mp: "এক্সিকিউটর", mb: "নির্বাহক", f: "Executrix", fp: "এক্সিকিউট্রিক্স", fb: "মহিলা নির্বাহক" },
+        { m: "Signor", mp: "সিনর", mb: "মহাশয়", f: "Signora", fp: "সিনোরা", fb: "মহাশয়া" },
+        { m: "Testator", mp: "টেস্টেটর", mb: "ইচ্ছাপত্রকারী", f: "Testatrix", fp: "টেস্টেট্রিক্স", fb: "মহিলা ইচ্ছাপত্রকারী" },
+        { m: "Cock", mp: "কক", mb: "মোরগ", f: "Hen", fp: "হেন", fb: "মুরগি" },
+        { m: "Tutor", mp: "টিউটর", mb: "গৃহশিক্ষক", f: "Tutoress", fp: "টিউটরেস", fb: "গৃহশিক্ষিকা" },
+        { m: "Ox", mp: "অক্স", mb: "ষাঁড়", f: "Cow", fp: "কাউ", fb: "গাভী" },
+        { m: "Priest", mp: "প্রিস্ট", mb: "যাজক", f: "Priestess", fp: "প্রিস্টেস", fb: "মহিলা যাজক" },
+        { m: "Fisherman", mp: "ফিশারম্যান", mb: "জেলে", f: "Fisherwoman", fp: "ফিশারওম্যান", fb: "জেলেনি" },
+        { m: "Bride", mp: "ব্রাইড", mb: "কনে", f: "Bridegroom", fp: "ব্রাইডগ্রুম", fb: "বর" },
+        { m: "Lad", mp: "ল্যাড", mb: "বালক", f: "Lass", fp: "ল্যাস", fb: "বালিকা" },
+        { m: "Buck-rabbit", mp: "বাক র‍্যাবিট", mb: "পুরুষ খরগোশ", f: "Doe-rabbit", fp: "ডো র‍্যাবিট", fb: "মাদী খরগোশ" },
+        { m: "Goose", mp: "গুজ", mb: "মাদী রাজহাঁস", f: "Gander", fp: "গ্যান্ডার", fb: "রাজহাঁস" },
+        { m: "Gentleman", mp: "জেন্টলম্যান", mb: "ভদ্রলোক", f: "Lady", fp: "লেডি", fb: "ভদ্রমহিলা" },
+        { m: "Lion", mp: "লায়ন", mb: "সিংহ", f: "Lioness", fp: "লায়নেস", fb: "সিংহী" },
+        { m: "Bridegroom", mp: "ব্রাইডগ্রুম", mb: "বর", f: "Bride", fp: "ব্রাইড", fb: "কনে" },
+        { m: "Nanny", mp: "ন্যানি", mb: "ছাগী", f: "Billy goat", fp: "বিলি গোট", fb: "পাঁঠা" },
+        { m: "Lady", mp: "লেডি", mb: "ভদ্রমহিলা", f: "Lord", fp: "লর্ড", fb: "প্রভু" },
+        { m: "Bitch", mp: "বিচ", mb: "মাদী কুকুর", f: "Dog", fp: "ডগ", fb: "কুকুর" },
+        { m: "Filly", mp: "ফিলি", mb: "মাদী ঘোড়াশাবক", f: "Colt", fp: "কোল্ট", fb: "ঘোড়াশাবক" },
+        { m: "Boar", mp: "বোর", mb: "বন্য শূকর", f: "Sow", fp: "সো", fb: "মাদী শূকর" },
+        { m: "Stallion", mp: "স্ট্যালিয়ন", mb: "ঘোড়া", f: "Mare", fp: "মেয়ার", fb: "মাদী ঘোড়া" },
+        { m: "Doctor", mp: "ডক্টর", mb: "ডাক্তার", f: "Doctor", fp: "ডক্টর", fb: "ডাক্তার" },
+        { m: "School-master", mp: "স্কুলমাস্টার", mb: "শিক্ষক", f: "School-mistress", fp: "স্কুলমিস্ট্রেস", fb: "শিক্ষিকা" },
+        { m: "Tiger", mp: "টাইগার", mb: "বাঘ", f: "Tigress", fp: "টাইগ্রেস", fb: "বাঘিনী" },
+        { m: "Nun", mp: "নান", mb: "সন্ন্যাসিনী", f: "Monk", fp: "মাংক", fb: "সন্ন্যাসী" },
+        { m: "Tutoress", mp: "টিউটরেস", mb: "গৃহশিক্ষিকা", f: "Tutor", fp: "টিউটর", fb: "গৃহশিক্ষক" },
+        { m: "Spinster", mp: "স্পিনস্টার", mb: "কুমারী নারী", f: "Bachelor", fp: "ব্যাচেলর", fb: "অবিবাহিত পুরুষ" },
+        { m: "Hart", mp: "হার্ট", mb: "হরিণ", f: "Roe", fp: "রো", fb: "হরিণী" },
+        { m: "Governess", mp: "গভর্নেস", mb: "শাসিকা", f: "Governor", fp: "গভর্নর", fb: "শাসক" },
+        { m: "Buck", mp: "বাক", mb: "পুরুষ হরিণ", f: "Doe", fp: "ডো", fb: "মাদী হরিণ" },
+        { m: "Drake", mp: "ড্রেক", mb: "পাতিহাঁস", f: "Duck", fp: "ডাক", fb: "মাদী পাতিহাঁস" },
+        { m: "Don", mp: "ডন", mb: "সম্মানিত ব্যক্তি", f: "Donna", fp: "ডোনা", fb: "সম্মানিতা নারী" },
+        { m: "Colt", mp: "কোল্ট", mb: "ঘোড়াশাবক", f: "Filly", fp: "ফিলি", fb: "মাদী ঘোড়াশাবক" },
+        { m: "Duck", mp: "ডাক", mb: "মাদী পাতিহাঁস", f: "Drake", fp: "ড্রেক", fb: "পাতিহাঁস" },
+        { m: "Jack-ass", mp: "জ্যাক অ্যাস", mb: "পুরুষ গাধা", f: "Jenny-ass", fp: "জেনি অ্যাস", fb: "মাদী গাধা" },
+        { m: "Jew", mp: "জিউ", mb: "ইহুদি পুরুষ", f: "Jewess", fp: "জিউয়েস", fb: "ইহুদি নারী" },
+        { m: "Director", mp: "ডিরেক্টর", mb: "পরিচালক", f: "Directress", fp: "ডিরেক্ট্রেস", fb: "পরিচালিকা" },
+        { m: "Deer", mp: "ডিয়ার", mb: "হরিণ", f: "Doe / Hind", fp: "ডো / হাইন্ড", fb: "মাদী হরিণ" },
+        { m: "Servant", mp: "সার্ভেন্ট", mb: "চাকর", f: "Maid Servent", fp: "মেইড সার্ভেন্ট", fb: "চাকরানি" },
+        { m: "Heir", mp: "এয়ার", mb: "উত্তরাধিকারী", f: "Heiress", fp: "এয়ারেস", fb: "উত্তরাধিকারিণী" },
+        { m: "Husband", mp: "হাজব্যান্ড", mb: "স্বামী", f: "Wife", fp: "ওয়াইফ", fb: "স্ত্রী" },
+        { m: "Man", mp: "ম্যান", mb: "পুরুষ", f: "Woman", fp: "উওম্যান", fb: "নারী" }
+    ];
+
+
+    let favorites = JSON.parse(localStorage.getItem('bilasGenderFavs')) || [];
+    let showFavs = false;
+    let currentMode = 'study'; 
+
+    let lastScroll = 0;
+    window.onscroll = () => {
+        let top = window.scrollY;
+        const header = document.getElementById('header');
+        if (top > lastScroll && top > 100) header.classList.add('header-hide');
+        else header.classList.remove('header-hide');
+        lastScroll = top;
+    };
+
+    function toggleRocket() {
+        const menu = document.getElementById('rocketMenu');
+        menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+    }
+
+    function setMode(mode) {
+        currentMode = mode;
+        document.getElementById('modeStudy').classList.remove('active-mode');
+        document.getElementById('modePractice').classList.remove('active-mode');
+        
+        if(mode === 'study') document.getElementById('modeStudy').classList.add('active-mode');
+        else document.getElementById('modePractice').classList.add('active-mode');
+        
+        render();
+    }
+
+    // Audio TTS Fix
+    function speakWord(event, word1, word2) {
+        event.stopPropagation(); 
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel(); // Clear previous stuck audio
+            let msg = new SpeechSynthesisUtterance(`${word1}. Feminine is ${word2}.`);
+            msg.lang = 'en-US'; 
+            msg.rate = 0.9; // Slightly slower for better understanding
+            window.speechSynthesis.speak(msg);
+        } else {
+            alert("আপনার ব্রাউজার বা মোবাইল এই অডিও সাপোর্ট করছে না!");
+        }
+    }
+
+    function copyData(event, m, f) {
+        event.stopPropagation();
+        let textToCopy = `Masculine: ${m} -> Feminine: ${f}`;
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            const toast = document.getElementById('toastBox');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        });
+    }
+
+    function render() {
+        const list = document.getElementById('main-list');
+        list.innerHTML = "";
+        
+        data.forEach((item, index) => {
+            const isFav = favorites.includes(index);
+            if (showFavs && !isFav) return;
+
+            const showClass = currentMode === 'study' ? 'show' : '';
+
+            const div = document.createElement('div');
+            div.className = 'item-wrapper';
+            div.id = `item-${index + 1}`;
+            div.innerHTML = `
+                <span class="serial">${index + 1}</span>
+                <div class="card" onclick="handleCardClick(${index})">
+                    <div class="card-header">
+                        <div>
+                            <div class="masc-text">${item.m}</div>
+                            <span class="pronounce">[ ${item.mp} ]</span>
+                            <span class="masc-bengali">${item.mb}</span>
+                        </div>
+                        <div class="action-btns">
+                            <button class="icon-btn" onclick="speakWord(event, '${item.m}', '${item.f}')">🔊</button>
+                            <button class="icon-btn" onclick="copyData(event, '${item.m}', '${item.f}')">📋</button>
+                            <button class="icon-btn fav-btn ${isFav ? 'active' : ''}" onclick="toggleFav(event, ${index})">❤</button>
+                        </div>
+                    </div>
+                    <div id="ans-${index}" class="ans-wrapper ${showClass}">
+                        <div class="ans-details">
+                            <div class="ans-content">
+                                <div class="fem-box">
+                                    <span class="fem-text">${item.f}</span>
+                                    <span class="pronounce">[ ${item.fp} ]</span>
+                                    <span class="fem-bengali">(${item.fb})</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            list.appendChild(div);
+        });
+    }
+
+    function handleCardClick(index) {
+        localStorage.setItem('bilasGenderLastRead', index + 1);
+        if (currentMode === 'practice') {
+            const ansDiv = document.getElementById(`ans-${index}`);
+            ansDiv.classList.toggle('show');
+        }
+    }
+
+    function toggleFav(event, idx) {
+        event.stopPropagation();
+        const pos = favorites.indexOf(idx);
+        if (pos === -1) favorites.push(idx);
+        else favorites.splice(pos, 1);
+        localStorage.setItem('bilasGenderFavs', JSON.stringify(favorites));
+        render();
+    }
+
+    function toggleFavView() {
+        showFavs = !showFavs;
+        document.getElementById('favViewBtn').innerText = showFavs ? "📖 সব দেখুন" : "⭐ ফেভারিট";
+        if(showFavs) document.getElementById('favViewBtn').classList.add('active-mode');
+        else document.getElementById('favViewBtn').classList.remove('active-mode');
+        render();
+    }
+
+    function filter() {
+        let val = document.getElementById('search').value.toLowerCase();
+        document.querySelectorAll('.item-wrapper').forEach(row => {
+            row.style.display = row.innerText.toLowerCase().includes(val) ? "flex" : "none";
+        });
+    }
+
+    function jumpTo() {
+        let num = document.getElementById('jumpInput').value;
+        let el = document.getElementById(`item-${num}`);
+        if(el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            toggleRocket();
+        }
+    }
+
+    function scrollToLastRead() {
+        let last = localStorage.getItem('bilasGenderLastRead');
+        if(last) {
+            const el = document.getElementById(`item-${last}`);
+            if(el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+
+    // Initial Render
+    render();
+</script>
+</body>
+</html>
