@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>পারিভাষিক শব্দ Mastery | Eye-Friendly Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Eye-friendly Deep Slate Palette (চোখের জন্য আরামদায়ক) */
+            --bg-main: #0b0f19; 
+            --panel-bg: #151b26;
+            --glass-card: rgba(255, 255, 255, 0.02);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --accent-cyan: #38bdf8;
+            --accent-pink: #fb7185;
+            --accent-yellow: #fde047;
+            --accent-purple: #c084fc;
+            --text-main: #f1f5f9;
+            --text-muted: #64748b;
+        }
+
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Noto Sans Bengali', 'Poppins', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center;
+            overflow: hidden; position: relative;
+        }
+
+        .app-layout {
+            width: 100%; max-width: 600px; height: 100vh;
+            position: relative; display: flex; flex-direction: column; z-index: 10;
+        }
+
+        /* Fixed Main Header & Navigation Panel Bar */
+        .dynamic-header {
+            position: fixed; top: 0; left: 50%; transform: translateX(-50%);
+            width: 100%; max-width: 600px;
+            background: rgba(11, 15, 25, 0.9);
+            backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+            padding: 14px 20px; border-bottom: 1px solid var(--glass-border);
+            z-index: 200; display: flex; flex-direction: column; gap: 12px;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .header-hidden { transform: translateX(-50%) translateY(-100%); }
+
+        /* Premium Main Header */
+        .main-app-title {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            background: linear-gradient(to right, var(--accent-cyan), #a855f7, var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(56, 189, 248, 0.15);
+        }
+
+        .search-box { position: relative; width: 100%; }
+        .search-box input {
+            width: 100%; padding: 12px 15px 12px 42px; border-radius: 14px;
+            border: 1px solid var(--glass-border); background: rgba(0, 0, 0, 0.3);
+            color: white; outline: none; font-size: 0.95rem; transition: 0.3s ease;
+        }
+        .search-box input:focus { border-color: var(--accent-cyan); background: rgba(0,0,0,0.4); }
+        .search-box .search-icon-text { position: absolute; left: 16px; top: 12px; color: #475569; font-size: 1rem; }
+
+        /* Smooth Pill Controls */
+        .nav-buttons { display: flex; gap: 6px; width: 100%; }
+        .nav-btn {
+            flex: 1; background: var(--glass-card); color: #64748b;
+            border: 1px solid var(--glass-border); padding: 11px 4px;
+            font-size: 0.85rem; border-radius: 12px; cursor: pointer; font-weight: 700;
+            display: flex; align-items: center; justify-content: center; gap: 5px;
+            transition: all 0.2s ease;
+        }
+        .nav-btn:hover { color: white; }
+        .nav-btn.active { color: white; border-color: transparent; }
+        
+        #btn-study.active { background: linear-gradient(135deg, #0284c7, #0369a1); }
+        #btn-practice.active { background: linear-gradient(135deg, #e11d48, #be185d); }
+        #btn-random.active { background: linear-gradient(135deg, #7c3aed, #6d28d9); }
+        #btn-favorites.active { background: linear-gradient(135deg, #d97706, #b45309); }
+
+        /* Scroll Area Layout */
+        .list-container {
+            flex: 1; overflow-y: auto; padding: 200px 18px 60px 18px; /* Offset adjusted for Main Header */
+            display: flex; flex-direction: column; gap: 12px; height: 100%;
+        }
+
+        /* Neumorphic Glass Cards */
+        .card {
+            background: var(--panel-bg);
+            border-radius: 20px; padding: 22px; position: relative;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.15);
+            transition: transform 0.2s ease, border-color 0.2s;
+        }
+        .card:hover {
+            transform: scale(1.01);
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        /* Floating Absolute Star Button layer */
+        .fav-btn {
+            position: absolute; top: 20px; right: 20px;
+            background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border);
+            width: 36px; height: 36px; border-radius: 50%;
+            color: #334155; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s; z-index: 50; font-size: 1.1rem;
+        }
+        .fav-btn:hover { background: rgba(0,0,0,0.5); color: #94a3b8; }
+        .fav-btn.active {
+            color: var(--accent-yellow); background: rgba(251, 191, 36, 0.08);
+            border-color: rgba(251, 191, 36, 0.15);
+        }
+
+        .term-title { font-size: 1.35rem; font-weight: 700; margin-bottom: 12px; padding-right: 45px; }
+        .pronunciation-line { color: #475569; font-size: 0.95rem; margin-bottom: 8px; font-weight: 500; }
+        .meaning-line {
+            font-size: 1.25rem; color: #f1f5f9; font-weight: 600;
+            padding-left: 14px; border-left: 4px solid var(--accent-cyan);
+        }
+
+        .clickable-trigger { cursor: pointer; }
+        .hidden-details { display: none; margin-top: 16px; border-top: 1px dashed var(--glass-border); padding-top: 16px; }
+        
+        .card.open .hidden-details { display: block; animation: smoothReveal 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+        .card.open .meaning-line { border-left-color: var(--accent-pink); }
+
+        /* Standalone Random View: Massive Flashcard View Engine */
+        .random-wrapper {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            height: 100%; width: 100%; padding-top: 25px;
+        }
+        .notice-badge {
+            background: rgba(124, 61, 237, 0.15); color: #d8b4fe;
+            padding: 6px 18px; border-radius: 20px; font-size: 0.85rem;
+            font-weight: 700; margin-bottom: 25px; border: 1px solid rgba(124, 61, 237, 0.25);
+        }
+        
+        /* HUGE CARD STYLING FOR RANDOM MODE */
+        .random-box-holder { width: 100%; }
+        .random-box-holder .card {
+            min-height: 260px; /* High Expansion Height Box */
+            display: flex; flex-direction: column; justify-content: center;
+            background: linear-gradient(145deg, #182030, #131926);
+            border-color: rgba(124, 61, 237, 0.2);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+        .random-box-holder .term-title {
+            font-size: 1.8rem; /* Extremely Bold Text Layout */
+            text-align: center;
+            padding-right: 0;
+            margin-bottom: 15px;
+        }
+        .random-box-holder .card p { text-align: center; margin-bottom: 10px; }
+        .random-box-holder .hidden-details { width: 100%; }
+
+        .btn-roll-dice {
+            background: linear-gradient(135deg, #7c3aed, #5b21b6); color: white;
+            padding: 15px 36px; border-radius: 50px; font-weight: 700; border: none;
+            font-size: 1.05rem; cursor: pointer; box-shadow: 0 8px 25px rgba(124, 61, 237, 0.3);
+            margin-top: 30px; display: flex; align-items: center; gap: 8px; transition: 0.2s;
+        }
+        .btn-roll-dice:active { transform: scale(0.96); }
+
+        @keyframes smoothReveal { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        .no-result { text-align: center; color: #475569; padding: 60px 20px; font-size: 1rem; }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.08); border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="app-layout">
+    
+    <header class="dynamic-header" id="dynamicHeader">
+        <div class="main-app-title">✨ পারিভাষিক শব্দ ✨</div>
+
+        <div class="search-box" id="searchContainer">
+            <span class="search-icon-text">🔍</span>
+            <input type="text" id="searchInput" oninput="triggerSearch()" placeholder="ইংরেজি বা বাংলা শব্দ লিখে খুঁজুন...">
+        </div>
+
+        <div class="nav-buttons">
+            <button id="btn-study" class="nav-btn active" onclick="handleTabSwitch('study')">
+                📖 Study
+            </button>
+            <button id="btn-practice" class="nav-btn" onclick="handleTabSwitch('practice')">
+                🙈 Practice
+            </button>
+            <button id="btn-random" class="nav-btn" onclick="handleTabSwitch('random')">
+                🎲 Random
+            </button>
+            <button id="btn-favorites" class="nav-btn" onclick="handleTabSwitch('favorites')">
+                ⭐ Favs
+            </button>
+        </div>
+    </header>
+
+    <div class="list-container" id="app-content"></div>
+    
+</div>
+
+<script>
+    const themeColors = ['#38bdf8', '#fb7185', '#60a5fa', '#c084fc', '#fb923c', '#a855f7', '#4ade80'];
+
+    // ৭৬টি শব্দের সম্পূর্ণ এবং ফ্রেশ রি-ফরম্যাটেড ডেটাবেজ
+    const termData = [
+        {id: 1, en: "Allegiance", pr: "অ্যালিজিয়েন্স", bn: "আনুগত্য"},
+        {id: 2, en: "Bankrupt", pr: "ব্যাংক্রাপ্ট", bn: "দেউলিয়া"},
+        {id: 3, en: "Enforcement", pr: "এনফোর্সমেন্ট", bn: "বলবৎকরণ"},
+        {id: 4, en: "Metropolis", pr: "মেট্রোপলিস", bn: "মহানগরী"},
+        {id: 5, en: "Audit", pr: "অডিট", bn: "নিরীক্ষা"},
+        {id: 6, en: "Auction", pr: "অকশন", bn: "নিলাম"},
+        {id: 7, en: "Acknowledgement", pr: "একনলেজমেন্ট", bn: "প্রাপ্তিস্বাকার"},
+        {id: 8, en: "Compensation", pr: "কমপেনসেশন", bn: "ক্ষতিপূরণ"},
+        {id: 9, en: "Deputation", pr: "ডেপুটেশন", bn: "প্রেষণ"},
+        {id: 10, en: "Axis", pr: "এক্সিস", bn: "অক্ষ"},
+        {id: 11, en: "Evolution", pr: "ইভোল্যুশন", bn: "বিবর্তন"},
+        {id: 12, en: "Hand bill", pr: "হ্যান্ড বিল", bn: "ইশতেহার"},
+        {id: 13, en: "Mythology", pr: "মাইথোলজি", bn: "পৌরাণিক কাহিনী"},
+        {id: 14, en: "Protocol", pr: "প্রটোকল", bn: "খসড়া চুক্তি"},
+        {id: 15, en: "Adaptation", pr: "অ্যাডাপটেশন", bn: "অভিযোজন"},
+        {id: 16, en: "Check-post", pr: "চেক-পোস্ট", bn: "তল্লাশি ফাড়ি"},
+        {id: 17, en: "Civic", pr: "সিভিক", bn: "পৌর"},
+        {id: 18, en: "Laminated", pr: "ল্যামিনেটেড", bn: "স্তরিত"},
+        {id: 19, en: "Bureaucracy", pr: "ব্যুরোক্রেসি", bn: "আমলাতন্ত্র"},
+        {id: 20, en: "Transparency", pr: "ট্রান্সপারেন্সি", bn: "স্বচ্ছতা"},
+        {id: 21, en: "Superstition", pr: "সুপারস্টিশন", bn: "কুসংস্কার"},
+        {id: 22, en: "Perseverance", pr: "পারসিভিয়ারেন্স", bn: "অধ্যবসায়"},
+        {id: 23, en: "Metaphor", pr: "মেটাফর", bn: "রূপক"},
+        {id: 24, en: "Brain-drain", pr: "ব্রেইন-ড্রেন", bn: "মেধা পাচার"},
+        {id: 25, en: "Curriculum", pr: "কারিকuলাম", bn: "পাঠ্যক্রম"},
+        {id: 26, en: "Ad-hoc", pr: "অ্যাড-হক", bn: "অনানুষ্ঠানিক/তদর্থক"},
+        {id: 27, en: "Invoice", pr: "ইনভয়েস", bn: "মালপত্রের চালান"},
+        {id: 28, en: "File", pr: "ফাইল", bn: "নথি"},
+        {id: 29, en: "Post graduate", pr: "পোস্ট গ্র্যাজুয়েট", bn: "স্নাতকোর্ত্তর"},
+        {id: 30, en: "Peninsula", pr: "পেনিনসুলা", bn: "উপদ্বীপ"},
+        {id: 31, en: "Oxygen", pr: "অক্সিজেন", bn: "অম্লজান"},
+        {id: 32, en: "Periodical", pr: "পিরিওডিক্যাল", bn: "সাময়িকী"},
+        {id: 33, en: "Graduate", pr: "গ্র্যাজুয়েট", bn: "স্নাতক"},
+        {id: 34, en: "Training", pr: "ট্রেইনিং", bn: "প্রশিক্ষণ"},
+        {id: 35, en: "Ambiguous", pr: "অ্যাম্বিগুয়াস", bn: "অনিশ্চিত/দ্ব্যর্থবোধক"},
+        {id: 36, en: "Calligraphy", pr: "ক্যালিগ্রাফি", bn: "চারুলিপি"},
+        {id: 37, en: "Ombudsman", pr: "ওমবাডসম্যান", bn: "ন্যায়পাল"},
+        {id: 38, en: "Sentry", pr: "সেন্ট্রি", bn: "প্রহরী"},
+        {id: 39, en: "Customs Duty", pr: "কাস্টমস ডিউটি", bn: "বহিঃশুল্ক"},
+        {id: 40, en: "North westerlies", pr: "নর্থ ওয়েস্টারলিস", bn: "কালবৈশাখী ঝড়"},
+        {id: 41, en: "Subconscious", pr: "সাবকনশাস", bn: "অবচেতন"},
+        {id: 42, en: "Amicable", pr: "অ্যামিকেবল", bn: "বন্ধুত্বপূর্ণ"},
+        {id: 43, en: "Pragmatic", pr: "প্র্যাগম্যাটিক", bn: "বাস্তববাদী"},
+        {id: 44, en: "Aesthetic", pr: "এসথেটিক", bn: "নান্দনিক"},
+        {id: 45, en: "Abrogate", pr: "অ্যাব্রোকেট", bn: "রহিত করা/বাতিল করা"},
+        {id: 46, en: "Bibliography", pr: "বিবলিওগ্রাফি", bn: "গ্রন্থপঞ্জি"},
+        {id: 47, en: "Booking", pr: "বुकিং", bn: "আগাম সংরক্ষণ"},
+        {id: 48, en: "Execute", pr: "এক্সিকিউট", bn: "কার্যকর করা"},
+        {id: 49, en: "Gratuity", pr: "গ্র্যাচুয়িটি", bn: "আনুতোষিক"},
+        {id: 50, en: "Pleadings", pr: "প্লিডিংস", bn: "লিখিত জবাব"},
+        {id: 51, en: "White paper", pr: "হোয়াইট পেপার", bn: "শ্বেতপত্র"},
+        {id: 52, en: "Deed", pr: "ডিড", bn: "দলিল/চুক্তি"},
+        {id: 53, en: "Custody", pr: "কাস্টডি", bn: "হেফাজত"},
+        {id: 54, en: "Homicide", pr: "হোমিসাইড", bn: "হত্যাকাণ্ড"},
+        {id: 55, en: "Overdue", pr: "ওভারডিউ", bn: "মেয়াদ্দোত্তীর্ণ"},
+        {id: 56, en: "Referendum", pr: "রেফারেন্ডাম", bn: "গণভোট"},
+        {id: 57, en: "Specimen", pr: "স্পেসিমেন", bn: "নমুনা"},
+        {id: 58, en: "Propaganda", pr: "প্রোপাগান্ডা", bn: "অপপ্রচার/গুজব"},
+        {id: 59, en: "Book post", pr: "বুক পোস্ট", bn: "খোলা ডাক"},
+        {id: 60, en: "Ex-officio", pr: "এক্স-অফিসিও", bn: "পদসূত্রে/পদাধিকার"},
+        {id: 61, en: "Good offices", pr: "গুড অফিসেস", bn: "মধ্যস্থতা"},
+        {id: 62, en: "Scheme", pr: "স্কিম", bn: "নকশা"},
+        {id: 63, en: "Census", pr: "সেনসাস", bn: "আদমশুমারি"},
+        {id: 64, en: "Article", pr: "আর্টিকেল", bn: "আইনের ধারা"},
+        {id: 65, en: "Bear market", pr: "বেয়ার মার্কেট", bn: "মন্দা বাজার"},
+        {id: 66, en: "Notification", pr: "নোটিফিকেশন", bn: "বিজ্ঞপ্তি"},
+        {id: 67, en: "Anatomy", pr: "অ্যানাটমি", bn: "শরীরতত্ত্ব"},
+        {id: 68, en: "Assassination", pr: "অ্যাসাসিনেশন", bn: "আততায়ী হত্যা"},
+        {id: 69, en: "Amicus Curiae", pr: "অ্যামিকাস কিউরি", bn: "আদালতের বন্ধু"},
+        {id: 70, en: "Excise duty", pr: "এক্সাইজ ডিউটি", bn: "আবগারি শুল্ক"},
+        {id: 71, en: "Hydrogen", pr: "হাইড্রোজেন", bn: "উদযান"},
+        {id: 72, en: "Lease", pr: "লিজ", bn: "ইজারা"},
+        {id: 73, en: "Quarterly", pr: "কোয়ার্টারলি", bn: "ত্রৈমাসিক"},
+        {id: 74, en: "Radio", pr: "রেডিও", bn: "বেতার"},
+        {id: 75, en: "Surgeon", pr: "সার্জন", bn: "শল্যচিকিৎসক"},
+        {id: 76, en: "Glossary", pr: "গ্লসারি", bn: "শব্দকোষ"},
+                {id: 77, en: "Pedagogy", pr: "পেডাগজি", bn: "শিক্ষাতত্ত্ব"},
+        {id: 78, en: "Rank", pr: "র‍্যাঙ্ক", bn: "পদমর্যাদা"},
+        {id: 79, en: "Attested", pr: "অ্যাটেস্টেড", bn: "সথ্যায়িত"},
+        {id: 80, en: "Clemency", pr: "ক্লিমেন্সি", bn: "অনুকম্পা"},
+        {id: 81, en: "Hand out", pr: "হ্যান্ড আউট", bn: "জ্ঞাপনপত্র"},
+        {id: 82, en: "Null and Void", pr: "নাল অ্যান্ড ভয়েড", bn: "বাতিল"},
+        {id: 83, en: "Custom", pr: "কাস্টম", bn: "প্রথা"},
+        {id: 84, en: "Ode", pr: "ওড", bn: "কোরাসগান"},
+        {id: 85, en: "Consumer goods", pr: "কনজিউমার গুডস", bn: "ভোগ্যপণ্য"},
+        {id: 86, en: "Intellectual", pr: "ইনটেলেকচুয়াল", bn: "বুদ্ধিজীবী"},
+        {id: 87, en: "Tenancy", pr: "টেনান্সি", bn: "প্রজাস্বত্ব"},
+        {id: 88, en: "Dialect", pr: "ডায়ালেক্ট", bn: "উপভাষা"},
+        {id: 89, en: "Administrator", pr: "অ্যাডমিনিস্ট্রেটর", bn: "প্রশাসক"},
+        {id: 90, en: "Sapling", pr: "স্যাপলিং", bn: "চারাগাছ"},
+        {id: 91, en: "Rudimentary", pr: "রুডিমেন্টারি", bn: "প্রাথমিক"},
+        {id: 92, en: "Forgery", pr: "ফোর্জারি", bn: "জালিয়াতি"},
+        {id: 93, en: "Proletariat", pr: "প্রলেতানিয়াত", bn: "সর্বহারা"},
+        {id: 94, en: "Lyric", pr: "লিরিক", bn: "গীতিকবিতা"},
+        {id: 95, en: "Terminology", pr: "টার্মিনোলজি", bn: "সংক্ষেপণার্থ (পরিভাষা শব্দের অর্থ)"},
+        {id: 96, en: "Interview", pr: "ইন্টারভিউ", bn: "সাক্ষাৎকার"},
+        {id: 97, en: "Republic", pr: "রিপাবলিক", bn: "প্রজাতন্ত্র"},
+        {id: 98, en: "Agenda", pr: "এজেন্ডা", bn: "আলোচ্যসূচি"},
+        {id: 99, en: "Basin", pr: "বেসিন", bn: "অববাহিকা"},
+        {id: 100, en: "Amendment", pr: "অ্যামেন্ডমেন্ট", bn: "সংশোধনী"},
+        {id: 101, en: "Literal meaning", pr: "লিটারেল মিনিং", bn: "বিশেষ ভাষা (পরিভাষার আক্ষরিক অর্থ)"},
+        {id: 102, en: "Allocation", pr: "অ্যালোকেশন", bn: "বরাদ্দ"},
+        {id: 103, en: "Keeper", pr: "কিপার", bn: "রক্ষক"},
+        {id: 104, en: "A to Z", pr: "এ টু জেড", bn: "সম্পূর্ণভাবে"},
+        {id: 105, en: "Co-opted", pr: "কো-অপ্টেড", bn: "সহযোজিত"},
+        {id: 106, en: "Secretary", pr: "সেক্রেটারি", bn: "সচিব"},
+        {id: 107, en: "Budget", pr: "বাজেট", bn: "থলে (মূল অর্থ)"},
+        {id: 108, en: "Quack", pr: "কোয়াক", bn: "হাতুড়ে"},
+        {id: 109, en: "Ab initio", pr: "আব ইনিশিও", bn: "প্রারম্ভেই"},
+        {id: 110, en: "Corrigendum", pr: "কারিজেন্ডাম", bn: "শুদ্ধিপত্র"},
+        {id: 111, en: "Editor", pr: "এডিটর", bn: "সম্পাদক"},
+        {id: 112, en: "Wisdom", pr: "উইজডম", bn: "প্রজ্ঞা"},
+        {id: 113, en: "Vivid", pr: "ভিভিড", bn: "প্রাণবান্ত (বয়ানুবাদ)"},
+        {id: 114, en: "Code", pr: "কোড", bn: "সংকেত / বিধি (উভয়ই সঠিক)"},
+        {id: 115, en: "Heavenly body", pr: "হেভেনলি বডি", bn: "জ্যোতিষ্ক"},
+        {id: 116, en: "Daily", pr: "ডেইলি", bn: "দৈনিক"},
+        {id: 117, en: "Case", pr: "কেস", bn: "মামলা"},
+        {id: 118, en: "Income", pr: "ইনকাম", bn: "আয়"},
+        {id: 119, en: "Nation", pr: "নেশন", bn: "জাতি"},
+        {id: 120, en: "Office", pr: "অফিস", bn: "অফিস"},
+        {id: 121, en: "Delete", pr: "ডিলিট", bn: "মুছে ফেলা"},
+        {id: 122, en: "Neighbour", pr: "নেইবার", bn: "প্রতিবেশী"},
+        {id: 123, en: "Depletion", pr: "ডিপ্লিশন", bn: "রিক্ততা"},
+        {id: 124, en: "Nevertheless", pr: "নেভারদ্যলেস", bn: "তথাপি"},
+        {id: 125, en: "Expansion", pr: "এক্সপ্যানশন", bn: "প্রসারণ"},
+        {id: 126, en: "Annexation", pr: "অ্যানেক্সেশন", bn: "সংযোজন"},
+        {id: 127, en: "Impeachment", pr: "ইমپیচমেন্ট", bn: "অভিশংসন"},
+        {id: 128, en: "Allegiance", pr: "অ্যালিলিয়েন্স", bn: "আনুগত্য"},
+        {id: 129, en: "Century", pr: "সেঞ্চুরি", bn: "শতাব্দী"},
+        {id: 130, en: "Charter", pr: "চার্টার", bn: "সনদ"},
+        {id: 131, en: "Subjudice", pr: "সাবজুডিস", bn: "বিচারাধীন"},
+        {id: 132, en: "Embargo", pr: "এমবারগো", bn: "নিষেধাজ্ঞা বা অবরোধ"},
+        {id: 133, en: "Aboriginal", pr: "অ্যাবোরিজিনাল", bn: "আদিবাসী"},
+        {id: 134, en: "Abbreviation", pr: "অ্যাব্রিভিয়েশন", bn: "সংক্ষেপণ"},
+        {id: 135, en: "Anonymous", pr: "অ্যানোনিমাস", bn: "অনামা"},
+        {id: 136, en: "Affidavit", pr: "অ্যাফিডেভিট", bn: "হলফনামা"},
+        {id: 137, en: "Archetype", pr: "আর্কিটাইপ", bn: "আদিরূপ"},
+        {id: 138, en: "Agora", pr: "অ্যাগোরা", bn: "মুক্তাঞ্চল"},
+        {id: 139, en: "Blue Print", pr: "ব্লু প্রিন্ট", bn: "প্রতিচিত্র"},
+        {id: 140, en: "Cancer", pr: "ক্যান্সার", bn: "কর্কট রোগ"},
+        {id: 141, en: "Civil Society", pr: "সিভিক সোসাইটি", bn: "সুশীল সমাজ"},
+        {id: 142, en: "Current Account", pr: "কারেন্ট অ্যাকাউন্ট", bn: "চলতি হিসাব"},
+        {id: 143, en: "Deadlock", pr: "ডেডলক", bn: "অচলাবস্থা"},
+        {id: 144, en: "Embassy", pr: "অ্যাম্বাসি", bn: "দূতাবাস"},
+        {id: 145, en: "Final", pr: "ফাইনাল", bn: "সমাপ্তি"},
+        {id: 146, en: "Hybrid", pr: "হাইব্রিড", bn: "সঙ্কর"},
+        {id: 147, en: "Horizontal", pr: "হরাইজন্টাল", bn: "অনুভূমিক"},
+        {id: 148, en: "Key-note", pr: "কী-নোট", bn: "মূলভাব"},
+        {id: 149, en: "Manager", pr: "ম্যানেজার", bn: "ব্যবস্থাপক"},
+        {id: 150, en: "Nebula", pr: "নেবুলা", bn: "নীহারিকা"},
+                {id: 151, en: "Study Leave", pr: "স্টাডি লিভ", bn: "শিক্ষা অবকাশ"},
+        {id: 152, en: "Secretariat", pr: "সেক্রেটারিয়েট", bn: "সচিবালয়"},
+        {id: 153, en: "Superstitious", pr: "সুপারস্টিশাস", bn: "কুসংস্কারাচ্ছন্ন"},
+        {id: 154, en: "Transparent", pr: "ট্রান্সপারেন্ট", bn: "স্বচ্ছ"},
+        {id: 155, en: "Trilogy", pr: "ট্রিলজি", bn: "ত্রয়ী"},
+        {id: 156, en: "Unstamped", pr: "আনস্ট্যাম্পড", bn: "সিলমোহরবিহীন"},
+        {id: 157, en: "Worship", pr: "ওয়ারশিপ", bn: "পূজা"},
+        {id: 158, en: "Analogy", pr: "অ্যানালজি", bn: "উপমা"},
+        {id: 159, en: "Anarchy", pr: "অ্যানার্কি", bn: "নৈরাজ্য"},
+        {id: 160, en: "Allegory", pr: "অ্যালিগরি", bn: "রূপক"},
+        {id: 161, en: "Biography", pr: "বায়োগ্রাফি", bn: "কড়চা"},
+        {id: 162, en: "Boycott", pr: "বয়কট", bn: "বর্জন"},
+        {id: 163, en: "Chancellor", pr: "চ্যান্সেলর", bn: "আচার্য"},
+        {id: 164, en: "Circular", pr: "সার্কুলার", bn: "প্রচারপত্র"},
+        {id: 165, en: "Curfew", pr: "কারফিউ", bn: "সান্ধ্যআইন"},
+        {id: 166, en: "Executive", pr: "এক্সিকিউটিভ", bn: "নির্বাহী"},
+        {id: 167, en: "Epic", pr: "এপিক", bn: "মহাকাব্য"},
+        {id: 168, en: "Genocide", pr: "জেনোসাইড", bn: "গণহত্যা"},
+        {id: 169, en: "Gazette", pr: "গেজেট", bn: "ঘোষণাপত্র"},
+        {id: 170, en: "Indigenous", pr: "ইনডিজেনাস", bn: "স্বদেশী"},
+        {id: 171, en: "Jail code", pr: "জেল কোড", bn: "কারাবিধি"},
+        {id: 172, en: "Knavery", pr: "নেভারি", bn: "প্রতারণা"},
+        {id: 173, en: "Modernism", pr: "মডার্নিজম", bn: "আধুনিকতাবাদ"},
+        {id: 174, en: "Meteor", pr: "মিটিওর", bn: "উল্কা"},
+        {id: 175, en: "Nationalism", pr: "ন্যাশনালিজম", bn: "জাতীয়তাবাদ"},
+        {id: 176, en: "Pact", pr: "প্যাক্ট", bn: "চুক্তি"},
+        {id: 177, en: "Parole", pr: "প্যারোল", bn: "সাময়িক মুক্তি"},
+        {id: 178, en: "Review", pr: "রিভিউ", bn: "পুনঃনিরীক্ষণ"},
+        {id: 179, en: "Stigma", pr: "স্টিগমা", bn: "লজ্জা বা কলঙ্ক চিহ্ন"},
+        {id: 180, en: "Sleeping partner", pr: "স্লিপিং পার্টনার", bn: "নিষ্ক্রিয় অংশীদার"},
+        {id: 181, en: "Sponsor", pr: "স্পন্সর", bn: "পৃষ্ঠপোষক"},
+        {id: 182, en: "Ultimatum", pr: "আলটিমেটাম", bn: "চরমপত্র"},
+        {id: 183, en: "Whirlpool", pr: "হোয়ার্লপুল", bn: "ঘূর্ণি"},
+        {id: 184, en: "Autonomous", pr: "অটোনোমাস", bn: "স্বায়ত্তশাসিত"},
+        {id: 185, en: "Autobiography", pr: "অটোবায়োগ্রাফি", bn: "আত্মজীবনী"},
+        {id: 186, en: "Alias", pr: "অ্যালিয়াস", bn: "ওরফে"},
+        {id: 187, en: "Bail", pr: "বেল", bn: "জামিন"},
+        {id: 188, en: "Caretaker", pr: "কেয়ারটেকার", bn: "তত্ত্বাবধায়ক"},
+        {id: 189, en: "Coup", pr: "কূ", bn: "অভ্যুত্থান"},
+        {id: 190, en: "Cabinet", pr: "ক্যাবিনেট", bn: "মন্ত্রিপরিষদ"},
+        {id: 191, en: "Constipation", pr: "কনস্টিপেশন", bn: "কোষ্ঠকাঠিন্য"},
+        {id: 192, en: "Epicurism", pr: "এপিকিউরিজম", bn: "ভোগবাদ"},
+        {id: 193, en: "Extension", pr: "এক্সটেনশন", bn: "সম্প্রসারণ"},
+        {id: 194, en: "Edition", pr: "এডিশন", bn: "সংস্করণ"},
+        {id: 195, en: "For Good", pr: "ফর গুড", bn: "চিরতরে"},
+        {id: 196, en: "Issue", pr: "ইস্যু", bn: "প্রচার"},
+        {id: 197, en: "Loggerheads", pr: "লগারহেডস", bn: "দা-কুমড়া সম্পর্ক"},
+        {id: 198, en: "Migratory bird", pr: "মাইগ্রেটরি বার্ড", bn: "অতিথি পাখি"},
+        {id: 199, en: "Phonology", pr: "ফোনোলজি", bn: "ভাষার ধ্বনিবিজ্ঞান"},
+        {id: 200, en: "Payer", pr: "পেয়ার", bn: "দাতা"},
+        {id: 201, en: "Postage", pr: "পোস্টেজ", bn: "ডাকমাশুল"},
+        {id: 202, en: "Polygamy", pr: "পলিগ্যামি", bn: "বহুবিবাহ"},
+        {id: 203, en: "Quorum", pr: "কোরাম", bn: "গণপূর্তি"},
+        {id: 204, en: "Quotation", pr: "কোটেশন", bn: "মূল্যজ্ঞাপন"},
+        {id: 205, en: "sanction", pr: "স্যাঙ্কশন", bn: "মঞ্জুরি"},
+        {id: 206, en: "Script", pr: "স্ক্রিপ্ট", bn: "হস্তলিপি"},
+        {id: 207, en: "Legal statement", pr: "লিগ্যাল স্টেটমেন্ট", bn: "জবানবন্দি"}
+
+
+    ];
+
+    let currentTab = 'study';
+    let favorites = JSON.parse(localStorage.getItem('termNewFavs')) || [];
+    let lastScrollTop = 0;
+    
+    const contentBox = document.getElementById('app-content');
+    const headerNav = document.getElementById('dynamicHeader');
+
+    /* ================= SMOOTH SCROLL HIDE SYSTEM ================= */
+    contentBox.addEventListener('scroll', () => {
+        if(currentTab === 'random') return; 
+        let scrollTop = contentBox.scrollTop;
+        if (scrollTop > lastScrollTop && scrollTop > 75) {
+            headerNav.classList.add('header-hidden');
+        } else {
+            headerNav.classList.remove('header-hidden');
+        }
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    });
+
+    function handleFavToggle(id) {
+        if(favorites.includes(id)) {
+            favorites = favorites.filter(fId => fId !== id);
+        } else {
+            favorites.push(id);
+        }
+        localStorage.setItem('termNewFavs', JSON.stringify(favorites));
+        
+        const targetBtn = document.getElementById(`fav-btn-${id}`);
+        if(targetBtn) targetBtn.classList.toggle('active');
+        
+        if(currentTab === 'favorites') { renderApplication(); }
+    }
+
+    function handleCardExpansion(card) {
+        if(currentTab === 'study') return; 
+        card.classList.toggle('open');
+    }
+
+    function handleTabSwitch(tabId) {
+        currentTab = tabId;
+        document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById('btn-' + tabId).classList.add('active');
+        
+        const searchInputBox = document.getElementById('searchContainer');
+        if(tabId === 'random') {
+            searchInputBox.style.display = 'none';
+        } else {
+            searchInputBox.style.display = 'block';
+        }
+        
+        renderApplication();
+        contentBox.scrollTo({ top: 0 });
+    }
+
+    function triggerSearch() {
+        renderApplication();
+    }
+
+    /* ================= RANDOM FLASHCARD ENGINE ================= */
+    function loadNextRandomFlashcard() {
+        const placeholder = document.getElementById('randomFlashcardBox');
+        if(!placeholder) return;
+        
+        const item = termData[Math.floor(Math.random() * termData.length)];
+        const color = themeColors[item.id % themeColors.length];
+        const isFav = favorites.includes(item.id);
+        
+        placeholder.innerHTML = `
+            <div class="card clickable-trigger animate-fade" onclick="handleCardExpansion(this)">
+                <button class="fav-btn ${isFav ? 'active' : ''}" id="fav-btn-${item.id}" onclick="handleFavToggle(${item.id}); event.stopPropagation();">★</button>
+                <div class="term-title" style="color: ${color}">${item.id}. ${item.en}</div>
+                <p style="color: #475569; font-size:0.9rem; margin-bottom:4px;">টাচ করে উত্তর দেখুন</p>
+                <div class="hidden-details">
+                    <div class="pronunciation-line">উচ্চারণ: ${item.pr}</div>
+                    <div class="meaning-line" style="border-left-color: var(--accent-purple);">${item.bn}</div>
+                </div>
+            </div>
+        `;
+    }
+
+    function renderApplication() {
+        if(currentTab === 'random') {
+            contentBox.innerHTML = `
+                <div class="random-wrapper">
+                    <div class="notice-badge">🧠 Self-Check Mode</div>
+                    <div class="random-box-holder" id="randomFlashcardBox"></div>
+                    <button class="btn-roll-dice" onclick="loadNextRandomFlashcard()">
+                        🎲 Next
+                    </button>
+                </div>
+            `;
+            loadNextRandomFlashcard();
+            return;
+        }
+
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        let listData = termData.filter(item => item.en.toLowerCase().includes(query) || item.bn.includes(query));
+
+        if(currentTab === 'favorites') {
+            listData = listData.filter(item => favorites.includes(item.id));
+        }
+
+        let outputHTML = '';
+        listData.forEach((item, index) => {
+            const color = themeColors[index % themeColors.length];
+            const isFav = favorites.includes(item.id);
+            const cardInnerDetails = `
+                <div class="pronunciation-line">🗣️ ${item.pr}</div>
+                <div class="meaning-line">${item.bn}</div>
+            `;
+
+            if(currentTab === 'practice') {
+                outputHTML += `
+                    <div class="card clickable-trigger" onclick="handleCardExpansion(this)">
+                        <button class="fav-btn ${isFav ? 'active' : ''}" id="fav-btn-${item.id}" onclick="handleFavToggle(${item.id}); event.stopPropagation();">★</button>
+                        <div class="term-title" style="color: ${color}">${item.id}. ${item.en}</div>
+                        <p style="color: #475569; font-size:0.85rem; margin-bottom:4px;"></p>
+                        <div class="hidden-details">${cardInnerDetails}</div>
+                    </div>
+                `;
+            } else {
+                outputHTML += `
+                    <div class="card">
+                        <button class="fav-btn ${isFav ? 'active' : ''}" id="fav-btn-${item.id}" onclick="handleFavToggle(${item.id}); event.stopPropagation();">★</button>
+                        <div class="term-title" style="color: ${color}">${item.id}. ${item.en}</div>
+                        ${cardInnerDetails}
+                    </div>
+                `;
+            }
+        });
+
+        contentBox.innerHTML = outputHTML || '<div class="no-result">কোনো শব্দ খুঁজে পাওয়া যায়নি! 😞</div>';
+    }
+
+    // Direct initialization
+    renderApplication();
+</script>
+
+</body>
+</html>
