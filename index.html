@@ -5,6 +5,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>BILAS ACADEMY | Master Study Hub</title>
     
+    <!-- 🌟 ১. সোশ্যাল মিডিয়া লিংক প্রিভিউ থাম্বনেইল (Open Graph) সেটিংস -->
+    <meta property="og:title" content="BILAS ACADEMY - স্মার্ট পড়াশোনা">
+    <meta property="og:description" content="চাকরি প্রস্তুতির জন্য আল্ট্রা-প্রিমিয়াম ডিজিটাল স্টাডি নোট ও খাতা।">
+    <meta property="og:image" content="https://bbarmon26.github.io/Bilas-math_khata/thumbbacca26.jpg?v=1">
+    <meta property="og:url" content="https://bbarmon26.github.io/Bilas-math_khata/index.html">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- 📱 ২. মোবাইল ব্রাউজার ও লোগো মেটা সেটিংস -->
+    <meta name="theme-color" content="#000000">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="BAcademy">
+    <link rel="apple-touch-icon" href="logobacca26.jpg">
+    <link rel="icon" type="image/jpeg" href="logobacca26.jpg">
+
+    <!-- 🧬 ৩. জাভাস্ক্রিপ্ট দিয়ে ডাইনামিক Manifest এবং Service Worker জেনারেশন ইঞ্জিন (অ্যাড টু হোমস্ক্রিন ফিক্স) -->
+    <script>
+        // ডাইনামিক ম্যানিফেস্ট জেনারেটর
+        (function() {
+            const manifestObj = {
+                "short_name": "BAcademy",
+                "name": "BILAS ACADEMY",
+                "icons": [
+                    {
+                        "src": "logobacca26.jpg",
+                        "type": "image/jpeg",
+                        "sizes": "512x512",
+                        "purpose": "any maskable"
+                    }
+                ],
+                "start_url": "./index.html",
+                "background_color": "#000000",
+                "theme-color": "#000000",
+                "display": "standalone",
+                "orientation": "portrait"
+            };
+            const stringManifest = JSON.stringify(manifestObj);
+            const blob = new Blob([stringManifest], {type: 'application/json'});
+            const manifestURL = URL.createObjectURL(blob);
+            const link = document.createElement('link');
+            link.rel = 'manifest';
+            link.href = manifestURL;
+            document.head.appendChild(link);
+        })();
+
+        // ইন-লাইন ডেটা-ইউআরএল সার্ভিস ওয়ার্কার (যা ক্রোমকে ফোর্স করবে ইনস্টল করার জন্য)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                const swCode = `
+                    self.addEventListener('install', function(e) { self.skipWaiting(); });
+                    self.addEventListener('activate', function(e) { e.waitUntil(self.clients.claim()); });
+                    self.addEventListener('fetch', function(e) { e.respondWith(fetch(e.request)); });
+                `;
+                const blob = new Blob([swCode], {type: 'application/javascript'});
+                const swURL = URL.createObjectURL(blob);
+                navigator.serviceWorker.register(swURL).catch(function(err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Hind+Siliguri:wght@500;600;700&display=swap" rel="stylesheet">
@@ -388,7 +451,6 @@
             if(typeof lucide !== 'undefined') lucide.createIcons();
         }
 
-        // Modified to handle Topics and Subtopics logic
         function openChapter(chapterName) {
             try { history.pushState({view: 'topics', chapter: chapterName, sub: currentSubject}, '', '#'+chapterName); } catch(e){}
             performPageFlip('view-topics', () => {
@@ -399,7 +461,6 @@
                     list.innerHTML = '';
                     let chapterItems = rawData.filter(i => i.Chapter === chapterName);
                     
-                    // Group by Topic
                     let topicsInChapter = {};
                     chapterItems.forEach(item => {
                         const t = item.Topic || 'অজানা টপিক';
@@ -409,7 +470,6 @@
                     
                     Object.keys(topicsInChapter).forEach(topicName => {
                         const items = topicsInChapter[topicName];
-                        // If it has Subtopics, show folder style
                         if(items.some(i => i.Subtopic && i.Subtopic.trim() !== "")) {
                             list.innerHTML += `<div onclick="openSubtopicView('${chapterName}', '${topicName}')" class="flex items-center justify-between py-3 border-b border-ink/20 cursor-pointer group pr-2 ink-hover">
                                 <div class="flex flex-col">
@@ -419,7 +479,6 @@
                                 <i data-lucide="chevron-right" class="w-5 h-5 text-ink opacity-70"></i>
                             </div>`;
                         } else {
-                            // Just a single normal topic
                             const data = encodeURIComponent(JSON.stringify(items[0]));
                             list.innerHTML += `<div onclick="openViewer('${data}')" class="flex items-center justify-between py-3 border-b border-ink/20 cursor-pointer group pr-2 ink-hover">
                                 <h4 class="font-bold text-lg handwritten text-ink">${topicName}</h4>
@@ -431,7 +490,6 @@
             });
         }
 
-        // NEW: Open Subtopic List
         function openSubtopicView(chapterName, topicName) {
             try { history.pushState({view: 'subtopics', chapter: chapterName, topic: topicName, sub: currentSubject}, '', '#subtopics'); } catch(e){}
             performPageFlip('view-subtopics', () => {
@@ -458,13 +516,11 @@
             const item = JSON.parse(decodeURIComponent(jsonStr));
             let link = item.ImageLink || item.Video_Link || "";
             
-            // SMART LINK HANDLER: If it's an HTML file or normal website link
             if (link.endsWith('.html') || (link.startsWith('http') && !link.includes('drive.google.com') && !link.includes('youtube.com'))) {
                 window.location.href = link; 
                 return;
             }
 
-            // Normal Google Drive Image Viewer
             try { history.pushState({view: 'image', topic: item, sub: currentSubject}, '', '#topic'); } catch(e){}
             performPageFlip('view-image', () => {
                 const title = document.getElementById('imageTitle');
