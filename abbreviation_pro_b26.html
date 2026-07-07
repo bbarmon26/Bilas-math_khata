@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BILAS ACADEMY | Abbreviation PRO</title>
+    
+    <!-- 🌟 ১. সোশ্যাল মিডিয়া লিংক প্রিভিউ থাম্বনেইল সেটিংস -->
+    <meta property="og:title" content="BILAS ACADEMY - স্মার্ট পড়াশোনা">
+    <meta property="og:description" content="চাকরি প্রস্তুতির জন্য আল্ট্রা-প্রিমিয়াম ডিজিটাল ফুল ফর্ম ল্যাব।">
+    <meta property="og:image" content="https://bbarmon26.github.io/Bilas-math_khata/abbreviation26b.jpg?v=1">
+    <meta property="og:url" content="https://bbarmon26.github.io/Bilas-math_khata/abbreviation_pro_b26.html">
+    <meta property="og:type" content="website">
+
+    <!-- 📱 ২. PWA ও লোগো মেটা settings -->
+    <meta name="theme-color" content="#05070f">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" type="image/jpeg" href="logobacca26.jpg">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap');
+
+        :root {
+            --bg-dark: #05070f;
+            --card-bg: rgba(18, 24, 40, 0.75);
+            --border-color: rgba(255, 255, 255, 0.05);
+            --mint-green: #2dd4bf;      
+            --gold-glow: #facc15;       
+            --switch-pink: #f43f5e;    
+            --text-main: #f8fafc;
+            --ice-blue: #38bdf8;
+        }
+
+        body {
+            font-family: 'Poppins', 'Hind Siliguri', sans-serif;
+            margin: 0; background-color: var(--bg-dark);
+            background-image: radial-gradient(circle at 50% 0%, #161630 0%, #05070f 70%);
+            color: var(--text-main); min-height: 100vh;
+            display: flex; justify-content: center; padding: 0;
+            overflow-x: hidden; scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .header-section {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: rgba(8, 11, 22, 0.95); backdrop-filter: blur(25px);
+            padding: 12px 16px; border-bottom: 2px solid rgba(250, 204, 21, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6); transition: transform 0.2s ease-in-out;
+        }
+
+        .header-hide { transform: translateY(-110%); }
+
+        .header-container { max-width: 850px; margin: 0 auto; display: flex; flex-direction: column; gap: 6px; }
+        .brand-bar { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .brand-name { font-size: 24px; font-weight: 900; background: linear-gradient(to right, #ff3366, var(--gold-glow), var(--mint-green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .btn-fav-toggle {
+            background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(250, 204, 21, 0.4);
+            color: var(--gold-glow); padding: 5px 12px; border-radius: 20px;
+            font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.2s;
+        }
+        .btn-fav-toggle.active-mode {
+            background: var(--switch-pink); border-color: transparent;
+            color: white; box-shadow: 0 0 15px rgba(244, 63, 94, 0.4);
+        }
+
+        .search-box { width: 100%; padding: 8px 16px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(0, 0, 0, 0.5); color: #fff; outline: none; font-size: 13px; box-sizing: border-box; }
+        .container { width: 100%; max-width: 850px; margin: 0 auto; padding: 115px 12px 80px 12px; box-sizing: border-box; }
+        #main-list { display: grid; grid-template-columns: 1fr; gap: 14px; width: 100%; }
+        @media screen and (min-width: 768px) { #main-list { grid-template-columns: 1fr 1fr; gap: 16px; } }
+
+        .item-wrapper { display: flex; width: 100%; }
+
+        .card {
+            flex-grow: 1; background: var(--card-bg); border: 1px solid var(--border-color);
+            border-radius: 14px; position: relative; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            padding: 16px 18px; box-sizing: border-box; cursor: pointer; user-select: none;
+            display: flex; flex-direction: column; justify-content: space-between;
+            min-height: 110px;
+            will-change: transform, border-color; transition: transform 0.15s cubic-bezier(0.1, 0.9, 0.2, 1), border-color 0.15s ease;
+        }
+        .card:hover { border-color: rgba(255, 255, 255, 0.12); transform: translateY(-2px); }
+
+        .fav-node-btn {
+            position: absolute; top: 14px; right: 14px; background: none; border: none;
+            color: rgba(255, 255, 255, 0.2); font-size: 19px; cursor: pointer; padding: 0;
+            transition: all 0.15s; z-index: 10;
+        }
+        .fav-node-btn.active { color: var(--switch-pink); text-shadow: 0 0 8px var(--switch-pink); }
+
+        .content-engine { width: 100%; display: flex; flex-direction: column; }
+        
+        .short-form-node { font-size: 22px; font-weight: 800; color: #ffffff; text-align: left; }
+        .inline-serial { color: var(--gold-glow); font-weight: 800; margin-right: 6px; font-size: 22px; }
+
+        /* 🔒 হিডেন স্ট্যাটাস বাটন গ্রাউন্ড */
+        .tap-to-reveal {
+            font-size: 12px; color: rgba(255, 255, 255, 0.3); margin-top: 14px;
+            background: rgba(255, 255, 255, 0.02); padding: 4px 10px; border-radius: 6px;
+            border: 1px dashed rgba(255,255,255,0.05); display: inline-block; width: max-content;
+            transition: all 0.15s ease;
+        }
+        .card:hover .tap-to-reveal { color: var(--gold-glow); border-color: rgba(250, 204, 21, 0.2); }
+
+        /* ⚡ ১২০Hz বাটারি স্মুথ ট্রানজিশন ইঞ্জিন */
+        .full-form-box { max-height: 0; opacity: 0; overflow: hidden; margin-top: 0; will-change: max-height, opacity, margin-top; transition: max-height 0.2s cubic-bezier(0.1, 0.9, 0.2, 1), opacity 0.12s ease, margin-top 0.12s ease; }
+        .card-revealed .full-form-box { max-height: 120px; opacity: 1; margin-top: 12px; }
+        .card-revealed .tap-to-reveal { display: none; }
+
+        .full-line { font-size: 18px; margin: 4px 0; color: var(--mint-green); font-weight: 700; text-shadow: 0 0 8px rgba(45, 212, 191, 0.3); }
+        .pronounce-line { font-size: 14.5px; margin: 6px 0 0 0; color: #ffffff; font-weight: 500; }
+        .pronounce-line strong { color: var(--ice-blue); font-weight: 700; margin-right: 4px; }
+
+        .rocket-hub { position: fixed; right: 20px; bottom: 25px; display: flex; flex-direction: column; align-items: center; z-index: 2000; }
+        .rocket-menu { display: none; flex-direction: column; gap: 10px; background: rgba(7, 10, 19, 0.98); padding: 15px 8px; border-radius: 40px; border: 1px solid rgba(255,255,255,0.08); margin-bottom: 10px; }
+        .r-circle { width: 40px; height: 40px; background: #1e293b; border: 1px solid var(--gold-glow); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; }
+        .jump-box { width: 40px; height: 32px; background: #000; border: 1px solid var(--switch-pink); color: white; text-align: center; border-radius: 6px; font-size: 13px; outline: none; }
+        .go-btn { background: var(--switch-pink); border: none; padding: 5px; border-radius: 6px; font-weight: bold; color: #fff; cursor: pointer; font-size: 10px;}
+        .rocket-icon { font-size: 36px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="header-section" id="headerNav">
+    <div class="header-container">
+        <div class="brand-bar">
+            <span class="brand-name">Abbreviation PRO</span>
+            <button class="btn-fav-toggle" id="favViewBtn" onclick="toggleFavoriteViewMode()">❤️ ফেভারিট</button>
+        </div>
+        <input type="text" id="mainSearch" class="search-box" placeholder="সার্চ করুন..." onkeyup="executeSearchFilter()">
+    </div>
+</div>
+
+<div class="container" id="viewWrapper">
+    <div id="main-list"></div>
+</div>
+
+<div class="rocket-hub">
+    <div class="rocket-menu" id="rocketMenu">
+        <div class="r-circle" onclick="window.scrollTo({top:0, behavior:'smooth'})">⬆</div>
+        <input type="number" id="jumpInput" class="jump-box" placeholder="নং">
+        <button class="go-btn" onclick="jumpToCell()">GO</button>
+        <div class="r-circle" onclick="window.scrollTo({top:document.body.scrollHeight, behavior:'smooth'})">⬇</div>
+    </div>
+    <div class="rocket-icon" onclick="toggleRocketHub()">🚀</div>
+</div>
+
+<script>
+        const abbrevData = [
+        { s: "2FA", f: "Two-Factor Authentication", p: "টু-ফ্যাক্টর অথেনটিকেশন" },
+        { s: "4IR", f: "Fourth Industrial Revolution", p: "ফোর্থ ইন্ডাস্ট্রিয়াল রেভোলিউশন" },
+        { s: "a2i", f: "Aspire to Innovate", p: "অ্যাসপায়ার টু ইনোভেট" },
+        { s: "AC (Land)", f: "Assistant Commissioner (Land)", p: "অ্যাসিস্ট্যান্ট কমিশনার (ল্যান্ড)" },
+        { s: "ADB", f: "Asian Development Bank", p: "এশিয়ান ডেভেলপমেন্ট ব্যাংক" },
+        { s: "ADP", f: "Annual Development Programme", p: "অ্যানুয়াল ডেভেলপমেন্ট প্রোগ্রাম" },
+        { s: "AFP", f: "Agence France Presse", p: "এজেন্স ফ্রান্স প্রেস" },
+        { s: "AFTA", f: "Asian Free Trade Area", p: "এশিয়ান ফ্রি ট্রেড এরিয়া" },
+        { s: "AI", f: "Artificial Intelligence", p: "আর্টিফিশিয়াল ইন্টেলিজেন্স" },
+        { s: "AIDS", f: "Acquired Immune Deficiency Syndrome", p: "অ্যাকোয়ার্ড ইমিউন ডেফিসিয়েন্সি সিন্ড্রোম" },
+        { s: "AIIB", f: "Asian Infrastructure Investment Bank", p: "এশিয়ান ইনফ্রাস্ট্রাকচার ইনভেস্টমেন্ট ব্যাংক" },
+        { s: "ALU", f: "Arithmetic Logic Unit", p: "অ্যারিথমেটিক লজিক ইউনিট" },
+        { s: "AM", f: "Ante Meridiem", p: "অ্যান্টি মেরিডিয়াম" },
+        { s: "APA", f: "Annual Performance Agreement", p: "অ্যানুয়াল পারফরম্যান্স অ্যাগ্রিমেন্ট" },
+        { s: "APEC", f: "Asian Pacific Economic Co-operation", p: "এশিয়ান প্যাসিফিক ইকোনমিক কো-অপারেশন" },
+        { s: "API", f: "Application Programming Interface", p: "অ্যাপ্লিকেশন প্রোগ্রামিং ইন্টারফেস" },
+        { s: "ASCII", f: "American Standard Code for Information Interchange", p: "আমেরিকান স্ট্যান্ডার্ড কোড ফর ইনফরমেশন ইন্টারচেঞ্জ" },
+        { s: "ASEAN", f: "Association of South East Asian Nations", p: "অ্যাসোসিয়েশন অব সাউথ ইস্ট এশিয়ান নেশনস" },
+        { s: "ATM", f: "Automated Teller Machine", p: "অটোমেটেড টেলার মেশিন" },
+        { s: "BADC", f: "Bangladesh Agriculture Development Corporation", p: "বাংলাদেশ অ্যাগ্রিকালচার ডেভেলপমেন্ট কর্পোরেশন" },
+        { s: "BANBEIS", f: "Bangladesh Bureau of Educational Information and Statistics", p: "বাংলাদেশ ব্যুরো অব এডুকেশনাল ইনফরমেশন অ্যান্ড স্ট্যাটিস্টিক্স" },
+        { s: "BANSDOC", f: "Bangladesh Scientific and Technical Documentation Centre", p: "বাংলাদেশ সায়েন্টিফিক অ্যান্ড টেকনিক্যাল ডকুমেন্টেশন সেন্টার" },
+        { s: "BARI", f: "Bangladesh Agricultural Research Institute", p: "বাংলাদেশ অ্যাগ্রিকালচারাল রিসার্চ ইনস্টিটিউট" },
+        { s: "BBC", f: "British Broadcasting Corporation", p: "ব্রিটিশ ব্রডকাস্টিং কর্পোরেশন" },
+        { s: "BCC", f: "Blind Carbon Copy", p: "ব্লাইন্ড কার্বন কপি" },
+        { s: "BCD", f: "Binary-coded Decimal", p: "বাইনারি-কোডেড ডেসিমেল" },
+        { s: "BCS", f: "Bangladesh Civil Service", p: "বাংলাদেশ সিভিল সার্ভিস" },
+        { s: "BELA", f: "Bangladesh Environmental Lawyers Association", p: "বাংলাদেশ এনভায়রনমেন্টাল লইয়ার্স অ্যাসোসিয়েশন" },
+        { s: "BEPZA", f: "Bangladesh Export Processing Zone Authority", p: "বাংলাদেশ এক্সপোর্ট প্রসেসিং জোন অথরিটি" },
+        { s: "BFIDC", f: "Bangladesh Forest Industries Development Corporation", p: "বাংলাদেশ ফরেস্ট ইন্ডাস্ট্রিজ ডেভেলপমেন্ট কর্পোরেশন" },
+        { s: "BIM", f: "Building Information Modeling", p: "বিল্ডিং ইনফরমেশন মডেলিং" },
+        { s: "BIMSTEC", f: "Bay of Bengal Initiative for Multi-Sectoral Technical and Economic Cooperation", p: "বে অব বেঙ্গল ইনিশিয়েটিভ ফর মাল্টি-সেক্টোরাল টেকনিক্যাল অ্যান্ড ইকোনমিক কোঅপারেশন" },
+        { s: "BIN", f: "Bank Identification Number", p: "ব্যাংক আইডেন্টিফিকেশন নাম্বার" },
+        { s: "BIOS", f: "Basic Input Output System", p: "বেসিক ইনপুট আউটপুট সিস্টেম" },
+        { s: "BIRDEM", f: "Bangladesh Institute of Research and Rehabilitation in Diabetes, Endocrine and Metabolic Disorders", p: "বাংলাদেশ ইনস্টিটিউট অব রিসার্চ অ্যান্ড রিহ্যাবিলিটেশন ইন ডায়াবেটিস, এন্ডোক্রাইন অ্যান্ড মেটাবলিক ডিসঅর্ডারস" },
+       
+        { s: "BIWTA", f: "Bangladesh Inland Water Transport Authority", p: "বাংলাদেশ ইনল্যান্ড ওয়াটার ট্রান্সপোর্ট অথরিটি" },
+        { s: "BMI", f: "Body Mass Index", p: "বডি মাস ইনডেক্স" },
+        { s: "BNCC", f: "Bangladesh National Cadet Corps", p: "বাংলাদেশ ন্যাশনাল ক্যাডেট কোর" },
+        { s: "BOF", f: "Bangladesh Ordnance Factories", p: "বাংলাদেশ অর্ডন্যান্স ফ্যাক্টরিস" },
+        { s: "BPATC", f: "Bangladesh Public Administration Training Centre", p: "বাংলাদেশ পাবলিক অ্যাডমিনিস্ট্রেশন ট্রেনিং সেন্টার" },
+        { s: "BPI", f: "Bits Per Inch", p: "বিটস পার ইঞ্চি" },
+        { s: "BRAC", f: "Bangladesh Rural Advancement Committee", p: "বাংলাদেশ রুরাল অ্যাডভান্সমেন্ট কমিটি" },
+        { s: "BRDB", f: "Bangladesh Rural Development Board", p: "বাংলাদেশ রুরাল ডেভেলপমেন্ট বোর্ড" },
+        { s: "BREXIT", f: "British Exit", p: "ব্রিটিশ এক্সিট" },
+        { s: "BRICS", f: "Brazil, Russia, India, China, and South Africa", p: "ব্রাজিল, রাশিয়া, ইন্ডিয়া, চায়না, অ্যান্ড সাউথ আফ্রিকা" },
+        { s: "BRRI", f: "Bangladesh Rice Research Institute", p: "বাংলাদেশ রাইস রিসার্চ ইনস্টিটিউট" },
+        { s: "BRT", f: "Bus Rapid Transit", p: "বাস র‍্যাপিড ট্রানজিট" },
+        { s: "BRTA", f: "Bangladesh Road Transport Authority", p: "বাংলাদেশ রোড ট্রান্সপোর্ট অথরিটি" },
+        { s: "BSCCL", f: "Bangladesh Submarine Cable Company Limited", p: "বাংলাদেশ সাবমেরিন ক্যাবল কোম্পানি লিমিটেড" },
+        { s: "BSCIC", f: "Bangladesh Small and Cottage Industries Corporation", p: "বাংলাদেশ স্মল অ্যান্ড কটেজ ইন্ডাস্ট্রিজ কর্পোরেশন" },
+        { s: "BSCL", f: "Bangladesh Satellite company Limited", p: "বাংলাদেশ স্যাটেলাইট কোম্পানি লিমিটেড" },
+        { s: "BSEC", f: "Bangladesh Securities and Exchange Commission", p: "বাংলাদেশ সিকিউরিটিজ অ্যান্ড এক্সচেঞ্জ কমিশন" },
+        { s: "BSTI", f: "Bangladesh Standards and Testing Institution", p: "বাংলাদেশ স্ট্যান্ডার্ডস অ্যান্ড টেস্টিং ইনস্টিটিউশন" },
+        { s: "BTCL", f: "Bangladesh Telecommunications Company Limited", p: "বাংলাদেশ টেলিকমিউনিকেশনস কোম্পানি লিমিটেড" },
+        { s: "CARE", f: "Cooperative for Assistance and Relief Everywhere", p: "কোঅপারেটিভ ফর অ্যাসিস্ট্যান্স অ্যান্ড রিলিফ এভরিহোয়্যার" },
+        { s: "CC", f: "Carbon Copy", p: "কার্বন কপি" },
+        { s: "CD", f: "Compact Disc", p: "কমপ্যাক্ট ডিস্ক" },
+        { s: "CEDAW", f: "Convention on the Elimination of All Forms of Discrimination Against Women", p: "কনভেনশন অন দ্য এলিমিনেশন অব অল ফর্মস অব ডিসক্রিমিনেশন এগেইন্সট উইমেন" },
+        { s: "CHAT GPT", f: "Chat Generative Pre-training Transformer", p: "চ্যাট জেনারেটিভ প্রি-ট্রেনিং ট্রান্সফরমার" },
+        { s: "CID", f: "Criminal Investigation Department", p: "ক্রিমিনাল ইনভেস্টিগেশন ডিপার্টমেন্ট" },
+        { s: "CIRDAP", f: "Centre on Integrated Rural Development for Asia and Pacific", p: "সেন্টার অন ইন্টিগ্রেটেড রুরাল ডেভেলপমেন্ট ফর এশিয়া অ্যান্ড প্যাসিফিক" },
+        { s: "CIS", f: "Commonwealth of Independent States", p: "কমনওয়েলথ অব ইন্ডিপেন্ডেন্ট স্টেটস" },
+        { s: "CNA", f: "Central News Agency", p: "সেন্ট্রাল নিউজ এজেন্সি" },
+        { s: "CNG", f: "Compressed Natural Gas", p: "কম্প্রেসড ন্যাচারাল গ্যাস" },
+        { s: "CNN", f: "Cable News Network", p: "ক্যাবল নিউজ নেটওয়ার্ক" },
+        { s: "COD", f: "Cash on Delivery", p: "ক্যাশ অন ডেলিভারি" },
+        { s: "COVID", f: "Corona virus Disease", p: "করোনা ভাইরাস ডিজিজ" },
+        { s: "CPTU", f: "Central Procurement Technical Unit", p: "সেন্ট্রাল প্রোকিউরমেন্ট টেকনিক্যাল ইউনিট" },
+        { s: "CPU", f: "Central Processing Unit", p: "সেন্ট্রাল প্রসেসিং ইউনিট" },
+        { s: "CRT", f: "Cathode Ray Tube", p: "ক্যাথোড রে টিউব" },
+        { s: "CTBT", f: "The Comprehensive Nuclear-Test-Ban Treaty", p: "দ্য কমপ্রিহেনসিভ নিউক্লিয়ার-টেস্ট-ব্যান ট্রিটি" },
+        { s: "CTBTO", f: "The Comprehensive Nuclear-Test-Ban Treaty Organization", p: "দ্য কমপ্রিহেনসিভ নিউক্লিয়ার-টেস্ট-ব্যান ট্রিটি অর্গানাইজেশন" },
+        { s: "DAP", f: "Detailed Area Plan", p: "ডিটেইলড এরিয়া প্ল্যান" },
+        { s: "DBMS", f: "Database Management System", p: "ডাটাবেস ম্যানেজমেন্ট সিস্টেম" },
+        { s: "DESA", f: "Department of Economic and Social Affairs", p: "ডিপার্টমেন্ট অব ইকোনমিক অ্যান্ড সোশ্যাল অ্যাফেয়ার্স" },
+        { s: "DFP", f: "Department of Films and Publications", p: "ডিপার্টমেন্ট অব ফিল্মস অ্যান্ড পাবলিকেশন্স" },
+        { s: "DGDA", f: "Directorate General of Drug Administration", p: "ডাইরেক্টরেট জেনারেল অব ড্রাগ অ্যাডমিনিস্ট্রেশন" },
+        { s: "DGFI", f: "Directorate General of Forces Intelligence", p: "ডাইরেক্টরেট জেনারেল অব ফোর্সেস ইন্টেলিজেন্স" },
+        { s: "DMTCL", f: "Dhaka Mass Transit Company Limited", p: "ঢাকা মাস ট্রানজিট কোম্পানি লিমিটেড" },
+        { s: "DNA", f: "Deoxyribonucleic Acid", p: "ডিঅক্সিরাইবোনিউক্লিক অ্যাসিড" },
+        { s: "D-Nothi", f: "Digital Nothi", p: "ডিজিটাল নথি" },
+        { s: "DOS", f: "Disk Operating System", p: "ডিস্ক অপারেটিং সিস্টেম" },
+        { s: "DPDC", f: "Dhaka Power Distribution Company", p: "ঢাকা পাওয়ার ডিস্ট্রিবিউশন কোম্পানি" },
+        { s: "DPDT", f: "Department of Patents, Designs & Trademarks", p: "ডিপার্টমেন্ট অব প্যাটেন্টস, ডিজাইনস অ্যান্ড ট্রেডমার্কস" },
+        { s: "DPI", f: "Dots Per Inch", p: "ডটস পার ইঞ্চি" },
+        { s: "DSHE", f: "Directorate of Secondary and Higher education", p: "ডাইরেক্টরেট অব সেকেন্ডারি অ্যান্ড হায়ার এডুকেশন" },
+        { s: "DSL", f: "Digital Subscriber Line", p: "ডিজিটাল সাবস্ক্রাইবার লাইন" },
+        { s: "DVD", f: "Digital Versatile Disc", p: "কমপ্যাক্ট ডিজিটাল ভার্সাটাইল ডিস্ক" },
+        { s: "ECNEC", f: "Executive Committee of National Economic Council", p: "এক্সিকিউটিভ কমিটি অব ন্যাশনাল ইকোনমিক কাউন্সিল" },
+        { s: "ECO", f: "Economic Co-operation Organization", p: "ইকোনমিক কো-অপারেশন অর্গানাইজেশন" },
+        { s: "EDGE", f: "Enhanced Data rates for GSM Evolution", p: "এনহ্যান্সড ডাটা রেটস ফর জিএসএম ইভোলিউশন" },
+        { s: "EFD", f: "Electronic Fiscal Device", p: "ইলেকট্রনিক ফিসকাল ডিভাইস" },
+        { s: "EFT", f: "Electronic Funds Transfer", p: "ইলেকট্রনিক ফান্ডস ট্রান্সফার" },
+        { s: "e-GP", f: "e-Government Procurement", p: "ই-গভর্নমেন্ট প্রোকিউরমেন্ট" },
+        { s: "EHR", f: "Electronic Health Record", p: "ইলেকট্রনিক হেলথ রেকর্ড" },
+        { s: "E-MAIL", f: "Electronic Mail", p: "ইলেকট্রনিক মেইল" },
+        { s: "EMS", f: "Emergency Medical Services", p: "ইমার্জেন্সি মেডিকেল সার্ভিসেস" },
+        { s: "EPI", f: "Expanded Programme on Immunization", p: "এক্সপ্যান্ডেড প্রোগ্রাম অন ইমিউনাইজেশন" },
+        { s: "EPROM", f: "Electrically Erasable Programmable Read-only Memory", p: "ইলেকট্রিক্যালি ইরেজেবল প্রোগ্রামেবল রিড-অনলি মেমোরি" },
+        { s: "EPZ", f: "Export Processing Zone", p: "এক্সপোর্ট প্রসেসিং জอน" },
+        { s: "ESCAP", f: "UN Economic and Social Commission for Asia and the Pacific", p: "ইউএন ইকোনমিক অ্যান্ড সোশ্যাল কমিশন ফর এশিয়া অ্যান্ড দ্য প্যাসিফিক" },
+        { s: "eTIN", f: "Electronic Taxpayer's Identification Number", p: "ইলেকট্রনিক ট্যাক্সপেয়ার্স আইডেন্টিফিকেশন নাম্বার" },
+        { s: "EVM", f: "Electronic Voting Machine", p: "ইলেকট্রনিক ভোটিং মেশিন" },
+        { s: "FAO", f: "Food and Agricultural Organization", p: "ফুড অ্যান্ড অ্যাগ্রিকালচারাল অর্গানাইজেশন" },
+        { s: "FBCCI", f: "Federation of Bangladesh Chambers of Commerce and Industry", p: "ফেডারেশন অব বাংলাদেশ চেম্বার্স অব কমার্স অ্যান্ড ইন্ডাস্ট্রি" },
+        { s: "FBI", f: "Federal Bureau of Investigation", p: "ফেডারেল ব্যুরো অব ইনভেস্টিগেশন" },
+        { s: "FDC", f: "Film Development Corporation", p: "ফিল্ম ডেভেলপমেন্ট  কর্পোরেশন" },
+        { s: "FDI", f: "Foreign Direct Investment", p: "ফরেন ডাইরেক্ট ইনভেস্টমেন্ট" },
+        { s: "FID", f: "Financial Institutions Division", p: "ফিন্যান্সিয়াল ইনস্টিটিউশনস ডিভিশন" },
+        { s: "FIFA", f: "Federation of International Football Association", p: "ফেডারেশন অব ইন্টারন্যাশনাল ফুটবল অ্যাসোসিয়েশন" },
+        { s: "FINA", f: "Federation and International De-nation Amateur", p: "ফেডারেশন ইন্টারন্যাশনাল ডি নাটেশন অ্যামেচার" },
+        { s: "FTP", f: "File Transfer Protocol", p: "ফাইল ট্রান্সফার প্রোটোকল" },
+        { s: "GCC", f: "Gulf Cooperation Council", p: "গালফ কোঅপারেশন কাউন্সিল" },
+        { s: "GDI", f: "Gross Domestic Income", p: "গ্রস ডোমেস্টিক ইনকাম" },
+        { s: "GDP", f: "Gross Domestic Product", p: "গ্রস ডোমেস্টিক প্রোডাক্ট" },
+        { s: "GIF", f: "Graphics Interchange Format", p: "গ্রাফিক্স ইন্টারচেঞ্জ ফরম্যাট" },
+        { s: "GIS", f: "Geographic Information System", p: "জিওগ্রাফিক ইনফরমেশন সিস্টেম" },
+        { s: "GMT", f: "Greenwich Mean Time", p: "গ্রিনিচ মান টাইম" },
+        { s: "GNP", f: "Gross National Product", p: "গ্রস ন্যাশনাল প্রোডাক্ট" },
+        { s: "GPRS", f: "General Packet Radio Services", p: "জেনারেল প্যাকেট রেডিও সার্ভিসেস" },
+        { s: "GPS", f: "Global Positioning System", p: "গ্লোবাল পজিশনিং সিস্টেম" },
+        { s: "GPU", f: "Graphics Processing Unit", p: "গ্রাফিক্স প্রসেসিং ইউনিট" },
+        { s: "GSM", f: "Global System for Mobile communication", p: "গ্লোবাল সিস্টেম ফর মোবাইল কমিউনিকেশন" },
+        { s: "GSP", f: "Generalized System of Preference", p: "জেনারেল সিস্টেম অব প্রেফারেন্স" },
+        { s: "GUI", f: "Graphical User Interface", p: "গ্রাফিক্যাল ইউজার ইন্টারফেস" },
+        { s: "HDD", f: "Hard Disk Drive", p: "হার্ড ডিস্ক ড্রাইভ" },
+        { s: "HDI", f: "Human Development Index", p: "হিউম্যান ডেভেলপমেন্ট ইনডেক্স" },
+        { s: "HIPC", f: "Heavily Indebted Poor Countries", p: "হেভিলি ইনডেটেড পুওর কান্ট্রিস" },
+        { s: "HIV", f: "Human Immunodeficiency Virus", p: "হিউম্যান ইমিউনোডেফিসিয়েন্সি ভাইরাস" },
+        { s: "HMPV", f: "Human Metapneumovirus", p: "হিউম্যান মেটাপনিউমোভাইরাস" },
+        { s: "HSBC", f: "Hongkong and Shanghai Banking Corporation", p: "হংকং অ্যান্ড সাংহাই ব্যাংকিং কর্পোরেশন" },
+        { s: "HSDPA", f: "High Speed Downlink Packet Access", p: "হাই স্পীড ডাউনলিঙ্ক প্যাকেট অ্যাক্সেস" },
+        { s: "HTML", f: "Hypertext Markup Language", p: "হাইপারটেক্সট মার্কআপ ল্যাঙ্গুয়েজ" },
+        { s: "http", f: "Hypertext Transfer Protocol", p: "হাইপারটেক্সট ট্রান্সফার প্রোটোকল" },
+        { s: "IAEA", f: "International Atomic Energy Agency", p: "ইন্টারন্যাশনাল অ্যাটমিক এনার্জি এজেন্সি" },
+        { s: "IBRD", f: "International Bank for Reconstruction and Development", p: "ইন্টারন্যাশনাল ব্যাংক ফর রিকনস্ট্রাকশন অ্যান্ড ডেভেলপমেন্ট" },
+        { s: "IC", f: "Integrated Circuit", p: "ইন্টিগ্রেটেড সার্কিট" },
+        { s: "ICAO", f: "Immigration and Checkpoints Authority", p: "ইন্টারন্যাশনাল সিভিল এভিয়েশন অর্গানাইজেশন" },
+        { s: "ICARDA", f: "International Center for Agricultural Research in the Dry Areas", p: "ইন্টারন্যাশনাল সেন্টার ফর অ্যাগ্রিকালচারাল রিসার্চ ইন দ্য ড্রাই এরিয়াস" },
+        { s: "ICC", f: "International Criminal Court/ International Cricket Council", p: "ইন্টারন্যাশনাল ক্রিমিনাল কোর্ট/ ইন্টারন্যাশনাল ক্রিকেট কাউন্সিল" },
+        { s: "ICDDRB", f: "International Centre for Diarrhoeal Disease Research, Bangladesh", p: "ইন্টারন্যাশনাল সেন্টার ফর ডায়রিয়াল ডিজিজ রিসার্চ, বাংলাদেশ" },
+        { s: "ICJ", f: "International Court of Justice", p: "ইন্টারন্যাশনাল কোর্ট অব জাস্টিস" },
+        { s: "ICSID", f: "International Centre for Settlement of Investment Disputes", p: "ইন্টারন্যাশনাল সেন্টার ফর সেটেলমেন্ট অব ইনভেস্টমেন্ট ডিসপিউটস" },
+        { s: "ICT", f: "Information and Communications Technology", p: "ইনফরমেশন অ্যান্ড কমিউনিকেশনস টেকনোলজি" },
+        { s: "IDA", f: "International Development Association", p: "ইন্টারন্যাশনাল ডেভেলপমেন্ট অ্যাসোসিয়েশন" },
+        { s: "IDB", f: "Islamic Development Bank", p: "ইসলামিক ডেভেলপমেন্ট ব্যাংক" },
+        { s: "IDE", f: "Integrated Development Environment", p: "ইন্টিগ্রেটেড ডেভেলপমেন্ট এনভায়রনমেন্ট" },
+        { s: "IDRA", f: "Insurance Development and Regulatory Authority", p: "ইন্স্যুরেন্স ডেভেলপমেন্ট অ্যান্ড রেগুলেটরি অথরিটি" },
+        { s: "IEC", f: "International Electrotechnical Commission", p: "ইন্টারন্যাশনাল ইলেকট্রোটেকনিক্যাল কমিশন" },
+        { s: "IEDCR", f: "Institution of Epidemiology, Disease Control and Research", p: "ইনস্টিটিউশন অব এপিডেমিওলজি, ডিজিজ কন্ট্রোল অ্যান্ড রিসার্চ" },
+        { s: "IFAD", f: "International Fund for Agricultural Development", p: "ইন্টারন্যাশনাল ফান্ড ফর অ্যাগ্রিকালচারাল  DEVELOPMENT" },
+        { s: "IFC", f: "International Finance Corporation", p: "ইন্টারন্যাশনাল ফিন্যান্স কর্পোরেশন" },
+        { s: "IINA", f: "International Information Network Analysis", p: "ইন্টারন্যাশনাল ইনফরমেশন নেটওয়ার্ক অ্যানালাইসিস" },
+        { s: "ILO", f: "International Labour Organization", p: "ইন্টারন্যাশনাল লেবার অর্গানাইজেশন" },
+        { s: "IMF", f: "International Monetary Fund", p: "ইন্টারন্যাশনাল মনিটারি ফান্ড" },
+        { s: "IMO", f: "International Maritime Organization", p: "ইন্টারন্যাশনাল মেরিটাইম অর্গানাইজেশন" },
+        { s: "IMP", f: "Integrated Pest Management", p: "ইন্টিগ্রেটেড পেস্ট ম্যানেজমেন্ট" },
+        { s: "INCB", f: "International Narcotics Control Board", p: "ইন্টারন্যাশনাল নারকোটিকস কন্ট্রোল বোর্ড" },
+        { s: "INTERPOL", f: "International Criminal Police Organization", p: "ইন্টারন্যাশনাল ক্রিমিনাল পুলিশ অর্গানাইজেশন" },
+        { s: "IOM", f: "International Organization For Migration", p: "ইন্টারন্যাশনাল অর্গানাইজেশন ফর মাইগ্রেশন" },
+        { s: "IOSCO", f: "International Organization of Securities Commissions", p: "ইন্টারন্যাশনাল অর্গানাইজেশন অব সিকিউরিটিজ কমিশনস" },
+        { s: "IoT", f: "Internet of Things", p: "ইন্টারনেট অব থিংস" },
+        { s: "IP", f: "Internet Protocol", p: "Internet Protocol" },
+        { s: "IPCC", f: "Intergovernmental Panel on Climate Change", p: "ইন্টারগভর্নমেন্টাল প্যানেল অন ক্লাইমেট চেঞ্জ" },
+        { s: "IPR", f: "Intellectual Property Rights", p: "ইন্টেলেকচুয়াল প্রপার্টি রাইটস" },
+        { s: "IRD", f: "Internal Resources Division", p: "ইন্টারনাল রিসোর্সেস ডিভিশন" },
+        { s: "ISBN", f: "International Standard Book Number", p: "ইন্টারন্যাশনাল স্ট্যান্ডার্ড বুক নাম্বার" },
+        { s: "ISO", f: "International Organization for Standardization", p: "ইন্টারন্যাশনাল অর্গানাইজেশন ফর স্ট্যান্ডার্ডাইজেশন" },
+        { s: "ITO", f: "International Trade Organization", p: "ইন্টারন্যাশনাল ট্রেড অর্গানাইজেশন" },
+        { s: "ITU", f: "International Telecommunication Union", p: "ইন্টারন্যাশনাল টেলিকমিউনিকেশন ইউনিয়ন" },
+        { s: "IUCN", f: "International Union for Conservation of Nature", p: "ইন্টারন্যাশনাল ইউনিয়ন ফর কনসারভেশন অব নেচার" },
+        { s: "JICA", f: "Japan International Cooperation Agency", p: "জাপান ইন্টারন্যাশনাল কোঅপারেশন এজেন্সি" },
+        { s: "JPEG", f: "Joint Photographic Experts Group", p: "জয়েন্ট ফটোগ্রাফিক এক্সপার্টস গ্রুপ" },
+        { s: "KAFCO", f: "Karnaphuli Fertilizer Company Limited", p: "কর্ণফুলী ফার্টিলাইজার কোম্পানি লিমিটেড" },
+        { s: "LAN", f: "Local Area Network", p: "লোকাল এরিয়া নেটওয়ার্ক" },
+        { s: "LASER", f: "Light Amplification by Stimulated Emission of Radiation", p: "লাইট অ্যামপ্লিফিকেশন বাই স্টিমুলেটেড এমিশন অব রেডিয়েশন" },
+        { s: "LCC", f: "Land Capability Classification", p: "ল্যান্ড ক্যাপাবিলিটি ক্লাসিফিকেশন" },
+        { s: "LCD", f: "Liquid Crystal Display", p: "লিকুইড ক্রিস্টাল ডিসপ্লে" },
+        { s: "LDC", f: "Least Developed Country", p: "লিস্ট ডেভেলপড কান্ট্রি" },
+        { s: "LEASER", f: "Light Amplification by Stimulated Emission of Radiation", p: "লাইট অ্যামপ্লিফিকেশন বাই স্টিমুলেটেড এমিশন অব রেডিয়েশন" },
+        { s: "LED", f: "Light Emitting Diode", p: "লাইট এমিটিং ডায়োড" },
+        { s: "LNG", f: "Liquefied Natural Gas", p: "লিকুইফাইড ন্যাচারাল গ্যাস" },
+        { s: "LPG", f: "Liquefied Petroleum Gas", p: "লিকুইফাইড পেট্রোলিয়াম গ্যাস" },
+        { s: "MACOS", f: "Macintosh Operating System", p: "ম্যাকিংটোশ অপারেটিং সিস্টেম" },
+        { s: "MAN", f: "Metropolitan Area Network", p: "মেট্রোপলিটন এরিয়া নেটওয়ার্ক" },
+        { s: "Mbps", f: "Megabits Per Second", p: "মেগাবিটস পার সেকেন্ড" },
+        { s: "MDG", f: "Millennium Development Goals", p: "মিলেনিয়াম ডেভেলপমেন্ট গোলস" },
+        { s: "MICR", f: "Magnetic Ink Character Recognition", p: "ম্যাগনেটিক ইঙ্ক ক্যারেক্টার রিকগনিশন" },
+        { s: "MICS", f: "Management Information And Computer Services", p: "ম্যানেজমেন্ট ইনফরমেশন অ্যান্ড কম্পিউটার সার্ভিসেস" },
+        { s: "MIDI", f: "Musical Instrument Digital Interface", p: "মিউজিক্যাল ইনস্ট্রুমেন্ট ডিজিটাল ইন্টারফেস" },
+        { s: "MIGA", f: "Multilateral Investment Guarantee Agency", p: "মাল্টিল্যাটারাল ইনভেস্টমেন্ট গ্যারান্টি এজেন্সি" },
+        { s: "MMS", f: "Multimedia Messaging Service", p: "মাল্টিমিডিয়া মেসেজিং সার্ভিস" },
+        { s: "MOCAT", f: "Ministry of Civil Aviation and Tourism", p: "মিনিস্ট্রি অব সিভিল এভিয়েশন অ্যান্ড ট্যুরিজম" },
+        { s: "MOEFCC", f: "Ministry of Environment, Forest and Climate Change", p: "মিনিস্ট্রি অব এনভায়রনমেন্ট, ফরেস্ট অ্যান্ড ক্লাইমেট চেঞ্জ" },
+     
+        { s: "MRA", f: "Microcredit Regulatory Authority", p: "মাইক্রোক্রেডিট রেগুলেটরি অথরিটি" },
+        { s: "MRP", f: "Maximum retail price", p: "ম্যাক্সিমাম রিটেইল প্রাইস" },
+        { s: "MRT", f: "Mass Rapid Transit", p: "মাস র‍্যাপিড ট্রানজিট" },
+        { s: "MSB", f: "Most Significant Bit", p: "মোস্ট সিগনিফিকেন্ট বিট" },
+        { s: "MTBF", f: "Mean Time Between Failures", p: "মিন টাইম বিটউইন ফেইলরস" },
+        { s: "NAEM", f: "National Academy for Educational Management", p: "ন্যাশনাল একাডেমি ফর এডুকেশনাল ম্যানেজমেন্ট" },
+        { s: "NAFTA", f: "North American Free Trade Agreement", p: "নর্থ আমেরিকান ফ্রি ট্রেড অ্যাগ্রিমেন্ট" },
+        { s: "NAM", f: "Non Aligned Movement", p: "নন অ্যালাইন্ড মুভমেন্ট" },
+        { s: "NAPE", f: "National Academy for Primary Education", p: "ন্যাশনাল একাডেmi ফর প্রাইমারি এডুকেশন" },
+        { s: "NASA", f: "National Aeronautics and Space Administration", p: "ন্যাশনাল অ্যারোনটিক্স অ্যান্ড স্পেস অ্যাডমিনিস্ট্রেশন" },
+        { s: "NATO", f: "North Atlantic Treaty Organization", p: "নর্থ আটলান্টিক ট্রিটি অর্গানাইজেশন" },
+        { s: "NBR", f: "National Board of Revenue", p: "ন্যাশনাল বোর্ড অব রেভিনিউ" },
+        { s: "NCTB", f: "National Curriculum & Textbook Board, Bangladesh", p: "ন্যাশনাল কারিকুলাম অ্যান্ড টেক্সটবুক বোর্ড, বাংলাদেশ" },
+        { s: "NEC", f: "National Economic Council", p: "ন্যাশনাল ইকোনমিক কাউন্সিল" },
+        { s: "NFC", f: "Near-field communication", p: "নিয়ার-ফিল্ড কমিউনিকেশন" },
+        { s: "NGO", f: "Non-governmental organizations", p: "নন-গভর্নমেন্টাল অর্গানাইজেশনস" },
+        { s: "NHRC", f: "National Human Rights Commission", p: "ন্যাশনাল হিউম্যান রাইটস কমিশন" },
+        { s: "NIC", f: "Network Interface Card", p: "নিটওয়ার্ক ইন্টারফেস কার্ড" },
+        { s: "NILG", f: "National Institute of Local Government", p: "ন্যাশনাল ইনস্টিটিউট অব লোকাল গভর্ণমেন্ট" },
+        { s: "NIMC", f: "National Institute of Mass Communication", p: "ন্যাশনাল ইনস্টিটিউট অব মাস কমিউনিকেশন" },
+        { s: "NIPORT", f: "National Institute of Population Research and Training", p: "ন্যাশনাল  ইনস্টিটিউট অব পপুলেশন রিসার্চ অ্যান্ড ট্রেনিং" },
+        { s: "NNP", f: "Net National Product", p: "নেট ন্যাশনাল প্রোডাক্ট" },
+        { s: "NPL", f: "Non-Performing Loan", p: "নন-পারফর্মিং লোন" },
+        { s: "NSC", f: "National Sports Council", p: "ন্যাশনাল স্পোর্টস কাউন্সিল" },
+        { s: "NSDA", f: "National Skills Development Authority", p: "ন্যাশনাল স্কিলস ডেভেলপমেন্ট অথরিটি" },
+        { s: "NSI", f: "National Security Intelligence of Bangladesh", p: "ন্যাশনাল সিকিউরিটি ইন্টেলিজেন্স অব বাংলাদেশ" },
+        { s: "NTFS", f: "New Technology File System", p: "নিউ টেকনোলজি ফাইল সিস্টেম" },
+        { s: "NWD", f: "National Wide Dialing", p: "ন্যাশনাল ওয়াইড ডায়ালিং" },
+        { s: "NWRD", f: "National Water Resources Database", p: "ন্যাশনাল ওয়াটার রিসোর্সেস ডাটাবেস" },
+        { s: "OCR", f: "Optical Character Recognition/Reader", p: "অপটিক্যাল ক্যারেক্টার রিকগনিশন/রিডার" },
+        { s: "OECD", f: "Organization for Economic Co-operation and Development", p: "অর্গানাইজেশন ফর ইকোনমিক কো-অপারেশন অ্যান্ড ডেভেলপমেন্ট" },
+        { s: "OIC", f: "Organization of Islamic Cooperation", p: "অর্গানাইজেশন অব ইসলামিক কোঅপারেশন" },
+        { s: "OMR", f: "Optical Mark Recognition/ Reader", p: "অপটিক্যাল মার্ক রিকগনিশন/ রিডার" },
+        { s: "OMS", f: "Open Market Sale", p: "ওপেন মার্কেট সেল" },
+        { s: "OPEC", f: "Organization of Petroleum Exporting Countries", p: "অর্গানাইজেশন অব পেট্রোলিয়াম এক্সপোর্টিং কান্ট্রিস" },
+        { s: "OTP", f: "One Time Password", p: "ওয়ান টাইম পাসওয়ার্ড" },
+        { s: "PDA", f: "Personal Digital Assistant", p: "পার্সোনাল ডিজিটাল অ্যাসিস্ট্যান্ট" },
+        { s: "PDF", f: "Portable Document Format", p: "পোর্টেবল ডকুমেন্ট ফরম্যাট" },
+        { s: "PGCB", f: "Power Grid Company of Bangladesh", p: "পাওয়ার গ্রিড কোম্পানি অব বাংলাদেশ" },
+        { s: "PHD", f: "Doctor of Philosophy", p: "ডক্টর অব ফিলোসফি" },
+        { s: "PID", f: "Press Information Department", p: "প্রেস ইনফরমেশন ডিপার্টমেন্ট" },
+        { s: "PM", f: "Post Meridiem", p: "পোস্ট মেরিডিয়াম" },
+        { s: "PRSP", f: "Poverty Reduction Strategy Paper", p: "পভার্টি রিডাকশন স্ট্র্যাটেজি পেপার" },
+        { s: "PTA", f: "Parent Teacher Association", p: "প্যারেন্ট টিচার অ্যাসোসিয়েশন" },
+        { s: "PTO", f: "Please Turn Over", p: "প্লিজ টার্ন ওভার" },
+        { s: "PWD", f: "Public Works Department", p: "পাবলিক ওয়ার্কস ডিপার্টমেন্ট" },
+        { s: "QUAD", f: "Quadrilateral Security Dialogue", p: "কোয়াড্রিলেটারাল সিকিউরিটি ডায়ালগ" },
+        { s: "RAM", f: "Random Access Memory", p: "র‍্যান্ডম অ্যাক্সেস মেমোরি" },
+        { s: "RCBD", f: "Randomized Complete Block Design", p: "র‍্যান্ডমাইজড কমপ্লিট ব্লক ডিজাইন" },
+        { s: "RFID", f: "Radio Frequency Identification", p: "রেডিও ফ্রিকোয়েন্সি আইডেন্টিফিকেশন" },
+        { s: "ROM", f: "Read Only Memory", p: "রিড অনলি মেমোরি" },
+        { s: "RPO", f: "Represent of the People Order", p: "রিপ্রেজেন্টেশন অব দ্য পিপল অর্ডার" },
+        { s: "RRRC", f: "Refugee Relief and Repatriation Commissioner", p: "রিফিউজি রিলিফ অ্যান্ড রিপ্যাট্রিয়েশন কমিশনার" },
+        { s: "SAARC", f: "South Asian Association for Regional Cooperation", p: "সাউথ এশিয়ান অ্যাসোসিয়েশন ফর রিজিওনাল কোঅপারেশন" },
+        { s: "SAFTA", f: "South Asian Free Trade Area", p: "সাউথ এশিয়ান ফ্রি ট্রেড এরিয়া" },
+        { s: "SAPTA", f: "SAARC Preferential Trading Arrangement", p: "সার্ক প্রেফারেন্সিয়াল ট্রেডিং অ্যারেঞ্জমেন্ট" },
+        { s: "SARS", f: "Severe Acute Respiratory Syndrome", p: "সিভিয়ার অ্যাকিউট রেসপিরেটরি সিন্ড্রোম" },
+        { s: "SCO", f: "Shanghai Cooperation Organisation", p: "সাংহাই কোঅপারেশন অর্গানাইজেশন" },
+        { s: "SDG", f: "Sustainable Development Goals", p: "সাসটেইনেবল ডেভেলপমেন্ট গোলস" },
+        { s: "SIM", f: "Subscriber Identity Module", p: "সাবস্ক্রাইবার আইডেন্টিটি মডিউল" },
+        { s: "SIF", f: "Special Intervention Force", p: "স্পেশাল ইন্টারভেনশন ফোর্স" },
+        { s: "SMS", f: "Short Message Service", p: "শর্ট মেসেজ সার্ভিস" },
+        { s: "SMTP", f: "Simple Mail Transfer Protocol", p: "সিম্পল মেইল ট্রান্সফার প্রোটোকল" },
+        { s: "SOAP", f: "Simple Object Access Protocol", p: "সিম্পল অবজেক্ট অ্যাক্সেস প্রোটোকল" },
+        { s: "SON", f: "Service Order Number", p: "সার্ভিস অর্ডার নাম্বার" },
+        { s: "SOS", f: "Save Our Souls", p: "সেভ আওয়ার সোলস" },
+        { s: "SPARRSO", f: "Bangladesh Space Research and Remote Sensing Organization", p: "বাংলাদেশ স্পেস রিসার্চ অ্যান্ড রিমোট সেন্সিং অর্গানাইজেশন" },
+        { s: "SRDI", f: "Soil Resource Development Institute", p: "সয়েল রিসোর্স ডেভেলপমেন্ট ইনস্টিটিউট" },
+        { s: "SREDA", f: "Sustainable and Renewable Energy Development Authority", p: "সাসটেইনেবল অ্যান্ড রিনিউয়েবল এনার্জি ডেভেলপমেন্ট অথরিটি" },
+        { s: "SSD", f: "Solid State Drive", p: "সলিড স্টেট ড্রাইভ" },
+        { s: "SWIFT", f: "Society for Worldwide Interbank Financial Telecommunications", p: "সোসাইটি ফর ওয়ার্ল্ডওয়াইড ইন্টারব্যাংক ফিন্যান্সিয়াল টেলিকমিউনিকেশনস" },
+        { s: "TB", f: "Terabyte", p: "টেরাবাইট" },
+        { s: "TCP", f: "Transmission Control Protocol", p: "ট্রান্সমিশন কন্ট্রোল প্রোটোকল" },
+        { s: "TFA", f: "Trifluoroacetic acid", p: "ট্রাইফ্লুরোঅ্যাসিটিক অ্যাসিড" },
+        { s: "TICFA", f: "Trade & Investment Cooperation Framework Agreement", p: "ট্রেড অ্যান্ড ইনভেস্টমেন্ট কোঅপারেশন ফ্রেমওয়ার্ক অ্যাগ্রিমেন্ট" },
+        { s: "TIN", f: "Taxpayer Identification Number", p: "ট্যাক্সপেয়ার আইডেন্টিফিকেশন নাম্বার" },
+        { s: "TIP", f: "Transmission Internet Protocol", p: "ট্রান্সমিশন ইন্টারনেট প্রোটোকল" },
+        { s: "UAE", f: "United Arab Emirates", p: "ইউনাইটেড আরব আমিরাত" },
+        { s: "UDHR", f: "Universal Declaration of Human Rights", p: "ইউনিভার্সাল ডিক্লেয়ারেশন অব হিউম্যান রাইটস" },
+        { s: "UDMC", f: "Union Disaster Management Committee", p: "ইউনিয়ন ডিজাস্টার ম্যানেজমেন্ট কমিটি" },
+        { s: "UK", f: "United Kingdom", p: "ইউনাইটেড কিংডম" },
+        { s: "UN", f: "United Nations", p: "ইউনাইটেড নেশনস" },
+        { s: "UNCHR", f: "United Nations Commission on Human Rights", p: "ইউনাইটেড নেশনস কমিশন অন হিউম্যান রাইটস" },
+        { s: "UNCTAD", f: "United Nations Conference on Trade and Development", p: "ইউনাইটেড নেশনস কনফারেন্স অন ট্রেড অ্যান্ড ডেভেলপমেন্ট" },
+        { s: "UNDP", f: "United Nations Development Programme", p: "ইউনাইটেড নেশনস ডেভেলপমেন্ট প্রোগ্রাম" },
+        { s: "UNEP", f: "United Nations Environment Programme", p: "ইউনাইটেড নেশনস এনভায়রনমেন্ট প্রোগ্রাম" },
+        { s: "UNESCO", f: "United Nations Educational Scientific and Cultural Organization", p: "ইউনাইটেড নেশনস এডুকেশনাল সায়েন্টিফিক অ্যান্ড কালচারাল অর্গানাইজেশন" },
+        { s: "UNFCCC", f: "United Nations Framework Convention on Climate Change", p: "ইউনাইটেড নেশনস ফ্রেমওয়ার্ক কনভেনশন অন ক্লাইমেট চেঞ্জ" },
+        { s: "UNFPA", f: "United Nations Fund for Population Activities/ Population Fund", p: "ইউনাইটেড নেশনস ফান্ড ফর পপুলেশন অ্যাক্টিভিটিজ" },
+        { s: "UNHCR", f: "United Nations High Commissioner for Refugees", p: "ইউনাইটেড নেশনস হাই কমিশনার ফর রিফিউজিস" },
+        { s: "UNICEF", f: "United Nations Children's Fund", p: "ইউনাইটেড নেশনস চিলড্রেনস ফান্ড" },
+        { s: "UNIDO", f: "United Nations Industrial Development Organization", p: "ইউনাইটেড নেশনস ইন্ডাস্ট্রিয়াল ডেভেলপমেন্ট অর্গানাইজেশন" },
+        { s: "UNIFEM", f: "United Nations Development Fund for Women", p: "ইউনাইটেড নেশনস ডেভেলপমেন্ট ফান্ড ফর উইমেন" },
+        { s: "UNIVAC", f: "Universal Automatic Computer", p: "ইউনিভার্সাল অটোমেটেড কম্পিউটার" },
+        { s: "UNODC", f: "The United Nations Office on Drugs and Crime", p: "দ্য ইউনাইটেড নেশনস অফিস অন ড্রাগস অ্যান্ড ক্রাইম" },
+        { s: "UNPD", f: "United Nations Development Programme", p: "ইউনাইটেড নেশনস ডেভেলপমেন্ট প্রোগ্রাম" },
+        { s: "UNU", f: "United Nations University", p: "ইউনাইটেড নেশনস ইউনিভার্সিটি" },
+        { s: "UPS", f: "Uninterruptible Power Supply", p: "আনিরপ্টেবল পাওয়ার সাপ্লাই" },
+        { s: "UPU", f: "Universal Postal Union", p: "ইউনিভার্সাল পোস্টাল ইউনিয়ন" },
+        { s: "URL", f: "Uniform Resource Locator", p: "ইউনিফর্ম রিসোর্স লোকেটর" },
+        { s: "USB", f: "Universal Serial Bus", p: "ইউনিভার্সাল সিরিয়াল বাস" },
+        { s: "VAR", f: "Video Assistance Referee", p: "ভিডিও অ্যাসিস্ট্যান্স রেফারি" },
+        { s: "VAT", f: "Value Added Tax", p: "ভ্যালু অ্যাডেড ট্যাক্স" },
+        { s: "VGD", f: "Vulnerable Group Development", p: "ভালনারেবল গ্রুপ ডেভেলপমেন্ট" },
+        { s: "VGF", f: "Vulnerable Group Feeding", p: "ভালনারেবল গ্রুপ ফিডিং" },
+        { s: "VIRUS", f: "Vital Information Resources Under Siege", p: "ভাইটাল ইনফরমেশন রিসোর্সেস আন্ডার সিজ" },
+        { s: "VOIP", f: "Voice Over Internet Protocol", p: "ভয়েস ওভার ইন্টারনেট প্রোটোকল" },
+        { s: "VPN", f: "Virtual Private Network", p: "ভার্চুয়াল প্রাইভেট নেটওয়ার্ক" },
+        { s: "WAN", f: "Wide Area Network", p: "ওয়াইড এরিয়া নেটওয়ার্ক" },
+        { s: "WASA", f: "Water Supply and Sewerage Authority", p: "வாটার সাপ্লাই অ্যান্ড সুয়্যারেজ অথরিটি" },
+        { s: "WBG", f: "World Bank Group", p: "ওয়ার্ল্ড ব্যাংক গ্রুপ" },
+        { s: "WCO", f: "World Customs Organization", p: "ওয়ার্ল্ড কাস্টমস অর্গানাইজেশন" },
+        { s: "WHO", f: "World Health Organization", p: "ওয়ার্ল্ড হেলথ অর্গানাইজেশন" },
+        { s: "WiFi", f: "Wireless Fidelity", p: "ওয়ারলেস ফিডেলিটি" },
+        { s: "Wimax", f: "Worldwide Interoperability for Microwave Access", p: "ওয়ার্ল্ডওয়াইড ইন্টারঅপারেবিলিটি ফর মাইক্রোওয়েভ অ্যাক্সেস" },
+        { s: "WIPO", f: "World Intellectual Property Organization", p: "ওয়ার্ল্ড ইন্টেলেকচুয়াল প্রপার্টি অর্গানাইজেশন" },
+        { s: "WMD", f: "Weapon of Mass Destruction", p: "ওয়েপন অব মাস ডেসট্রাকশন" },
+        { s: "WMF", f: "World Wildlife Fund", p: "ওয়ার্ল্ড ওয়াইল্ডলাইফ ফান্ড" },
+        { s: "WMO", f: "World Meteorological Organization", p: "ওয়ার্ল্ড মেটিওরোলজিক্যাল অর্গানাইজেশন" },
+        { s: "WTC", f: "World Trade Centre", p: "ওয়ার্ল্ড ট্রেড সেন্টার" },
+        { s: "WTO", f: "World Trade Organization", p: "ওয়ার্ল্ড ট্রেড অর্গানাইজেশন" },
+        { s: "WWF", f: "World Wide Fund for Nature", p: "ওয়ার্ল্ড ওয়াইড ফান্ড ফর নেচার" },
+        { s: "WWW", f: "World Wide Web", p: "ওয়ার্ল্ড ওয়াইড ওয়েব" }
+    ];
+    
+
+    let isFavoriteViewOn = false;
+    let favoriteList = JSON.parse(localStorage.getItem('bacademy_abbrev_pro_favs')) || [];
+
+    function toggleFavoriteViewMode() {
+        isFavoriteViewOn = !isFavoriteViewOn;
+        document.getElementById('favViewBtn').classList.toggle('active-mode', isFavoriteViewOn);
+        document.getElementById('favViewBtn').innerText = isFavoriteViewOn ? "📖 সব দেখুন" : "⭐ ফেভারিট";
+        renderListEngine();
+    }
+
+    function renderListEngine() {
+        const listContainer = document.getElementById('main-list');
+        listContainer.innerHTML = "";
+
+        abbrevData.forEach((item, index) => {
+            const isItemFav = favoriteList.includes(index);
+            if (isFavoriteViewOn && !isItemFav) return;
+
+            const rowNode = document.createElement('div');
+            rowNode.className = 'item-wrapper';
+            rowNode.id = `cell-item-${index + 1}`;
+
+            rowNode.innerHTML = `
+                <div class="card" onclick="triggerCardFlip(this)">
+                    <button class="fav-node-btn ${isItemFav ? 'active' : ''}" onclick="toggleSingleItemFav(event, ${index})">❤️</button>
+                    
+                    <div class="content-engine">
+                        <div class="short-form-node"><span class="inline-serial">${index + 1}.</span>${item.s}</div>
+                        <div class="tap-to-reveal">Full Form দেখতে ট্যাপ করুন</div>
+                        
+                        <div class="full-form-box">
+                            <p class="full-line">${item.f}</p>
+                            <p class="pronounce-line"><strong>🗣️</strong> ${item.p}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            listContainer.appendChild(rowNode);
+        });
+    }
+
+    function toggleSingleItemFav(event, index) {
+        event.stopPropagation(); 
+        const position = favoriteList.indexOf(index);
+        if (position === -1) favoriteList.push(index);
+        else favoriteList.splice(position, 1);
+        localStorage.setItem('bacademy_abbrev_pro_favs', JSON.stringify(favoriteList));
+        renderListEngine();
+    }
+
+    function triggerCardFlip(cardEl) {
+        cardEl.classList.toggle('card-revealed');
+    }
+
+    function toggleRocketHub() {
+        const menu = document.getElementById('rocketMenu');
+        menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+    }
+
+    function jumpToCell() {
+        let inputVal = document.getElementById('jumpInput').value;
+        let targetEl = document.getElementById(`cell-item-${inputVal}`);
+        if (targetEl) {
+            targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            toggleRocketHub();
+        }
+    }
+
+    let lastScrollPosition = 0;
+    window.addEventListener('scroll', () => {
+        let currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+        const navHeader = document.getElementById('headerNav');
+        if (currentScrollPosition > lastScrollPosition && currentScrollPosition > 50) navHeader.classList.add('header-hide'); 
+        else navHeader.classList.remove('header-hide');
+        lastScrollPosition = currentScrollPosition <= 0 ? 0 : currentScrollPosition;
+    }, { passive: true });
+
+    function executeSearchFilter() {
+        let searchString = document.getElementById('mainSearch').value.toLowerCase();
+        document.querySelectorAll('.card').forEach(row => {
+            row.closest('.item-wrapper').style.display = row.innerText.toLowerCase().includes(searchString) ? "flex" : "none";
+        });
+    }
+
+    renderListEngine();
+</script>
+</body>
+</html>
