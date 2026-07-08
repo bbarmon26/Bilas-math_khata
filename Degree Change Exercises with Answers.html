@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Degree Dictionary</title>
+    <style>
+        :root { --primary: #4f46e5; --bg: #f8fafc; --text: #1e293b; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); color: var(--text); display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        .header { text-align: center; margin-bottom: 30px; }
+        #searchBar { width: 100%; max-width: 500px; padding: 15px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 16px; margin-bottom: 20px; outline: none; transition: 0.3s; }
+        #searchBar:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(79, 70, 229, 0.2); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; width: 100%; max-width: 1000px; }
+        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); cursor: pointer; transition: 0.3s; border-left: 5px solid var(--primary); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px rgba(0,0,0,0.1); }
+        .pos-text { font-size: 1.2rem; font-weight: 700; color: var(--primary); }
+        .details { display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid #e2e8f0; }
+        .show { display: block; }
+        .row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.95rem; }
+        .label { color: #64748b; font-weight: 500; }
+        .val { font-weight: 600; color: #334155; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>ডিগ্রি অফ অ্যাডজেক্টিভ (চাকরি প্রস্তুতি)</h1>
+        <p>সহজেই খুজে নিন আপনার কাঙ্ক্ষিত ডিগ্রি</p>
+    </div>
+
+    <input type="text" id="searchBar" placeholder="এখানে Positive ডিগ্রি লিখে সার্চ করুন..." onkeyup="filterItems()">
+    
+    <div class="grid" id="container"></div>
+
+    <script>
+        const data = [
+            { id: 1, pos: "Good", comp: "Better", sup: "Best", mean: "ভাল" },
+            { id: 2, pos: "Bad", comp: "Worse", sup: "Worst", mean: "খারাপ" },
+            { id: 3, pos: "Far", comp: "Farther/Further", sup: "Farthest/Furthest", mean: "দূর" },
+            { id: 4, pos: "Late", comp: "Later/Latter", sup: "Latest/Last", mean: "দেরি" },
+            { id: 5, pos: "Many/Much", comp: "More", sup: "Most", mean: "অনেক" },
+            { id: 6, pos: "Fore", comp: "Former", sup: "Foremost/First", mean: "সামনের" },
+            { id: 7, pos: "Up", comp: "Upper", sup: "Uppermost", mean: "উপরের" },
+            { id: 8, pos: "Out", comp: "Outer", sup: "Outermost/Utmost", mean: "বাইরের" },
+            { id: 9, pos: "In", comp: "Inner", sup: "Innermost/Inmost", mean: "ভিতরের" },
+            { id: 10, pos: "Hot", comp: "Hotter", sup: "Hottest", mean: "গরম" },
+            { id: 11, pos: "Big", comp: "Bigger", sup: "Biggest", mean: "বড়" },
+            { id: 12, pos: "Red", comp: "Redder", sup: "Reddest", mean: "লাল" },
+            { id: 13, pos: "Fat", comp: "Fatter", sup: "Fattest", mean: "মোটা" },
+            { id: 14, pos: "Thin", comp: "Thinner", sup: "Thinnest", mean: "পাতলা" },
+            { id: 15, pos: "Wise", comp: "Wiser", sup: "Wisest", mean: "জ্ঞানী" },
+            { id: 16, pos: "Happy", comp: "Happier", sup: "Happiest", mean: "সুখী" },
+            { id: 17, pos: "Busy", comp: "Busier", sup: "Busiest", mean: "ব্যস্ত" },
+            { id: 18, pos: "Easy", comp: "Easier", sup: "Easiest", mean: "সহজ" },
+            { id: 19, pos: "Dry", comp: "Drier", sup: "Driest", mean: "শুকনো" },
+            { id: 20, pos: "Ugly", comp: "Uglier", sup: "Ugliest", mean: "কুৎসিত" },
+            { id: 21, pos: "Lazy", comp: "Lazier", sup: "Laziest", mean: "অলস" },
+            { id: 22, pos: "Heavy", comp: "Heavier", sup: "Heaviest", mean: "ভারী" },
+            { id: 23, pos: "Gay", comp: "Gayer", sup: "Gayest", mean: "আনন্দিত" },
+            { id: 24, pos: "Grey", comp: "Greyer", sup: "Greyest", mean: "ধূসর" },
+            { id: 25, pos: "Clever", comp: "Cleverer", sup: "Cleverest", mean: "চতুর" },
+            { id: 26, pos: "Few", comp: "Fewer", sup: "Fewest", mean: "কিছু" },
+            { id: 27, pos: "Short", comp: "Shorter", sup: "Shortest", mean: "খাটো" },
+            { id: 28, pos: "Strong", comp: "Stronger", sup: "Strongest", mean: "শক্তিশালী" },
+            { id: 29, pos: "Small", comp: "Smaller", sup: "Smallest", mean: "ছোট" },
+            { id: 30, pos: "Large", comp: "Larger", sup: "Largest", mean: "বিশাল" },
+            { id: 31, pos: "Fast", comp: "Faster", sup: "Fastest", mean: "দ্রুত" },
+            { id: 32, pos: "Old", comp: "Older", sup: "Oldest", mean: "পুরানো" },
+            { id: 33, pos: "Cold", comp: "Colder", sup: "Coldest", mean: "ঠান্ডা" },
+            { id: 34, pos: "Bright", comp: "Brighter", sup: "Brightest", mean: "উজ্জ্বল" },
+            { id: 35, pos: "Tall", comp: "Taller", sup: "Tallest", mean: "লম্বা" },
+            { id: 36, pos: "Poor", comp: "Poorer", sup: "Poorest", mean: "দরিদ্র" },
+            { id: 37, pos: "Rich", comp: "Richer", sup: "Richest", mean: "ধনী" },
+            { id: 38, pos: "Beautiful", comp: "More/Less beautiful", sup: "Most/Least beautiful", mean: "সুন্দর" },
+            { id: 39, pos: "Important", comp: "More/Less important", sup: "Most/Least important", mean: "গুরুত্বপূর্ণ" },
+            { id: 40, pos: "Intelligent", comp: "More intelligent", sup: "Most intelligent", mean: "বুদ্ধিমান" },
+            { id: 41, pos: "Difficult", comp: "More difficult", sup: "Most difficult", mean: "কঠিন" },
+            { id: 42, pos: "Useful", comp: "More useful", sup: "Most useful", mean: "দরকারী" },
+            { id: 43, pos: "Active", comp: "More active", sup: "Most active", mean: "কর্মঠ" },
+            { id: 44, pos: "Valuable", comp: "More valuable", sup: "Most valuable", mean: "মূল্যবান" },
+            { id: 45, pos: "Precious", comp: "More precious", sup: "Most precious", mean: "দামি" },
+            { id: 46, pos: "Ferocious", comp: "More ferocious", sup: "Most ferocious", mean: "হিংস্র" },
+            { id: 47, pos: "Courageous", comp: "More courageous", sup: "Most courageous", mean: "সাহসী" },
+            { id: 48, pos: "Interesting", comp: "More interesting", sup: "Most interesting", mean: "আকর্ষণীয়" },
+            { id: 49, pos: "Careful", comp: "More careful", sup: "Most careful", mean: "সতর্ক" }
+        ];
+
+        function render(arr) {
+            const container = document.getElementById('container');
+            container.innerHTML = '';
+            arr.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="pos-text">${item.id}. ${item.pos}</div>
+                    <div class="details" id="d-${item.id}">
+                        <div class="row"><span class="label">অর্থ:</span> <span class="val">${item.mean}</span></div>
+                        <div class="row"><span class="label">Comparative:</span> <span class="val">${item.comp}</span></div>
+                        <div class="row"><span class="label">Superlative:</span> <span class="val">${item.sup}</span></div>
+                    </div>
+                `;
+                card.onclick = () => document.getElementById(`d-${item.id}`).classList.toggle('show');
+                container.appendChild(card);
+            });
+        }
+
+        function filterItems() {
+            const term = document.getElementById('searchBar').value.toLowerCase();
+            const filtered = data.filter(item => item.pos.toLowerCase().includes(term));
+            render(filtered);
+        }
+
+        render(data);
+    </script>
+</body>
+</html>

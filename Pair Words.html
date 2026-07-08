@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pair Words Master - 74 Pairs</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --secondary: #6366f1;
+            --bg: #f3f4f6;
+            --text: #1f2937;
+            --card: #ffffff;
+            --border: #e5e7eb;
+            --fav: #f59e0b;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container { max-width: 600px; width: 100%; }
+        h1 { text-align: center; color: var(--primary); margin-bottom: 20px; font-size: 1.5rem; }
+        
+        .card {
+            background: var(--card);
+            margin-bottom: 12px;
+            padding: 16px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
+            transition: transform 0.1s;
+        }
+
+        .header { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .title { font-weight: 700; font-size: 1.1rem; color: #111827; }
+        .fav-btn { background: none; border: none; font-size: 1.4rem; cursor: pointer; color: #d1d5db; }
+        .fav-btn.active { color: var(--fav); }
+        .content { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid #f0f0f0; }
+        .pronounce { font-weight: 600; color: #6b7280; font-size: 0.85rem; }
+        .meaning { color: var(--primary); font-weight: 600; margin: 5px 0; }
+        .explanation { font-size: 0.95rem; line-height: 1.5; color: #374151; }
+    </style>
+</head>
+<body>
+
+<div class="container" id="app">
+    <h1>চাকরি পরীক্ষার প্রস্তুতি: Pair Words</h1>
+</div>
+
+<script>
+    const data = [
+        { id: 1, q: "Accept / Except", p: "অ্যাকসেপ্ট / এক্সেপ্ট", m: "গ্রহণ করা / ব্যতীত", e: "Accept (Verb) কোনো কিছু গ্রহণ করা। Except (Preposition) কোনো কিছু বা কাউকে বাদ দেওয়া।" },
+        { id: 2, q: "Allusion / Illusion", p: "অ্যালুশন / ইলিউশন", m: "পরোক্ষ উল্লেখ / অলীক ধারণা", e: "Allusion হলো রেফারেন্স বা উল্লেখ। Illusion হলো ভ্রম বা মরীচিকা।" },
+        { id: 3, q: "Crops / Corps / Corpse", p: "ক্রপস / কোর / কর্পস", m: "শস্য / বাহিনী / মৃতদেহ", e: "Crops ফসল, Corps সামরিক দল, Corpse মৃতদেহ।" },
+        { id: 4, q: "Artiste / Artist", p: "আর্টিস্ট / আর্টিস্ট", m: "গায়ক / চিত্রশিল্পী", e: "Artiste সাধারণত শিল্পী বা গায়ক। Artist চিত্রকর।" },
+        { id: 5, q: "Illicit / Elicit", p: "ইলিসিট / এলিসিট", m: "অবৈধ / বের করে আনা", e: "Illicit মানে যা আইনসিদ্ধ নয়। Elicit মানে কোনো তথ্য বের করা।" },
+        { id: 6, q: "Eligible / Illegible", p: "এলিজেবল / ইলিজেবল", m: "যোগ্য / অস্পষ্ট", e: "Eligible মানে পদের জন্য যোগ্য। Illegible মানে যা পড়া যায় না।" },
+        { id: 7, q: "Inhabit / Inhibit", p: "ইনহ্যাবিট / ইনহিবিট", m: "বাস করা / বাধা দেওয়া", e: "Inhabit মানে বসবাস করা। Inhibit মানে কোনো কাজ হতে বাধা দেওয়া।" },
+        { id: 8, q: "Pitiful / Pitiable", p: "পিটিফুল / পিটিয়াবল", m: "দয়াপ্রবণ / শোচনীয়", e: "Pitiful মানে করুণা উদ্রেককারী। Pitiable মানে শোচনীয় অবস্থা।" },
+        { id: 9, q: "Zeal / Zest", p: "জিল / জেস্ট", m: "প্রবল উৎসাহ / আনন্দ", e: "Zeal মানে তীব্র আগ্রহ। Zest মানে বিশেষ উদ্দীপনা বা আনন্দ।" },
+        { id: 10, q: "Peak / Pick", p: "পিক / পিক", m: "চূড়া / ছিঁড়ে ফেলা", e: "Peak মানে পাহাড়ের চূড়া। Pick মানে বাছাই করা বা তোলা।" },
+        { id: 11, q: "Peek / Peck", p: "পিক / পেক", m: "উঁকি দেওয়া / দ্রুত চুম্বন", e: "Peek মানে লুকিয়ে দেখা। Peck মানে ছোট ঠোকর বা চুম্বন।" },
+        { id: 12, q: "Fiction / Fraction", p: "ফিকশন / ফ্র্যাকশন", m: "কল্পকাহিনি / ভগ্নাংশ", e: "Fiction মানে কাল্পনিক গল্প। Fraction মানে কোনো কিছুর অংশ।" },
+        { id: 13, q: "Extensive / Intensive", p: "এক্সটেনসিভ / ইনটেনসিভ", m: "ব্যাপক / নিবিড়", e: "Extensive মানে বিস্তৃত। Intensive মানে গভীর বা নিবিড়।" },
+        { id: 14, q: "Persecute / Prosecute", p: "পারসিকিউট / প্রসিকিউট", m: "অত্যাচার / অভিযুক্ত করা", e: "Persecute মানে অন্যায়ভাবে দমন। Prosecute মানে আইনত বিচার করা।" },
+        { id: 15, q: "Fair / Fare", p: "ফেয়ার / ফেয়ার", m: "পক্ষপাতহীন / ভাড়া", e: "Fair মানে নিরপেক্ষ। Fare মানে ভাড়ার টাকা।" },
+        { id: 16, q: "Siege / Seize", p: "সিজ / সিজ", m: "অবরোধ / গ্রেপ্তার করা", e: "Siege মানে ঘিরে রাখা। Seize মানে বলপূর্বক ধরা।" },
+        { id: 17, q: "Tamper / Temper", p: "ট্যাম্পার / টেম্পার", m: "বিকৃত করা / মেজাজ", e: "Tamper মানে নষ্ট করা। Temper মানে মেজাজ।" },
+        { id: 18, q: "Tale / Tail", p: "টেইল / টেইল", m: "গল্প / লেজ", e: "Tale মানে রূপকথা বা গল্প। Tail মানে প্রাণীর লেজ।" },
+        { id: 19, q: "Access / Excess", p: "অ্যাক্সেস / এক্সেস", m: "প্রবেশাধিকার / অতিরিক্ত", e: "Access মানে প্রবেশের পথ। Excess মানে বাড়াবাড়ি বা অতিরিক্ত।" },
+        { id: 20, q: "Affect / Effect", p: "অ্যাফেক্ট / ইফেক্ট", m: "প্রভাবিত করা / ফলাফল", e: "Affect (Verb) প্রভাবিত করা। Effect (Noun) ফলাফল।" },
+        { id: 21, q: "Cite / Site / Sight", p: "সাইট / সাইট / সাইট", m: "উদ্ধৃতি দেওয়া / স্থান / দৃশ্য", e: "Cite রেফারেন্স দেওয়া। Site জায়গা। Sight মানে দৃষ্টি।" },
+        { id: 22, q: "Economic / Economical", p: "ইকোনমিক / ইকোনমিক্যাল", m: "অর্থনৈতিক / মিতব্যয়ী", e: "Economic অর্থ সংক্রান্ত। Economical মানে মিতব্যয়ী।" },
+        { id: 23, q: "Quiet / Quite", p: "কোয়াইট / কোয়াইট", m: "শান্ত / সম্পূর্ণরুপে", e: "Quiet মানে শান্ত বা চুপ। Quite মানে পুরোপুরি।" },
+        { id: 24, q: "Loose / Loss", p: "লুস / লস", m: "টিলেঢালা / ক্ষতি", e: "Loose মানে যা ঢিলা। Loss মানে ক্ষতি।" },
+        { id: 25, q: "Principle / Principal", p: "প্রিন্সিপাল / প্রিন্সিপাল", m: "মূলনীতি / প্রধান", e: "Principle নিয়ম। Principal প্রধান ব্যক্তি বা মূলধন।" },
+        { id: 26, q: "Jealous / Zealous", p: "জেলাস / জেলাস", m: "হিংসা করা / অতি উৎসাহী", e: "Jealous ঈর্ষাপরায়ণ। Zealous অত্যন্ত আগ্রহী।" },
+        { id: 27, q: "Pear / Pair", p: "পিয়ার / পেয়ার", m: "নাশপাতি গাছ / জোড়া", e: "Pear ফল। Pair মানে জোড়া।" },
+        { id: 28, q: "Pare / Peer", p: "পেয়ার / পিয়ার", m: "খোসা ছাড়ানো / উঁকি দেওয়া", e: "Pare খোসা কমানো। Peer তাকিয়ে দেখা।" },
+        { id: 29, q: "Censor / Censer", p: "সেন্সর / সেন্সার", m: "ছাড়পত্র প্রদানকারী / ধূপধার", e: "Censor সেন্সর করা। Censer ধূপের পাত্র।" },
+        { id: 30, q: "Defy / Deny", p: "ডিফাই / ডিনাই", m: "অবাধ্য হওয়া / অস্বীকার করা", e: "Defy অমান্য করা। Deny সত্য অস্বীকার করা।" },
+        { id: 31, q: "Moral / Morale", p: "মোরাল / মোরাল", m: "কাহিনী/নীতি কথা / মনোবল", e: "Moral নৈতিক। Morale মানসিক শক্তি।" },
+        { id: 32, q: "Heir / Hair", p: "এয়ার / হেয়ার", m: "উত্তরাধিকারী / চুল", e: "Heir উত্তরাধিকারী। Hair মাথার চুল।" },
+        { id: 33, q: "Calendar / Calender", p: "ক্যালেন্ডার / ক্যালেন্ডার", m: "বর্ষপঞ্জি / ইস্ত্রি", e: "Calendar তারিখের খাতা। Calender ইস্ত্রির যন্ত্র।" },
+        { id: 34, q: "Stationary / Stationery", p: "স্টেশনারি / স্টেশনারি", m: "স্থির / মনিহারি জিনিস", e: "Stationary অচল। Stationery লেখার সরঞ্জাম।" },
+        { id: 35, q: "Wonder / Wander", p: "ওয়ান্ডার / ওয়ান্ডার", m: "বিস্মিত হওয়া / উদ্দেশ্যহীনভাবে ঘোরা", e: "Wonder অবাক হওয়া। Wander ঘুরে বেড়ানো।" },
+        { id: 36, q: "Eminent / Imminent", p: "এমিনেন্ট / ইমিনেন্ট", m: "বিখ্যাত / আসন্ন", e: "Eminent বিখ্যাত। Imminent খুব দ্রুত ঘটতে যাচ্ছে এমন।" },
+        { id: 37, q: "Later / Latter", p: "লেটার / লেটার", m: "পরে / পরেরটি", e: "Later মানে সময়ের পরে। Latter মানে দুইটির মধ্যে পরেরটি।" },
+        { id: 38, q: "Course / Coarse", p: "কোর্স / কোয়ার্স", m: "বিষয় / খসখসে", e: "Course বিষয়। Coarse অমসৃণ বা খসখসে।" },
+        { id: 39, q: "Desert / Dessert", p: "ডেজার্ট / ডেজার্ট", m: "মরুভূমি / মিষ্টান্ন", e: "Desert মরুভূমি। Dessert খাবারের পরের মিষ্টি।" },
+        { id: 40, q: "Rare / Rear", p: "রেয়ার / রিয়ার", m: "দুর্লভ / শেষ অংশ", e: "Rare যা সচরাচর মেলে না। Rear পেছনের অংশ।" },
+        { id: 41, q: "Credible / Creditable", p: "ক্রেডিবল / ক্রেডিটেবল", m: "বিশ্বাসযোগ্য / প্রশংসনীয়", e: "Credible যা বিশ্বাস করা যায়। Creditable যা প্রশংসার যোগ্য।" },
+        { id: 42, q: "Adapt / Adopt", p: "অ্যাডাপ্ট / অ্যাডপ্ট", m: "খাপ খাওয়ানো / গ্রহণ করা", e: "Adapt খাপ খাওয়ানো। Adopt দত্তক নেওয়া বা গ্রহণ করা।" },
+        { id: 43, q: "Addition / Edition", p: "এডিশন / এডিশন", m: "নতুন কিছু যোগ / সংস্করণ", e: "Addition যোগ করা। Edition বই বা পত্রিকা সংস্করণ।" },
+        { id: 44, q: "Advice / Advise", p: "অ্যাডভাইস / অ্যাডভাইজ", m: "উপদেশ / উপদেশ দেওয়া", e: "Advice (Noun) উপদেশ। Advise (Verb) উপদেশ দেওয়া।" },
+        { id: 45, q: "Ascent / Assent", p: "অ্যাসেন্ড / অ্যাসেন্ড", m: "ওপরে ওঠা / সহমত", e: "Ascent আরোহণ। Assent সম্মতি।" },
+        { id: 46, q: "Amend / Emend", p: "অ্যামেন্ড / ইমেন্ড", m: "সংশোধন করা / লেখা সম্পাদন করা", e: "Amend ভুল শুধরানো। Emend ত্রুটি সংশোধন করা।" },
+        { id: 47, q: "Beside / Besides", p: "বিসাইড / বিসাইডস", m: "পাশে / ছাড়া/ব্যতীত", e: "Beside মানে পাশে। Besides মানে ছাড়াও।" },
+        { id: 48, q: "Canvas / Canvass", p: "ক্যানভাস / ক্যানভাস", m: "মোটা পর্দা / প্রচার করা", e: "Canvas এক ধরণের কাপড়। Canvass ভোট চাওয়া বা প্রচার করা।" },
+        { id: 49, q: "Cast / Caste", p: "কাস্ট / কাস্ট", m: "ছুঁড়ে ফেলা / জাতি", e: "Cast নিক্ষেপ করা। Caste বংশ বা জাতি।" },
+        { id: 50, q: "Career / Carrier", p: "ক্যারিয়ার / ক্যারিয়ার", m: "জীবনে উন্নতি / বাহক", e: "Career পেশা। Carrier বহনকারী।" },
+        { id: 51, q: "Certain / Curtain", p: "সার্টেন / কার্টেন", m: "নিশ্চিত / পর্দা", e: "Certain সুনিশ্চিত। Curtain পর্দার কাপড়।" },
+        { id: 52, q: "Check / Cheque", p: "চেক / চেক", m: "পরীক্ষা করা / ব্যাংকের চেক", e: "Check পরীক্ষা করা। Cheque ব্যাংকের চেক।" },
+        { id: 53, q: "Complement / Compliment", p: "কমপ্লিমেন্ট / কমপ্লিমেন্ট", m: "পরিপূরক / প্রশংসা", e: "Complement যা পূর্ণ করে। Compliment প্রশংসা।" },
+        { id: 54, q: "Council / Counsel", p: "কাউন্সিল / কাউন্সিল", m: "সভা/পরিষদ / পরামর্শ", e: "Council পরিষদ। Counsel পরামর্শ।" },
+        { id: 55, q: "Credible / Creditable", p: "ক্রেডিবল / ক্রেডিটেবল", m: "বিশ্বাসযোগ্য / প্রশংসনীয়", e: "Credible বিশ্বাসযোগ্য। Creditable প্রশংসনীয়।" },
+        { id: 56, q: "Defer / Differ", p: "ডিফার / ডিফার", m: "স্থগিত / ভিন্ন হওয়া", e: "Defer দেরি করা। Differ ভিন্নমত হওয়া।" },
+        { id: 57, q: "Deference / Difference", p: "ডেফারেন্স / ডিফারেন্স", m: "সম্মান / পার্থক্য", e: "Deference শ্রদ্ধা। Difference অমিল।" },
+        { id: 58, q: "Die / Dye", p: "ডাই / ডাই", m: "মরা / রঙ করা", e: "Die মৃত্যু। Dye কাপড় রঙ করা।" },
+        { id: 59, q: "Dew / Due", p: "ডিউ / ডিউ", m: "শিশির / প্রাপ্য", e: "Dew শিশির। Due পাওনা বা প্রাপ্য।" },
+        { id: 60, q: "Dual / Duel", p: "ডুয়াল / ডুয়েল", m: "দুমাথো / দ্বন্দ্বযুদ্ধ", e: "Dual দ্বৈত। Duel দুজনের যুদ্ধ।" },
+        { id: 61, q: "Emigrant / Immigrant", p: "এমিগ্র্যান্ট / ইমিগ্র্যান্ট", m: "দেশত্যাগী / অভিবাসী", e: "Emigrant যে দেশ ছাড়ে। Immigrant যে দেশে আসে।" },
+        { id: 62, q: "Expand / Expend", p: "এক্সপ্যান্ড / এক্সপেন্ড", m: "বাড়ানো / খরচ করা", e: "Expand বৃদ্ধি। Expend ব্যয়।" },
+        { id: 63, q: "Farm / Firm", p: "ফার্ম / ফার্ম", m: "খামার / ব্যবসা", e: "Farm কৃষি খামার। Firm ব্যবসা প্রতিষ্ঠান।" },
+        { id: 64, q: "Ingenious / Ingenuous", p: "ইনজেনিয়াস / ইনজেনুয়াস", m: "দক্ষ/চতুর / অকৃত্রিম", e: "Ingenious বুদ্ধিমান। Ingenuous সহজ-সরল।" },
+        { id: 65, q: "Personal / Personnel", p: "পার্সোনাল / পার্সোনেল", m: "ব্যক্তিগত / লোকসমষ্টি", e: "Personal ব্যক্তিগত। Personnel কর্মীদল।" },
+        { id: 66, q: "Popular / Populous", p: "পপুলার / পপুলাস", m: "জনপ্রিয় / জনবহুল", e: "Popular যা সবার পছন্দ। Populous অধিক জনবসতিপূর্ণ।" },
+        { id: 67, q: "Refuge / Refuse", p: "রেফিউজ / রিফিউজ", m: "আশ্রয় / অস্বীকার করা", e: "Refuge আশ্রয়স্থল। Refuse প্রত্যাখ্যান করা।" },
+        { id: 68, q: "Stair / Stare", p: "স্টেয়ার / স্টেয়ার", m: "সিঁড়ির ধাপ / একদৃষ্টিতে তাকানো", e: "Stair সিড়ি। Stare একভাবে তাকিয়ে থাকা।" },
+        { id: 69, q: "Tall / Tell", p: "টল / টেল", m: "লম্বা / বলা", e: "Tall দৈর্ঘ্য। Tell বলা।" },
+        { id: 70, q: "Vain / Vein", p: "ভেইন / ভেইন", m: "বৃথা/অহংকারী / শিরা", e: "Vain অহংকারী বা ব্যর্থ। Vein রক্তনালী।" },
+        { id: 71, q: "Wave / Waive", p: "ওয়েভ / ওয়েভ", m: "ঢেউ / ত্যাগ করা", e: "Wave ঢেউ। Waive দাবি ছেড়ে দেওয়া।" },
+        { id: 72, q: "Warm / Worm", p: "ওয়ার্ম / ওয়ার্ম", m: "উষ্ণ / পোকা", e: "Warm গরম। Worm কেঁচো বা পোকা।" },
+        { id: 73, q: "Weak / Week / Wick", p: "উইক / উইক / উইক", m: "দুর্বল / সপ্তাহ / বাতি", e: "Weak শক্তিহীন। Week সাত দিন। Wick সলতে।" },
+        { id: 74, q: "Coir / Choir", p: "কোয়ার / কোয়ার", m: "নারিকেল আঁশ / গায়কদল", e: "Coir নারিকেলের ছোবড়া। Choir গির্জার গায়কদল।" }
+    ];
+
+    const container = document.getElementById('app');
+
+    function render() {
+        const favs = JSON.parse(localStorage.getItem('favs') || '[]');
+        container.innerHTML = '<h1>চাকরি প্রস্তুতি: Pair Words (৭৪ টি)</h1>';
+        
+        data.forEach(item => {
+            const isFav = favs.includes(item.id.toString());
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <div class="header" onclick="toggle(this)">
+                    <span class="title">${item.id}. ${item.q}</span>
+                    <button class="fav-btn ${isFav ? 'active' : ''}" onclick="toggleFav(event, ${item.id})">★</button>
+                </div>
+                <div class="content">
+                    <p class="pronounce">উচ্চারণ: ${item.p}</p>
+                    <p class="meaning">অর্থ: ${item.m}</p>
+                    <p class="explanation"><strong>ব্যাখ্যা:</strong> ${item.e}</p>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    function toggle(el) {
+        const content = el.nextElementSibling;
+        content.style.display = (content.style.display === 'block') ? 'none' : 'block';
+    }
+
+    function toggleFav(event, id) {
+        event.stopPropagation();
+        let favs = JSON.parse(localStorage.getItem('favs') || '[]');
+        if (favs.includes(id.toString())) {
+            favs = favs.filter(i => i !== id.toString());
+        } else {
+            favs.push(id.toString());
+        }
+        localStorage.setItem('favs', JSON.stringify(favs));
+        render();
+    }
+
+    render();
+</script>
+
+</body>
+</html>
