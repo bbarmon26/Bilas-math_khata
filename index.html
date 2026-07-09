@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>BILAS ACADEMY | Master Study Hub</title>
+    
     <!-- 🌟 ১. সোশ্যাল মিডিয়া লিংক প্রিভিউ থাম্বনেইল (Open Graph) সেটিংস -->
     <meta property="og:title" content="BILAS ACADEMY ∆ স্মার্ট পড়াশোনা">
     <meta property="og:description" content="চাকরি প্রস্তুতির জন্য আল্ট্রা-প্রিমিয়াম ডিজিটাল স্টাডি নোট ও খাতা।">
@@ -20,7 +21,7 @@
     <link rel="apple-touch-icon" href="logobacca26v2.png">
     <link rel="icon" type="image/png" href="logobacca26v2.png">
 
-        <!-- 🧬 ৩. জাভাস্ক্রিপ্ট দিয়ে ডাইনামিক Manifest এবং Service Worker জেনারেশন ইঞ্জিন (অ্যাড টু হোমস্ক্রিন ফিক্স) -->
+    <!-- 🧬 ৩. জাভাস্ক্রিপ্ট দিয়ে ডাইনামিক Manifest এবং Service Worker জেনারেশন ইঞ্জিন (অ্যাড টু হোমস্ক্রিন ফিক্স) -->
     <script>
         // ডাইনামিক ম্যানিফেস্ট জেনারেটর
         (function() {
@@ -81,7 +82,7 @@
         body { 
             background: #1a0f0a; margin: 0; overflow: hidden; 
             font-family: 'Poppins', 'Noto Sans Bengali', sans-serif; 
-            perspective: 1500px; /* Required for 3D page turn */
+            perspective: 1500px; 
         }
 
         /* 100% Realistic Wood Wall - NO SCROLLING */
@@ -132,7 +133,7 @@
             position: relative; z-index: 10;
         }
         
-        /* Real Book Inner Page (What shows when cover opens) */
+        /* Real Book Inner Page */
         .book-page-inner {
             position: absolute; top: 2px; bottom: 2px; left: 5px; right: -2px;
             background-color: var(--toc-bg);
@@ -161,7 +162,6 @@
             border: 1px solid rgba(255,255,255,0.1); border-right: none;
         }
         
-        /* Realistic Book Binding Hinge/Groove */
         .book-hinge {
             position: absolute; left: 8px; top: 0; bottom: 0; width: 4px;
             background: linear-gradient(to right, rgba(0,0,0,0.7), rgba(255,255,255,0.15), rgba(0,0,0,0.8));
@@ -309,7 +309,7 @@
                         <div id="secHand" class="hand sec-hand"></div>
                     </div>
 
-                    <!-- 3D Flippable Bangla Book (With Images & Hinge restored) -->
+                    <!-- 3D Flippable Bangla Book -->
                     <div class="book-3d" onclick="openNotebook(this, 'bangla', 'বাংলা', '#059669')">
                         <div class="book-page-inner"></div>
                         <div class="book-cover" style="background-image: url('https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=300&auto=format&fit=crop');">
@@ -391,8 +391,7 @@
         </div>
     </div>
 
-    <!-- FIXED: TABS AND BUTTONS OUTSIDE ANIMATED CONTAINER SO THEY DON'T SCROLL -->
-    <!-- Smart Back Button Fixed -->
+    <!-- TABS AND BUTTONS -->
     <button id="backBtn" onclick="handleBackClick()" class="hidden fixed top-5 left-4 z-[500] text-slate-800 bg-white/60 rounded-full p-2 backdrop-blur-md active:scale-90 transition-transform shadow border border-slate-200">
         <i data-lucide="arrow-left" class="w-6 h-6"></i>
     </button>
@@ -520,11 +519,8 @@
                 const menuLayer = document.getElementById('quickMenuLayer');
 
                 if(!isQuickSwitch && element) {
-                    
-                    // Trigger Flip Animation
                     element.classList.add('is-open');
                     
-                    // Calc origin perfectly
                     const rect = element.getBoundingClientRect();
                     const originX = rect.left + (rect.width / 2);
                     const originY = rect.top + (rect.height / 2);
@@ -540,11 +536,11 @@
                             app.classList.remove('page-expand-in');
                             backBtn.classList.remove('hidden');
                             menuLayer.classList.remove('hidden');
-                        }, 600); // Wait for expand animation
+                        }, 600); 
 
                         try { history.pushState({view: 'dashboard', sub: subject}, '', `#${subject}`); } catch(e){}
                         loadDataForSubject();
-                    }, 400); // Wait for cover flip
+                    }, 400); 
                     
                 } else {
                     if(app) {
@@ -571,7 +567,6 @@
         // SMART BACK LOGIC
         function handleBackClick() {
             if (currentViewState === 'dashboard') {
-                // Return to home shelf with animation
                 const app = document.getElementById('mainApp');
                 const desk = document.getElementById('masterHome');
                 const backBtn = document.getElementById('backBtn');
@@ -593,7 +588,6 @@
                 currentViewState = 'hub';
                 try { history.pushState({view: 'hub'}, '', '#hub'); } catch(e){}
             } else {
-                // If deep inside a topic, go one step back
                 history.back();
             }
         }
@@ -824,8 +818,7 @@
             
             const state = event.state ? event.state.view : 'hub';
             
-            // Handles browser back button dynamically
-            if(state === 'hub') {
+            if(state === 'hub') { 
                 const app = document.getElementById('mainApp');
                 const desk = document.getElementById('masterHome');
                 const backBtn = document.getElementById('backBtn');
