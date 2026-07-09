@@ -2,7 +2,8 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- ফুল স্ক্রিন এবং সেফ এরিয়ার জন্য viewport-fit=cover যোগ করা হয়েছে -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>BILAS ACADEMY | Master Study Hub</title>
     
     <!-- 🌟 ১. সোশ্যাল মিডিয়া লিংক প্রিভিউ থাম্বনেইল (Open Graph) সেটিংস -->
@@ -14,16 +15,16 @@
     <meta name="twitter:card" content="summary_large_image">
 
     <!-- 📱 ২. মোবাইল ব্রাউজার ও লোগো মেটা সেটিংস -->
-    <meta name="theme-color" content="#000000">
+    <meta id="theme-color-meta" name="theme-color" content="#000000"> <!-- ডাইনামিকালি চেঞ্জ হবে -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="BILAS">
     <link rel="apple-touch-icon" href="logobacca26v2.png">
     <link rel="icon" type="image/png" href="logobacca26v2.png">
 
-    <!-- 🧬 ৩. জাভাস্ক্রিপ্ট দিয়ে ডাইনামিক Manifest এবং Service Worker জেনারেশন ইঞ্জিন (অ্যাড টু হোমস্ক্রিন ফিক্স) -->
+    <!-- 🧬 ৩. জাভাস্ক্রিপ্ট দিয়ে ডাইনামিক Manifest এবং Service Worker জেনারেশন ইঞ্জিন -->
     <script>
-        // ডাইনামিক ম্যানিফেস্ট জেনারেটর
         (function() {
             const manifestObj = {
                 "short_name": "BAcademy",
@@ -38,7 +39,7 @@
                 ],
                 "start_url": "./index.html",
                 "background_color": "#000000",
-                "theme-color": "#000000",
+                "theme_color": "#000000",
                 "display": "standalone",
                 "orientation": "portrait"
             };
@@ -51,7 +52,6 @@
             document.head.appendChild(link);
         })();
 
-        // ইন-লাইন ডেটা-ইউআরএল সার্ভিস ওয়ার্কার (যা ক্রোমকে ফোর্স করবে ইনস্টল করার জন্য)
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
                 const swCode = `
@@ -80,21 +80,25 @@
         }
 
         body { 
-            background: #1a0f0a; margin: 0; overflow: hidden; 
+            background: #000000; margin: 0; overflow: hidden; 
             font-family: 'Poppins', 'Noto Sans Bengali', sans-serif; 
             perspective: 1500px; 
+            height: 100dvh; /* dvh ensures it covers bottom navigation bars dynamically */
+            width: 100vw;
         }
 
         /* 100% Realistic Wood Wall - NO SCROLLING */
         .shelf-wrapper {
             background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.9)), url('https://www.transparenttextures.com/patterns/wood-pattern.png');
             background-color: #2b1810;
-            height: 100vh;
+            height: 100dvh;
             width: 100vw;
             display: flex;
             flex-direction: column;
             overflow: hidden;
             transform-style: preserve-3d;
+            padding-top: env(safe-area-inset-top); /* For notched phones */
+            padding-bottom: env(safe-area-inset-bottom);
         }
 
         /* Perfect Wood Engraved Typography */
@@ -133,7 +137,6 @@
             position: relative; z-index: 10;
         }
         
-        /* Real Book Inner Page */
         .book-page-inner {
             position: absolute; top: 2px; bottom: 2px; left: 5px; right: -2px;
             background-color: var(--toc-bg);
@@ -149,7 +152,6 @@
             background: rgba(0,0,0,0.03); border-bottom: 1px solid rgba(0,0,0,0.1);
         }
 
-        /* The actual Cover that Flips */
         .book-cover {
             position: absolute; inset: 0;
             border-radius: 4px 8px 8px 4px;
@@ -184,7 +186,6 @@
         .book-3d:hover { transform: translateY(-4px); transition: transform 0.2s; }
         .book-3d:hover .book-cover { box-shadow: -2px 0 8px rgba(0,0,0,0.6) inset, 12px 15px 25px rgba(0,0,0,0.9); }
         
-        /* 3D Flip Action */
         .book-3d.is-open .book-cover {
             transform: rotateY(-155deg);
             box-shadow: -10px 10px 20px rgba(0,0,0,0.4);
@@ -205,21 +206,15 @@
         .min-hand { width: 2px; height: 22px; z-index: 11; }
         .sec-hand { width: 1px; height: 24px; background: #dc2626; z-index: 12; }
 
-        /* ============================================================== */
-        /* FULLSCREEN EXPANDING ANIMATION & SCROLLABLE HEADER             */
-        /* ============================================================== */
-        .page-expand-in {
-            animation: expandIn 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-        }
+        /* FULLSCREEN EXPANDING ANIMATION & SCROLLABLE HEADER */
+        .page-expand-in { animation: expandIn 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
         @keyframes expandIn {
             0% { transform: scale(0.2); opacity: 0; border-radius: 20px; }
             30% { opacity: 1; border-radius: 10px; }
             100% { transform: scale(1); opacity: 1; border-radius: 0; }
         }
 
-        .page-shrink-out {
-            animation: shrinkOut 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-        }
+        .page-shrink-out { animation: shrinkOut 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
         @keyframes shrinkOut {
             0% { transform: scale(1); opacity: 1; }
             100% { transform: scale(0.2); opacity: 0; border-radius: 20px; }
@@ -228,15 +223,16 @@
         .toc-page {
             background-color: var(--toc-bg);
             background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
-            height: 100vh; overflow-y: auto; color: var(--toc-text);
+            height: 100dvh; overflow-y: auto; color: var(--toc-text);
             will-change: transform, opacity;
+            padding-bottom: env(safe-area-inset-bottom); /* Fix for bottom black bar */
         }
         
         .toc-header {
             background-color: var(--toc-bg); 
             background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
-            padding: 20px 20px 10px 20px;
-            position: relative; /* Scrolls naturally */
+            padding: calc(20px + env(safe-area-inset-top)) 20px 10px 20px; /* Status bar fix */
+            position: relative; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
         }
 
@@ -276,14 +272,17 @@
 
         .no-scrollbar::-webkit-scrollbar { display: none; }
         
-        /* Photo Viewer Style */
         .taped-photo { background: #ffffff; padding: 4px; box-shadow: 3px 6px 15px rgba(0,0,0,0.3); transform: rotate(-1.5deg); margin: 15px auto 25px auto; width: 100%; max-width: 320px; position: relative; }
         #fullscreenViewer { position: fixed; inset: 0; z-index: 700; background: rgba(0,0,0,0.98); display: none; flex-direction: column; align-items: center; justify-content: center; }
+        
+        /* Adjusted Back Button position for safe area */
+        #backBtn { top: calc(20px + env(safe-area-inset-top)); }
+        #quickMenuLayer { bottom: calc(24px + env(safe-area-inset-bottom)); }
     </style>
 </head>
 <body>
 
-    <!-- Home: Fully Realistic Wood Shelf Room (No Scroll) -->
+    <!-- Home: Fully Realistic Wood Shelf Room -->
     <div id="masterHome" class="shelf-wrapper">
         
         <!-- Authentic Engraved Header -->
@@ -392,12 +391,11 @@
     </div>
 
     <!-- TABS AND BUTTONS -->
-    <button id="backBtn" onclick="handleBackClick()" class="hidden fixed top-5 left-4 z-[500] text-slate-800 bg-white/60 rounded-full p-2 backdrop-blur-md active:scale-90 transition-transform shadow border border-slate-200">
+    <button id="backBtn" onclick="handleBackClick()" class="hidden fixed left-4 z-[500] text-slate-800 bg-white/60 rounded-full p-2 backdrop-blur-md active:scale-90 transition-transform shadow border border-slate-200">
         <i data-lucide="arrow-left" class="w-6 h-6"></i>
     </button>
 
-    <!-- Quick Switch Menu -->
-    <div id="quickMenuLayer" class="hidden fixed bottom-6 right-6 z-[500] flex flex-col-reverse items-end gap-3">
+    <div id="quickMenuLayer" class="hidden fixed right-6 z-[500] flex flex-col-reverse items-end gap-3">
         <button onclick="toggleQuickMenu()" class="w-14 h-14 rounded-full bg-slate-800 text-white shadow-lg flex items-center justify-center border-2 border-white/20 active:scale-90 transition-transform">
             <i data-lucide="layers" class="w-6 h-6"></i>
         </button>
@@ -502,6 +500,12 @@
             if(subject === currentSubject) return;
             openNotebook(null, subject, title, colorCode, true);
         }
+        
+        // DYNAMIC THEME COLOR FOR STATUS BAR
+        function updateThemeColor(color) {
+            const metaThemeColor = document.getElementById('theme-color-meta');
+            if(metaThemeColor) metaThemeColor.setAttribute('content', color);
+        }
 
         // ANIMATED PAGE TURN AND EXPAND
         function openNotebook(element, subject, title, colorCode, isQuickSwitch = false) {
@@ -512,6 +516,8 @@
                 
                 document.documentElement.style.setProperty('--toc-accent', colorCode || '#dc2626');
                 document.getElementById('headerIcon').style.color = colorCode || '#dc2626';
+                
+                updateThemeColor('#f9f6f0'); // Changes status bar to notebook color
 
                 const app = document.getElementById('mainApp');
                 const desk = document.getElementById('masterHome');
@@ -571,6 +577,8 @@
                 const desk = document.getElementById('masterHome');
                 const backBtn = document.getElementById('backBtn');
                 const menuLayer = document.getElementById('quickMenuLayer');
+                
+                updateThemeColor('#000000'); // Changes status bar back to dark shelf color
                 
                 backBtn.classList.add('hidden');
                 menuLayer.classList.add('hidden');
@@ -823,6 +831,8 @@
                 const desk = document.getElementById('masterHome');
                 const backBtn = document.getElementById('backBtn');
                 const menuLayer = document.getElementById('quickMenuLayer');
+                
+                updateThemeColor('#000000'); 
                 
                 if(backBtn) backBtn.classList.add('hidden');
                 if(menuLayer) menuLayer.classList.add('hidden');
