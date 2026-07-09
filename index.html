@@ -17,8 +17,55 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="BILAS">
-    <link rel="apple-touch-icon" href="logobacca26v2.png">
-    <link rel="icon" type="image/png" href="logobacca26v2.png">
+    <link rel="apple-touch-icon" href="logobacca26.jpg">
+    <link rel="icon" type="image/jpeg" href="logobacca26.jpg">
+
+        <!-- 🧬 ৩. জাভাস্ক্রিপ্ট দিয়ে ডাইনামিক Manifest এবং Service Worker জেনারেশন ইঞ্জিন (অ্যাড টু হোমস্ক্রিন ফিক্স) -->
+    <script>
+        // ডাইনামিক ম্যানিফেস্ট জেনারেটর
+        (function() {
+            const manifestObj = {
+                "short_name": "BAcademy",
+                "name": "BILAS ACADEMY",
+                "icons": [
+                    {
+                        "src": "logobacca26.jpg",
+                        "type": "image/jpeg",
+                        "sizes": "512x512",
+                        "purpose": "any maskable"
+                    }
+                ],
+                "start_url": "./index.html",
+                "background_color": "#000000",
+                "theme-color": "#000000",
+                "display": "standalone",
+                "orientation": "portrait"
+            };
+            const stringManifest = JSON.stringify(manifestObj);
+            const blob = new Blob([stringManifest], {type: 'application/json'});
+            const manifestURL = URL.createObjectURL(blob);
+            const link = document.createElement('link');
+            link.rel = 'manifest';
+            link.href = manifestURL;
+            document.head.appendChild(link);
+        })();
+
+        // ইন-লাইন ডেটা-ইউআরএল সার্ভিস ওয়ার্কার (যা ক্রোমকে ফোর্স করবে ইনস্টল করার জন্য)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                const swCode = `
+                    self.addEventListener('install', function(e) { self.skipWaiting(); });
+                    self.addEventListener('activate', function(e) { e.waitUntil(self.clients.claim()); });
+                    self.addEventListener('fetch', function(e) { e.respondWith(fetch(e.request)); });
+                `;
+                const blob = new Blob([swCode], {type: 'application/javascript'});
+                const swURL = URL.createObjectURL(blob);
+                navigator.serviceWorker.register(swURL).catch(function(err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+    </script>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
