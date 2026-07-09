@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BILAS ACADEMY | Master Study Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --toc-bg: #f9f6f0;
+            --toc-text: #1e293b;
+            --toc-accent: #dc2626;
+        }
+
+        body { 
+            background: #1a0f0a; margin: 0; overflow: hidden; 
+            font-family: 'Poppins', 'Noto Sans Bengali', sans-serif; 
+            perspective: 1500px; /* Required for 3D page turn */
+        }
+
+        /* 100% Realistic Wood Wall - NO SCROLLING */
+        .shelf-wrapper {
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.9)), url('https://www.transparenttextures.com/patterns/wood-pattern.png');
+            background-color: #2b1810;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+
+        /* Perfect Wood Engraved Typography */
+        .engraved-text {
+            background: linear-gradient(to bottom, #f0c295 0%, #a66a38 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.1), -1px -1px 2px rgba(0,0,0,0.8);
+            font-weight: 900;
+            letter-spacing: 0.1em;
+        }
+
+        /* Highly Realistic 3D Shelves */
+        .shelf-container { width: 100%; position: relative; margin-bottom: 25px; }
+        .shelf-books {
+            display: flex; justify-content: space-around; align-items: flex-end;
+            width: 88%; margin: 0 auto; position: relative; z-index: 10;
+            padding-bottom: 5px; 
+        }
+        .shelf-wood { 
+            width: 94%; height: 18px; margin: 0 auto;
+            background: linear-gradient(to bottom, #5c3412, #2b1408);
+            box-shadow: 0 15px 25px rgba(0,0,0,0.9), inset 0 -1px 3px rgba(0,0,0,0.8);
+            border-radius: 3px; position: relative; z-index: 5;
+            margin-top: -5px;
+        }
+        .shelf-wood::before {
+            content: ''; position: absolute; top: 0; left: 1%; right: 1%; height: 6px;
+            background: #8b5226; border-radius: 2px 2px 0 0;
+            box-shadow: inset 0 1px 1px rgba(255,255,255,0.15);
+        }
+
+        /* 3D BOOK STRUCTURE FOR ANIMATION */
+        .book-3d {
+            width: 105px; height: 150px; perspective: 1200px; cursor: pointer;
+            position: relative; z-index: 10;
+        }
+        
+        /* Real Book Inner Page (What shows when cover opens) */
+        .book-page-inner {
+            position: absolute; top: 2px; bottom: 2px; left: 5px; right: -2px;
+            background-color: var(--toc-bg);
+            background-image: 
+                repeating-linear-gradient(transparent, transparent 12px, rgba(0,0,0,0.04) 12px, rgba(0,0,0,0.04) 13px),
+                url('https://www.transparenttextures.com/patterns/cream-paper.png');
+            border-radius: 2px 6px 6px 2px;
+            box-shadow: inset 2px 0 5px rgba(0,0,0,0.1), 4px 6px 10px rgba(0,0,0,0.5);
+            z-index: 1; overflow: hidden;
+        }
+        .book-page-inner::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 20px;
+            background: rgba(0,0,0,0.03); border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        /* The actual Cover that Flips */
+        .book-cover {
+            position: absolute; inset: 0;
+            border-radius: 4px 8px 8px 4px;
+            transform-origin: left center;
+            transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1), box-shadow 0.6s ease;
+            transform-style: preserve-3d;
+            box-shadow: -2px 0 8px rgba(0,0,0,0.6) inset, 6px 8px 12px rgba(0,0,0,0.7);
+            z-index: 2;
+            background-size: cover; background-position: center;
+            border: 1px solid rgba(255,255,255,0.1); border-right: none;
+        }
+        
+        /* Realistic Book Binding Hinge/Groove */
+        .book-hinge {
+            position: absolute; left: 8px; top: 0; bottom: 0; width: 4px;
+            background: linear-gradient(to right, rgba(0,0,0,0.7), rgba(255,255,255,0.15), rgba(0,0,0,0.8));
+            z-index: 3; box-shadow: 1px 0 2px rgba(0,0,0,0.5); pointer-events: none;
+        }
+
+        .book-cover::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(to right, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.1) 15%, rgba(0,0,0,0.6) 100%), url('https://www.transparenttextures.com/patterns/leather.png');
+            background-blend-mode: multiply; border-radius: 4px 8px 8px 4px; z-index: 1; pointer-events: none;
+        }
+        .book-cover::before {
+            content: ''; position: absolute; top: 2px; bottom: 2px; right: -4px; width: 4px;
+            background: repeating-linear-gradient(to bottom, #fdf6e3, #d4c5a9 2px);
+            border-radius: 0 3px 3px 0;
+            box-shadow: inset 1px 0 3px rgba(0,0,0,0.3); z-index: 0; pointer-events: none;
+        }
+        .book-content { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; }
+        
+        .book-3d:hover { transform: translateY(-4px); transition: transform 0.2s; }
+        .book-3d:hover .book-cover { box-shadow: -2px 0 8px rgba(0,0,0,0.6) inset, 12px 15px 25px rgba(0,0,0,0.9); }
+        
+        /* 3D Flip Action */
+        .book-3d.is-open .book-cover {
+            transform: rotateY(-155deg);
+            box-shadow: -10px 10px 20px rgba(0,0,0,0.4);
+        }
+        .book-3d.is-open { transform: translateY(0); }
+
+        /* Real Time CSS Analog Clock */
+        .analog-clock {
+            width: 65px; height: 65px; border-radius: 50%; background: #fdf6e3;
+            border: 5px solid #4a2a18; position: relative;
+            box-shadow: 4px 8px 15px rgba(0,0,0,0.8), inset 2px 2px 6px rgba(0,0,0,0.3);
+            z-index: 10;
+        }
+        .clock-num { position: absolute; font-weight: 800; font-size: 10px; color: #3d2211; transform: translate(-50%, -50%); }
+        .clock-center { width: 6px; height: 6px; background: #1a0f0a; border-radius: 50%; position: absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:30; }
+        .hand { position: absolute; bottom: 50%; left: 50%; transform-origin: bottom center; border-radius: 4px; background: #2b1810; }
+        .hour-hand { width: 3px; height: 16px; z-index: 10; }
+        .min-hand { width: 2px; height: 22px; z-index: 11; }
+        .sec-hand { width: 1px; height: 24px; background: #dc2626; z-index: 12; }
+
+        /* ============================================================== */
+        /* FULLSCREEN EXPANDING ANIMATION & SCROLLABLE HEADER             */
+        /* ============================================================== */
+        .page-expand-in {
+            animation: expandIn 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+        @keyframes expandIn {
+            0% { transform: scale(0.2); opacity: 0; border-radius: 20px; }
+            30% { opacity: 1; border-radius: 10px; }
+            100% { transform: scale(1); opacity: 1; border-radius: 0; }
+        }
+
+        .page-shrink-out {
+            animation: shrinkOut 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+        @keyframes shrinkOut {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0.2); opacity: 0; border-radius: 20px; }
+        }
+
+        .toc-page {
+            background-color: var(--toc-bg);
+            background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
+            height: 100vh; overflow-y: auto; color: var(--toc-text);
+            will-change: transform, opacity;
+        }
+        
+        .toc-header {
+            background-color: var(--toc-bg); 
+            background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
+            padding: 20px 20px 10px 20px;
+            position: relative; /* Scrolls naturally */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+        }
+
+        .toc-title-area {
+            border-bottom: 2px solid var(--toc-text);
+            padding-bottom: 10px; margin-bottom: 10px;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+
+        .toc-search {
+            width: 100%; background: transparent; border: none; border-bottom: 1px dashed var(--toc-text);
+            padding: 5px 0; outline: none; font-size: 1.1rem; color: var(--toc-text);
+        }
+
+        .topic-row {
+            display: flex; align-items: baseline; margin-bottom: 18px; cursor: pointer;
+            transition: transform 0.2s; position: relative;
+        }
+        .topic-row:active { transform: scale(0.98); opacity: 0.8; }
+        
+        .topic-title-wrapper {
+            display: flex; align-items: center;
+            background: transparent; padding-right: 8px; z-index: 2;
+        }
+        
+        .topic-title { font-weight: 700; font-size: 1.15rem; color: var(--toc-text); }
+        
+        .topic-dots { 
+            flex-grow: 1; border-bottom: 2px dotted #94a3b8; 
+            margin: 0 5px; position: relative; top: -5px; z-index: 1; opacity: 0.5;
+        }
+        
+        .topic-count { 
+            font-size: 0.75rem; font-weight: 800; color: var(--toc-accent);
+            background: transparent; padding-left: 8px; letter-spacing: 0.05em; padding-bottom: 2px; z-index: 2;
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        
+        /* Photo Viewer Style */
+        .taped-photo { background: #ffffff; padding: 4px; box-shadow: 3px 6px 15px rgba(0,0,0,0.3); transform: rotate(-1.5deg); margin: 15px auto 25px auto; width: 100%; max-width: 320px; position: relative; }
+        #fullscreenViewer { position: fixed; inset: 0; z-index: 700; background: rgba(0,0,0,0.98); display: none; flex-direction: column; align-items: center; justify-content: center; }
+    </style>
+</head>
+<body>
+
+    <!-- Home: Fully Realistic Wood Shelf Room (No Scroll) -->
+    <div id="masterHome" class="shelf-wrapper">
+        
+        <!-- Authentic Engraved Header -->
+        <div class="text-center pt-8 pb-4">
+            <h1 class="text-4xl engraved-text uppercase tracking-widest">BILAS ACADEMY</h1>
+            <p class="engraved-text text-[11px] mt-1 uppercase tracking-widest opacity-80" style="font-family: 'Kalam', cursive;">স্মার্ট পড়াশোনা</p>
+        </div>
+
+        <div class="flex-1 flex flex-col justify-evenly w-full pb-6">
+            
+            <!-- TOP SHELF: Clock & Bangla -->
+            <div class="shelf-container">
+                <div class="shelf-books">
+                    <!-- Real Clock -->
+                    <div class="analog-clock">
+                        <span class="clock-num" style="top: 10px; left: 50%;">12</span>
+                        <span class="clock-num" style="top: 50%; right: 4px;">3</span>
+                        <span class="clock-num" style="bottom: 0px; left: 50%;">6</span>
+                        <span class="clock-num" style="top: 50%; left: 10px;">9</span>
+                        <div class="clock-center"></div>
+                        <div id="hourHand" class="hand hour-hand"></div>
+                        <div id="minHand" class="hand min-hand"></div>
+                        <div id="secHand" class="hand sec-hand"></div>
+                    </div>
+
+                    <!-- 3D Flippable Bangla Book (With Images & Hinge restored) -->
+                    <div class="book-3d" onclick="openNotebook(this, 'bangla', 'বাংলা', '#059669')">
+                        <div class="book-page-inner"></div>
+                        <div class="book-cover" style="background-image: url('https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=300&auto=format&fit=crop');">
+                            <div class="book-hinge"></div>
+                            <div class="book-content">
+                                <div class="w-10 h-10 rounded-full border border-white/40 bg-[#064e3b]/80 backdrop-blur-sm flex items-center justify-center mb-1 shadow-lg">
+                                    <i data-lucide="feather" class="text-[#a7f3d0] w-5 h-5"></i>
+                                </div>
+                                <h3 class="text-[17px] font-bold text-white drop-shadow-md">বাংলা</h3>
+                                <p class="text-[8px] uppercase tracking-widest mt-1 text-emerald-100 font-bold opacity-90">সাহিত্য ও ব্যাকরণ</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="shelf-wood"></div>
+            </div>
+
+            <!-- MIDDLE SHELF: English & Math -->
+            <div class="shelf-container">
+                <div class="shelf-books">
+                    <!-- 3D Flippable English Book -->
+                    <div class="book-3d" onclick="openNotebook(this, 'english', 'English', '#dc2626')">
+                        <div class="book-page-inner"></div>
+                        <div class="book-cover" style="background-image: url('https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?q=80&w=300&auto=format&fit=crop');">
+                            <div class="book-hinge"></div>
+                            <div class="book-content">
+                                <div class="w-10 h-10 rounded-full border border-white/40 bg-[#7f1d1d]/80 backdrop-blur-sm flex items-center justify-center mb-1 shadow-lg">
+                                    <i data-lucide="book-open" class="text-[#fecaca] w-5 h-5"></i>
+                                </div>
+                                <h3 class="text-[17px] font-bold text-white drop-shadow-md">English</h3>
+                                <p class="text-[8px] uppercase tracking-widest mt-1 text-rose-100 font-bold opacity-90">Grammar & Vocab</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3D Flippable Math Book -->
+                    <div class="book-3d" onclick="openNotebook(this, 'math', 'গণিত', '#2563eb')">
+                        <div class="book-page-inner"></div>
+                        <div class="book-cover" style="background-image: url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=300&auto=format&fit=crop');">
+                            <div class="book-hinge"></div>
+                            <div class="book-content">
+                                <div class="w-10 h-10 rounded-full border border-white/40 bg-[#1e293b]/80 backdrop-blur-sm flex items-center justify-center mb-1 shadow-lg">
+                                    <i data-lucide="calculator" class="text-[#fbbf24] w-5 h-5"></i>
+                                </div>
+                                <h3 class="text-[17px] font-bold text-white drop-shadow-md">গণিত</h3>
+                                <p class="text-[8px] uppercase tracking-widest mt-1 text-amber-100 font-bold opacity-90">শর্টকাট ও বেসিক</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="shelf-wood"></div>
+            </div>
+
+            <!-- BOTTOM SHELF: GK -->
+            <div class="shelf-container">
+                <div class="shelf-books">
+                    <!-- 3D Flippable GK Book -->
+                    <div class="book-3d" onclick="openNotebook(this, 'gk', 'সাধারণ জ্ঞান', '#475569')">
+                        <div class="book-page-inner"></div>
+                        <div class="book-cover" style="background-image: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=300&auto=format&fit=crop');">
+                            <div class="book-hinge"></div>
+                            <div class="book-content">
+                                <div class="w-10 h-10 rounded-full border border-white/40 bg-[#0f172a]/80 backdrop-blur-sm flex items-center justify-center mb-1 shadow-lg">
+                                    <i data-lucide="globe" class="text-[#e2e8f0] w-5 h-5"></i>
+                                </div>
+                                <h3 class="text-[17px] font-bold text-white drop-shadow-md">সা. জ্ঞান</h3>
+                                <p class="text-[8px] uppercase tracking-widest mt-1 text-slate-100 font-bold opacity-90">বিসিএস ও জব প্রস্তুতি</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width: 105px;"></div>
+                </div>
+                <div class="shelf-wood"></div>
+            </div>
+            
+            <div class="text-center mt-2">
+                <p class="engraved-text text-[10px] font-mono tracking-widest opacity-60">©️ বিলাস। ২০২৬।</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FIXED: TABS AND BUTTONS OUTSIDE ANIMATED CONTAINER SO THEY DON'T SCROLL -->
+    <!-- Smart Back Button Fixed -->
+    <button id="backBtn" onclick="handleBackClick()" class="hidden fixed top-5 left-4 z-[500] text-slate-800 bg-white/60 rounded-full p-2 backdrop-blur-md active:scale-90 transition-transform shadow border border-slate-200">
+        <i data-lucide="arrow-left" class="w-6 h-6"></i>
+    </button>
+
+    <!-- Quick Switch Menu -->
+    <div id="quickMenuLayer" class="hidden fixed bottom-6 right-6 z-[500] flex flex-col-reverse items-end gap-3">
+        <button onclick="toggleQuickMenu()" class="w-14 h-14 rounded-full bg-slate-800 text-white shadow-lg flex items-center justify-center border-2 border-white/20 active:scale-90 transition-transform">
+            <i data-lucide="layers" class="w-6 h-6"></i>
+        </button>
+        <div id="quickMenu" class="hidden flex-col gap-3 mb-1">
+            <button onclick="quickSwitch('gk', 'সাধারণ জ্ঞান', '#475569')" class="w-12 h-12 rounded-full bg-[#0f172a] text-[#e2e8f0] shadow-md flex items-center justify-center"><i data-lucide="globe"></i></button>
+            <button onclick="quickSwitch('english', 'English', '#dc2626')" class="w-12 h-12 rounded-full bg-[#7f1d1d] text-[#fecaca] shadow-md flex items-center justify-center"><i data-lucide="book-open"></i></button>
+            <button onclick="quickSwitch('bangla', 'বাংলা', '#059669')" class="w-12 h-12 rounded-full bg-[#064e3b] text-[#a7f3d0] shadow-md flex items-center justify-center"><i data-lucide="feather"></i></button>
+            <button onclick="quickSwitch('math', 'গণিত', '#2563eb')" class="w-12 h-12 rounded-full bg-[#1e293b] text-[#fbbf24] shadow-md flex items-center justify-center"><i data-lucide="calculator"></i></button>
+        </div>
+    </div>
+
+    <!-- MODERN PRINTED BOOK INDEX PAGE -->
+    <div id="mainApp" class="hidden fixed inset-0 toc-page no-scrollbar">
+        <header class="toc-header">
+            <div class="toc-title-area mt-2 pl-10">
+                <i data-lucide="bookmark" id="headerIcon" class="w-6 h-6"></i>
+                <h2 id="appTitle" class="text-3xl font-bold uppercase tracking-widest text-slate-800">
+                    <span id="titleText">INDEX</span>
+                </h2>
+            </div>
+            <div class="relative w-full max-w-sm mx-auto mt-2">
+                <input type="text" id="searchInput" oninput="executeSearch()" placeholder="Search Topics..." class="toc-search">
+                <i data-lucide="search" class="absolute right-1 top-2 opacity-50 w-5 h-5"></i>
+            </div>
+        </header>
+
+        <main class="p-6 pb-24 max-w-2xl mx-auto">
+            <div id="loader" class="hidden flex-col items-center justify-center py-10">
+                <i data-lucide="loader" class="w-8 h-8 animate-spin opacity-50 text-slate-500"></i>
+            </div>
+            
+            <div id="view-dashboard" class="flex flex-col"></div>
+            
+            <div id="view-topics" class="hidden flex flex-col">
+                <h2 id="chapterHeading" class="text-xl font-bold border-b border-slate-300 pb-2 mb-6 uppercase tracking-wider text-center text-slate-700"></h2>
+                <div id="topicList" class="flex flex-col"></div>
+            </div>
+
+            <div id="view-subtopics" class="hidden flex flex-col">
+                <h2 id="subtopicHeading" class="text-xl font-bold border-b border-slate-300 pb-2 mb-6 uppercase tracking-wider text-center text-slate-700"></h2>
+                <div id="subtopicList" class="flex flex-col"></div>
+            </div>
+
+            <div id="view-image" class="hidden flex flex-col items-center">
+                <h3 id="imageTitle" class="w-full text-2xl font-bold mt-2 mb-6 leading-tight text-center uppercase border-b pb-4 text-slate-800"></h3>
+                <div id="imageContainer" class="w-full flex flex-col items-center gap-6"></div>
+                <p id="imageNote" class="text-center mt-6 text-sm font-bold opacity-80 italic px-2 text-slate-600"></p>
+                <div class="mt-10 w-full px-4 text-center">
+                    <a id="videoBtn" href="#" target="_blank" class="hidden items-center justify-center gap-3 bg-red-600 text-white py-3 px-6 rounded-full text-base font-bold shadow-lg active:scale-95 transition-all mx-auto">
+                        <i data-lucide="play-circle" class="w-5 h-5"></i> Watch Video Class
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="fullscreenViewer">
+        <button onclick="closeFullImage()" class="absolute top-5 right-5 text-white bg-white/20 p-2 rounded-full"><i data-lucide="x"></i></button>
+        <iframe id="fullscreenFrame" class="w-[98%] h-[85%] rounded-lg bg-white" src=""></iframe>
+    </div>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const h = now.getHours() % 12;
+            const m = now.getMinutes();
+            const s = now.getSeconds();
+            
+            const hDeg = (h * 30) + (m * 0.5);
+            const mDeg = (m * 6);
+            const sDeg = (s * 6);
+            
+            const hh = document.getElementById('hourHand');
+            const mm = document.getElementById('minHand');
+            const ss = document.getElementById('secHand');
+            if(hh) hh.style.transform = `rotate(${hDeg}deg)`;
+            if(mm) mm.style.transform = `rotate(${mDeg}deg)`;
+            if(ss) ss.style.transform = `rotate(${sDeg}deg)`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        /* ORIGINAL FAST GOOGLE SHEETS DATABASE LOGIC */
+        const DB_URLS = {
+            math: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWvEMlB8yjZ96rWKGPmXIevhTjaFZ_SuLb_42IGHdRNAcljvveIJAPnSHlz13tu6wyr1X8D3lYUxJm/pub?gid=566628590&single=true&output=csv',
+            bangla: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWvEMlB8yjZ96rWKGPmXIevhTjaFZ_SuLb_42IGHdRNAcljvveIJAPnSHlz13tu6wyr1X8D3lYUxJm/pub?gid=840059015&single=true&output=csv',
+            english: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWvEMlB8yjZ96rWKGPmXIevhTjaFZ_SuLb_42IGHdRNAcljvveIJAPnSHlz13tu6wyr1X8D3lYUxJm/pub?gid=1921260160&single=true&output=csv',
+            gk: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWvEMlB8yjZ96rWKGPmXIevhTjaFZ_SuLb_42IGHdRNAcljvveIJAPnSHlz13tu6wyr1X8D3lYUxJm/pub?gid=570235809&single=true&output=csv'
+        };
+
+        let memoryCache = { math: null, bangla: null, english: null, gk: null };
+        let currentSubject = '';
+        let rawData = [], groupedChapters = {}, currentViewState = 'dashboard';
+
+        function toggleQuickMenu() {
+            const menu = document.getElementById('quickMenu');
+            if(menu) { menu.classList.toggle('hidden'); menu.classList.toggle('flex'); }
+        }
+
+        function quickSwitch(subject, title, colorCode) {
+            toggleQuickMenu();
+            if(subject === currentSubject) return;
+            openNotebook(null, subject, title, colorCode, true);
+        }
+
+        // ANIMATED PAGE TURN AND EXPAND
+        function openNotebook(element, subject, title, colorCode, isQuickSwitch = false) {
+            try {
+                currentSubject = subject;
+                const titleSpan = document.getElementById('titleText');
+                if(titleSpan) titleSpan.innerText = title;
+                
+                document.documentElement.style.setProperty('--toc-accent', colorCode || '#dc2626');
+                document.getElementById('headerIcon').style.color = colorCode || '#dc2626';
+
+                const app = document.getElementById('mainApp');
+                const desk = document.getElementById('masterHome');
+                const backBtn = document.getElementById('backBtn');
+                const menuLayer = document.getElementById('quickMenuLayer');
+
+                if(!isQuickSwitch && element) {
+                    
+                    // Trigger Flip Animation
+                    element.classList.add('is-open');
+                    
+                    // Calc origin perfectly
+                    const rect = element.getBoundingClientRect();
+                    const originX = rect.left + (rect.width / 2);
+                    const originY = rect.top + (rect.height / 2);
+                    app.style.transformOrigin = `${originX}px ${originY}px`;
+
+                    setTimeout(() => {
+                        app.classList.remove('hidden', 'page-shrink-out');
+                        app.classList.add('page-expand-in');
+                        
+                        setTimeout(() => { 
+                            desk.style.display = 'none'; 
+                            app.style.transform = 'none';
+                            app.classList.remove('page-expand-in');
+                            backBtn.classList.remove('hidden');
+                            menuLayer.classList.remove('hidden');
+                        }, 600); // Wait for expand animation
+
+                        try { history.pushState({view: 'dashboard', sub: subject}, '', `#${subject}`); } catch(e){}
+                        loadDataForSubject();
+                    }, 400); // Wait for cover flip
+                    
+                } else {
+                    if(app) {
+                        app.classList.remove('hidden', 'page-shrink-out');
+                        app.style.transformOrigin = `bottom right`;
+                        app.classList.add('page-expand-in');
+                        setTimeout(() => { 
+                            app.style.transform = 'none';
+                            app.classList.remove('page-expand-in');
+                            backBtn.classList.remove('hidden');
+                            menuLayer.classList.remove('hidden');
+                        }, 600);
+                    }
+                    const sInput = document.getElementById('searchInput');
+                    if(sInput) sInput.value = '';
+                    performPageFlip('view-dashboard', () => {}, true);
+                    try { history.pushState({view: 'dashboard', sub: subject}, '', `#${subject}`); } catch(e){}
+                    loadDataForSubject();
+                }
+                setTimeout(() => { if(typeof lucide !== 'undefined') lucide.createIcons(); }, 350);
+            } catch(e) {}
+        }
+
+        // SMART BACK LOGIC
+        function handleBackClick() {
+            if (currentViewState === 'dashboard') {
+                // Return to home shelf with animation
+                const app = document.getElementById('mainApp');
+                const desk = document.getElementById('masterHome');
+                const backBtn = document.getElementById('backBtn');
+                const menuLayer = document.getElementById('quickMenuLayer');
+                
+                backBtn.classList.add('hidden');
+                menuLayer.classList.add('hidden');
+                desk.style.display = 'flex';
+                
+                app.style.transform = ''; 
+                app.classList.add('page-shrink-out');
+                
+                setTimeout(() => { 
+                    app.classList.add('hidden'); 
+                    app.classList.remove('page-shrink-out');
+                    document.querySelectorAll('.book-3d').forEach(b => b.classList.remove('is-open'));
+                }, 500);
+                
+                currentViewState = 'hub';
+                try { history.pushState({view: 'hub'}, '', '#hub'); } catch(e){}
+            } else {
+                // If deep inside a topic, go one step back
+                history.back();
+            }
+        }
+
+        function goHome() {
+            if(currentViewState === 'dashboard') return;
+            const sInput = document.getElementById('searchInput');
+            if(sInput) sInput.value = '';
+            try { history.pushState({view: 'dashboard', sub: currentSubject}, '', `#${currentSubject}`); } catch(e){}
+            performPageFlip('view-dashboard', renderDashboard, true);
+        }
+
+        function loadDataForSubject() {
+            if(memoryCache[currentSubject]) {
+                rawData = memoryCache[currentSubject];
+                processData();
+                return;
+            }
+            const loader = document.getElementById('loader');
+            if(loader) { loader.classList.remove('hidden'); loader.classList.add('flex'); }
+            const viewDash = document.getElementById('view-dashboard');
+            if(viewDash) viewDash.innerHTML = '';
+            
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", DB_URLS[currentSubject] + "&cache=" + new Date().getTime(), true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+                    if(loader) { loader.classList.remove('flex'); loader.classList.add('hidden'); }
+                    if (xhr.status == 200) { parseCSV(xhr.responseText); } 
+                }
+            };
+            xhr.send();
+        }
+
+        function parseCSV(text) {
+            let lines = text.split(/\r?\n/);
+            if(lines.length === 0) return;
+            let headers = lines[0].split(",").map(h => h.trim().replace(/^"|"$/g, ''));
+            let tempData = [];
+            for (let i = 1; i < lines.length; i++) {
+                if (lines[i].trim() == "") continue;
+                let currentline = [];
+                let inQuotes = false;
+                let val = '';
+                for(let char of lines[i]) {
+                    if(char === '"') inQuotes = !inQuotes;
+                    else if(char === ',' && !inQuotes) {
+                        currentline.push(val.trim().replace(/^"|"$/g, ''));
+                        val = '';
+                    } else val += char;
+                }
+                currentline.push(val.trim().replace(/^"|"$/g, ''));
+                if (currentline.length < 2) continue;
+                let obj = {};
+                headers.forEach((h, idx) => { obj[h] = currentline[idx]; });
+                tempData.push(obj);
+            }
+            rawData = tempData;
+            memoryCache[currentSubject] = rawData; 
+            processData();
+        }
+
+        function processData() {
+            groupedChapters = {};
+            rawData.forEach(item => {
+                const ch = item.Chapter || 'অন্যান্য';
+                if (!groupedChapters[ch]) groupedChapters[ch] = [];
+                groupedChapters[ch].push(item);
+            });
+            renderDashboard();
+        }
+
+        function renderDashboard(list = null) {
+            const container = document.getElementById('view-dashboard');
+            if(!container) return;
+            container.innerHTML = '';
+            if (list) {
+                if(list.length === 0) container.innerHTML = `<p class="text-center mt-10 opacity-50 italic">কিছু পাওয়া যায়নি!</p>`;
+                list.forEach(item => {
+                    const data = encodeURIComponent(JSON.stringify(item));
+                    const displayName = item.Subtopic ? `${item.Topic} > ${item.Subtopic}` : item.Topic;
+                    container.innerHTML += `<div onclick="openViewer('${data}')" class="topic-row">
+                        <div class="topic-title-wrapper">
+                            <i data-lucide="file-text" class="w-4 h-4 mr-2 opacity-80" style="color: var(--toc-accent);"></i>
+                            <h4 class="topic-title">${displayName}</h4>
+                        </div>
+                        <div class="topic-dots"></div>
+                        <i data-lucide="chevron-right" class="w-4 h-4 opacity-40"></i>
+                    </div>`;
+                });
+            } else {
+                Object.keys(groupedChapters).forEach(name => {
+                    container.innerHTML += `
+                        <div onclick="openChapter('${name}')" class="topic-row">
+                            <div class="topic-title-wrapper">
+                                <i data-lucide="folder" class="w-5 h-5 mr-3 opacity-90" style="color: var(--toc-accent);"></i>
+                                <h3 class="topic-title">${name}</h3>
+                            </div>
+                            <div class="topic-dots"></div>
+                            <span class="topic-count">${groupedChapters[name].length} NOTES</span>
+                        </div>`;
+                });
+            }
+            if(typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        function openChapter(chapterName) {
+            try { history.pushState({view: 'topics', chapter: chapterName, sub: currentSubject}, '', '#'+chapterName); } catch(e){}
+            performPageFlip('view-topics', () => {
+                const heading = document.getElementById('chapterHeading');
+                if(heading) heading.innerText = chapterName;
+                const list = document.getElementById('topicList');
+                if(list) {
+                    list.innerHTML = '';
+                    let chapterItems = rawData.filter(i => i.Chapter === chapterName);
+                    
+                    let topicsInChapter = {};
+                    chapterItems.forEach(item => {
+                        const t = item.Topic || 'অজানা টপিক';
+                        if(!topicsInChapter[t]) topicsInChapter[t] = [];
+                        topicsInChapter[t].push(item);
+                    });
+                    
+                    Object.keys(topicsInChapter).forEach(topicName => {
+                        const items = topicsInChapter[topicName];
+                        if(items.some(i => i.Subtopic && i.Subtopic.trim() !== "")) {
+                            list.innerHTML += `<div onclick="openSubtopicView('${chapterName}', '${topicName}')" class="topic-row">
+                                <div class="topic-title-wrapper">
+                                    <i data-lucide="layers" class="w-4 h-4 mr-2 opacity-80" style="color: var(--toc-accent);"></i>
+                                    <h4 class="topic-title">${topicName}</h4>
+                                </div>
+                                <div class="topic-dots"></div>
+                                <span class="topic-count">${items.length} SUBTOPICS</span>
+                            </div>`;
+                        } else {
+                            const data = encodeURIComponent(JSON.stringify(items[0]));
+                            list.innerHTML += `<div onclick="openViewer('${data}')" class="topic-row">
+                                <div class="topic-title-wrapper">
+                                    <i data-lucide="file-text" class="w-4 h-4 mr-2 opacity-80" style="color: var(--toc-accent);"></i>
+                                    <h4 class="topic-title">${topicName}</h4>
+                                </div>
+                                <div class="topic-dots"></div>
+                                <i data-lucide="arrow-right" class="w-4 h-4 opacity-40"></i>
+                            </div>`;
+                        }
+                    });
+                }
+            });
+        }
+
+        function openSubtopicView(chapterName, topicName) {
+            try { history.pushState({view: 'subtopics', chapter: chapterName, topic: topicName, sub: currentSubject}, '', '#subtopics'); } catch(e){}
+            performPageFlip('view-subtopics', () => {
+                const heading = document.getElementById('subtopicHeading');
+                if(heading) heading.innerText = topicName;
+                const list = document.getElementById('subtopicList');
+                if(list) {
+                    list.innerHTML = '';
+                    let items = rawData.filter(i => i.Chapter === chapterName && i.Topic === topicName);
+                    
+                    items.forEach(item => {
+                        const subName = item.Subtopic || 'নোট';
+                        const data = encodeURIComponent(JSON.stringify(item));
+                        list.innerHTML += `<div onclick="openViewer('${data}')" class="topic-row pl-4">
+                            <div class="topic-title-wrapper">
+                                <i data-lucide="file-text" class="w-4 h-4 mr-2 opacity-90" style="color: var(--toc-accent);"></i>
+                                <h4 class="topic-title">${subName}</h4>
+                            </div>
+                            <div class="topic-dots"></div>
+                            <i data-lucide="arrow-right" class="w-4 h-4 opacity-40"></i>
+                        </div>`;
+                    });
+                }
+            });
+        }
+
+        function openViewer(jsonStr) {
+            const item = JSON.parse(decodeURIComponent(jsonStr));
+            let link = item.ImageLink || item.Video_Link || "";
+            
+            if (link.endsWith('.html') || (link.startsWith('http') && !link.includes('drive.google.com') && !link.includes('youtube.com'))) {
+                window.location.href = link; 
+                return;
+            }
+
+            try { history.pushState({view: 'image', topic: item, sub: currentSubject}, '', '#topic'); } catch(e){}
+            performPageFlip('view-image', () => {
+                const title = document.getElementById('imageTitle');
+                if(title) title.innerText = item.Subtopic ? `${item.Topic} > ${item.Subtopic}` : (item.Topic || "");
+                
+                const note = document.getElementById('imageNote');
+                if(note) note.innerText = item.Short_Note || "";
+                
+                const container = document.getElementById('imageContainer');
+                if(container) {
+                    container.innerHTML = '';
+                    let links = (item.ImageLink || "").split(/[,|\s]+/).map(l => l.trim()).filter(l => l);
+                    
+                    if(links.length > 0) {
+                        links.forEach((link) => {
+                            let embedLink = link;
+                            if(embedLink.includes('drive.google.com')) {
+                                const match = embedLink.match(/[-\w]{25,}/);
+                                if(match) embedLink = `https://drive.google.com/file/d/${match[0]}/preview`;
+                            }
+                            container.innerHTML += `
+                            <div class="taped-photo" onclick="openFullImage('${embedLink}')">
+                                <div class="absolute inset-0 z-30 cursor-zoom-in"></div>
+                                <iframe class="w-full h-[38vh] pointer-events-none border-none bg-white" src="${embedLink}"></iframe>
+                            </div>`;
+                        });
+                    } else {
+                        container.innerHTML = `<p class="text-sm opacity-50 italic mt-4">কোনো ছবি বা নোট যুক্ত করা হয়নি</p>`;
+                    }
+                }
+                
+                const vBtn = document.getElementById('videoBtn');
+                if(vBtn) {
+                    if(item.Video_Link && item.Video_Link.startsWith('http')) { vBtn.href = item.Video_Link; vBtn.classList.remove('hidden'); vBtn.classList.add('flex'); } 
+                    else { vBtn.classList.remove('flex'); vBtn.classList.add('hidden'); }
+                }
+            });
+        }
+
+        window.addEventListener('popstate', function(event) {
+            const viewer = document.getElementById('fullscreenViewer');
+            if (viewer && viewer.style.display === 'flex') { closeFullImageUI(); return; }
+            
+            const state = event.state ? event.state.view : 'hub';
+            
+            // Handles browser back button dynamically
+            if(state === 'hub') {
+                const app = document.getElementById('mainApp');
+                const desk = document.getElementById('masterHome');
+                const backBtn = document.getElementById('backBtn');
+                const menuLayer = document.getElementById('quickMenuLayer');
+                
+                if(backBtn) backBtn.classList.add('hidden');
+                if(menuLayer) menuLayer.classList.add('hidden');
+                if(desk) desk.style.display = 'flex';
+                
+                if(app) {
+                    app.style.transform = '';
+                    app.classList.add('page-shrink-out');
+                    setTimeout(() => { 
+                        app.classList.add('hidden'); 
+                        app.classList.remove('page-shrink-out');
+                        document.querySelectorAll('.book-3d').forEach(b => b.classList.remove('is-open'));
+                    }, 500);
+                }
+                currentViewState = 'hub';
+            }
+            else if (state === 'dashboard') {
+                const sInput = document.getElementById('searchInput');
+                if(sInput) sInput.value = '';
+                performPageFlip('view-dashboard', renderDashboard, true);
+            } 
+            else if (state === 'topics') {
+                const chapterName = event.state.chapter;
+                performPageFlip('view-topics', () => {
+                    const heading = document.getElementById('chapterHeading');
+                    if(heading) heading.innerText = chapterName;
+                    const list = document.getElementById('topicList');
+                    if(list) {
+                        list.innerHTML = '';
+                        let chapterItems = rawData.filter(i => i.Chapter === chapterName);
+                        let topicsInChapter = {};
+                        chapterItems.forEach(item => {
+                            const t = item.Topic || 'অজানা টপিক';
+                            if(!topicsInChapter[t]) topicsInChapter[t] = [];
+                            topicsInChapter[t].push(item);
+                        });
+                        Object.keys(topicsInChapter).forEach(topicName => {
+                            const items = topicsInChapter[topicName];
+                            if(items.some(i => i.Subtopic && i.Subtopic.trim() !== "")) {
+                                list.innerHTML += `<div onclick="openSubtopicView('${chapterName}', '${topicName}')" class="topic-row">
+                                    <div class="topic-title-wrapper">
+                                        <i data-lucide="layers" class="w-4 h-4 mr-2 opacity-80" style="color: var(--toc-accent);"></i>
+                                        <h4 class="topic-title">${topicName}</h4>
+                                    </div>
+                                    <div class="topic-dots"></div>
+                                    <span class="topic-count">${items.length} SUBTOPICS</span>
+                                </div>`;
+                            } else {
+                                const data = encodeURIComponent(JSON.stringify(items[0]));
+                                list.innerHTML += `<div onclick="openViewer('${data}')" class="topic-row">
+                                    <div class="topic-title-wrapper">
+                                        <i data-lucide="file-text" class="w-4 h-4 mr-2 opacity-80" style="color: var(--toc-accent);"></i>
+                                        <h4 class="topic-title">${topicName}</h4>
+                                    </div>
+                                    <div class="topic-dots"></div>
+                                    <i data-lucide="arrow-right" class="w-4 h-4 opacity-40"></i>
+                                </div>`;
+                            }
+                        });
+                    }
+                }, true); 
+            }
+            else if (state === 'subtopics') {
+                const chapterName = event.state.chapter;
+                const topicName = event.state.topic;
+                performPageFlip('view-subtopics', () => {
+                    const heading = document.getElementById('subtopicHeading');
+                    if(heading) heading.innerText = topicName;
+                    const list = document.getElementById('subtopicList');
+                    if(list) {
+                        list.innerHTML = '';
+                        let items = rawData.filter(i => i.Chapter === chapterName && i.Topic === topicName);
+                        items.forEach(item => {
+                            const subName = item.Subtopic || 'নোট';
+                            const data = encodeURIComponent(JSON.stringify(item));
+                            list.innerHTML += `<div onclick="openViewer('${data}')" class="topic-row pl-4">
+                                <div class="topic-title-wrapper">
+                                    <i data-lucide="file-text" class="w-4 h-4 mr-2 opacity-90" style="color: var(--toc-accent);"></i>
+                                    <h4 class="topic-title">${subName}</h4>
+                                </div>
+                                <div class="topic-dots"></div>
+                                <i data-lucide="arrow-right" class="w-4 h-4 opacity-40"></i>
+                            </div>`;
+                        });
+                    }
+                }, true);
+            }
+        });
+
+        function performPageFlip(targetViewId, logicCallback, isBackward = false) {
+            const d = document.getElementById('view-dashboard');
+            const t = document.getElementById('view-topics');
+            const st = document.getElementById('view-subtopics');
+            const i = document.getElementById('view-image');
+            if(d) d.classList.add('hidden');
+            if(t) t.classList.add('hidden');
+            if(st) st.classList.add('hidden');
+            if(i) i.classList.add('hidden');
+            
+            if(logicCallback) logicCallback();
+            const target = document.getElementById(targetViewId);
+            if(target) target.classList.remove('hidden');
+            currentViewState = targetViewId.replace('view-', '');
+            lucide.createIcons();
+        }
+
+        function openFullImage(link) {
+            if(link) {
+                try { history.pushState({view: 'fullscreen'}, '', '#full'); } catch(e){}
+                const viewer = document.getElementById('fullscreenViewer');
+                const frame = document.getElementById('fullscreenFrame');
+                if(frame) frame.src = link;
+                if(viewer) viewer.style.display = 'flex';
+            }
+        }
+        function closeFullImage() { history.back(); }
+        function closeFullImageUI() { const viewer = document.getElementById('fullscreenViewer'); if(viewer) viewer.style.display = 'none'; }
+
+        function executeSearch() {
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            if(!q) { if(currentViewState !== 'dashboard') goHome(); else renderDashboard(); return; }
+            const res = rawData.filter(i => (i.Topic && i.Topic.toLowerCase().includes(q)) || (i.Subtopic && i.Subtopic.toLowerCase().includes(q)));
+            if(currentViewState === 'dashboard') { renderDashboard(res); } 
+            else { performPageFlip('view-dashboard', () => renderDashboard(res), true); }
+        }
+
+        window.onload = () => { if(typeof lucide !== 'undefined') lucide.createIcons(); try { history.replaceState({view: 'hub'}, '', '#hub'); } catch(e){} };
+    </script>
+</body>
+</html>
