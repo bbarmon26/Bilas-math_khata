@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Premium Idioms & Phrases Master</title>
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --search-bg: #ffffff;
+            --text-dark: #0f172a;
+            --border-color: #e2e8f0;
+            
+            /* 🎨 প্রিমিয়াম সফট ও আকর্ষণীয় কালার প্যালেট (চোখের জন্য আরামদায়ক) */
+            --gradient-1: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            --gradient-2: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+            --gradient-3: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);
+            --gradient-4: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            --gradient-5: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            --gradient-6: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* 👑 হেডার ডিজাইন */
+        .header-panel {
+            width: 100%;
+            max-width: 500px;
+            background: rgba(248, 250, 252, 0.9);
+            backdrop-filter: blur(12px);
+            padding: 20px 16px;
+            text-align: center;
+            box-sizing: border-box;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-panel h1 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: -0.5px;
+        }
+
+        .header-panel p {
+            margin: 6px 0 16px 0;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        /* 🔍 সার্চ ও ফিল্টার কন্ট্রোল */
+        .control-box {
+            display: flex;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .search-bar {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid #cbd5e1;
+            border-radius: 14px;
+            font-size: 14px;
+            outline: none;
+            background: var(--search-bg);
+            color: var(--text-dark);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: border-color 0.2s;
+        }
+
+        .search-bar:focus {
+            border-color: #94a3b8;
+        }
+
+        .fav-toggle-btn {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            color: #475569;
+            padding: 0 16px;
+            border-radius: 14px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .fav-toggle-btn.active {
+            background: #f59e0b;
+            color: #ffffff;
+            border-color: #f59e0b;
+            box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);
+        }
+
+        /* 📦 কন্টেইনার */
+        .main-wrapper {
+            width: 100%;
+            max-width: 500px;
+            padding: 16px 14px;
+            box-sizing: border-box;
+        }
+
+        .cards-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* 🗂️ কার্ড ডিজাইন (ইংরেজি প্রথমে) */
+        .flash-card {
+            border-radius: 16px;
+            padding: 18px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s;
+            box-sizing: border-box;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .flash-card:active {
+            transform: scale(0.97);
+        }
+
+        .theme-1 { background: var(--gradient-1); }
+        .theme-2 { background: var(--gradient-2); } 
+        .theme-3 { background: var(--gradient-3); }
+        .theme-4 { background: var(--gradient-4); }
+        .theme-5 { background: var(--gradient-5); }
+        .theme-6 { background: var(--gradient-6); }
+
+        .card-id-badge {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.07);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 700;
+            margin-right: 14px;
+            flex-shrink: 0;
+            color: #1e293b;
+        }
+
+        .english-idiom {
+            font-size: 17px;
+            font-weight: 700;
+            flex: 1;
+            line-height: 1.3;
+            padding-right: 35px;
+            color: #0f172a;
+        }
+
+        .star-icon {
+            font-size: 22px;
+            color: rgba(0, 0, 0, 0.18);
+            transition: color 0.2s, transform 0.2s;
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 6px;
+        }
+
+        .star-icon.fav-active {
+            color: #f59e0b !important;
+        }
+
+        /* 🎭 প্রিমিয়াম অ্যানিমেটেড পপ-আপ */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.35);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+            z-index: 1000;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-box {
+            padding: 35px 24px;
+            border-radius: 24px;
+            width: 88%;
+            max-width: 400px;
+            min-height: 45vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.15);
+            position: relative;
+            transform: translateY(30px) scale(0.96);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-sizing: border-box;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            color: #0f172a;
+        }
+
+        .modal-overlay.open .modal-box {
+            transform: translateY(0) scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: rgba(0, 0, 0, 0.05);
+            border: none;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-title-eng {
+            font-size: 28px;
+            font-weight: 800;
+            color: #0f172a;
+            margin: 10px 0;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .modal-divider {
+            width: 75%;
+            height: 1px;
+            background: rgba(0, 0, 0, 0.07);
+            margin: 20px 0;
+        }
+
+        .modal-row {
+            margin: 10px 0;
+            text-align: center;
+            width: 100%;
+        }
+
+        .modal-label {
+            font-size: 11px;
+            color: #475569;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            margin-bottom: 4px;
+        }
+
+        .modal-val {
+            font-size: 22px; 
+            font-weight: 700;
+            color: #0f172a;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-panel">
+        <h1>Idioms & Phrases Master</h1>
+        <p>ইংরেজি ফ্রেজে ট্যাপ করে স্নিগ্ধ রঙে উচ্চারণ ও বাংলা অর্থ জানুন</p>
+        
+        <div class="control-box">
+            <input type="text" class="search-bar" id="searchInp" placeholder="Idioms খুঁজুন (ইংরেজি বা বাংলা)..." oninput="renderCards()">
+            <button class="fav-toggle-btn" id="favFilterBtn" onclick="toggleFavFilter()">
+                <span>★</span> ফেভারিট 
+            </button>
+        </div>
+    </div>
+
+    <div class="main-wrapper">
+        <div class="cards-list" id="cardsContainer"></div>
+    </div>
+
+    <!-- লাইট ডিটেইলস পপ-আপ -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+        <div class="modal-box" id="modalBox">
+            <button class="modal-close" onclick="document.getElementById('modalOverlay').classList.remove('open')">✕</button>
+            <div class="modal-label">Idiom / Phrase</div>
+            <div class="modal-title-eng" id="mEnglish"></div>
+            <div class="modal-divider"></div>
+            
+            <div class="modal-row">
+                <span class="modal-label">বাংলা উচ্চারণ</span>
+                <span class="modal-val" id="mPron"></span>
+            </div>
+            <div class="modal-row">
+                <span class="modal-label">বাংলা অর্থ</span>
+                <span class="modal-val" id="mBangla"></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 📋 ৯৩টি গুরুত্বপূর্ণ Idioms & Phrases-এর ডাটাবেজ
+        const idiomsDataSet = [
+            { id: 1, eng: "A lion share", bng: "সিংহ ভাগ", pron: "আ লায়ন শেয়ার" },
+            { id: 2, eng: "A snake in the grass", bng: "গোপন শত্রু", pron: "আ স্নেইক ইন দ্য গ্রাস" },
+            { id: 3, eng: "Above All", bng: "সর্বোপরি", pron: "অ্যাবাভ অল" },
+            { id: 4, eng: "Above All", bng: "সর্বোপরি", pron: "অ্যাবাভ অল" },
+            { id: 5, eng: "Against the rainy day", bng: "দুর্দিনের প্রতিকূলে", pron: "অ্যাগেইনস্ট দ্য রেইনি ডে" },
+            { id: 6, eng: "At a loss", bng: "হতবুদ্ধি", pron: "অ্যাট আ লস" },
+            { id: 7, eng: "At daggers drawn", bng: "ভীষণ শত্রুতা", pron: "অ্যাট ড্যাগার্স ড্রন" },
+            { id: 8, eng: "At home", bng: "দক্ষ", pron: "অ্যাট হোম" },
+            { id: 9, eng: "At large", bng: "স্বাধীনভাবে", pron: "অ্যাট লার্জ" },
+            { id: 10, eng: "At once finger's end", bng: "নখদর্পণে", pron: "অ্যাট ওয়ান্স ফিঙ্গার্স এন্ড" },
+            { id: 11, eng: "At sixes and sevens", bng: "এলোমেলো", pron: "অ্যাট সিক্সেল অ্যান্ড সেভেনস" },
+            { id: 12, eng: "Bad blood", bng: "শত্রুতা", pron: "ব্যাড ব্লাড" },
+            { id: 13, eng: "Bag and baggage", bng: "তল্পিতল্পাসহ", pron: "ব্যাগ অ্যান্ড ব্যাগেজ" },
+            { id: 14, eng: "Below the salt", bng: "নিম্নমানের", pron: "বিলো দ্য সল্ট" },
+            { id: 15, eng: "Beneath the dignity", bng: "মর্যাদার পক্ষে অপমান জনক", pron: "বিনীথ দ্য ডিগনিটি" },
+            { id: 16, eng: "Beneath the dignity", bng: "মর্যাদার পক্ষে অপমান জনক", pron: "বিনীথ দ্য ডিগনিটি" },
+            { id: 17, eng: "Black and white", bng: "লিখিতভাবে", pron: "ব্ল্যাক অ্যান্ড হোয়াইট" },
+            { id: 18, eng: "Black Sheep", bng: "কুলাঙ্গার", pron: "ব্ল্যাক শিপ" },
+            { id: 19, eng: "Blue blood", bng: "আভিজাত্য", pron: "ব্লু ব্লাড" },
+            { id: 20, eng: "Break out", bng: "প্রাদুর্ভাব", pron: "ব্রেক আউট" },
+            { id: 21, eng: "Bring to light", bng: "প্রকাশিত হওয়া", pron: "ব্রিং টু লাইট" },
+            { id: 22, eng: "By and by", bng: "শীঘ্রই", pron: "বাই অ্যান্ড বাই" },
+            { id: 23, eng: "By and Large", bng: "মোটের উপর", pron: "বাই অ্যান্ড লার্জ" },
+            { id: 24, eng: "By Leaps and bounds", bng: "খুব দ্রুত গতিতে", pron: "বাই লিপস অ্যান্ড বাউন্ডস" },
+            { id: 25, eng: "By Leaps and bounds", bng: "খুব দ্রুত গতিতে", pron: "বাই লিপস অ্যান্ড বাউন্ডস" },
+            { id: 26, eng: "Call on", bng: "আমন্ত্রণ করা", pron: "কল অন" },
+            { id: 27, eng: "Call to mind", bng: "মনে রাখা", pron: "কল টু মাইন্ড" },
+            { id: 28, eng: "Cats and dogs", bng: "মুষলধারে", pron: "ক্যাটস অ্যান্ড ডগস" },
+            { id: 29, eng: "Close-fisted man", bng: "কৃপণ লোক", pron: "ক্লোজ-ফিস্টেড ম্যান" },
+            { id: 30, eng: "Cold feet", bng: "ভয় পাওয়া", pron: "কোল্ড ফিট" },
+            { id: 31, eng: "Come to light", bng: "প্রকাশিত হওয়া", pron: "কাম টু লাইট" },
+            { id: 32, eng: "Crying need", bng: "জরুরি প্রয়োজন", pron: "ক্রাইং নিড" },
+            { id: 33, eng: "Dark horse", bng: "অজ্ঞাত পরিচয়", pron: "ডার্ক হর্স" },
+            { id: 34, eng: "Dead against", bng: "ঘোর বিরোধী", pron: "ডেড অ্যাগেইনস্ট" },
+            { id: 35, eng: "Die in harness", bng: "কর্মরত অবস্থায় মারা যাওয়া", pron: "ডাই ইন হারনেস" },
+            { id: 36, eng: "Down to earth", bng: "বাস্তবিক", pron: "ডাউন টু আর্থ" },
+            { id: 37, eng: "End in smoke", bng: "ফলপ্রসূ না হওয়া", pron: "এন্ড ইন স্মোক" },
+            { id: 38, eng: "Fair and square", bng: "সৎভাবে", pron: "ফেয়ার অ্যান্ড স্কয়ার" },
+            { id: 39, eng: "Fall back", bng: "পিছু হটা", pron: "ফল ব্যাক" },
+            { id: 40, eng: "For good", bng: "চিরতরে", pron: "ফর গুড" },
+            { id: 41, eng: "Full-fledged", bng: "পূর্ণাঙ্গ", pron: "ফুল-ফ্লেজড" },
+            { id: 42, eng: "Gain ground", bng: "উন্নতি করা", pron: "গেইন গ্রাউন্ড" },
+            { id: 43, eng: "Gala day", bng: "আনন্দের দিন", pron: "গালা ডে" },
+            { id: 44, eng: "Get by heart", bng: "মুখস্থ করা", pron: "গেট বাই হার্ট" },
+            { id: 45, eng: "Get rid of", bng: "মুক্তি পাওয়া", pron: "গেট রিড অব" },
+            { id: 46, eng: "Good at", bng: "দক্ষ", pron: "গুড অ্যাট" },
+            { id: 47, eng: "Harp on the same string", bng: "এক কথা বারবার বলা", pron: "হার্প অন দ্য সেম স্ট্রিং" },
+            { id: 48, eng: "Harp on the same string", bng: "এক কথা বারবার বলা", pron: "হার্প অন দ্য সেম স্ট্রিং" },
+            { id: 49, eng: "Here and there", bng: "মাঝে মাঝে", pron: "হিয়ার অ্যান্ড দেয়ার" },
+            { id: 50, eng: "Hit the sack", bng: "বিছানায় যাওয়া", pron: "হিট দ্য স্যাক" },
+            { id: 51, eng: "In a body", bng: "দলবদ্ধভাবে", pron: "ইন আ বডি" },
+            { id: 52, eng: "In a fix", bng: "উভয় সংকটে পড়া", pron: "ইন আ ফিক্স" },
+            { id: 53, eng: "In a nutshell", bng: "সংক্ষেপে", pron: "ইন আ নাটশেল" },
+            { id: 54, eng: "In case of", bng: "ক্ষেত্রে", pron: "ইন কেইস অব" },
+            { id: 55, eng: "In full swing", bng: "পুরোদমে", pron: "ইন ফুল সুইং" },
+            { id: 56, eng: "In spite of", bng: "সত্ত্বেও", pron: "ইন স্পাইট অব" },
+            { id: 57, eng: "Look down upon", bng: "ঘৃণা করা", pron: "লुक ডাউন আপন" },
+            { id: 58, eng: "Maiden speech", bng: "প্রথম বক্তৃতা", pron: "মেইডেন স্পিচ" },
+            { id: 59, eng: "More or less", bng: "মোটামুটি", pron: "মোর অর লেস" },
+            { id: 60, eng: "Nip in the bud", bng: "অঙ্কুরে বিনষ্ট হওয়া", pron: "নিপ ইন দ্য বাড" },
+            { id: 61, eng: "Null and void", bng: "বাতিল", pron: "নাল অ্যান্ড ভয়েড" },
+            { id: 62, eng: "Once in a blue moon", bng: "কদাচিৎ", pron: "ওয়ান্স ইন আ ব্লু মুন" },
+            { id: 63, eng: "Once in a while", bng: "মাঝে মাঝে", pron: "ওয়ান্স ইন আ হোয়াইল" },
+            { id: 64, eng: "Out and out", bng: "সম্পূর্ণ/পুরোপুরি", pron: "আউট অ্যান্ড আউট" },
+            { id: 65, eng: "Peg in the hole", bng: "কাঁঠালের আমসত্ত্ব", pron: "পেগ ইন দ্য হোল" },
+            { id: 66, eng: "Peg in the hole", bng: "কাঁঠালের আমসত্ত্ব", pron: "পেগ ইন দ্য হোল" },
+            { id: 67, eng: "Point blank", bng: "খোলাখুলি", pron: "পয়েন্ট ব্ল্যাঙ্ক" },
+            { id: 68, eng: "Pros and cons", bng: "খুঁটিনাটি", pron: "প্রস অ্যান্ড কনস" },
+            { id: 69, eng: "Put together", bng: "একত্র করা", pron: "পুট টুগেদার" },
+            { id: 70, eng: "Put up with", bng: "সহ্য করা", pron: "পুট আপ উইথ" },
+            { id: 71, eng: "Rainy day", bng: "দুর্দিন", pron: "রেইনি ডে" },
+            { id: 72, eng: "Red flag", bng: "বিপদের সংকেত হিসেবে ব্যবহৃত পতাকা", pron: "রেড ফ্ল্যাগ" },
+            { id: 73, eng: "Red handed", bng: "হাতে নাতে ধরা", pron: "রেড হ্যান্ডেড" },
+            { id: 74, eng: "Red letter day", bng: "স্মরণীয় দিন", pron: "রেড লেটার ডে" },
+            { id: 75, eng: "Right for", bng: "উপযুক্ত", pron: "রাইট ফর" },
+            { id: 76, eng: "Round the Clock", bng: "সারাদিন", pron: "রাউন্ড দ্য ক্লক" },
+            { id: 77, eng: "Scape goat", bng: "বলির পাঁঠা", pron: "স্কেপ গোট" },
+            { id: 78, eng: "Sine die", bng: "অনির্দিষ্ট কালের জন্য", pron: "সাইন ডাই" },
+            { id: 79, eng: "Slow coach", bng: "অলস প্রকৃতির লোক", pron: "স্লো কোচ" },
+            { id: 80, eng: "Smell a rat", bng: "সন্দেহ করা, ষড়যন্ত্রের গন্ধ পাওয়া", pron: "স্মেল আ র‍্যাট" },
+            { id: 81, eng: "Soft soap", bng: "তোষামোদ করা / চাটুকারিতা", pron: "সফট সোপ" },
+            { id: 82, eng: "Stone throw", bng: "নিকটে", pron: "স্টোন থ্রো" },
+            { id: 83, eng: "Sum and substance", bng: "মূল বিষয়", pron: "সাম অ্যান্ড সাবস্ট্যান্স" },
+            { id: 84, eng: "Take to task", bng: "তিরস্কার করা", pron: "টেক টু টাস্ক" },
+            { id: 85, eng: "Tell upon", bng: "ক্ষতি করা", pron: "টেল আপন" },
+            { id: 86, eng: "To and fro", bng: "এদিক-ওদিক", pron: "টু অ্যান্ড ফ্রো" },
+            { id: 87, eng: "Tooth and nail", bng: "প্রাণপণে", pron: "টুথ অ্যান্ড নেইল" },
+            { id: 88, eng: "Turn over", bng: "উল্টানো", pron: "টার্ন ওভার" },
+            { id: 89, eng: "Turn over a new leaf", bng: "নূতনের সূচনা", pron: "টার্ন ওভার আ নিউ লিফ" },
+            { id: 90, eng: "Turn over a new leaf", bng: "নূতনের সূচনা", pron: "টার্ন ওভার আ নিউ লিফ" },
+            { id: 91, eng: "White elephant", bng: "মূল্যবান কিন্তু অকেজো", pron: "হোয়াইট এলিফ্যান্ট" },
+            { id: 92, eng: "White lie", bng: "ক্ষতিহীন মিথ্যা", pron: "হোয়াইট লাই" },
+            { id: 93, eng: "Without fail", bng: "নিশ্চিতভাবে", pron: "উইদাউট ফেইল" }
+        ];
+
+        let favoriteList = JSON.parse(localStorage.getItem('favIdiomsList')) || [];
+        let showFavoritesOnly = false;
+        const themeClasses = ["theme-1", "theme-2", "theme-3", "theme-4", "theme-5", "theme-6"];
+
+        function renderCards() {
+            const container = document.getElementById('cardsContainer');
+            const searchVal = document.getElementById('searchInp').value.toLowerCase();
+            container.innerHTML = '';
+
+            let renderedIndex = 0;
+
+            idiomsDataSet.forEach(item => {
+                const isFav = favoriteList.includes(item.id);
+                if (showFavoritesOnly && !isFav) return;
+                
+                if (searchVal) {
+                    const matchEng = item.eng.toLowerCase().includes(searchVal);
+                    const matchBng = item.bng.toLowerCase().includes(searchVal);
+                    if (!matchEng && !matchBng) return;
+                }
+
+                const themeClass = themeClasses[renderedIndex % themeClasses.length];
+                renderedIndex++;
+
+                const card = document.createElement('div');
+                card.className = `flash-card ${themeClass}`;
+                card.setAttribute('onclick', `openIdiomDetails(${item.id}, '${themeClass}', event)`);
+
+                card.innerHTML = `
+                    <div class="card-id-badge">#${item.id}</div>
+                    <div class="english-idiom">${item.eng}</div>
+                    <span class="star-icon ${isFav ? 'fav-active' : ''}" onclick="toggleFav(${item.id}, event)">★</span>
+                `;
+
+                container.appendChild(card);
+            });
+
+            if(container.innerHTML === '') {
+                container.innerHTML = `<div style="text-align:center; color:#94a3b8; margin-top:40px; font-size:14px;">কোনো ফ্রেজ খুঁজে পাওয়া যায়নি।</div>`;
+            }
+        }
+
+        function toggleFav(id, event) {
+            event.stopPropagation();
+            const index = favoriteList.indexOf(id);
+            if (index > -1) {
+                favoriteList.splice(index, 1);
+            } else {
+                favoriteList.push(id);
+            }
+            localStorage.setItem('favIdiomsList', JSON.stringify(favoriteList));
+            renderCards();
+        }
+
+        function toggleFavFilter() {
+            showFavoritesOnly = !showFavoritesOnly;
+            const btn = document.getElementById('favFilterBtn');
+            if (showFavoritesOnly) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+            renderCards();
+        }
+
+        function openIdiomDetails(id, themeClass, event) {
+            const itemObj = idiomsDataSet.find(w => w.id === id);
+            if (!itemObj) return;
+
+            document.getElementById('mEnglish').innerText = itemObj.eng;
+            document.getElementById('mPron').innerText = itemObj.pron;
+            document.getElementById('mBangla').innerText = itemObj.bng;
+
+            const modalBox = document.getElementById('modalBox');
+            themeClasses.forEach(c => modalBox.classList.remove(c));
+            modalBox.classList.add(themeClass);
+
+            document.getElementById('modalOverlay').classList.add('open');
+        }
+
+        function closeModal(event) {
+            if (event.target.id === 'modalOverlay') {
+                document.getElementById('modalOverlay').classList.remove('open');
+            }
+        }
+
+        renderCards();
+    </script>
+</body>
+</html>

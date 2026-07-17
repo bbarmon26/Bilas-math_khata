@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Premium Soft Pastel Spelling Master</title>
+    <style>
+        :root {
+            --bg-color: #f8fafc; /* শান্ত ও স্নিগ্ধ স্লেট-হোয়াইট ব্যাকগ্রাউন্ড */
+            --search-bg: #ffffff;
+            --text-dark: #1e293b; /* চোখের জন্য আরামদায়ক গাঢ় টেক্সট */
+            --border-color: #e2e8f0;
+            
+            /* 🍃 ৬টি অত্যন্ত হালকা ও প্রিমিয়াম প্যাস্টেল কালার প্যালেট */
+            --pastel-1: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); /* সফট পিচ */
+            --pastel-2: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%); /* বেবি ব্লু */
+            --pastel-3: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%); /* সফট মিন্ট গ্রিন */
+            --pastel-4: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); /* লাইট ল্যাভেন্ডার */
+            --pastel-5: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); /* সফট রোজ */
+            --pastel-6: linear-gradient(135deg, #f6d365 0%, #fda085 100%); /* হালকা আম্বার */
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* 👑 প্রিমিয়াম স্লিম হেডার */
+        .header-panel {
+            width: 100%;
+            max-width: 500px;
+            background: rgba(248, 250, 252, 0.85);
+            backdrop-filter: blur(12px);
+            padding: 20px 16px;
+            text-align: center;
+            box-sizing: border-box;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-panel h1 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: -0.5px;
+        }
+
+        .header-panel p {
+            margin: 6px 0 16px 0;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        /* 🔍 সার্চ ও ফিল্টার এরিয়া */
+        .control-box {
+            display: flex;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .search-bar {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid #cbd5e1;
+            border-radius: 14px;
+            font-size: 14px;
+            outline: none;
+            background: var(--search-bg);
+            color: var(--text-dark);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: border-color 0.2s;
+        }
+
+        .search-bar:focus {
+            border-color: #94a3b8;
+        }
+
+        .fav-toggle-btn {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            color: #475569;
+            padding: 0 16px;
+            border-radius: 14px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .fav-toggle-btn.active {
+            background: #f59e0b;
+            color: #ffffff;
+            border-color: #f59e0b;
+            box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);
+        }
+
+        /* 📦 ১-কলাম বিশিষ্ট প্রিমিয়াম লিস্ট কন্টেইনার */
+        .main-wrapper {
+            width: 100%;
+            max-width: 500px;
+            padding: 16px 14px;
+            box-sizing: border-box;
+        }
+
+        .cards-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* 🗂️ শান্ত ও চোখের জন্য আরামদায়ক প্যাস্টেল কার্ড */
+        .flash-card {
+            border-radius: 16px;
+            padding: 18px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s;
+            box-sizing: border-box;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            color: #0f172a; /* সবসময় গাঢ় টেক্সট */
+        }
+
+        .flash-card:active {
+            transform: scale(0.98);
+        }
+
+        /* 🎨 ডাইনামিক লাইট প্যাস্টেল থিম লুপ */
+        .theme-1 { background: var(--pastel-1); }
+        .theme-2 { background: var(--pastel-2); } 
+        .theme-3 { background: var(--pastel-3); }
+        .theme-4 { background: var(--pastel-4); }
+        .theme-5 { background: var(--pastel-5); }
+        .theme-6 { background: var(--pastel-6); }
+
+        /* 🔢 মার্জিত ডার্ক-অপাসিটি ক্রমিক নম্বর ব্যাজ */
+        .card-id-badge {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+            margin-right: 16px;
+            flex-shrink: 0;
+            color: #1e293b;
+        }
+
+        /* 🇧🇩 বড় ও আকর্ষণীয় বাংলা অর্থ */
+        .bangla-meaning {
+            font-size: 18px;
+            font-weight: 700;
+            flex: 1;
+            line-height: 1.3;
+            padding-right: 30px;
+            color: #0f172a;
+        }
+
+        .star-icon {
+            font-size: 22px;
+            color: rgba(0, 0, 0, 0.2);
+            transition: color 0.2s, transform 0.2s;
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 6px;
+        }
+
+        .star-icon:active {
+            transform: translateY(-50%) scale(1.2);
+        }
+
+        .star-icon.fav-active {
+            color: #f59e0b !important;
+        }
+
+        /* 🎭 সিনেমাটিক লাইট-মোড পপ-আপ */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.4); /* হালকা ডার্ক ওভারলে ব্যাকগ্রাউন্ডকে ফোকাস করার জন্য */
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+            z-index: 1000;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-box {
+            padding: 40px 24px;
+            border-radius: 28px;
+            width: 90%;
+            max-width: 400px;
+            min-height: 55vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.15);
+            position: relative;
+            transform: translateY(40px) scale(0.95);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-sizing: border-box;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            color: #0f172a;
+        }
+
+        .modal-overlay.open .modal-box {
+            transform: translateY(0) scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: rgba(0, 0, 0, 0.06);
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 🔤 প্রিমিয়াম বিশাল ইংরেজি শব্দ ফন্ট */
+        .modal-english {
+            font-size: 40px;
+            font-weight: 800;
+            color: #0f172a;
+            margin: 16px 0 8px 0;
+            word-break: break-word;
+            text-align: center;
+            line-height: 1.1;
+            letter-spacing: -0.5px;
+        }
+
+        .modal-divider {
+            width: 80%;
+            height: 1px;
+            background: rgba(0, 0, 0, 0.08);
+            margin: 24px 0;
+        }
+
+        .modal-row {
+            margin: 12px 0;
+            text-align: center;
+            width: 100%;
+        }
+
+        .modal-label {
+            font-size: 11px;
+            color: #475569;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            margin-bottom: 4px;
+        }
+
+        .modal-val {
+            font-size: 24px; 
+            font-weight: 700;
+            color: #0f172a;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- হেডার এরিয়া -->
+    <div class="header-panel">
+        <h1>প্রিমিয়াম স্পেলিং লার্নার</h1>
+        <p>বাংলা অর্থ দেখুন, ট্যাপ করে শান্ত ও স্নিগ্ধ কালারে ইংরেজি ও উচ্চারণ জানুন</p>
+        
+        <div class="control-box">
+            <input type="text" class="search-bar" id="searchInp" placeholder="শব্দ খুঁজুন (বাংলা বা ইংরেজি)..." oninput="renderCards()">
+            <button class="fav-toggle-btn" id="favFilterBtn" onclick="toggleFavFilter()">
+                <span>★</span> ফেভারিট 
+            </button>
+        </div>
+    </div>
+
+    <!-- মেইন ১-কলাম লিস্ট ভিউ -->
+    <div class="main-wrapper">
+        <div class="cards-list" id="cardsContainer"></div>
+    </div>
+
+    <!-- রঙিন এনিমেটেড জুম পপ-আপ -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+        <div class="modal-box" id="modalBox">
+            <button class="modal-close" onclick="document.getElementById('modalOverlay').classList.remove('open')">✕</button>
+            <div class="modal-label">English Word</div>
+            <div class="modal-english" id="mEnglish"></div>
+            <div class="modal-divider"></div>
+            
+            <div class="modal-row">
+                <span class="modal-label">উচ্চারণ</span>
+                <span class="modal-val" id="mPron"></span>
+            </div>
+            <div class="modal-row">
+                <span class="modal-label">বাংলা অর্থ</span>
+                <span class="modal-val" id="mBangla"></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 📋 সম্পূর্ণ ২১০টি শব্দের ডাটাবেজ
+        const wordsDataSet = [
+            { id: 1, eng: "Acquisition", bng: "অর্জন", pron: "একুইশন" },
+            { id: 2, eng: "Assassination", bng: "গুপ্তহত্যা", pron: "অ্যাসা সিনেশন" },
+            { id: 3, eng: "Assignation", bng: "গোপন মিলন", pron: "অ্যাসাইনেশন" },
+            { id: 4, eng: "Association", bng: "সমিতি বা সংগঠন", pron: "অ্যাসোসিয়েশন" },
+            { id: 5, eng: "Communication", bng: "যোগাযোগ", pron: "কমিউনিকেশন" },
+            { id: 6, eng: "Constitution", bng: "সংবিধান", pron: "কনস্টিটিউশন" },
+            { id: 7, eng: "Definition", bng: "সংজ্ঞা", pron: "ডেফিনেশন" },
+            { id: 8, eng: "Dehydration", bng: "পানিশূন্যতা", pron: "ডেহাইড্রেশন" },
+            { id: 9, eng: "Dissertation", bng: "গবেষণামূলক প্রবন্ধ", pron: "ডেক্টরেট থিসিস" },
+            { id: 10, eng: "Federation", bng: "রাষ্ট্রসংঘ", pron: "ফেডারেশন" },
+            { id: 11, eng: "Institution", bng: "প্রতিষ্ঠান", pron: "ইনস্টিটিউশন" },
+            { id: 12, eng: "Interjection", bng: "আবেগসূচক অব্যয়", pron: "ইন্টারজেকশন" },
+            { id: 13, eng: "Investigation", bng: "تদন্ত", pron: "ইনভেস্টিগেশন" },
+            { id: 14, eng: "Participation", bng: "অংশগ্রহণ", pron: "পার্টিসিপেশন" },
+            { id: 15, eng: "Proclamation", bng: "ঘোষণা", pron: "প্রাক্লেমেশন" },
+            { id: 16, eng: "Repetition", bng: "পুনরাবৃত্তি", pron: "রেپیটিশন" },
+            { id: 17, eng: "Collision", bng: "সংঘর্ষ", pron: "কলিশন" },
+            { id: 18, eng: "Decision", bng: "সিদ্ধান্ত", pron: "ডেসিশন" },
+            { id: 19, eng: "Occasion", bng: "উপলক্ষ", pron: "অকেশন" },
+            { id: 20, eng: "Possession", bng: "অধিকার বা দখল", pron: "পজেশন" },
+            { id: 21, eng: "Recession", bng: "মন্দা", pron: "রেসিশন" },
+            { id: 22, eng: "Schizophrenia", bng: "মানসিক রোগ", pron: "সিজোফ্রেনিয়া" },
+            { id: 23, eng: "Accommodate", bng: "আবাসন দেওয়া", pron: "একোমোডেট" },
+            { id: 24, eng: "Accommodation", bng: "বাসস্থান", pron: "একোমোডেশন" },
+            { id: 25, eng: "Accused", bng: "অভিযুক্ত", pron: "একিউজড" },
+            { id: 26, eng: "Acquittal", bng: "খালাস বা মুক্তি", pron: "একুইটাল" },
+            { id: 27, eng: "Affidavit", bng: "হলфনামা", pron: "অ্যাফিডেভিট" },
+            { id: 28, eng: "Allegiance", bng: "আনুগত্য", pron: "অ্যালজিয়েন্স" },
+            { id: 29, eng: "Annually", bng: "বার্ষিকভাবে", pron: "অ্যানুয়ালি" },
+            { id: 30, eng: "Appropriate", bng: "উপযুক্ত", pron: "অ্যাপ্রোপ্রিয়েট" },
+            { id: 31, eng: "Assessment", bng: "মূল্যায়ন", pron: "অ্যাসেসমেন্ট" },
+            { id: 32, eng: "Assistant", bng: "সহকারী", pron: "অ্যাসিস্ট্যান্ট" },
+            { id: 33, eng: "Attitude", bng: "মনোभाव", pron: "অ্যাটিটিউড" },
+            { id: 34, eng: "Beginning", bng: "শুরু", pron: "বিগিনিং" },
+            { id: 35, eng: "Bouquet", bng: "ফুলের তোড়া", pron: "বুকে" },
+            { id: 36, eng: "Bureaucracy", bng: "আমলাতন্ত্র", pron: "ব্যুরোক্রেসি" },
+            { id: 37, eng: "Bureaucrat", bng: "আমলা", pron: "ব্যুরোক্র্যাট" },
+            { id: 38, eng: "Business", bng: "ব্যবসা", pron: "বিজনেস" },
+            { id: 39, eng: "Ceiling", bng: "ছাদ", pron: "সিলিং" },
+            { id: 40, eng: "Chancellor", bng: "চ্যান্সেলর", pron: "চ্যান্সেলর" },
+            { id: 41, eng: "Chattogram", bng: "চট্টগ্রাম", pron: "চট্টগ্রাম" },
+            { id: 42, eng: "Chittagong", bng: "চট্টগ্রাম (পুরনো)", pron: "চিটাগাং" },
+            { id: 43, eng: "Coffee", bng: "কফি", pron: "কফি" },
+            { id: 44, eng: "Colleague", bng: "সহকর্মী", pron: "কলিগ" },
+            { id: 45, eng: "Commission", bng: "কমিশন", pron: "কমিশন" },
+            { id: 46, eng: "Commissioner", bng: "কমিশনার", pron: "কমিশনার" },
+            { id: 47, eng: "Committee", bng: "কমিটি", pron: "কমিটি" },
+            { id: 48, eng: "Commemorate", bng: "স্মৃতিচারণ করা", pron: "কমেমোরেট" },
+            { id: 49, eng: "Common", bng: "সাধারণ", pron: "কমন" },
+            { id: 50, eng: "Curriculum", bng: "পাঠ্যসূচি", pron: "কারিকুলাম" },
+            { id: 51, eng: "Diarrhoea", bng: "ডায়েরিয়া", pron: "ডায়েরিয়া" },
+            { id: 52, eng: "Disappoint", bng: "হতাশ করা", pron: "ডিসঅ্যাপয়েন্ট" },
+            { id: 53, eng: "Embezzlement", bng: "আত্মসাৎ", pron: "এম্বেজলমেন্ট" },
+            { id: 54, eng: "Exaggerate", bng: "অতিরঞ্জিত করা", pron: "এগজাজারেট" },
+            { id: 55, eng: "Gazette", bng: "গেজেট বা রাজপত্র", pron: "গেজেট" },
+            { id: 56, eng: "Guarantee", bng: "গ্যারান্টি বা জামিন", pron: "গ্যারান্টি" },
+            { id: 57, eng: "Guillotine", bng: "গিলোটিন যন্ত্র", pron: "গিলোটিন" },
+            { id: 58, eng: "Heterogeneous", bng: "বহুমাত্রিক বা বিষমজাতীয়", pron: "হেটেরোজিনিয়ার" },
+            { id: 59, eng: "Hippopotamus", bng: "জলহস্তী", pron: "হিপোপটেমার" },
+            { id: 60, eng: "Homogeneous", bng: "সমজাতীয়", pron: "হোমোজিনিয়াস" },
+            { id: 61, eng: "Illegal", bng: "অবৈধ", pron: "ইলগ্যাল" },
+            { id: 62, eng: "Intelligent", bng: "বুদ্ধিমান", pron: "ইনটেলিজেন্ট" },
+            { id: 63, eng: "Millennium", bng: "সহস্রাব্দ", pron: "মিলেনিয়াম" },
+            { id: 64, eng: "Misspell", bng: "ভুল বানান করা", pron: "মিসস্পেল" },
+            { id: 65, eng: "Mississippi", bng: "মিসিসিপি নদী", pron: "মিসিসিপি" },
+            { id: 66, eng: "Naturally", bng: "স্বাভাবিকভাবে", pron: "ন্যাচারালি" },
+            { id: 67, eng: "Nominee", bng: "মনোনীত ব্যক্তি", pron: "নমিনি" },
+            { id: 68, eng: "Occurrence", bng: "ঘটনা", pron: "অকারেন্স" },
+            { id: 69, eng: "Occupied", bng: "অধিকৃত", pron: "অকুপাইড" },
+            { id: 70, eng: "Ophthalmologist", bng: "চক্ষু রোগ বিশেষজ্ঞ", pron: "অফথালমোলজিস্ট" },
+            { id: 71, eng: "Parallel", bng: "সমান্তরাল", pron: "প্যারালাল" },
+            { id: 72, eng: "Plentiful", bng: "প্রচুর", pron: "প্লেনটিফুল" },
+            { id: 73, eng: "Questionnaire", bng: "প্রশ্নাবলী", pron: "কোশ্চেনায়ার" },
+            { id: 74, eng: "Razzmatazz", bng: "উত্তেজনাপূর্ণ কোলাহল", pron: "রাজম্যাটাজ" },
+            { id: 75, eng: "Rebellious", bng: "বিদ্রোহী", pron: "রেবেলিয়াস" },
+            { id: 76, eng: "Remittance", bng: "প্রবাসী আয়", pron: "রেমিট্যান্স" },
+            { id: 77, eng: "Satellite", bng: "উপগ্রহ", pron: "স্যাটেলাইট" },
+            { id: 78, eng: "Secretariat", bng: "সচিবালয়", pron: "সেক্রেটারিয়েট" },
+            { id: 79, eng: "Supplementary", bng: "সম্পূরক", pron: "সাপ্লিমেন্টারি" },
+            { id: 80, eng: "Tomorrow", bng: "আগামীকাল", pron: "টুমোরো" },
+            { id: 81, eng: "Umbrella", bng: "ছাতা", pron: "আমব্রেলা" },
+            { id: 82, eng: "Vaccinate", bng: "টিকা দেওয়া", pron: "ভ্যাক্সিনেট" },
+            { id: 83, eng: "Volunteer", bng: "স্বেচ্ছাসেবক", pron: "ভলান্টিয়ার" },
+            { id: 84, eng: "Achievement", bng: "অর্জন", pron: "অ্যাчиভমেন্ট" },
+            { id: 85, eng: "Ad-hoc", bng: "সাময়িক বা তদ্বির", pron: "অ্যাড-হক" },
+            { id: 86, eng: "Adolescence", bng: "বয়ঃসন্ধিকাল", pron: "অ্যাডোলেসন্স" },
+            { id: 87, eng: "Amateur", bng: "অপেশাদার", pron: "অ্যামেচার" },
+            { id: 88, eng: "Ambition", bng: "উচ্চাকাঙ্ক্ষা", pron: "অ্যাম্বিশন" },
+            { id: 89, eng: "Anxiety", bng: "উদ্বেগ বা দুশ্চিন্তা", pron: "অ্যাংজাইটি" },
+            { id: 90, eng: "Apprehend", bng: "গ্রেফতার বা উপলব্ধি", pron: "অ্যাপ্রিহেন্ড" },
+            { id: 91, eng: "Aquarium", bng: "অ্যাকোয়ারিয়াম", pron: "অ্যাকোয়ারিয়াম" },
+            { id: 92, eng: "Ascertain", bng: "নিশ্চিত করা", pron: "অ্যাসারটেইন" },
+            { id: 93, eng: "Atmosphere", bng: "বায়ুমণ্ডল", pron: "অ্যাটমোস্ফিয়ার" },
+            { id: 94, eng: "Autobiography", bng: "আত্মজীবনী", pron: "অটোবায়োগ্রাফি" },
+            { id: 95, eng: "Authoritative", bng: "কর্তৃত্বপূর্ণ", pron: "অথরিটেটিভ" },
+            { id: 96, eng: "Autumn", bng: "শরৎকাল", pron: "অটাম" },
+            { id: 97, eng: "Awareness", bng: "সচেতনতা", pron: "অ্যাওয়ারনেস" },
+            { id: 98, eng: "Awful", bng: "ভয়াবহ", pron: "অফুল" },
+            { id: 99, eng: "Awkward", bng: "অস্বस्तিকর বা বেমানান", pron: "অকোয়ার্ড" },
+            { id: 100, eng: "Biodiversity", bng: "জীববৈচিত্র্য", pron: "বায়োডাইভারসিটি" },
+            { id: 101, eng: "Blasphemy", bng: "ধর্মীয় নিন্দা", pron: "ব্লাশফেমি" },
+            { id: 102, eng: "Camouflage", bng: "ছদ্মবেশ", pron: "ক্যামোф্লাজ" },
+            { id: 103, eng: "Cardiologist", bng: "হৃদরোগ বিশেষজ্ঞ", pron: "কার্ডিওলজিস্ট" },
+            { id: 104, eng: "Celestial", bng: "মহাজাগতিক বা স্বর্গীয়", pron: "সেলেস্টিয়াল" },
+            { id: 105, eng: "Colonel", bng: "কর্নেল", pron: "কর্নেল" },
+            { id: 106, eng: "Conspicuous", bng: "সুস্পষ্ট", pron: "কনস্পিকুয়াস" },
+            { id: 107, eng: "Contagious", bng: "ছোঁয়াচে", pron: "কনটেজিয়াস" },
+            { id: 108, eng: "Courageous", bng: "সাহসী", pron: "কারেজিয়াস" },
+            { id: 109, eng: "Criticism", bng: "সমালোচনা", pron: "ক্রিটিসিজম" },
+            { id: 110, eng: "Deceive", bng: "প্রতারণা করা", pron: "ডিসিভ" },
+            { id: 111, eng: "Default", bng: "খেলাপি বা ব্যর্থতা", pron: "ডিফল্ট" },
+            { id: 112, eng: "Delhi", bng: "দিল্লি", pron: "দিল্লি" },
+            { id: 113, eng: "Dialogue", bng: "সংলাপ", pron: "ডায়ালগ" },
+            { id: 114, eng: "Dilemma", bng: "উভয়সংকট", pron: "ডাইলেমা" },
+            { id: 115, eng: "Diligent", bng: "পরিশ্রমী", pron: "ডিলিজেন্ট" },
+            { id: 116, eng: "Dinosaur", bng: "ডাইনোসর", pron: "ডাইনোসর" },
+            { id: 117, eng: "Discipline", bng: "শৃঙ্খলা", pron: "ডিসিপ্লিন" },
+            { id: 118, eng: "Dysentery", bng: "আমাশয়", pron: "ডায়সেন্টারি" },
+            { id: 119, eng: "Earthquake", bng: "ভূমিকম্প", pron: "আর্থকোয়েক" },
+            { id: 120, eng: "Entrepreneur", bng: "উদ্যোক্তা", pron: "অন্ত্রপ্রেনার" },
+            { id: 121, eng: "Environment", bng: "পরিবেশ", pron: "এনভায়রনমেন্ট" },
+            { id: 122, eng: "Etiquette", bng: "শিষ্টাচার", pron: "এটিকেট" },
+            { id: 123, eng: "Euphemism", bng: "কোমলতর প্রকাশ", pron: "ইউফেমিসম" },
+            { id: 124, eng: "Exercise", bng: "ব্যায়াম", pron: "এক্সারসাইজ" },
+            { id: 125, eng: "Exhibition", bng: "প্রদর্শনী", pron: "এক্সিবীশন" },
+            { id: 126, eng: "Expert", bng: "দক্ষ", pron: "এক্সপার্ট" },
+            { id: 127, eng: "Furtively", bng: "গোপনে", pron: "ফার্টিভলি" },
+            { id: 128, eng: "Grantee", bng: "अनुদানপ্রাপক", pron: "গ্রান্টি" },
+            { id: 129, eng: "Grievance", bng: "ক্ষোভ বা অভিযোগ", pron: "গ্রিভ্যান্স" },
+            { id: 130, eng: "Guardian", bng: "অভিভাবক", pron: "গার্ডিয়ান" },
+            { id: 131, eng: "Gynecology", bng: "স্ত্রীরোগ বিজ্ঞান", pron: "গাইনিকোলজি" },
+            { id: 132, eng: "Heterogenous", bng: "বিষমজাতীয় (বিকল্প বানান)", pron: "হেটেরোজিনিয়াস" },
+            { id: 133, eng: "Hierarchy", bng: "উচ্চক্রম বা স্তরবিন্যাস", pron: "হায়ারার্কি" },
+            { id: 134, eng: "Hierocracy", bng: "পুরোহিততন্ত্র", pron: "হায়ারোক্রেসী" },
+            { id: 135, eng: "Honorarium", bng: "সম্মানী", pron: "অনারারিয়াম" },
+            { id: 136, eng: "Humorous", bng: "রসাত্মক", pron: "হিউমারাস" },
+            { id: 137, eng: "Hydrogen", bng: "হাইড্রোজেন", pron: "হাইড্রোজেন" },
+            { id: 138, eng: "Inaugural", bng: "উদ্বোধনী", pron: "ইনোগোরাল" },
+            { id: 139, eng: "Influenza", bng: "ইনফ্লুয়েঞ্জা", pron: "ইনф্লুয়েঞ্জা" },
+            { id: 140, eng: "Initiative", bng: "উদ্যোগ", pron: "ইনিশিয়েটিভ" },
+            { id: 141, eng: "Itinerary", bng: "ভ্রমণসূচি", pron: "আইটিন্যারারি" },
+            { id: 142, eng: "Juggernaut", bng: "অপ্রতিরোধ্য শক্তি", pron: "জ্যাগারনট" },
+            { id: 143, eng: "Kindergarten", bng: "কিন্ডারগার্টেন", pron: "কিন্ডারগার্টেন" },
+            { id: 144, eng: "Knowledge", bng: "জ্ঞান", pron: "নলেজ" },
+            { id: 145, eng: "Laboratory", bng: "পরীক্ষাগার", pron: "ল্যাবরেটরি" },
+            { id: 146, eng: "Leisure", bng: "অবসর সময়", pron: "লেজার" },
+            { id: 147, eng: "Lieutenant", bng: "লেফটেন্যান্ট", pron: "লেফটেনেন্ট" },
+            { id: 148, eng: "Literature", bng: "সাহিত্য", pron: "লিটারেচার" },
+            { id: 149, eng: "Machinery", bng: "যন্ত্রপাতি", pron: "মেশিনারি" },
+            { id: 150, eng: "Magnanimity", bng: "উদারতা", pron: "ম্যাগন্যানিমিটি" },
+            { id: 151, eng: "Maintenance", bng: "রক্ষণাবেক্ষণ", pron: "মেইনটেন্যান্স" },
+            { id: 152, eng: "Manuscript", bng: "পাণ্ডুলিপি", pron: "ম্যানুস্ক্রিপ্ট" },
+            { id: 153, eng: "Marshal", bng: "মার্শাল", pron: "মার্শাল" },
+            { id: 154, eng: "Mathematics", bng: "গণিত", pron: "ম্যাথমেটিক্স" },
+            { id: 155, eng: "Miscreant", bng: "দুষ্কৃতকারী", pron: "মিসক্রিয়ান্ট" },
+            { id: 156, eng: "Mischievous", bng: "দুষ্টু", pron: "মিসচিভাস" },
+            { id: 157, eng: "Miscellaneous", bng: "বিবিধ", pron: "মিসলেনিয়াস" },
+            { id: 158, eng: "Monetary", bng: "আর্থিক", pron: "মনিটারি" },
+            { id: 159, eng: "Necessity", bng: "প্রয়োজনীয়তা", pron: "নেসেসিটি" },
+            { id: 160, eng: "Neighbor", bng: "প্রতিবেশী", pron: "নেইবার" },
+            { id: 161, eng: "Nervous", bng: "স্নায়বিক বা ভীত", pron: "নার্ভাস" },
+            { id: 162, eng: "Parliament", bng: "সংসদ", pron: "পার্লামেন্ট" },
+            { id: 163, eng: "Parsimonious", bng: "কৃপণ", pron: "পারসিমোনিয়াস" },
+            { id: 164, eng: "Pediatric", bng: "শিশুচিকিৎসা", pron: "পেডিয়াট্রিক" },
+            { id: 165, eng: "Pensive", bng: "চিন্তামগ্ন", pron: "পেনসিভ" },
+            { id: 166, eng: "Performance", bng: "কৃতিত্ব বা পারফরম্যান্স", pron: "পারফরম্যান্স" },
+            { id: 167, eng: "Perseverance", bng: "অধ্যবসায়", pron: "পারসিভিয়ারেন্স" },
+            { id: 168, eng: "Philanthropist", bng: "মানবপ্রেমিক", pron: "ফিলানথ্রোপিস্ট" },
+            { id: 169, eng: "Philosopher", bng: "দার্শনিক", pron: "ফিলোসফার" },
+            { id: 170, eng: "Phoenix", bng: "ফিনিক্স পাখি", pron: "ফিনিক্স" },
+            { id: 171, eng: "Pigeon", bng: "পায়রা", pron: "পায়রা" },
+            { id: 172, eng: "Playwriter", bng: "নাট্যকার (বিকল্প বানান)", pron: "প্লে-রাইটার" },
+            { id: 173, eng: "Playwright", bng: "নাট্যকার", pron: "প্লে-রাইট" },
+            { id: 174, eng: "Pneumonia", bng: "নিউমোনিয়া রোগ", pron: "নিউমোনিয়া" },
+            { id: 175, eng: "Precedence", bng: "অগ্রাধিকার", pron: "প্রিসিডেন্স" },
+            { id: 176, eng: "Preliminary", bng: "প্রাথমিক", pron: "প্রিলিমিনারি" },
+            { id: 177, eng: "Principle", bng: "নীতি", pron: "প্রিন্সিপল" },
+            { id: 178, eng: "Privilege", bng: "বিশেষাধিকার", pron: "প্রিভিলেজ" },
+            { id: 179, eng: "Proprietor", bng: "মালিক", pron: "প্রোপরাইটর" },
+            { id: 180, eng: "Psychology", bng: "মনোবিজ্ঞান", pron: "সাইকোলজি" },
+            { id: 181, eng: "Queue", bng: "লাইন বা সারি", pron: "কিউ" },
+            { id: 182, eng: "Quorum", bng: "কোরাম", pron: "কোরাম" },
+            { id: 183, eng: "Receive", bng: "গ্রহণ করা", pron: "রিসিভ" },
+            { id: 184, eng: "Relief", bng: "ত্রাণ বা স্বস্তি", pron: "রিলিফ" },
+            { id: 185, eng: "Reminiscence", bng: "স্মৃতিচারণ", pron: "রেমিনিসেন্স" },
+            { id: 186, eng: "Renaissance", bng: "রেনেসাঁ", pron: "রেনেসাঁ" },
+            { id: 187, eng: "Restaurant", bng: "রেস্তোরাঁ", pron: "রেস্টুরেন্ট" },
+            { id: 188, eng: "Scenery", bng: "দৃশ্যপট", pron: "সিনারি" },
+            { id: 189, eng: "Secretary", bng: "সচিব", pron: "সেক্রেটারি" },
+            { id: 190, eng: "Serious", bng: "গুরুতর", pron: "সিরিয়াস" },
+            { id: 191, eng: "Souvenir", bng: "স্মারক", pron: "সুভেনিয়ার" },
+            { id: 192, eng: "Sovereign", bng: "সার্বভৌম", pron: "সভরেন" },
+            { id: 193, eng: "Sovereignty", bng: "সার্বভৌমত্ব", pron: "সভরেন্টি" },
+            { id: 194, eng: "Substantial", bng: "প্রচুর বা উল্লেখযোগ্য", pron: "সাবস্ট্যানশিয়াল" },
+            { id: 195, eng: "Superior", bng: "উচ্চতর", pron: "সুপিরিয়র" },
+            { id: 196, eng: "Superiority", bng: "শ্রেষ্ঠত্ব", pron: "সুপিরিওরিটি" },
+            { id: 197, eng: "Superstitious", bng: "কুসংস্কারাচ্ছন্ন", pron: "সুপারস্টিশাস" },
+            { id: 198, eng: "Supersede", bng: "স্থান গ্রহণ করা", pron: "সুপারসিড" },
+            { id: 199, eng: "Tremendous", bng: "দারুণ বা ভয়াবহ", pron: "ট্রেমেন্ডাস" },
+            { id: 200, eng: "Tsunami", bng: "সুনামি", pron: "সুনামি" },
+            { id: 201, eng: "Ultimatum", bng: "চূড়ান্ত নোটিশ", pron: "আলটিমেটাম" },
+            { id: 202, eng: "University", bng: "বিশ্ববিদ্যালয়", pron: "ইউনিভার্সিটি" },
+            { id: 203, eng: "Voluntary", bng: "স্বেচ্ছামূলক", pron: "ভলান্টারি" },
+            { id: 204, eng: "Warranty", bng: "ওয়ারেন্টি", pron: "ওয়ারেন্টি" },
+            { id: 205, eng: "Wednesday", bng: "বুধবার", pron: "ওয়েডনেসডে" },
+            { id: 206, eng: "Welcome", bng: "স্বাগতম", pron: "ওয়েলকাম" },
+            { id: 207, eng: "Zoology", bng: "প্রাণীবিজ্ঞান", pron: "জুওলোজি" },
+            { id: 208, eng: "Constellation", bng: "নক্ষত্রপুঞ্জ", pron: "কনস্টেলেশন" },
+            { id: 209, eng: "Correlation", bng: "পারস্পরিক সম্পর্ক", pron: "কোরেলেশন" },
+            { id: 210, eng: "Necessary", bng: "প্রয়োজনীয়", pron: "নেসেসারি" }
+        ];
+
+        let favoriteList = JSON.parse(localStorage.getItem('favWordsListPastel')) || [];
+        let showFavoritesOnly = false;
+
+        // 🎨 ৬টি হালকা প্যাস্টেল থিম ক্লাসের অ্যারে
+        const themeClasses = ["theme-1", "theme-2", "theme-3", "theme-4", "theme-5", "theme-6"];
+
+        function renderCards() {
+            const container = document.getElementById('cardsContainer');
+            const searchVal = document.getElementById('searchInp').value.toLowerCase();
+            container.innerHTML = '';
+
+            let renderedIndex = 0;
+
+            wordsDataSet.forEach(item => {
+                const isFav = favoriteList.includes(item.id);
+                
+                if (showFavoritesOnly && !isFav) return;
+                
+                if (searchVal) {
+                    const matchEng = item.eng.toLowerCase().includes(searchVal);
+                    const matchBng = item.bng.toLowerCase().includes(searchVal);
+                    if (!matchEng && !matchBng) return;
+                }
+
+                // লাইট প্যাস্টেল থিম অ্যাসাইন করা হচ্ছে
+                const themeClass = themeClasses[renderedIndex % themeClasses.length];
+                renderedIndex++;
+
+                const card = document.createElement('div');
+                card.className = `flash-card ${themeClass}`;
+                card.setAttribute('onclick', `openWordDetails(${item.id}, '${themeClass}', event)`);
+
+                card.innerHTML = `
+                    <div class="card-id-badge">#${item.id}</div>
+                    <div class="bangla-meaning">${item.bng}</div>
+                    <span class="star-icon ${isFav ? 'fav-active' : ''}" onclick="toggleFav(${item.id}, event)">★</span>
+                `;
+
+                container.appendChild(card);
+            });
+
+            if(container.innerHTML === '') {
+                container.innerHTML = `<div style="text-align:center; color:#94a3b8; margin-top:40px; font-size:14px;">কোনো শব্দ খুঁজে পাওয়া যায়নি।</div>`;
+            }
+        }
+
+        function toggleFav(id, event) {
+            event.stopPropagation();
+            const index = favoriteList.indexOf(id);
+            if (index > -1) {
+                favoriteList.splice(index, 1);
+            } else {
+                favoriteList.push(id);
+            }
+            localStorage.setItem('favWordsListPastel', JSON.stringify(favoriteList));
+            renderCards();
+        }
+
+        function toggleFavFilter() {
+            showFavoritesOnly = !showFavoritesOnly;
+            const btn = document.getElementById('favFilterBtn');
+            if (showFavoritesOnly) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+            renderCards();
+        }
+
+        function openWordDetails(id, themeClass, event) {
+            const wordObj = wordsDataSet.find(w => w.id === id);
+            if (!wordObj) return;
+
+            document.getElementById('mEnglish').innerText = wordObj.eng;
+            document.getElementById('mPron').innerText = wordObj.pron;
+            document.getElementById('mBangla').innerText = wordObj.bng;
+
+            const modalBox = document.getElementById('modalBox');
+            
+            // পূর্বের সব কালার ক্লাস রিমুভ করে ম্যাচিং প্যাস্টেল থিম দেওয়া
+            themeClasses.forEach(c => modalBox.classList.remove(c));
+            modalBox.classList.add(themeClass);
+
+            document.getElementById('modalOverlay').classList.add('open');
+        }
+
+        function closeModal(event) {
+            if (event.target.id === 'modalOverlay') {
+                document.getElementById('modalOverlay').classList.remove('open');
+            }
+        }
+
+        // রেন্ডার শুরু করা হচ্ছে
+        renderCards();
+    </script>
+</body>
+</html>
