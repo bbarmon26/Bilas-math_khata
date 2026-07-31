@@ -1,0 +1,2355 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Idioms & Phrases - Complete Master Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #020617 100%);
+            --card-bg: #1e293b;
+            --card-hover: #223047;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-color: #38bdf8;
+            --accent-gradient: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+            --accent-green: #34d399;
+            --accent-green-bg: rgba(52, 211, 153, 0.1);
+            --border-color: #334155;
+            --favorite-color: #f43f5e;
+            --clue-bg: rgba(245, 158, 11, 0.08);
+            --clue-border: #f59e0b;
+            --clue-text: #fef08a;
+            --shadow-premium: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', 'Hind Siliguri', system-ui, sans-serif;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 20px 15px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        p.subtitle {
+            color: var(--accent-color);
+            font-size: 0.95rem;
+            background: rgba(56, 189, 248, 0.08);
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            font-weight: 600;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(8px);
+            padding: 10px 0;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 20px 12px 45px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-premium);
+        }
+
+        .search-box input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
+        }
+
+        .search-box svg {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            fill: var(--text-secondary);
+        }
+
+        .filter-btns {
+            display: flex;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--accent-gradient);
+            border-color: transparent;
+            color: #0f172a;
+        }
+
+        .idioms-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .idiom-card {
+            background-color: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-premium);
+        }
+
+        .idiom-card:hover {
+            border-color: rgba(56, 189, 248, 0.3);
+            background-color: var(--card-hover);
+        }
+
+        .card-header {
+            padding: 18px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .idiom-title-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .sl-no {
+            background-color: rgba(56, 189, 248, 0.1);
+            color: var(--accent-color);
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .idiom-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .card-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .fav-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-size: 1.3rem;
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        .fav-btn.active {
+            color: var(--favorite-color);
+        }
+
+        .fav-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .chevron {
+            transition: transform 0.3s ease;
+            fill: var(--text-secondary);
+            width: 20px;
+            height: 20px;
+        }
+
+        .idiom-card.open .chevron {
+            transform: rotate(180deg);
+        }
+
+        .card-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.3s ease;
+            background-color: rgba(15, 23, 42, 0.5);
+            border-top: 1px solid transparent;
+        }
+
+        .idiom-card.open .card-body {
+            max-height: 1000px;
+            padding: 20px;
+            border-top-color: var(--border-color);
+        }
+
+        .detail-section {
+            margin-bottom: 12px;
+        }
+
+        .detail-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--accent-color);
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+
+        .pronunciation-content {
+            font-size: 0.95rem;
+            color: #7dd3fc;
+            font-weight: 600;
+        }
+
+        .meaning-bn-content {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--accent-green);
+            background: var(--accent-green-bg);
+            padding: 6px 12px;
+            border-radius: 8px;
+            display: inline-block;
+            line-height: 1.4;
+        }
+
+        .meaning-en-content {
+            font-size: 0.95rem;
+            color: #cbd5e1;
+            line-height: 1.5;
+        }
+
+        .clue-box {
+            background: var(--clue-bg);
+            border-left: 4px solid var(--clue-border);
+            padding: 12px 14px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .clue-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--clue-border);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .clue-content {
+            font-size: 0.95rem;
+            color: var(--clue-text);
+            line-height: 1.6;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>English Idioms & Phrases</h1>
+            <p class="subtitle">Complete Master Edition (Sl. 2 - 328)</p>
+        </header>
+
+        <div class="controls">
+            <div class="search-box">
+                <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                <input type="text" id="searchInput" placeholder="Search idiom, meaning, pronunciation or clue...">
+            </div>
+            <div class="filter-btns">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="favorites">Favorites</button>
+            </div>
+        </div>
+
+        <div class="idioms-list" id="idiomsList"></div>
+        <div class="no-results" id="noResults">কোনো ইডিয়ম পাওয়া যায়নি।</div>
+    </div>
+
+    <script>
+        const idiomsData = [
+            {
+                sl: "2",
+                idiom: "Achilles heel",
+                pronunciationBn: "অ্যাকিলিস হিল",
+                meaningBn: "কারো দুর্বল জায়গা / ত্রুটি / দুর্বলতা",
+                meaningEn: "A small fault / weak point / a specific weakness or vulnerability",
+                clue: "গ্রিক বীর Achilles এর মা Thetis গ্রিক দেবরাজ Zeus এর কাছে তার ছেলের অমরত্বের জন্য আশীর্বাদ চাইলে দেবরাজ Zeus, দেবী Thetis-কে সমুদ্রের পানি Achilles এর সমস্ত শরীরে লাগাতে বলে। Zeus বলে দেয়, Achilles এর শরীরে যেসব জায়গায় ঐ সমুদ্রের পানি লাগবে সেখানে কেউই আর আঘাত করতে পারবে না। একথা শুনে Thetis তার শিশু ছেলে Achilles এর পায়ের গোড়ালিতে ধরে সমুদ্রের পানিতে ডুবিয়ে তোলে যাতে কোথাও পানি লাগা বাদ না যায়। কিন্তু দুঃখের বিষয়, পায়ের গোড়ালিতে ধরে পানিতে ডুবিয়ে তোলার কারণে Achilles -এর পায়ের গোড়ালি শুকনাই থেকে যায় এবং Troy যুগে বিষাক্ত তির এসে Achilles এর ঐ গোড়ালিতে লেগে Achilles মারা যায়। এজন্যই Achilles এর heel (গোড়ালি) কে বলা হয় দুর্বল জায়গা। তার মানে, Achilles heel অর্থ হচ্ছে দুর্বল জায়গা।"
+            },
+            {
+                sl: "3",
+                idiom: "Above board",
+                pronunciationBn: "অ্যাবাভ বোর্ড",
+                meaningBn: "অকপটে / স্পষ্টভাবে / ঢাকঢাকির দরকার নেই এমন",
+                meaningEn: "Honest and legal / Beyond doubt",
+                clue: "বোর্ডের বিচারের Above অর্থাৎ ঊর্ধ্বে। তাই, above board এর অর্থ হচ্ছে, সন্দেহাতীত ভাবে নির্দোষ ও বৈধ।"
+            },
+            {
+                sl: "4",
+                idiom: "Above all",
+                pronunciationBn: "অ্যাবাভ অল",
+                meaningBn: "সর্বোপরি / প্রধানত",
+                meaningEn: "More than anything else",
+                clue: "সবার Above অর্থাৎ সবকিছুর ঊর্ধ্বে / প্রধানত / সর্বোপরি।"
+            },
+            {
+                sl: "5",
+                idiom: "ABC",
+                pronunciationBn: "এবিসি",
+                meaningBn: "প্রাথমিক জ্ঞান",
+                meaningEn: "Primary knowledge",
+                clue: "শুরুর শব্দ : শুরুতে কেউই কোনো কিছু ভালো করতে পারে না, তাই এর অর্থ প্রাথমিক জ্ঞান।"
+            },
+            {
+                sl: "6",
+                idiom: "All at once / All on (of) a sudden",
+                pronunciationBn: "অল অ্যাট ওয়ান্স / অল অন আ সাডেন",
+                meaningBn: "হঠাৎ / আকস্মিক",
+                meaningEn: "Suddenly / unexpectedly",
+                clue: "At once মানে হচ্ছে তৎক্ষণাৎ; All তৎক্ষণাৎ করতে গেল \"হঠাৎ করেই বা আকস্মিকভাব\" করতে হয়।"
+            },
+            {
+                sl: "7",
+                idiom: "At cross purposes",
+                pronunciationBn: "অ্যাট ক্রস পারপাসেস",
+                meaningBn: "পরস্পর ভুল বোঝাবুঝি",
+                meaningEn: "Misunderstanding with someone",
+                clue: "হঠাৎ রাস্তা Cross করতে গেলে, ভুল বোঝাবুঝি হতেই পারে। তাই, Cross purpose অর্থ- \"পরস্পর ভুল বোঝাবুঝি\"।"
+            },
+            {
+                sl: "8",
+                idiom: "All but",
+                pronunciationBn: "অল বাট",
+                meaningBn: "প্রায় / অনেকাংশ",
+                meaningEn: "Very nearly, almost",
+                clue: "সবই (All) হয়ে গেল, কিন্তু..? তারমানে শেষ হয়নি; অনেকাংশ হয়েছে। All but অর্থ- প্রায়/অনেকাংশ"
+            },
+            {
+                sl: "9",
+                idiom: "All in all",
+                pronunciationBn: "অল ইন অল",
+                meaningBn: "সর্বেসর্বা, সর্বোচ্চ ক্ষমতাবান",
+                meaningEn: "Supreme, all powerful",
+                clue: "সবকিছুর মধ্যেই সবকিছু অর্থাৎ \"সর্বেসর্বা\"।"
+            },
+            {
+                sl: "10",
+                idiom: "All in a row",
+                pronunciationBn: "অল ইন আ রো",
+                meaningBn: "একটানা / বিরতিহীনভাবে",
+                meaningEn: "Continuously / without any break",
+                clue: "একটি row (সারি) এর এ পাশ থেকে অন্য পাশে যে একটানা যেতে হয়। অর্থাৎ All in a row অর্থ- একটানা বিরতিহীন।"
+            },
+            {
+                sl: "11",
+                idiom: "Above one's means",
+                pronunciationBn: "অ্যাবাভ ওয়ান্স মিন্স",
+                meaningBn: "আয়ের অধিক ব্যয় করে জীবনযাপন করা",
+                meaningEn: "Beyond one's income / to spend more money than one can afford",
+                clue: "One's means কারো সামর্থ্যের above (বাইরে)- \"আয়ের অধিক ব্যয় করে চলা\"।"
+            },
+            {
+                sl: "12",
+                idiom: "A baker's dozen",
+                pronunciationBn: "আ বেকার্স ডাজন",
+                meaningBn: "তেরোটি",
+                meaningEn: "Thirteen",
+                clue: "অতীত সময়ে/পুরানো দিনে, যখন বেকাররা (baker) রুটি বা কেক বিক্রি করত, তখন যদি ওজন কম পড়ে যেত/হতো, তাহলে আইন অনুযায়ী তাদেরক কঠিন শাস্তির সম্মুখীন হতে হতো। তাই বেকাররা ১২টার (dozen) সাথে অতিরিক্ত ১টি রুটি দিতো যাতে কম না পড়ে। তখন থেকেই a baker's dozen (তেরোটি) কথাটি প্রচলিত।"
+            },
+            {
+                sl: "13",
+                idiom: "An apple of discord",
+                pronunciationBn: "অ্যান অ্যাপল অব ডিসকর্ড",
+                meaningBn: "কলহ / ঝগড়া / বিবাদের কারণ",
+                meaningEn: "Matter of dispute, bone of contention, a reason for quarrel, something that causes trouble",
+                clue: "একটি আপেল (apple) ভাগাভাগি করলে সেটি বিবাদের কারণ হবেই।"
+            },
+            {
+                sl: "14",
+                idiom: "An apple of Sodom",
+                pronunciationBn: "অ্যান অ্যাপল অব সোডম",
+                meaningBn: "মাকাল ফল / সুন্দর কিন্তু অপদার্থ",
+                meaningEn: "Disappointed expectation",
+                clue: "Sodom অর্থ ধ্বংসযজ্ঞ। ধ্বংসযজ্ঞের ময়লা আবর্জনায় পড়ে থাকা আপেল ফল কোনো কাজে লাগে না।"
+            },
+            {
+                sl: "15",
+                idiom: "At a low ebb",
+                pronunciationBn: "অ্যাট আ লো এব",
+                meaningBn: "নিম্নমুখী, হ্রাসমান",
+                meaningEn: "In a state of decline, in a bad or weak state",
+                clue: "Ebb অর্থ ভাটা; ভাটার দিকে আরো low হলে নিশ্চিতভাবেই হবে- নিম্নগামী বা কমতির দিকে/হ্রাসমান।"
+            },
+            {
+                sl: "16",
+                idiom: "At a stretch",
+                pronunciationBn: "অ্যাট আ স্ট্রেচ",
+                meaningBn: "বিরতিহীনভাবে, একটানা",
+                meaningEn: "Without break",
+                clue: "stretch (প্রসারিত) হতে থাকলে আর থামে না। একটানা বা এক নাগাড়ে চলতে থাকে।"
+            },
+            {
+                sl: "17",
+                idiom: "At all hazards",
+                pronunciationBn: "অ্যাট অল হ্যাজার্ডস",
+                meaningBn: "সকল বাধা-বিপত্তি সত্ত্বেও",
+                meaningEn: "In the face of all difficulties or challenges or without any interruption",
+                clue: "যতই hazard (বাধা-সমস্যা) তবুও এগিয়ে যেতে হবে।"
+            },
+            {
+                sl: "18",
+                idiom: "At bay",
+                pronunciationBn: "অ্যাট বে",
+                meaningBn: "কোণঠাসা, প্রাণ বাঁচানোর জন্য সংগ্রামরত, সংকটাবস্থা",
+                meaningEn: "In a difficult situation/cornered",
+                clue: "উপকূল বা সাগরের তীরে আটকা পড়লে কোণঠাসা হতে হয়।"
+            },
+            {
+                sl: "108",
+                idiom: "Chicken-hearted fellow",
+                pronunciationBn: "চিকেন-হার্টেড ফেলো",
+                meaningBn: "(ভীরু/কাপুরুষ)",
+                meaningEn: "Timid, cowardly fellow/easily frightened",
+                clue: "মুরগির ছোট বাচ্চারা সামান্য ভয় পেলেই যেভাবে মায়ের পাখার নিচে গিয়ে লুকায়; দুর্বল চিত্তের মানুষও তাই করে।"
+            },
+            {
+                sl: "109",
+                idiom: "Call in question",
+                pronunciationBn: "কল ইন কোশ্চেন",
+                meaningBn: "(সন্দেহ করা/ অবিশ্বাসী করা)",
+                meaningEn: "Doubt/Distrust",
+                clue: "কথায় কথায় Question করা মানে হচ্ছে অবিশ্বাস বা সন্দেহ করা।"
+            },
+            {
+                sl: "110",
+                idiom: "Carry the day",
+                pronunciationBn: "ক্যারি দ্য ডে",
+                meaningBn: "(জয়লাভ করা)",
+                meaningEn: "Win/be victorious",
+                clue: "ক্রিকেটের টেস্ট ম্যাচ খেলার শেষ দিন পুরোটা কাটিয়ে দিতে পারলে হারার আশঙ্কা আর থাকে না; উল্টো জয় লাভ করা যায়।"
+            },
+            {
+                sl: "111",
+                idiom: "Catch red-handed",
+                pronunciationBn: "ক্যাচ রেড-হ্যান্ডেড",
+                meaningBn: "(হাতে-নাতে ধরা/ কোন অপরাধ করার সময় ধরা)",
+                meaningEn: "Catch with the stolen articles/ with proof, caught someone doing something illegal.",
+                clue: "কাউকে খুন করে হাতে রক্ত লেগে থাকার পর তাকে সবাই হাতে নাতেই ধরে।"
+            },
+            {
+                sl: "112",
+                idiom: "Cats and dogs",
+                pronunciationBn: "ক্যাটস অ্যান্ড ডগস",
+                meaningBn: "(মুষলধারে/ ভারী বর্ষণ)",
+                meaningEn: "Heavily/rain in torrent",
+                clue: "একটানা/মুষলধারে বৃষ্টি হলে বিড়াল, কুকুরগুলো ভিজে যেতে বাধ্য হয়।"
+            },
+            {
+                sl: "113",
+                idiom: "Call a spade a spade",
+                pronunciationBn: "কল এ স্পেড এ স্পেড",
+                meaningBn: "(স্পষ্ট ভাষী, অপ্রিয় সত্য কথা বলা)",
+                meaningEn: "To speak plainly/ outspoken/ straight forward",
+                clue: "কোদাল দিয়ে জমি কাটতে সোজাসুজি কাটতে হয়; একইভাবে সোজাসুজি স্পষ্ট কথা বলা।"
+            },
+            {
+                sl: "114",
+                idiom: "Cock and bull story",
+                pronunciationBn: "কক অ্যান্ড বুল স্টোরি",
+                meaningBn: "(গাঁজাখুরি গল্প/আষাঢ়ে গল্প)",
+                meaningEn: "Absurd story/a false story",
+                clue: "দাদার আমলের মোরগ-ষাঁড়ের লড়াইয়ের গল্প বললেই মানুষ বুঝতে পারে তা গাঁজাখুরি গল্প।"
+            },
+            {
+                sl: "115",
+                idiom: "Come to light",
+                pronunciationBn: "কাম টু লাইট",
+                meaningBn: "(প্রকাশিত হওয়া/সত্য সামনে আসা)",
+                meaningEn: "Become known/to get published",
+                clue: "Light (আলো) যখন সামনে চলে আসে তখন আড়ালে থাকা গোপন সব কিছুই প্রকাশিত হয়।"
+            },
+            {
+                sl: "116",
+                idiom: "Crocodile tears",
+                pronunciationBn: "ক্রোকোডাইল টিয়ার্স",
+                meaningBn: "(মায়া কান্না/কুহক কান্না)",
+                meaningEn: "Pretended cry, false sorrow/ superficial sympathy",
+                clue: "কুমির শিকার ধরার জন্য শিকারের কাছাকাছি গিয়ে চুপচাপ শুয়ে মায়াকান্না করে।"
+            },
+            {
+                sl: "117",
+                idiom: "Crying need",
+                pronunciationBn: "ক্রাইং নিড",
+                meaningBn: "(জরুরি প্রয়োজন/গুরুত্বপূর্ণ প্রয়োজন)",
+                meaningEn: "Urgent need/a very obvious need",
+                clue: "শিশুদের কোনো কিছু পছন্দ হলে সেটি কেনার জন্য প্রচণ্ড কান্না শুরু করে। তখন তাকে সেটি দিতেই হয়।"
+            },
+            {
+                sl: "118",
+                idiom: "Curry favour",
+                pronunciationBn: "কারি ফেভার",
+                meaningBn: "(তোষামোদ করে প্রিয় হওয়া)",
+                meaningEn: "Be favourite through falsely/to praise someone for getting advantage",
+                clue: "গ্রামের অভাবী মানুষ অন্যের বাড়ির তরকারি খাবার জন্য রান্নার সময় তোষামোদ করে প্রশংসা করত।"
+            },
+            {
+                sl: "119",
+                idiom: "Cut and dry",
+                pronunciationBn: "কাট অ্যান্ড ড্রাই",
+                meaningBn: "(পূর্বেই মীমাংসাকৃত/ মীমাংসিত)",
+                meaningEn: "Already decided, fixed",
+                clue: "আগেই কোনো বিষয় cut হয়ে গেলে সেটি হয় পূর্ব নির্ধারিত/পূর্ব মীমাংসিত।"
+            },
+            {
+                sl: "120",
+                idiom: "Carry coal to new castle",
+                pronunciationBn: "ক্যারি কোল টু নিউ ক্যাসেল",
+                meaningBn: "(তেলা মাথায় তেল দেওয়া)",
+                meaningEn: "Do something unnecessary/ futile",
+                clue: "নতুন ঝকঝকে ইমারতে কেউ যখন ইট বা কয়লা নিয়ে যায় তখন সেটাকে বলে তেলা মাথায় তেল দেওয়া।"
+            },
+            {
+                sl: "121",
+                idiom: "Come what may",
+                pronunciationBn: "কাম হোয়াট মে",
+                meaningBn: "(যাই ঘটুক না কেন)",
+                meaningEn: "Whatever happens",
+                clue: "অনেক কিছুই ঘটতে পারে তবুও আসো; তার মানে হচ্ছে, 'যা কিছু ঘটুক না কেন'।"
+            },
+            {
+                sl: "122",
+                idiom: "Cat's paw",
+                pronunciationBn: "ক্যাটস প",
+                meaningBn: "(ক্রীড়নক/মূল ব্যক্তি)",
+                meaningEn: "Cunning member",
+                clue: "লোকটিকে দেখতে সরল মনে হলেও ঘটনার cat's paw কিন্তু তিনিই।"
+            },
+            {
+                sl: "123",
+                idiom: "Commit to memory",
+                pronunciationBn: "কমিট টু মেমোরি",
+                meaningBn: "(মুখস্থ করা)",
+                meaningEn: "Memorize",
+                clue: "মস্তিষ্কে নেবার শপথ করলে তার মুখস্থ হবেই।"
+            },
+            {
+                sl: "124",
+                idiom: "Call to mind",
+                pronunciationBn: "কল টু মাইন্ড",
+                meaningBn: "(স্মরণ করা)",
+                meaningEn: "Remember",
+                clue: "কোনো কিছু মনে না থাকলে mind এর কাছে call করলেই হবে। সব মনে পড়ে যাবে।"
+            },
+            {
+                sl: "125",
+                idiom: "Chip of the old block",
+                pronunciationBn: "চিপ অব দ্য ওল্ড ব্লক",
+                meaningBn: "(বাপকা বেটা)",
+                meaningEn: "Worthy son of a worthy father",
+                clue: "পুরনো ডাকাত দলের নেতা মানে হচ্ছে সেই তার বাপের মতোই হয়েছে অর্থাৎ বাপ কা বেটা।"
+            },
+            {
+                sl: "126",
+                idiom: "Come off with flying colours",
+                pronunciationBn: "কাম অফ উইথ ফ্লাইং কালার্স",
+                meaningBn: "(জয় লাভ করা)",
+                meaningEn: "Win a victory",
+                clue: "বাংলাদেশ নারী ফুটবল দল colourful dress পরিধান করে বিজয়ীর বেশে বিজয়ী হয়ে এসেছে।"
+            },
+            {
+                sl: "127",
+                idiom: "Cupboard love",
+                pronunciationBn: "কাবার্ড লাভ",
+                meaningBn: "(স্বার্থসিদ্ধির জন্য ভালোবাসা দেখানো)",
+                meaningEn: "Show affection for material gains",
+                clue: "খাবার বা কিছু পাওয়ার আশায় যে ভালোবাসা দেখানো হয়।"
+            },
+            {
+                sl: "128",
+                idiom: "(To) Cry wolf",
+                pronunciationBn: "টু ক্রাই উলফ",
+                meaningBn: "(মিথ্যা বা ভুয়া শোরগোল করা/বিপদ সংকেত পাঠানো)",
+                meaningEn: "Give a false alarm",
+                clue: "রাখাল ছেলেটার গল্পের মতই। মিথ্যা বাঘ বাঘ বলে চিৎকার করার স্বভাব।"
+            },
+            {
+                sl: "129",
+                idiom: "Capital punishment",
+                pronunciationBn: "ক্যাপিটাল পানিশমেন্ট",
+                meaningBn: "(মৃত্যুদণ্ড)",
+                meaningEn: "Death penalty",
+                clue: "Capital-এ নিয়ে বড় কোনো অপরাধে যে কঠিন মৃত্যুদণ্ড দেওয়া হয়।"
+            },
+            {
+                sl: "130",
+                idiom: "(To) Catch a tartar",
+                pronunciationBn: "টু ক্যাচ এ টারটার",
+                meaningBn: "(শক্তিশালী লোকের মুখোমুখি হওয়া)",
+                meaningEn: "Meet a powerful opponent, to meet with disaster",
+                clue: "Tartar বা টারজানকে চ্যালেঞ্জ করে মারামারি করতে যাওয়া।"
+            },
+            {
+                sl: "131",
+                idiom: "Call it a day",
+                pronunciationBn: "কল ইট এ ডে",
+                meaningBn: "(কাজ শেষ করা/বন্ধ করা)",
+                meaningEn: "Finish work/ stop work",
+                clue: "দিনের কাজ শেষ ঘোষণা করা বা কাজ বন্ধ করা।"
+            },
+            {
+                sl: "132",
+                idiom: "Call name",
+                pronunciationBn: "কল নেম",
+                meaningBn: "(তিরস্কার করা/গালমন্দ করা)",
+                meaningEn: "Rebuking",
+                clue: "কাউকে খারাপ নামে ডাকা বা গালমন্দ করা।"
+            },
+            {
+                sl: "133",
+                idiom: "Dark horse",
+                pronunciationBn: "ডার্ক হর্স",
+                meaningBn: "(অপরিচিত/অজ্ঞাত ব্যক্তি বা শক্তি)",
+                meaningEn: "An unknown person/a person who keeps his ability secret",
+                clue: "যে ঘোড়ার শক্তি আগে জানা যায় না; আত্মগোপনে থাকা অজ্ঞাত শক্তি।"
+            },
+            {
+                sl: "134",
+                idiom: "Daisy Dukes",
+                pronunciationBn: "ডেইজি ডিউকস",
+                meaningBn: "(খুব ছোট বা আঁটসাঁট শর্টস)",
+                meaningEn: "Shorts",
+                clue: "Daisy Dukes এর ফ্যাশনের শর্টস।"
+            },
+            {
+                sl: "135",
+                idiom: "Dead letter",
+                pronunciationBn: "ডেড লেটার",
+                meaningBn: "(অকার্যকর/ আইন শৃঙ্খলার অচলাবস্থা)",
+                meaningEn: "Law not in force, a law or agreement that lost force",
+                clue: "মৃত চিঠির কোনোই মূল্য নাই। এটি অকার্যকর।"
+            },
+            {
+                sl: "136",
+                idiom: "Die in harness",
+                pronunciationBn: "ডাই ইন হারনেস",
+                meaningBn: "(কাজ করতে করতে মারা যাওয়া)",
+                meaningEn: "Die in service/continue to the last in one's profession",
+                clue: "কর্মরত অবস্থায় বা কাজের মধ্যে মারা যাওয়া।"
+            },
+            {
+                sl: "137",
+                idiom: "Dog chance",
+                pronunciationBn: "ডগ চান্স",
+                meaningBn: "(ক্ষীণ আশা)",
+                meaningEn: "Little likelihood",
+                clue: "কুকুরগুলোর মধ্যে সামান্য এক টুকরো হাড়ের জন্য লড়াই ও ক্ষীণ আশা।"
+            },
+            {
+                sl: "138",
+                idiom: "Down to earth",
+                pronunciationBn: "ডাউন টু আর্থ",
+                meaningBn: "(বাস্তববাদী)",
+                meaningEn: "Realistic/practical",
+                clue: "যে মানুষ মাটির দিকে তাকায় বা মাটির সাথে মিশে থাকে, সে বাস্তববাদী।"
+            },
+            {
+                sl: "139",
+                idiom: "Dilly dally",
+                pronunciationBn: "ডিলি ড্যালি",
+                meaningBn: "(গড়িমসি করা/সময় অপচয় করা)",
+                meaningEn: "Waste time",
+                clue: "ঢিলাঢালাভাবে কাজ করে সময় অপচয় বা গড়িমসি করা।"
+            },
+            {
+                sl: "140",
+                idiom: "Dead against",
+                pronunciationBn: "ডেড এগেইনস্ট",
+                meaningBn: "(তীব্র/ঘোর বিরোধী)",
+                meaningEn: "Bitterly against, strongly oppose something",
+                clue: "কাউকে পুরোপুরি অকার্যকর করার জন্য তীব্র বিরোধিতা করা।"
+            },
+            {
+                sl: "141",
+                idiom: "Do yeoman's service",
+                pronunciationBn: "ডু ইয়োম্যানস সার্ভিস",
+                meaningBn: "(বিশেষ উপকার করা; কল্যাণকর কাজে সাহায্য করা)",
+                meaningEn: "Render valuable service; provide useful help",
+                clue: "জমিদার বা স্বেচ্ছাসেবী কর্তৃক অসহায় মানুষদের কল্যাণকর কাজের বিশেষ সাহায্য।"
+            },
+            {
+                sl: "142",
+                idiom: "Dog days",
+                pronunciationBn: "ডগ ডেজ",
+                meaningBn: "(গরম আবহাওয়া)",
+                meaningEn: "Hot weather",
+                clue: "প্রচণ্ড গরমে কুকুর জিহ্বা বের করে শ্বাস নেয়।"
+            },
+            {
+                sl: "143",
+                idiom: "Day break",
+                pronunciationBn: "ডে ব্রেক",
+                meaningBn: "(সকাল)",
+                meaningEn: "Morning",
+                clue: "রাতের অন্ধকার ভেঙে দিনের সূচনা বা সকাল।"
+            },
+            {
+                sl: "144",
+                idiom: "Donkey work",
+                pronunciationBn: "ডংকি ওয়ার্ক",
+                meaningBn: "(কোনো কাজের কঠিন ও বিরক্তিকর অংশ)",
+                meaningEn: "The hard and boring part of a job",
+                clue: "গাধার মতো খাটাখাটনি বা বিরক্তিকর কাজ।"
+            },
+            {
+                sl: "145",
+                idiom: "Die hard",
+                pronunciationBn: "ডাই হার্ড",
+                meaningBn: "(কঠোর/ প্রাণপনে চেষ্টা করা/সংগ্রামে অবিচল থাকা)",
+                meaningEn: "Persistent in struggle",
+                clue: "মরণপণ সংগ্রাম বা অবিচল থাকা।"
+            },
+            {
+                sl: "146",
+                idiom: "End in smoke",
+                pronunciationBn: "এন্ড ইন স্মোক",
+                meaningBn: "(ব্যর্থ হওয়া/সফল না হওয়া)",
+                meaningEn: "Fail, come to nothing, end in nothing",
+                clue: "সব কিছু পুড়ে ধোঁয়া বা ছাই হয়ে ব্যর্থতায় পর্যবসিত হওয়া।"
+            },
+            {
+                sl: "147",
+                idiom: "Ere long",
+                pronunciationBn: "এর লং",
+                meaningBn: "(শীঘ্রই/ খুব তাড়াতাড়ি)",
+                meaningEn: "Very soon",
+                clue: "আর দীর্ঘ নয়; অতি শীঘ্রই।"
+            },
+            {
+                sl: "148",
+                idiom: "Eye wash",
+                pronunciationBn: "আই ওয়াশ",
+                meaningBn: "(লোক দেখানো/প্রতারণামূলক কাজ বা কথা)",
+                meaningEn: "Circumlocution/misleading or deceptive statements",
+                clue: "চোখে ধোঁকা দেওয়া বা লোক দেখানো নাটক।"
+            },
+            {
+                sl: "149",
+                idiom: "Eat humble pie",
+                pronunciationBn: "ইট হাম্বল পাই",
+                meaningBn: "(ভুল স্বীকার করে ক্ষমা চাওয়া)",
+                meaningEn: "Apologies",
+                clue: "বিনয় ও নম্রতার সাথে ভুল স্বীকার করে ক্ষমা চাওয়া।"
+            },
+            {
+                sl: "150",
+                idiom: "Eat one's word",
+                pronunciationBn: "ইট ওয়ানস ওয়ার্ড",
+                meaningBn: "(কথা ফিরিয়ে নেওয়া)",
+                meaningEn: "Take back, that something one said before was wrong",
+                clue: "নিজের বলা কথা নিজেই গিলে ফেলা বা প্রত্যাহার করা।"
+            },
+            {
+                sl: "151",
+                idiom: "Elbow-room",
+                pronunciationBn: "এলবো-রুম",
+                meaningBn: "(চারপাশে চলাফেরা করা বা কাজের পর্যাপ্ত জায়গা)",
+                meaningEn: "Adequate space for work or operation",
+                clue: "কনুই মেলে স্বাধীনভাবে কাজ করার পর্যাপ্ত জায়গা।"
+            },
+            {
+                sl: "152",
+                idiom: "En route",
+                pronunciationBn: "এন রুট",
+                meaningBn: "(পথমধ্যে)",
+                meaningEn: "On the way/While traveling",
+                clue: "যাত্রাপথে বা পথের মাঝে।"
+            },
+            {
+                sl: "153",
+                idiom: "Fair play",
+                pronunciationBn: "ফেয়ার প্লে",
+                meaningBn: "(প্রতারণাবিহীন নীতি বা কাজ/ নিরপেক্ষ/ন্যায় বিচার)",
+                meaningEn: "Free from deceit/ avoid cheating",
+                clue: "সততা ও নিরপেক্ষতার সাথে কাজ বা খেলা।"
+            },
+            {
+                sl: "154",
+                idiom: "Fish out of water",
+                pronunciationBn: "ফিশ আউট অব ওয়াটার",
+                meaningBn: "(অস্বস্তিকর অবস্থায়)",
+                meaningEn: "Uncomfortable or In an uneasy situation",
+                clue: "মাছকে পানির বাইরে আনলে যে অস্বস্তিকর ও বিপন্ন অবস্থা হয়।"
+            },
+            {
+                sl: "155",
+                idiom: "Flesh and blood",
+                pronunciationBn: "ফ্লেশ অ্যান্ড ব্লাড",
+                meaningBn: "(রক্তমাংসের শরীর)",
+                meaningEn: "Human body",
+                clue: "মানুষের সাধারণ রক্তমাংসের দেহ।"
+            },
+            {
+                sl: "156",
+                idiom: "Fresh blood",
+                pronunciationBn: "ফ্রেশ ব্লাড",
+                meaningBn: "(নতুন উৎসাহী লোক/কর্মদক্ষতা প্রদানকারী)",
+                meaningEn: "Newly enthusiastic person",
+                clue: "নতুন তরুণ ও উৎসাহী জনবল।"
+            },
+            {
+                sl: "157",
+                idiom: "For good",
+                pronunciationBn: "ফর গুড",
+                meaningBn: "(চিরতরে, চিরকালের জন্য)",
+                meaningEn: "Forever, permanently",
+                clue: "স্থায়ীভাবে বা চিরদিনের জন্য ছেড়ে যাওয়া।"
+            },
+            {
+                sl: "158",
+                idiom: "Fair weather friend",
+                pronunciationBn: "ফেয়ার ওয়েদার ফ্রেন্ড",
+                meaningBn: "(সুদিনের বন্ধু)",
+                meaningEn: "Friend of good/ loyal only during success",
+                clue: "যে কেবল ভালো সময়ে পাশে থাকে, বিপদে পালায়।"
+            },
+            {
+                sl: "159",
+                idiom: "French leave",
+                pronunciationBn: "ফ্রেঞ্চ লিভ",
+                meaningBn: "(বিনা অনুমতিতে ছুটি)",
+                meaningEn: "Leave without permission",
+                clue: "কাউকে না জানিয়ে প্রস্থান বা বিনা অনুমতিতে অনুপস্থিতি।"
+            },
+            {
+                sl: "160",
+                idiom: "Fag end",
+                pronunciationBn: "ফ্যাগ এন্ড",
+                meaningBn: "(শেষাংশ)",
+                meaningEn: "The last part",
+                clue: "কোনো কিছুর একদম শেষ অংশ।"
+            },
+            {
+                sl: "161",
+                idiom: "Fight shy of",
+                pronunciationBn: "ফাইট শাই অব",
+                meaningBn: "(এড়িয়ে চলা)",
+                meaningEn: "Avoid",
+                clue: "লজ্জায় বা ভয়ে এড়িয়ে চলা।"
+            },
+            {
+                sl: "162",
+                idiom: "Get rid of",
+                pronunciationBn: "গেট রিড অব",
+                meaningBn: "(নিস্তার পাওয়া/মুক্তি পাওয়া)",
+                meaningEn: "To be free from, throw away, remove",
+                clue: "কোনো ঝামেলা বা বিষয় থেকে মুক্তি লাভ।"
+            },
+            {
+                sl: "163",
+                idiom: "Gift of the gab",
+                pronunciationBn: "গিফট অব দ্য গ্যাভ",
+                meaningBn: "(বাকপটুতা/ চাপার জোর)",
+                meaningEn: "The ability/talent of convincing people, persuasiveness, eloquence",
+                clue: "কথা দিয়ে মানুষকে রাজি করানোর বিশেষ ক্ষমতা।"
+            },
+            {
+                sl: "164",
+                idiom: "Gala day",
+                pronunciationBn: "গালা ডে",
+                meaningBn: "(আনন্দের/ উৎসবের দিন)",
+                meaningEn: "A day of festivity",
+                clue: "উৎসবমুখর আনন্দের দিন।"
+            },
+            {
+                sl: "165",
+                idiom: "Go to the dogs",
+                pronunciationBn: "গো টু দ্য ডগস",
+                meaningBn: "(গোল্লায় যাওয়া, উচ্ছন্ন যাওয়া/দেউলিয়া হওয়া)",
+                meaningEn: "Be ruined",
+                clue: "বাজে সঙ্গ বা বাজে স্বভাবের কারণে ধ্বংস বা গোল্লায় যাওয়া।"
+            },
+            {
+                sl: "166",
+                idiom: "Going concern",
+                pronunciationBn: "গোয়িং কনসার্ন",
+                meaningBn: "(সফল ব্যবসা)",
+                meaningEn: "A successful business/a profitable job",
+                clue: "চলমান ও লাভজনক ব্যবসা।"
+            },
+            {
+                sl: "167",
+                idiom: "Get the axe",
+                pronunciationBn: "গেট দ্য এক্স",
+                meaningBn: "(চাকরিচ্যুত বা বহিষ্কৃত)",
+                meaningEn: "Lose the job or fired",
+                clue: "কুঠার দিয়ে কেটে ফেলার মতো চাকরি থেকে ছেঁটে ফেলা।"
+            },
+            {
+                sl: "168",
+                idiom: "Give up the ghost",
+                pronunciationBn: "গিভ আপ দ্য গোস্ট",
+                meaningBn: "(কাজ বন্ধ করে দেওয়া/মারা যাওয়া)",
+                meaningEn: "Stop working / die",
+                clue: "অপ্রয়োজনীয় খাটাখাটনি বন্ধ করা বা প্রাণ ত্যাগ করা।"
+            },
+            {
+                sl: "169",
+                idiom: "Hard and fast",
+                pronunciationBn: "হার্ড অ্যান্ড ফাস্ট",
+                meaningBn: "(ধরাবাঁধা/ অপরিবর্তনীয় নিয়ম)",
+                meaningEn: "Rigid, fixed and definite",
+                clue: "শক্তভাবে বাধা নিয়ম যা পরিবর্তন করা যায় না।"
+            },
+            {
+                sl: "170",
+                idiom: "Hallmark",
+                pronunciationBn: "হলমার্ক",
+                meaningBn: "(শ্রেষ্ঠতা/বিশুদ্ধতার ছাপ)",
+                meaningEn: "Mark of greatness/ purity",
+                clue: "খাটি বা বিশুদ্ধতার প্রতীক চিহ্ন।"
+            },
+            {
+                sl: "171",
+                idiom: "Hard nut to crack",
+                pronunciationBn: "হার্ড নাট টু ক্র্যাক",
+                meaningBn: "(কঠিন সমস্যা; বেশ শক্ত লোক)",
+                meaningEn: "A difficult problem; a difficult person",
+                clue: "ঝুনা নারিকেলের মতো শক্ত সমস্যা বা লোক যাকে সহজে কাবু করা যায় না।"
+            },
+            {
+                sl: "172",
+                idiom: "Heart and soul",
+                pronunciationBn: "হার্ট অ্যান্ড সোল",
+                meaningBn: "(মনেপ্রাণে, সর্বশক্তিতে)",
+                meaningEn: "Earnestly, completely",
+                clue: "হৃদয় ও আত্মা উজাড় করে সম্পূর্ণ চেষ্টা।"
+            },
+            {
+                sl: "173",
+                idiom: "Heart to heart",
+                pronunciationBn: "হার্ট টু হার্ট",
+                meaningBn: "(মনখোলা; সরলচিত্তে)",
+                meaningEn: "Candid/frank",
+                clue: "খোলামেলা ও আন্তরিক আলোচনা।"
+            },
+            {
+                sl: "174",
+                idiom: "Hold good",
+                pronunciationBn: "হোল্ড গুড",
+                meaningBn: "(কার্যকর হওয়া/প্রযুক্ত হওয়া)",
+                meaningEn: "Valid/applicable",
+                clue: "নিয়ম বা শর্ত সচল ও বলবৎ থাকা।"
+            },
+            {
+                sl: "175",
+                idiom: "Hue and cry",
+                pronunciationBn: "হিউ অ্যান্ড ক্রাই",
+                meaningBn: "(শোরগোল/ হৈচৈ)",
+                meaningEn: "Loud outcry/a loud clamour",
+                clue: "চারদিকে হইচই ও চেঁচামেচি।"
+            },
+            {
+                sl: "176",
+                idiom: "Hush money",
+                pronunciationBn: "হাশ মানি",
+                meaningBn: "(মুখ বন্ধ রাখার জন্য প্রদত্ত ঘুষ)",
+                meaningEn: "Bribe/Illegal gratification",
+                clue: "চুপ করানোর (Hush) জন্য গোপন ঘুষ।"
+            },
+            {
+                sl: "177",
+                idiom: "Hold the fort",
+                pronunciationBn: "হোল্ড দ্য ফোর্ট",
+                meaningBn: "(প্রতিহত করা, রক্ষা করা, দায়িত্ব গ্রহণ করা)",
+                meaningEn: "Protect or defend, assume responsibility",
+                clue: "অন্যের অনুপস্থিতিতে দায়িত্ব সামলানো বা দুর্গ রক্ষা করা।"
+            },
+            {
+                sl: "178",
+                idiom: "Hole and corner",
+                pronunciationBn: "হোল অ্যান্ড কর্নার",
+                meaningBn: "(গোপনীয়, প্রতারণাপূর্ণ/ চোরাগোপ্তা)",
+                meaningEn: "Kept secret, underhand, clandestine",
+                clue: "কোণে গর্তের মতো আড়ালে গোপনীয় কাজ।"
+            },
+            {
+                sl: "179",
+                idiom: "Hold water",
+                pronunciationBn: "হোল্ড ওয়াটার",
+                meaningBn: "(ধোপে টেকা, কার্যকরী হওয়া)",
+                meaningEn: "Bear examination, to be effective",
+                clue: "যুক্তি বা তথ্য পরীক্ষায় টিকে থাকা।"
+            },
+            {
+                sl: "180",
+                idiom: "Hand and glove",
+                pronunciationBn: "হ্যান্ড অ্যান্ড গ্লাভ",
+                meaningBn: "(গভীর সম্পর্ক)",
+                meaningEn: "Very intimate",
+                clue: "হাতের সাথে দস্তানার মতো ঘনিষ্ঠ সম্পর্ক।"
+            },
+            {
+                sl: "181",
+                idiom: "Head and tail",
+                pronunciationBn: "হেড অ্যান্ড টেইল",
+                meaningBn: "(কোনো কিছুর আগামাথা কিছুই বুঝতে না পারা)",
+                meaningEn: "Don't understand something at all",
+                clue: "শুরু বা শেষ কোনো কিছুই না বোঝা।"
+            },
+            {
+                sl: "182",
+                idiom: "Irony of fate",
+                pronunciationBn: "আয়রনি অব ফেট",
+                meaningBn: "(ভাগ্যের নির্মম পরিহাস)",
+                meaningEn: "By bad luck/misfortune",
+                clue: "দৈব বিড়ম্বনা বা কপাল দোষ।"
+            },
+            {
+                sl: "183",
+                idiom: "In no time",
+                pronunciationBn: "ইন নো টাইম",
+                meaningBn: "(শীঘ্রই, দ্রুত, অবিলম্বে)",
+                meaningEn: "Soon, instantly, very quickly",
+                clue: "সময় নষ্ট না করে নিমেষের মধ্যেই।"
+            },
+            {
+                sl: "184",
+                idiom: "In a nutshell",
+                pronunciationBn: "ইন এ নাটশেল",
+                meaningBn: "(খুব সংক্ষেপে)",
+                meaningEn: "Very briefly, using few words",
+                clue: "খোসার ভেতরে ছোট জায়গায় পুরো জিনিস আঁটানোর মতো সংক্ষেপ করা।"
+            },
+            {
+                sl: "185",
+                idiom: "In full swing",
+                pronunciationBn: "ইন ফুল সুইং",
+                meaningBn: "(পুরোদমে/পূর্ণোদ্যমে)",
+                meaningEn: "In full activity, proceeding with full vigor",
+                clue: "সম্পূর্ণ শক্তি ও গতিতে চলমান।"
+            },
+            {
+                sl: "186",
+                idiom: "In lieu of",
+                pronunciationBn: "ইন লিউ অব",
+                meaningBn: "(পরিবর্তে)",
+                meaningEn: "Instead of, in place of, in exchange for",
+                clue: "Lieu শব্দের অর্থ হচ্ছে পরিবর্তে/বদলে।"
+            },
+            {
+                sl: "187",
+                idiom: "In a fix",
+                pronunciationBn: "ইন এ ফিক্স",
+                meaningBn: "(কঠিন ও বিব্রতকর পরিস্থিতিতে পতিত/কিকর্তব্যবিমূঢ়)",
+                meaningEn: "In a difficult position/embarrassing situation",
+                clue: "কঠিন পরিস্থিতিতে আটকে বা ফিক্স হয়ে যাওয়া।"
+            },
+            {
+                sl: "188",
+                idiom: "In a hurry",
+                pronunciationBn: "ইন এ হারি",
+                meaningBn: "(তাড়াহুড়ো বা খুব ব্যস্ততার মধ্যে)",
+                meaningEn: "Very quickly",
+                clue: "ব্যস্ততায় বা তড়িঘড়ি করে কাজ করা।"
+            },
+            {
+                sl: "189",
+                idiom: "In vain",
+                pronunciationBn: "ইন ভেইন",
+                meaningBn: "(বৃথা/নিরর্থক)",
+                meaningEn: "Fruitless, unsuccessful, without success",
+                clue: "সব চেষ্টাই ব্যর্থ বা অনর্থক হওয়া।"
+            },
+            {
+                sl: "190",
+                idiom: "In force",
+                pronunciationBn: "ইন ফোর্স",
+                meaningBn: "(বলবৎ, প্রচলিত, चालू)",
+                meaningEn: "In activity, existing and being used",
+                clue: "আইন বা নিয়ম চালু থাকা।"
+            },
+            {
+                sl: "191",
+                idiom: "In vogue",
+                pronunciationBn: "ইন ভোগ",
+                meaningBn: "(চালু/জনপ্রিয়)",
+                meaningEn: "In fashion, fashionable, popular",
+                clue: "বর্তমানে ফ্যাশনে বা চালুর মধ্যে থাকা।"
+            },
+            {
+                sl: "192",
+                idiom: "Iron will",
+                pronunciationBn: "আয়রন উইল",
+                meaningBn: "(কঠিন সংকল্প/প্রবল ইচ্ছাশক্তি)",
+                meaningEn: "Strong determination/resolution",
+                clue: "লোহার মতো শক্ত ও দৃঢ় সংকল্প।"
+            },
+            {
+                sl: "193",
+                idiom: "In order to",
+                pronunciationBn: "ইন অর্ডার টু",
+                meaningBn: "(উদ্দেশ্যে)",
+                meaningEn: "With the object of/for the purpose of",
+                clue: "কোনো উদ্দেশ্যে পদক্ষেপ নেওয়া।"
+            },
+            {
+                sl: "194",
+                idiom: "Jaundiced eye",
+                pronunciationBn: "জন্ডিসড আই",
+                meaningBn: "(ঈর্ষা, বিকৃত দৃষ্টিভঙ্গি/বিষে ভরা চোখ)",
+                meaningEn: "Prejudiced view, jealousy",
+                clue: "জন্ডিসে আক্রান্ত চোখের মতো বিকৃত বা হিংসাত্মক দৃষ্টি।"
+            },
+            {
+                sl: "195",
+                idiom: "Jack of all trades",
+                pronunciationBn: "জ্যাক অফ অল ট্রেডস",
+                meaningBn: "(সর্বজ্ঞাতা/সব কাজের কাজী)",
+                meaningEn: "Omniscient all knowing",
+                clue: "সব কাজের টুকটাক ধারণা রাখা ব্যক্তি।"
+            },
+            {
+                sl: "196",
+                idiom: "Jog trot",
+                pronunciationBn: "জগ ট্রট",
+                meaningBn: "(ধীরস্থিরভাবে চলা, আস্তে চলা)",
+                meaningEn: "Slow motion",
+                clue: "জগিং স্টাইলে ধীরগতিতে চলা।"
+            },
+            {
+                sl: "197",
+                idiom: "Jump on the bandwagon",
+                pronunciationBn: "জাম্প অন দ্য ব্যান্ডওয়াগন",
+                meaningBn: "(জনপ্রিয় কোনো কিছু/কাজে অংশগ্রহণ করা)",
+                meaningEn: "Joining a popular activity or trend",
+                clue: "সবাই যা করছে সেই জনপ্রিয় ট্রেন্ডে শামিল হওয়া।"
+            },
+            {
+                sl: "197b",
+                idiom: "Kith and kin",
+                pronunciationBn: "কিথ অ্যান্ড কিন",
+                meaningBn: "(নিকট আত্মীয়/রক্তের সম্পর্ক)",
+                meaningEn: "Near relatives/blood relation",
+                clue: "আপনজন ও নিকটাত্মীয়।"
+            },
+            {
+                sl: "198",
+                idiom: "Kiss the dust",
+                pronunciationBn: "কিস দ্য ডাস্ট",
+                meaningBn: "(আত্মসমর্পণ করা, ব্যর্থ বা পরাজিত হওয়া)",
+                meaningEn: "Surrender, fail or be defeated utterly",
+                clue: "ধুলোয় মুখ ঘষে চরম পরাজয় স্বীকার করা।"
+            },
+            {
+                sl: "199",
+                idiom: "Keep the wolf from the door",
+                pronunciationBn: "কিপ দ্য উলফ ফ্রম দ্য ডোর",
+                meaningBn: "(দারিদ্র্য ঠেকানো, ক্ষুধার জ্বালা মেটানো)",
+                meaningEn: "To keep away from extreme poverty",
+                clue: "ক্ষুধার জ্বালা বা চরম দারিদ্র্য দূর করা।"
+            },
+            {
+                sl: "200",
+                idiom: "Lick the dust",
+                pronunciationBn: "লিক দ্য ডাস্ট",
+                meaningBn: "(নাকে ক্ষত দেওয়া, অপদস্থ হওয়া)",
+                meaningEn: "To be humiliated/grovel",
+                clue: "চরম অপমানিত বা অপদস্থ হওয়া।"
+            },
+            {
+                sl: "201",
+                idiom: "Lion's share",
+                pronunciationBn: "লায়ন্স শেয়ার",
+                meaningBn: "(সিংহভাগ, সর্বাপেক্ষা বেশি অংশ)",
+                meaningEn: "Major part",
+                clue: "বসের বা পশুর রাজার মতো সবচেয়ে বড় ভাগ।"
+            },
+            {
+                sl: "202",
+                idiom: "Leave no stone unturned",
+                pronunciationBn: "লিভ নো স্টোন আনটার্নড",
+                meaningBn: "(চেষ্টার ত্রুটি না করা/প্রাণপণে চেষ্টা করা)",
+                meaningEn: "Try every possible means/make every effort",
+                clue: "সব পাথর উল্টে দেখার মতো সব রকম চেষ্টা করা।"
+            },
+            {
+                sl: "203",
+                idiom: "Lame excuse",
+                pronunciationBn: "লেইম এক্সকিউজ",
+                meaningBn: "(বাজে ওজর/খোড়া অজুহাত)",
+                meaningEn: "Bad plea/pathetically unconvincing",
+                clue: "অগ্রহণযোগ্য বা দুর্বল অজুহাত।"
+            },
+            {
+                sl: "204",
+                idiom: "Live from hand to mouth",
+                pronunciationBn: "লাইভ ফ্রম হ্যান্ড টু মাউথ",
+                meaningBn: "(দিন আনে দিন খায়)",
+                meaningEn: "Live a poor life/live by hard labour",
+                clue: "কঠোর পরিশ্রমে শুধু পেটের ভাত জোগাড় করা।"
+            },
+            {
+                sl: "205",
+                idiom: "Losing ground",
+                pronunciationBn: "লুজিং গ্রাউন্ড",
+                meaningBn: "(জনপ্রিয়তা/গ্রহণযোগ্যতা কমে যাওয়া)",
+                meaningEn: "Be less acceptable/becomes less popular",
+                clue: "নিজের অবস্থান বা জনপ্রিয়তা হারানো।"
+            },
+            {
+                sl: "206",
+                idiom: "Length and breadth",
+                pronunciationBn: "লেংথ অ্যান্ড ব্রেডথ",
+                meaningBn: "(সর্বত্র/সব জায়গা জুড়ে)",
+                meaningEn: "The whole extent, across all over",
+                clue: "দৈর্ঘ্য-প্রস্থ জুড়ে বা সর্বত্র।"
+            },
+            {
+                sl: "207",
+                idiom: "Let the cat out of the bag",
+                pronunciationBn: "লেট দ্য ক্যাট আউট অফ দ্য ব্যাগ",
+                meaningBn: "(গোপন কথা ফাঁস করে দেওয়া)",
+                meaningEn: "Reveal a secret carelessly",
+                clue: "থলের বিড়াল বাইরে বের করার মতো গোপন তথ্য ফাস করা।"
+            },
+            {
+                sl: "208",
+                idiom: "Loaves and fishes",
+                pronunciationBn: "লোভস অ্যান্ড ফিশেস",
+                meaningBn: "(ব্যক্তিগত বা জাগতিক বিষয় অর্জন)",
+                meaningEn: "Personal/material gains",
+                clue: "বাইবেলের রুটি-মাছের অলৌকিক ঘটনার পর কেবল জাগতিক সুবিধাপ্রাপ্তির ইচ্ছা।"
+            },
+            {
+                sl: "209",
+                idiom: "Moot point",
+                pronunciationBn: "মুট পয়েন্ট",
+                meaningBn: "(অমীমাংসিত বিষয়/বিতর্কিত বিষয়)",
+                meaningEn: "An undecided matter/a debating point",
+                clue: "যে বিষয়ে এখনও তর্ক চলছে বা ফয়সালা হয়নি।"
+            },
+            {
+                sl: "210",
+                idiom: "Make both ends meet",
+                pronunciationBn: "মেক বোথ এন্ডস মিট",
+                meaningBn: "(আয় দিয়ে সংসার চালানো/আয়-ব্যয় মেলানো)",
+                meaningEn: "Live within means/provide for basic needs",
+                clue: "আয় ও ব্যয়ের প্রান্ত মেলানো।"
+            },
+            {
+                sl: "211",
+                idiom: "Make good",
+                pronunciationBn: "মেক গুড",
+                meaningBn: "(ক্ষতিপূরণ করা)",
+                meaningEn: "Compensate, pay damages",
+                clue: "ক্ষতির বিপরীতে ভালো কিছু দিয়ে পূরণ করা।"
+            },
+            {
+                sl: "212",
+                idiom: "Make headway",
+                pronunciationBn: "মেক হেডওয়ে",
+                meaningBn: "(উন্নতি করা/কোনো কিছু অর্জন করা)",
+                meaningEn: "Make progress/get achieve something",
+                clue: "মাথা খাটানোর মাধ্যমে সাফল্য ও অগ্রগতি লাভ।"
+            },
+            {
+                sl: "213",
+                idiom: "Man in the street",
+                pronunciationBn: "ম্যান ইন দ্য স্ট্রিট",
+                meaningBn: "(সাধারণ ব্যক্তি)",
+                meaningEn: "Ordinary man/the average citizen",
+                clue: "রাস্তায় চলাফেরা করা সাধারণ পথচারী বা নাগরিক।"
+            },
+            {
+                sl: "214",
+                idiom: "Man of letters",
+                pronunciationBn: "ম্যান অফ লেটার্স",
+                meaningBn: "(পণ্ডিত লোক/বিদ্বান লোক)",
+                meaningEn: "A scholar",
+                clue: "অক্ষর বা জ্ঞানচর্চায় অনুরাগী পণ্ডিত ব্যক্তি।"
+            },
+            {
+                sl: "215",
+                idiom: "Man of straw",
+                pronunciationBn: "ম্যান অফ স্ট্র",
+                meaningBn: "(অপদার্থ লোক/চুনোপুটি)",
+                meaningEn: "Worthless man/a man of no substance",
+                clue: "খড়ের মানুষের মতো যার নিজস্ব কোনো ওজন বা গুরুত্ব নেই।"
+            },
+            {
+                sl: "216",
+                idiom: "Milk and water",
+                pronunciationBn: "মিল্ক অ্যান্ড ওয়াটার",
+                meaningBn: "(একঘেয়ে/ভীরু)",
+                meaningEn: "Dull, lifeless, timid",
+                clue: "দুধে পানি মেশানো ভেজাল ও দুর্বল স্বভাব।"
+            },
+            {
+                sl: "217",
+                idiom: "Milk and honey",
+                pronunciationBn: "মিল্ক অ্যান্ড হানি",
+                meaningBn: "(প্রাচুর্য/সমৃদ্ধি)",
+                meaningEn: "Abundance/prosperity",
+                clue: "দুধ ও মধুর প্রাকৃতি সমৃদ্ধি।"
+            },
+            {
+                sl: "218",
+                idiom: "Muster strong",
+                pronunciationBn: "মাস্টার স্ট্রং",
+                meaningBn: "(দলে দলে একত্রিত হওয়া)",
+                meaningEn: "Come together in groups",
+                clue: "বিপুল সংখ্যায় শক্তি সংহত করা।"
+            },
+            {
+                sl: "219",
+                idiom: "Maiden speech",
+                pronunciationBn: "মেইডেন স্পিচ",
+                meaningBn: "(প্রথম বক্তৃতা)",
+                meaningEn: "First speech",
+                clue: "জীবনের প্রথম দেওয়া কোনো ভাষণ।"
+            },
+            {
+                sl: "220",
+                idiom: "Null and void",
+                pronunciationBn: "নাল অ্যান্ড ভয়েড",
+                meaningBn: "(বাতিল/খারিজ করা)",
+                meaningEn: "Invalid/struck off",
+                clue: "শূন্য বা অবৈধ বলে গণ্য করা।"
+            },
+            {
+                sl: "221",
+                idiom: "Nip in the bud",
+                pronunciationBn: "নিপ ইন দ্য বাড",
+                meaningBn: "(অঙ্কুরে বিনষ্ট করা)",
+                meaningEn: "Destroy in the initial/at the very beginning",
+                clue: "কুঁড়ি অবস্থাতেই কেটে ফেলা বা শুরুতেই ধ্বংস করা।"
+            },
+            {
+                sl: "222",
+                idiom: "Neck and crop",
+                pronunciationBn: "নেক অ্যান্ড ক্রপ",
+                meaningBn: "(ঘাড় ধরে/জোরপূর্বক/সর্বাংশে)",
+                meaningEn: "Forcibly/emphatically",
+                clue: "ঘাড় ধরে সম্পূর্ণ বের করে দেওয়া।"
+            },
+            {
+                sl: "223",
+                idiom: "Nook and corner",
+                pronunciationBn: "নুক অ্যান্ড কর্নার",
+                meaningBn: "(সর্বত্র/আনাচে কানাচে)",
+                meaningEn: "Everywhere",
+                clue: "ঘরের প্রতিটি কোণ ও গলি।"
+            },
+            {
+                sl: "224",
+                idiom: "Nine day's wonder",
+                pronunciationBn: "নাইন ডেইজ ওয়ান্ডার",
+                meaningBn: "(ক্ষণস্থায়ী বিস্ময়/সাফল্যের বস্তু)",
+                meaningEn: "A short/brief moment of success/wonder",
+                clue: "অল্প কয়েকদিনের চমক যা দ্রুত স্তিমিত হয়।"
+            },
+            {
+                sl: "225",
+                idiom: "Now and then",
+                pronunciationBn: "নাও অ্যান্ড দেন",
+                meaningBn: "(মাঝে মাঝে)",
+                meaningEn: "Regularly, occasionally, sometimes",
+                clue: "এখন এবং তখন; অর্থাৎ বিরতি দিয়ে মাঝে মাঝে।"
+            },
+            {
+                sl: "226",
+                idiom: "Once and again",
+                pronunciationBn: "ওয়ান্স অ্যান্ড এগেইন",
+                meaningBn: "(বারবার/প্রায়ই)",
+                meaningEn: "Repeatedly/from time to time/often",
+                clue: "একবার এবং আবার; পুনপুনঃ ঘটা।"
+            },
+            {
+                sl: "227",
+                idiom: "Once for all",
+                pronunciationBn: "ওয়ান্স ফর অল",
+                meaningBn: "(শেষবারের মতো)",
+                meaningEn: "For the last time/a settled matter",
+                clue: "একবারই চূড়ান্তভাবে সমাধান করা।"
+            },
+            {
+                sl: "228",
+                idiom: "On the spur of the moment",
+                pronunciationBn: "অন দ্য স্পার অফ দ্য মোমেন্ট",
+                meaningBn: "(মুহূর্তের উত্তেজনায়)",
+                meaningEn: "Under the impulse of the moment",
+                clue: "কোনো চিন্তা না করে ঝোঁকের বশে তাৎক্ষণিক সিদ্ধান্ত।"
+            },
+            {
+                sl: "229",
+                idiom: "On the wane",
+                pronunciationBn: "অন দ্য ওয়েন",
+                meaningBn: "(হ্রাসমান, কমে যাচ্ছে এমন)",
+                meaningEn: "Declining/less extensive",
+                clue: "ক্ষয় পাওয়া বা কমে যাওয়ার দিকে থাকা।"
+            },
+            {
+                sl: "230",
+                idiom: "On the whole",
+                pronunciationBn: "অন দ্য হোল",
+                meaningBn: "(মোটের উপর/সমগ্রভাবে)",
+                meaningEn: "Generally speaking/taking everything into account",
+                clue: "সব কিছু মিলিয়ে সার্বিকভাবে।"
+            },
+            {
+                sl: "231",
+                idiom: "Out of date",
+                pronunciationBn: "আউট অফ ডেট",
+                meaningBn: "(অপ্রচলিত, সেকেলে)",
+                meaningEn: "Out of fashion, obsolete",
+                clue: "মেয়াদ বা ফ্যাশন পার হয়ে যাওয়া।"
+            },
+            {
+                sl: "232",
+                idiom: "Out of sorts",
+                pronunciationBn: "আউট অফ সর্টস",
+                meaningBn: "(একটু অসুস্থ, ম্যাজম্যাজে ভাব)",
+                meaningEn: "Unwell/slightly unhappy",
+                clue: "মেজাজ বা শারীরিক অবস্থা কিছুটা খারাপ থাকা।"
+            },
+            {
+                sl: "233",
+                idiom: "Out of order",
+                pronunciationBn: "আউট অফ অর্ডার",
+                meaningBn: "(অকেজো/বিঘ্নিত)",
+                meaningEn: "Defective/not working at all",
+                clue: "যন্ত্রপাতি নষ্ট বা বিকল থাকা।"
+            },
+            {
+                sl: "234",
+                idiom: "Off and on",
+                pronunciationBn: "অফ অ্যান্ড অন",
+                meaningBn: "(মাঝে মাঝে/যখন তখন)",
+                meaningEn: "Occasionally, now and then",
+                clue: "বন্ধ ও চালুর মতো অনিয়মিত অবস্থা।"
+            },
+            {
+                sl: "235",
+                idiom: "On and off",
+                pronunciationBn: "অন অ্যান্ড অফ",
+                meaningBn: "(বিরতি বা অবকাশকালে)",
+                meaningEn: "At intervals/intermittently",
+                clue: "কাজের মধ্যে বিরতি নেওয়া।"
+            },
+            {
+                sl: "236",
+                idiom: "Of course",
+                pronunciationBn: "অফ কোর্স",
+                meaningBn: "(অবশ্যই/নিশ্চিতভাবে)",
+                meaningEn: "Certainly",
+                clue: "নিঃসন্দেহে বা অবশ্যই।"
+            },
+            {
+                sl: "237",
+                idiom: "Out of temper",
+                pronunciationBn: "আউট অফ টেম্পার",
+                meaningBn: "(ক্রুদ্ধ, রাগান্বিত)",
+                meaningEn: "Angry/furious",
+                clue: "মেজাজ হারিয়ে অত্যন্ত রেগে যাওয়া।"
+            },
+            {
+                sl: "238",
+                idiom: "Out of the wood",
+                pronunciationBn: "আউট অফ দ্য উড",
+                meaningBn: "(বিপদমুক্ত)",
+                meaningEn: "Out of danger or difficulty",
+                clue: "জঙ্গল বা বিপদ কেটে যাওয়া।"
+            },
+            {
+                sl: "239",
+                idiom: "Once in a blue moon",
+                pronunciationBn: "ওয়ান্স ইন এ ব্লু মুন",
+                meaningBn: "(কালেভদ্রে/কদাচিৎ)",
+                meaningEn: "Very rarely/not very often",
+                clue: "নীল চাঁদের মতো খুব বিরল ঘটনা।"
+            },
+            {
+                sl: "240",
+                idiom: "Out and out",
+                pronunciationBn: "আউট অ্যান্ড আউট",
+                meaningBn: "(পুঙ্খানুপুঙ্খভাবে/সম্পূর্ণরূপে)",
+                meaningEn: "Thoroughly",
+                clue: "ভেতরে বাইরে পুরোটাই।"
+            },
+            {
+                sl: "241",
+                idiom: "Open secret",
+                pronunciationBn: "ওপেন সিক্রেট",
+                meaningBn: "(সর্বজন বিদিত গোপন বিষয়)",
+                meaningEn: "A secret known to all",
+                clue: "গোপন বলা হলেও যা সবাই জেনে গেছে।"
+            },
+            {
+                sl: "242",
+                idiom: "Part and parcel",
+                pronunciationBn: "পার্ট অ্যান্ড পার্সেল",
+                meaningBn: "(অবিচ্ছেদ্য অংশ/অপরিহার্য অংশ)",
+                meaningEn: "An integral part/essential feature",
+                clue: "যা মূল জিনিস থেকে আলাদা করা যায় না।"
+            },
+            {
+                sl: "243",
+                idiom: "Patch up",
+                pronunciationBn: "প্যাচ আপ",
+                meaningBn: "(বিবাদ মিটিয়ে বন্ধু হওয়া)",
+                meaningEn: "Settle a dispute and be friends again",
+                clue: "ভুল বোঝাবুঝির জোড়াতালি দিয়ে সম্পর্ক ঠিক করা।"
+            },
+            {
+                sl: "244",
+                idiom: "Point blank",
+                pronunciationBn: "পয়েন্ট ব্ল্যাঙ্ক",
+                meaningBn: "(স্পষ্টভাবে/সরাসরি)",
+                meaningEn: "Directly, bluntly",
+                clue: "সোজা সাপ্টা মুখে ওপর বলা।"
+            },
+            {
+                sl: "245",
+                idiom: "Palmy day",
+                pronunciationBn: "প্যালমি ডে",
+                meaningBn: "(সুদিন, সুসময়)",
+                meaningEn: "Good time/prosperous",
+                clue: "সমৃদ্ধি ও সাফল্যের আনন্দময় দিন।"
+            },
+            {
+                sl: "246",
+                idiom: "Pandora's box",
+                pronunciationBn: "প্যান্ডোরাস বক্স",
+                meaningBn: "(বিড়ম্বনাপূর্ণ উপহার/ঝামেলাপূর্ণ বিষয়)",
+                meaningEn: "A present that seems valuable but is a curse/source of troubles",
+                clue: "যেটা খুললে একের পর এক বিপদ বেরিয়ে আসে।"
+            },
+            {
+                sl: "247",
+                idiom: "Pin money",
+                pronunciationBn: "পিন মানি",
+                meaningBn: "(স্ত্রীকে প্রদত্ত হাতখরচ)",
+                meaningEn: "Pocket money given by husband to wife",
+                clue: "সংসারের বাইরে স্ত্রীর নিজের ছোটখাটো খরচের টাকা।"
+            },
+            {
+                sl: "248",
+                idiom: "Pros and cons",
+                pronunciationBn: "প্রোজ অ্যান্ড কনস",
+                meaningBn: "(খুঁটিনাটি/সুবিধা ও অসুবিধা)",
+                meaningEn: "In details / advantages and disadvantages",
+                clue: "কোনো বিষয়ের ভালো ও মন্দ দুই দিক বিচার।"
+            },
+            {
+                sl: "249",
+                idiom: "Put an end to",
+                pronunciationBn: "পুট অ্যান এন্ড টু",
+                meaningBn: "(কোনো কিছুর পরিসমাপ্তি ঘটানো)",
+                meaningEn: "Something stopped",
+                clue: "কোনো খারাপ বা ক্ষতিকর বিষয় বন্ধ করা।"
+            },
+            {
+                sl: "250",
+                idiom: "Pass out",
+                pronunciationBn: "পাস আউট",
+                meaningBn: "(নিস্তেজ/অচেতন হয়ে যাওয়া)",
+                meaningEn: "Faint/become unconscious",
+                clue: "জ্ঞান হারানো বা অজ্ঞান হয়ে যাওয়া।"
+            },
+            {
+                sl: "251",
+                idiom: "Pooh Pooh",
+                pronunciationBn: "পুহ পুহ",
+                meaningBn: "(ঘৃণা/অবজ্ঞা সহকারে বাদ দেওয়া)",
+                meaningEn: "Reject with scorn",
+                clue: "তাচ্ছিল্য প্রকাশ করে উড়িয়ে দেওয়া।"
+            },
+            {
+                sl: "252",
+                idiom: "Queer Fish",
+                pronunciationBn: "কুয়ার ফিশ",
+                meaningBn: "(খেয়ালি বা অদ্ভুত লোক)",
+                meaningEn: "Eccentric person",
+                clue: "অদ্ভুত আচরণের খামখেয়ালি লোক।"
+            },
+            {
+                sl: "253",
+                idiom: "Red tape",
+                pronunciationBn: "রেড টেপ",
+                meaningBn: "(লাল ফিতার দৌরাত্ম্য/আমলাতান্ত্রিক জটিলতা)",
+                meaningEn: "Complicated official formalities",
+                clue: "সরকারি ফাইলের লাল ফিতার কারণে কাজে বিলম্ব।"
+            },
+            {
+                sl: "254",
+                idiom: "Red letter day",
+                pronunciationBn: "রেড লেটার ডে",
+                meaningBn: "(স্মরণীয় দিন; চরম আনন্দের দিন)",
+                meaningEn: "A memorable day; a very happy day",
+                clue: "ক্যালেন্ডারে লাল কালিতে লেখা বিশেষ আনন্দের দিন।"
+            },
+            {
+                sl: "255",
+                idiom: "Round the clock",
+                pronunciationBn: "রাউন্ড দ্য ক্লক",
+                meaningBn: "(সমস্ত দিন, চব্বিশ ঘণ্টা)",
+                meaningEn: "Twenty-four hours",
+                clue: "ঘড়ির কাঁটা ঘুরে পুরো একদিন-রাত চলা।"
+            },
+            {
+                sl: "256",
+                idiom: "Riding for a fall",
+                pronunciationBn: "রাইডিং ফর এ ফল",
+                meaningBn: "(বেপরোয়া আচরণ করা)",
+                meaningEn: "Act recklessly",
+                clue: "এমন বেপরোয়া চলা যা পতনের দিকে নিয়ে যায়।"
+            },
+            {
+                sl: "257",
+                idiom: "Root and branch",
+                pronunciationBn: "রুট অ্যান্ড ব্রাঞ্চ",
+                meaningBn: "(সম্পূর্ণরূপে/আমূল)",
+                meaningEn: "Completely/thoroughly",
+                clue: "শিকড় থেকে ডালপালা পর্যন্ত পুরোটাই নির্মূল।"
+            },
+            {
+                sl: "258",
+                idiom: "Rank and file",
+                pronunciationBn: "র‍্যাংক অ্যান্ড ফাইল",
+                meaningBn: "(সাধারণ লোকজন/সাধারণ কর্মী)",
+                meaningEn: "Common people",
+                clue: "উচ্চপদস্থ ব্যতীত সাধারণ সদস্য বা জনগণ।"
+            },
+            {
+                sl: "259",
+                idiom: "Right away",
+                pronunciationBn: "রাইট অ্যাওয়ে",
+                meaningBn: "(অবিলম্বে বা দ্রুত)",
+                meaningEn: "Without delay, very soon",
+                clue: "তৎক্ষণাৎ কোনো কাজ শুরু করা।"
+            },
+            {
+                sl: "260",
+                idiom: "Ruling passion",
+                pronunciationBn: "রুলিং প্যাশন",
+                meaningBn: "(জীবনের চালিকাশক্তি/প্রধান আগ্রহ)",
+                meaningEn: "Most important interest",
+                clue: "যে প্রবল ইচ্ছা মানুষকে পরিচালনা করে।"
+            },
+            {
+                sl: "261",
+                idiom: "Rub shoulders",
+                pronunciationBn: "রাব শোল্ডারস",
+                meaningBn: "(সংস্পর্শে আসা, মেলামেশা করা)",
+                meaningEn: "Associate or connect with another person",
+                clue: "কাঁধে কাঁধ মিলিয়ে কারোর সাথে ঘোরাফেরা।"
+            },
+            {
+                sl: "262",
+                idiom: "Sharp practice",
+                pronunciationBn: "শার্প প্র্যাকটিস",
+                meaningBn: "(অসাধু ব্যবসায়িক কার্যকলাপ)",
+                meaningEn: "Deceptive practice/racketeering",
+                clue: "প্রতারণামূলক চালাকি ও অসাধু কাজ।"
+            },
+            {
+                sl: "263",
+                idiom: "Skin and bone",
+                pronunciationBn: "স্কিন অ্যান্ড বোন",
+                meaningBn: "(অস্থি চর্মসার)",
+                meaningEn: "Body without any flesh/very thin",
+                clue: "মাংসহীন শুধু চামড়া ও হাড্ডি।"
+            },
+            {
+                sl: "264",
+                idiom: "Slip of the pen",
+                pronunciationBn: "স্লিপ অব দ্য পেন",
+                meaningBn: "(লেখায় অনিচ্ছাকৃত ভুল)",
+                meaningEn: "An unintentional slight mistake in writing",
+                clue: "লিখতে গিয়ে অসাবধানতায় কলমের ভুল।"
+            },
+            {
+                sl: "265",
+                idiom: "Slip of the tongue",
+                pronunciationBn: "স্লিপ অব দ্য টাং",
+                meaningBn: "(কথায় অনিচ্ছাকৃত ভুল)",
+                meaningEn: "An unintentional slight mistake in speaking",
+                clue: "বলতে গিয়ে অজান্তে মুখ থেকে ভুল শব্দ বের হওয়া।"
+            },
+            {
+                sl: "266",
+                idiom: "Snake in the grass",
+                pronunciationBn: "স্নেক ইন দ্য গ্রাস",
+                meaningBn: "(গোপন শত্রু/প্রতারক)",
+                meaningEn: "A hidden enemy",
+                clue: "ঘাসের ভেতর লুকিয়ে থাকা বিষাক্ত সাপ।"
+            },
+            {
+                sl: "267",
+                idiom: "Slow coach",
+                pronunciationBn: "স্লো কোচ",
+                meaningBn: "(অলস ও মন্থর লোক)",
+                meaningEn: "A lazy person/moves slowly",
+                clue: "ধীরগতির অলস টাইপের মানুষ।"
+            },
+            {
+                sl: "268",
+                idiom: "Soft soap",
+                pronunciationBn: "সফ্ট সোপ",
+                meaningBn: "(তোষামোদ)",
+                meaningEn: "Flattery for self-motives",
+                clue: "মিষ্টি কথায় তোষামোদ করা।"
+            },
+            {
+                sl: "269",
+                idiom: "Salt of the earth",
+                pronunciationBn: "সল্ট অব দ্য আর্থ",
+                meaningBn: "(আদর্শ ব্যক্তি/উৎকৃষ্ট লোক)",
+                meaningEn: "Ideal man/best people",
+                clue: "সমাজের সবচেয়ে নির্ভরযোগ্য ও ভালো মানুষ।"
+            },
+            {
+                sl: "270",
+                idiom: "Salt of life",
+                pronunciationBn: "সল্ট অব লাইফ",
+                meaningBn: "(মূল্যবান বস্তু)",
+                meaningEn: "Valuable things",
+                clue: "জীবনের রস বা অতি প্রয়োজনীয় বস্তু।"
+            },
+            {
+                sl: "271",
+                idiom: "Square meal",
+                pronunciationBn: "স্কয়ার মিল",
+                meaningBn: "(পেট ভরা আহার/পরিপূর্ণ খাবার)",
+                meaningEn: "Full meal/satisfying meal",
+                clue: "তৃপ্তি সহকারে পূর্ণ আহার।"
+            },
+            {
+                sl: "272",
+                idiom: "Stone's throw",
+                pronunciationBn: "স্টোনস থ্রো",
+                meaningBn: "(অতি নিকটে/খুব কাছে)",
+                meaningEn: "Within a very short distance",
+                clue: "ঢিল ছোঁড়া দূরত্বে।"
+            },
+            {
+                sl: "273",
+                idiom: "Sum and substance",
+                pronunciationBn: "সাম অ্যান্ড সাবস্টেন্স",
+                meaningBn: "(সারমর্ম/মূল ধারণা)",
+                meaningEn: "Gist, summary/main idea",
+                clue: "পুরো ঘটনার আসল সারংশ।"
+            },
+            {
+                sl: "274",
+                idiom: "Swan song",
+                pronunciationBn: "সোয়ান সং",
+                meaningBn: "(শেষ কর্ম)",
+                meaningEn: "Last work",
+                clue: "প্রতিভা প্রকাশের বা জীবনের শেষ কাজ।"
+            },
+            {
+                sl: "275",
+                idiom: "Step up one's game",
+                pronunciationBn: "স্টেপ আপ ওয়ানস গেম",
+                meaningBn: "(কঠোর পরিশ্রম করা/দক্ষতা বাড়ানো)",
+                meaningEn: "To work harder or perform better",
+                clue: "আগের চেয়ে ভালো করতে নিজের চেষ্টা বাড়িয়ে দেওয়া।"
+            },
+            {
+                sl: "276",
+                idiom: "Set free",
+                pronunciationBn: "সেট ফ্রি",
+                meaningBn: "(মুক্ত করা/স্বাধীন করা)",
+                meaningEn: "To release, free, liberate",
+                clue: "বাঁধন থেকে মুক্ত করে দেওয়া।"
+            },
+            {
+                sl: "277",
+                idiom: "Sitting duck",
+                pronunciationBn: "সিটিং ডাক",
+                meaningBn: "(সহজ লক্ষ্য বা নিশানা)",
+                meaningEn: "An easy or defenseless target",
+                clue: "স্থির হয়ে বসে থাকা সহজ শিকার।"
+            },
+            {
+                sl: "278",
+                idiom: "Smell a rat",
+                pronunciationBn: "স্মেল এ র‍্যাট",
+                meaningBn: "(সন্দেহ করা/ষড়যন্ত্র টের পাওয়া)",
+                meaningEn: "Suspect something wrong",
+                clue: "ডাল মে কুছ কালা হ্যায়—অনুতাপ বা খারাপ কিছুর গন্ধ পাওয়া।"
+            },
+            {
+                sl: "279",
+                idiom: "Steer clear of",
+                pronunciationBn: "স্টিয়ার ক্লিয়ার অব",
+                meaningBn: "(এড়িয়ে চলা)",
+                meaningEn: "Avoid keeping away from",
+                clue: "গাড়ির চাকা ঘুরিয়ে বিপদ থেকে দূরে থাকা।"
+            },
+            {
+                sl: "280",
+                idiom: "Sine die",
+                pronunciationBn: "সাইন ডাই",
+                meaningBn: "(অনির্দিষ্টকালের জন্য)",
+                meaningEn: "Uncertain, indefinitely",
+                clue: "যার কোনো সুনির্দিষ্ট দিন বা মেয়াদ নেই।"
+            },
+            {
+                sl: "281",
+                idiom: "Silver lining",
+                pronunciationBn: "সিলভার লাইনিং",
+                meaningBn: "(কঠিন পরিস্থিতির মধ্যেও আশার আলো)",
+                meaningEn: "Advantage from a difficult situation",
+                clue: "কালো মেঘের পেছনে রুপালী রোদের হাসি।"
+            },
+            {
+                sl: "282",
+                idiom: "See eye to eye",
+                pronunciationBn: "সি আই টু আই",
+                meaningBn: "(সহমত পোষণ করা)",
+                meaningEn: "Agreeing with someone",
+                clue: "একমত হওয়া বা দৃষ্টিভঙ্গি মেলা।"
+            },
+            {
+                sl: "283",
+                idiom: "Safe and sound",
+                pronunciationBn: "সেফ অ্যান্ড সাউন্ড",
+                meaningBn: "(নিরাপদে ও অক্ষতদেহে)",
+                meaningEn: "Safe, secure, out of danger",
+                clue: "কোনো ক্ষতি ছাড়াই সহিসালামাতে ফেরা।"
+            },
+            {
+                sl: "284",
+                idiom: "Sparked a surge",
+                pronunciationBn: "স্পার্কড এ সার্জ",
+                meaningBn: "(আকস্মিক ব্যাপক বৃদ্ধি)",
+                meaningEn: "A sudden and large increase",
+                clue: "হঠাৎ জোয়ারের মতো বৃদ্ধি পাওয়া।"
+            },
+            {
+                sl: "285",
+                idiom: "Take to heart",
+                pronunciationBn: "টেক টু হার্ট",
+                meaningBn: "(মর্মাহত হওয়া/মনঃকষ্ট পাওয়া)",
+                meaningEn: "Be affected deeply",
+                clue: "কথা হৃদয়ে নিয়ে কষ্ট পাওয়া।"
+            },
+            {
+                sl: "286",
+                idiom: "To and fro",
+                pronunciationBn: "টু অ্যান্ড ফ্রো",
+                meaningBn: "(এদিক-সেদিক/সামনে-পিছে)",
+                meaningEn: "Backward and forwards",
+                clue: "এপাশ থেকে ওপাশে যাতায়াত।"
+            },
+            {
+                sl: "287",
+                idiom: "Take to task",
+                pronunciationBn: "টেক টু টাস্ক",
+                meaningBn: "(তিরস্কার করা/জবাবদিহি করা)",
+                meaningEn: "Rebuke/reprimand someone",
+                clue: "ভুলের জন্য কঠিন তিরস্কার করা।"
+            },
+            {
+                sl: "288",
+                idiom: "(Fight) Tooth and nail",
+                pronunciationBn: "টুথ অ্যান্ড নেল",
+                meaningBn: "(সর্বশক্তি দিয়ে লড়াই করা)",
+                meaningEn: "Strongly, completely, tried hard",
+                clue: "দাঁত ও নখ দিয়ে প্রাণপণে যুদ্ধ করা।"
+            },
+            {
+                sl: "289",
+                idiom: "Through thick and thin",
+                pronunciationBn: "থ্রু থিক অ্যান্ড থিন",
+                meaningBn: "(সুখে-দুঃখে সর্বাবস্থায়)",
+                meaningEn: "Under/through all difficulties",
+                clue: "ভালো বা মন্দ সব অবস্থাতেই পাশে থাকা।"
+            },
+            {
+                sl: "290",
+                idiom: "To the contrary",
+                pronunciationBn: "টু দ্য কন্ট্রারি",
+                meaningBn: "(বিপক্ষে/বিপরীতে)",
+                meaningEn: "Showing the opposite",
+                clue: "উল্টো বা বিপরীতমুখী।"
+            },
+            {
+                sl: "291",
+                idiom: "To the letter",
+                pronunciationBn: "টু দ্য লেটার",
+                meaningBn: "(অক্ষরে অক্ষরে/বিস্তারিতভাবে)",
+                meaningEn: "In all details/rigorously",
+                clue: "প্রতিটি নির্দেশ পুঙ্খানুপুঙ্খ মানা।"
+            },
+            {
+                sl: "292",
+                idiom: "Turn over a new leaf",
+                pronunciationBn: "টার্ন ওভার এ নিউ লিফ",
+                meaningBn: "(নতুন অধ্যায় শুরু করা)",
+                meaningEn: "Begin a new chapter of life",
+                clue: "নতুন পাতা উল্টে নতুন জীবন সাজানো।"
+            },
+            {
+                sl: "293",
+                idiom: "Turn a deaf ear to",
+                pronunciationBn: "টার্ন এ ডেফ ইয়ার টু",
+                meaningBn: "(মনযোগ না দেওয়া/কর্ণপাত না করা)",
+                meaningEn: "Pay no attention/ignore someone",
+                clue: "কালা সেজে কোনো কথা না শোনা।"
+            },
+            {
+                sl: "294",
+                idiom: "Tittle-tattle",
+                pronunciationBn: "টিটল-ট্যাটল",
+                meaningBn: "(খোসগল্প/পরচর্চা করা)",
+                meaningEn: "Gossip",
+                clue: "ফালতু বকবক বা গসিপ।"
+            },
+            {
+                sl: "295",
+                idiom: "Turn down",
+                pronunciationBn: "টার্ন ডাউন",
+                meaningBn: "(প্রত্যাখ্যান করা)",
+                meaningEn: "Refuse/reject",
+                clue: "আবেদন বা প্রস্তাব নাকচ করা।"
+            },
+            {
+                sl: "296",
+                idiom: "Touch and go",
+                pronunciationBn: "টাচ অ্যান্ড গো",
+                meaningBn: "(ঝুঁকিপূর্ণ/সংকটাবস্থা)",
+                meaningEn: "Risky/very uncertain",
+                clue: "খুব অনিশ্চিত ও বিপজ্জনক অবস্থা।"
+            },
+            {
+                sl: "297",
+                idiom: "Take to one's heels",
+                pronunciationBn: "টেক টু ওয়ানস হিলস",
+                meaningBn: "(ছুটে পালানো)",
+                meaningEn: "Run off/away, escape",
+                clue: "পায়ের গোড়ালি তুলে চম্পট দেওয়া।"
+            },
+            {
+                sl: "298",
+                idiom: "Throw light on",
+                pronunciationBn: "থ্রো লাইট অন",
+                meaningBn: "(আলোকপাত করা/ব্যাখ্যা করা)",
+                meaningEn: "Help to explain something clear",
+                clue: "আলো ফেলে বিষয়টিকে স্পষ্ট বোঝা।"
+            },
+            {
+                sl: "299",
+                idiom: "Tighten one's belt",
+                pronunciationBn: "টাইটান ওয়ানস বেল্ট",
+                meaningBn: "(খরচ কমানো)",
+                meaningEn: "Try to spend less money",
+                clue: "সংকটে পেটের বেল্ট শক্ত করে পরিমিত চলা।"
+            },
+            {
+                sl: "300",
+                idiom: "To read between the lines",
+                pronunciationBn: "টু রিড বিটুইন দ্য লাইন্স",
+                meaningBn: "(অন্তর্নিহিত অর্থ বোঝা)",
+                meaningEn: "To grasp the hidden meaning",
+                clue: "দুই লাইনের মাঝের লুকানো অর্থ উদ্ধার করা।"
+            },
+            {
+                sl: "301",
+                idiom: "To drive home",
+                pronunciationBn: "টু ড্রাইভ হোম",
+                meaningBn: "(স্পষ্টভাবে উপলব্ধি করা/জোড় দেওয়া)",
+                meaningEn: "To emphasize/make clear",
+                clue: "বিষয়টিকে ভালোভাবে মাথায় ঢুকিয়ে দেওয়া।"
+            },
+            {
+                sl: "302",
+                idiom: "To put one's hand to plough",
+                pronunciationBn: "টু পুট ওয়ানস হ্যান্ড টু প্লাউ",
+                meaningBn: "(কঠিন কাজ শুরু করা)",
+                meaningEn: "To take a difficult task",
+                clue: "লাঙ্গলে হাত দিয়ে চাষের কঠিন কাজ ধরা।"
+            },
+            {
+                sl: "303",
+                idiom: "Beggars description",
+                pronunciationBn: "বেগারস ডেসক্রিপশন",
+                meaningBn: "(অবর্ণনীয়/বর্ণনাতীত)",
+                meaningEn: "Indescribable",
+                clue: "বর্ণনা দিয়ে বোঝানো যায় না এমন।"
+            },
+            {
+                sl: "304",
+                idiom: "To break the ice",
+                pronunciationBn: "টু ব্রেক দ্য আইস",
+                meaningBn: "(নীরবতা ভেঙে আলোচনা শুরু করা)",
+                meaningEn: "To start a conversation",
+                clue: "বরফের মতো কঠিন নীরবতা ভাঙা।"
+            },
+            {
+                sl: "305",
+                idiom: "To meet trouble half-way",
+                pronunciationBn: "টু মিট ট্রাবল হাফ-ওয়ে",
+                meaningBn: "(হতবুদ্ধি হওয়া)",
+                meaningEn: "To be puzzled",
+                clue: "আগ বাড়িয়ে বিপদে পড়ে বিভ্রান্ত হওয়া।"
+            },
+            {
+                sl: "306",
+                idiom: "Tertiary Education",
+                pronunciationBn: "টার্শিয়ারি এডুকেশন",
+                meaningBn: "(উচ্চ শিক্ষা/বিশ্ববিদ্যালয় শিক্ষা)",
+                meaningEn: "Higher education, University level",
+                clue: "প্রাথমিক ও মাধ্যমিকের পরের উচ্চতর শিক্ষা।"
+            },
+            {
+                sl: "307",
+                idiom: "To keep one's temper",
+                pronunciationBn: "টু কিপ ওয়ানস টেম্পার",
+                meaningBn: "(মাথা ঠান্ডা রাখা/শান্ত থাকা)",
+                meaningEn: "To remain calm",
+                clue: "মেজাজ বশে রাখা।"
+            },
+            {
+                sl: "308",
+                idiom: "To kick the bucket",
+                pronunciationBn: "টু কিক দ্য বাকেট",
+                meaningBn: "(মারা যাওয়া)",
+                meaningEn: "To die, pass away",
+                clue: "চিরতরে না ফেরার দেশে চলে যাওয়া।"
+            },
+            {
+                sl: "309",
+                idiom: "To get along with",
+                pronunciationBn: "টু গেট অ্যালং উইথ",
+                meaningBn: "(খাপ খাইয়ে চলা)",
+                meaningEn: "To adjust",
+                clue: "সবার সাথে মানিয়ে চলা।"
+            },
+            {
+                sl: "310",
+                idiom: "To be Above board",
+                pronunciationBn: "টু বি অ্যাবভ বোর্ড",
+                meaningBn: "(ন্যায় ও বৈধ/সন্দেহাতীতভাবে নির্দোষ)",
+                meaningEn: "To be honest in deal, Beyond doubt",
+                clue: "সন্দেহের ঊর্ধ্বে থাকা সৎ মানুষ।"
+            },
+            {
+                sl: "311",
+                idiom: "To have cold feet",
+                pronunciationBn: "টু হ্যাভ কোল্ড ফিট",
+                meaningBn: "(আতঙ্কিত/দ্বিধাগ্রস্ত হওয়া)",
+                meaningEn: "To become nervous",
+                clue: "ভয়ে পা ঠান্ডা হয়ে যাওয়া।"
+            },
+            {
+                sl: "312",
+                idiom: "To keep someone at arm's length",
+                pronunciationBn: "টু কিপ সামওয়ান অ্যাট আর্মস লেন্থ",
+                meaningBn: "(দূরত্ব বজায় রাখা)",
+                meaningEn: "Maintain distance or avoid close relationship",
+                clue: "এক হাত দূরে রাখা বা বেশি ঘেঁষতে না দেওয়া।"
+            },
+            {
+                sl: "313",
+                idiom: "Up and doing",
+                pronunciationBn: "আপ অ্যান্ড ডুইং",
+                meaningBn: "(উঠে পড়ে লাগা/উদ্যোগী হওয়া)",
+                meaningEn: "Active/very actively doing something",
+                clue: "সক্রিয়ভাবে কাজে নেমে পড়া।"
+            },
+            {
+                sl: "314",
+                idiom: "Ups and downs",
+                pronunciationBn: "আপস অ্যান্ড ডাউনস",
+                meaningBn: "(উত্থান-পতন)",
+                meaningEn: "Rise and fall",
+                clue: "জীবনের জোয়ার-ভাটা বা ভালো-মন্দ সময়।"
+            },
+            {
+                sl: "315",
+                idiom: "Under the thumb",
+                pronunciationBn: "আন্ডার দ্য থাম্ব",
+                meaningBn: "(পুরোপুরি বাধ্য বা নিয়ন্ত্রণে থাকা)",
+                meaningEn: "Completely under one's control",
+                clue: "বুড়ো আঙুলের নিচে চেপে রাখার মতো বশে রাখা।"
+            },
+            {
+                sl: "316",
+                idiom: "Under one's nose",
+                pronunciationBn: "আন্ডার ওয়ানস নোজ",
+                meaningBn: "(চোখের সামনে/নাকের ডগায়)",
+                meaningEn: "In one's very presence",
+                clue: "একদম সামনে থাকা সত্ত্বেও দেখতে না পাওয়া।"
+            },
+            {
+                sl: "317",
+                idiom: "Under the weather",
+                pronunciationBn: "আন্ডার দ্য ওয়েদার",
+                meaningBn: "(সামান্য অসুস্থ)",
+                meaningEn: "Slightly ill/sick/unwell",
+                clue: "আবহাওয়ার দরুন শরীর ম্যাজম্যাজ করা।"
+            },
+            {
+                sl: "318",
+                idiom: "Weather the storm",
+                pronunciationBn: "ওয়েদার দ্য স্টর্ম",
+                meaningBn: "(বিপদ কাটিয়ে ওঠা)",
+                meaningEn: "Recover/survive a difficult situation",
+                clue: "ঝড় সামলে আবার স্বাভাবিক হওয়া।"
+            },
+            {
+                sl: "319",
+                idiom: "Weal and woe",
+                pronunciationBn: "উইল অ্যান্ড ওযো",
+                meaningBn: "(সুখ-দুঃখ)",
+                meaningEn: "Joy and sorrow",
+                clue: "জীবনের ভালো ও মন্দ মুহূর্ত।"
+            },
+            {
+                sl: "320",
+                idiom: "Word for word",
+                pronunciationBn: "ওয়ার্ড ফর ওয়ার্ড",
+                meaningBn: "(হুবহু, অক্ষরে অক্ষরে)",
+                meaningEn: "Exactly as spoken or written",
+                clue: "শব্দে শব্দে অবিকল মিল রাখা।"
+            },
+            {
+                sl: "321",
+                idiom: "Widow's mite",
+                pronunciationBn: "উইডোজ মাইট",
+                meaningBn: "(দরিদ্রের ক্ষুদ্র দান)",
+                meaningEn: "A small contribution of a poor man",
+                clue: "দরিদ্রের যতটুকু সাধ্য সে অনুযায়ী সাহায্য।"
+            },
+            {
+                sl: "322",
+                idiom: "Wolf in sheep's clothing",
+                pronunciationBn: "উলফ ইন শিপস ক্লদিং",
+                meaningBn: "(বন্ধুবেশী শত্রু, ভণ্ড)",
+                meaningEn: "Hypocrite, enemy in the guise of a friend",
+                clue: "ভেড়ার ছদ্মবেশে থাকা নেকড়ে।"
+            },
+            {
+                sl: "323",
+                idiom: "White elephant",
+                pronunciationBn: "হোয়াইট এলিফ্যান্ট",
+                meaningBn: "(অতি ব্যয়সাধ্য বস্তু)",
+                meaningEn: "Costly or troublesome possession",
+                clue: "সাদা হাতির মতো পুষতে খরচ বেশি কিন্তু কাজের না।"
+            },
+            {
+                sl: "324",
+                idiom: "Wear and tear",
+                pronunciationBn: "ওয়্যার অ্যান্ড টিয়ার",
+                meaningBn: "(ব্যবহারজনিত ক্ষয়ক্ষতি)",
+                meaningEn: "Depreciation",
+                clue: "ব্যবহারে জিনিস পুরোনো হয়ে যাওয়া বা ক্ষয়।"
+            },
+            {
+                sl: "325",
+                idiom: "Worth one's salt",
+                pronunciationBn: "ওয়ার্থ ওয়ানস সল্ট",
+                meaningBn: "(দক্ষ/সম্মানিত ব্যক্তি)",
+                meaningEn: "Efficient, respectable person",
+                clue: "নিজের যোগ্যতা ও লবণের দাম রাখা ব্যক্তি।"
+            },
+            {
+                sl: "326",
+                idiom: "(A) white lie",
+                pronunciationBn: "হোয়াইট লাই",
+                meaningBn: "(ক্ষতিহীন মিথ্যা)",
+                meaningEn: "A harmless lie",
+                clue: "যে মিথ্যা কারো ক্ষতি করে না।"
+            },
+            {
+                sl: "327",
+                idiom: "White collar job",
+                pronunciationBn: "হোয়াইট কলার জব",
+                meaningBn: "(শারীরিক পরিশ্রমহীন দাপ্তরিক কাজ)",
+                meaningEn: "A job without manual labour",
+                clue: "অফিসের সাহেবী বা বাবুগিরি চাকরি।"
+            },
+            {
+                sl: "328",
+                idiom: "Year in and year out",
+                pronunciationBn: "ইয়ার ইন অ্যান্ড ইয়ার আউট",
+                meaningBn: "(বছর বছর/সারা বছর ধরে)",
+                meaningEn: "Continuously or repeatedly",
+                clue: "বছরের পর বছর অবিরাম।"
+            }
+        ];
+
+        let favorites = JSON.parse(localStorage.getItem('idiomFavorites')) || [];
+        let currentFilter = 'all';
+
+        const idiomsListEl = document.getElementById('idiomsList');
+        const searchInput = document.getElementById('searchInput');
+        const noResultsEl = document.getElementById('noResults');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+
+        function renderIdioms() {
+            const query = searchInput.value.toLowerCase().trim();
+            idiomsListEl.innerHTML = '';
+
+            let filtered = idiomsData.filter(item => {
+                const matchesSearch = item.idiom.toLowerCase().includes(query) ||
+                                      (item.pronunciationBn && item.pronunciationBn.toLowerCase().includes(query)) ||
+                                      item.meaningBn.toLowerCase().includes(query) ||
+                                      item.clue.toLowerCase().includes(query) ||
+                                      item.meaningEn.toLowerCase().includes(query);
+                if (currentFilter === 'favorites') {
+                    return matchesSearch && favorites.includes(item.sl);
+                }
+                return matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                noResultsEl.style.display = 'block';
+                return;
+            } else {
+                noResultsEl.style.display = 'none';
+            }
+
+            filtered.forEach(item => {
+                const isFav = favorites.includes(item.sl);
+                const card = document.createElement('div');
+                card.className = 'idiom-card';
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div class="idiom-title-area">
+                            <span class="sl-no">${item.sl}</span>
+                            <span class="idiom-name">${item.idiom}</span>
+                        </div>
+                        <div class="card-actions">
+                            <button class="fav-btn ${isFav ? 'active' : ''}" onclick="toggleFavorite(event, '${item.sl}')" title="Favorite">
+                                ${isFav ? '❤️' : '🤍'}
+                            </button>
+                            <svg class="chevron" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        ${item.pronunciationBn ? `
+                        <div class="detail-section">
+                            <div class="detail-title">বাংলা উচ্চারণ (Pronunciation)</div>
+                            <div class="pronunciation-content">${item.pronunciationBn}</div>
+                        </div>` : ''}
+                        <div class="detail-section" style="margin-top: 10px;">
+                            <div class="detail-title">বাংলা অর্থ (Bengali Meaning)</div>
+                            <div class="meaning-bn-content">${item.meaningBn}</div>
+                        </div>
+                        <div class="detail-section" style="margin-top: 12px;">
+                            <div class="detail-title">English Meaning</div>
+                            <div class="meaning-en-content">${item.meaningEn}</div>
+                        </div>
+                        <div class="clue-box">
+                            <div class="clue-title">💡 মেমোরিং ক্লু (Memory Clue)</div>
+                            <div class="clue-content">${item.clue}</div>
+                        </div>
+                    </div>
+                `;
+
+                card.querySelector('.card-header').addEventListener('click', (e) => {
+                    if (e.target.closest('.fav-btn')) return;
+                    card.classList.toggle('open');
+                });
+
+                idiomsListEl.appendChild(card);
+            });
+        }
+
+        window.toggleFavorite = function(e, sl) {
+            e.stopPropagation();
+            if (favorites.includes(sl)) {
+                favorites = favorites.filter(id => id !== sl);
+            } else {
+                favorites.push(sl);
+            }
+            localStorage.setItem('idiomFavorites', JSON.stringify(favorites));
+            renderIdioms();
+        };
+
+        searchInput.addEventListener('input', renderIdioms);
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.filter;
+                renderIdioms();
+            });
+        });
+
+        renderIdioms();
+    </script>
+</body>
+</html>
