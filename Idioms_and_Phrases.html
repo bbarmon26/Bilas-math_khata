@@ -13,6 +13,8 @@
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --primary-accent: #3b82f6;
+            --gold-glow: #f59e0b;
+            --switch-pink: #f43f5e;
         }
 
         * {
@@ -27,11 +29,13 @@
             color: var(--text-main);
             line-height: 1.6;
             padding: 20px;
+            scroll-behavior: smooth;
         }
 
         .container {
             max-width: 800px;
             margin: 0 auto;
+            padding-bottom: 70px;
         }
 
         header {
@@ -113,7 +117,7 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
             border: 1px solid #334155;
             transition: transform 0.2s, border-color 0.3s;
-            position: relative; /* For Star Button */
+            position: relative;
         }
 
         .card:hover {
@@ -136,7 +140,7 @@
         }
 
         .fav-btn.active {
-            color: #f59e0b; /* Golden Yellow */
+            color: #f59e0b;
             text-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
         }
 
@@ -148,7 +152,7 @@
             font-size: 1.6rem;
             font-weight: 700;
             margin-bottom: 15px;
-            padding-right: 40px; /* Space for star */
+            padding-right: 40px;
         }
 
         .meaning-line {
@@ -179,7 +183,7 @@
         .practice-card::after {
             content: '▼ চাপ দিন';
             position: absolute;
-            right: 65px; /* Moved away from star */
+            right: 65px;
             top: 30px;
             font-size: 0.9rem;
             color: #64748b;
@@ -214,6 +218,92 @@
             margin-top: 30px;
         }
 
+        /* --- 🚀 ROCKET NAVIGATION HUB --- */
+        .rocket-hub {
+            position: fixed;
+            right: 20px;
+            bottom: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 2000;
+            user-select: none;
+        }
+
+        .rocket-menu {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(15px);
+            padding: 14px 10px;
+            border-radius: 35px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            margin-bottom: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+            align-items: center;
+        }
+
+        .r-circle {
+            width: 40px;
+            height: 40px;
+            background: #1e293b;
+            border: 1px solid var(--gold-glow);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .r-circle:active {
+            transform: scale(0.9);
+            background: var(--primary-accent);
+        }
+
+        .jump-box {
+            width: 48px;
+            height: 34px;
+            background: #020617;
+            border: 1px solid var(--switch-pink);
+            color: white;
+            text-align: center;
+            border-radius: 8px;
+            font-size: 13px;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .go-btn {
+            background: var(--switch-pink);
+            border: none;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-weight: bold;
+            color: #fff;
+            cursor: pointer;
+            font-size: 11px;
+            transition: all 0.2s;
+        }
+
+        .go-btn:active {
+            transform: scale(0.9);
+        }
+
+        .rocket-icon {
+            font-size: 34px;
+            cursor: pointer;
+            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
+            transition: transform 0.2s;
+        }
+
+        .rocket-icon:active {
+            transform: scale(0.9);
+        }
+
     </style>
 </head>
 <body>
@@ -237,11 +327,22 @@
     <div id="app-content"></div>
 </div>
 
+<!-- 🚀 ROCKET NAVIGATION HUB -->
+<div class="rocket-hub" id="rocketHub">
+    <div class="rocket-menu" id="rocketMenu">
+        <div class="r-circle" title="উপরে যান" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">⬆</div>
+        <input type="number" id="jumpInput" class="jump-box" placeholder="নং">
+        <button class="go-btn" onclick="jumpToCard()">GO</button>
+        <div class="r-circle" title="নিচে যান" onclick="window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})">⬇</div>
+    </div>
+    <div class="rocket-icon" onclick="toggleRocketHub()">🚀</div>
+</div>
+
 <script>
     const titleColors = ['#10b981', '#f59e0b', '#3b82f6', '#8b5cf6', '#ec4899', '#14b8a6', '#f43f5e'];
 
     // ==========================================
-    // নিচে আপনার ২১৭ টি ডেটা পেস্ট করুন
+    // নিচে আপনার ডেটাবেজ পেস্ট করুন
     // ==========================================
     const idiomsData = [
         {number: 1, idiom: "Get by heart", idiomPron: "গেট বাই হার্ট", meaningEn: "Memorize", meaningBn: "মুখস্থ করা", exampleEn: "The student got the whole poem by heart.", exampleBn: "ছাত্রটি পুরো কবিতাটি মুখস্থ করেছিল।"},
@@ -495,29 +596,431 @@
     {number: 249, idiom: "Out of order", idiomPron: "আউট অফ অর্ডার", meaningEn: "Defective", meaningBn: "বিকল", exampleEn: "I had to use the stairs because the elevator is out of order.", exampleBn: "লিফটটি বিকল থাকায় আমাকে সিঁড়ি ব্যবহার করতে হয়েছিল।"},
     {number: 250, idiom: "Out of the wood", idiomPron: "আউট অফ দ্য উড", meaningEn: "Free from danger", meaningBn: "বিপদমুক্ত", exampleEn: "The operation was successful, and the patient is finally out of the wood.", exampleBn: "অপারেশন সফল হয়েছিল, এবং রোগীটি অবশেষে বিপদমুক্ত।"},
     {number: 251, idiom: "Point blank", idiomPron: "পয়েন্ট ব্ল্যাঙ্ক", meaningEn: "Directly", meaningBn: "স্পষ্ট ভাবে", exampleEn: "He refused the bribe point blank.", exampleBn: "সে স্পষ্টভাবে ঘুষ প্রত্যাখ্যান করল।"},
-    {number: 252, idiom: "From hand to mouth", idiomPron: "ফ্রম হ্যান্ড টু মাউথ", meaningEn: "Live in hardship", meaningBn: "দিন আনে দিন খায়", exampleEn: "The poor worker lives from hand to mouth to support his family.", exampleBn: "গরিব কর্মীটি তার পরিবার চালাতে দিন আনে দিন খায় অবস্থায় বাঁচে।"}
+    {number: 252, idiom: "From hand to mouth", idiomPron: "ফ্রম হ্যান্ড টু মাউথ", meaningEn: "Live in hardship", meaningBn: "দিন আনে দিন খায়", exampleEn: "The poor worker lives from hand to mouth to support his family.", exampleBn: "গরিব কর্মীটি তার পরিবার চালাতে দিন আনে দিন খায় অবস্থায় বাঁচে।"},
+    {number: 253, idiom: "🔻 বাকি অংশ🔻", idiomPron: "", meaningEn: "", meaningBn: "🔻 বাকি অংশ🔻", exampleEn: "🔻 বাকি অংশ🔻.", exampleBn: "🔻 বাকি অংশ🔻"},
+            {number: 253, idiom: "A bird brain", idiomPron: "বার্ড ব্রেইন", meaningEn: "Stupid person", meaningBn: "বোকা ব্যক্তি", exampleEn: "He is a bird brain; he cannot solve this simple math.", exampleBn: "সে একজন বোকা ব্যক্তি; সে এই সহজ অঙ্কটি সমাধান করতে পারে না।"},
+    {number: 254, idiom: "A bird of passage", idiomPron: "বার্ড অফ প্যাসেজ", meaningEn: "Wanderer", meaningBn: "যাযাবর", exampleEn: "The writer is a bird of passage; he never stays long in one place.", exampleBn: "লেখক একজন যাযাবর স্বভাবের মানুষ; তিনি এক জায়গায় বেশিদিন থাকেন না।"},
+    {number: 255, idiom: "A blessing in disguise", idiomPron: "ব্লেসিং ইন ডিসগাইস", meaningEn: "Good thing that seemed bad at first", meaningBn: "বিপদেও হিত", exampleEn: "Losing that bad job was a blessing in disguise; I got a better one now.", exampleBn: "সেই খারাপ চাকরিটি হারানো আমার জন্য শাপে বর হয়েছিল; এখন আমি একটি ভালো চাকরি পেয়েছি।"},
+    {number: 256, idiom: "A close-fisted man", idiomPron: "ক্লোজ-ফিস্টেড ম্যান", meaningEn: "Miser", meaningBn: "কৃপণ ব্যক্তি", exampleEn: "He is a close-fisted man; he never helps the poor with money.", exampleBn: "সে একজন কৃপণ ব্যক্তি; সে কখনই গরিবদের টাকা দিয়ে সাহায্য করে না।"},
+    {number: 257, idiom: "A fool's paradise", idiomPron: "ফুলস প্যারাডাইস", meaningEn: "False hope", meaningBn: "মূর্খের স্বর্গ", exampleEn: "If you think you will pass without studying, you are in a fool's paradise; reality is different.", exampleBn: "তুমি যদি ভাবো পড়াশোনা ছাড়াই পাস করবে, তবে তুমি মূর্খের স্বর্গে আছ; বাস্তবতা ভিন্ন।"},
+    {number: 258, idiom: "A great deal", idiomPron: "গ্রেট ডিল", meaningEn: "A lot", meaningBn: "প্রচুর", exampleEn: "He spent a great deal of money on books; he loves reading.", exampleBn: "সে বইয়ের পেছনে প্রচুর টাকা খরচ করেছে; সে পড়তে ভালোবাসে।"},
+    {number: 259, idiom: "A jaundiced eye", idiomPron: "জন্ডিসড আই", meaningEn: "Prejudice", meaningBn: "পক্ষপাতদুষ্ট চোখ বা মন", exampleEn: "We should not look at others with a jaundiced eye; we must be fair.", exampleBn: "আমাদের অন্যদের দিকে পক্ষপাতদুষ্ট দৃষ্টিতে তাকানো উচিত নয়; আমাদের নিরপেক্ষ হতে হবে।"},
+    {number: 260, idiom: "A lot", idiomPron: "লট", meaningEn: "A large amount", meaningBn: "প্রচুর পরিমাণে", exampleEn: "He has a lot of friends; everyone loves him.", exampleBn: "তার প্রচুর বন্ধু আছে; সবাই তাকে ভালোবাসে।"},
+    {number: 261, idiom: "A man of parts", idiomPron: "ম্যান অফ পার্টস", meaningEn: "Talented man", meaningBn: "গুণান্বিত ব্যক্তিত্ব", exampleEn: "He is a man of parts; he can sing, write, and play.", exampleBn: "তিনি একজন গুণান্বিত ব্যক্তিত্ব; তিনি গাইতে, লিখতে এবং খেলতেও পারেন।"},
+    {number: 262, idiom: "A man of word", idiomPron: "ম্যান অফ ওয়ার্ড", meaningEn: "Trustworthy person", meaningBn: "এক কথার মানুষ", exampleEn: "He is a man of word; he always keeps his promise.", exampleBn: "তিনি এক কথার মানুষ; তিনি সর্বদা তাঁর প্রতিজ্ঞা রক্ষা করেন।"},
+    {number: 263, idiom: "A paper tiger", idiomPron: "পেপার টাইগার", meaningEn: "Person or thing that appears threatening but is harmless", meaningBn: "কাগুজে বাঘ", exampleEn: "The enemy army is a paper tiger; they cannot fight us.", exampleBn: "শত্রু সৈন্যবাহিনী একটি কাগুজে বাঘ; তারা আমাদের সাথে লড়াই করতে পারবে না।"},
+    {number: 264, idiom: "A piece of cake", idiomPron: "পিস অফ কেক", meaningEn: "Very easy task", meaningBn: "সহজ কাজ", exampleEn: "The English exam was a piece of cake; I finished early.", exampleBn: "ইংরেজি পরীক্ষাটি অত্যন্ত সহজ ছিল; আমি আগেই শেষ করেছিলাম।"},
+    {number: 265, idiom: "A sitting duck", idiomPron: "সিটিং ডাক", meaningEn: "Easy target", meaningBn: "সহজ শিকার", exampleEn: "Without a shield, the soldier was a sitting duck; he got hit.", exampleBn: "ঢাল ছাড়া সৈনিকটি সহজ শিকারে পরিণত হয়েছিল; সে আঘাত পেয়েছিল।"},
+    {number: 266, idiom: "A slip of the pen", idiomPron: "স্লিপ অফ দ্য পেন", meaningEn: "Minor mistake in writing", meaningBn: "লেখায় অসতর্কতাবশত ভুল", exampleEn: "This was a slip of the pen; I wrote the wrong date.", exampleBn: "এটি লেখার অসতর্ক ভুল ছিল; আমি ভুল তারিখ লিখে ফেলেছিলাম।"},
+    {number: 267, idiom: "A storm in a tea cup", idiomPron: "স্টর্ম ইন আ টি কাপ", meaningEn: "Big fuss over a small matter", meaningBn: "তুচ্ছ বিষয়ে হৈচৈ", exampleEn: "Do not fight over this; it is just a storm in a tea cup.", exampleBn: "এটি নিয়ে ঝগড়া করো না; এটি তুচ্ছ বিষয় নিয়ে অযথা হইচই ছাড়া কিছুই নয়।"},
+    {number: 268, idiom: "A tip of the iceberg", idiomPron: "টিপ অফ দ্য আইসবার্গ", meaningEn: "Small visible part of a much larger problem", meaningBn: "সমস্যার দৃশ্যমান ক্ষুদ্র অংশ", exampleEn: "This complaint is just a tip of the iceberg; there are more problems.", exampleBn: "এই অভিযোগটি মূল সমস্যার একটি ক্ষুদ্র অংশ মাত্র; আরও অনেক সমস্যা রয়েছে।"},
+    {number: 269, idiom: "A to Z", idiomPron: "এ টু জেড", meaningEn: "Everything", meaningBn: "আদ্যোপান্ত / সম্পূর্ণ", exampleEn: "He knows the grammar from A to Z; he is an expert.", exampleBn: "সে ব্যাকরণের আদ্যোপান্ত সবকিছু জানে; সে একজন বিশেষজ্ঞ।"},
+    {number: 270, idiom: "A wet blanket", idiomPron: "ওয়েট ব্ল্যাঙ্কেট", meaningEn: "Spoilsport", meaningBn: "মজার ব্যাঘাত ঘটায় এমন ব্যক্তি", exampleEn: "Do not be a wet blanket; come and dance with us.", exampleBn: "আনন্দ নষ্টকারী ব্যক্তি হোয়ো না; এসো আমাদের সাথে নাচো।"},
+    {number: 271, idiom: "A whale of a time", idiomPron: "হোয়েল অফ আ টাইম", meaningEn: "Great time", meaningBn: "খুব আনন্দের সময়", exampleEn: "We had a whale of a time at the party; we enjoyed a lot.", exampleBn: "আমরা অনুষ্ঠানে দারুণ সময় কাটিয়েছিলাম; আমরা অনেক উপভোগ করেছিলাম।"},
+    {number: 272, idiom: "Abide by", idiomPron: "অ্যাবাইড বাই", meaningEn: "Obey", meaningBn: "মেনে চলা", exampleEn: "We must abide by the rules; it keeps us safe.", exampleBn: "আমাদের অবশ্যই নিয়ম মেনে চলতে হবে; এটি আমাদের নিরাপদে রাখে।"},
+    {number: 273, idiom: "Abound in", idiomPron: "অ্যাবাউন্ড ইন", meaningEn: "Full of", meaningBn: "পরিপূর্ণ থাকা", exampleEn: "This river abounds in fish; fishermen come here every day.", exampleBn: "এই নদীটি মাছে পরিপূর্ণ; জেলেরা প্রতিদিন এখানে আসেন।"},
+    {number: 274, idiom: "Above all", idiomPron: "অ্যাবাভ অল", meaningEn: "Chiefly", meaningBn: "সর্বোপরি", exampleEn: "Above all, be honest; truth always wins.", exampleBn: "সর্বোপরি, সৎ হও; সত্যের সবসময়ই জয় হয়।"},
+    {number: 275, idiom: "Achilles' heel", idiomPron: "অ্যাকিলিস হিল", meaningEn: "Weak spot", meaningBn: "দুর্বল দিক", exampleEn: "Math is his Achilles' heel; he always gets low marks.", exampleBn: "গণিত তার প্রধান দুর্বলতা; সে সবসময় এতে কম নম্বর পায়।"},
+    {number: 276, idiom: "Act up", idiomPron: "অ্যাক্ট আপ", meaningEn: "Misbehave / Malfunction", meaningBn: "খারাপ আচরণ করা / গোলমাল করা", exampleEn: "The engine started to act up; we had to stop the car.", exampleBn: "ইঞ্জিনটি সমস্যা করতে শুরু করেছিল; আমাদের গাড়িটি থামাতে হয়েছিল।"},
+    {number: 277, idiom: "Addicted to", idiomPron: "অ্যাডিক্টেড টু", meaningEn: "Devoted to bad habit", meaningBn: "আসক্ত", exampleEn: "He is addicted to gaming; he spends all day on mobile.", exampleBn: "সে গেম খেলায় আসক্ত; সে সারাদিন মোবাইলে সময় কাটায়।"},
+    {number: 278, idiom: "Against all odds", idiomPron: "অ্যাগেইন্সট অল অডস", meaningEn: "Despite hardships", meaningBn: "সকল প্রতিকূলতা সত্ত্বেও", exampleEn: "He won the race against all odds; everyone was surprised.", exampleBn: "সব প্রতিকূলতা সত্ত্বেও সে দৌড়ে জয়লাভ করেছিল; সবাই অবাক হয়েছিল।"},
+    {number: 279, idiom: "Against the grain", idiomPron: "অ্যাগেইন্সট দ্য গ্রেইন", meaningEn: "Against natural wishes", meaningBn: "ইচ্ছার বা স্বভাবের বিরুদ্ধে", exampleEn: "Working on Sunday goes against the grain; I want to rest.", exampleBn: "রবিবারে কাজ করা আমার রুচির বিপরীত; আমি বিশ্রাম নিতে চাই।"},
+    {number: 280, idiom: "Aim at", idiomPron: "এইম অ্যাট", meaningEn: "Target", meaningBn: "লক্ষ্য করা", exampleEn: "You must aim at a good position; work hard for it.", exampleBn: "তোমাকে অবশ্যই একটি ভালো লক্ষ্যের দিকে নজর দিতে হবে; এর জন্য কঠোর পরিশ্রম করো।"},
+    {number: 281, idiom: "All along", idiomPron: "অল অ্যালং", meaningEn: "All the time", meaningBn: "শুরু থেকে সবসময়", exampleEn: "I knew the secret all along; I did not tell anyone.", exampleBn: "আমি শুরু থেকেই গোপন বিষয়টি জানতাম; আমি কাউকে বলিনি।"},
+    {number: 282, idiom: "All and sundry", idiomPron: "অল অ্যান্ড সানড্রি", meaningEn: "Everyone without distinction", meaningBn: "নির্বিশেষে সবাই", exampleEn: "He invited all and sundry to his birthday party; the house was full.", exampleBn: "সে তার জন্মদিনের অনুষ্ঠানে সবাইকে নির্বিশেষে নিমন্ত্রণ করেছিল; পুরো বাড়ি ভরে গিয়েছিল।"},
+    {number: 283, idiom: "All but", idiomPron: "অল বাট", meaningEn: "Nearly", meaningBn: "প্রায় সম্পূর্ণ", exampleEn: "The work is all but finished; just five minutes left.", exampleBn: "কাজটি প্রায় শেষ হয়ে গেছে; আর মাত্র পাঁচ মিনিট বাকি।"},
+    {number: 284, idiom: "All day long", idiomPron: "অল ডে লং", meaningEn: "Throughout the day", meaningBn: "সারাদিন ধরে", exampleEn: "It rained all day long; we could not go outside.", exampleBn: "সারাদিন ধরে বৃষ্টি হয়েছিল; আমরা বাইরে যেতে পারিনি।"},
+    {number: 285, idiom: "All in good time", idiomPron: "অল ইন গুড টাইম", meaningEn: "At the right time", meaningBn: "যথাসময়ে", exampleEn: "Do not worry about results; all in good time.", exampleBn: "ফলাফল নিয়ে চিন্তা করো না; যথাসময়ে সবকিছু ঠিক হয়ে যাবে।"},
+    {number: 286, idiom: "All on a sudden", idiomPron: "অল অন আ সাডেন", meaningEn: "Suddenly", meaningBn: "হঠাৎ করে", exampleEn: "All on a sudden, it started raining; we had no umbrella.", exampleBn: "হঠাৎ করেই বৃষ্টি শুরু হয়ে গেল; আমাদের কাছে কোনো ছাতা ছিল না।"},
+    {number: 287, idiom: "All the same", idiomPron: "অল দ্য সেইম", meaningEn: "Makes no difference", meaningBn: "একই কথা", exampleEn: "It is all the same to me; you can choose any color.", exampleBn: "আমার কাছে সবই সমান; তুমি যেকোনো রঙ বেছে নিতে পারো।"},
+    {number: 288, idiom: "All the year round", idiomPron: "অল দ্য ইয়ার রাউন্ড", meaningEn: "Throughout the year", meaningBn: "সারা বছর ধরে", exampleEn: "They work hard all the year round; they never take a break.", exampleBn: "তারা সারা বছর ধরে কঠোর পরিশ্রম করে; তারা কখনোই বিরতি নেয় না।"},
+    {number: 289, idiom: "Along with", idiomPron: "অ্যালং উইথ", meaningEn: "Together with", meaningBn: "সাথে", exampleEn: "He came along with his brother; they both attended the party.", exampleBn: "সে তার ভাইয়ের সাথে এসেছিল; তারা উভয়েই অনুষ্ঠানে উপস্থিত ছিল।"},
+    {number: 290, idiom: "Amuse oneself", idiomPron: "অ্যামিউজ ওয়ানসেলফ", meaningEn: "Enjoy oneself", meaningBn: "আমোদ প্রমোদ করা", exampleEn: "He can amuse oneself with a book; he likes reading alone.", exampleBn: "সে একটি বই পড়ে নিজেকে আমোদিত রাখতে পারে; সে একা একা পড়তে ভালোবাসে।"},
+    {number: 291, idiom: "An open question", idiomPron: "অ্যান ওপেন কোশ্চেন", meaningEn: "Matter not yet decided", meaningBn: "অমীমাংসিত প্রশ্ন বা বিষয়", exampleEn: "The exam date is still an open question; no one knows it yet.", exampleBn: "পরীক্ষার তারিখটি এখনো অনিষ্পন্ন বিষয়; এখনো কেউ তা জানে না।"},
+    {number: 292, idiom: "Anything but", idiomPron: "এনিথিং বাট", meaningEn: "Not at all", meaningBn: "মোটেই না", exampleEn: "He is anything but a fool; he is very smart.", exampleBn: "সে কোনোভাবেই বোকা নয়; সে অত্যন্ত চতুর।"},
+    {number: 293, idiom: "Apart from", idiomPron: "অ্যাপার্ট ফ্রম", meaningEn: "Besides", meaningBn: "ছাড়া বা ব্যতীত", exampleEn: "Apart from English, he can speak fluent Bengali.", exampleBn: "ইংরেজি ছাড়াও সে সাবলীলভাবে বাংলায় কথা বলতে পারে।"},
+    {number: 294, idiom: "As a result of", idiomPron: "অ্যাজ আ রেজাল্ট অফ", meaningEn: "Because of", meaningBn: "ফলে / কারণে", exampleEn: "As a result of hard work, he passed the exam easily.", exampleBn: "কঠোর পরিশ্রমের ফলে সে সহজেই পরীক্ষায় পাস করেছে।"},
+    {number: 295, idiom: "As a rule", idiomPron: "অ্যাজ আ রুল", meaningEn: "Usually", meaningBn: "সাধারণত", exampleEn: "As a rule, he wakes up early in the morning.", exampleBn: "সাধারণ নিয়ম অনুযায়ী, সে খুব ভোরে ঘুম থেকে ওঠে।"},
+    {number: 296, idiom: "As if", idiomPron: "অ্যাজ ইফ", meaningEn: "As though", meaningBn: "যেন", exampleEn: "He talks as if he knows everything; but he knows nothing.", exampleBn: "সে এমনভাবে কথা বলে যেন সে সবকিছু জানে; কিন্তু আসলে সে কিছুই জানে না।"},
+    {number: 297, idiom: "As regards", idiomPron: "অ্যাজ রিগার্ডস", meaningEn: "Concerning", meaningBn: "বিষয়ে বা সম্পর্কে", exampleEn: "As regards his job, he is very happy with it.", exampleBn: "তার চাকরির বিষয়ে বলতে গেলে, সে এটি নিয়ে বেশ খুশি।"},
+    {number: 298, idiom: "As soon as", idiomPron: "অ্যাজ সুন অ্যাজ", meaningEn: "Immediately at the moment", meaningBn: "মাত্রই / সাথে সাথে", exampleEn: "Call me as soon as you reach home.", exampleBn: "বাড়িতে পৌঁছানোর সাথে সাথেই আমাকে ফোন কোরো।"},
+    {number: 299, idiom: "As to", idiomPron: "অ্যাজ টু", meaningEn: "About", meaningBn: "ব্যাপারে", exampleEn: "There is no doubt as to his honesty; everyone trusts him.", exampleBn: "তার সততা নিয়ে কোনো সন্দেহ নেই; সবাই তাকে বিশ্বাস করে।"},
+    {number: 300, idiom: "As well as", idiomPron: "অ্যাজ ওয়েল অ্যাজ", meaningEn: "In addition to", meaningBn: "এবং / পাশাপাশি", exampleEn: "He likes tea as well as coffee; he drinks both.", exampleBn: "সে চায়ের পাশাপাশি কফিও পছন্দ করে; সে দুটিই পান করে।"},
+    {number: 301, idiom: "At a deadlock", idiomPron: "অ্যাট আ ডেডলক", meaningEn: "State of no progress", meaningBn: "অচল অবস্থা", exampleEn: "The meeting is at a deadlock; they cannot find a solution.", exampleBn: "বৈঠকটি অচল অবস্থায় পৌঁছেছে; তারা কোনো সমাধান খুঁজে পাচ্ছে না।"},
+    {number: 302, idiom: "At a glance", idiomPron: "অ্যাট আ গ্ল্যান্স", meaningEn: "In a quick look", meaningBn: "এক নজরে", exampleEn: "He understood the matter at a glance; it was so simple.", exampleBn: "সে এক নজরেই বিষয়টি বুঝতে পেরেছিল; এটি খুবই সহজ ছিল।"},
+    {number: 303, idiom: "At a pinch", idiomPron: "অ্যাট আ পিঞ্চ", meaningEn: "In an emergency", meaningBn: "প্রয়োজনের সময়ে", exampleEn: "He can help you at a pinch; just call him.", exampleBn: "প্রয়োজনের মুহূর্তে সে তোমাকে সাহায্য করতে পারে; শুধু তাকে ডেকো।"},
+    {number: 304, idiom: "At a stretch", idiomPron: "অ্যাট আ স্ট্রেচ", meaningEn: "Continuously", meaningBn: "একটানা", exampleEn: "He can study for five hours at a stretch; he is very dedicated.", exampleBn: "সে একনাগাড়ে পাঁচ ঘণ্টা পড়াশোনা করতে পারে; সে অত্যন্ত নিবেদিতপ্রাণ।"},
+    {number: 305, idiom: "At any cost", idiomPron: "অ্যাট এনি কস্ট", meaningEn: "By any means", meaningBn: "যেকোনো মূল্যে", exampleEn: "I will finish the work at any cost; nothing can stop me.", exampleBn: "যেকোনো মূল্যে আমি কাজটি শেষ করব; কোনো কিছুই আমাকে থামাতে পারবে না।"},
+    {number: 306, idiom: "At bay", idiomPron: "অ্যাট বে", meaningEn: "Trapped / Cornered", meaningBn: "কোণঠাসা অবস্থায়", exampleEn: "The police kept the criminal at bay; he could not run.", exampleBn: "পুলিশ অপরাধীটিকে কোণঠাসা করে রেখেছিল; সে পালাতে পারেনি।"},
+    {number: 307, idiom: "At finger's end", idiomPron: "অ্যাট ফিঙ্গারস এন্ড", meaningEn: "Readily available in memory", meaningBn: "নখদর্পণে", exampleEn: "All the rules are at his finger's end; he never makes mistakes.", exampleBn: "সব নিয়ম তার নখদর্পণে; সে কখনোই ভুল করে না।"},
+    {number: 308, idiom: "At least", idiomPron: "অ্যাট লিস্ট", meaningEn: "At the minimum", meaningBn: "কমপক্ষে", exampleEn: "You must sleep at least seven hours a night.", exampleBn: "তোমাকে রাতে কমপক্ষে সাত ঘণ্টা ঘুমাতে হবে।"},
+    {number: 309, idiom: "At length", idiomPron: "অ্যাট লেন্থ", meaningEn: "At last", meaningBn: "অবশেষে", exampleEn: "At length, the rain stopped and we went home.", exampleBn: "অবশেষে বৃষ্টি থামল এবং আমরা বাড়ি ফিরে গেলাম।"},
+    {number: 310, idiom: "At loggerheads", idiomPron: "অ্যাট লগারহেডস", meaningEn: "In strong disagreement", meaningBn: "তীব্র বিরোধে লিপ্ত", exampleEn: "The managers are at loggerheads over the new project.", exampleBn: "নতুন প্রকল্পটি নিয়ে ব্যবস্থাপকদের মধ্যে চরম বিরোধ চলছে।"},
+    {number: 311, idiom: "At long last", idiomPron: "অ্যাট লং লাস্ট", meaningEn: "Finally after a long time", meaningBn: "অবশেষে অনেক দেরিতে", exampleEn: "At long last, he got his dream job; he is very happy.", exampleBn: "দীর্ঘ প্রতীক্ষার পর সে তার স্বপ্নের চাকরিটি পেল; সে খুব খুশি।"},
+    {number: 312, idiom: "At loss", idiomPron: "অ্যাট লস", meaningEn: "Confused", meaningBn: "দিশেহারা বা কিংকর্তব্যবিমূঢ়", exampleEn: "He was at loss after losing his phone; he could not call anyone.", exampleBn: "ফোনটি হারানোর পর সে দিশেহারা হয়ে পড়েছিল; সে কাউকে ফোন করতে পারছিল না।"},
+    {number: 313, idiom: "At once", idiomPron: "অ্যাট ওয়ান্স", meaningEn: "Immediately", meaningBn: "অবিলম্বে / তৎক্ষণাৎ", exampleEn: "You must leave the room at once; it is dangerous.", exampleBn: "তোমাকে এখনই ঘরটি ত্যাগ করতে হবে; এটি বিপজ্জনক।"},
+    {number: 314, idiom: "At one's finger ends", idiomPron: "অ্যাট ওয়ানস ফিঙ্গার এন্ডস", meaningEn: "Thoroughly known", meaningBn: "নখদর্পণে", exampleEn: "The math formulas are at his finger ends; he solves tasks quickly.", exampleBn: "গণিতের সূত্রগুলো তার নখদর্পণে রয়েছে; সে দ্রুত অংক সমাধান করে।"},
+    {number: 315, idiom: "At one's wits' end", idiomPron: "অ্যাট ওয়ানস উইটস এন্ড", meaningEn: "Completely puzzled", meaningBn: "বুদ্ধিভ্রষ্ট / দিশেহারা", exampleEn: "The mother was at her wits' end when the child went missing.", exampleBn: "বাচ্চাটি হারিয়ে যাওয়ার পর মা সম্পূর্ণ দিশেহারা হয়ে পড়েছিলেন।"},
+    {number: 316, idiom: "At the advent of", idiomPron: "অ্যাট দ্য অ্যাডভেন্ট অফ", meaningEn: "At the arrival of", meaningBn: "আবির্ভাব উপলক্ষে / আগমনে", exampleEn: "Nature looks beautiful at the advent of spring.", exampleBn: "বসন্তের আগমনে প্রকৃতি অপরূপ রূপ ধারণ করে।"},
+    {number: 317, idiom: "At the behest of", idiomPron: "অ্যাট দ্য বিহেস্ট অফ", meaningEn: "By the order of", meaningBn: "আদেশে", exampleEn: "The building was closed at the behest of the officer.", exampleBn: "কর্মকর্তার আদেশে ভবনটি বন্ধ করে দেওয়া হয়েছিল।"},
+    {number: 318, idiom: "Aware of", idiomPron: "অ্যাওয়ার অফ", meaningEn: "Conscious of", meaningBn: "সচেতন", exampleEn: "We must be aware of traffic rules to avoid accidents.", exampleBn: "দুর্ঘটনা এড়াতে আমাদের অবশ্যই ট্রাফিক নিয়ম সম্পর্কে সচেতন হতে হবে।"},
+    {number: 319, idiom: "Back and forth", idiomPron: "ব্যাক অ্যান্ড ফোর্থ", meaningEn: "To and fro", meaningBn: "এপাশ ওপাশ", exampleEn: "He walked back and forth in the room while waiting.", exampleBn: "অপেক্ষা করার সময় সে ঘরের মধ্যে এদিক-ওদিক হাঁটাহাঁটি করছিল।"},
+    {number: 320, idiom: "Back up", idiomPron: "ব্যাক আপ", meaningEn: "Support", meaningBn: "সমর্থন দেওয়া", exampleEn: "My family always backs me up in hard times.", exampleBn: "কঠিন সময়ে আমার পরিবার সবসময় আমাকে সমর্থন জোগায়।"},
+    {number: 321, idiom: "Bad bargain", idiomPron: "ব্যাড বার্গেইন", meaningEn: "Unprofitable deal", meaningBn: "অলাভজনক চুক্তি", exampleEn: "Buying this old mobile was a bad bargain; it works poorly.", exampleBn: "এই পুরনো মোবাইলটি কেনা একটি অলাভজনক চুক্তি ছিল; এটি বাজে কাজ করে।"},
+    {number: 322, idiom: "Bad norms", idiomPron: "ব্যাড নরমস", meaningEn: "Bad customs", meaningBn: "কুপ্রথা", exampleEn: "We must change bad norms; they hurt our society.", exampleBn: "আমাদের অবশ্যই খারাপ রীতিনীতি পরিবর্তন করতে হবে; এগুলো সমাজের ক্ষতি করে।"},
+    {number: 323, idiom: "Base born", idiomPron: "বেইজ বর্ন", meaningEn: "Low-born", meaningBn: "হীন বংশোদ্ভূত", exampleEn: "We should not look down on anyone for being base born; everyone is equal.", exampleBn: "হীন বংশোদ্ভূত হওয়ার কারণে কাউকে ছোট চোখে দেখা উচিত নয়; সবাই সমান।"},
+    {number: 324, idiom: "Bear in mind", idiomPron: "বেয়ার ইন মাইন্ড", meaningEn: "Remember", meaningBn: "মনে রাখা", exampleEn: "Bear in mind that hard work is the key to success in BCS.", exampleBn: "মনে রেখো বিসিএসে সফলতার মূল চাবিকাঠি হলো কঠোর পরিশ্রম।"},
+    {number: 325, idiom: "Bear Market", idiomPron: "বেয়ার মার্কেট", meaningEn: "Market with declining prices", meaningBn: "মন্দার বাজার", exampleEn: "Investors lost money during the bear market; prices went down fast.", exampleBn: "মন্দার বাজারে বিনিয়োগকারীরা অর্থ হারিয়েছিলেন; দাম দ্রুত কমে গিয়েছিল।"},
+    {number: 326, idiom: "Bear with", idiomPron: "বেয়ার উইথ", meaningEn: "Tolerate", meaningBn: "ধৈর্য ধরা", exampleEn: "Please bear with me for a moment; I am fixing the issue.", exampleBn: "দয়া করে আমার সাথে একটু ধৈর্য ধরুন; আমি সমস্যাটি সমাধান করছি।"},
+    {number: 327, idiom: "Beat the air", idiomPron: "বীট দ্য এয়ার", meaningEn: "Make futile efforts", meaningBn: "পণ্ডশ্রম করা", exampleEn: "Arguing with a stubborn person is like beating the air; it yields nothing.", exampleBn: "একগুঁয়ে ব্যক্তির সাথে তর্ক করা পণ্ডশ্রমের মতো; এতে কোনো ফল আসে না।"},
+    {number: 328, idiom: "Beauty sleep", idiomPron: "বিউটি স্লিপ", meaningEn: "Early sleep for fresh look", meaningBn: "সৌন্দর্য রক্ষায় পর্যাপ্ত ঘুম", exampleEn: "Go to bed early; you need your beauty sleep to feel fresh.", exampleBn: "তাড়াতাড়ি ঘুমাতে যাও; সতেজ বোধ করার জন্য তোমার পরিমিত ঘুমের প্রয়োজন।"},
+    {number: 329, idiom: "Beggar description", idiomPron: "বেগার ডেসক্রিপশন", meaningEn: "Defy description", meaningBn: "বর্ণনাতীত হওয়া", exampleEn: "The beauty of the tea garden beggars description; it is so lovely.", exampleBn: "চা বাগানের সৌন্দর্য বর্ণনাতীত; এটি খুবই সুন্দর।"},
+    {number: 330, idiom: "Below the belt", idiomPron: "বিলো দ্য বেল্ট", meaningEn: "Unfair", meaningBn: "অন্যায় আচরণ", exampleEn: "His personal attack during the debate was below the belt; everyone disliked it.", exampleBn: "বিতর্কে তার ব্যক্তিগত আক্রমণটি অন্যায় ছিল; কেউই এটি পছন্দ করেনি।"},
+    {number: 331, idiom: "Below the salt", idiomPron: "বিলো দ্য সল্ট", meaningEn: "In a low social position", meaningBn: "মর্যাদাহীন বা নিচু স্থানে", exampleEn: "In old times, poor people sat below the salt at big parties.", exampleBn: "প্রাচীনকালে বড় বড় অনুষ্ঠানে দরিদ্র লোকেরা মর্যাদাহীন স্থানে বসত।"},
+    {number: 332, idiom: "Benefit of the doubt", idiomPron: "বেনিফিট অফ দ্য ডাউট", meaningEn: "Favorable judgment when in doubt", meaningBn: "সন্দেহের সুবিধা প্রদান", exampleEn: "The teacher gave him the benefit of the doubt; she believed his story.", exampleBn: "শিক্ষক তাকে সন্দেহের সুবিধা দিয়েছিলেন; তিনি তার কথা বিশ্বাস করেছিলেন।"},
+    {number: 333, idiom: "Better late than never", idiomPron: "বেটার লেইট দ্যান নেভার", meaningEn: "Late is better than not at all", meaningBn: "একেবারে না করার চেয়ে দেরিতে করাও ভালো", exampleEn: "He arrived at the party at midnight; well, better late than never.", exampleBn: "সে মধ্যরাতে অনুষ্ঠানে পৌঁছেছিল; যাই হোক, একেবারেই না আসার চেয়ে দেরিতে আসাও ভালো।"},
+    {number: 334, idiom: "Between two fires", idiomPron: "বিটুইন টু ফায়ার্স", meaningEn: "Between two dangers", meaningBn: "উভয়সংকটে", exampleEn: "He is between two fires; he cannot choose his job or his family.", exampleBn: "সে উভয় সংকটে পড়েছে; সে চাকরি অথবা পরিবার কোনোটিই বেছে নিতে পারছে না।"},
+    {number: 335, idiom: "Beyond measure", idiomPron: "বিয়ন্ড মেজার", meaningEn: "Incalculable", meaningBn: "অপরিসীম", exampleEn: "The mother loves her child beyond measure; it cannot be counted.", exampleBn: "মা তাঁর সন্তানকে অপরিসীম ভালোবাসেন; যা পরিমাপ করা যায় না।"},
+    {number: 336, idiom: "Beyond question", idiomPron: "বিয়ন্ড কোশ্চেন", meaningEn: "Undoubtedly", meaningBn: "নিঃসন্দেহে", exampleEn: "This plan is the best choice beyond question; let's start it.", exampleBn: "নিঃসন্দেহে এই পরিকল্পনাটি সেরা পছন্দ; চলো এটি শুরু করি।"},
+    {number: 337, idiom: "Bid adieu", idiomPron: "বিড অ্যাডিউ", meaningEn: "Say goodbye", meaningBn: "বিদায় জানানো", exampleEn: "He bid adieu to his friends at the airport; it was a sad day.", exampleBn: "সে বিমানবন্দরে তার বন্ধুদের বিদায় জানিয়েছিল; দিনটি ছিল দুঃখের।"},
+    {number: 338, idiom: "Bid fair", idiomPron: "বিড ফেয়ার", meaningEn: "Seem likely", meaningBn: "ভালো সম্ভাবনা দেখানো", exampleEn: "The bright student bids fair to do excellent in the exam.", exampleBn: "মেধাবী ছাত্রটি পরীক্ষায় চমৎকার ফলাফল করার ভালো সম্ভাবনা দেখাচ্ছে।"},
+    {number: 339, idiom: "Big bug", idiomPron: "বিগ বাগ", meaningEn: "Important person", meaningBn: "গণ্যমান্য ব্যক্তি", exampleEn: "A big bug from the government visited our college yesterday.", exampleBn: "সরকারের একজন গণ্যমান্য ব্যক্তি গতকাল আমাদের কলেজ পরিদর্শন করেছেন।"},
+    {number: 340, idiom: "Big wig", idiomPron: "বিগ উইগ", meaningEn: "High-ranking official", meaningBn: "উচ্চপদস্থ প্রভাবশালী ব্যক্তি", exampleEn: "Many big wigs attended the meeting to discuss the new rules.", exampleBn: "নতুন নিয়মাবলি নিয়ে আলোচনা করতে অনেক গণ্যমান্য ব্যক্তি বৈঠকে উপস্থিত ছিলেন।"},
+    {number: 341, idiom: "Blow down", idiomPron: "ব্লো ডাউন", meaningEn: "To collapse by wind", meaningBn: "বাতাসে ভেঙে ফেলা", exampleEn: "The strong storm blew down many old trees in our village.", exampleBn: "প্রবল ঝড়ে আমাদের গ্রামের অনেক পুরনো গাছ ভেঙে পড়েছিল।"},
+    {number: 342, idiom: "Blue chips", idiomPron: "ব্লু চিপস", meaningEn: "High quality safe shares", meaningBn: "নিরাপদ ও নির্ভরযোগ্য শেয়ার", exampleEn: "Buying stocks of blue chips companies is safe for beginners.", exampleBn: "নতুনদের জন্য বড় ও নির্ভরযোগ্য কোম্পানির শেয়ার কেনা নিরাপদ।"},
+    {number: 343, idiom: "Body and soul", idiomPron: "বডি অ্যান্ড সোল", meaningEn: "Entirely", meaningBn: "কায়মনোবাক্যে / সম্পূর্ণভাবে", exampleEn: "He gave his body and soul to the project; he worked day and night.", exampleBn: "সে প্রকল্পটিতে কায়মনোবাক্যে আত্মনিয়োগ করেছিল; সে দিনরাত কাজ করেছিল।"},
+    {number: 344, idiom: "Bound for", idiomPron: "বাউন্ড ফর", meaningEn: "Going to a place", meaningBn: "উদ্দেশ্যে যাত্রা করা", exampleEn: "This train is bound for Dhaka; it will reach on time.", exampleBn: "এই ট্রেনটি ঢাকার উদ্দেশ্যে রওনা হয়েছে; এটি সময়মতো পৌঁছাবে।"},
+    {number: 345, idiom: "Break down", idiomPron: "ব্রেক ডাউন", meaningEn: "Collapse emotionally", meaningBn: "ভেঙে পড়া (মানসিকভাবে)", exampleEn: "She broke down in tears after hearing the bad news.", exampleBn: "খারাপ খবরটি শোনার পর সে কান্নায় ভেঙে পড়ল।"},
+    {number: 346, idiom: "Break out", idiomPron: "ব্রেক আউট", meaningEn: "Spread suddenly", meaningBn: "প্রাদুর্ভাব ঘটা / ছড়িয়ে পড়া", exampleEn: "Cholera broke out in the village due to dirty water.", exampleBn: "দূষিত পানির কারণে গ্রামে কলেরা ছড়িয়ে পড়েছিল।"},
+    {number: 347, idiom: "Bring about", idiomPron: "ব্রিং অ্যাবাউট", meaningEn: "Cause to happen", meaningBn: "ঘটানো", exampleEn: "Hard work can bring about a big change in your life.", exampleBn: "কঠোর পরিশ্রম তোমার জীবনে বড় পরিবর্তন ঘটাতে পারে।"},
+    {number: 348, idiom: "Bring up", idiomPron: "ব্রিং আপ", meaningEn: "Raise a child", meaningBn: "লালন পালন করা", exampleEn: "His uncle brought him up with great love after his parents died.", exampleBn: "বাবা-মা মারা যাওয়ার পর তার চাচা তাকে অত্যন্ত ভালোবাসায় লালন-পালন করেছিলেন।"},
+    {number: 349, idiom: "Brown study", idiomPron: "ব্রাউন স্টাডি", meaningEn: "Daydream", meaningBn: "মানসিক আচ্ছন্নতা / দিবা স্বপ্ন", exampleEn: "He was lost in a brown study; he did not hear my call.", exampleBn: "সে দিবাস্বপ্নে মগ্ন ছিল; সে আমার ডাক শুনতে পায়নি।"},
+    {number: 350, idiom: "Bury the hatchet", idiomPron: "বেরি দ্য হ্যাচেট", meaningEn: "Make peace", meaningBn: "ঝগড়া মিটিয়ে ফেলা", exampleEn: "Let's bury the hatchet and be good friends again.", exampleBn: "চলো শত্রুতা ভুলে আমরা আবার ভালো বন্ধু হয়ে যাই।"},
+    {number: 351, idiom: "But for", idiomPron: "বাট ফর", meaningEn: "Without help", meaningBn: "না হ’লে", exampleEn: "But for your kind advice, I would have made a big mistake.", exampleBn: "আপনার সদয় পরামর্শ না থাকলে আমি হয়তো একটি বড় ভুল করে ফেলতাম।"},
+    {number: 352, idiom: "By accident", idiomPron: "বাই অ্যাক্সিডেন্ট", meaningEn: "By chance", meaningBn: "হঠাৎ / দৈবক্রমে", exampleEn: "We met at the local market by accident yesterday.", exampleBn: "গতকাল স্থানীয় বাজারে আমাদের দুজনের হঠাৎ দেখা হয়ে গিয়েছিল।"},
+        {number: 353, idiom: "By all means", idiomPron: "বাই অল মিন্স", meaningEn: "In every possible way", meaningBn: "যে কোন উপায়ে", exampleEn: "You should try to help him by all means; he is in trouble.", exampleBn: "তোমার উচিত যে কোনো উপায়ে তাকে সাহায্য করার চেষ্টা করা; সে বিপদে আছে।"},
+    {number: 354, idiom: "By far", idiomPron: "বাই ফার", meaningEn: "To a great degree", meaningBn: "নিঃসন্দেহে / অনেকখানি", exampleEn: "He is by far the best student in our college team.", exampleBn: "আমাদের কলেজ দলের মধ্যে সে নিঃসন্দেহে সেরা ছাত্র।"},
+    {number: 355, idiom: "By means of", idiomPron: "বাই মিনস অফ", meaningEn: "Using", meaningBn: "সাহায্যে", exampleEn: "He solved the complex structure by means of a simple trick.", exampleBn: "সে একটি সহজ কৌশলের সাহায্যে জটিল গঠনটি সমাধান করেছিল।"},
+    {number: 356, idiom: "By the way", idiomPron: "বাই দ্য ওয়ে", meaningEn: "Incidentally", meaningBn: "কথা প্রসঙ্গে", exampleEn: "By the way, what is your current typing milestone in Bengali?", exampleBn: "যাই হোক, বাংলায় তোমার বর্তমান টাইপিং অর্জনের মাত্রা কত?"},
+    {number: 357, idiom: "By turns", idiomPron: "বাই টার্নস", meaningEn: "One after another", meaningBn: "পর্যায়ক্রমে", exampleEn: "The students cleaned the mess hostel room by turns.", exampleBn: "শিক্ষার্থীরা পালাক্রমে মেস হোস্টেলের ঘর পরিষ্কার করেছিল।"},
+    {number: 358, idiom: "Call off", idiomPron: "কল অফ", meaningEn: "Cancel", meaningBn: "প্রত্যাহার করা", exampleEn: "The strike was called off after the authority accepted demands.", exampleBn: "কর্তৃপক্ষ দাবি মেনে নেওয়ার পর ধর্মঘট প্রত্যাহার করা হয়েছিল।"},
+    {number: 359, idiom: "Call bad names", idiomPron: "কল ব্যাড নেইমস", meaningEn: "Abuse verbally", meaningBn: "গালিগালাজ করা", exampleEn: "It is a bad habit to call bad names behind anyone's back.", exampleBn: "কারো পেছনে তাকে গালিগালাজ করা একটি খারাপ অভ্যাস।"},
+    {number: 360, idiom: "Call in", idiomPron: "কল ইন", meaningEn: "Summon", meaningBn: "ডেকে আনা", exampleEn: "Please call in a dynamic hardware expert to fix the display issue.", exampleBn: "ডিসপ্লে সমস্যা ঠিক করতে দয়া করে একজন দক্ষ হার্ডওয়্যার বিশেষজ্ঞকে ডেকে আনুন।"},
+    {number: 361, idiom: "Call it a day", idiomPron: "কল ইট আ ডে", meaningEn: "Stop working for the day", meaningBn: "দিনের মত কাজ সমাপ্ত ঘোষণা করা", exampleEn: "We have typed over 150 idioms; let's call it a day.", exampleBn: "আমরা ১৫০টিরও বেশি ইডিয়ম টাইপ করেছি; আজকের মতো কাজ শেষ করা যাক।"},
+    {number: 362, idiom: "Call the day", idiomPron: "কল দ্য ডে", meaningEn: "Declare the end of work", meaningBn: "কাজ শেষ করা", exampleEn: "After finalizing the map edits, they called the day.", exampleBn: "ম্যাপ সম্পাদনার কাজ চূড়ান্ত করার পর তারা আজকের মতো কাজ সমাপ্ত ঘোষণা করেছিল।"},
+    {number: 363, idiom: "Call to the bar", idiomPron: "কল টু দ্য বার", meaningEn: "Be admitted as a barrister", meaningBn: "আইন ব্যবসায়ে যোগ দেওয়া", exampleEn: "After completing his law degree, he was called to the bar.", exampleBn: "আইন ডিগ্রি সম্পন্ন করার পর তিনি আইন ব্যবসায় যোগদানের অনুমতি পেয়েছিলেন।"},
+    {number: 364, idiom: "Care for", idiomPron: "কেয়ার ফর", meaningEn: "Look after / Like", meaningBn: "যত্ন নেওয়া / পছন্দ করা", exampleEn: "We should always care for our family members in hard times.", exampleBn: "কঠিন সময়ে আমাদের সবসময় পরিবারের সদস্যদের যত্ন নেওয়া উচিত।"},
+    {number: 365, idiom: "Carry on", idiomPron: "ক্যারি অন", meaningEn: "Continue", meaningBn: "চালিয়ে যাওয়া", exampleEn: "Please carry on your self-taught web development coding.", exampleBn: "দয়া করে তোমার স্বশিক্ষিত ওয়েব ডেভেলপমেন্ট কোডিং চালিয়ে যাও।"},
+    {number: 366, idiom: "Carry out", idiomPron: "ক্যারি আউট", meaningEn: "Execute", meaningBn: "পালন করা", exampleEn: "You must carry out the instructions given in the formal script.", exampleBn: "আনুষ্ঠানিক স্ক্রিপ্টে দেওয়া নির্দেশাবলী তোমাকে অবশ্যই পালন করতে হবে।"},
+    {number: 367, idiom: "Cast a spell", idiomPron: "কাস্ট আ স্পেল", meaningEn: "Fascinate magically", meaningBn: "জাদুমুগ্ধ করা", exampleEn: "The photorealistic cinematic portrait cast a spell on everyone.", exampleBn: "বাস্তবধর্মী সিনেমাটিক পোর্ট্রেটটি সবার ওপর এক জাদুকরী মুগ্ধতা ছড়িয়ে দিয়েছিল।"},
+    {number: 368, idiom: "Catch a tarter", idiomPron: "ক্যাচ আ টারটার", meaningEn: "Encounter a strong opponent", meaningBn: "শক্ত প্রতিপক্ষের সম্মুখীন হওয়া", exampleEn: "The team thought it would be easy, but they caught a tarter.", exampleBn: "দলটি ভেবেছিল এটি সহজ হবে, কিন্তু তারা এক অপ্রত্যাশিত শক্তিশালী প্রতিপক্ষের মুখোমুখি হয়েছিল।"},
+    {number: 369, idiom: "Catch up", idiomPron: "ক্যাচ আপ", meaningEn: "Reach the same level", meaningBn: "ধরা / নাগাল পাওয়া", exampleEn: "Go ahead; I will catch up with you in a minute.", exampleBn: "তুমি এগিয়ে যাও; আমি এক মিনিটের মধ্যে তোমার সাথে যোগ দিচ্ছি।"},
+    {number: 370, idiom: "Close down", idiomPron: "ক্লোজ ডাউন", meaningEn: "Stop business permanently", meaningBn: "ব্যবসা স্থায়ীভাবে বন্ধ করা", exampleEn: "The old printing shop was closed down due to lack of funds.", exampleBn: "তহবিলের অভাবে পুরনো প্রিন্টিং দোকানটি চিরতরে বন্ধ করে দেওয়া হয়েছিল।"},
+    {number: 371, idiom: "Close fisted person", idiomPron: "ক্লোজ ফিস্টেড পার্সন", meaningEn: "Miser", meaningBn: "কৃপণ ব্যক্তি", exampleEn: "The close fisted person refused to pay for the group celebration.", exampleBn: "কৃপণ ব্যক্তিটি দলের আনন্দ উদযাপনের জন্য টাকা দিতে অস্বীকার করেছিল।"},
+    {number: 372, idiom: "Cold feet", idiomPron: "কোল্ড ফিট", meaningEn: "Fear before action", meaningBn: "উদ্বেগ বা ভয়", exampleEn: "He got cold feet before standing up for his public speech.", exampleBn: "জনসম্মুখে বক্তৃতা দেওয়ার আগে সে ভয় পেয়ে পিছিয়ে গিয়েছিল।"},
+    {number: 373, idiom: "Cold shoulder", idiomPron: "কোল্ড শোল্ডার", meaningEn: "Deliberate coldness", meaningBn: "উদাসীনতা প্রদর্শন", exampleEn: "She gave him the cold shoulder when he asked for code references.", exampleBn: "সে যখন কোডের রেফারেন্স চেয়েছিল, তখন সে তাকে চরম অবহেলা দেখিয়েছিল।"},
+    {number: 374, idiom: "Come across", idiomPron: "কাম অ্যাক্রস", meaningEn: "Meet by chance", meaningBn: "হঠাৎ দেখা পাওয়া", exampleEn: "I came across an interesting article about Rabindranath Tagore.", exampleBn: "আমি রবীন্দ্রনাথ ঠাকুর সম্পর্কে একটি আকর্ষণীয় প্রবন্ধের দেখা পেয়েছিলাম।"},
+    {number: 375, idiom: "Come into force", idiomPron: "কাম ইনটু ফোর্স", meaningEn: "Become effective", meaningBn: "কার্যকর হওয়া", exampleEn: "The new internet speed regulation will come into force tomorrow.", exampleBn: "ইন্টারনেট গতির নতুন নিয়মটি আগামীকাল থেকে কার্যকর হবে।"},
+    {number: 376, idiom: "Come off with flying colours", idiomPron: "কাম অফ উইথ ফ্লাইং কালার্স", meaningEn: "Succeed brilliantly", meaningBn: "গৌরবময় সাফল্য লাভ করা", exampleEn: "He worked hard and came off with flying colours in the final test.", exampleBn: "সে কঠোর পরিশ্রম করেছিল এবং চূড়ান্ত পরীক্ষায় গৌরবময় সাফল্য অর্জন করেছিল।"},
+    {number: 377, idiom: "Come to an end", idiomPron: "কাম টু অ্যান এন্ড", meaningEn: "Finish", meaningBn: "সমাপ্ত হওয়া", exampleEn: "The traditional village festival finally came to an end.", exampleBn: "ঐতিহ্যবাহী গ্রামীণ মেলাটি অবশেষে সমাপ্ত হলো।"},
+    {number: 378, idiom: "Comply with", idiomPron: "কমপ্লাই উইথ", meaningEn: "Conform to", meaningBn: "মেনে চলা", exampleEn: "You must comply with the layout guidelines of the platform.", exampleBn: "প্ল্যাটফর্মের লেআউট নির্দেশিকাগুলো আপনাকে অবশ্যই মেনে চলতে হবে।"},
+    {number: 379, idiom: "Congenial to", idiomPron: "কনজেনিয়াল টু", meaningEn: "Favorable to", meaningBn: "অনুকূল", exampleEn: "The peaceful environment of the mess is congenial to study.", exampleBn: "মেসের শান্ত পরিবেশ পড়াশোনার জন্য অত্যন্ত অনুকূল।"},
+    {number: 380, idiom: "Coup d'etat", idiomPron: "কু দে তা", meaningEn: "Sudden overthrow of government", meaningBn: "আকস্মিক রাষ্ট্রক্ষমতা দখল", exampleEn: "The government was overthrown in a sudden coup d'etat.", exampleBn: "একটি আকস্মিক সামরিক অভ্যুত্থানে সরকার উৎখাত হয়েছিল।"},
+    {number: 381, idiom: "Criss-cross", idiomPron: "ক্রিস-ক্রস", meaningEn: "Pattern of intersecting lines", meaningBn: "কাটাকুটি বা আড়াআড়ি", exampleEn: "The design has a beautiful criss-cross pattern of lines.", exampleBn: "ডিজাইনটিতে রেখাগুলোর একটি সুন্দর কাটাকুটি বা আড়াআড়ি নকশা রয়েছে।"},
+    {number: 382, idiom: "Cul-de-sac", idiomPron: "কুল-দ্য-স্যাক", meaningEn: "Blind alley", meaningBn: "কানাগলি", exampleEn: "Their plan hit a cul-de-sac; they had to look for a new path.", exampleBn: "তাদের পরিকল্পনাটি একটি কানাগলিতে ঠেকেছিল; তাদের নতুন পথ খুঁজতে হয়েছিল।"},
+    {number: 383, idiom: "Curry favour", idiomPron: "কারি ফেভার", meaningEn: "Seek favor by flattery", meaningBn: "তোষামোদ করে সুবিধা পাওয়া", exampleEn: "He tries to curry favour with his boss to get a promotion.", exampleBn: "পদোন্নতি পেতে সে তার বসের তোষামোদ করার চেষ্টা করে।"},
+    {number: 384, idiom: "Curtain lectures", idiomPron: "কার্টেন লেকচার্স", meaningEn: "Private scolding by a wife", meaningBn: "স্ত্রীর অন্তরালের উপদেশ বা বকা", exampleEn: "He listened to his wife's curtain lectures and changed his mind.", exampleBn: "সে তার স্ত্রীর অন্তরালের উপদেশ শুনল এবং নিজের মত পরিবর্তন করল।"},
+    {number: 385, idiom: "Cut and run", idiomPron: "কাট অ্যান্ড রান", meaningEn: "Flee quickly", meaningBn: "দ্রুত পালিয়ে যাওয়া", exampleEn: "The thief chose to cut and run when the alarm rang.", exampleBn: "অ্যালার্ম বেজে উঠলে চোরটি দ্রুত পালিয়ে যাওয়ার পথ বেছে নিয়েছিল।"},
+    {number: 386, idiom: "Day after day", idiomPron: "ডে আফটার ডে", meaningEn: "Continuously for days", meaningBn: "দিনের পর দিন", exampleEn: "He practiced his lessons day after day to get a good job.", exampleBn: "একটি ভালো চাকরি পেতে সে দিনের পর দিন তার পাঠ্যগুলো অনুশীলন করত।"},
+    {number: 387, idiom: "Day in day out", idiomPron: "ডে ইন ডে আউট", meaningEn: "Every single day", meaningBn: "অবিরাম দিনরাত", exampleEn: "She worked day in day out to finish the coding assignment.", exampleBn: "কোডিং অ্যাসাইনমেন্টটি শেষ করতে সে অবিরাম দিনরাত কাজ করেছিল।"},
+    {number: 388, idiom: "De facto", idiomPron: "ডি ফ্যাক্টো", meaningEn: "In fact / In reality", meaningBn: "কার্যত", exampleEn: "He is the de facto leader of the team; everyone follows him.", exampleBn: "সে দলের কার্যত নেতা; সবাই তাকে অনুসরণ করে।"},
+    {number: 389, idiom: "De jure", idiomPron: "ডি জুরি", meaningEn: "By legal right", meaningBn: "আইনগতভাবে", exampleEn: "He is the de jure owner of the house; he has the legal papers.", exampleBn: "সে বাড়িটির বৈধ মালিক; তার কাছে আইনি কাগজপত্র রয়েছে।"},
+    {number: 390, idiom: "Dead as a dodo", idiomPron: "ডেড অ্যাজ আ ডোডা", meaningEn: "Completely extinct or obsolete", meaningBn: "সম্পূর্ণ অপ্রচলিত বা বিলুপ্ত", exampleEn: "That old style of writing code is now dead as a dodo.", exampleBn: "কোড লেখার সেই পুরনো ধারাটি এখন সম্পূর্ণ অপ্রচলিত ও বিলুপ্ত।"},
+    {number: 391, idiom: "Dead language", idiomPron: "ডেড ল্যাঙ্গুয়েজ", meaningEn: "Language no longer spoken natively", meaningBn: "মৃত ভাষা", exampleEn: "Latin is now considered a dead language by scholars.", exampleBn: "পণ্ডিতদের মতে ল্যাটিন এখন একটি মৃত বা অপ্রচলিত ভাষা।"},
+    {number: 392, idiom: "Dead loss", idiomPron: "ডেড লস", meaningEn: "Total loss", meaningBn: "সম্পূর্ণ লোকসান", exampleEn: "Buying this broken laptop turned out to be a dead loss.", exampleBn: "এই নষ্ট ল্যাপটপটি কেনা সম্পূর্ণ লোকসান ও ব্যর্থতায় পর্যবসিত হয়েছিল।"},
+    {number: 393, idiom: "Dead of night", idiomPron: "ডেড অফ নাইট", meaningEn: "Middle of the night", meaningBn: "গভীর রাতে", exampleEn: "I heard a strange sound from the garden in the dead of night.", exampleBn: "গভীর রাতে আমি বাগান থেকে একটি অদ্ভুত শব্দ শুনতে পেয়েছিলাম।"},
+    {number: 394, idiom: "Die in harness", idiomPron: "ডাই ইন হারনেস", meaningEn: "Die while working", meaningBn: "কর্মরত অবস্থায় মারা যাওয়া", exampleEn: "The honest officer died in harness just before his retirement.", exampleBn: "সৎ কর্মকর্তাটি অবসরের ঠিক আগেই কর্মরত অবস্থায় মারা যান।"},
+    {number: 395, idiom: "Die in the last ditch", idiomPron: "ডাই ইন দ্য লাস্ট ডিচ", meaningEn: "Fight to the very end", meaningBn: "শেষ মুহূর্ত পর্যন্ত লড়াই করে মরা", exampleEn: "The soldiers decided to die in the last ditch for their nation.", exampleBn: "সৈনিকরা তাদের জাতির জন্য শেষ মুহূর্ত পর্যন্ত লড়াই করে মরার সিদ্ধান্ত নিয়েছিল।"},
+    {number: 396, idiom: "Die out", idiomPron: "ডাই আউট", meaningEn: "Become extinct", meaningBn: "বিলুপ্ত হওয়া", exampleEn: "Many old traditions are slowly dying out in modern times.", exampleBn: "আধুনিক যুগে অনেক পুরনো ঐতিহ্য ধীরে ধীরে বিলুপ্ত হয়ে যাচ্ছে।"},
+    {number: 397, idiom: "Dig one's own grave", idiomPron: "ডিগ ওয়ানস ওন গ্রেভ", meaningEn: "Cause one's own downfall", meaningBn: "নিজের বিপদ নিজে ডেকে আনা", exampleEn: "If you cheat in exams, you are digging your own grave.", exampleBn: "তুমি যদি পরীক্ষায় অসদুপায় অবলম্বন করো, তবে তুমি নিজের বিপদ নিজেই ডেকে আনছ।"},
+    {number: 398, idiom: "Do away with", idiomPron: "ডু অ্যাওয়ে উইথ", meaningEn: "Abolish", meaningBn: "বর্জন করা / তুলে দেওয়া", exampleEn: "We should do away with old and bad social customs.", exampleBn: "আমাদের পুরনো এবং ক্ষতিকর সামাজিক কুপ্রথাগুলো বর্জন করা উচিত।"},
+    {number: 399, idiom: "Do up", idiomPron: "ডু আপ", meaningEn: "Decorate / Renovate", meaningBn: "সাজানো বা মেরামত করা", exampleEn: "She spent the morning doing up her new reading room.", exampleBn: "সে সকালটা তার নতুন পড়ার ঘর সাজিয়ে-গুছিয়ে কাটিয়েছে।"},
+    {number: 400, idiom: "Draw back", idiomPron: "ড্র ব্যাক", meaningEn: "Retreat", meaningBn: "পিছু হটা", exampleEn: "The army had to draw back when the enemy attacked heavily.", exampleBn: "শত্রুপক্ষ প্রচণ্ড আক্রমণ করলে সেনাবাহিনীকে পিছু হটতে হয়েছিল।"},
+    {number: 401, idiom: "Draw the line", idiomPron: "ড্র দ্য লাইন", meaningEn: "Set a boundary", meaningBn: "সীমারেখা নির্ধারণ করা", exampleEn: "You must draw the line between friendly talk and rudeness.", exampleBn: "বন্ধুত্বপূর্ণ কথাবার্তা এবং অভদ্রতার মধ্যে তোমাকে অবশ্যই একটি সীমারেখা টানতে হবে।"},
+    {number: 402, idiom: "Eat humble pie", idiomPron: "ইট হাম্বল পাই", meaningEn: "Apologize humbly", meaningBn: "অপমান সহ্য করে ক্ষমা চাওয়া", exampleEn: "He had to eat humble pie when his mistake was found out.", exampleBn: "নিজের ভুল ধরা পড়ায় তাকে বিনীতভাবে ক্ষমা চাইতে হয়েছিল।"},
+    {number: 403, idiom: "Encroach on", idiomPron: "এনক্রোচ অন", meaningEn: "Intrude unlawfully", meaningBn: "অনধিকার প্রবেশ করা", exampleEn: "Do not encroach on another person's personal matter.", exampleBn: "অন্য কারো ব্যক্তিগত বিষয়ে অনধিকার প্রবেশ কোরো না।"},
+    {number: 404, idiom: "Epoch-making", idiomPron: "ইপক-মেকিং", meaningEn: "Historically significant", meaningBn: "যুগান্তকারী", exampleEn: "The invention of the internet was an epoch-making event.", exampleBn: "ইন্টারনেটের আবিষ্কার ছিল একটি যুগান্তকারী ঘটনা।"},
+    {number: 405, idiom: "Ever and anon", idiomPron: "এভার অ্যান্ড অ্যানন", meaningEn: "Now and then", meaningBn: "মাঝে মাঝে", exampleEn: "He visits the old library ever and anon to find good books.", exampleBn: "ভালো বই খুঁজে পেতে সে মাঝে মাঝেই পুরনো লাইব্রেরিতে যায়।"},
+    {number: 406, idiom: "Ever since", idiomPron: "এভার সিন্স", meaningEn: "From that time forward", meaningBn: "সেই সময় থেকেই", exampleEn: "He moved to the mess and has been studying hard ever since.", exampleBn: "সে মেসে উঠেছে এবং সেই সময় থেকেই কঠোর পড়াশোনা করে আসছে।"},
+    {number: 407, idiom: "Every nook and cranny", idiomPron: "এভরি নুক অ্যান্ড ক্র্যানি", meaningEn: "Every small space", meaningBn: "প্রতিটি কোণায় কোণায়", exampleEn: "I searched every nook and cranny of the house for my pen.", exampleBn: "আমি আমার কলমটি খুঁজতে ঘরের প্রতিটি কোণায় কোণায় খুঁজেছিলাম।"},
+    {number: 408, idiom: "Every now and then", idiomPron: "এভরি নাও অ্যান্ড দেন", meaningEn: "Occasionally", meaningBn: "মাঝে মাঝে", exampleEn: "He calls his brother every now and then to check on him.", exampleBn: "সে তার ভাইয়ের খোঁজখবর নিতে মাঝে মাঝেই তাকে ফোন করে।"},
+    {number: 409, idiom: "Ex-officio", idiomPron: "এক্স-অফিশিও", meaningEn: "By virtue of office", meaningBn: "পদাধিকারবলে", exampleEn: "The principal is the ex-officio chairman of the college committee.", exampleBn: "অধ্যক্ষ মহোদয় কলেজ কমিটির পদাধিকারবলে সভাপতি।"},
+    {number: 410, idiom: "Face the music", idiomPron: "ফেইস দ্য মিউজিক", meaningEn: "Accept the unpleasant consequences", meaningBn: "পরিণতি মেনে নেওয়া", exampleEn: "If you make a mistake, you must be ready to face the music.", exampleBn: "তুমি যদি কোনো ভুল করো, তবে তোমাকে তার অপ্রীতিকর পরিণতি মেনে নিতে প্রস্তুত থাকতে হবে।"},
+    {number: 411, idiom: "Face to face", idiomPron: "ফেইস টু ফেইস", meaningEn: "In person", meaningBn: "মুখোমুখি", exampleEn: "They finally met face to face to resolve their fight.", exampleBn: "তাদের বিবাদ মেটাতে তারা অবশেষে সামনাসামনি দেখা করেছিল।"},
+    {number: 412, idiom: "Fade away", idiomPron: "ফেইড অ্যাওয়ে", meaningEn: "Gradually disappear", meaningBn: "ধীরে ধীরে বিলীন হওয়া", exampleEn: "Old memories slowly fade away with time.", exampleBn: "সময়ের সাথে সাথে পুরনো স্মৃতিগুলো ধীরে ধীরে মিলিয়ে যায়।"},
+    {number: 413, idiom: "Fag end", idiomPron: "ফ্যাগ এন্ড", meaningEn: "Last small part", meaningBn: "শেষ প্রান্ত", exampleEn: "He missed the match because he arrived at the fag end.", exampleBn: "সে ম্যাচের শেষ প্রান্তে পৌঁছানোর কারণে খেলাটি দেখতে পারেনি।"},
+    {number: 414, idiom: "Fair play", idiomPron: "ফেয়ার প্লে", meaningEn: "Just and honest treatment", meaningBn: "ন্যায়সঙ্গত আচরণ / সুবিচার", exampleEn: "We expect fair play from the examiner in the marking process.", exampleBn: "মূল্যায়ন প্রক্রিয়ায় আমরা পরীক্ষকের কাছ থেকে নিরপেক্ষ ও সুবিচারপূর্ণ আচরণ প্রত্যাশা করি।"},
+    {number: 415, idiom: "Fair weather friends", idiomPron: "ফেয়ার ওয়েদার ফ্রেন্ডস", meaningEn: "Friends only in good times", meaningBn: "সুদিনের বন্ধু", exampleEn: "Avoid fair weather friends; they will leave you in hard times.", exampleBn: "সুদিনের বন্ধুদের এড়িয়ে চলো; দুঃসময়ে তারা তোমাকে ফেলে চলে যাবে।"},
+    {number: 416, idiom: "Fall a victim to", idiomPron: "ফল আ ভিকটিম টু", meaningEn: "Become prey to", meaningBn: "শিকার হওয়া", exampleEn: "The innocent man fell a victim to local politics.", exampleBn: "নিরপরাধ লোকটি স্থানীয় রাজনীতির শিকার হয়েছিল।"},
+    {number: 417, idiom: "Fall at", idiomPron: "ফল অ্যাট", meaningEn: "Look depressed or drop", meaningBn: "মলিন বা হতাশ হওয়া", exampleEn: "His face fell at the news of his low scores.", exampleBn: "কম নম্বরের খবর শুনে তার মুখ মলিন হয়ে গিয়েছিল।"},
+    {number: 418, idiom: "Fall flat", idiomPron: "ফল ফ্ল্যাট", meaningEn: "Fail to produce an effect", meaningBn: "নিষ্ফল হওয়া", exampleEn: "All his funny jokes fell flat; no one in the room laughed.", exampleBn: "তার সব রসিকতা নিষ্ফল হয়েছিল; ঘরের কেউ হাসেনি।"},
+    {number: 419, idiom: "Fall out", idiomPron: "ফল আউট", meaningEn: "Quarrel", meaningBn: "ঝগড়া করা / মনোমালিন্য হওয়া", exampleEn: "The two friends fell out over a very small matter.", exampleBn: "খুব ছোট একটি বিষয় নিয়ে দুই বন্ধুর মধ্যে ঝগড়া ও মনোমালিন্য হয়েছিল।"},
+    {number: 420, idiom: "Far from", idiomPron: "ফার ফ্রম", meaningEn: "Not at all", meaningBn: "অনেক দূরে / মোটেই নয়", exampleEn: "His dynamic script logic is far from complete; it needs work.", exampleBn: "তার ডাইনামিক স্ক্রিপ্ট লজিক সম্পূর্ণ হওয়া থেকে অনেক দূরে; এতে আরও কাজ বাকি।"},
+    {number: 421, idiom: "Fight shy", idiomPron: "ফাইট শাই", meaningEn: "Avoid", meaningBn: "এড়িয়ে চলা", exampleEn: "He always fights shy of public speaking due to fear.", exampleBn: "ভয়ের কারণে সে সবসময় জনসম্মুখে কথা বলা এড়িয়ে চলে।"},
+    {number: 422, idiom: "Figure out", idiomPron: "ফিগার আউট", meaningEn: "Understand / Solve", meaningBn: "বুঝতে পারা / সমাধান করা", exampleEn: "I am trying to figure out how to render this Bengali character accurately.", exampleBn: "আমি কীভাবে এই বাংলা অক্ষরটি নিখুঁতভাবে রেন্ডার করব তা বোঝার চেষ্টা করছি।"},
+    {number: 423, idiom: "First and foremost", idiomPron: "ফার্স্ট অ্যান্ড ফোরমোস্ট", meaningEn: "Most important", meaningBn: "সর্বাগ্রে / সর্বপ্রধান", exampleEn: "First and foremost, you must practice typing every single day.", exampleBn: "সর্বপ্রথম এবং সর্বপ্রধান বিষয় হলো, তোমাকে প্রতিদিন টাইপিং অনুশীলন করতে হবে।"},
+    {number: 424, idiom: "First Aid", idiomPron: "ফার্স্ট এইড", meaningEn: "Emergency basic medical care", meaningBn: "প্রাথমিক চিকিৎসা", exampleEn: "The injured player was given first aid on the playground.", exampleBn: "খেলার মাঠে আহত খেলোয়াড়টিকে প্রাথমিক চিকিৎসা দেওয়া হয়েছিল।"},
+    {number: 425, idiom: "Flesh and blood", idiomPron: "ফ্লেশ অ্যান্ড ব্লাড", meaningEn: "Human nature", meaningBn: "রক্ত-মাংসের দেহ বা মানুষ", exampleEn: "This heavy workload is too much for any flesh and blood to bear.", exampleBn: "এই অতিরিক্ত কাজের চাপ সাধারণ রক্ত-মাংসের মানুষের পক্ষে সহ্য করা অসম্ভব।"},
+    {number: 426, idiom: "Flood of light", idiomPron: "ফ্লাড অফ লাইট", meaningEn: "A large amount of clarity or insight", meaningBn: "প্রচুর আলো / স্পষ্ট ধারণা পাওয়া", exampleEn: "His brilliant lecture threw a flood of light on Bankim Chandra's literature.", exampleBn: "তাঁর চমৎকার বক্তৃতাটি বঙ্কিমচন্দ্রের সাহিত্যের ওপর নতুন আলোকপাত করেছিল।"},
+    {number: 427, idiom: "Follow on", idiomPron: "ফলো অন", meaningEn: "Continue following", meaningBn: "অনুসরণ করে চলা", exampleEn: "Please follow on the rules mentioned in the structural layout.", exampleBn: "কাঠামোগত লেআউটে উল্লেখিত নিয়মগুলো দয়া করে অনুসরণ করুন।"},
+    {number: 428, idiom: "Fond of", idiomPron: "ফন্ড অফ", meaningEn: "Liking very much", meaningBn: "অনুরাগী / পছন্দ করা", exampleEn: "He is very fond of reading classic books by Rabindranath Tagore.", exampleBn: "তিনি রবীন্দ্রনাথ ঠাকুরের ক্লাসিক বইগুলো পড়ার অত্যন্ত অনুরাগী।"},
+    {number: 429, idiom: "For a time", idiomPron: "ফর আ টাইম", meaningEn: "Temporarily", meaningBn: "কিছু সময়ের জন্য", exampleEn: "He shifted his living arrangement to a mess hostel for a time.", exampleBn: "কিছু সময়ের জন্য সে তার থাকার ব্যবস্থা মেস হোস্টেলে স্থানান্তর করেছিল।"},
+    {number: 430, idiom: "For instance", idiomPron: "ফর ইনস্ট্যান্স", meaningEn: "For example", meaningBn: "উদাহরণস্বরূপ", exampleEn: "He knows many code languages; for instance, HTML, CSS, and JavaScript.", exampleBn: "সে অনেক প্রোগ্রামিং ভাষা জানে; উদাহরণস্বরূপ—HTML, CSS এবং JavaScript।"},
+    {number: 431, idiom: "For one's own sake / For one's sake", idiomPron: "ফর ওয়ানস ওন সেইক / ফর ওয়ানস সেইক", meaningEn: "For one's benefit", meaningBn: "নিজের স্বার্থে", exampleEn: "You must build this digital study note tool for your own sake.", exampleBn: "নিজের স্বার্থের জন্যই তোমাকে এই ডিজিটাল স্টাডি নোট টুলটি তৈরি করতে হবে।"},
+    {number: 432, idiom: "French leave", idiomPron: "ফ্রেঞ্চ লিভ", meaningEn: "Leave without permission", meaningBn: "অনুমতি ছাড়া অনুপস্থিতি", exampleEn: "The clerk was warned for taking a French leave from the office.", exampleBn: "অনুমতি ছাড়া অফিস থেকে অনুপস্থিত থাকার কারণে কেরানিকে সতর্ক করা হয়েছিল।"},
+    {number: 433, idiom: "Fresh blood", idiomPron: "ফ্রেশ ব্লাড", meaningEn: "New members with fresh ideas", meaningBn: "নতুন কর্মী / নতুন রক্ত", exampleEn: "The library development group needs some fresh blood to get new ideas.", exampleBn: "নতুন আইডিয়া পেতে লাইব্রেরি উন্নয়ন গ্রুপে কিছু নতুন রক্তের প্রয়োজন।"},
+    {number: 434, idiom: "From a to z", idiomPron: "ফ্রম এ টু জেড", meaningEn: "From beginning to end", meaningBn: "আদ্যোপান্ত / প্রথম থেকে শেষ পর্যন্ত", exampleEn: "He revised the official suggestion book from a to z.", exampleBn: "সে অফিশিয়াল সাজেশন বইটি শুরু থেকে শেষ পর্যন্ত আদ্যোপান্ত রিভিশন দিয়েছিল।"},
+    {number: 435, idiom: "From frying pan to fire", idiomPron: "ফ্রম ফ্রাইং প্যান টু ফায়ার", meaningEn: "From one bad situation to a worse one", meaningBn: "এক বিপদ থেকে আরেক বিপদে", exampleEn: "Changing that job without a plan was going from the frying pan to the fire.", exampleBn: "পরিকল্পনা ছাড়া সেই চাকরি পরিবর্তন করা যেন এক বিপদ থেকে আরেক মহাবিপদে পড়ার মতো ছিল।"},
+    {number: 436, idiom: "From time immemorial", idiomPron: "ফ্রম টাইম ইমেমোরিয়াল", meaningEn: "Since ancient times", meaningBn: "অতি প্রাচীনকাল বা আবহমানকাল হতে", exampleEn: "People have been celebrating this cultural autumn festival from time immemorial.", exampleBn: "মানুষ আবহমানকাল থেকেই এই সাংস্কৃতিক শরৎ উৎসব উদযাপন করে আসছে।"},
+    {number: 437, idiom: "Get on", idiomPron: "গেট অন", meaningEn: "Board a vehicle", meaningBn: "যানবাহনে ওঠা", exampleEn: "He got on the train to visit his brother and nephew.", exampleBn: "সে তার ভাই ও ভাগ্নেকে দেখতে ট্রেনে উঠেছিল।"},
+    {number: 438, idiom: "Give ear to", idiomPron: "গিভ ইয়ার টু", meaningEn: "Listen attentively", meaningBn: "মনোযোগ দিয়ে শোনা", exampleEn: "You should give ear to the guidance given by your academic seniors.", exampleBn: "তোমার অ্যাকাডেমিক সিনিয়রদের দেওয়া দিকনির্দেশনায় তোমার মনোযোগ দেওয়া উচিত।"},
+    {number: 439, idiom: "Give up", idiomPron: "গিভ আপ", meaningEn: "Abandon / Surrender", meaningBn: "পরিত্যাগ করা", exampleEn: "Never give up your preparation goals; success takes time.", exampleBn: "তোমার প্রস্তুতির লক্ষ্য কখনো ত্যাগ কোরো না; সাফল্যে সময় লাগে।"},
+    {number: 440, idiom: "Give vent to", idiomPron: "গিভ ভেন্ট টু", meaningEn: "Express strongly", meaningBn: "প্রকাশ করা (রাগ বা অনুভূতি)", exampleEn: "He gave vent to his frustration after failing the typing speed milestone.", exampleBn: "টাইপিং স্পিডের মাইলফলকে ব্যর্থ হয়ে সে তার হতাশা প্রকাশ করেছিল।"},
+    {number: 441, idiom: "Go astray", idiomPron: "গো অ্যাস্ট্রে", meaningEn: "Go in a wrong path", meaningBn: "বিপথগামী হওয়া", exampleEn: "Without proper target focus, a student can easily go astray.", exampleBn: "সঠিক লক্ষ্য না থাকলে একজন শিক্ষার্থী সহজেই বিপথগামী হতে পারে।"},
+    {number: 442, idiom: "Go over", idiomPron: "গো ওভার", meaningEn: "Examine carefully", meaningBn: "ভালো করে পরীক্ষা বা পর্যালোচনা করা", exampleEn: "Go over the document structures once more before finalizing the script.", exampleBn: "স্ক্রিপ্টটি চূড়ান্ত করার আগে নথির গঠনগুলো আরও একবার ভালো করে দেখে নাও।"},
+    {number: 443, idiom: "Go to law", idiomPron: "গো টু ল", meaningEn: "Take legal action", meaningBn: "আইনের আশ্রয় নেওয়া", exampleEn: "They decided to go to law to settle the land boundary issue.", exampleBn: "জমির সীমানা সমস্যা নিষ্পত্তির জন্য তারা আদালতের শরণাপন্ন হওয়ার সিদ্ধান্ত নিয়েছিল।"},
+    {number: 444, idiom: "Good at", idiomPron: "গুড অ্যাট", meaningEn: "Skilled in", meaningBn: "দক্ষ", exampleEn: "He is very good at editing high-resolution cinema portraits.", exampleBn: "উচ্চ রেজোলিউশনের সিনেমা পোর্ট্রেট এডিটিংয়ে সে অত্যন্ত দক্ষ।"},
+    {number: 445, idiom: "Good bye", idiomPron: "গুড বাই", meaningEn: "Farewell", meaningBn: "বিদায়", exampleEn: "He said good bye to his mess roommates before moving out.", exampleBn: "মেস ছেড়ে যাওয়ার আগে সে তার রুমমেটদের বিদায় জানিয়েছিল।"},
+    {number: 446, idiom: "Green horn", idiomPron: "গ্রিন হর্ন", meaningEn: "Inexperienced person", meaningBn: "অনভিজ্ঞ ব্যক্তি", exampleEn: "As a green horn in web development, he made a few script design errors.", exampleBn: "ওয়েব ডেভেলপমেন্টে অনভিজ্ঞ হওয়ার কারণে সে স্ক্রিপ্ট ডিজাইনে কিছু ভুল করেছিল।"},
+    {number: 447, idiom: "Hail from", idiomPron: "হেইল ফ্রম", meaningEn: "Come from", meaningBn: "বাসিন্দা হওয়া / আগমন হওয়া", exampleEn: "Many talented scholars in our university team hail from Bogura.", exampleBn: "আমাদের বিশ্ববিদ্যালয় দলের অনেক প্রতিভাবান গবেষক বগুড়া থেকে এসেছেন।"},
+    {number: 448, idiom: "Hale and hearty", idiomPron: "হেইল অ্যান্ড হার্টি", meaningEn: "Healthy and strong", meaningBn: "সুস্থ ও সবল", exampleEn: "My grandfather is still hale and hearty at eighty.", exampleBn: "আশি বছর বয়সেও আমার দাদা এখনো সম্পূর্ণ সুস্থ ও সবল আছেন।"},
+    {number: 449, idiom: "Half a chance", idiomPron: "হাফ আ চান্স", meaningEn: "Slightest opportunity", meaningBn: "সামান্যতম সুযোগ", exampleEn: "If I get half a chance, I will apply for the computer operator job.", exampleBn: "সামান্যতম সুযোগ পেলেই আমি কম্পিউটার অপারেটর চাকরির জন্য আবেদন করব।"},
+    {number: 450, idiom: "Hand in glove", idiomPron: "হ্যান্ড ইন গ্লাভ", meaningEn: "In close cooperation", meaningBn: "ঘনিষ্ঠ সহযোগিতায়", exampleEn: "The two digital layout designers are working hand in glove on the web tool.", exampleBn: "ডিজিটাল লেআউট ডিজাইনার দুজন ওয়েব টুলে অত্যন্ত ঘনিষ্ঠ সহযোগিতার সাথে কাজ করছেন।"},
+    {number: 451, idiom: "Hard of hearing", idiomPron: "হার্ড অফ হেয়ারিং", meaningEn: "Somewhat deaf", meaningBn: "কানে কম শোনে এমন", exampleEn: "Speak louder please; my grandfather is a bit hard of hearing.", exampleBn: "দয়া করে একটু জোরে কথা বলুন; আমার দাদা কানে কিছুটা কম শোনেন।"},
+    {number: 452, idiom: "Hard times", idiomPron: "হার্ড টাইমস", meaningEn: "Difficult period", meaningBn: "দুঃসময়", exampleEn: "True friends always stay with you during hard times.", exampleBn: "প্রকৃত বন্ধুরা দুঃসময়ে সবসময় তোমার পাশে থাকে।"},
+        {number: 453, idiom: "Have bigger fish to fry", idiomPron: "হ্যাভ বিগার ফিশ টু ফ্রাই", meaningEn: "Have more important work", meaningBn: "গুরুত্বপূর্ণ কিছু করা", exampleEn: "I cannot join the party today; I have bigger fish to fry.", exampleBn: "আমি আজ অনুষ্ঠানে যোগ দিতে পারছি না; আমার আরও গুরুত্বপূর্ণ কাজ করার আছে।"},
+    {number: 454, idiom: "Having one's duck in a row", idiomPron: "হ্যাভিং ওয়ানস ডাক ইন আ রো", meaningEn: "Well organized", meaningBn: "সুসংগঠিত", exampleEn: "Before starting the project, make sure you have your ducks in a row.", exampleBn: "প্রকল্পটি শুরু করার আগে নিশ্চিত করুন যে আপনার সমস্ত প্রস্তুতি সুসংগঠিত আছে।"},
+    {number: 455, idiom: "Head or tail", idiomPron: "হেড অর টেইল", meaningEn: "Beginning or end / Meaning", meaningBn: "আগা-মাথা বা কোনো অর্থ", exampleEn: "I cannot understand head or tail of this logic structure.", exampleBn: "আমি এই লজিক কাঠামোর আগামাথা কিছুই বুঝতে পারছি না।"},
+    {number: 456, idiom: "Heart to heart", idiomPron: "হার্ট টু হার্ট", meaningEn: "Candid and intimate", meaningBn: "অকপট / মন খুলে", exampleEn: "They had a heart to heart talk to clear their misunderstanding.", exampleBn: "তাদের ভুল বোঝাবুঝি দূর করতে তারা মন খুলে আলোচনা করেছিল।"},
+    {number: 457, idiom: "Hide and seek", idiomPron: "হাইড অ্যান্ড সীক", meaningEn: "Game of concealment", meaningBn: "লুকোচুরি খেলা", exampleEn: "The children are playing hide and seek in the garden.", exampleBn: "বাচ্চারা বাগানে লুকোচুরি খেলছে।"},
+    {number: 458, idiom: "High and low", idiomPron: "হাই অ্যান্ড লো", meaningEn: "Everywhere", meaningBn: "সর্বত্র", exampleEn: "I searched high and low for my missing notes; but found nothing.", exampleBn: "আমি আমার হারিয়ে যাওয়া নোটগুলোর জন্য সর্বত্র খোঁজাখুঁজি করেছিলাম; কিন্তু কিছুই পাইনি।"},
+    {number: 459, idiom: "High time", idiomPron: "হাই টাইম", meaningEn: "Proper time already delayed", meaningBn: "উপযুক্ত সময়", exampleEn: "It is high time you started practicing your typing layout.", exampleBn: "টাইপিং লেআউট অনুশীলন শুরু করার এটাই উপযুক্ত সময়।"},
+    {number: 460, idiom: "Hit the roof", idiomPron: "হিট দ্য রুফ", meaningEn: "Become very angry", meaningBn: "অত্যন্ত রেগে যাওয়া", exampleEn: "My father hit the roof when he saw the broken display.", exampleBn: "ভাঙা ডিসপ্লে দেখে আমার বাবা অত্যন্ত রেগে গিয়েছিলেন।"},
+    {number: 461, idiom: "Home and abroad", idiomPron: "হোম অ্যান্ড অ্যাব্রড", meaningEn: "In one's country and overseas", meaningBn: "দেশে বিদেশে", exampleEn: "His dynamic research work is famous both at home and abroad.", exampleBn: "তার গবেষণাকর্ম দেশ-বিদেশে সমানভাবে বিখ্যাত।"},
+    {number: 462, idiom: "Ifs and buts", idiomPron: "ইফস অ্যান্ড বাটস", meaningEn: "Excuses or hesitations", meaningBn: "অজুহাত বা দ্বিধাদ্বন্দ্ব", exampleEn: "I want a clear answer; do not show me any ifs and buts.", exampleBn: "আমি একটি পরিষ্কার উত্তর চাই; আমাকে কোনো অজুহাত বা দ্বিধাদ্বন্দ্ব দেখাবেন না।"},
+    {number: 463, idiom: "In a roundabout way", idiomPron: "ইন আ রাউন্ডঅ্যাবাউট ওয়ে", meaningEn: "Indirectly", meaningBn: "ঘুরিয়ে পেঁচিয়ে", exampleEn: "He explained the official letter in a roundabout way.", exampleBn: "তিনি অফিশিয়াল চিঠিটি ঘুরিয়ে পেঁচিয়ে ব্যাখ্যা করেছিলেন।"},
+    {number: 464, idiom: "In a rut", idiomPron: "ইন আ রাট", meaningEn: "Stuck in a monotonous routine", meaningBn: "একঘেয়ে গণ্ডিতে আবদ্ধ", exampleEn: "I feel like my career is in a rut; I need a new goal.", exampleBn: "আমার মনে হচ্ছে আমার ক্যারিয়ার একটি একঘেয়ে অচলাবস্থায় আটকে গেছে; আমার নতুন লক্ষ্য দরকার।"},
+    {number: 465, idiom: "In a tick", idiomPron: "ইন আ টিক", meaningEn: "Very quickly", meaningBn: "মুহূর্তের মধ্যে", exampleEn: "The web layout will load in a tick; wait a moment.", exampleBn: "ওয়েব লেআউটটি চোখের পলকে লোড হবে; কিছুক্ষণ অপেক্ষা করুন।"},
+    {number: 466, idiom: "In abeyance", idiomPron: "ইন অ্যাবেয়্যান্স", meaningEn: "Temporary suspension", meaningBn: "স্থগিতাবস্থায়", exampleEn: "The institutional enrollment decision is held in abeyance.", exampleBn: "প্রাতিষ্ঠানিক ভর্তির সিদ্ধান্তটি স্থগিত রাখা হয়েছে।"},
+    {number: 467, idiom: "In accordance with", idiomPron: "ইন অ্যাকর্ডেন্স উইথ", meaningEn: "According to", meaningBn: "অনুসারে", exampleEn: "The map edits were completed in accordance with guidelines.", exampleBn: "নির্দেশিকা মেনেই ম্যাপ সম্পাদনার কাজ সম্পন্ন করা হয়েছিল।"},
+    {number: 468, idiom: "In addition to", idiomPron: "ইন অ্যাডিশন টু", meaningEn: "Besides / As well as", meaningBn: "অধিকন্তু / ছাড়াও", exampleEn: "In addition to HTML, you must learn CSS for design.", exampleBn: "এইচটিএমএল ছাড়াও ডিজাইনের জন্য আপনাকে অবশ্যই সিএসএস শিখতে হবে।"},
+    {number: 469, idiom: "In course of time", idiomPron: "ইন কোর্স অফ টাইম", meaningEn: "Eventually", meaningBn: "কালের পরিক্রমায়", exampleEn: "In course of time, you will master this javascript structural layout.", exampleBn: "কালের পরিক্রমায় আপনি এই জাভাস্ক্রিপ্ট লেআউটে পারদর্শী হয়ে উঠবেন।"},
+    {number: 470, idiom: "In deep water", idiomPron: "ইন ডিপ ওয়াটার", meaningEn: "In serious trouble", meaningBn: "বড় বিপদে", exampleEn: "He is in deep water after managing the finance incorrectly.", exampleBn: "অর্থ সঠিকভাবে পরিচালনা না করায় সে বড় বিপদে পড়েছে।"},
+    {number: 471, idiom: "In fact", idiomPron: "ইন ফ্যাক্ট", meaningEn: "Actually", meaningBn: "প্রকৃতপক্ষে", exampleEn: "He looks very quiet, but in fact, he is very smart.", exampleBn: "সে দেখতে খুব শান্ত, কিন্তু প্রকৃতপক্ষে সে অত্যন্ত বুদ্ধিমান।"},
+    {number: 472, idiom: "In fine", idiomPron: "ইন ফাইন", meaningEn: "In conclusion", meaningBn: "সংক্ষেপে বা পরিশেষে", exampleEn: "In fine, I want to say that patience leads to success.", exampleBn: "সংক্ষেপে আমি বলতে চাই যে ধৈর্যই সফলতার দিকে নিয়ে যায়।"},
+    {number: 473, idiom: "In force", idiomPron: "ইন ফোর্স", meaningEn: "Valid / Active", meaningBn: "কার্যকর / বলবৎ", exampleEn: "The traffic law is still in force across the entire nation.", exampleBn: "ট্রাফিক আইনটি এখনো সারা দেশে কার্যকর রয়েছে।"},
+    {number: 474, idiom: "In good time", idiomPron: "ইন গুড টাইম", meaningEn: "Punctually / Early", meaningBn: "যথাসময়ে", exampleEn: "We arrived at the interview room in good time.", exampleBn: "আমরা ইন্টারভিউ রুমে যথাসময়ে উপস্থিত হয়েছিলাম।"},
+    {number: 475, idiom: "In person", idiomPron: "ইন পার্সন", meaningEn: "Physically present", meaningBn: "সশরীরে", exampleEn: "You must collect your legal documents in person from office.", exampleBn: "অফিস থেকে আপনার আইনি কাগজপত্র আপনাকে সশরীরে সংগ্রহ করতে হবে।"},
+    {number: 476, idiom: "In quest of", idiomPron: "ইন কোয়েস্ট অফ", meaningEn: "In search of", meaningBn: "সন্ধানে", exampleEn: "He went to the capital city in quest of a secure job.", exampleBn: "একটি নিরাপদ চাকরির সন্ধানে সে রাজধানী শহরে গিয়েছিল।"},
+    {number: 477, idiom: "In sackcloth and ashes", idiomPron: "ইন স্যাকক্লথ অ্যান্ড অ্যাশেস", meaningEn: "In deep regret", meaningBn: "গভীর অনুশোচনায়", exampleEn: "He was in sackcloth and ashes after misbehaving with seniors.", exampleBn: "সিনিয়রদের সাথে খারাপ আচরণ করার পর সে গভীর অনুশোচনায় ছিল।"},
+    {number: 478, idiom: "In the course of time", idiomPron: "ইন দ্য কোর্স অফ টাইম", meaningEn: "As time passes", meaningBn: "সময়ের পরিক্রমায়", exampleEn: "In the course of time, all old systems change into new ones.", exampleBn: "সময়ের পরিক্রমায় সব পুরনো ব্যবস্থাই নতুন রূপে পরিবর্তিত হয়।"},
+    {number: 479, idiom: "In the event of", idiomPron: "ইন দ্য ইভেন্ট অফ", meaningEn: "In case of", meaningBn: "ঘটলে বা ক্ষেত্রে", exampleEn: "In the event of a rain storm, the match will stop.", exampleBn: "বৃষ্টির ক্ষেত্রে খেলাটি বন্ধ হয়ে যাবে।"},
+    {number: 480, idiom: "In the eye of", idiomPron: "ইন দ্য আই অফ", meaningEn: "According to judgment of", meaningBn: "চোখে / বিচারে", exampleEn: "In the eye of law, every citizen deserves equal rights.", exampleBn: "আইনের চোখে প্রতিটি নাগরিক সমান অধিকার পাওয়ার যোগ্য।"},
+    {number: 481, idiom: "In the face of", idiomPron: "ইন দ্য ফেস অফ", meaningEn: "Despite", meaningBn: "সম্মুখীন হয়ে / সত্ত্বেও", exampleEn: "He stayed strong in the face of absolute financial crisis.", exampleBn: "চরম আর্থিক সংকটের মুখেও সে দৃঢ় মনোবল বজায় রেখেছিল।"},
+    {number: 482, idiom: "In the guise of", idiomPron: "ইন দ্য গাইজ অফ", meaningEn: "Disguised as", meaningBn: "ছদ্মবেশে", exampleEn: "The thief entered the bank layout in the guise of a worker.", exampleBn: "চোরটি একজন কর্মীর ছদ্মবেশে ব্যাংক চত্বরে প্রবেশ করেছিল।"},
+    {number: 483, idiom: "In the long run", idiomPron: "ইন দ্য লং রান", meaningEn: "Ultimately", meaningBn: "পরিশেষে / পরিণামে", exampleEn: "Honesty always pays in the long run; you will succeed.", exampleBn: "সততা পরিশেষে সুফল বয়ে আনে; আপনি সফল হবেন।"},
+    {number: 484, idiom: "In the meantime", idiomPron: "ইন দ্য মিনটাইম", meaningEn: "Meanwhile", meaningBn: "ইতিমধ্যে / এই ফাঁকে", exampleEn: "The office opens at ten; in the meantime, let's practice typing.", exampleBn: "অফিস দশটায় খোলে; এই ফাঁকে চলো আমরা টাইপিং অনুশীলন করি।"},
+    {number: 485, idiom: "In the midst of", idiomPron: "ইন দ্য মিডস্ট অফ", meaningEn: "Among / In the middle of", meaningBn: "মাঝখানে / মধ্যে", exampleEn: "He stayed calm in the midst of a huge crowd.", exampleBn: "বিশাল ভিড়ের মধ্যেও সে শান্ত ছিল।"},
+    {number: 486, idiom: "In the nick of time", idiomPron: "ইন দ্য নিক অফ টাইম", meaningEn: "Just in time", meaningBn: "ঠিক শেষ মুহূর্তে", exampleEn: "He reached the exam hall in the nick of time.", exampleBn: "সে একেবারে শেষ মুহূর্তে পরীক্ষার হলে পৌঁছেছিল।"},
+    {number: 487, idiom: "In the teeth of", idiomPron: "ইন দ্য টিথ অফ", meaningEn: "In direct opposition to", meaningBn: "তীব্র প্রতিকূলতায় বা বিরোধিতায়", exampleEn: "He passed the bill in the teeth of major protest.", exampleBn: "তীব্র বিরোধিতার মুখেও তিনি বিলটি পাস করেছিলেন।"},
+    {number: 488, idiom: "In the twinkle of an eye", idiomPron: "ইন দ্য টুইঙ্কল অফ অ্যান আই", meaningEn: "In an instant", meaningBn: "চোখের পলকে", exampleEn: "The bird flew away in the twinkle of an eye.", exampleBn: "চোখের পলকে পাখিটি উড়ে গেল।"},
+    {number: 489, idiom: "In the wake of", idiomPron: "ইন দ্য ওয়েক অফ", meaningEn: "Following directly after", meaningBn: "ঠিক পরপরই", exampleEn: "Security was tightened in the wake of the theft.", exampleBn: "চুরির ঘটনার পরপরই নিরাপত্তা ব্যবস্থা জোরদার করা হয়েছিল।"},
+    {number: 490, idiom: "In time", idiomPron: "ইন টাইম", meaningEn: "Early enough", meaningBn: "যথাসময়ে", exampleEn: "Please submit your regular homework assignment in time.", exampleBn: "দয়া করে আপনার নিয়মিত বাড়ির কাজ যথাসময়ে জমা দিন।"},
+    {number: 491, idiom: "In vogue", idiomPron: "ইন ভোগ", meaningEn: "In fashion / Popular", meaningBn: "চলতি বা প্রচলিত ফ্যাশনে", exampleEn: "This smart design structure is now in vogue.", exampleBn: "এই স্মার্ট ডিজাইন কাঠামোটি এখন বেশ জনপ্রিয় ও চলতি ফ্যাশন।"},
+    {number: 492, idiom: "In/with reference to", idiomPron: "ইন/উইথ রেফারেন্স টু", meaningEn: "Regarding", meaningBn: "প্রসঙ্গে বা সূত্রে", exampleEn: "I am writing this letter in reference to your query.", exampleBn: "আমি আপনার প্রশ্নের পরিপ্রেক্ষিতে এই চিঠিটি লিখছি।"},
+    {number: 493, idiom: "Insolent", idiomPron: "ইনসোলেন্ট", meaningEn: "Rude and arrogant", meaningBn: "উদ্ধত বা বেয়াদব", exampleEn: "Nobody likes his insolent behavior in the class.", exampleBn: "ক্লাসে তার উদ্ধত আচরণ কেউ পছন্দ করে না।"},
+    {number: 494, idiom: "Instead of", idiomPron: "ইনস্টেড অফ", meaningEn: "In place of", meaningBn: "পরিবর্তে", exampleEn: "Choose a good book instead of wasting your time.", exampleBn: "সময় নষ্ট করার বদলে একটি ভালো বই বেছে নিন।"},
+    {number: 495, idiom: "Intrude upon", idiomPron: "ইনট্রুড আপন", meaningEn: "Enter uninvited", meaningBn: "অনধিকার প্রবেশ করা", exampleEn: "Do not intrude upon his personal reading time.", exampleBn: "তার ব্যক্তিগত পড়ার সময়ে অনধিকার প্রবেশ করবেন না।"},
+    {number: 496, idiom: "Keep in touch with", idiomPron: "কীপ ইন টাচ উইথ", meaningEn: "Maintain communication", meaningBn: "যোগাযোগ রাখা", exampleEn: "Please keep in touch with me after moving to town.", exampleBn: "শহরে যাওয়ার পরেও দয়া করে আমার সাথে যোগাযোগ রাখবেন।"},
+    {number: 497, idiom: "Keep abreast of", idiomPron: "কীপ অ্যাব্রেস্ট অফ", meaningEn: "Stay up to date with", meaningBn: "তাল মিলিয়ে চলা", exampleEn: "We must keep abreast of modern web tools development.", exampleBn: "আমাদের অবশ্যই আধুনিক ওয়েব প্রযুক্তির সাথে তাল মিলিয়ে চলতে হবে।"},
+    {number: 498, idiom: "Keep an eye on", idiomPron: "কীপ অ্যান আই অন", meaningEn: "Watch carefully", meaningBn: "নজর রাখা", exampleEn: "Keep an eye on my bag while I buy tickets.", exampleBn: "আমি টিকিট কাটার সময় আমার ব্যাগের দিকে একটু খেয়াল রেখো।"},
+    {number: 499, idiom: "Keep up with", idiomPron: "কীপ আপ উইথ", meaningEn: "Maintain pace with", meaningBn: "সমান তালে চলা", exampleEn: "It is hard to keep up with changing technology.", exampleBn: "পরিবর্তনশীল প্রযুক্তির সাথে তাল মিলিয়ে চলা কঠিন।"},
+    {number: 500, idiom: "Keep watch and ward", idiomPron: "কীপ ওয়াচ অ্যান্ড ওয়ার্ড", meaningEn: "Guarding carefully", meaningBn: "কড়া পাহারা দেওয়া", exampleEn: "The guard keeps watch and ward over the office building.", exampleBn: "পাহারাদার অফিস ভবনটির কড়া পাহারা ও নজরদারি রাখে।"},
+    {number: 501, idiom: "Keep body and soul together", idiomPron: "কীপ বডি অ্যান্ড সোল টুগেদার", meaningEn: "Stay alive with difficulty", meaningBn: "কোনোমতে বেঁচে থাকা", exampleEn: "The poor clerk works hard just to keep body and soul together.", exampleBn: "দরিদ্র কেরানি কেবল কোনোমতে বেঁচে থাকার জন্য কঠোর পরিশ্রম করেন।"},
+    {number: 502, idiom: "Kith and kin", idiomPron: "কিথ অ্যান্ড কিন", meaningEn: "Relatives and friends", meaningBn: "আত্মীয়স্বজন", exampleEn: "He invited all his kith and kin to the function.", exampleBn: "সে অনুষ্ঠানে তার সব আত্মীয়স্বজনকে নিমন্ত্রণ করেছিল।"},
+    {number: 503, idiom: "Lame excuse", idiomPron: "লেইম এক্সকিউজ", meaningEn: "Poor justification", meaningBn: "বাজে অজুহাত", exampleEn: "Do not give a lame excuse for being late today.", exampleBn: "আজ দেরিতে আসার জন্য কোনো বাজে অজুহাত দেবেন না।"},
+    {number: 504, idiom: "Last straw", idiomPron: "লাস্ট স্ট্র", meaningEn: "Final limit of patience", meaningBn: "ধৈর্যের শেষ সীমা", exampleEn: "His rude comment was the last straw; I left the room.", exampleBn: "তার অভদ্র মন্তব্যটি ছিল চরম সীমা; আমি ঘর থেকে বের হয়ে গেলাম।"},
+    {number: 505, idiom: "Laugh at", idiomPron: "লাফ অ্যাট", meaningEn: "Mock / Ridicule", meaningBn: "উপহাস করা", exampleEn: "Never laugh at a poor man's simple clothes.", exampleBn: "দরিদ্র মানুষের সাধারণ পোশাক দেখে কখনো উপহাস করবেন না।"},
+    {number: 506, idiom: "Lay off", idiomPron: "লেই অফ", meaningEn: "Dismiss workers temporarily", meaningBn: "সাময়িক বরখাস্ত করা", exampleEn: "The factory had to lay off ten workers this month.", exampleBn: "কারখানাটিকে এই মাসে দশজন শ্রমিককে সাময়িকভাবে ছাঁটাই করতে হয়েছিল।"},
+    {number: 507, idiom: "Lay waste", idiomPron: "লেই ওয়েস্ট", meaningEn: "Devastate completely", meaningBn: "ধ্বংস করা", exampleEn: "The heavy flood laid waste the whole village crops.", exampleBn: "ভয়াবহ বন্যায় পুরো গ্রামের ফসল ধ্বংস হয়ে গিয়েছিল।"},
+    {number: 508, idiom: "Lead a cat and dog life", idiomPron: "লীড আ ক্যাট অ্যান্ড ডগ লাইফ", meaningEn: "Live in constant quarrel", meaningBn: "ঝগড়াঝাঁটির জীবন কাটানো", exampleEn: "The old couple always leads a cat and dog life.", exampleBn: "বৃদ্ধ দম্পতি সবসময় ঝগড়াঝাঁটি ও অশান্তির মধ্যে জীবনযাপন করেন।"},
+    {number: 509, idiom: "Leave no stone unturned", idiomPron: "লীভ নো স্টোন আনটার্নড", meaningEn: "Try every possible way", meaningBn: "চেষ্টার কোনো ত্রুটি না রাখা", exampleEn: "He left no stone unturned to get the job.", exampleBn: "চাকরিটি পাওয়ার জন্য সে চেষ্টার কোনো ত্রুটি রাখেনি।"},
+    {number: 510, idiom: "Life and soul", idiomPron: "লাইফ অ্যান্ড সোল", meaningEn: "Main center of activity or vitality", meaningBn: "প্রধান প্রাণশক্তি", exampleEn: "He is the life and soul of our football team.", exampleBn: "সে আমাদের ফুটবল দলের মূল প্রাণশক্তি।"},
+    {number: 511, idiom: "Line up to", idiomPron: "লাইন আপ টু", meaningEn: "Form a queue for", meaningBn: "সারিবদ্ধভাবে দাঁড়ানো", exampleEn: "The students lined up to collect their exam sheets.", exampleBn: "শিক্ষার্থীরা পরীক্ষার খাতা নেওয়ার জন্য সারিবদ্ধভাবে দাঁড়িয়েছিল।"},
+    {number: 512, idiom: "Lion's share", idiomPron: "লায়ন্স শেয়ার", meaningEn: "The largest part", meaningBn: "সিংহভাগ", exampleEn: "He took the lion's share of the profit today.", exampleBn: "আজকের লাভের সিংহভাগ সে একাই নিয়ে নিয়েছে।"},
+    {number: 513, idiom: "Loaves and fishes", idiomPron: "লোভস অ্যান্ড ফিশেস", meaningEn: "Material or personal benefits", meaningBn: "ব্যক্তিগত সুবিধা বা স্বার্থ", exampleEn: "Many join politics only for loaves and fishes.", exampleBn: "অনেকেই কেবল ব্যক্তিগত স্বার্থ ও সুবিধার জন্য রাজনীতিতে যোগ দেন।"},
+    {number: 514, idiom: "Long and short", idiomPron: "লং অ্যান্ড শর্ট", meaningEn: "Summary", meaningBn: "সারসংক্ষেপ বা আসল কথা", exampleEn: "The long and short of the matter is that we failed.", exampleBn: "আসল কথাটি হলো আমরা ব্যর্থ হয়েছি।"},
+    {number: 515, idiom: "Long for", idiomPron: "লং ফর", meaningEn: "Desire eagerly", meaningBn: "তীব্র আকাঙ্ক্ষা করা", exampleEn: "The lonely old mother longs for her son's arrival.", exampleBn: "একাকী বৃদ্ধ মা তাঁর ছেলের আগমনের জন্য ব্যাকুল হয়ে আছেন।"},
+    {number: 516, idiom: "Long in the tooth", idiomPron: "লং ইন দ্য টুথ", meaningEn: "Old or aging", meaningBn: "বয়স্ক বা পুরনো", exampleEn: "This mobile model is getting a bit long in the tooth.", exampleBn: "এই মোবাইল মডেলটি এখন কিছুটা পুরনো হয়ে যাচ্ছে।"},
+    {number: 517, idiom: "Look after", idiomPron: "লুক আফটার", meaningEn: "Take care of", meaningBn: "দেখাশোনা করা", exampleEn: "Please look after my little child for an hour.", exampleBn: "দয়া করে এক ঘণ্টার জন্য আমার ছোট্ট বাচ্চাটির দেখাশোনা করবেন।"},
+    {number: 518, idiom: "Look down upon", idiomPron: "লুক ডাউন আপন", meaningEn: "Despise / Disdain", meaningBn: "ঘৃণা বা অবজ্ঞা করা", exampleEn: "Do not look down upon the poor; respect everyone.", exampleBn: "দরিদ্রদের কখনোই অবজ্ঞা করবেন না; সবাইকে সম্মান করুন।"},
+    {number: 519, idiom: "Look into", idiomPron: "লুক ইনটু", meaningEn: "Investigate", meaningBn: "তদন্ত করা", exampleEn: "The police officer promised to look into the matter.", exampleBn: "পুলিশ কর্মকর্তা বিষয়টি তদন্ত করার প্রতিশ্রুতি দিয়েছিলেন।"},
+    {number: 520, idiom: "Look over", idiomPron: "লুক ওভার", meaningEn: "Examine quickly", meaningBn: "চোখ বুলিয়ে নেওয়া বা পরীক্ষা করা", exampleEn: "Look over your code script before you submit it.", exampleBn: "কোড জমা দেওয়ার আগে একবার ভালো করে দেখে নিন।"},
+    {number: 521, idiom: "Loose end", idiomPron: "লুজ এন্ড", meaningEn: "Unoccupied state", meaningBn: "বেকার বা অকেজো অবস্থা", exampleEn: "He has been at a loose end since losing his job.", exampleBn: "চাকরি হারানোর পর থেকে সে কোনো কাজ ছাড়া অলস সময় কাটাচ্ছে।"},
+    {number: 522, idiom: "Loud and clear", idiomPron: "লাউড অ্যান্ড ক্লিয়ার", meaningEn: "Clearly understandable", meaningBn: "সুস্পষ্ট ও পরিষ্কার", exampleEn: "Your voice is coming loud and clear over the phone.", exampleBn: "ফোনে আপনার কণ্ঠ পরিষ্কার ও স্পষ্ট শোনা যাচ্ছে।"},
+    {number: 523, idiom: "Lump sum", idiomPron: "লাম্প সাম", meaningEn: "Single total payment", meaningBn: "এককালীন অর্থ", exampleEn: "He received a lump sum amount after his retirement.", exampleBn: "অবসরের পর তিনি এককালীন একটি মোটা অঙ্কের টাকা পেয়েছিলেন।"},
+    {number: 524, idiom: "Make a clean breast of", idiomPron: "মেইক আ ক্লিন ব্রেস্ট অফ", meaningEn: "Confess completely", meaningBn: "সম্পূর্ণভাবে স্বীকার করা", exampleEn: "He decided to make a clean breast of his mistake.", exampleBn: "সে তার ভুলের কথা অকপটে স্বীকার করার সিদ্ধান্ত নিয়েছিল।"},
+    {number: 525, idiom: "Make a day", idiomPron: "মেইক আ ডে", meaningEn: "Make very happy", meaningBn: "দিনটি আনন্দময় করে তোলা", exampleEn: "Your beautiful present really made my day today.", exampleBn: "আপনার সুন্দর উপহারটি আজ সত্যিই আমার দিনটি আনন্দময় করে দিয়েছে।"},
+    {number: 526, idiom: "Make after", idiomPron: "মেইক আফটার", meaningEn: "Chase / Pursue", meaningBn: "পিছু নেওয়া বা ধাওয়া করা", exampleEn: "The dog made after the thief, but could not catch him.", exampleBn: "কুকুরটি চোরের পিছু নিয়েছিল, কিন্তু তাকে ধরতে পারেনি।"},
+    {number: 527, idiom: "Make away with", idiomPron: "মেইক অ্যাওয়ে উইথ", meaningEn: "Steal and run off", meaningBn: "নিয়ে পালিয়ে যাওয়া", exampleEn: "The clever clerk made away with all the confidential papers.", exampleBn: "চতুর কেরানি সব গোপন কাগজপত্র নিয়ে পালিয়ে গিয়েছিল।"},
+    {number: 528, idiom: "Make both ends meet", idiomPron: "মেইক বোথ এন্ডস মীট", meaningEn: "Live within income", meaningBn: "আয়-ব্যয়ের সংস্থান করা", exampleEn: "With his low monthly profit, it is hard to make both ends meet.", exampleBn: "সামান্য মাসিক আয়ে তার পক্ষে সংসার চালানো বা আয়-ব্যয় মেলানো কঠিন।"},
+    {number: 529, idiom: "Make for", idiomPron: "মেইক ফর", meaningEn: "Head towards", meaningBn: "অগ্রসর হওয়া", exampleEn: "The ship changed its route and made for the safe harbor.", exampleBn: "জাহাজটি গতিপথ পরিবর্তন করে নিরাপদ বন্দরের দিকে অগ্রসর হয়েছিল।"},
+    {number: 530, idiom: "Make fun of", idiomPron: "মেইক ফান অফ", meaningEn: "Ridicule / Mock", meaningBn: "ঠাট্টা-তামাশা করা", exampleEn: "Do not make fun of his simple appearance; he is very smart.", exampleBn: "তার সাধারণ রূপ দেখে ঠাট্টা কোরো না; সে অত্যন্ত চতুর।"},
+    {number: 531, idiom: "Make good", idiomPron: "মেইক গুড", meaningEn: "Compensate", meaningBn: "ক্ষতিপূরণ করা", exampleEn: "The company promised to make good the loss caused by the delay.", exampleBn: "বিলম্বের কারণে হওয়া ক্ষতিপূরণ দেওয়ার প্রতিশ্রুতি দিয়েছিল কোম্পানিটি।"},
+    {number: 532, idiom: "Make haste", idiomPron: "মেইক হেইস্ট", meaningEn: "Hurry up", meaningBn: "তাড়াতাড়ি করা", exampleEn: "Make haste; else we will miss the National University application deadline.", exampleBn: "তাড়াতাড়ি করো; নইলে আমরা জাতীয় বিশ্ববিদ্যালয়ের আবেদনের শেষ সময় মিস করব।"},
+    {number: 533, idiom: "Make out", idiomPron: "মেইক আউট", meaningEn: "Understand", meaningBn: "বুঝতে পারা", exampleEn: "I cannot make out the meaning of this complex code script.", exampleBn: "আমি এই জটিল কোড স্ক্রিপ্টটির অর্থ বুঝতে পারছি না।"},
+    {number: 534, idiom: "Milk and water", idiomPron: "মিল্ক অ্যান্ড ওয়াটার", meaningEn: "Weak and tasteless", meaningBn: "নীরস বা দুর্বল", exampleEn: "His milk and water behavior made him low in the group debate.", exampleBn: "তার দুর্বল ও মেরুদণ্ডহীন আচরণের কারণে গ্রুপ বিতর্কে সে পিছিয়ে পড়েছিল।"},
+    {number: 535, idiom: "Monkey business", idiomPron: "মাঙ্কি বিজনেস", meaningEn: "Mischievous or deceitful activity", meaningBn: "বাঁদরামি বা অপকর্ম", exampleEn: "Stop this monkey business and focus on your live MCQ exam.", exampleBn: "এইসব বাঁদরামি বন্ধ করো এবং লাইভ এমসিকিউ পরীক্ষায় মনোযোগ দাও।"},
+    {number: 536, idiom: "Mourn for", idiomPron: "মোর্ন ফর", meaningEn: "Grieve for", meaningBn: "শোক প্রকাশ করা", exampleEn: "The family is mourning for the sudden loss of their uncle.", exampleBn: "পরিবারটি তাদের চাচার আকস্মিক মৃত্যুতে শোক প্রকাশ করছে।"},
+    {number: 537, idiom: "Narrow escape", idiomPron: "ন্যারো এস্কেপ", meaningEn: "Barely avoid danger", meaningBn: "অল্পের জন্য রক্ষা পাওয়া", exampleEn: "The driver had a narrow escape from the severe road accident.", exampleBn: "ভয়াবহ সড়ক দুর্ঘটনা থেকে চালক অল্পের জন্য বেঁচে গিয়েছিলেন।"},
+    {number: 538, idiom: "None but", idiomPron: "নান বাট", meaningEn: "Only", meaningBn: "ব্যতীত অন্য কেউ নয় / কেবল", exampleEn: "None but the dedicated candidates can clear the hard BCS test.", exampleBn: "একনিষ্ঠ প্রার্থীরা ছাড়া অন্য কেউই কঠিন বিসিএস পরীক্ষায় উত্তীর্ণ হতে পারে না।"},
+    {number: 539, idiom: "Now and then", idiomPron: "নাও অ্যান্ড দেন", meaningEn: "From time to time", meaningBn: "মাঝে মাঝে", exampleEn: "He calls his nephew now and then to know about his health.", exampleBn: "সে তার ভাগ্নের স্বাস্থ্যের খোঁজ নিতে মাঝে মাঝেই ফোন করে।"},
+    {number: 540, idiom: "Of late", idiomPron: "অফ লেইট", meaningEn: "Recently", meaningBn: "সম্প্রতি", exampleEn: "He has been working hard on layout tools development of late.", exampleBn: "সম্প্রতি সে লেআউট টুলস ডেভেলপমেন্টের ওপর কঠোর পরিশ্রম করছে।"},
+    {number: 541, idiom: "Of no use", idiomPron: "অফ নো ইউজ", meaningEn: "Useless", meaningBn: "অকেজো / কোনো কাজের নয়", exampleEn: "This broken premium application package is of no use now.", exampleBn: "এই নষ্ট প্রিমিয়াম অ্যাপ্লিকেশন প্যাকেজটি এখন আর কোনো কাজের নয়।"},
+    {number: 542, idiom: "Of one's own accord", idiomPron: "অফ ওয়ানস ওন অ্যাকর্ড", meaningEn: "Voluntarily", meaningBn: "স্বেচ্ছায় / নিজের ইচ্ছায়", exampleEn: "He joined the village library development group of his own accord.", exampleBn: "সে নিজের ইচ্ছাতেই গ্রাম্য পাঠাগার উন্নয়ন গ্রুপে যোগ দিয়েছিল।"},
+    {number: 543, idiom: "Off and on", idiomPron: "অফ অ্যান্ড অন", meaningEn: "Intermittently", meaningBn: "মাঝে মাঝে / থেকে থেকে", exampleEn: "It rained off and on yesterday; we could not go out.", exampleBn: "গতকাল মাঝে মাঝে বৃষ্টি হয়েছিল; আমরা বাইরে যেতে পারিনি।"},
+    {number: 544, idiom: "Olive branch", idiomPron: "অলিভ ব্রাঞ্চ", meaningEn: "Offer of peace", meaningBn: "শান্তির প্রস্তাব", exampleEn: "The manager offered an olive branch to settle the internal dispute.", exampleBn: "অভ্যন্তরীণ বিরোধ মেটাতে ব্যবস্থাপক শান্তির প্রস্তাব দিয়েছিলেন।"},
+    {number: 545, idiom: "On all hands", idiomPron: "অন অল হ্যান্ডস", meaningEn: "Universally / Everywhere", meaningBn: "সর্বসম্মতভাবে / সবদিক থেকেই", exampleEn: "His dedication to the typing milestone was praised on all hands.", exampleBn: "টাইপিং মাইলফলকের প্রতি তার একনিষ্ঠতা সর্বসম্মতভাবে প্রশংসিত হয়েছিল।"},
+    {number: 546, idiom: "On and on", idiomPron: "অন অ্যান্ড অন", meaningEn: "Continuously without stopping", meaningBn: "ক্রমাগত / অবিরামভাবে", exampleEn: "He went on and on explaining the syntax logic for hours.", exampleBn: "সে ঘণ্টার পর ঘণ্টা সিনট্যাক্স লজিক ব্যাখ্যা করে চলেছিল।"},
+    {number: 547, idiom: "On behalf of", idiomPron: "অন বিহাফ অফ", meaningEn: "Representing someone", meaningBn: "পক্ষে", exampleEn: "The team captain received the prize on behalf of all players.", exampleBn: "দলের অধিনায়ক সব খেলোয়াড়ের পক্ষ থেকে পুরস্কার গ্রহণ করেছিলেন।"},
+    {number: 548, idiom: "On the contrary", idiomPron: "অন দ্য কনট্রারি", meaningEn: "In opposition to what was said", meaningBn: "পক্ষান্তরে বা বরং বিপরীতভাবে", exampleEn: "He is not lazy; on the contrary, he is the most active boy.", exampleBn: "সে অলস নয়; বরং বিপরীতভাবে সে সবচেয়ে কর্মঠ ছেলে।"},
+    {number: 549, idiom: "On the eve of", idiomPron: "অন দ্য ঈভ অফ", meaningEn: "Just before", meaningBn: "প্রাক্কালে", exampleEn: "He completed the layout adjustments on the eve of the function.", exampleBn: "অনুষ্ঠানের ঠিক প্রাক্কালে সে লেআউট সমন্বয়ের কাজ শেষ করেছিল।"},
+    {number: 550, idiom: "On the threshold of", idiomPron: "অন দ্য থ্রেশহোল্ড অফ", meaningEn: "At the beginning of", meaningBn: "দ্বারপ্রান্তে", exampleEn: "The young researcher is on the threshold of a major career leap.", exampleBn: "তরুণ গবেষক তাঁর ক্যারিয়ারের একটি বড় অগ্রগতির দ্বারপ্রান্তে রয়েছেন।"},
+    {number: 551, idiom: "On the verge of", idiomPron: "অন দ্য ভার্জ অফ", meaningEn: "On the brink of", meaningBn: "কিনারায় / ঠিক মুখে", exampleEn: "The traditional printing shop is on the verge of closing down.", exampleBn: "ঐতিহ্যবাহী প্রিন্টিং দোকানটি বন্ধ হয়ে যাওয়ার মুখে।"},
+    {number: 552, idiom: "On time", idiomPron: "অন টাইম", meaningEn: "Punctually", meaningBn: "যথা সময়ে", exampleEn: "You must submit the manual map adjustments report on time.", exampleBn: "আপনাকে অবশ্যই নির্ধারিত সময়ে ম্যানুয়াল ম্যাপ অ্যাডজাস্টমেন্ট রিপোর্ট জমা দিতে হবে।"},
+        {number: 553, idiom: "Once for all", idiomPron: "ওয়ানস ফর অল", meaningEn: "Finally", meaningBn: "শেষ বারের মত", exampleEn: "Clear your misunderstanding once for all through a friendly talk.", exampleBn: "একটি বন্ধুত্বপূর্ণ আলোচনার মাধ্যমে চিরতরে তোমাদের ভুল বোঝাবুঝি দূর করে ফেলো।"},
+    {number: 554, idiom: "Once in a while", idiomPron: "ওয়ানস ইন আ হোয়াইল", meaningEn: "Occasionally", meaningBn: "মাঝে মাঝে", exampleEn: "Everyone makes a minor typing typo once in a while.", exampleBn: "মাঝে মাঝে যে কেউই ছোটখাটো টাইপিং ভুল করে থাকে।"},
+    {number: 555, idiom: "Open mind", idiomPron: "ওপেন মাইন্ড", meaningEn: "Willingness to consider new ideas", meaningBn: "উদার বা মুক্ত মন", exampleEn: "An assistant typist should listen to suggestions with an open mind.", exampleBn: "একজন সহকারী টাইপিস্টের উচিত মুক্ত মনে অন্যের পরামর্শ শোনা।"},
+    {number: 556, idiom: "Optical illusion", idiomPron: "অপটিক্যাল ইল্যুশন", meaningEn: "Visual deception", meaningBn: "দৃষ্টিভ্রম", exampleEn: "The pool water looked shallow, but it was just an optical illusion.", exampleBn: "পুকুরের জলটি অগভীর মনে হয়েছিল, কিন্তু তা কেবল দৃষ্টির বিভ্রম ছাড়া কিছুই ছিল না।"},
+    {number: 557, idiom: "Out of bounds", idiomPron: "আউট অফ বাউন্ডস", meaningEn: "Forbidden area", meaningBn: "নিষিদ্ধ এলাকা", exampleEn: "Entering the server room without permission is out of bounds.", exampleBn: "অনুমতি ছাড়া সার্ভার রুমে প্রবেশ সম্পূর্ণ নিষিদ্ধ।"},
+    {number: 558, idiom: "Out of doors", idiomPron: "আউট অফ ডোরস", meaningEn: "Outside in open air", meaningBn: "ঘরের বাইরে / উন্মুক্ত স্থানে", exampleEn: "Children love to spend their holiday playing out of doors.", exampleBn: "ছুটির দিনে ঘরের বাইরে খেলাধুলা করতে বাচ্চারা খুব পছন্দ করে।"},
+    {number: 559, idiom: "Out of place", idiomPron: "আউট অফ প্লেস", meaningEn: "Inappropriate / Uncomfortable", meaningBn: "বেমানান বা অনুপযুক্ত", exampleEn: "His long verbose speech felt totally out of place at the party.", exampleBn: "অনুষ্ঠানে তার দীর্ঘ বক্তৃতাটি সম্পূর্ণ বেমানান ও অপ্রাসঙ্গিক মনে হয়েছিল।"},
+    {number: 560, idiom: "Out of pocket", idiomPron: "আউট অফ পকেট", meaningEn: "Having spent all cash / In deficit", meaningBn: "টাকাশূন্য বা অর্থহীন অবস্থায়", exampleEn: "I am out of pocket this week after paying the hostel rent.", exampleBn: "মেসের ভাড়া পরিশোধ করার পর এই সপ্তাহে আমার হাত একেবারে খালি বা টাকাশূন্য।"},
+    {number: 561, idiom: "Out of temper", idiomPron: "আউট অফ টেম্পার", meaningEn: "Angry", meaningBn: "মেজাজ হারানো / ক্রুদ্ধ", exampleEn: "The officer got out of temper when the clerk missed the file.", exampleBn: "কেরানি ফাইলটি হারিয়ে ফেললে কর্মকর্তা মেজাজ হারিয়ে ফেলেছিলেন।"},
+    {number: 562, idiom: "Out of the blue", idiomPron: "আউট অফ দ্য ব্লু", meaningEn: "Completely unexpectedly", meaningBn: "সম্পূর্ণ অপ্রত্যাশিতভাবে", exampleEn: "The interview invitation letter arrived totally out of the blue.", exampleBn: "ইন্টারভিউয়ের আমন্ত্রণপত্রটি সম্পূর্ণ অপ্রত্যাশিতভাবে এসে পৌঁছেছিল।"},
+    {number: 563, idiom: "Out of the way", idiomPron: "আউট অফ দ্য ওয়ে", meaningEn: "Remote / Unusual", meaningBn: "নির্জনে বা দূরবর্তী স্থানে", exampleEn: "The little library is located in an out of the way village lane.", exampleBn: "ছোট লাইব্রেরিটি গ্রামের একটি নির্জন ও দূরবর্তী গলিতে অবস্থিত।"},
+    {number: 564, idiom: "Pass away", idiomPron: "পাস অ্যাওয়ে", meaningEn: "Die", meaningBn: "মারা যাওয়া", exampleEn: "The old scholar passed away peacefully last night.", exampleBn: "বৃদ্ধ পণ্ডিত গতকাল রাতে শান্তিতে শেষ নিঃশ্বাস ত্যাগ করেছিলেন।"},
+    {number: 565, idiom: "Pass the buck", idiomPron: "পাস দ্য বাক", meaningEn: "Shift responsibility to another", meaningBn: "দায় অন্যের ওপর চাপানো", exampleEn: "Do not pass the buck; you must accept your own mistake.", exampleBn: "দোষ অন্যের ঘাড়ে চাপিয়ো না; নিজের ভুল নিজেকেই স্বীকার করতে হবে।"},
+    {number: 566, idiom: "Pass through", idiomPron: "পাস থ্রু", meaningEn: "Experience hardships", meaningBn: "কঠিন অবস্থার মধ্য দিয়ে যাওয়া", exampleEn: "He is passing through a very difficult time in his life.", exampleBn: "সে তার জীবনের এক অত্যন্ত কঠিন ও প্রতিকূল সময়ের মধ্য দিয়ে যাচ্ছে।"},
+    {number: 567, idiom: "Pay lip service", idiomPron: "পে লিপ সার্ভিস", meaningEn: "Insincere verbal agreement", meaningBn: "মুখের কথায় সহানুভূতি দেখানো", exampleEn: "They pay lip service to the poor, but never give real help.", exampleBn: "তারা গরিবদের জন্য মুখে মুখে সহানুভূতি দেখায়, কিন্তু বাস্তবে কোনো সাহায্য করে না।"},
+    {number: 568, idiom: "Pick holes", idiomPron: "পিক হোলস", meaningEn: "Find faults in something", meaningBn: "খুঁত ধরা", exampleEn: "It is easy to pick holes in other people's work.", exampleBn: "অন্যের কাজে খুঁত ধরা খুব সহজ কাজ।"},
+    {number: 569, idiom: "Pick a quarrel", idiomPron: "পিক আ কোয়ারেল", meaningEn: "Start a fight intentionally", meaningBn: "ইচ্ছাকৃতভাবে ঝগড়া বাধানো", exampleEn: "He is always trying to pick a quarrel with his roommates.", exampleBn: "সে সবসময় তার রুমমেটদের সাথে ঝগড়া বাধানোর চেষ্টা করে।"},
+    {number: 570, idiom: "Pie in the sky", idiomPron: "পাই ইন দ্য স্কাই", meaningEn: "Unrealistic illusion", meaningBn: "আকাশকুসুম বা অবাস্তব কল্পনা", exampleEn: "His big business plans are just a pie in the sky.", exampleBn: "তার বড় বড় ব্যবসার পরিকল্পনাগুলো আকাশকুসুম কল্পনা ছাড়া কিছুই নয়।"},
+    {number: 571, idiom: "Pivotal question", idiomPron: "পিভোটাল কোশ্চেন", meaningEn: "Central and crucial issue", meaningBn: "প্রধান বা কেন্দ্রবিন্দু প্রশ্ন", exampleEn: "The pivotal question is how to manage the budget for the project.", exampleBn: "প্রকল্পটির বাজেট কীভাবে পরিচালনা করা হবে সেটাই এখন মূল ও প্রধান প্রশ্ন।"},
+    {number: 572, idiom: "Ponder over", idiomPron: "পন্ডার ওভার", meaningEn: "Think deeply about", meaningBn: "গভীরভাবে চিন্তা করা", exampleEn: "He spent hours pondering over the new logic structure.", exampleBn: "সে নতুন লজিক কাঠামোটি নিয়ে ঘণ্টার পর ঘণ্টা গভীরভাবে চিন্তা করেছিল।"},
+    {number: 573, idiom: "Pot luck", idiomPron: "পট লাক", meaningEn: "Meal consisting of whatever is available", meaningBn: "যা আছে তাতেই সন্তুষ্ট থাকা", exampleEn: "You are welcome to stay for dinner and take pot luck with us.", exampleBn: "আমাদের সাথে নৈশভোজে যোগ দিয়ে যা আছে তাতেই অংশ নেওয়ার জন্য আপনাকে স্বাগতম।"},
+    {number: 574, idiom: "Pretty penny", idiomPron: "প্রিটি পেনি", meaningEn: "Large amount of money", meaningBn: "মোটা অঙ্কের টাকা বা চড়া দাম", exampleEn: "This new smartphone model costs a pretty penny.", exampleBn: "এই নতুন স্মার্টফোন মডেলটির দাম অনেক বেশি বা চড়া।"},
+    {number: 575, idiom: "Pull down", idiomPron: "পুল ডাউন", meaningEn: "Demolish", meaningBn: "ভেঙে ফেলা", exampleEn: "The authority pulled down the old broken building.", exampleBn: "কর্তৃপক্ষ পুরনো ও ভাঙা ভবনটি ভেঙে ফেলেছিল।"},
+    {number: 576, idiom: "Put a stop to", idiomPron: "পুট আ স্টপ টু", meaningEn: "End permanently", meaningBn: "বন্ধ করা বা ইতি টানা", exampleEn: "We must put a stop to corruption in our society.", exampleBn: "আমাদের অবশ্যই সমাজে দুর্নীতির ইতি টানতে বা তা বন্ধ করতে হবে।"},
+    {number: 577, idiom: "Put forward", idiomPron: "পুট ফরোয়ার্ড", meaningEn: "Propose an idea", meaningBn: "পেশ বা প্রস্তাব করা", exampleEn: "He put forward a brilliant plan during the meeting.", exampleBn: "বৈঠকে তিনি একটি চমৎকার পরিকল্পনা পেশ করেছিলেন।"},
+    {number: 578, idiom: "Put into practice", idiomPron: "পুট ইনটু প্র্যাকটিস", meaningEn: "Apply in real life", meaningBn: "কাজে লাগানো বা বাস্তবায়ন করা", exampleEn: "It is time to put your typing skills into practice.", exampleBn: "টাইপিংয়ের দক্ষতাগুলোকে কাজে লাগানোর এখনই উপযুক্ত সময়।"},
+    {number: 579, idiom: "Put off", idiomPron: "পুট অফ", meaningEn: "Postpone", meaningBn: "স্থগিত রাখা", exampleEn: "Never put off until tomorrow what you can do today.", exampleBn: "আজকের কাজ কখনোই আগামীকালের জন্য ফেলে রেখো না।"},
+    {number: 580, idiom: "Rack and ruin", idiomPron: "র‍্যাক অ্যান্ড রুইন", meaningEn: "State of utter destruction", meaningBn: "সম্পূর্ণ ধ্বংসপ্রাপ্ত অবস্থা", exampleEn: "The old house went to rack and ruin after they left.", exampleBn: "তারা চলে যাওয়ার পর পুরনো বাড়িটি সম্পূর্ণ ধ্বংস ও ভগ্নদশায় পরিণত হয়েছিল।"},
+    {number: 581, idiom: "Raise one's eyebrow", idiomPron: "রেইজ ওয়ানস আইব্রো", meaningEn: "Show surprise or mild disapproval", meaningBn: "বিস্ময় বা বিরক্তি প্রকাশ করা", exampleEn: "His strange answer raised the teacher's eyebrow.", exampleBn: "তার অদ্ভুত উত্তরটি শিক্ষকের ভ্রু কুঁচকে দিয়েছিল বা বিস্ময় তৈরি করেছিল।"},
+    {number: 582, idiom: "Rank and file", idiomPron: "র‍্যাংক অ্যান্ড ফাইল", meaningEn: "Ordinary members", meaningBn: "সাধারণ সদস্য বা কর্মী", exampleEn: "The leader is loved by the rank and file of the party.", exampleBn: "দলের সাধারণ কর্মীদের কাছে নেতা অত্যন্ত জনপ্রিয় ও প্রিয়।"},
+    {number: 583, idiom: "Red letter day", idiomPron: "রেড লেটার ডে", meaningEn: "A memorable or joyful occasion", meaningBn: "স্মরণীয় দিন", exampleEn: "The victory day is a red letter day for our nation.", exampleBn: "বিজয় দিবস আমাদের জাতির জন্য এক স্মরণীয় ও ঐতিহাসিক দিন।"},
+    {number: 584, idiom: "Root and branch", idiomPron: "রুট অ্যান্ড ব্রাঞ্চ", meaningEn: "Completely / Entirely", meaningBn: "সমূলে / সম্পূর্ণভাবে", exampleEn: "We must eliminate this bad custom root and branch.", exampleBn: "আমাদের এই কুপ্রথাকে সমূলে উৎপাটিত বা নির্মূল করতে হবে।"},
+    {number: 585, idiom: "Run away", idiomPron: "রান অ্যাওয়ে", meaningEn: "Escape quickly", meaningBn: "পালিয়ে যাওয়া", exampleEn: "The criminal ran away before the police arrived.", exampleBn: "পুলিশ আসার আগেই অপরাধী পালিয়ে গিয়েছিল।"},
+    {number: 586, idiom: "Run short", idiomPron: "রান শর্ট", meaningEn: "Become insufficient", meaningBn: "ফুরিয়ে যাওয়া বা কমে যাওয়া", exampleEn: "We are running short of water; please fetch some.", exampleBn: "আমাদের খাবার পানি কমে আসছে বা ফুরিয়ে যাচ্ছে; দয়া করে কিছুটা পানি এনে দাও।"},
+    {number: 587, idiom: "See to", idiomPron: "সী টু", meaningEn: "Attend to or ensure", meaningBn: "ব্যবস্থা করা বা দেখাশোনা করা", exampleEn: "Please see to it that the doors are locked properly.", exampleBn: "দরজাগুলো ঠিকভাবে বন্ধ করা হয়েছে কি না তা দয়া করে দেখে নাও।"},
+    {number: 588, idiom: "Set foot on", idiomPron: "সেট ফুট অন", meaningEn: "Step onto or visit", meaningBn: "পা রাখা", exampleEn: "He was very excited to set foot on the new island.", exampleBn: "নতুন দ্বীপে পা রাখতে পেরে সে অত্যন্ত রোমাঞ্চিত ও আনন্দিত ছিল।"},
+    {number: 589, idiom: "Set out", idiomPron: "সেট আউট", meaningEn: "Begin a journey", meaningBn: "যাত্রা শুরু করা", exampleEn: "They set out for the capital city early in the morning.", exampleBn: "তারা খুব ভোরে রাজধানী শহরের উদ্দেশ্যে রওনা হয়েছিল।"},
+    {number: 590, idiom: "Sharp practice", idiomPron: "শার্প প্র্যাকটিস", meaningEn: "Deceitful or dishonest dealing", meaningBn: "প্রতারণামূলক কাজ বা অসদুপায়", exampleEn: "He lost his business reputation due to sharp practice.", exampleBn: "অসদুপায় অবলম্বনের কারণে সে তার ব্যবসায়িক সুনাম হারিয়েছিল।"},
+    {number: 591, idiom: "Short of", idiomPron: "শর্ট অফ", meaningEn: "Lacking something", meaningBn: "অভাব বা ঘাটতি", exampleEn: "I am short of cash right now; can you lend me some?", exampleBn: "আমার কাছে এই মুহূর্তে নগদ টাকার ঘাটতি রয়েছে; তুমি কি কিছু ধার দিতে পারবে?"},
+    {number: 592, idiom: "Sixth sense", idiomPron: "সিক্সথ সেন্স", meaningEn: "Intuition", meaningBn: "ষষ্ঠ ইন্দ্রিয় বা অন্তর্জ্ঞান", exampleEn: "My sixth sense told me that something was wrong.", exampleBn: "আমার ষষ্ঠ ইন্দ্রিয় আমাকে বলছিল যে কোথাও কোনো একটা সমস্যা হয়েছে।"},
+    {number: 593, idiom: "Slow and steady", idiomPron: "স্লো অ্যান্ড স্টেডি", meaningEn: "Consistent and patient effort", meaningBn: "ধীরস্থির ও অবিচল", exampleEn: "Slow and steady wins the race; keep practicing your regular typing layout.", exampleBn: "ধীরস্থিরভাবে নিরবচ্ছিন্ন কাজই জয় এনে দেয়; নিয়মিত টাইপিং অনুশীলন চালিয়ে যান।"},
+    {number: 594, idiom: "Slow down", idiomPron: "স্লো ডাউন", meaningEn: "Reduce speed", meaningBn: "গতি কমানো", exampleEn: "Slow down your typing speed slightly to avoid making character errors.", exampleBn: "অক্ষরের ভুল এড়াতে টাইপিংয়ের গতি কিছুটা কমিয়ে নিন।"},
+    {number: 595, idiom: "Small fry", idiomPron: "স্মল ফ্রাই", meaningEn: "Insignificant person", meaningBn: "নগণ্য ব্যক্তি", exampleEn: "The manager only talks with top officers; he ignores the small fry.", exampleBn: "ব্যবস্থাপক কেবল উচ্চপদস্থ কর্মকর্তাদের সাথেই কথা বলেন; তিনি সাধারণ নগণ্যদের এড়িয়ে যান।"},
+    {number: 596, idiom: "So that", idiomPron: "সো দ্যাট", meaningEn: "In order that", meaningBn: "যাতে করে", exampleEn: "He moved to a mess hostel so that he could focus entirely on his studies.", exampleBn: "সে একটি মেস হোস্টেলে উঠেছিল যাতে সে পড়াশোনায় পুরোপুরি মনোযোগ দিতে পারে।"},
+    {number: 597, idiom: "Soap opera", idiomPron: "সোপ অপেরা", meaningEn: "Dramatic television serial", meaningBn: "ধারাবাহিক নাটক", exampleEn: "His mother loves to watch the popular soap opera every single evening.", exampleBn: "তার মা প্রতিদিন সন্ধ্যায় জনপ্রিয় ধারাবাহিক নাটক দেখতে পছন্দ করেন।"},
+    {number: 598, idiom: "Sort out", idiomPron: "সর্ট আউট", meaningEn: "Resolve a problem", meaningBn: "সমাধান করা", exampleEn: "We must sort out the dynamic structural bugs in this code.", exampleBn: "আমাদের এই কোডের কাঠামোগত ত্রুটিগুলো দ্রুত সমাধান করতে হবে।"},
+    {number: 599, idiom: "Spare no pains", idiomPron: "স্পেয়ার নো পেইনস", meaningEn: "Make every effort", meaningBn: "চেষ্টার কোনো ত্রুটি না রাখা", exampleEn: "He spared no pains to ensure his BCS cadre preferences were perfect.", exampleBn: "বিসিএস ক্যাডার পছন্দতালিকা নিখুঁত করতে সে চেষ্টার কোনো ত্রুটি রাখেনি।"},
+    {number: 600, idiom: "Speak ill of", idiomPron: "স্পীক ইল অফ", meaningEn: "Criticize or slander someone", meaningBn: "কারো নিন্দা করা বা পেছনে খারাপ বলা", exampleEn: "It is an absolute bad habit to speak ill of your peer behind his back.", exampleBn: "কারো পেছনে তার সম্পর্কে পরনিন্দা বা কুৎসা রটনা করা মারাত্মক খারাপ অভ্যাস।"},
+    {number: 601, idiom: "Square meal", idiomPron: "স্কোয়ার মিল", meaningEn: "Full and satisfying meal", meaningBn: "পেটভরা পুষ্টিকর আহার", exampleEn: "Many poor people in the remote village struggle to get a square meal.", exampleBn: "প্রত্যন্ত গ্রামের বহু দরিদ্র মানুষ পেটভরে দুমুঠো আহার জোগাড় করতে হিমশিম খায়।"},
+    {number: 602, idiom: "Stand by", idiomPron: "স্ট্যান্ড বাই", meaningEn: "Support in difficult times", meaningBn: "পাশে দাঁড়ানো বা সমর্থন দেওয়া", exampleEn: "True family members will always stand by you during trying times.", exampleBn: "প্রকৃত পরিবারের সদস্যরা কঠিন সময়ে সবসময় তোমার পাশে থাকবে।"},
+    {number: 603, idiom: "Stick to", idiomPron: "স্টিক টু", meaningEn: "Adhere firmly to a plan", meaningBn: "লেগে থাকা বা অবিচল থাকা", exampleEn: "If you stick to your target goals, you will achieve high milestones.", exampleBn: "তুমি যদি তোমার লক্ষ্যগুলোতে অবিচল থাকো, তবে তুমি বড় মাইলফলক অর্জন করতে পারবে।"},
+    {number: 604, idiom: "Take after", idiomPron: "টেইক আফটার", meaningEn: "Resemble a parent", meaningBn: "সদৃশ হওয়া বা দেখতে একই রকম হওয়া", exampleEn: "The little nephew takes after his father in appearance.", exampleBn: "ছোট ভাগ্নেটি দেখতে পুরোপুরি তার বাবার মতো হয়েছে।"},
+    {number: 605, idiom: "Take for granted", idiomPron: "টেইক ফর গ্রান্টেড", meaningEn: "Assume without question", meaningBn: "সত্য বলে ধরে নেওয়া বা অবমূল্যায়ন করা", exampleEn: "Never take his sweet words for granted; verify everything.", exampleBn: "তার মিষ্টি কথাকে কখনোই নিশ্চিত সত্যি বলে ধরে নিয়ো না; সবকিছু যাচাই করে নাও।"},
+    {number: 606, idiom: "Take liberties", idiomPron: "টেইক লিবার্টিজ", meaningEn: "Act too freely or improperly", meaningBn: "অতিরিক্ত স্বাধীনতা নেওয়া বা অনধিকার চর্চা", exampleEn: "Do not take liberties with office files without formal permission.", exampleBn: "অনুমতি ছাড়া অফিসের ফাইলের সাথে অতিরিক্ত অনধিকার চর্চা কোরো না।"},
+    {number: 607, idiom: "Take off", idiomPron: "টেইক অফ", meaningEn: "Remove clothing or shoes", meaningBn: "খুলে ফেলা (পোশাক/জুতো)", exampleEn: "Please take off your shoes before entering the clean reading room.", exampleBn: "পরিষ্কার পড়ার ঘরে প্রবেশের আগে দয়া করে জুতো খুলে ফেলুন।"},
+    {number: 608, idiom: "Take over", idiomPron: "টেইক ওভার", meaningEn: "Assume control or responsibility", meaningBn: "দায়িত্ব গ্রহণ করা", exampleEn: "The new assistant manager will take over the formal platform duties tomorrow.", exampleBn: "নতুন সহকারী ব্যবস্থাপক আগামীকাল থেকে প্ল্যাটফর্মের আনুষ্ঠানিক দায়িত্বভার গ্রহণ করবেন।"},
+    {number: 609, idiom: "Take place", idiomPron: "টেইক প্লেস", meaningEn: "Occur / Happen", meaningBn: "সংঘটিত হওয়া", exampleEn: "The National University enrollment project will take place next week.", exampleBn: "জাতীয় বিশ্ববিদ্যালয়ের ভর্তি কার্যক্রম আগামী সপ্তাহে অনুষ্ঠিত হবে।"},
+    {number: 610, idiom: "Tall talk", idiomPron: "টল টক", meaningEn: "Boastful speech", meaningBn: "বড়াই করে কথা বলা", exampleEn: "I do not like his tall talk; he never puts his words into practice.", exampleBn: "আমি তার বড় বড় কথার বড়াই পছন্দ করি না; সে কখনোই নিজের কথা কাজে পরিণত করে না।"},
+    {number: 611, idiom: "The man in the street", idiomPron: "দ্য ম্যান ইন দ্য স্ট্রীট", meaningEn: "Ordinary average citizen", meaningBn: "সাধারণ মানুষ", exampleEn: "The dynamic budget rules are hard to understand for the man in the street.", exampleBn: "বাজেটের জটিল নিয়মগুলো সাধারণ মানুষের পক্ষে বোঝা বেশ কঠিন।"},
+    {number: 612, idiom: "Think over", idiomPron: "থিঙ্ক ওভার", meaningEn: "Consider carefully", meaningBn: "গভীরভাবে বিবেচনা করা", exampleEn: "Take your time to think over the application instructions before payment.", exampleBn: "অর্থ পরিশোধের আগে আবেদনের নির্দেশাবলী ভালো করে ভেবে দেখুন।"},
+    {number: 613, idiom: "Through and through", idiomPron: "থ্রু অ্যান্ড থ্রু", meaningEn: "Completely in all aspects", meaningBn: "পুরোপুরি / আদ্যোপান্ত", exampleEn: "He is a gentleman through and through; everyone in the college loves him.", exampleBn: "সে পুরোপুরি একজন ভদ্রলোক; কলেজের সবাই তাকে ভালোবাসে।"},
+    {number: 614, idiom: "Through Fire and Water", idiomPron: "থ্রু ফায়ার অ্যান্ড ওয়াটার", meaningEn: "Through all kinds of dangers", meaningBn: "যে কোনো চরম বিপদের মধ্য দিয়ে", exampleEn: "The brave soldiers went through fire and water to save their country.", exampleBn: "সাহসী সৈনিকরা তাদের দেশকে রক্ষা করতে যে কোনো বিপদের মধ্য দিয়ে যেতে প্রস্তুত ছিল।"},
+    {number: 615, idiom: "Throw cold water", idiomPron: "থ্রো কোল্ড ওয়াটার", meaningEn: "Discourage someone", meaningBn: "নিরুৎসাহিত করা", exampleEn: "Do not throw cold water on his creative branding design ideas.", exampleBn: "তার চমৎকার ব্র্যান্ডিং ডিজাইনের ভাবনায় অহেতুক নিরুৎসাহিত কোরো না।"},
+    {number: 616, idiom: "Tide over", idiomPron: "টাইড ওভার", meaningEn: "Overcome a temporary difficulty", meaningBn: "কঠিন সময় কাটিয়ে ওঠা", exampleEn: "This small fund will help him tide over his sudden financial crisis.", exampleBn: "এই সামান্য তহবিল তাকে আকস্মিক আর্থিক সংকট কাটিয়ে উঠতে সাহায্য করবে।"},
+    {number: 617, idiom: "Time and again", idiomPron: "টাইম অ্যান্ড এগেইন", meaningEn: "Repeatedly", meaningBn: "বারবার", exampleEn: "I have warned him time and again not to ignore his typing targets.", exampleBn: "আমি তাকে বারবার সতর্ক করেছি যেন সে তার টাইপিং লক্ষ্যকে অবহেলা না করে।"},
+    {number: 618, idiom: "To add insult to injury", idiomPron: "টু অ্যাড ইনসাল্ট টু ইনজুরি", meaningEn: "Make a bad situation worse", meaningBn: "কাটা ঘায়ে নুনের ছিটা দেওয়া", exampleEn: "He lost his phone, and to add insult to injury, his cycle got stolen too.", exampleBn: "সে তার ফোনটি হারিয়েছিল, আর কাটা ঘায়ে নুনের ছিটার মতো তার সাইকেলটিও চুরি হয়ে গেল।"},
+    {number: 619, idiom: "To teem with", idiomPron: "টু টিম উইথ", meaningEn: "Abound with", meaningBn: "পরিপূর্ণ বা ঠাসা থাকা", exampleEn: "This classic literature textbook teems with beautiful essays.", exampleBn: "এই ক্লাসিক সাহিত্যের পাঠ্যবইটি চমৎকার সব প্রবন্ধে ভরপুর।"},
+    {number: 620, idiom: "To the letter", idiomPron: "টু দ্য লেটার", meaningEn: "Precisely according to instructions", meaningBn: "অক্ষরে অক্ষরে হুবহু পালন", exampleEn: "You must follow the structural reference formatting guidelines to the letter.", exampleBn: "আপনাকে অবশ্যই কাঠামোগত ফরম্যাটিং নির্দেশিকা হুবহু বা অক্ষরে অক্ষরে মেনে চলতে হবে।"},
+    {number: 621, idiom: "To cope with", idiomPron: "টু কোপ উইথ", meaningEn: "Manage difficulty successfully", meaningBn: "মানিয়ে নেওয়া বা সামলানো", exampleEn: "He is learning hard to cope with the heavy pressure of BCS preparation.", exampleBn: "বিসিএস প্রস্তুতির প্রচণ্ড চাপের সাথে মানিয়ে নেওয়ার জন্য সে আপ্রাণ চেষ্টা করছে।"},
+    {number: 622, idiom: "To gear up", idiomPron: "টু গিয়ার আপ", meaningEn: "Prepare and accelerate speed", meaningBn: "গতি বাড়ানো বা জোর প্রস্তুতি নেওয়া", exampleEn: "It is high time to gear up your speed for the operator job test.", exampleBn: "অপারেটর চাকরি পরীক্ষার জন্য গতি বাড়ানোর এখনই উপযুক্ত সময়।"},
+    {number: 623, idiom: "To get away", idiomPron: "টু গেট অ্যাওয়ে", meaningEn: "Escape successfully", meaningBn: "পালিয়ে যেতে সক্ষম হওয়া", exampleEn: "The thief managed to get away before the local people could call the police.", exampleBn: "স্থানীয় লোকজন পুলিশ ডাকার আগেই চোরটি পালিয়ে যেতে সক্ষম হয়েছিল।"},
+    {number: 624, idiom: "To no purpose", idiomPron: "টু নো পারপাস", meaningEn: "In vain / Fruitless", meaningBn: "সম্পূর্ণ নিষ্ফল বা ব্যর্থ", exampleEn: "All his arguments went to no purpose; the officer rejected the application.", exampleBn: "তার সব যুক্তিই নিষ্ফল হয়েছিল; কর্মকর্তা আবেদনটি বাতিল করে দিয়েছিলেন।"},
+    {number: 625, idiom: "To toil and moil", idiomPron: "টু টয়েল অ্যান্ড ময়েল", meaningEn: "Work extremely hard", meaningBn: "হাড়ভাঙা খাটুনি খাটা", exampleEn: "He had to toil and moil for months to complete the digital web platform.", exampleBn: "ডিজিটাল ওয়েব প্ল্যাটফর্মটি তৈরি করতে তাকে মাসের পর মাস হাড়ভাঙা খাটুনি খাটতে হয়েছিল।"},
+    {number: 626, idiom: "Touch down", idiomPron: "টাচ ডাউন", meaningEn: "Land smoothly", meaningBn: "অবতরণ করা (বিমান)", exampleEn: "The plane touched down safely at the airport despite the heavy storm.", exampleBn: "প্রচণ্ড ঝড় সত্ত্বেও বিমানটি বিমানবন্দরে নিরাপদে অবতরণ করেছিল।"},
+    {number: 627, idiom: "Touch on", idiomPron: "টাচ অন", meaningEn: "Mention briefly", meaningBn: "সংক্ষেপে উল্লেখ বা আলোকপাত করা", exampleEn: "The speaker touched on the life of Kazi Nazrul Islam during his lecture.", exampleBn: "বক্তা তাঁর বক্তৃতায় কাজী নজরুল ইসলামের জীবনের ওপর সংক্ষিপ্ত আলোকপাত করেছিলেন।"},
+    {number: 628, idiom: "True to word", idiomPron: "ট্রু টু ওয়ার্ড", meaningEn: "Faithful to promise", meaningBn: "কথার খেলাপ না করা / প্রতিশ্রুতিশীল", exampleEn: "He stayed true to his word and delivered the layout tools layout on time.", exampleBn: "তিনি তাঁর কথায় অটল ছিলেন এবং সঠিক সময়ে লেআউট টুলস তৈরি করে দিয়েছিলেন।"},
+    {number: 629, idiom: "Turn a blind eye", idiomPron: "টার্ন আ ব্লাইন্ড আই", meaningEn: "Pretend not to notice", meaningBn: "দেখেও না দেখার ভান করা", exampleEn: "The supervisor turned a blind eye to his minor typing typos.", exampleBn: "সুপারভাইজার তার ছোটখাটো টাইপিং ভুলগুলোর প্রতি অন্ধ হয়ে দেখেও না দেখার ভান করেছিলেন।"},
+    {number: 630, idiom: "Turn off", idiomPron: "টার্ন অফ", meaningEn: "Switch off / Deactivate", meaningBn: "বন্ধ করা (যন্ত্র বা স্ক্রিন)", exampleEn: "Please turn off your mobile display before entering the exam hall.", exampleBn: "পরীক্ষার হলে ঢোকার আগে দয়া করে আপনার মোবাইল ডিসপ্লে বন্ধ করে দিন।"},
+    {number: 631, idiom: "Turn up", idiomPron: "টার্ন আপ", meaningEn: "Arrive / Appear", meaningBn: "উপস্থিত হওয়া", exampleEn: "He did not turn up for the typing test yesterday; everyone waited.", exampleBn: "গতকাল সে টাইপিং পরীক্ষায় উপস্থিত হয়নি; সবাই তার জন্য অপেক্ষা করেছিল।"},
+    {number: 632, idiom: "Under lock and key", idiomPron: "আন্ডার লক অ্যান্ড কী", meaningEn: "Securely locked up", meaningBn: "তালাবদ্ধ ও নিরাপদ অবস্থায়", exampleEn: "Keep all your confidential certificates under lock and key.", exampleBn: "আপনার সমস্ত গোপনীয় সার্টিফিকেট তালাবদ্ধ অবস্থায় নিরাপদে রাখুন।"},
+    {number: 633, idiom: "Up and doing", idiomPron: "আপ অ্যান্ড ডুয়িং", meaningEn: "Active and energetic", meaningBn: "উঠেপড়ে লাগা / কর্মতৎপর", exampleEn: "You must be up and doing to achieve your dream career goals.", exampleBn: "স্বপ্নের ক্যারিয়ারের লক্ষ্য অর্জনে আপনাকে অবশ্যই সক্রিয় ও উদ্যোগী হতে হবে।"},
+    {number: 634, idiom: "Up and down", idiomPron: "আপ অ্যান্ড ডাউন", meaningEn: "Walking back and forth", meaningBn: "পায়চারি করা", exampleEn: "He walked up and down the hostel room while memorizing essays.", exampleBn: "প্রবন্ধগুলো মুখস্থ করার সময় সে হোস্টেলের ঘরের ভেতরে পায়চারি করছিল।"},
+    {number: 635, idiom: "Up to the mark", idiomPron: "আপ টু দ্য মার্ক", meaningEn: "Meeting standard quality", meaningBn: "আশানুরূপ বা মানসম্মত", exampleEn: "His typing speed milestone is not up to the mark yet; he needs practice.", exampleBn: "তার টাইপিংয়ের গতি এখনো আশানুরূপ বা মানসম্মত হয়নি; তার আরও অনুশীলন দরকার।"},
+    {number: 636, idiom: "Ups and downs", idiomPron: "আপস অ্যান্ড ডাউনস", meaningEn: "Good and bad times", meaningBn: "উত্থান-পতন", exampleEn: "Every single business layout has its own ups and downs.", exampleBn: "প্রতিটি ব্যবসায়িক কাঠামোরই নিজস্ব উত্থান-পতন রয়েছে।"},
+    {number: 637, idiom: "Vice versa", idiomPron: "ভাইস ভার্সা", meaningEn: "The other way around", meaningBn: "বিপরীতভাবেও সত্যি", exampleEn: "Good practice leads to speed, and vice versa; so keep typing.", exampleBn: "ভালো অনুশীলন গতি এনে দেয় এবং বিপরীতভাবে গতিও অনুশীলনে বাড়ে; তাই টাইপ করতে থাকুন।"},
+    {number: 638, idiom: "Wait for", idiomPron: "ওয়েট ফর", meaningEn: "Await someone or something", meaningBn: "অপেক্ষা করা", exampleEn: "We must wait for the final notification from National University.", exampleBn: "জাতীয় বিশ্ববিদ্যালয়ের চূড়ান্ত বিজ্ঞপ্তির জন্য আমাদের অবশ্যই অপেক্ষা করতে হবে।"},
+    {number: 639, idiom: "Watery grave", idiomPron: "ওয়াটারি গ্রেভ", meaningEn: "Death by drowning", meaningBn: "সলিল সমাধি", exampleEn: "The poor fishermen met a watery grave during the severe cyclone.", exampleBn: "ভয়াবহ ঘূর্ণিঝড়ে দরিদ্র জেলেরা সলিল সমাধি লাভ করেছিল।"},
+    {number: 640, idiom: "Weal and woe", idiomPron: "উইল অ্যান্ড ও", meaningEn: "Prosperity and sorrow", meaningBn: "সুখ-দুঃখ", exampleEn: "True friends will always stand by you in weal and woe.", exampleBn: "প্রকৃত বন্ধুরা সুখে-দুঃখে সবসময় তোমার পাশে থাকবে।"},
+    {number: 641, idiom: "Well to do", idiomPron: "ওয়েল টু ডু", meaningEn: "Wealthy / Prosperous", meaningBn: "ধনী বা অবস্থাপন্ন", exampleEn: "He hails from a well to do family in the local town.", exampleBn: "সে স্থানীয় শহরের এক অবস্থাপন্ন ও সচ্ছল পরিবারের সন্তান।"},
+    {number: 642, idiom: "Well up", idiomPron: "ওয়েল আপ", meaningEn: "Highly proficient or versed", meaningBn: "অভিজ্ঞ / সুপণ্ডিত", exampleEn: "Our department head is well up in classic Bengali literature.", exampleBn: "আমাদের বিভাগীয় প্রধান ধ্রুপদী বাংলা সাহিত্যে অত্যন্ত অভিজ্ঞ ও পারদর্শী।"},
+    {number: 643, idiom: "White feather", idiomPron: "হোয়াইট ফেদার", meaningEn: "Symbol of cowardice", meaningBn: "কাপুরুষতার প্রতীক বা লক্ষণ", exampleEn: "Showing a white feather in front of a crisis is not a good sign.", exampleBn: "সংকটের মুখে কাপুরুষতা বা ভীরুতা প্রদর্শন করা কোনো ভালো লক্ষণ নয়।"},
+    {number: 644, idiom: "With a good grace", idiomPron: "উইথ আ গুড গ্রেস", meaningEn: "Cheerfully and willingly", meaningBn: "সানন্দে বা হাসিমুখে", exampleEn: "She accepted the group suggestions with a good grace.", exampleBn: "তিনি সানন্দে ও আন্তরিকতার সাথে দলের পরামর্শগুলো গ্রহণ করেছিলেন।"},
+    {number: 645, idiom: "With a high hand", idiomPron: "উইথ আ হাই হ্যান্ড", meaningEn: "In an arrogant and firm manner", meaningBn: "কঠোর হস্তে", exampleEn: "The dynamic team manager handles the layout discipline with a high hand.", exampleBn: "টিম ম্যানেজার কঠোর হাতে লেআউট শৃঙ্খলার বিষয়টি পরিচালনা করেন।"},
+    {number: 646, idiom: "With a view to", idiomPron: "উইথ আ ভিউ টু", meaningEn: "With the purpose of", meaningBn: "উদ্দেশ্যে", exampleEn: "He moved to the mess with a view to practicing coding thoroughly.", exampleBn: "ভালোভাবে কোডিং অনুশীলনের উদ্দেশ্যে সে মেসে উঠেছিল।"},
+    {number: 647, idiom: "With an eye to", idiomPron: "উইথ অ্যান আই টু", meaningEn: "Aiming to", meaningBn: "নজর রেখে বা লক্ষ্যে", exampleEn: "He works day in day out with an eye to clearing the assistant post test.", exampleBn: "সহকারী পদের পরীক্ষায় পাস করার উদ্দেশ্যে সে দিনরাত কাজ করছে।"},
+    {number: 648, idiom: "With flying colours", idiomPron: "উইথ ফ্লাইং কালার্স", meaningEn: "With great success", meaningBn: "বিজয়ীর বেশে / গৌরবময় সাফল্য", exampleEn: "If you study hard, you will pass the final BCS exam with flying colours.", exampleBn: "কঠোর পড়াশোনা করলে তুমি বিসিএস পরীক্ষায় গৌরবময় সাফল্য অর্জন করতে পারবে।"},
+    {number: 649, idiom: "With one voice", idiomPron: "উইথ ওয়ান ভয়েস", meaningEn: "Unanimously", meaningBn: "এক বাক্যে / সর্বসম্মতিক্রমে", exampleEn: "The committee members accepted the new framework with one voice.", exampleBn: "কমিটির সদস্যরা এক বাক্যে বা সর্বসম্মতিক্রমে নতুন রূপরেখাটি গ্রহণ করেছিলেন।"},
+    {number: 650, idiom: "With open arms", idiomPron: "উইথ ওপেন আর্মস", meaningEn: "Warmly", meaningBn: "সাদরে / উষ্ণ অভ্যর্থনা জানিয়ে", exampleEn: "The village library group welcomed the fresh blood with open arms.", exampleBn: "গ্রামের লাইব্রেরি গ্রুপ নতুন সদস্যদের উষ্ণ অভ্যর্থনা জানিয়ে সাদরে গ্রহণ করেছিল।"},
+    {number: 651, idiom: "With regard to", idiomPron: "উইথ রিগার্ড টু", meaningEn: "Concerning", meaningBn: "ব্যাপারে / সম্পর্কে", exampleEn: "I have no further instructions with regard to this layout script.", exampleBn: "এই লেআউট স্ক্রিপ্ট সম্পর্কে আমার আর কোনো বাড়তি নির্দেশনা নেই।"},
+    {number: 652, idiom: "Without fail", idiomPron: "উইদাউট ফেইল", meaningEn: "Certainly", meaningBn: "অবশ্যই / কোনো ভুল ছাড়া", exampleEn: "You must practice both English and Bengali text layout typing without fail.", exampleBn: "তোমাকে অবশ্যই বাংলা ও ইংরেজি উভয় টেক্সট টাইপিং নিয়মিত অনুশীলন করতে হবে।"},
+    {number: 653, idiom: "Work against the clock", idiomPron: "ওয়ার্ক অ্যাগেইন্সট দ্য ক্লক", meaningEn: "Work very fast", meaningBn: "সময়ের সাথে পাল্লা দিয়ে অত্যন্ত দ্রুত কাজ করা", exampleEn: "They had to work against the clock to complete the map edits report.", exampleBn: "ম্যাপ সম্পাদনার রিপোর্ট শেষ করার জন্য তাদের সময়ের সাথে পাল্লা দিয়ে অত্যন্ত দ্রুত কাজ করতে হয়েছিল।"},
+    {number: 654, idiom: "Worth one's while", idiomPron: "ওয়ার্থ ওয়ানস হোয়াইল", meaningEn: "Worth the time / Effort", meaningBn: "খাটুনি সার্থক হওয়া / যোগ্য প্রাপ্তি", exampleEn: "Building this dynamic digital note application is truly worth your while.", exampleBn: "এই চমৎকার ডিজিটাল নোট অ্যাপ্লিকেশনটি তৈরি করা সত্যিই আপনার জন্য সার্থক ও উপযুক্ত কাজ।"},
+    {number: 655, idiom: "Write down", idiomPron: "রাইট ডাউন", meaningEn: "Record in writing", meaningBn: "লিখে রাখা", exampleEn: "Please write down the complete list of items before moving.", exampleBn: "চলে যাওয়ার আগে দয়া করে সমস্ত জিনিসের তালিকাটি লিখে রাখুন।"},
+    {number: 656, idiom: "Yeoman's service", idiomPron: "ইয়োমেনস সার্ভিস", meaningEn: "Excellent work", meaningBn: "বিনা স্বার্থে চমৎকার কাজ", exampleEn: "The library development volunteers rendered a yeoman's service to the village.", exampleBn: "লাইব্রেরি উন্নয়ন স্বেচ্ছাসেবকরা গ্রামের জন্য নিঃস্বার্থভাবে এক চমৎকার সেবা প্রদান করেছিলেন।"}
 
     ];
 
-     let currentTab = 'study';
-    // ব্রাউজার থেকে সেভ করা ফেভারিটস খুঁজে বের করা
+
+    let currentTab = 'study';
     let favorites = JSON.parse(localStorage.getItem('idiomFavs')) || [];
 
     // ফেভারিট সেভ বা ডিলিট করার ফাংশন
     function toggleFavorite(id, event) {
-        event.stopPropagation(); // Practice কার্ডে চাপ দিলে যেন খুলে না যায়
+        event.stopPropagation();
         
         if(favorites.includes(id)) {
-            // আগে থেকে ফেভারিট থাকলে বাদ দেবে
             favorites = favorites.filter(favId => favId !== id);
         } else {
-            // নতুন করে ফেভারিট লিস্টে যোগ করবে
             favorites.push(id);
         }
         
-        // ব্রাউজারে সেভ করা
         localStorage.setItem('idiomFavs', JSON.stringify(favorites));
-        renderCards(); // UI আপডেট করা
+        renderCards();
     }
 
     // ট্যাব চেঞ্জ করার ফাংশন
@@ -538,18 +1041,38 @@
         renderCards();
     }
 
+    // 🚀 রকেট মেনু টগল ফাংশন
+    function toggleRocketHub() {
+        const menu = document.getElementById('rocketMenu');
+        menu.style.display = (menu.style.display === 'flex') ? 'none' : 'flex';
+    }
+
+    // 🚀 নির্দিষ্ট কার্ড নম্বরে জাম্প করার ফাংশন
+    function jumpToCard() {
+        const inputVal = document.getElementById('jumpInput').value.trim();
+        const targetEl = document.getElementById(`card-item-${inputVal}`);
+        if (targetEl) {
+            targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            toggleRocketHub();
+            targetEl.style.borderColor = 'var(--gold-glow)';
+            setTimeout(() => {
+                targetEl.style.borderColor = '#334155';
+            }, 1500);
+        } else {
+            alert("এই নম্বরের কোনো Idiom কার্ড খুঁজে পাওয়া যায়নি!");
+        }
+    }
+
     // স্ক্রিনে কার্ডগুলো দেখানোর ফাংশন
     function renderCards() {
         const query = document.getElementById('searchInput').value.toLowerCase();
         
-        // সার্চ অনুযায়ী ফিল্টার
         let dataToRender = idiomsData.filter(item => {
             return item.idiom.toLowerCase().includes(query) || 
                    item.meaningEn.toLowerCase().includes(query) || 
                    item.meaningBn.includes(query);
         });
 
-        // যদি Favorites ট্যাবে থাকি, তবে শুধু সেভ করাগুলো দেখাবো
         if(currentTab === 'favorites') {
             dataToRender = dataToRender.filter(item => favorites.includes(item.number));
         }
@@ -578,7 +1101,7 @@
 
                 if (currentTab === 'practice') {
                     html += `
-                        <div class="card practice-card" onclick="togglePracticeCard(this)">
+                        <div class="card practice-card" id="card-item-${item.number}" onclick="togglePracticeCard(this)">
                             <button class="${starClass}" onclick="toggleFavorite(${item.number}, event)">${starIcon}</button>
                             <div class="idiom-title" style="color: ${color}">${item.number}. ${item.idiom}</div>
                             <div class="hidden-details">
@@ -588,7 +1111,7 @@
                     `;
                 } else {
                     html += `
-                        <div class="card">
+                        <div class="card" id="card-item-${item.number}">
                             <button class="${starClass}" onclick="toggleFavorite(${item.number}, event)">${starIcon}</button>
                             <div class="idiom-title" style="color: ${color}">${item.number}. ${item.idiom}</div>
                             <div>${detailsHTML}</div>
@@ -601,7 +1124,6 @@
         document.getElementById('app-content').innerHTML = html;
     }
 
-    // অ্যাপ চালু করা
     renderCards();
 </script>
 
