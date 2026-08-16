@@ -2,131 +2,200 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BAcademy - Liquid UI Ultimate</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BAcademy - Appropriate Preposition</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* Core Reset */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', 'Noto Sans Bengali', sans-serif; }
 
+        :root {
+            --bg-dark: #020617;
+            --container-bg: #0f172a;
+            --mint-green: #2dd4bf;
+            --gold-glow: #facc15;
+            --switch-pink: #f43f5e;
+            --sky-blue: #38bdf8;
+        }
+
         body {
-            background-color: #020617;
-            min-height: 100vh; display: flex; justify-content: center; align-items: center; color: #ffffff;
-            padding: 10px; overflow: hidden;
+            background-color: var(--bg-dark);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 0;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* --- APP CONTAINER --- */
+        /* App Container */
         .app-container {
-            width: 100%; max-width: 480px; height: 100vh; max-height: 850px;
-            background-color: #0f172a;
-            border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 35px; 
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
-            overflow: hidden; display: flex; flex-direction: column; position: relative;
+            width: 100%;
+            max-width: 500px;
+            min-height: 100vh;
+            background-color: var(--container-bg);
+            border-left: 1px solid rgba(255, 255, 255, 0.08);
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
         }
 
-        /* --- 60FPS CSS LIQUID WAVES --- */
+        /* Waves Animation */
         .ocean {
-            position: absolute; bottom: -650px; left: 50%; width: 800px; height: 800px;
+            position: fixed; bottom: -650px; left: 50%; width: 800px; height: 800px;
             margin-left: -400px; z-index: 0; pointer-events: none;
         }
         .water {
             position: absolute; width: 100%; height: 100%;
-            background: linear-gradient(180deg, rgba(56, 189, 248, 0.35) 0%, rgba(79, 70, 229, 0.7) 100%);
+            background: linear-gradient(180deg, rgba(56, 189, 248, 0.25) 0%, rgba(79, 70, 229, 0.5) 100%);
             border-radius: 40%; animation: spin 14s linear infinite;
         }
         .water:nth-child(2) {
-            background: linear-gradient(180deg, rgba(244, 114, 182, 0.25) 0%, rgba(190, 24, 93, 0.5) 100%);
+            background: linear-gradient(180deg, rgba(244, 114, 182, 0.2) 0%, rgba(190, 24, 93, 0.4) 100%);
             border-radius: 45%; animation: spin 20s linear infinite reverse;
-        }
-        .water:nth-child(3) {
-            background: rgba(14, 165, 233, 0.15); border-radius: 42%; animation: spin 26s linear infinite;
         }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
         /* Header */
-        header { padding: 30px 25px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 10; position: relative; background: linear-gradient(to bottom, #0f172a 70%, transparent); }
-        .logo h1 { font-size: 26px; font-weight: 800; background: linear-gradient(to right, #38bdf8, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .logo p { font-size: 11px; color: #94a3b8; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
-        .header-icon { font-size: 20px; color: #e2e8f0; cursor: pointer; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 50%; border: 1px solid rgba(255,255,255,0.1); transition: 0.2s; }
+        header { 
+            position: sticky; top: 0;
+            padding: 16px 20px; 
+            display: flex; justify-content: space-between; align-items: center; 
+            z-index: 50; 
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .logo h1 { font-size: 20px; font-weight: 800; background: linear-gradient(to right, #38bdf8, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .logo p { font-size: 11px; color: #94a3b8; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+        .header-icon { font-size: 16px; color: #e2e8f0; cursor: pointer; padding: 8px 12px; background: rgba(255,255,255,0.05); border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); }
 
         /* Content Area */
-        .content-area { flex: 1; padding: 10px 25px 120px; overflow-y: auto; z-index: 10; position: relative; }
-        .content-area::-webkit-scrollbar { width: 0; }
-        .view-section { display: none; flex-direction: column; height: 100%; width: 100%; animation: fade 0.3s ease; }
+        .content-area { 
+            flex: 1; 
+            padding: 15px 16px 110px;
+            z-index: 10; 
+            position: relative; 
+        }
+        .view-section { display: none; flex-direction: column; width: 100%; animation: fade 0.25s ease; }
         .active-view { display: flex; }
-        @keyframes fade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
         /* Search Box */
-        .search-box { display: flex; align-items: center; background: rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 14px 20px; border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 25px; }
-        .search-box i { color: #94a3b8; margin-right: 15px; font-size: 16px; }
-        .search-box input { background: transparent; border: none; outline: none; color: #fff; width: 100%; font-size: 15px; }
+        .search-box { display: flex; align-items: center; background: rgba(255, 255, 255, 0.05); border-radius: 14px; padding: 12px 16px; border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 18px; }
+        .search-box i { color: #94a3b8; margin-right: 12px; font-size: 15px; }
+        .search-box input { background: transparent; border: none; outline: none; color: #fff; width: 100%; font-size: 14px; }
         .search-box input::placeholder { color: #64748b; }
 
-        /* --- HOME GRID CARDS --- */
-        .grid-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-        
+        /* --- HOME GRID --- */
+        .grid-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
         .prep-card { 
-            background: rgba(255, 255, 255, 0.05); border-top: 1px solid rgba(255, 255, 255, 0.2); border-left: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 20px 5px; text-align: center; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); will-change: transform; animation: liquidBob 5s ease-in-out infinite alternate;
+            background: rgba(255, 255, 255, 0.04); 
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+            border-radius: 16px; padding: 16px 6px; 
+            text-align: center; cursor: pointer; 
+            display: flex; flex-direction: column; align-items: center; gap: 8px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); 
+            transition: all 0.2s ease;
         }
-        .prep-card:nth-child(2n) { animation-delay: 1.2s; animation-duration: 4.5s; }
-        .prep-card:nth-child(3n) { animation-delay: 2.2s; animation-duration: 5.5s; }
-        @keyframes liquidBob { 0% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-7px) rotate(1deg); } 100% { transform: translateY(2px) rotate(-1deg); } }
-        .prep-card:active { transform: scale(0.95); background: rgba(255, 255, 255, 0.12); }
-        .prep-card i { font-size: 24px; color: #38bdf8; }
-        .prep-card span { font-size: 16px; font-weight: 700; color: #ffffff; }
+        .prep-card:active { transform: scale(0.96); background: rgba(255, 255, 255, 0.09); }
+        .prep-card i { font-size: 20px; color: #38bdf8; }
+        .prep-card span { font-size: 14px; font-weight: 700; color: #ffffff; }
         
-        .mixed-card { grid-column: span 3; background: linear-gradient(135deg, rgba(244, 114, 182, 0.15), rgba(56, 189, 248, 0.15)); flex-direction: row; justify-content: center; gap: 12px; padding: 18px; border-color: rgba(244, 114, 182, 0.3); }
-        .mixed-card i { color: #f472b6; font-size: 22px; }
+        .mixed-card { grid-column: span 3; background: linear-gradient(135deg, rgba(244, 114, 182, 0.15), rgba(56, 189, 248, 0.15)); flex-direction: row; justify-content: center; gap: 12px; padding: 14px; border-color: rgba(244, 114, 182, 0.3); }
+        .mixed-card i { color: #f472b6; font-size: 18px; }
 
-        .search-results-title { font-size: 15px; font-weight: 600; color: #38bdf8; margin-bottom: 15px; padding-left: 5px; display: none; }
-
-        /* --- DATA NOTES & TRANSPARENT OVERLAY FORMAT --- */
+        /* --- STANDARD STUDY CARDS (Home/Details/Saved) --- */
         .data-item { 
-            background: rgba(15, 23, 42, 0.85); padding: 20px; border-radius: 24px; border-left: 4px solid #fb923c; margin-bottom: 18px; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.3); border-top: 1px solid rgba(255,255,255,0.05); border-right: 1px solid rgba(255,255,255,0.05); cursor: pointer; overflow: hidden;
+            background: rgba(15, 23, 42, 0.85); padding: 18px; border-radius: 20px; border-left: 4px solid #fb923c; margin-bottom: 14px; position: relative; box-shadow: 0 8px 20px rgba(0,0,0,0.3); border-top: 1px solid rgba(255,255,255,0.05); border-right: 1px solid rgba(255,255,255,0.05); cursor: pointer; overflow: hidden;
         }
         .primary-content { transition: opacity 0.3s ease; }
-        .data-item.show-overlay .primary-content { opacity: 0.08; } 
+        .data-item.show-overlay .primary-content { opacity: 0.06; } 
 
-        .card-meta-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .badge-container { display: flex; gap: 8px; align-items: center; }
-        .serial-badge { background: #38bdf8; color: #020617; padding: 3px 10px; border-radius: 8px; font-size: 12px; font-weight: 800; }
-        .book-badge { background: rgba(255,255,255,0.05); color: #cbd5e1; padding: 3px 10px; border-radius: 8px; font-size: 11px; font-weight: 600; border: 1px solid rgba(255,255,255,0.1); }
-        .fav-btn { font-size: 20px; color: #475569; padding: 5px; transition: 0.2s; }
+        .card-meta-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .badge-container { display: flex; gap: 6px; align-items: center; }
+        .serial-badge { background: #38bdf8; color: #020617; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 800; }
+        .book-badge { background: rgba(255,255,255,0.05); color: #cbd5e1; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; border: 1px solid rgba(255,255,255,0.1); }
+        .fav-btn { font-size: 18px; color: #475569; padding: 4px; transition: 0.2s; }
         .fav-btn.active { color: #f43f5e; text-shadow: 0 0 10px rgba(244,63,94,0.5); }
 
-        .data-item h3 { font-size: 22px; color: #ffffff; font-weight: 800; margin-bottom: 12px; display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px; }
-        .data-item .pron { font-size: 14px; color: #94a3b8; font-weight: 400; font-style: normal; }
-        .data-item .meaning { font-size: 14px; color: #f472b6; font-weight: 600; background: rgba(244, 114, 182, 0.1); padding: 10px 12px; border-radius: 12px; display: inline-block; width: 100%; text-align: center; border: 1px solid rgba(244, 114, 182, 0.15); }
+        .data-item h3 { font-size: 19px; color: #ffffff; font-weight: 800; margin-bottom: 10px; display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px; }
+        .data-item .pron { font-size: 13px; color: #94a3b8; font-weight: 400; font-style: normal; }
+        .data-item .meaning { font-size: 13px; color: #f472b6; font-weight: 600; background: rgba(244, 114, 182, 0.1); padding: 8px 10px; border-radius: 10px; display: inline-block; width: 100%; text-align: center; border: 1px solid rgba(244, 114, 182, 0.15); }
 
         .sentence-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: transparent; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; text-align: center;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: transparent; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 15px; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; text-align: center;
         }
         .data-item.show-overlay .sentence-overlay { opacity: 1; pointer-events: auto; }
-        .sentence-overlay .eng-sen { font-size: 17px; color: #f8fafc; font-style: italic; font-weight: 600; margin-bottom: 10px; }
-        .sentence-overlay .bn-sen { font-size: 14px; color: #cbd5e1; line-height: 1.5; }
-        .overlay-hint { position: absolute; bottom: 10px; font-size: 10px; color: #64748b; font-weight: 600; background: rgba(0,0,0,0.4); padding: 4px 10px; border-radius: 8px; }
+        .sentence-overlay .eng-sen { font-size: 15px; color: #f8fafc; font-style: italic; font-weight: 600; margin-bottom: 6px; }
+        .sentence-overlay .bn-sen { font-size: 13px; color: #cbd5e1; line-height: 1.4; }
+        .overlay-hint { position: absolute; bottom: 8px; font-size: 9px; color: #64748b; font-weight: 600; background: rgba(0,0,0,0.4); padding: 3px 8px; border-radius: 6px; }
 
-        /* --- FLOATING DOCK NAV --- */
-        .bottom-nav { 
-            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); width: calc(100% - 40px); max-width: 400px; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 10px; border: 1px solid rgba(255, 255, 255, 0.15); z-index: 100; border-radius: 24px; box-shadow: 0 15px 30px rgba(0,0,0,0.6);
+        /* --- CLEAN PRACTICE CARDS (Only Fill in the Blank) --- */
+        .practice-card { 
+            background: rgba(15, 23, 42, 0.9); 
+            padding: 18px 20px; 
+            border-radius: 18px; 
+            border: 1px solid rgba(255,255,255,0.08);
+            border-left: 4px solid var(--mint-green); 
+            margin-bottom: 14px; 
+            position: relative; 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.35); 
+            cursor: pointer; 
+            user-select: none;
+            transition: all 0.2s ease;
         }
-        .nav-item { color: #64748b; font-size: 20px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; position: relative; transition: 0.2s; }
-        .nav-item span { font-size: 10px; font-weight: 700; opacity: 0; position: absolute; bottom: -12px; transition: 0.2s; }
-        .nav-item.active { color: #38bdf8; transform: translateY(-8px); filter: drop-shadow(0 4px 8px rgba(56, 189, 248, 0.3)); }
-        .nav-item.active span { opacity: 1; bottom: -16px; }
+        .practice-card:active { transform: scale(0.99); }
 
-        /* Practice Area */
-        .quiz-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 30px 20px; width: 100%; }
-        .blank-space { display: inline-block; width: 60px; border-bottom: 2px dashed #38bdf8; color: #38bdf8; font-weight: 800; text-align: center; margin: 0 5px; }
-        .btn-show, .btn-next { background: linear-gradient(135deg, #38bdf8, #818cf8); color: white; border: none; padding: 14px; border-radius: 14px; font-size: 15px; font-weight: 700; width: 100%; box-shadow: 0 8px 15px rgba(56,189,248,0.2); }
-        .btn-next { background: linear-gradient(135deg, #10b981, #059669); display: none; }
+        .sentence-node { font-size: 17px; font-weight: 600; color: #ffffff; line-height: 1.6; margin-top: 8px; }
+        .dot-placeholder {
+            color: transparent; font-weight: 700;
+            border-bottom: 2px dashed var(--gold-glow);
+            padding: 0 8px; margin: 0 4px;
+            display: inline-block; text-align: center;
+            transition: all 0.15s ease;
+        }
+        .practice-card.card-revealed .dot-placeholder {
+            color: var(--mint-green);
+            text-shadow: 0 0 8px rgba(45, 212, 191, 0.6);
+            background: rgba(45, 212, 191, 0.12);
+            padding: 2px 10px; border-radius: 6px;
+            border-bottom: 2px solid var(--mint-green);
+        }
 
-        /* Toast Container */
-        .toast { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); background: #1e293b; border: 1px solid rgba(255,255,255,0.1); padding: 10px 20px; border-radius: 12px; font-size: 13px; color: white; display: none; z-index: 1000; }
+        /* Bottom Floating Dock */
+        .bottom-nav { 
+            position: fixed; 
+            bottom: 12px; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            width: calc(100% - 28px); 
+            max-width: 460px; 
+            background: rgba(15, 23, 42, 0.95); 
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px); 
+            display: flex; 
+            justify-content: space-around; 
+            padding: 10px 10px; 
+            border: 1px solid rgba(255, 255, 255, 0.12); 
+            z-index: 1000; 
+            border-radius: 20px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+        }
+        .nav-item { color: #64748b; font-size: 18px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px; transition: 0.2s; }
+        .nav-item span { font-size: 10px; font-weight: 600; transition: 0.2s; }
+        .nav-item.active { color: #38bdf8; transform: translateY(-2px); }
+        .nav-item.active span { color: #38bdf8; font-weight: 700; }
+
+        /* Toast */
+        .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #1e293b; border: 1px solid rgba(255,255,255,0.2); padding: 8px 18px; border-radius: 12px; font-size: 12px; color: white; display: none; z-index: 2000; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
     </style>
 </head>
 <body>
@@ -135,11 +204,11 @@
         <div class="ocean" id="wavesBG">
             <div class="water"></div>
             <div class="water"></div>
-            <div class="water"></div>
         </div>
 
         <div class="toast" id="toastMsg">Saved!</div>
 
+        <!-- 1. HOME VIEW -->
         <div id="homeView" class="view-section active-view">
             <header>
                 <div class="logo">
@@ -157,13 +226,12 @@
                     <input type="text" placeholder="প্রিপজিশন শব্দ বা অর্থ খুঁজুন..." id="searchInput">
                 </div>
                 
-                <div class="search-results-title" id="searchTitle">Search Results</div>
                 <div id="searchResultsZone" style="margin-bottom: 20px;"></div>
-
                 <div class="grid-container" id="cardGrid"></div>
             </div>
         </div>
 
+        <!-- 2. DETAILS / CATEGORY VIEW (Standard Learning) -->
         <div id="detailsView" class="view-section">
             <header>
                 <div class="header-icon" onclick="switchView('homeView')">
@@ -171,43 +239,38 @@
                 </div>
                 <div class="logo" style="text-align: right;">
                     <h1 id="categoryTitle" style="text-transform: uppercase;">Category</h1>
-                    <p>Tap card to view sentence</p>
+                    <p>কার্ডে ট্যাপ করে বাক্য দেখুন</p>
                 </div>
             </header>
             <div class="content-area" id="dataList"></div>
         </div>
 
+        <!-- 3. PRACTICE TAB (Pure Clean Fill in the Blank - Shuffle Mode) -->
         <div id="practiceView" class="view-section">
             <header>
-                <div class="header-icon" onclick="switchView('homeView')">
-                    <i class="fa-solid fa-chevron-left"></i>
+                <div class="logo">
+                    <h1>Fill in the Blank</h1>
+                    <p>এলোমেলো প্র্যাকটিস টেস্ট</p>
                 </div>
-                <div class="logo" style="text-align: right;">
-                    <h1>Global Test</h1>
-                    <p>Random Assessment</p>
+                <div class="header-icon" title="পুনরায় এলোমেলো করুন" onclick="renderPracticeList()">
+                    <i class="fa-solid fa-rotate"></i>
                 </div>
             </header>
-            <div class="content-area" style="display: flex; justify-content: center; align-items: center;">
-                <div class="quiz-card">
-                    <div id="quizContent"></div>
-                    <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 20px;">
-                        <button class="btn-show" id="btnShowAns" onclick="showPracticeAnswer()">Check Solution</button>
-                        <button class="btn-next" id="btnNextQuiz" onclick="loadRandomQuiz()">Next Question <i class="fa-solid fa-arrow-right"></i></button>
-                    </div>
-                </div>
-            </div>
+            <div class="content-area" id="practiceList"></div>
         </div>
 
+        <!-- 4. NOTEBOOK / SAVED VIEW -->
         <div id="favoritesView" class="view-section">
             <header>
                 <div class="logo">
                     <h1>My Notebook</h1>
-                    <p>আপনার সেভ করা কালেকশন</p>
+                    <p>সেভ করা কালেকশন</p>
                 </div>
             </header>
             <div class="content-area" id="favoritesList"></div>
         </div>
 
+        <!-- BOTTOM NAV -->
         <div class="bottom-nav">
             <div class="nav-item active" id="nav-home" onclick="switchView('homeView')">
                 <i class="fa-solid fa-house"></i><span>Home</span>
@@ -222,7 +285,7 @@
     </div>
 
     <script>
-                // 1. THE DATABASE
+        // Database
         const db = [
             { id: 1, bookNo: "142:b", phrase: "About to", targetPrep: "to", pron: "অ্যাবাউট টু", meaning: "প্রায় উপক্রম হওয়া (মরো মরো অবস্থা)", sentence: "He is about to die.", trans: "সে প্রায় মৃতপ্রায় বা মরো মরো অবস্থা।" },
             { id: 2, bookNo: "314:a", phrase: "Acceded to", targetPrep: "to", pron: "অ্যাক্সিডেড টু", meaning: "অনুরোধ বা প্রস্তাবে রাজি হওয়া", sentence: "I acceded to his request.", trans: "আমি তার অনুরোধে রাজি হয়েছিলাম।" },
@@ -1130,6 +1193,7 @@
             { id: 741, bookNo: "151:e", phrase: "To look after", targetPrep: "after", pron: "টু লুক আফটার", meaning: "দেখাশোনা করার কেউ থাকা", sentence: "There is none to look after the old man.", trans: "বৃদ্ধ লোকটির দেখাশোনা করার মতো কেউ নেই।" }
         ];
 
+
         const categories = [
             { name: "to", icon: "fa-arrow-right" }, { name: "of", icon: "fa-share-nodes" },
             { name: "for", icon: "fa-heart" }, { name: "in", icon: "fa-box-open" },
@@ -1144,7 +1208,7 @@
 
         let favorites = JSON.parse(localStorage.getItem('bacademy_favs')) || [];
 
-        // Build Home Cards Grid
+        // Build Home Categories
         const grid = document.getElementById('cardGrid');
         categories.forEach(cat => {
             let div = document.createElement('div');
@@ -1170,41 +1234,11 @@
             if(viewId === 'favoritesView') document.getElementById('nav-fav').classList.add('active');
 
             document.getElementById('wavesBG').style.display = (viewId === 'homeView') ? 'block' : 'none';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // ==========================================
-        // NEW STRICT TARGET PREPOSITION LOGIC
-        // ==========================================
-        function openCategoryList(categoryName) {
-            document.getElementById('categoryTitle').innerText = categoryName;
-            
-            let filtered = [];
-            if(categoryName === "Mixed") {
-                filtered = db.filter(item => item.targetPrep === "Mixed");
-            } else {
-                // STRICT CHECK: Only looks at the targetPrep field now.
-                // Breaks apart "in/into" using regex to correctly match either.
-                filtered = db.filter(item => {
-                    let targets = item.targetPrep.toLowerCase().split(/[\/\s,]+/);
-                    return targets.includes(categoryName.toLowerCase());
-                });
-            }
-
-            renderList('dataList', filtered, `এই ক্যাটাগরিতে এখনো কোনো ডেটা যুক্ত করা হয়নি।`);
-            switchView('detailsView');
-        }
-        // ==========================================
-
-        function openFavoritesView() {
-            const favData = db.filter(item => favorites.includes(item.id));
-            renderList('favoritesList', favData, `আপনার নোটবুকে কোনো প্রিপজিশন সেভ করা নেই।`);
-            switchView('favoritesView');
-        }
-
-        function toggleOverlay(element) { element.classList.toggle('show-overlay'); }
-
-        // Dynamic HTML Compiler Layout
-        function compileCardHtml(item, index) {
+        // --- 1. STANDARD CARD COMPILER (Home / Details / Saved) ---
+        function compileStandardCardHtml(item, index) {
             const isFav = favorites.includes(item.id);
             const favClass = isFav ? 'fa-solid active' : 'fa-regular';
             return `
@@ -1229,61 +1263,107 @@
             `;
         }
 
+        function toggleOverlay(element) { element.classList.toggle('show-overlay'); }
+
         function renderList(containerId, dataArray, emptyMsg) {
             const container = document.getElementById(containerId);
             container.innerHTML = '';
             if(dataArray.length === 0) {
-                container.innerHTML = `<p style="text-align:center; opacity:0.5; margin-top:60px;">${emptyMsg}</p>`;
+                container.innerHTML = `<p style="text-align:center; opacity:0.5; margin-top:40px;">${emptyMsg}</p>`;
                 return;
             }
             dataArray.forEach((item, index) => {
-                container.innerHTML += compileCardHtml(item, index);
+                container.innerHTML += compileStandardCardHtml(item, index);
             });
         }
 
+        function openCategoryList(categoryName) {
+            document.getElementById('categoryTitle').innerText = categoryName;
+            let filtered = [];
+            if(categoryName === "Mixed") {
+                filtered = db.filter(item => item.targetPrep === "Mixed");
+            } else {
+                filtered = db.filter(item => {
+                    let targets = item.targetPrep.toLowerCase().split(/[\/\s,]+/);
+                    return targets.includes(categoryName.toLowerCase());
+                });
+            }
+            renderList('dataList', filtered, `এই ক্যাটাগরিতে কোনো ডেটা নেই।`);
+            switchView('detailsView');
+        }
+
+        function openFavoritesView() {
+            const favData = db.filter(item => favorites.includes(item.id));
+            renderList('favoritesList', favData, `আপনার নোটবুকে কোনো প্রিপজিশন সেভ করা নেই।`);
+            switchView('favoritesView');
+        }
+
+        // --- 2. PURE PRACTICE TAB: FILL IN THE BLANK ONLY (Shuffled) ---
+        function openPracticeView() {
+            switchView('practiceView');
+            renderPracticeList();
+        }
+
+        function renderPracticeList() {
+            const container = document.getElementById('practiceList');
+            container.innerHTML = '';
+
+            // Shuffle DB array for random test
+            let shuffledDb = [...db].sort(() => Math.random() - 0.5);
+
+            shuffledDb.forEach((item, index) => {
+                let ans = item.targetPrep === "Mixed" ? item.phrase.split(' ')[0] : item.targetPrep;
+                let targetWordRegex = new RegExp(`\\b${ans}\\b`, "i");
+                
+                let blankSentence = item.sentence;
+                if(targetWordRegex.test(blankSentence)) {
+                    blankSentence = blankSentence.replace(targetWordRegex, `<span class="dot-placeholder" data-ans="${ans}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>`);
+                } else {
+                    blankSentence = `${item.sentence} (<span class="dot-placeholder" data-ans="${ans}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>)`;
+                }
+
+                let card = document.createElement('div');
+                card.className = 'practice-card';
+                card.onclick = () => triggerPracticeFlip(card, ans);
+                card.innerHTML = `
+                    <div class="card-meta-row">
+                        <div class="badge-container">
+                            <span class="serial-badge" style="background:var(--mint-green);">#${index + 1}</span>
+                            <span class="book-badge"><i class="fa-solid fa-book-bookmark"></i> Book: ${item.bookNo}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="sentence-node">${blankSentence}</div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function triggerPracticeFlip(cardEl, answerText) {
+            const isRevealed = cardEl.classList.contains('card-revealed');
+            const placeholder = cardEl.querySelector('.dot-placeholder');
+            if(!isRevealed) {
+                cardEl.classList.add('card-revealed');
+                if(placeholder) placeholder.innerText = answerText;
+            } else {
+                cardEl.classList.remove('card-revealed');
+                if(placeholder) placeholder.innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            }
+        }
+
+        // Favorites Handler
         function toggleFav(id, element) {
             if(favorites.includes(id)) {
                 favorites = favorites.filter(favId => favId !== id);
                 element.className = 'fa-heart fa-regular fav-btn';
-                showToast("Removed from Notebook!", "#475569");
+                showToast("নোটবুক থেকে মুছে ফেলা হয়েছে", "#475569");
             } else {
                 favorites.push(id);
                 element.className = 'fa-heart fa-solid active fav-btn';
-                showToast("Saved to Notebook!", "#f43f5e");
+                showToast("নোটবুকে সেভ করা হয়েছে!", "#f43f5e");
             }
             localStorage.setItem('bacademy_favs', JSON.stringify(favorites));
             if(document.getElementById('favoritesView').classList.contains('active-view')) openFavoritesView();
-        }
-
-        // Global Practice Assessment Engine
-        let currentQuizItem = null;
-        function openPracticeView() { switchView('practiceView'); loadRandomQuiz(); }
-
-        function loadRandomQuiz() {
-            document.getElementById('btnShowAns').style.display = 'block';
-            document.getElementById('btnNextQuiz').style.display = 'none';
-            if(db.length === 0) return;
-
-            currentQuizItem = db[Math.floor(Math.random() * db.length)];
-            let targetWord = currentQuizItem.phrase.toLowerCase() === "about to" ? "to" : currentQuizItem.targetPrep;
-            
-            let regex = new RegExp(`\\b${targetWord}\\b`, "gi");
-            let blankSentence = currentQuizItem.sentence.replace(regex, `<span class="blank-space" id="blankSpace">?</span>`);
-
-            document.getElementById('quizContent').innerHTML = `
-                <p class="quiz-sen">${blankSentence}</p>
-                <p style="font-size: 14px; color: #94a3b8; margin-bottom: 20px;"><i class="fa-solid fa-language"></i> ${currentQuizItem.trans}</p>
-                <p style="color:#f472b6; font-weight:600; font-size:13px;"><i class="fa-solid fa-lightbulb"></i> Hint: ${currentQuizItem.meaning}</p>
-            `;
-        }
-
-        function showPracticeAnswer() {
-            if(!currentQuizItem) return;
-            const blank = document.getElementById('blankSpace');
-            blank.innerText = currentQuizItem.phrase.toLowerCase() === "about to" ? "to" : currentQuizItem.targetPrep;
-            blank.style.color = '#38bdf8'; blank.style.borderBottomColor = '#38bdf8';
-            document.getElementById('btnShowAns').style.display = 'none';
-            document.getElementById('btnNextQuiz').style.display = 'block';
         }
 
         function showToast(msg, color) {
@@ -1292,37 +1372,35 @@
             setTimeout(() => { toast.style.display = 'none'; }, 2000);
         }
 
-        // DEEP GLOBAL DATABASE SEARCH MATRIX
+        // Search Filter
         document.getElementById('searchInput').addEventListener('input', function(e) {
             const val = e.target.value.toLowerCase().trim();
             const gridContainer = document.getElementById('cardGrid');
             const resultsZone = document.getElementById('searchResultsZone');
-            const searchTitle = document.getElementById('searchTitle');
 
             if(val === "") {
                 gridContainer.style.display = "grid";
                 resultsZone.innerHTML = "";
-                searchTitle.style.display = "none";
                 return;
             }
 
             gridContainer.style.display = "none";
-            searchTitle.style.display = "block";
             resultsZone.innerHTML = "";
 
             const matches = db.filter(item => 
                 item.phrase.toLowerCase().includes(val) || 
                 item.targetPrep.toLowerCase().includes(val) || 
-                item.meaning.toLowerCase().includes(val)
+                item.meaning.toLowerCase().includes(val) ||
+                item.sentence.toLowerCase().includes(val)
             );
 
             if(matches.length === 0) {
-                resultsZone.innerHTML = `<p style="text-align:center; opacity:0.5; font-size:14px; margin-top:20px;">ডেটাবেজে কোনো মিল খুঁজে পাওয়া যায়নি ভাই।</p>`;
+                resultsZone.innerHTML = `<p style="text-align:center; opacity:0.5; font-size:14px; margin-top:20px;">কোনো ফলাফল পাওয়া যায়নি।</p>`;
                 return;
             }
 
             matches.forEach((item, index) => {
-                resultsZone.innerHTML += compileCardHtml(item, index);
+                resultsZone.innerHTML += compileStandardCardHtml(item, index);
             });
         });
     </script>
