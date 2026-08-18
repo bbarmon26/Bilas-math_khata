@@ -8,7 +8,6 @@
     
     <style>
         :root {
-            /* Eye-friendly Deep Slate Palette (চোখের জন্য আরামদায়ক) */
             --bg-main: #0b0f19; 
             --panel-bg: #151b26;
             --glass-card: rgba(255, 255, 255, 0.02);
@@ -47,7 +46,7 @@
             background: rgba(11, 15, 25, 0.9);
             backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
             padding: 14px 20px; border-bottom: 1px solid var(--glass-border);
-            z-index: 200; display: flex; flex-direction: column; gap: 12px;
+            z-index: 200; display: flex; flex-direction: column; gap: 10px;
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
@@ -91,10 +90,41 @@
         #btn-random.active { background: linear-gradient(135deg, #7c3aed, #6d28d9); }
         #btn-favorites.active { background: linear-gradient(135deg, #d97706, #b45309); }
 
+        /* Practice Sub-Mode Switcher (E to B / B to E) */
+        .sub-mode-bar {
+            display: none;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 4px;
+            border-radius: 10px;
+            border: 1px solid var(--glass-border);
+            width: 100%;
+        }
+
+        .sub-btn {
+            flex: 1;
+            padding: 6px 10px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            background: transparent;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .sub-btn.active {
+            background: rgba(225, 29, 72, 0.2);
+            color: var(--accent-pink);
+            border: 1px solid rgba(225, 29, 72, 0.4);
+        }
+
         /* Scroll Area Layout */
         .list-container {
-            flex: 1; overflow-y: auto; padding: 200px 18px 60px 18px; /* Offset adjusted for Main Header */
+            flex: 1; overflow-y: auto; padding: 200px 18px 75px 18px;
             display: flex; flex-direction: column; gap: 12px; height: 100%;
+            scroll-behavior: smooth;
         }
 
         /* Neumorphic Glass Cards */
@@ -110,7 +140,7 @@
             border-color: rgba(255, 255, 255, 0.12);
         }
 
-        /* Floating Absolute Star Button layer */
+        /* Floating Star Button */
         .fav-btn {
             position: absolute; top: 20px; right: 20px;
             background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border);
@@ -138,7 +168,7 @@
         .card.open .hidden-details { display: block; animation: smoothReveal 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
         .card.open .meaning-line { border-left-color: var(--accent-pink); }
 
-        /* Standalone Random View: Massive Flashcard View Engine */
+        /* Standalone Random View */
         .random-wrapper {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             height: 100%; width: 100%; padding-top: 25px;
@@ -149,17 +179,16 @@
             font-weight: 700; margin-bottom: 25px; border: 1px solid rgba(124, 61, 237, 0.25);
         }
         
-        /* HUGE CARD STYLING FOR RANDOM MODE */
         .random-box-holder { width: 100%; }
         .random-box-holder .card {
-            min-height: 260px; /* High Expansion Height Box */
+            min-height: 260px;
             display: flex; flex-direction: column; justify-content: center;
             background: linear-gradient(145deg, #182030, #131926);
             border-color: rgba(124, 61, 237, 0.2);
             box-shadow: 0 15px 40px rgba(0,0,0,0.3);
         }
         .random-box-holder .term-title {
-            font-size: 1.8rem; /* Extremely Bold Text Layout */
+            font-size: 1.8rem;
             text-align: center;
             padding-right: 0;
             margin-bottom: 15px;
@@ -174,6 +203,79 @@
             margin-top: 30px; display: flex; align-items: center; gap: 8px; transition: 0.2s;
         }
         .btn-roll-dice:active { transform: scale(0.96); }
+
+        /* 🚀 রকেট হাব (Page Up, Page Down ও Number Jump) */
+        .rocket-hub {
+            position: fixed;
+            right: 20px;
+            bottom: 22px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 250;
+        }
+
+        .rocket-menu {
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            background: rgba(15, 23, 42, 0.96);
+            backdrop-filter: blur(20px);
+            padding: 10px 8px;
+            border-radius: 35px;
+            border: 1px solid var(--glass-border);
+            margin-bottom: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+
+        .r-circle {
+            width: 38px;
+            height: 38px;
+            background: #1e293b;
+            border: 1px solid var(--accent-cyan);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .r-circle:active { transform: scale(0.92); }
+
+        .jump-box {
+            width: 38px;
+            height: 30px;
+            background: #000;
+            border: 1px solid var(--accent-pink);
+            color: white;
+            text-align: center;
+            border-radius: 6px;
+            font-size: 12px;
+            outline: none;
+        }
+
+        .go-btn {
+            background: var(--accent-pink);
+            border: none;
+            padding: 5px;
+            border-radius: 6px;
+            font-weight: bold;
+            color: #fff;
+            cursor: pointer;
+            font-size: 10px;
+        }
+
+        .rocket-icon {
+            font-size: 32px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            filter: drop-shadow(0 4px 10px rgba(251, 113, 133, 0.3));
+        }
+
+        .rocket-icon:hover { transform: scale(1.1); }
 
         @keyframes smoothReveal { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
         .no-result { text-align: center; color: #475569; padding: 60px 20px; font-size: 1rem; }
@@ -194,29 +296,37 @@
         </div>
 
         <div class="nav-buttons">
-            <button id="btn-study" class="nav-btn active" onclick="handleTabSwitch('study')">
-                📖 Study
-            </button>
-            <button id="btn-practice" class="nav-btn" onclick="handleTabSwitch('practice')">
-                🙈 Practice
-            </button>
-            <button id="btn-random" class="nav-btn" onclick="handleTabSwitch('random')">
-                🎲 Random
-            </button>
-            <button id="btn-favorites" class="nav-btn" onclick="handleTabSwitch('favorites')">
-                ⭐ Favs
-            </button>
+            <button id="btn-study" class="nav-btn active" onclick="handleTabSwitch('study')">📖 Study</button>
+            <button id="btn-practice" class="nav-btn" onclick="handleTabSwitch('practice')">🙈 Practice</button>
+            <button id="btn-random" class="nav-btn" onclick="handleTabSwitch('random')">🎲 Random</button>
+            <button id="btn-favorites" class="nav-btn" onclick="handleTabSwitch('favorites')">⭐ Favs</button>
+        </div>
+
+        <!-- প্র্যাকটিস মোডের E to B ও B to E সুইচ বার -->
+        <div class="sub-mode-bar" id="subModeBar">
+            <button class="sub-btn active" id="btn-e2b" onclick="handleSubModeSwitch('e2b')">🇺🇸 ইংরেজি ➔ বাংলা 🇧🇩</button>
+            <button class="sub-btn" id="btn-b2e" onclick="handleSubModeSwitch('b2e')">🇧🇩 বাংলা ➔ ইংরেজি 🇺🇸</button>
         </div>
     </header>
 
     <div class="list-container" id="app-content"></div>
+
+    <!-- 🚀 রকেট কন্ট্রোল হাব (এলোমেলো বাটন ছাড়া) -->
+    <div class="rocket-hub" id="rocketHub">
+        <div class="rocket-menu" id="rocketMenu">
+            <div class="r-circle" onclick="scrollAppToTop()" title="উপরে যান">⬆️</div>
+            <input type="number" id="jumpInput" class="jump-box" placeholder="নং">
+            <button class="go-btn" onclick="jumpToNumber()">GO</button>
+            <div class="r-circle" onclick="scrollAppToBottom()" title="নিচে যান">⬇️</div>
+        </div>
+        <div class="rocket-icon" onclick="toggleRocketMenu()">🚀</div>
+    </div>
     
 </div>
 
 <script>
     const themeColors = ['#38bdf8', '#fb7185', '#60a5fa', '#c084fc', '#fb923c', '#a855f7', '#4ade80'];
 
-    // ৭৬টি শব্দের সম্পূর্ণ এবং ফ্রেশ রি-ফরম্যাটেড ডেটাবেজ
     const termData = [
         {id: 1, en: "Allegiance", pr: "অ্যালিজিয়েন্স", bn: "আনুগত্য"},
         {id: 2, en: "Bankrupt", pr: "ব্যাংক্রাপ্ট", bn: "দেউলিয়া"},
@@ -264,7 +374,7 @@
         {id: 44, en: "Aesthetic", pr: "এসথেটিক", bn: "নান্দনিক"},
         {id: 45, en: "Abrogate", pr: "অ্যাব্রোকেট", bn: "রহিত করা/বাতিল করা"},
         {id: 46, en: "Bibliography", pr: "বিবলিওগ্রাফি", bn: "গ্রন্থপঞ্জি"},
-        {id: 47, en: "Booking", pr: "বुकিং", bn: "আগাম সংরক্ষণ"},
+        {id: 47, en: "Booking", pr: "বুকিং", bn: "আগাম সংরক্ষণ"},
         {id: 48, en: "Execute", pr: "এক্সিকিউট", bn: "কার্যকর করা"},
         {id: 49, en: "Gratuity", pr: "গ্র্যাচুয়িটি", bn: "আনুতোষিক"},
         {id: 50, en: "Pleadings", pr: "প্লিডিংস", bn: "লিখিত জবাব"},
@@ -294,9 +404,9 @@
         {id: 74, en: "Radio", pr: "রেডিও", bn: "বেতার"},
         {id: 75, en: "Surgeon", pr: "সার্জন", bn: "শল্যচিকিৎসক"},
         {id: 76, en: "Glossary", pr: "গ্লসারি", bn: "শব্দকোষ"},
-                {id: 77, en: "Pedagogy", pr: "পেডাগজি", bn: "শিক্ষাতত্ত্ব"},
+        {id: 77, en: "Pedagogy", pr: "পেডাগজি", bn: "শিক্ষাতত্ত্ব"},
         {id: 78, en: "Rank", pr: "র‍্যাঙ্ক", bn: "পদমর্যাদা"},
-        {id: 79, en: "Attested", pr: "অ্যাটেস্টেড", bn: "সথ্যায়িত"},
+        {id: 79, en: "Attested", pr: "অ্যাটেস্টেড", bn: "সত্যায়িত"},
         {id: 80, en: "Clemency", pr: "ক্লিমেন্সি", bn: "অনুকম্পা"},
         {id: 81, en: "Hand out", pr: "হ্যান্ড আউট", bn: "জ্ঞাপনপত্র"},
         {id: 82, en: "Null and Void", pr: "নাল অ্যান্ড ভয়েড", bn: "বাতিল"},
@@ -344,7 +454,7 @@
         {id: 124, en: "Nevertheless", pr: "নেভারদ্যলেস", bn: "তথাপি"},
         {id: 125, en: "Expansion", pr: "এক্সপ্যানশন", bn: "প্রসারণ"},
         {id: 126, en: "Annexation", pr: "অ্যানেক্সেশন", bn: "সংযোজন"},
-        {id: 127, en: "Impeachment", pr: "ইমپیচমেন্ট", bn: "অভিশংসন"},
+        {id: 127, en: "Impeachment", pr: "ইমপীচমেন্ট", bn: "অভিশংসন"},
         {id: 128, en: "Allegiance", pr: "অ্যালিলিয়েন্স", bn: "আনুগত্য"},
         {id: 129, en: "Century", pr: "সেঞ্চুরি", bn: "শতাব্দী"},
         {id: 130, en: "Charter", pr: "চার্টার", bn: "সনদ"},
@@ -368,7 +478,7 @@
         {id: 148, en: "Key-note", pr: "কী-নোট", bn: "মূলভাব"},
         {id: 149, en: "Manager", pr: "ম্যানেজার", bn: "ব্যবস্থাপক"},
         {id: 150, en: "Nebula", pr: "নেবুলা", bn: "নীহারিকা"},
-                {id: 151, en: "Study Leave", pr: "স্টাডি লিভ", bn: "শিক্ষা অবকাশ"},
+        {id: 151, en: "Study Leave", pr: "স্টাডি লিভ", bn: "শিক্ষা অবকাশ"},
         {id: 152, en: "Secretariat", pr: "সেক্রেটারিয়েট", bn: "সচিবালয়"},
         {id: 153, en: "Superstitious", pr: "সুপারস্টিশাস", bn: "কুসংস্কারাচ্ছন্ন"},
         {id: 154, en: "Transparent", pr: "ট্রান্সপারেন্ট", bn: "স্বচ্ছ"},
@@ -425,18 +535,17 @@
         {id: 205, en: "sanction", pr: "স্যাঙ্কশন", bn: "মঞ্জুরি"},
         {id: 206, en: "Script", pr: "স্ক্রিপ্ট", bn: "হস্তলিপি"},
         {id: 207, en: "Legal statement", pr: "লিগ্যাল স্টেটমেন্ট", bn: "জবানবন্দি"}
-
-
     ];
 
     let currentTab = 'study';
+    let practiceSubMode = 'e2b'; // 'e2b' (English to Bengali) বা 'b2e' (Bengali to English)
     let favorites = JSON.parse(localStorage.getItem('termNewFavs')) || [];
     let lastScrollTop = 0;
     
     const contentBox = document.getElementById('app-content');
     const headerNav = document.getElementById('dynamicHeader');
 
-    /* ================= SMOOTH SCROLL HIDE SYSTEM ================= */
+    /* ================= অটো হাইড হেডার ================= */
     contentBox.addEventListener('scroll', () => {
         if(currentTab === 'random') return; 
         let scrollTop = contentBox.scrollTop;
@@ -473,6 +582,17 @@
         document.getElementById('btn-' + tabId).classList.add('active');
         
         const searchInputBox = document.getElementById('searchContainer');
+        const subModeBar = document.getElementById('subModeBar');
+        
+        // প্র্যাকটিস ট্যাবে থাকলে সাব-মোড বার দৃশ্যমান হবে
+        if(tabId === 'practice') {
+            subModeBar.style.display = 'flex';
+            contentBox.style.paddingTop = '240px';
+        } else {
+            subModeBar.style.display = 'none';
+            contentBox.style.paddingTop = '200px';
+        }
+
         if(tabId === 'random') {
             searchInputBox.style.display = 'none';
         } else {
@@ -481,6 +601,13 @@
         
         renderApplication();
         contentBox.scrollTo({ top: 0 });
+    }
+
+    function handleSubModeSwitch(mode) {
+        practiceSubMode = mode;
+        document.getElementById('btn-e2b').classList.toggle('active', mode === 'e2b');
+        document.getElementById('btn-b2e').classList.toggle('active', mode === 'b2e');
+        renderApplication();
     }
 
     function triggerSearch() {
@@ -509,6 +636,36 @@
         `;
     }
 
+    /* ================= রকেট 🚀 মেনু কন্ট্রোল ================= */
+    function toggleRocketMenu() {
+        const rMenu = document.getElementById('rocketMenu');
+        rMenu.style.display = (rMenu.style.display === 'flex') ? 'none' : 'flex';
+    }
+
+    function scrollAppToTop() {
+        contentBox.scrollTo({ top: 0, behavior: 'smooth' });
+        toggleRocketMenu();
+    }
+
+    function scrollAppToBottom() {
+        contentBox.scrollTo({ top: contentBox.scrollHeight, behavior: 'smooth' });
+        toggleRocketMenu();
+    }
+
+    function jumpToNumber() {
+        const val = parseInt(document.getElementById('jumpInput').value);
+        if(!val) return;
+        const target = document.getElementById(`cell-item-${val}`);
+        if(target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            target.classList.add('open');
+            toggleRocketMenu();
+        } else {
+            alert("এই নম্বরের কোনো শব্দ তালিকায় নেই!");
+        }
+    }
+
+    /* ================= কার্ড রেন্ডারিং ================= */
     function renderApplication() {
         if(currentTab === 'random') {
             contentBox.innerHTML = `
@@ -535,26 +692,41 @@
         listData.forEach((item, index) => {
             const color = themeColors[index % themeColors.length];
             const isFav = favorites.includes(item.id);
-            const cardInnerDetails = `
-                <div class="pronunciation-line">🗣️ ${item.pr}</div>
-                <div class="meaning-line">${item.bn}</div>
-            `;
 
             if(currentTab === 'practice') {
-                outputHTML += `
-                    <div class="card clickable-trigger" onclick="handleCardExpansion(this)">
-                        <button class="fav-btn ${isFav ? 'active' : ''}" id="fav-btn-${item.id}" onclick="handleFavToggle(${item.id}); event.stopPropagation();">★</button>
-                        <div class="term-title" style="color: ${color}">${item.id}. ${item.en}</div>
-                        <p style="color: #475569; font-size:0.85rem; margin-bottom:4px;"></p>
-                        <div class="hidden-details">${cardInnerDetails}</div>
-                    </div>
-                `;
+                if(practiceSubMode === 'e2b') {
+                    // E to B: ইংরেজী দৃশ্যমান, বাংলা ও উচ্চারণ লুকানো
+                    outputHTML += `
+                        <div class="card clickable-trigger" id="cell-item-${item.id}" onclick="handleCardExpansion(this)">
+                            <button class="fav-btn ${isFav ? 'active' : ''}" id="fav-btn-${item.id}" onclick="handleFavToggle(${item.id}); event.stopPropagation();">★</button>
+                            <div class="term-title" style="color: ${color}">${item.id}. ${item.en}</div>
+                            <div class="hidden-details">
+                                <div class="pronunciation-line">🗣️ ${item.pr}</div>
+                                <div class="meaning-line">${item.bn}</div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    // B to E: বাংলা দৃশ্যমান, ইংরেজি ও উচ্চারণ লুকানো
+                    outputHTML += `
+                        <div class="card clickable-trigger" id="cell-item-${item.id}" onclick="handleCardExpansion(this)">
+                            <button class="fav-btn ${isFav ? 'active' : ''}" id="fav-btn-${item.id}" onclick="handleFavToggle(${item.id}); event.stopPropagation();">★</button>
+                            <div class="term-title" style="color: ${color}">${item.id}. ${item.bn}</div>
+                            <div class="hidden-details">
+                                <div class="pronunciation-line">🗣️${item.pr}</div>
+                                <div class="meaning-line" style="border-left-color: var(--accent-pink);">${item.en}</div>
+                            </div>
+                        </div>
+                    `;
+                }
             } else {
+                // Study & Favorites Mode: সম্পূর্ণ দৃশ্যমান
                 outputHTML += `
-                    <div class="card">
+                    <div class="card" id="cell-item-${item.id}">
                         <button class="fav-btn ${isFav ? 'active' : ''}" id="fav-btn-${item.id}" onclick="handleFavToggle(${item.id}); event.stopPropagation();">★</button>
                         <div class="term-title" style="color: ${color}">${item.id}. ${item.en}</div>
-                        ${cardInnerDetails}
+                        <div class="pronunciation-line">🗣️ ${item.pr}</div>
+                        <div class="meaning-line">${item.bn}</div>
                     </div>
                 `;
             }
@@ -563,7 +735,6 @@
         contentBox.innerHTML = outputHTML || '<div class="no-result">কোনো শব্দ খুঁজে পাওয়া যায়নি! 😞</div>';
     }
 
-    // Direct initialization
     renderApplication();
 </script>
 
