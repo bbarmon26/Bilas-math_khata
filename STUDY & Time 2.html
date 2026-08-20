@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>স্টাডি প্রোগ্রেস ট্র্যাকার (১-৫০)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@500;600;700&family=Poppins:wght@600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #f1f5f9;
+            font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+            color: #1e293b;
+            padding: 30px 15px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #64748b;
+            font-size: 16px;
+        }
+
+        /* প্রোগ্রেস বার স্টাইল */
+        .progress-section {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #334155;
+        }
+
+        .progress-bar-bg {
+            background: #e2e8f0;
+            height: 14px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            background: linear-gradient(90deg, #10b981, #059669);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+
+        /* ১০টি করে ব্লক বা সেকশন */
+        .section-block {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2563eb;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #cbd5e1;
+            padding-bottom: 5px;
+            display: inline-block;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 15px;
+        }
+
+        /* বক্সের ডিজাইন */
+        .tracker-box {
+            background: #ffffff;
+            border: 2px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s ease;
+        }
+
+        .tracker-box:hover {
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.15);
+        }
+
+        .num-label {
+            font-size: 20px;
+            font-weight: 700;
+            color: #334155;
+        }
+
+        /* কাস্টম চেক-সার্কেল */
+        .check-circle {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            border: 2px solid #94a3b8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: transparent;
+            transition: all 0.2s ease;
+        }
+
+        /* টিক দিলে যে স্টাইল হবে */
+        .tracker-box.completed {
+            background: #ecfdf5;
+            border-color: #10b981;
+        }
+
+        .tracker-box.completed .num-label {
+            color: #065f46;
+        }
+
+        .tracker-box.completed .check-circle {
+            background: #10b981;
+            border-color: #10b981;
+            color: #ffffff;
+        }
+
+        /* রিসেট বাটন */
+        .footer-action {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .reset-btn {
+            background: #ef4444;
+            color: #ffffff;
+            border: none;
+            padding: 12px 28px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .reset-btn:hover {
+            background: #dc2626;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>পড়াশোনার প্রোগ্রেস ট্র্যাকার</h1>
+        <p>প্রতি ১০টি পড়া শেষ করুন এবং টিক চিহ্ন দিয়ে এগিয়ে যান</p>
+    </div>
+
+    <!-- প্রোগ্রেস বার -->
+    <div class="progress-section">
+        <div class="progress-text">
+            <span>মোট পড়া সম্পন্ন: <span id="completed-count">০</span> / ৫০</span>
+            <span id="progress-percent">০%</span>
+        </div>
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="progress-fill"></div>
+        </div>
+    </div>
+
+    <!-- ১০টি ১০টি করে সেকশন -->
+    <div id="tracker-container"></div>
+
+    <div class="footer-action">
+        <button class="reset-btn" onclick="resetAll()">নতুন করে শুরু করুন (Reset)</button>
+    </div>
+</div>
+
+<script>
+    const totalItems = 50;
+    const trackerContainer = document.getElementById('tracker-container');
+
+    // সংখ্যা বাংলায় রূপান্তর
+    function toBanglaNum(n) {
+        const banglaDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+        return n.toString().replace(/\d/g, x => banglaDigits[x]);
+    }
+
+    // ১০টি করে সেকশন তৈরি করা
+    for (let s = 0; s < 5; s++) {
+        const startNum = s * 10 + 1;
+        const endNum = (s + 1) * 10;
+
+        const section = document.createElement('div');
+        section.classList.add('section-block');
+
+        const title = document.createElement('div');
+        title.classList.add('section-title');
+        title.innerText = `ধাপ ${toBanglaNum(s + 1)}: (${toBanglaNum(startNum)} - ${toBanglaNum(endNum)})`;
+        section.appendChild(title);
+
+        const grid = document.createElement('div');
+        grid.classList.add('grid-container');
+
+        for (let i = startNum; i <= endNum; i++) {
+            const box = document.createElement('div');
+            box.classList.add('tracker-box');
+            box.innerHTML = `
+                <span class="num-label">${toBanglaNum(i)}</span>
+                <div class="check-circle">✓</div>
+            `;
+
+            box.addEventListener('click', function() {
+                this.classList.toggle('completed');
+                updateProgress();
+            });
+
+            grid.appendChild(box);
+        }
+
+        section.appendChild(grid);
+        trackerContainer.appendChild(section);
+    }
+
+    // প্রোগ্রেস আপডেট করার ফাংশন
+    function updateProgress() {
+        const completedBoxes = document.querySelectorAll('.tracker-box.completed').length;
+        const percentage = Math.round((completedBoxes / totalItems) * 100);
+
+        document.getElementById('completed-count').innerText = toBanglaNum(completedBoxes);
+        document.getElementById('progress-percent').innerText = `${toBanglaNum(percentage)}%`;
+        document.getElementById('progress-fill').style.width = `${percentage}%`;
+    }
+
+    // সব রিসেট করার ফাংশন
+    function resetAll() {
+        if(confirm("আপনি কি সব টিক চিহ্ন মুছে আবার নতুন করে শুরু করতে চান?")) {
+            const boxes = document.querySelectorAll('.tracker-box');
+            boxes.forEach(box => box.classList.remove('completed'));
+            updateProgress();
+        }
+    }
+</script>
+
+</body>
+</html>

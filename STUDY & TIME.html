@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>১ থেকে ৫০ গ্রিড সিলেক্টর</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            max-width: 650px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .number-box {
+            background-color: #e2e8f0;
+            color: #334155;
+            padding: 14px 0;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .number-box:hover {
+            background-color: #cbd5e1;
+        }
+
+        /* সিলেক্ট করার পর যে কালার ও ডিজাইন হবে */
+        .number-box.active {
+            background-color: #10b981;
+            color: #ffffff;
+            border-color: #047857;
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+        }
+
+        .reset-btn {
+            background-color: #ef4444;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .reset-btn:hover {
+            background-color: #dc2626;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>১ থেকে ৫০ পর্যন্ত সিলেক্টর Grid</h2>
+    <div class="grid-container" id="grid"></div>
+    <button class="reset-btn" onclick="resetGrid()">Reset All</button>
+</div>
+
+<script>
+    const gridContainer = document.getElementById('grid');
+
+    // ১ থেকে ৫০ পর্যন্ত বক্স তৈরি করার লুপ
+    for (let i = 1; i <= 50; i++) {
+        const box = document.createElement('div');
+        box.classList.add('number-box');
+        box.innerText = i;
+
+        // ক্লিক করলে একটিভ হওয়ার ফাংশন
+        box.addEventListener('click', function() {
+            this.classList.toggle('active');
+        });
+
+        gridContainer.appendChild(box);
+    }
+
+    // সব রিসেট করার ফাংশন
+    function resetGrid() {
+        const activeBoxes = document.querySelectorAll('.number-box.active');
+        activeBoxes.forEach(box => box.classList.remove('active'));
+    }
+</script>
+
+</body>
+</html>
