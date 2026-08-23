@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BILAS ACADEMY | Sentence Correction PRO</title>
+    <title>BILAS ACADEMY | Sentence Correction PRO (PSC)</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,7 +42,7 @@
 
         .app-container {
             width: 100%;
-            max-width: 580px;
+            max-width: 650px;
             min-height: 100vh;
             background-color: var(--container-bg);
             border-left: 1px solid rgba(255, 255, 255, 0.08);
@@ -54,15 +54,28 @@
         }
 
         header { 
-            position: sticky; top: 0;
-            padding: 16px 20px 12px; 
-            display: flex; flex-direction: column; gap: 12px;
+            position: sticky; 
+            top: 0;
+            padding: 14px 20px 12px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 10px;
             z-index: 50; 
             background: rgba(11, 19, 41, 0.95);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+            will-change: transform, opacity;
         }
+        
+        /* Auto Hide Header on Scroll Down */
+        header.header-hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
         .brand-bar { display: flex; justify-content: space-between; align-items: center; width: 100%; }
         .logo h1 { font-size: 22px; font-weight: 800; background: linear-gradient(135deg, #38bdf8, #a855f7, #f43f5e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .logo p { font-size: 11px; color: var(--text-muted); font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
@@ -127,8 +140,8 @@
 
         .incorrect-text { 
             flex: 1;
-            font-size: 18.5px; 
-            line-height: 1.4; 
+            font-size: 17.5px; 
+            line-height: 1.45; 
             font-weight: 700; 
             color: #fb7185;
         }
@@ -166,7 +179,7 @@
         }
 
         .correct-line {
-            font-size: 18px;
+            font-size: 17px;
             line-height: 1.45;
             font-weight: 700;
             color: var(--text-main);
@@ -266,12 +279,12 @@
     <div class="app-container">
         <div class="toast" id="toastMsg">Saved!</div>
 
-        <!-- HEADER -->
-        <header>
+        <!-- HEADER (Auto-hide on Scroll) -->
+        <header id="mainHeader">
             <div class="brand-bar">
                 <div class="logo">
                     <h1>BILAS</h1>
-                    <p>Sentence Correction PRO</p>
+                    <p>Sentence Correction PRO (PSC)</p>
                 </div>
                 <div class="header-actions">
                     <button class="action-btn" id="btnShuffle" onclick="shuffleData()">
@@ -313,6 +326,7 @@
 
     <script>
         const correctionDb = [
+
             {
                 id: 1,
                 incorrect: "He did a sin.",
@@ -5425,11 +5439,31 @@
         meaning: "তিনি এতই দুর্বল যে কাজ করতে পারেন না।",
         explanation: "ব্যাখ্যা: কোনো নেতিবাচক ফলাফল নির্দেশ করতে গঠন হলো <span class='hi-mint'>Too + Adjective + to + Verb</span> (He is too weak to work = He is so weak that he cannot work)।<br><span class='hi-trick'>🎯 শর্টকাট ট্রিক:</span> <b>Too ... to</b> (এতই ... যে পারে না)।"
     }
-        ];
+                ];   
 
         let currentTab = 'practice';
-        let favorites = JSON.parse(localStorage.getItem('bacademy_sheet1_favs')) || [];
+        let favorites = JSON.parse(localStorage.getItem('bacademy_psc_favs')) || [];
         let renderList = [...correctionDb];
+
+        /* --- Header Auto-Hide on Scroll Logic --- */
+        let lastScrollTop = 0;
+        const mainHeader = document.getElementById('mainHeader');
+        const scrollThreshold = 10;
+
+        window.addEventListener('scroll', () => {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (Math.abs(lastScrollTop - scrollTop) <= scrollThreshold) return;
+
+            if (scrollTop > lastScrollTop && scrollTop > 60) {
+                // Scrolling Down -> Hide Header
+                mainHeader.classList.add('header-hidden');
+            } else {
+                // Scrolling Up -> Show Header
+                mainHeader.classList.remove('header-hidden');
+            }
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+        }, { passive: true });
 
         function switchTab(tab) {
             currentTab = tab;
@@ -5456,7 +5490,7 @@
                 favorites.push(id);
                 showToast("নোটবুকে সেভ করা হয়েছে! ⭐", "#f59e0b");
             }
-            localStorage.setItem('bacademy_sheet1_favs', JSON.stringify(favorites));
+            localStorage.setItem('bacademy_psc_favs', JSON.stringify(favorites));
             renderCards();
         }
 
