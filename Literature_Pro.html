@@ -1,0 +1,2217 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BILAS ACADEMY | English Literature Master PRO</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', 'Hind Siliguri', sans-serif; }
+
+        :root {
+            --bg-dark: #020617;
+            --container-bg: #090e24;
+            --card-bg: rgba(15, 23, 42, 0.85);
+            --border-glow: rgba(56, 189, 248, 0.28);
+            --royal-gold: #f59e0b;
+            --gold-glow: #facc15;
+            --emerald: #10b981;
+            --mint-cyan: #06b6d4;
+            --purple-neon: #a855f7;
+            --rose-pink: #f43f5e;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 10% 15%, rgba(168, 85, 247, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 90% 85%, rgba(6, 182, 212, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, #090e24 0%, #020617 100%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 0;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 680px;
+            min-height: 100vh;
+            background-color: var(--container-bg);
+            border-left: 1px solid rgba(255, 255, 255, 0.08);
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-shadow: 0 0 60px rgba(0, 0, 0, 0.95);
+        }
+
+        header { 
+            position: sticky; 
+            top: 0;
+            padding: 14px 18px 10px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 10px;
+            z-index: 50; 
+            background: rgba(9, 14, 36, 0.96);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+            will-change: transform, opacity;
+        }
+
+        header.header-hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .brand-bar { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .logo h1 { 
+            font-family: 'Cinzel', serif;
+            font-size: 20px; 
+            font-weight: 800; 
+            background: linear-gradient(135deg, #facc15, #38bdf8, #a855f7); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            letter-spacing: 0.5px;
+        }
+        .logo p { font-size: 10.5px; color: var(--text-muted); font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+        
+        .header-actions { display: flex; gap: 8px; align-items: center; }
+        .action-btn { 
+            background: rgba(255, 255, 255, 0.05); color: var(--text-main); 
+            border: 1px solid rgba(255, 255, 255, 0.12); 
+            padding: 7px 12px; border-radius: 10px; font-size: 11.5px; font-weight: 700; 
+            cursor: pointer; display: flex; align-items: center; gap: 5px; 
+            transition: transform 0.15s ease, background 0.2s ease;
+        }
+        .action-btn:active { transform: scale(0.92); }
+
+        .category-scroll {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 2px;
+            scrollbar-width: none;
+        }
+        .category-scroll::-webkit-scrollbar { display: none; }
+
+        .cat-chip {
+            padding: 6px 14px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+            font-size: 11.5px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+        .cat-chip.active {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(168, 85, 247, 0.25));
+            border-color: var(--gold-glow);
+            color: var(--gold-glow);
+            font-weight: 700;
+            box-shadow: 0 0 12px rgba(250, 204, 21, 0.2);
+        }
+
+        .search-box { display: flex; align-items: center; background: rgba(0, 0, 0, 0.45); border-radius: 12px; padding: 9px 14px; border: 1px solid rgba(255, 255, 255, 0.1); width: 100%; }
+        .search-box i { color: var(--text-muted); margin-right: 10px; font-size: 13.5px; }
+        .search-box input { background: transparent; border: none; outline: none; color: #fff; width: 100%; font-size: 13px; }
+        .search-box input::placeholder { color: #64748b; }
+
+        .content-area { 
+            flex: 1; 
+            padding: 14px 16px 140px; 
+            z-index: 10; 
+            position: relative; 
+        }
+
+        /* Hardware Accelerated Smooth Card */
+        .lit-card { 
+            background: var(--card-bg); 
+            padding: 16px 18px; 
+            border-radius: 18px; 
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-left: 4px solid var(--gold-glow); 
+            margin-bottom: 12px; 
+            position: relative; 
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35); 
+            user-select: none;
+            cursor: pointer;
+            transform: translateZ(0);
+            will-change: transform, border-color, box-shadow;
+            transition: transform 0.2s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+        .lit-card:hover { border-color: var(--border-glow); }
+        .lit-card:active { transform: scale(0.99); }
+        
+        .card-top-row { 
+            display: flex; 
+            align-items: flex-start; 
+            gap: 10px; 
+        }
+        
+        .tag-pill { 
+            background: rgba(245, 158, 11, 0.15); 
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            color: var(--gold-glow); 
+            padding: 2px 7px; 
+            border-radius: 6px; 
+            font-size: 10.5px; 
+            font-weight: 800; 
+            flex-shrink: 0;
+            margin-top: 3px;
+        }
+
+        .question-title { 
+            flex: 1;
+            font-size: 16px; 
+            line-height: 1.45; 
+            font-weight: 700; 
+            color: #f1f5f9;
+        }
+
+        .fav-star { 
+            font-size: 18px; 
+            color: rgba(255, 255, 255, 0.2); 
+            cursor: pointer; 
+            padding: 0 4px; 
+            flex-shrink: 0;
+            margin-top: 2px;
+            transition: color 0.2s ease, transform 0.2s ease; 
+        }
+        .fav-star:active { transform: scale(1.2); }
+        .fav-star.active { color: var(--gold-glow); text-shadow: 0 0 10px var(--gold-glow); }
+
+        /* Butter-Smooth 120Hz Grid Accordion Drawer */
+        .answer-drawer {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.28s cubic-bezier(0.2, 0.9, 0.3, 1);
+            will-change: grid-template-rows;
+        }
+
+        .drawer-inner {
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            opacity: 0;
+            transform: translateY(-4px);
+            transition: opacity 0.22s ease, transform 0.25s cubic-bezier(0.2, 0.9, 0.3, 1), padding-top 0.25s ease, margin-top 0.25s ease;
+        }
+
+        .lit-card.revealed .answer-drawer {
+            grid-template-rows: 1fr;
+        }
+
+        .lit-card.revealed .drawer-inner {
+            opacity: 1;
+            transform: translateY(0);
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.12);
+        }
+
+        .author-answer-box {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 9px 13px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .author-answer-box i { color: var(--emerald); font-size: 17px; }
+        .author-text { font-size: 15.5px; font-weight: 800; color: #34d399; letter-spacing: 0.3px; }
+
+        .meta-detail { font-size: 13px; color: #cbd5e1; line-height: 1.5; }
+        .meta-detail strong { color: var(--mint-cyan); font-weight: 700; margin-right: 4px; }
+        
+        .rocket-hub { position: fixed; right: 16px; bottom: 84px; display: flex; flex-direction: column; align-items: center; z-index: 999; }
+        .rocket-menu { display: none; flex-direction: column; gap: 8px; background: rgba(9, 14, 36, 0.96); backdrop-filter: blur(15px); padding: 12px 8px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.15); margin-bottom: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.6); }
+        .r-circle { width: 38px; height: 38px; background: #1e293b; border: 1px solid var(--gold-glow); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; font-size: 13px; font-weight: bold; transition: transform 0.15s ease; }
+        .r-circle:active { transform: scale(0.9); }
+        .jump-box { width: 44px; height: 32px; background: #020617; border: 1px solid var(--gold-glow); color: white; text-align: center; border-radius: 8px; font-size: 12px; outline: none; }
+        .go-btn { background: var(--gold-glow); border: none; padding: 4px; border-radius: 6px; font-weight: bold; color: #020617; cursor: pointer; font-size: 10px; }
+        .rocket-icon { font-size: 30px; cursor: pointer; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5)); transition: transform 0.2s ease; }
+        .rocket-icon:active { transform: scale(0.9); }
+
+        .bottom-nav { 
+            position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%); 
+            width: calc(100% - 28px); max-width: 420px; 
+            background: rgba(9, 14, 36, 0.96); backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px);
+            display: flex; justify-content: space-around; padding: 10px 8px; 
+            border: 1px solid rgba(255, 255, 255, 0.12); z-index: 1000; border-radius: 20px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+        }
+        .nav-item { color: #64748b; font-size: 18px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px; transition: all 0.2s ease; }
+        .nav-item span { font-size: 11px; font-weight: 600; }
+        .nav-item.active { color: var(--gold-glow); transform: translateY(-2px); }
+        .nav-item.active span { color: var(--gold-glow); font-weight: 700; }
+
+        .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #1e293b; border: 1px solid rgba(255,255,255,0.2); padding: 8px 18px; border-radius: 12px; font-size: 12px; color: white; display: none; z-index: 2000; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <div class="toast" id="toastMsg">Saved!</div>
+
+        <!-- HEADER -->
+        <header id="mainHeader">
+            <div class="brand-bar">
+                <div class="logo">
+                    <h1>BILAS ACADEMY</h1>
+                    <p>English Literature Master PRO</p>
+                </div>
+                <div class="header-actions">
+                    <button class="action-btn" onclick="shuffleData()">
+                        <i class="fa-solid fa-shuffle"></i> <span>Shuffle</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Categories -->
+            <div class="category-scroll">
+                <div class="cat-chip active" onclick="setCategory('all', this)">All Questions</div>
+                <div class="cat-chip" onclick="setCategory('bcs', this)">BCS Special & Terms</div>
+                <div class="cat-chip" onclick="setCategory('quotes', this)">Quotes & Authors</div>
+            </div>
+
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="উক্তি, সাহিত্যিক, সাহিত্যকর্ম বা পরিভাষা খুঁজুন..." id="searchInput" oninput="renderCards()">
+            </div>
+        </header>
+
+        <!-- MAIN LIST AREA -->
+        <div class="content-area" id="cardsList"></div>
+
+        <!-- 🚀 ROCKET HUB -->
+        <div class="rocket-hub" id="rocketHub">
+            <div class="rocket-menu" id="rocketMenu">
+                <div class="r-circle" onclick="window.scrollTo({top:0, behavior:'smooth'})">⬆</div>
+                <input type="number" id="jumpInput" class="jump-box" placeholder="নং">
+                <button class="go-btn" onclick="jumpToCard()">GO</button>
+                <div class="r-circle" onclick="window.scrollTo({top:document.body.scrollHeight, behavior:'smooth'})">⬇</div>
+            </div>
+            <div class="rocket-icon" onclick="toggleRocketHub()">🚀</div>
+        </div>
+
+        <!-- BOTTOM NAV -->
+        <div class="bottom-nav">
+            <div class="nav-item active" id="nav-practice" onclick="switchTab('practice')">
+                <i class="fa-solid fa-book-open"></i><span>Explore</span>
+            </div>
+            <div class="nav-item" id="nav-fav" onclick="switchTab('favorites')">
+                <i class="fa-solid fa-star"></i><span>Bookmarks</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // 📚 LITERATURE DATABASE
+        // ==========================================
+                const literatureDb = [
+    {
+        id: 1,
+        category: "quotes",
+        question: 'Who stated, "Beauty is truth, truth beauty"?',
+        answer: "John Keats",
+        era: "Romantic Period (1798–1837)",
+        genre: "Ode on a Grecian Urn (Poem)",
+        note: "জন কিটসকে 'Poet of Beauty' বলা হয়। উক্তিটি তাঁর বিখ্যাত কবিতা 'Ode on a Grecian Urn'-এর শেষ চরণ।"
+    },
+    {
+        id: 2,
+        category: "quotes",
+        question: 'Who wrote the poem "The Solitary Reaper"?',
+        answer: "William Wordsworth",
+        era: "Romantic Period (1798–1837)",
+        genre: "Lyrical Ballad / Nature Poem",
+        note: "উইলিয়াম ওয়ার্ডসওয়ার্থ হলেন রোমান্টিক যুগের প্রধান কবি এবং প্রকৃতির কবি (Poet of Nature)।"
+    },
+    {
+        id: 3,
+        category: "quotes",
+        question: 'Who wrote the line, "Life is a tale told by an idiot"?',
+        answer: "William Shakespeare",
+        era: "Elizabethan / Jacobean Era",
+        genre: "Macbeth (Tragedy Play)",
+        note: "উক্তিটি শেক্সপিয়রের বিখ্যাত ট্র্যাজেডি 'Macbeth'-এর Act V, Scene 5-এ ম্যাকবেথের স্বগতোক্তি (Soliloquy)।"
+    },
+    {
+        id: 4,
+        category: "quotes",
+        question: 'Who coined the phrase, "To err is human, to forgive divine"?',
+        answer: "Alexander Pope",
+        era: "Augustan / Neoclassical Period",
+        genre: "An Essay on Criticism (Heroic Couplet)",
+        note: "আলেকজান্ডার পোপ ছিলেন ১৮ শতকের শ্রেষ্ঠ ব্যঙ্গাত্মক কবি ও সমালোচক।"
+    },
+    {
+        id: 5,
+        category: "quotes",
+        question: 'Who is the author of "David Copperfield"?',
+        answer: "Charles Dickens",
+        era: "Victorian Period (1832–1901)",
+        genre: "Autobiographical Novel",
+        note: "চার্লস ডিকেন্সের এই উপন্যাসটি তাঁর নিজের জীবনের ছায়ায় রচিত আত্মজীবনীমূলক উপন্যাস হিসেবে পরিচিত।"
+    },
+    {
+        id: 6,
+        category: "quotes",
+        question: 'Who is the creator of the poetry collection "Gitanjali"?',
+        answer: "Rabindranath Tagore",
+        era: "Modern Literature",
+        genre: "Song Offerings (Nobel Prize 1913)",
+        note: "১৯১৩ সালে গীতাঞ্জলি (Song Offerings)-এর জন্য রবীন্দ্রনাথ ঠাকুর প্রথম এশীয় হিসেবে সাহিত্যে নোবেল লাভ করেন।"
+    },
+    {
+        id: 7,
+        category: "quotes",
+        question: 'Who is the author of "Pride and Prejudice"?',
+        answer: "Jane Austen",
+        era: "Romantic / Regency Era",
+        genre: "Novel of Manners",
+        note: "জেন অস্টিনের বিখ্যাত রোমান্টিক উপন্যাস যার প্রধান চরিত্র এলিজাবেথ বেনেট ও মিস্টার ডার্সি।"
+    },
+    {
+        id: 8,
+        category: "quotes",
+        question: 'Who wrote "The Old Man and the Sea"?',
+        answer: "Ernest Hemingway",
+        era: "Modern American Fiction",
+        genre: "Novella (Pulitzer & Nobel Prize)",
+        note: "আর্নেস্ট হেমিংওয়ের এই উপন্যাসের প্রধান চরিত্র সান্তিয়াগো (Santiago) নামের এক বৃদ্ধ কিউবান জেলে।"
+    },
+    {
+        id: 9,
+        category: "quotes",
+        question: 'Who is the author of "Great Expectations"?',
+        answer: "Charles Dickens",
+        era: "Victorian Period (1832–1901)",
+        genre: "Bildungsroman / Social Novel",
+        note: "উপন্যাসটির কেন্দ্রীয় চরিত্র অনাথ বালক 'পিপ' (Pip) এবং রহস্যময়ী নারী মিস হ্যাভিশাম।"
+    },
+    {
+        id: 10,
+        category: "quotes",
+        question: "Who is called the Poet of Nature?",
+        answer: "William Wordsworth",
+        era: "Romantic Period (1798–1837)",
+        genre: "Romantic Poetry",
+        note: "প্রকৃতির রূপ ও আধ্যাত্মিক সৌন্দর্য বর্ণনার জন্য ওয়ার্ডসওয়ার্থকে 'Poet of Nature' বলা হয়।"
+    },
+    {
+        id: 11,
+        category: "quotes",
+        question: "Who is called the Father of English Literature?",
+        answer: "Geoffrey Chaucer",
+        era: "Middle English Period (14th Century)",
+        genre: "The Canterbury Tales",
+        note: "জিওফ্রে চসারকে ইংরেজি সাহিত্যের পিতা (Father of English Literature & Poetry) বলা হয়।"
+    },
+    {
+        id: 12,
+        category: "quotes",
+        question: 'Who wrote the comedy play "Candida"?',
+        answer: "George Bernard Shaw",
+        era: "Modern Period (20th Century)",
+        genre: "Comedy of Ideas / Drama",
+        note: "জি. বি. শ ছিলেন নোবেল ও অস্কারজয়ী আধুনিক নাট্যকার যিনি চিন্তাশীল নাটকের জন্য বিখ্যাত।"
+    },
+    {
+        id: 13,
+        category: "quotes",
+        question: 'Who wrote "Hamlet"?',
+        answer: "William Shakespeare",
+        era: "Elizabethan Era (1600–1601)",
+        genre: "Tragedy of Revenge",
+        note: "শেক্সপিয়রের দীর্ঘতম ও বিখ্যাত ট্র্যাজেডি। ডেনমার্কের রাজপুত্র হ্যামলেটের বিখ্যাত উক্তি: 'To be, or not to be'।"
+    },
+    {
+        id: 14,
+        category: "quotes",
+        question: 'Who wrote, "If winter comes, can spring be far behind"?',
+        answer: "P. B. Shelley",
+        era: "Romantic Period (1798–1837)",
+        genre: "Ode to the West Wind (Poem)",
+        note: "পার্সি বিশি শেলি ছিলেন রোমান্টিক যুগের চরম আশাবাদী ও বিপ্লবী কবি (Revolutionary Poet)।"
+    },
+    {
+        id: 15,
+        category: "quotes",
+        question: 'Who is the author of the economic treatise "The Wealth of Nations"?',
+        answer: "Adam Smith",
+        era: "Scottish Enlightenment (1776)",
+        genre: "Classical Economics",
+        note: "অ্যাডাম স্মিথকে আধুনিক অর্থনীতির জনক (Father of Modern Economics) বলা হয়।"
+    },
+    {
+        id: 16,
+        category: "quotes",
+        question: "What is the lifespan of William Shakespeare?",
+        answer: "1564–1616",
+        era: "Renaissance / Elizabethan Era",
+        genre: "Playwright & Poet",
+        note: "শেক্সপিয়র ১৫৬৪ সালের ২৩ এপ্রিল জন্মগ্রহণ করেন এবং ১৬১৬ সালের ২৩ এপ্রিল মৃত্যুবরণ করেন।"
+    },
+    {
+        id: 17,
+        category: "quotes",
+        question: 'Who made the statement, "Justice delayed is justice denied"?',
+        answer: "William E. Gladstone",
+        era: "Victorian Era",
+        genre: "Political Philosophy",
+        note: "গ্ল্যাডস্টোন ছিলেন ব্রিটেনের চারবারের প্রধানমন্ত্রী। এর অর্থ: বিচারপ্রক্রিয়ায় বিলম্ব হওয়া মানে সুবিচার থেকে বঞ্চিত হওয়া।"
+    },
+    {
+        id: 18,
+        category: "quotes",
+        question: 'Who wrote the famous poem "Ozymandias"?',
+        answer: "P. B. Shelley",
+        era: "Romantic Period",
+        genre: "Sonnet / Political Allegory",
+        note: "অজিম্যানডিয়াস ছিল মিশরের প্রতাপশালী ফারাও দ্বিতীয় রামেসিসের নাম। ক্ষমতার ক্ষণস্থায়িত্ব নিয়ে রচিত সনেট।"
+    },
+    {
+        id: 19,
+        category: "quotes",
+        question: 'Who wrote "Caesar and Cleopatra"?',
+        answer: "George Bernard Shaw",
+        era: "Modern Drama (1898)",
+        genre: "Historical Comedy Play",
+        note: "জুলিয়াস সিজার ও ক্লিওপেট্রার ঐতিহাসিক সম্পর্ক নিয়ে শ-এর বিখ্যাত নাটক।"
+    },
+    {
+        id: 20,
+        category: "quotes",
+        question: 'Who is the author of "Man and Superman"?',
+        answer: "George Bernard Shaw",
+        era: "Modern Drama (1903)",
+        genre: "Philosophical Play",
+        note: "দার্শনিক নিৎশের Superman তত্ত্বের ওপর ভিত্তি করে রচিত জি. বি. শ-এর কমেডি নাটক।"
+    },
+    {
+        id: 21,
+        category: "quotes",
+        question: "A person who designs buildings is called—",
+        answer: "Architect",
+        era: "Language & Vocabulary",
+        genre: "One Word Substitution",
+        note: "যিনি ভবনের নকশা ও কাঠামো পরিকল্পনা করেন তাকে স্থপতি (Architect) বলা হয়।"
+    },
+    {
+        id: 22,
+        category: "quotes",
+        question: 'Who wrote the novel "A Passage to India"?',
+        answer: "E. M. Forster",
+        era: "Modern Period (1924)",
+        genre: "Colonial Fiction",
+        note: "ব্রিটিশ ভারতের পটভূমিতে ড. আজিজ ও মিস্টার ফিল্ডিং-এর বন্ধুত্ব নিয়ে রচিত ফরস্টারের শ্রেষ্ঠ উপন্যাস।"
+    },
+    {
+        id: 23,
+        category: "quotes",
+        question: 'Who is the author of "The Spanish Tragedy"?',
+        answer: "Thomas Kyd",
+        era: "Elizabethan Drama (1580s)",
+        genre: "Revenge Tragedy",
+        note: "টমাস কিড ছিলেন বিখ্যাত University Wits-দের একজন; তাঁর এই নাটকটি 'Hamlet'-এর মূল প্রেরণা।"
+    },
+    {
+        id: 24,
+        category: "quotes",
+        question: 'Who wrote "A Tale of a Tub"?',
+        answer: "Jonathan Swift",
+        era: "Neoclassical Period (1704)",
+        genre: "Religious & Moral Satire",
+        note: "জোনাথন সুইফট ছিলেন ইংরেজি সাহিত্যের অন্যতম শ্রেষ্ঠ ব্যঙ্গলেখক (Master Satirist)।"
+    },
+    {
+        id: 25,
+        category: "quotes",
+        question: 'Who said, "Cowards die many times before their death"?',
+        answer: "William Shakespeare",
+        era: "Elizabethan Era",
+        genre: "Julius Caesar (Tragedy)",
+        note: "কাপুরুষেরা মৃত্যুর আগেই বহুবার মারা যায়, কিন্তু বীরেরা জীবনে মাত্র একবারই মৃত্যুকে বরণ করে।"
+    },
+    {
+        id: 26,
+        category: "quotes",
+        question: "Who is called the Poet of Children?",
+        answer: "William Wordsworth",
+        era: "Romantic Period",
+        genre: "Romantic Poetry",
+        note: "শিশুদের মনস্তত্ত্ব, সারল্য ও নিষ্কলুষতা নিয়ে কবিতা লেখার জন্য ওয়ার্ডসওয়ার্থকে এই নামেও অভিহিত করা হয়।"
+    },
+    {
+        id: 27,
+        category: "quotes",
+        question: 'Who wrote the quotation, "Brevity is the soul of wit"?',
+        answer: "William Shakespeare",
+        era: "Elizabethan Era",
+        genre: "Hamlet (Act II, Scene 2)",
+        note: "পলোনিয়াসের বিখ্যাত উক্তি যার অর্থ: সংক্ষিপ্ততাই হলো বুদ্ধিমত্তা ও রসবোধের মূল প্রাণ।"
+    },
+    {
+        id: 28,
+        category: "quotes",
+        question: "The first language learned by a person in life is known as—",
+        answer: "Mother tongue / Native language",
+        era: "Linguistics & Terms",
+        genre: "General Concepts",
+        note: "জন্মের পর মানুষ প্রথম যে ভাষা শেখে তাকে মাতৃভাষা (Mother tongue / Native language) বলে।"
+    },
+    {
+        id: 29,
+        category: "quotes",
+        question: "A speech composed of too many unnecessary words is called—",
+        answer: "A verbose speech",
+        era: "Rhetoric & Terms",
+        genre: "One Word Substitution",
+        note: "প্রয়োজনের চেয়ে অতিরিক্ত শব্দবহুল ও জটিল বক্তব্যকে 'Verbose Speech' (বাগাড়ম্বরপূর্ণ বক্তব্য) বলা হয়।"
+    },
+    {
+        id: 30,
+        category: "quotes",
+        question: "Who is known as the Poet of Beauty?",
+        answer: "John Keats",
+        era: "Romantic Period (1795–1821)",
+        genre: "Sensuous Romantic Poetry",
+        note: "জন কিটসকে সৌন্দর্যের বন্দনা ও ইন্দ্রিয়গ্রাহ্য বর্ণনার জন্য 'Poet of Beauty' বলা হয়।"
+    },
+    {
+        id: 31,
+        category: "quotes",
+        question: "Who is called the Worshipper of Nature?",
+        answer: "William Wordsworth",
+        era: "Romantic Period (1770–1850)",
+        genre: "Pantheistic Poetry",
+        note: "ওয়ার্ডসওয়ার্থ প্রকৃতিকে একজন জীবন্ত অভিভাবক ও শিক্ষক জ্ঞান করে উপাসনা করতেন (Pantheism)।"
+    },
+    {
+        id: 32,
+        category: "quotes",
+        question: 'Who wrote "Oliver Twist"?',
+        answer: "Charles Dickens",
+        era: "Victorian Period (1838)",
+        genre: "Social Realist Novel",
+        note: "লন্ডনের দরিদ্র অনাথ আশ্রম ও অপরাধ জগতের বাস্তব চিত্র নিয়ে ডিকেন্সের কালজয়ী উপন্যাস।"
+    },
+    {
+        id: 33,
+        category: "quotes",
+        question: "Who is the earliest poet in English literature?",
+        answer: "Caedmon",
+        era: "Old English / Anglo-Saxon",
+        genre: "Hymns / Early Poetry",
+        note: "৭ম শতকের ক্যাডমন হলেন প্রাচীন ইংরেজি সাহিত্যের প্রথম প্রামাণ্য কবি (Earliest Known English Poet)।"
+    },
+    {
+        id: 34,
+        category: "quotes",
+        question: 'Who wrote "The Adventures of Huckleberry Finn"?',
+        answer: "Mark Twain",
+        era: "American Realism (1884)",
+        genre: "Picaresque Novel",
+        note: "মার্ক টোয়েনকে 'Father of Modern American Literature' বলা হয়।"
+    },
+    {
+        id: 35,
+        category: "quotes",
+        question: 'Who wrote the war novel "A Farewell to Arms"?',
+        answer: "Ernest Hemingway",
+        era: "Modern Period (1929)",
+        genre: "War Fiction",
+        note: "প্রথম বিশ্বযুদ্ধের প্রেক্ষাপটে লেফটেন্যান্ট হেনরি ও ক্যাথরিন বার্কলির প্রেম ও বিয়োগান্তক কাহিনি।"
+    },
+    {
+        id: 36,
+        category: "quotes",
+        question: 'Who wrote the quotation, "A little learning is a dangerous thing"?',
+        answer: "Alexander Pope",
+        era: "Augustan Period (1711)",
+        genre: "An Essay on Criticism",
+        note: "বাংলা প্রবাদ: 'অল্পবিদ্যা ভয়ংকরী'। পোপ ছিলেন অগাস্টান যুগের হিরোইক কাপলেটের শ্রেষ্ঠ রূপকার।"
+    },
+    {
+        id: 37,
+        category: "quotes",
+        question: 'Who wrote "King Lear"?',
+        answer: "William Shakespeare",
+        era: "Jacobean Era (1605–1606)",
+        genre: "Tragedy of Ingratitude",
+        note: "রাজা লিয়ার ও তার তিন কন্যা গনেরিল, রিগান ও কর্ডেলিয়ার ট্র্যাজেডি।"
+    },
+    {
+        id: 38,
+        category: "quotes",
+        question: 'Who wrote the novel "Hard Times"?',
+        answer: "Charles Dickens",
+        era: "Victorian Era (1854)",
+        genre: "Industrial Social Novel",
+        note: "ইংল্যান্ডের শিল্পবিপ্লব ও কারখানা শ্রমিকদের কঠিন জীবনের বাস্তবতা নিয়ে রচিত।"
+    },
+    {
+        id: 39,
+        category: "quotes",
+        question: "An account of a person's life written by that person is called—",
+        answer: "Autobiography",
+        era: "Literary Form",
+        genre: "Non-fiction Prose",
+        note: "নিজের জীবনবৃত্তান্ত নিজে লিখলে 'Autobiography' (আত্মজীবনী), অন্য কেউ লিখলে 'Biography' (জীবনী)।"
+    },
+    {
+        id: 40,
+        category: "quotes",
+        question: 'Who is the author of the psychological novel "Crime and Punishment"?',
+        answer: "Fyodor Dostoevsky",
+        era: "Russian Realism (1866)",
+        genre: "Psychological Fiction",
+        note: "রডিয়ন রাসকোলনিকভ নামের এক যুবকের অপরাধ ও আত্মিক মুক্তির বিশ্ববিখ্যাত রুশ উপন্যাস।"
+    },
+        {
+        id: 41,
+        category: "quotes",
+        question: 'Who wrote the philosophical poem "Essay on Man"?',
+        answer: "Alexander Pope",
+        era: "Neoclassical Period (1733)",
+        genre: "Philosophical Poem (Heroic Couplet)",
+        note: "আলেকজান্ডার পোপের মানবচরিত্র বিষয়ক বিখ্যাত দর্শনকাব্য। বিখ্যাত চরণ: 'The proper study of mankind is man'।"
+    },
+    {
+        id: 42,
+        category: "quotes",
+        question: "Who is called the Father of English Drama?",
+        answer: "William Shakespeare",
+        era: "Renaissance / Elizabethan Era",
+        genre: "Elizabethan Playwright",
+        note: "নাট্যকলায় অনন্য অবদানের জন্য শেক্সপিয়রকে ইংরেজি নাটকের জনক ও 'Bard of Avon' বলা হয়।"
+    },
+    {
+        id: 43,
+        category: "quotes",
+        question: 'Who is the author of "Macbeth"?',
+        answer: "William Shakespeare",
+        era: "Jacobean Era (1606)",
+        genre: "Tragedy of Over-ambition",
+        note: "উচ্চাকাঙ্ক্ষার কারণে পতন ঘটা স্কটিশ সেনাপতি ম্যাকবেথ ও লেডি ম্যাকবেথের বিয়োগান্তক ট্র্যাজেডি।"
+    },
+    {
+        id: 44,
+        category: "quotes",
+        question: 'Who composed the ballad "The Rime of the Ancient Mariner"?',
+        answer: "Samuel Taylor Coleridge",
+        era: "Romantic Period (1798)",
+        genre: "Supernatural Ballad (Lyrical Ballads)",
+        note: "অ্যালবাট্রস পাখি হত্যা ও নাবিকের অভিশাপ নিয়ে রচিত। বিখ্যাত উক্তি: 'Water, water, everywhere, nor any drop to drink'।"
+    },
+    {
+        id: 45,
+        category: "quotes",
+        question: "Who is recognized as both a poet and a painter?",
+        answer: "William Blake",
+        era: "Pre-Romantic Era (1757–1827)",
+        genre: "Mystic Poetry & Visual Art",
+        note: "উইলিয়াম ব্লেক ছিলেন একাধারে অতীন্দ্রিয়বাদী কবি ও চিত্রশিল্পী। বিখ্যাত গ্রন্থ: 'Songs of Innocence & Experience'।"
+    },
+    {
+        id: 46,
+        category: "quotes",
+        question: "Who is known as the Rebel Poet in English literature?",
+        answer: "Lord Byron",
+        era: "Romantic Period (1788–1824)",
+        genre: "Romantic Satire / Epic",
+        note: "জর্জ গর্ডন বায়রন প্রচলিত সমাজ ও নীতির বিরুদ্ধে বিদ্রোহ করায় ইংরেজি সাহিত্যের 'Rebel Poet' নামে খ্যাত।"
+    },
+    {
+        id: 47,
+        category: "quotes",
+        question: "What is the lifespan of George Bernard Shaw?",
+        answer: "1856–1950",
+        era: "Modern Era (Irish Playwright)",
+        genre: "Drama of Ideas",
+        note: "তিনি ১৯২৫ সালে সাহিত্যে নোবেল এবং ১৯৩৮ সালে 'Pygmalion'-এর চিত্রনাট্যের জন্য অস্কার পুরস্কার লাভ করেন।"
+    },
+    {
+        id: 48,
+        category: "quotes",
+        question: 'Who is the author of the stream-of-consciousness novel "Ulysses"?',
+        answer: "James Joyce",
+        era: "Modernist Literature (1922)",
+        genre: "Stream of Consciousness Fiction",
+        note: "আইরিশ লেখক জেমস জয়েসের মাস্টারপিস উপন্যাস যা ডাবলিনের একদিনের ঘটনাপ্রবাহ নিয়ে রচিত।"
+    },
+    {
+        id: 49,
+        category: "quotes",
+        question: 'Who wrote the poem "Ulysses"?',
+        answer: "Alfred Lord Tennyson",
+        era: "Victorian Period (1833)",
+        genre: "Dramatic Monologue Poem",
+        note: "টেনিসনের কালজয়ী আশাবাদী কবিতা। বিখ্যাত শেষ লাইন: 'To strive, to seek, to find, and not to yield'।"
+    },
+    {
+        id: 50,
+        category: "quotes",
+        question: "Who is the Father of English Dictionary?",
+        answer: "Samuel Johnson",
+        era: "Age of Johnson / 18th Century",
+        genre: "Lexicography & Criticism",
+        note: "১৭৫৫ সালে ড. স্যামুয়েল জনসন প্রথম প্রামাণ্য ইংরেজি অভিধান (A Dictionary of the English Language) সংকলন করেন।"
+    },
+    {
+        id: 51,
+        category: "quotes",
+        question: "The period between twilight and total night is called—",
+        answer: "Dusk",
+        era: "Language & Vocabulary",
+        genre: "One Word Substitution",
+        note: "সূর্যাস্ত ও পূর্ণ অন্ধকারের মধ্যবর্তী গোধূলিলগ্নকে 'Dusk' বা 'Twilight' বলা হয় (ভোরের ক্ষেত্রে Dawn)।"
+    },
+    {
+        id: 52,
+        category: "quotes",
+        question: 'Who wrote the verse drama "Murder in the Cathedral"?',
+        answer: "T. S. Eliot",
+        era: "Modernist Literature (1935)",
+        genre: "Poetic Drama",
+        note: "আর্চবিশপ টমাস বেকেটের হত্যাকাণ্ডের ঐতিহাসিক পটভূমিতে রচিত টি. এস. এলিয়টের বিখ্যাত কাব্যনাটক।"
+    },
+    {
+        id: 53,
+        category: "quotes",
+        question: "Who is regarded as the greatest modern dramatist?",
+        answer: "George Bernard Shaw",
+        era: "Modern Period",
+        genre: "Modern Drama of Ideas",
+        note: "আধুনিক ইংরেজি নাট্যসাহিত্যে শেক্সপিয়রের পর সবচেয়ে জনপ্রিয় ও প্রভাবশালী নাট্যকার।"
+    },
+    {
+        id: 54,
+        category: "quotes",
+        question: "The branch of medicine concerned with the medical care of infants and children is—",
+        answer: "Pediatrics",
+        era: "Medical Terminology",
+        genre: "One Word Substitution",
+        note: "শিশু ও অপ্রাপ্তবয়স্কদের স্বাস্থ্যসেবা ও রোগ নিরাময় বিদ্যাকে শিশুরোগতত্ত্ব (Pediatrics) বলা হয়।"
+    },
+    {
+        id: 55,
+        category: "quotes",
+        question: 'Who wrote "Othello"?',
+        answer: "William Shakespeare",
+        era: "Jacobean Era (1603)",
+        genre: "Tragedy of Jealousy",
+        note: "মুর সেনাপতি ওথেলো এবং দেসদিমোনাকে নিয়ে রচিত ট্র্যাজেডি। খলনায়ক ইয়াগোর চক্রান্তে সৃষ্ট মর্মান্তিক পরিণতি।"
+    },
+    {
+        id: 56,
+        category: "quotes",
+        question: 'Who wrote "Sense and Sensibility"?',
+        answer: "Jane Austen",
+        era: "Romantic Era (1811)",
+        genre: "Novel of Manners",
+        note: "দুই বোন এলিনর (Sense) ও মারিয়ান (Sensibility)-এর আবেগ ও বাস্তবতাবোধ নিয়ে রচিত উপন্যাস।"
+    },
+    {
+        id: 57,
+        category: "quotes",
+        question: 'Who wrote the narrative epic poem "Don Juan"?',
+        answer: "George Gordon Byron (Lord Byron)",
+        era: "Romantic Period (1819–1824)",
+        genre: "Satiric Epic Poem",
+        note: "লর্ড বায়রনের অসম্পূর্ণ দীর্ঘ ব্যঙ্গাত্মক মহাকাব্য যাতে প্রচলিত ডন জুয়ান চরিত্রকে সম্পূর্ণ নতুন দৃষ্টিভঙ্গিতে উপস্থাপন করা হয়েছে।"
+    },
+    {
+        id: 58,
+        category: "quotes",
+        question: 'Who is the author of "Gulliver\'s Travels"?',
+        answer: "Jonathan Swift",
+        era: "Neoclassical Period (1726)",
+        genre: "Satirical Travel Fiction",
+        note: "লেমুয়েল গালিভারের চারপাশের কাল্পনিক দ্বীপ (লিলিপুট, ব্রবডিংনাগ) ভ্রমণের তীক্ষ্ণ রাজনৈতিক ব্যঙ্গ।"
+    },
+    {
+        id: 59,
+        category: "quotes",
+        question: 'Who wrote the romantic comedy "The Tempest"?',
+        answer: "William Shakespeare",
+        era: "Jacobean Era (1610–1611)",
+        genre: "Romance / Tragicomedy (Swan Song)",
+        note: "জাদুকর প্রসপেরো ও কন্যা মিরান্ডার কাহিনি। এটি শেক্সপিয়রের একক রচিত শেষ নাটক বা 'Swan Song'।"
+    },
+    {
+        id: 60,
+        category: "quotes",
+        question: 'Who is the author of "Romeo and Juliet"?',
+        answer: "William Shakespeare",
+        era: "Elizabethan Era (1597)",
+        genre: "Tragedy of Star-Cross'd Lovers",
+        note: "ভেরোনা শহরের মন্তেগু ও কাপুলেত পরিবারের শত্রুতার মধ্যে রোমিও-জুলিয়েটের অমর প্রেমের বিয়োগান্তক ট্র্যাজেডি।"
+    },
+    {
+        id: 61,
+        category: "quotes",
+        question: "What is the first epic in English literature?",
+        answer: "Beowulf",
+        era: "Old English / Anglo-Saxon Period",
+        genre: "Heroic Epic Poem",
+        note: "অজ্ঞাত কবির রচিত বিওউলফ হলো ইংরেজি ভাষার প্রাচীনতম মহাকাব্য যা দানব গ্রেন্ডেল বধ নিয়ে রচিত।"
+    },
+    {
+        id: 62,
+        category: "quotes",
+        question: 'Who is the author of the epic "Paradise Lost"?',
+        answer: "John Milton",
+        era: "Commonwealth / Puritan Period (1667)",
+        genre: "Blank Verse Epic",
+        note: "১২ খণ্ডে রচিত বিশ্ববিখ্যাত মহাকাব্য। মহৎ উদ্দেশ্য: 'To justify the ways of God to men'।"
+    },
+    {
+        id: 63,
+        category: "quotes",
+        question: "What is the lifespan of William Wordsworth?",
+        answer: "1770–1850",
+        era: "Romantic Era",
+        genre: "Poet Laureate of England",
+        note: "তিনি ১৮৪৩ সাল থেকে ১৮৫০ সালে মৃত্যুর পূর্ব পর্যন্ত ইংল্যান্ডের রাজকবি (Poet Laureate) ছিলেন।"
+    },
+    {
+        id: 64,
+        category: "quotes",
+        question: "One who believes in the existence of God is a—",
+        answer: "Theist",
+        era: "Theology & Terms",
+        genre: "One Word Substitution",
+        note: "যিনি ঈশ্বরে বিশ্বাস করেন তাকে Theist (আস্তিক) এবং যিনি বিশ্বাস করেন না তাকে Atheist (নাস্তিক) বলে।"
+    },
+    {
+        id: 65,
+        category: "quotes",
+        question: 'Who is the author of "Comedy of Errors"?',
+        answer: "William Shakespeare",
+        era: "Early Elizabethan Comedy",
+        genre: "Farce / Mistaken Identity",
+        note: "দুই জোড়া যমজ ভাইয়ের রূপসাদৃশ্যের বিভ্রান্তি ও ভুল বোঝাবুঝি নিয়ে রচিত শেক্সপিয়রের সংক্ষিপ্ত নাটক।"
+    },
+    {
+        id: 66,
+        category: "quotes",
+        question: 'Who wrote "The Merchant of Venice"?',
+        answer: "William Shakespeare",
+        era: "Elizabethan Era (1596–1599)",
+        genre: "Romantic Comedy / Tragicomedy",
+        note: "ইহুদি সুদখোর শাইলক ও বিচক্ষণ নারী পোর্শিয়ার কাহিনি। বিখ্যাত উক্তি: 'All that glisters is not gold'।"
+    },
+    {
+        id: 67,
+        category: "quotes",
+        question: 'Who is the author of the epic novel "War and Peace"?',
+        answer: "Leo Tolstoy",
+        era: "Russian Realism (1869)",
+        genre: "Historical Epic Novel",
+        note: "নেপোলিয়নের রাশিয়া আক্রমণের পটভূমিতে রাশিয়ান অভিজাত সমাজ ও মানবজীবনের মহাকাব্যিক উপন্যাস।"
+    },
+    {
+        id: 68,
+        category: "quotes",
+        question: 'Who is the author of the novel "Paradise"?',
+        answer: "Abdulrazak Gurnah",
+        era: "Contemporary Post-colonial",
+        genre: "Historical Fiction (Nobel 2021)",
+        note: "জাঞ্জিবারের লেখক আব্দুলরাজাক গুরনাহ ২০২১ সালে সাহিত্যে নোবেল পুরস্কার লাভ করেন।"
+    },
+    {
+        id: 69,
+        category: "quotes",
+        question: "Who is known as the Lake Poet?",
+        answer: "William Wordsworth",
+        era: "Romantic Period",
+        genre: "Lake Poets Trio",
+        note: "ইংল্যান্ডের লেক ডিস্ট্রিক্টে বসবাসের কারণে ওয়ার্ডসওয়ার্থ, কোলরিজ ও সাউদিকে 'Lake Poets' বলা হয়।"
+    },
+    {
+        id: 70,
+        category: "quotes",
+        question: "Who is the National Poet of America?",
+        answer: "Walt Whitman",
+        era: "Transcendentalism / 19th Century",
+        genre: "Leaves of Grass (Free Verse)",
+        note: "ওয়াল্ট হুইটম্যানকে 'Poet of Democracy' এবং আমেরিকার জাতীয় কবি বলা হয়।"
+    },
+    {
+        id: 71,
+        category: "quotes",
+        question: 'Who wrote the historical tragedy "Julius Caesar"?',
+        answer: "William Shakespeare",
+        era: "Elizabethan Drama (1599)",
+        genre: "Roman Historical Tragedy",
+        note: "সিজারের হত্যাকাণ্ড ও অ্যান্টোনির ঐতিহাসিক ভাষণ: 'Friends, Romans, countrymen, lend me your ears'।"
+    },
+    {
+        id: 72,
+        category: "quotes",
+        question: 'Who wrote the scientific treatise "The Origin of Species"?',
+        answer: "Charles Darwin",
+        era: "Victorian Era (1859)",
+        genre: "Evolutionary Biology",
+        note: "প্রাকৃতিক নির্বাচন তত্ত্ব (Natural Selection) ও বিবর্তনবাদের ভিত্তিপ্রস্তর স্থাপনকারী ঐতিহাসিক গ্রন্থ।"
+    },
+    {
+        id: 73,
+        category: "quotes",
+        question: 'Who wrote the epic "Paradise Regained"?',
+        answer: "John Milton",
+        era: "Restoration Era (1671)",
+        genre: "Epic Poetry (4 Books)",
+        note: "মরুভূমিতে শয়তানের প্রলোভন জয় করে যিশুখ্রিস্ট কর্তৃক মানবজাতির স্বর্গ পুনরুদ্ধারের মহাকাব্য।"
+    },
+    {
+        id: 74,
+        category: "quotes",
+        question: 'Who wrote the anti-war comedy "Arms and the Man"?',
+        answer: "George Bernard Shaw",
+        era: "Modern Period (1894)",
+        genre: "Anti-romantic Comedy",
+        note: "যুদ্ধের মেকি বীরত্ব ও ভালোবাসার অন্ধ আবেগকে ব্যঙ্গ করে ক্যাপ্টেন ব্লুন্টসলির কাহিনি।"
+    },
+    {
+        id: 75,
+        category: "quotes",
+        question: 'Who wrote "The God of Small Things"?',
+        answer: "Arundhati Roy",
+        era: "Contemporary Indian Literature",
+        genre: "Booker Prize Novel (1997)",
+        note: "ভারতের কেরালার পটভূমিতে দুই যমজ ভাইবোন রাহেল ও এস্থার গল্প নিয়ে অরুন্ধতী রায়ের প্রথম উপন্যাস।"
+    },
+    {
+        id: 76,
+        category: "quotes",
+        question: 'Who wrote "A Midsummer Night\'s Dream"?',
+        answer: "William Shakespeare",
+        era: "Elizabethan Era (1595)",
+        genre: "Romantic Comedy / Fantasy",
+        note: "পরীরাজ ওবেরন, রানি টাইটানিয়া এবং জাদুবিদ্যার প্রভাবে প্রেমিক-প্রেমিকাদের অদ্ভুত ভালোবাসার কমেডি নাটক।"
+    },
+    {
+        id: 77,
+        category: "quotes",
+        question: 'Who wrote the play "As You Like It"?',
+        answer: "William Shakespeare",
+        era: "Elizabethan Era (1599)",
+        genre: "Pastoral Comedy",
+        note: "আর্ডেন বনে রোজালিন্ড ও অরল্যান্ডোর প্রেম। বিখ্যাত উক্তি: 'All the world\'s a stage, and all the men and women merely players'।"
+    },
+    {
+        id: 78,
+        category: "quotes",
+        question: 'Who wrote the historical novel "A Tale of Two Cities"?',
+        answer: "Charles Dickens",
+        era: "Victorian Era (1859)",
+        genre: "Historical Novel",
+        note: "ফরাসি বিপ্লবের পটভূমিতে লন্ডন ও প্যারিস শহরের দ্বন্দ্বে সিডনি কার্টনের আত্মত্যাগের অমর উপন্যাস।"
+    },
+    {
+        id: 79,
+        category: "quotes",
+        question: "One who possesses unlimited power is called—",
+        answer: "Omnipotent",
+        era: "Vocabulary & Attributes",
+        genre: "One Word Substitution",
+        note: "সর্বশক্তিমান = Omnipotent, সর্বজ্ঞানী = Omniscient, সর্বত্র বিরাজমান = Omnipresent।"
+    },
+    {
+        id: 80,
+        category: "quotes",
+        question: 'Who composed the lyric poem "The Daffodils"?',
+        answer: "William Wordsworth",
+        era: "Romantic Period (1804)",
+        genre: "Nature Lyric Poem",
+        note: "কবিতাটির মূল শিরোনাম 'I Wandered Lonely as a Cloud'। সোনালী ড্যাফোডিল ফুলের দৃশ্য নিয়ে রচিত।"
+    },
+        {
+        id: 81,
+        category: "bcs",
+        question: "What is a fantasy?",
+        answer: "An imaginary story",
+        era: "Literary Terms & Forms",
+        genre: "Speculative Fiction",
+        note: "বাস্তবজগতের নিয়মের বাইরে অতিপ্রাকৃত ও কাল্পনিক উপাদান দিয়ে তৈরি গল্পকে Fantasy বলা হয়।"
+    },
+    {
+        id: 82,
+        category: "bcs",
+        question: "What does a person write who writes about his own life?",
+        answer: "An autobiography",
+        era: "Literary Genre",
+        genre: "Non-fiction Prose",
+        note: "নিজের জীবনের কথা নিজে লিখলে Autobiography (আত্মজীবনী), অন্যের জীবন নিয়ে লিখলে Biography (জীবনী)।"
+    },
+    {
+        id: 83,
+        category: "bcs",
+        question: "What is the meaning of the literary term 'euphemism'?",
+        answer: "Inoffensive expression",
+        era: "Figure of Speech",
+        genre: "Rhetoric",
+        note: "কর্কশ বা অপ্রীতিকর কথার পরিবর্তে মার্জিত ও কোমল শব্দ ব্যবহার করা (যেমন: 'die'-এর বদলে 'pass away')।"
+    },
+    {
+        id: 84,
+        category: "bcs",
+        question: "What is the repetition of beginning consonant sound known as?",
+        answer: "Alliteration",
+        era: "Poetic Device",
+        genre: "Figure of Speech (অনুপ্রাস)",
+        note: "পাশাপাশি একাধিক শব্দের শুরুতে একই ব্যঞ্জনধ্বনির পুনরাবৃত্তিকে Alliteration বলে।"
+    },
+    {
+        id: 85,
+        category: "bcs",
+        question: "What is the comparison of unlike things using the words 'like' or 'as' known as?",
+        answer: "Simile",
+        era: "Figure of Speech",
+        genre: "Rhetoric (উপমা)",
+        note: "'Like' বা 'As' দিয়ে দুটি ভিন্নধর্মী বস্তুর প্রত্যক্ষ তুলনা করাকে Simile বলে।"
+    },
+    {
+        id: 86,
+        category: "bcs",
+        question: "What is a funny poem of five lines called?",
+        answer: "Limerick",
+        era: "Poetic Forms",
+        genre: "Humorous Verse",
+        note: "পাঁচ লাইনের কৌতুকপূর্ণ ও নির্দিষ্ট অন্ত্যমিলযুক্ত (aabba) ছোট কবিতাকে Limerick বলা হয়।"
+    },
+    {
+        id: 87,
+        category: "bcs",
+        question: "Which is not a poetic tradition among Epic, Comic, Tragic and Occult?",
+        answer: "The Occult",
+        era: "Literary Traditions",
+        genre: "Poetic Classification",
+        note: "Epic (মহাকাব্য), Comic (হাস্যরসাত্মক) ও Tragic (বিয়োগান্তক) কাব্যের প্রচলিত ধারা হলেও 'The Occult' কাব্যের কোনো ধারা নয়।"
+    },
+    {
+        id: 88,
+        category: "bcs",
+        question: "What happens at the 'Climax' of a plot?",
+        answer: "At the height",
+        era: "Dramatic Structure",
+        genre: "Plot Analysis",
+        note: "নাটক বা গল্পের কাহিনীবিন্যাসের চূড়ান্ত উত্তেজনা ও সর্বোচ্চ সন্ধিক্ষণকে Climax বলা হয়।"
+    },
+    {
+        id: 89,
+        category: "bcs",
+        question: "If a part of speech or writing breaks the theme, what is it called?",
+        answer: "Digression",
+        era: "Literary Techniques",
+        genre: "Rhetoric & Prose",
+        note: "মূল বিষয়বস্তু বা ভাবধারা থেকে সাময়িকভাবে সরে গিয়ে অপ্রাসঙ্গিক প্রসঙ্গের অবতারণাকে Digression (ভাবান্তর) বলে।"
+    },
+    {
+        id: 90,
+        category: "bcs",
+        question: "What is a formal composition or speech expressing 'high praise' of somebody called?",
+        answer: "Eulogy",
+        era: "Rhetoric & Oratory",
+        genre: "Formal Praise / Panegyric",
+        note: "কারো জীবদ্দশায় বা মৃত্যুর পর তার মহৎ গুণাবলীর উচ্চ প্রশংসা করে রচিত বক্তব্যকে Eulogy (প্রশংসাগাথা) বলে।"
+    },
+    {
+        id: 91,
+        category: "bcs",
+        question: "What is a song embodying religious and sacred emotion called?",
+        answer: "Hymn",
+        era: "Religious Literature",
+        genre: "Sacred Song (স্তোত্র/ভজন)",
+        note: "সৃষ্টিকর্তার প্রশংসা ও পবিত্র ধর্মীয় আবেগপূর্ণ গান বা স্তোত্রকে Hymn বলা হয়।"
+    },
+    {
+        id: 92,
+        category: "bcs",
+        question: "What are words inscribed on a tomb called?",
+        answer: "Epitaph",
+        era: "Literary Term",
+        genre: "Memorial Inscription (সমাধি-লিপি)",
+        note: "মৃত ব্যক্তির স্মরণে সমাধির পাথরে খোদাই করে লেখা সংক্ষিপ্ত স্তুতিবাক্যকে Epitaph বলে।"
+    },
+    {
+        id: 93,
+        category: "bcs",
+        question: "Which is not a poetry form among Sonnet, Ballad, Tale and Epic?",
+        answer: "Tale",
+        era: "Literary Genres",
+        genre: "Narrative Prose",
+        note: "Sonnet, Ballad এবং Epic হলো কবিতার রূপভেদ; আর 'Tale' হলো গদ্যে রচিত কাহিনি বা গল্প।"
+    },
+    {
+        id: 94,
+        category: "bcs",
+        question: "Which period is known as 'The Golden Age of English Literature'?",
+        answer: "The Elizabethan Age",
+        era: "Renaissance (1558–1603)",
+        genre: "Literary History",
+        note: "রানি প্রথম এলিজাবেথের শাসনামলকে ইংরেজি সাহিত্যের স্বর্ণযুগ (Golden Age) এবং 'Nest of Singing Birds' বলা হয়।"
+    },
+    {
+        id: 95,
+        category: "bcs",
+        question: "What years does the 'Jacobean Period' of English Literature refer to?",
+        answer: "1603–1625",
+        era: "Renaissance / Jacobean Era",
+        genre: "Literary Timeline",
+        note: "রাজা প্রথম জেমসের (King James I) শাসনামলকে (১৬০৩-১৬২৫) জ্যাকোবিয়ান যুগ বলা হয়।"
+    },
+    {
+        id: 96,
+        category: "bcs",
+        question: "What year does the 'Restoration period' in English literature refer to?",
+        answer: "1660",
+        era: "Restoration Era (1660–1700)",
+        genre: "Literary History",
+        note: "১৬৬০ সালে রাজা দ্বিতীয় চার্লসের রাজসিংহাসনে প্রত্যাবর্তনের মাধ্যমে Restoration যুগের সূচনা হয়।"
+    },
+    {
+        id: 97,
+        category: "bcs",
+        question: 'What kind of literary work is "Doctor Faustus"?',
+        answer: "A tragedy",
+        era: "Elizabethan Drama (Christopher Marlowe)",
+        genre: "Morality Tragedy Play",
+        note: "২৪ বছরের ক্ষমতার লোভে শয়তানের কাছে আত্মা বিক্রি করে দেওয়া পণ্ডিত ফস্টাসের বিয়োগান্তক ট্র্যাজেডি।"
+    },
+    {
+        id: 98,
+        category: "bcs",
+        question: 'Who wrote the poem "To His Coy Mistress"?',
+        answer: "Andrew Marvell",
+        era: "Metaphysical Period (17th Century)",
+        genre: "Carpe Diem Lyric Poem",
+        note: "অ্যান্ড্রু মারভেলের বিখ্যাত কবিতা যার মূল ভাবনা 'Carpe Diem' (বর্তমান সময়কে উপভোগ করো)।"
+    },
+    {
+        id: 99,
+        category: "bcs",
+        question: "Desdemona is a character in which Shakespearean play?",
+        answer: "Othello",
+        era: "Jacobean Era (1603)",
+        genre: "Tragedy of Jealousy",
+        note: "দেসদিমোনা হলেন শেক্সপিয়রের ট্র্যাজেডি 'Othello'-এর নিষ্পাপ ও সত্যনিষ্ঠ নায়িকা।"
+    },
+    {
+        id: 100,
+        category: "bcs",
+        question: "Francis Bacon is illustrious as an—",
+        answer: "Essayist",
+        era: "Renaissance / Elizabethan Era",
+        genre: "Father of English Essays",
+        note: "ফ্রান্সিস বেকনকে ইংরেজি প্রবন্ধের জনক (Father of English Essays) বলা হয়।"
+    },
+    {
+        id: 101,
+        category: "bcs",
+        question: "Caliban is an important character from which Shakespearean play?",
+        answer: "The Tempest",
+        era: "Jacobean Era (1611)",
+        genre: "Romance / Tragicomedy",
+        note: "ক্যালিবান হলো ডাইনি সিকোরাক্সের দানবীয় পুত্র এবং দ্বীপের আদিম বাসিন্দা।"
+    },
+    {
+        id: 102,
+        category: "bcs",
+        question: 'Where is the setting of the play "Hamlet"?',
+        answer: "Denmark",
+        era: "Elizabethan Era (1601)",
+        genre: "Tragedy of Revenge",
+        note: "হ্যামলেট নাটকের মূল প্রেক্ষাপট হলো ডেনমার্কের এলসিনোর রাজপ্রাসাদ (Elsinore Castle, Denmark)।"
+    },
+    {
+        id: 103,
+        category: "bcs",
+        question: 'What kind of play is "Julius Caesar"?',
+        answer: "Historical play / Tragedy",
+        era: "Elizabethan Era (1599)",
+        genre: "Roman Historical Tragedy",
+        note: "রোমান সেনাপতি জুলিয়াস সিজারের ক্ষমতা, ষড়যন্ত্র ও হত্যাকাণ্ড নিয়ে রচিত ঐতিহাসিক নাটক।"
+    },
+    {
+        id: 104,
+        category: "bcs",
+        question: 'In Shakespeare\'s play "Hamlet", Hamlet was the prince of which country?',
+        answer: "Denmark",
+        era: "Elizabethan Tragedy",
+        genre: "Character Study",
+        note: "হ্যামলেট ছিলেন ডেনমার্কের যুবরাজ (Prince of Denmark)।"
+    },
+    {
+        id: 105,
+        category: "bcs",
+        question: "'Shylock' is a character in which Shakespearean play?",
+        answer: "The Merchant of Venice",
+        era: "Elizabethan Comedy",
+        genre: "Tragicomedy",
+        note: "শাইলক হলেন ভেনিসের কুখ্যাত ইহুদি মহাজন যিনি এক পাউন্ড মাংস দাবি করেছিলেন।"
+    },
+    {
+        id: 106,
+        category: "bcs",
+        question: "When was William Shakespeare born?",
+        answer: "1564",
+        era: "Elizabethan Era",
+        genre: "Literary Biography",
+        note: "তিনি ১৫৬৪ সালের ২৩ এপ্রিল স্ট্র্যাটফোর্ড-আপন-অ্যাভনে জন্মগ্রহণ করেন।"
+    },
+    {
+        id: 107,
+        category: "bcs",
+        question: 'Who wrote the poem "The Good-Morrow"?',
+        answer: "John Donne",
+        era: "Metaphysical Period (17th Century)",
+        genre: "Metaphysical Love Poetry",
+        note: "জন ডান হলেন মেটাফিজিক্যাল কবিদের প্রধান (Leader of Metaphysical Poets)।"
+    },
+    {
+        id: 108,
+        category: "bcs",
+        question: 'Who is the playwright of "The Spanish Tragedy"?',
+        answer: "Thomas Kyd",
+        era: "Elizabethan Era",
+        genre: "Revenge Tragedy",
+        note: "টমাস কিড ছিলেন University Wits-দের অন্যতম এবং ইংরেজি রিভেঞ্জ ট্র্যাজেডির পথপ্রদর্শক।"
+    },
+    {
+        id: 109,
+        category: "bcs",
+        question: "What did Othello give Desdemona as a token of love?",
+        answer: "Handkerchief",
+        era: "Shakespearean Drama",
+        genre: "Symbolic Motif",
+        note: "একটি বিশেষ নকশাদার রুমাল (Handkerchief) যা হারিয়ে যাওয়ার চক্রান্তে ওথেলোর মনে চরম সন্দেহের সৃষ্টি হয়।"
+    },
+    {
+        id: 110,
+        category: "bcs",
+        question: "Which is regarded as Shakespeare's last play?",
+        answer: "The Tempest",
+        era: "Jacobean Era (1611)",
+        genre: "Swan Song / Romance",
+        note: "শেক্সপিয়রের একক প্রচেষ্টায় রচিত সর্বশেষ নাটক হওয়ায় এটিকে তাঁর 'Swan Song' বলা হয়।"
+    },
+    {
+        id: 111,
+        category: "bcs",
+        question: 'Who has written the play "Volpone"?',
+        answer: "Ben Jonson",
+        era: "Jacobean Era (1606)",
+        genre: "Comedy of Humours / Beast Fable",
+        note: "বেন জনসনের বিখ্যাত ব্যঙ্গাত্মক নাটক যাতে মানুষের অর্থলোভকে ব্যঙ্গ করা হয়েছে।"
+    },
+    {
+        id: 112,
+        category: "bcs",
+        question: "Shakespeare composed much of his plays in what sort of verse?",
+        answer: "Iambic pentameter",
+        era: "Elizabethan Prosody",
+        genre: "Blank Verse / Poetic Meter",
+        note: "শেক্সপিয়র তাঁর অধিকাংশ নাটকে দশ মাত্রার অন্ত্যমিলহীন ছন্দ 'Iambic Pentameter' (Blank Verse) ব্যবহার করেছেন।"
+    },
+    {
+        id: 113,
+        category: "bcs",
+        question: 'What kind of play is Shakespeare\'s "Measure for Measure"?',
+        answer: "Tragi-comedy",
+        era: "Jacobean Era (1604)",
+        genre: "Problem Play / Dark Comedy",
+        note: "নাটকটিতে গম্ভীর নৈতিক সমস্যা ও মিলনাত্মক সমাপ্তি থাকায় এটিকে Tragi-comedy বা Problem Play বলা হয়।"
+    },
+    {
+        id: 114,
+        category: "bcs",
+        question: 'Shakespeare\'s play "The Merchant of Venice" is about a—',
+        answer: "Jew",
+        era: "Elizabethan Era",
+        genre: "Character Dynamics",
+        note: "নাটকটির প্রধান দ্বন্দ্ব আবর্তিত হয়েছে ইহুদি সুদখোর শাইলককে কেন্দ্র করে।"
+    },
+    {
+        id: 115,
+        category: "bcs",
+        question: 'Shakespeare\'s play "Othello" is about a—',
+        answer: "Moor",
+        era: "Jacobean Era",
+        genre: "Hero Archetype",
+        note: "ওথেলো ছিলেন ভেনিস সেনাবাহিনীর একজন পরাক্রমশালী মুর (আফ্রিকান বংশোদ্ভূত মুসলিম) সেনাপতি।"
+    },
+    {
+        id: 116,
+        category: "bcs",
+        question: 'Who wrote the plays "The Tempest" and "A Midsummer Night\'s Dream"?',
+        answer: "William Shakespeare",
+        era: "Elizabethan & Jacobean Eras",
+        genre: "Romantic Comedy & Fantasy",
+        note: "উভয় নাটকই শেক্সপিয়রের জাদুবিদ্যা, প্রকৃতি ও কল্পলোক সমৃদ্ধ মাস্টারপিস কমেডি।"
+    },
+    {
+        id: 117,
+        category: "bcs",
+        question: "Shakespeare is known mostly for his—",
+        answer: "Plays",
+        era: "Elizabethan Literature",
+        genre: "Dramatic Works (37 Plays)",
+        note: "শেক্সপিয়র সনেট ও কবিতা লিখলেও বিশ্বজুড়ে মূলত তাঁর ৩৭টি কালজয়ী নাটকের জন্য সবচেয়ে খ্যাত।"
+    },
+    {
+        id: 118,
+        category: "bcs",
+        question: 'Who composed the epic "Paradise Lost"?',
+        answer: "John Milton",
+        era: "Puritan Period (1667)",
+        genre: "Blank Verse Epic",
+        note: "১২ খণ্ডে রচিত বিশ্ববিখ্যাত মহাকাব্য যা ঈশ্বরের বিরুদ্ধে শয়তানের বিদ্রোহ ও মানবজাতির পতন নিয়ে রচিত।"
+    },
+    {
+        id: 119,
+        category: "bcs",
+        question: 'Who penned the closet tragedy "Samson Agonistes"?',
+        answer: "John Milton",
+        era: "Restoration Era (1671)",
+        genre: "Closet Drama (পাঠ্য নাটক)",
+        note: "অন্ধ স্যামসনের ট্র্যাজেডি নিয়ে মিল্টনের কাব্যনাটক যা মঞ্চায়নের চেয়ে পড়ার উদ্দেশ্যে বেশি উপযোগী।"
+    },
+    {
+        id: 120,
+        category: "bcs",
+        question: "Who complied/wrote the first English Dictionary?",
+        answer: "Samuel Johnson",
+        era: "Age of Johnson (1755)",
+        genre: "Lexicography",
+        note: "১৭৫৫ সালে ড. স্যামুয়েল জনসন প্রথম প্রামাণ্য ইংরেজি অভিধান একক প্রচেষ্টায় সংকলন করেন।"
+    },
+    {
+        id: 121,
+        category: "bcs",
+        question: "Who is the most famous satirist in English literature?",
+        answer: "Jonathan Swift",
+        era: "Augustan / Neoclassical Period",
+        genre: "Satire (Prose)",
+        note: "জোনাথন সুইফট ছিলেন তাঁর তীক্ষ্ণ সামাজিক ও রাজনৈতিক ব্যঙ্গরচনার জন্য ইংরেজি সাহিত্যের সর্বশ্রেষ্ঠ স্যাটায়ারিস্ট।"
+    },
+    {
+        id: 122,
+        category: "bcs",
+        question: 'What is Alexander Pope\'s "Essay on Man"?',
+        answer: "A poem",
+        era: "Augustan Period (1734)",
+        genre: "Philosophical Poem in Heroic Couplets",
+        note: "নামে 'Essay' থাকলেও এটি আসলে ছন্দোবদ্ধ দীর্ঘ দার্শনিক কবিতা।"
+    },
+    {
+        id: 123,
+        category: "bcs",
+        question: 'Who wrote the picaresque novel titled "Tom Jones"?',
+        answer: "Henry Fielding",
+        era: "Age of Johnson (1749)",
+        genre: "Picaresque Comic Novel",
+        note: "হেনরি ফিল্ডিংকে ইংরেজি উপন্যাসের জনক (Father of English Novel) বলা হয়।"
+    },
+    {
+        id: 124,
+        category: "bcs",
+        question: 'Who wrote the heroic drama "All for Love"?',
+        answer: "John Dryden",
+        era: "Restoration Era (1677)",
+        genre: "Heroic Tragedy (Blank Verse)",
+        note: "শেক্সপিয়রের 'Antony and Cleopatra'-এর অনুসরণে জন ড্রাইড্রেনের রচিত বিখ্যাত নাটক।"
+    },
+    {
+        id: 125,
+        category: "bcs",
+        question: 'Who wrote the comedy play "The Way of the World"?',
+        answer: "William Congreve",
+        era: "Restoration Period (1700)",
+        genre: "Restoration Comedy of Manners",
+        note: "উইলিয়াম কনগ্রিভের বিখ্যাত নাটক যাতে তৎকালীন উচ্চবিত্ত সমাজের কৃত্রিমতা ও প্রেমের খেলা ব্যঙ্গ করা হয়েছে।"
+    },
+    {
+        id: 126,
+        category: "bcs",
+        question: 'What kind of literary work is Alexander Pope\'s "The Rape of the Lock"?',
+        answer: "A mock-heroic poem",
+        era: "Augustan Period (1712)",
+        genre: "Mock-Epic / Satire",
+        note: "তুচ্ছ ঘটনাকে (চুল কাটাকে) মহাকাব্যের স্টাইলে ব্যঙ্গ করে রচিত ইংরেজি সাহিত্যের শ্রেষ্ঠ মক-হিরোইক কবিতা।"
+    },
+    {
+        id: 127,
+        category: "bcs",
+        question: 'Who has written the poem "Elegy Written in a Country Churchyard"?',
+        answer: "Thomas Gray",
+        era: "Pre-Romantic / Graveyard School",
+        genre: "Pastoral Elegy (Poem)",
+        note: "সাধারণ দরিদ্র গ্রামবাসীদের অনাড়ম্বর জীবন ও মৃত্যুকে সম্মান জানিয়ে রচিত কালজয়ী শোককবিতা।"
+    },
+    {
+        id: 128,
+        category: "bcs",
+        question: 'Who wrote the famous ode "Ode on a Grecian Urn"?',
+        answer: "John Keats",
+        era: "Romantic Period (1819)",
+        genre: "Romantic Ode",
+        note: "গ্রিক মাটির পাত্রের শিল্পকর্ম ও অমর সৌন্দর্যের ওপর জন কিটসের বিশ্ববিখ্যাত ওড।"
+    },
+    {
+        id: 129,
+        category: "bcs",
+        question: "Which historical event deeply influenced the literature of the Romantic period?",
+        answer: "French Revolution",
+        era: "1789 Historical Milestone",
+        genre: "Literary Context",
+        note: "১৭৮৯ সালের ফরাসি বিপ্লবের সাম্য, মৈত্রী ও স্বাধীনতার বাণী রোমান্টিক কবিদের গভীরভাবে অনুপ্রাণিত করেছিল।"
+    },
+    {
+        id: 130,
+        category: "bcs",
+        question: 'Who wrote the sonnet "Ozymandias"?',
+        answer: "P. B. Shelley",
+        era: "Romantic Period (1818)",
+        genre: "Political Sonnet",
+        note: "ক্ষমতার অহংকার এবং সময়ের নিষ্ঠুর পরিহাস নিয়ে পার্সি বিশি শেলির অমর সনেট।"
+    },
+        {
+        id: 131,
+        category: "bcs",
+        question: "Who is regarded as the most famous romantic poet of English literature?",
+        answer: "William Wordsworth",
+        era: "Romantic Period (1798–1837)",
+        genre: "Romantic Poetry",
+        note: "১৭৯৮ সালে কোলরিজের সাথে যৌথভাবে 'Lyrical Ballads' প্রকাশের মাধ্যমে রোমান্টিক যুগের সূচনা করেন।"
+    },
+    {
+        id: 132,
+        category: "bcs",
+        question: "Which romantic figure was both a poet and a painter?",
+        answer: "William Blake",
+        era: "Pre-Romantic Era",
+        genre: "Mystic Poetry & Engraving",
+        note: "উইলিয়াম ব্লেক নিজের কবিতার বইগুলোর চিত্রাঙ্কন ও খোদাইয়ের কাজ নিজেই করতেন।"
+    },
+    {
+        id: 133,
+        category: "bcs",
+        question: 'Who wrote the critical work "Biographia Literaria"?',
+        answer: "S. T. Coleridge",
+        era: "Romantic Criticism (1817)",
+        genre: "Literary Criticism & Autobiography",
+        note: "স্যামুয়েল টেইলর কোলরিজের বিখ্যাত তাত্ত্বিক গ্রন্থ যাতে কল্পনাশক্তি (Primary & Secondary Imagination)-এর ব্যাখ্যা রয়েছে।"
+    },
+    {
+        id: 134,
+        category: "bcs",
+        question: "P. B. Shelley's \"Adonais\" is an elegy on the death of which poet?",
+        answer: "John Keats",
+        era: "Romantic Period (1821)",
+        genre: "Pastoral Elegy (শোকগাথা)",
+        note: "জন কিটসের অকালমৃত্যুতে গভীর শোক প্রকাশ করে পার্সি বিশি শেলির রচিত বিশ্ববিখ্যাত শোককবিতা।"
+    },
+    {
+        id: 135,
+        category: "bcs",
+        question: 'Who wrote the lyric poem "The Solitary Reaper"?',
+        answer: "William Wordsworth",
+        era: "Romantic Period (1807)",
+        genre: "Lyrical Ballad",
+        note: "স্কটল্যান্ডের হাইল্যান্ডের মাঠে একলা ধান কাটারত তরুণীর মিষ্টি সুরের গান নিয়ে রচিত কবিতা।"
+    },
+    {
+        id: 136,
+        category: "bcs",
+        question: "Who is known as 'The Poet of Nature' in English literature?",
+        answer: "William Wordsworth",
+        era: "Romantic Era",
+        genre: "Nature Poetry",
+        note: "প্রকৃতির নিখাদ সৌন্দর্য ও আধ্যাত্মিক সংযোগ বর্ণনার জন্য তিনি প্রকৃতির কবি হিসেবে বিশ্বখ্যাত।"
+    },
+    {
+        id: 137,
+        category: "bcs",
+        question: 'Who wrote the philosophical line "Beauty is truth, truth beauty"?',
+        answer: "John Keats",
+        era: "Romantic Period (1819)",
+        genre: "Ode on a Grecian Urn",
+        note: "সৌন্দর্য ও সত্যের অভিন্নতা নিয়ে জন কিটসের কালজয়ী ওডের বিখ্যাত সমাপ্তি চরণ।"
+    },
+    {
+        id: 138,
+        category: "bcs",
+        question: 'What form of literary work is Samuel Taylor Coleridge\'s "Kubla Khan"?',
+        answer: "A verse / poem",
+        era: "Romantic Period (1816)",
+        genre: "Visionary Romantic Poem",
+        note: "আফিমজনিত স্বপ্নের ঘোরে মঙ্গোল সম্রাট কুবলাই খানের গ্রীষ্মকালীন প্রাসাদ নিয়ে রচিত কোলরিজের বিখ্যাত কবিতা।"
+    },
+    {
+        id: 139,
+        category: "bcs",
+        question: 'Under which pen name was Emily Brontë\'s novel "Wuthering Heights" penned?',
+        answer: "Ellis Bell",
+        era: "Victorian Era (1847)",
+        genre: "Gothic Romantic Novel",
+        note: "এমিলি ব্রন্টি তৎকালীন সামাজিক বাধার কারণে 'Ellis Bell' ছদ্মনামে এই বিখ্যাত উপন্যাসটি প্রকাশ করেছিলেন।"
+    },
+    {
+        id: 140,
+        category: "bcs",
+        question: 'Who translated and attributed the "Rubaiyat of Omar Khayyam" into English?',
+        answer: "Edward FitzGerald",
+        era: "Victorian Era (1859)",
+        genre: "Poetic Translation",
+        note: "ফার্সি কবি ওমর খৈয়ামের চতুষ্পদী রুবাইগুলোকে এডওয়ার্ড ফিটজেরাল্ড ইংরেজিতে অমর রূপ দেন।"
+    },
+    {
+        id: 141,
+        category: "bcs",
+        question: "Charles Dickens was an English—",
+        answer: "Novelist",
+        era: "Victorian Period (1812–1870)",
+        genre: "Social Realist Fiction",
+        note: "চার্লস ডিকেন্স ছিলেন ভিক্টোরিয়ান যুগের সর্বশ্রেষ্ঠ ব্রিটিশ ঔপন্যাসিক।"
+    },
+    {
+        id: 142,
+        category: "bcs",
+        question: 'Who composed the elegiac poem "Thyrsis"?',
+        answer: "Matthew Arnold",
+        era: "Victorian Period (1865)",
+        genre: "Pastoral Elegy",
+        note: "কবি বন্ধু আর্থার হিউ ক্লগের (Arthur Hugh Clough) স্মরণে ম্যাথিউ আর্নল্ডের রচিত শোককবিতা।"
+    },
+    {
+        id: 143,
+        category: "bcs",
+        question: 'Which two cities are referred to in Charles Dickens\' "A Tale of Two Cities"?',
+        answer: "London and Paris",
+        era: "Victorian Era (1859)",
+        genre: "Historical Fiction (French Revolution)",
+        note: "উপন্যাসটি ফরাসি বিপ্লবের প্রেক্ষাপটে ইংল্যান্ডের লন্ডন ও ফ্রান্সের প্যারিস শহরকে ঘিরে রচিত।"
+    },
+    {
+        id: 144,
+        category: "bcs",
+        question: 'Who wrote the Victorian poem "Ulysses"?',
+        answer: "Alfred Lord Tennyson",
+        era: "Victorian Period (1842)",
+        genre: "Dramatic Monologue",
+        note: "লর্ড আলফ্রেড টেনিসনের অনুপ্রেরণাদায়ী কবিতা যার বার্তা হলো জ্ঞান ও অভিযানের অবিরাম অন্বেষণ।"
+    },
+    {
+        id: 145,
+        category: "bcs",
+        question: 'The story of the novel "Moby Dick" centres on a—',
+        answer: "Whale",
+        era: "American Renaissance (1851)",
+        genre: "Marine Adventure Fiction",
+        note: "ক্যাপ্টেন আহাবের একটি দানবীয় সাদা তিমি (White Whale) শিকারের চরম প্রতিশোধের কাহিনি।"
+    },
+    {
+        id: 146,
+        category: "bcs",
+        question: 'Who is the author of the novel "Jane Eyre"?',
+        answer: "Charlotte Brontë",
+        era: "Victorian Period (1847)",
+        genre: "Gothic Bildungsroman",
+        note: "শার্লট ব্রন্টির বিখ্যাত আত্মমর্যাদাসম্পন্ন অনাথ নারী জেন এয়ার ও মিস্টার রচেস্টারের প্রেমকাহিনি।"
+    },
+    {
+        id: 147,
+        category: "bcs",
+        question: 'Who is the author of the novel "Moby Dick"?',
+        answer: "Herman Melville",
+        era: "American Renaissance (1851)",
+        genre: "Allegorical Novel",
+        note: "হারম্যান মেলভিলের রচিত মার্কিন সাহিত্যের এক মহান ক্ল্যাসিক উপন্যাস।"
+    },
+    {
+        id: 148,
+        category: "bcs",
+        question: 'Who wrote the novel "Vanity Fair"?',
+        answer: "William Makepeace Thackeray",
+        era: "Victorian Period (1848)",
+        genre: "Satirical Novel (A Novel without a Hero)",
+        note: "বেকী শার্প চরিত্রের মাধ্যমে তৎকালীন অভিজাত সমাজের মেকি অহংকার ও স্বার্থপরতা উন্মোচিত করা হয়েছে।"
+    },
+    {
+        id: 149,
+        category: "bcs",
+        question: 'Alfred Tennyson\'s "In Memoriam" is an elegy on the death of whom?',
+        answer: "Arthur Henry Hallam",
+        era: "Victorian Period (1850)",
+        genre: "Major Elegiac Poem",
+        note: "টেনিসনের প্রিয় বন্ধু ও বোনের বাগদত্তা আর্থার হেনরি হ্যালামের অকালমৃত্যুতে রচিত শোককাব্য।"
+    },
+    {
+        id: 150,
+        category: "bcs",
+        question: 'Who is the writer of the short story "The Diamond Necklace"?',
+        answer: "Guy de Maupassant",
+        era: "French Realism (1884)",
+        genre: "Short Story with Twist Ending",
+        note: "ফরাসি কথাসাহিত্যিক গী দ্য মোপাসাঁ-র বিখ্যাত ছোটগল্প যার শিক্ষণীয় বিষয় মিথ্যা অহংকারের পরিণতি।"
+    },
+    {
+        id: 151,
+        category: "bcs",
+        question: 'What kind of work is "A Christmas Carol" by Charles Dickens?',
+        answer: "A short novel / Novella",
+        era: "Victorian Period (1843)",
+        genre: "Ghost Story of Christmas",
+        note: "কিপটে ইবেনিজার স্ক্রুজের আত্মশুদ্ধি ও মানবিকতায় রূপান্তরের বিখ্যাত বড়দিনভিত্তিক উপন্যাসিকা।"
+    },
+    {
+        id: 152,
+        category: "bcs",
+        question: 'Charles Dickens\' "David Copperfield" is a novel of which literary era?',
+        answer: "Victorian",
+        era: "Victorian Period (1832–1901)",
+        genre: "Period Classification",
+        note: "১৮৪৯-১৮৫০ সালে প্রকাশিত এটি ভিক্টোরিয়ান যুগের অন্যতম সেরা ক্ল্যাসিক উপন্যাস।"
+    },
+    {
+        id: 153,
+        category: "bcs",
+        question: 'Which famous novel was written by Thomas Hardy?',
+        answer: "The Return of the Native",
+        era: "Victorian Realism (1878)",
+        genre: "Tragic Wessex Novel",
+        note: "টমাস হার্ডির বিখ্যাত উপন্যাস যা এগডন হিথের পটভূমিতে মানুষের ভাগ্যের নিষ্ঠুর পরিহাস নিয়ে রচিত।"
+    },
+    {
+        id: 154,
+        category: "bcs",
+        question: 'Who wrote the two famous novels "David Copperfield" and "A Tale of Two Cities"?',
+        answer: "Charles Dickens",
+        era: "Victorian Era",
+        genre: "Major Novels",
+        note: "উভয় বিখ্যাত উপন্যাসই চার্লস ডিকেন্সের কালজয়ী সৃষ্টি।"
+    },
+    {
+        id: 155,
+        category: "bcs",
+        question: 'Who wrote the one-act tragedy play "Riders to the Sea"?',
+        answer: "J. M. Synge",
+        era: "Irish Literary Renaissance (1904)",
+        genre: "One-act Tragedy Play",
+        note: "জে. এম. সিঞ্জের এক অঙ্কের ট্র্যাজেডি যাতে সমুদ্রের করালগ্রাসে মরিয়া নামের মায়ের সব ছেলে হারানোর বেদনা ফুটিয়ে তোলা হয়েছে।"
+    },
+    {
+        id: 156,
+        category: "bcs",
+        question: 'Who is the writer of the famous critical essay "Tradition and the Individual Talent"?',
+        answer: "T. S. Eliot",
+        era: "Modernist Criticism (1919)",
+        genre: "Literary Critical Essay",
+        note: "টি. এস. এলিয়টের বিখ্যাত প্রবন্ধ যাতে নৈর্ব্যক্তিক কাব্যতত্ত্ব (Impersonality of Poetry) তুলে ধরা হয়েছে।"
+    },
+    {
+        id: 157,
+        category: "bcs",
+        question: 'Who is the playwright of the absurd drama "Waiting for Godot"?',
+        answer: "Samuel Beckett",
+        era: "Theatre of the Absurd (1953)",
+        genre: "Absurdist Drama",
+        note: "ভ্লাদিমির ও এস্ট্রাগন নামের দুই চরিত্রের এক অজ্ঞাত 'গোদো'-র জন্য অনন্ত অপেক্ষার নোবেলজয়ী নাটক।"
+    },
+    {
+        id: 158,
+        category: "bcs",
+        question: 'Who wrote the novella "Heart of Darkness"?',
+        answer: "Joseph Conrad",
+        era: "Modern Period (1899)",
+        genre: "Psychological / Colonial Novella",
+        note: "জোসেফ কনরাডের বিখ্যাত উপন্যাসিকা যাতে আফ্রিকায় ইউরোপীয় সাম্রাজ্যবাদের বর্বরতা ও কুর্টজের পতন বর্ণিত।"
+    },
+    {
+        id: 159,
+        category: "bcs",
+        question: 'Who is the author of the autobiographical and political essay "Shooting an Elephant"?',
+        answer: "George Orwell",
+        era: "Modern Period (1936)",
+        genre: "Political Essay",
+        note: "বার্মায় ব্রিটিশ পুলিশ কর্মকর্তা হিসেবে দায়িত্ব পালনকালে জর্জ অরওয়েলের সাম্রাজ্যবাদবিরোধী অভিজ্ঞতার রচনা।"
+    },
+    {
+        id: 160,
+        category: "bcs",
+        question: 'Who is the author of the novel "A Farewell to Arms"?',
+        answer: "Ernest Hemingway",
+        era: "Modern American Literature (1929)",
+        genre: "Semi-autobiographical War Novel",
+        note: "আর্নেস্ট হেমিংওয়ের প্রথম বিশ্বযুদ্ধভিত্তিক অমর প্রেমের ট্র্যাজেডি।"
+    },
+    {
+        id: 161,
+        category: "bcs",
+        question: 'Which dystopian novel was written by George Orwell?',
+        answer: "1984",
+        era: "Modern Dystopian Fiction (1949)",
+        genre: "Dystopian Political Novel",
+        note: "সর্বগ্রাসী রাষ্ট্রব্যবস্থা ও 'Big Brother'-এর নজরদারি নিয়ে জর্জ অরওয়েলের কালজয়ী উপন্যাস।"
+    },
+    {
+        id: 162,
+        category: "bcs",
+        question: 'Who wrote the poetic drama "Murder in the Cathedral"?',
+        answer: "T. S. Eliot",
+        era: "Modernist Literature (1935)",
+        genre: "Verse Drama",
+        note: "ক্যান্টারবারির আর্চবিশপ টমাস বেকেটের শহীদ হওয়ার ঐতিহাসিক ঘটনা নিয়ে রচিত।"
+    },
+    {
+        id: 163,
+        category: "bcs",
+        question: 'Who wrote the short story "The Ant and the Grasshopper"?',
+        answer: "W. Somerset Maugham",
+        era: "Modern British Literature",
+        genre: "Satirical Short Story",
+        note: "ঈশপের উপকথার বিপরীত প্রেক্ষাপটে জর্জ ও টম রামসের কাহিনি নিয়ে সমারসেট মম-এর চমৎকার রসাত্মক গল্প।"
+    },
+    {
+        id: 164,
+        category: "bcs",
+        question: "Which country was short story writer O' Henry from?",
+        answer: "America (USA)",
+        era: "American Literature (1862–1910)",
+        genre: "Short Story Master",
+        note: "ও' হেনরি ছিলেন মার্কিন যুক্তরাষ্ট্রের বিখ্যাত ছোটগল্পকার যার গল্পে আকস্মিক চমকপ্রদ সমাপ্তি (Twist Ending) থাকে।"
+    },
+    {
+        id: 165,
+        category: "bcs",
+        question: 'What kind of literary work is W. B. Yeats\'s "No Second Troy"?',
+        answer: "A poem",
+        era: "Modernist Poetry (1910)",
+        genre: "Political & Love Lyric Poem",
+        note: "আইরিশ বিপ্লবী নারী মড গন (Maud Gonne)-কে হেলেনের সাথে তুলনা করে ইয়েটসের রচিত বিখ্যাত কবিতা।"
+    },
+    {
+        id: 166,
+        category: "bcs",
+        question: 'Who wrote the novel "A Passage to India"?',
+        answer: "E. M. Forster",
+        era: "Modern Period (1924)",
+        genre: "Colonial Fiction",
+        note: "ই. এম. ফরস্টারের ব্রিটিশ-ভারতের পটভূমিতে রচিত বিখ্যাত উপন্যাস।"
+    },
+    {
+        id: 167,
+        category: "bcs",
+        question: 'Who wrote the modernist poem "The Love Song of J. Alfred Prufrock"?',
+        answer: "T. S. Eliot",
+        era: "High Modernism (1915)",
+        genre: "Stream of Consciousness Poem",
+        note: "আধুনিক নগর জীবনের দ্বিধাগ্রস্ত ও নিঃসঙ্গ মানুষের মনস্তত্ত্ব নিয়ে টি. এস. এলিয়টের বিখ্যাত কবিতা।"
+    },
+    {
+        id: 168,
+        category: "bcs",
+        question: 'Who is the author of the novel "Ulysses"?',
+        answer: "James Joyce",
+        era: "Modernist Literature (1922)",
+        genre: "Modernist Novel",
+        note: "আইরিশ লেখক জেমস জয়েসের স্ট্রিম অব কনশাসনেস রীতির মহাকাব্যিক আধুনিক উপন্যাস।"
+    },
+    {
+        id: 169,
+        category: "bcs",
+        question: 'Who wrote the drama "Man and Superman"?',
+        answer: "George Bernard Shaw",
+        era: "Modern Period (1903)",
+        genre: "Drama of Ideas",
+        note: "দার্শনিক নিৎশের অতিমানব তত্ত্বের প্রেক্ষাপটে রচিত জি. বি. শ-এর বুদ্ধিবৃত্তিক কমেডি।"
+    },
+    {
+        id: 170,
+        category: "bcs",
+        question: 'Who is the poet of "Gerontion"?',
+        answer: "T. S. Eliot",
+        era: "Modernist Poetry (1920)",
+        genre: "Dramatic Monologue",
+        note: "প্রথম বিশ্বযুদ্ধোত্তর ইউরোপের অবক্ষয় ও এক বৃদ্ধের স্মৃতিচারণ নিয়ে রচিত টি. এস. এলিয়টের কবিতা।"
+    },
+    {
+        id: 171,
+        category: "bcs",
+        question: 'Who wrote the novel "The Sun Also Rises"?',
+        answer: "Ernest Hemingway",
+        era: "Lost Generation (1926)",
+        genre: "Modernist Novel",
+        note: "প্রথম বিশ্বযুদ্ধোত্তর হতাশ 'Lost Generation'-এর তরুণদের জীবন নিয়ে হেমিংওয়ের প্রথম উপন্যাস।"
+    },
+    {
+        id: 172,
+        category: "bcs",
+        question: 'Who is the playwright of the comedy "Candida"?',
+        answer: "George Bernard Shaw",
+        era: "Modern Drama (1898)",
+        genre: "Fabian Socialist Comedy",
+        note: "ক্যান্ডিডা নামের নারীর স্বামী ও তরুণ কবির মধ্যকার মানসিক দ্বন্দ্ব নিয়ে জি. বি. শ-এর নাটক।"
+    },
+    {
+        id: 173,
+        category: "bcs",
+        question: 'Who translated Rabindranath Tagore\'s "Gitanjali" into English?',
+        answer: "W. B. Yeats",
+        era: "Modern Literature (1912)",
+        genre: "Introduction & Editing",
+        note: "রবীন্দ্রনাথ নিজে অনুবাদ করেছিলেন এবং ডব্লিউ. বি. ইয়েটস ভূমিকা (Introduction) লিখে পশ্চিমা বিশ্বে তা পরিচয় করিয়ে দেন।"
+    },
+    {
+        id: 174,
+        category: "bcs",
+        question: 'Who wrote the anti-war satirical play "Arms and the Man"?',
+        answer: "George Bernard Shaw",
+        era: "Modern Drama (1894)",
+        genre: "Anti-romantic Comedy",
+        note: "যুদ্ধের অন্তঃসারশূন্যতা ও রোমান্টিক ধারণাকে ব্যঙ্গ করে রচিত শ-এর বিখ্যাত কমেডি নাটক।"
+    },
+    {
+        id: 175,
+        category: "bcs",
+        question: 'Who wrote the lyric poem "The Lake Isle of Innisfree"?',
+        answer: "W. B. Yeats",
+        era: "Celtic Revival (1890)",
+        genre: "Peace & Nature Lyric",
+        note: "শহুরে কোলাহল ছেড়ে নির্জন দ্বীপ ইনিসফ্রিতে গিয়ে শান্তির কুটির গড়ার ব্যাকুলতা নিয়ে ইয়েটসের কবিতা।"
+    },
+    {
+        id: 176,
+        category: "bcs",
+        question: 'What kind of literary form is "Riders to the Sea"?',
+        answer: "A one-act play",
+        era: "Irish Dramatic Movement",
+        genre: "One-Act Tragedy",
+        note: "জে. এম. সিঞ্জের এক অঙ্কের বিখ্যাত বিয়োগান্তক নাটক।"
+    },
+    {
+        id: 177,
+        category: "bcs",
+        question: 'Who wrote the political allegorical novella "Animal Farm"?',
+        answer: "George Orwell",
+        era: "Modern Period (1945)",
+        genre: "Political Fable / Beast Satire",
+        note: "পশুখামারের রূপকে সোভিয়েত ইউনিয়ন ও একনায়কতন্ত্রকে ব্যঙ্গ করে রচিত বিশ্বখ্যাত উপন্যাসিকা।"
+    },
+    {
+        id: 178,
+        category: "bcs",
+        question: "What is the full name of the American short story writer O' Henry?",
+        answer: "William Sydney Porter",
+        era: "American Short Story",
+        genre: "Author Biography",
+        note: "ও' হেনরির আসল নাম উইলিয়াম সিডনি পোর্টার (William Sydney Porter)।"
+    },
+    {
+        id: 179,
+        category: "bcs",
+        question: 'What kind of literary work is D. H. Lawrence\'s "The Rainbow"?',
+        answer: "A novel",
+        era: "Modernist Literature (1915)",
+        genre: "Generational Family Saga Novel",
+        note: "ডি. এইচ. লরেন্সের ব্র্যাংওয়েন পরিবারের তিন প্রজন্মের মনস্তাত্ত্বিক সম্পর্কের বিখ্যাত উপন্যাস।"
+    },
+    {
+        id: 180,
+        category: "bcs",
+        question: "In which country was the modernist poet T. S. Eliot born?",
+        answer: "USA",
+        era: "Literary Biography",
+        genre: "American-born British Poet",
+        note: "টি. এস. এলিয়ট ১৮৮৮ সালে আমেরিকার সেন্ট লুইসে জন্মগ্রহণ করেন এবং পরবর্তীতে ব্রিটিশ নাগরিকত্ব নেন।"
+    },
+    {
+        id: 181,
+        category: "bcs",
+        question: "Who is regarded as the greatest modern English dramatist?",
+        answer: "George Bernard Shaw",
+        era: "Modern Period (1856–1950)",
+        genre: "Modern Drama of Ideas",
+        note: "আধুনিক ইংরেজি নাট্যসাহিত্যে শেক্সপিয়রের পর সবচেয়ে প্রভাবশালী নাট্যকার।"
+    },
+    {
+        id: 182,
+        category: "bcs",
+        question: 'Who is the author of the novel "For Whom the Bell Tolls"?',
+        answer: "Ernest Hemingway",
+        era: "Modern American Fiction (1940)",
+        genre: "Spanish Civil War Novel",
+        note: "স্প্যানিশ গৃহযুদ্ধের পটভূমিতে মার্কিন স্বেচ্ছাসেবী রবার্ট জর্ডানের আত্মত্যাগের কাহিনি।"
+    },
+    {
+        id: 183,
+        category: "bcs",
+        question: 'Who wrote the biographical book "India Wins Freedom"?',
+        answer: "Abul Kalam Azad",
+        era: "Post-Independence History (1959)",
+        genre: "Political Memoir / Autobiography",
+        note: "ভারতের প্রথম শিক্ষামন্ত্রী ও স্বাধীনতা সংগ্রামী মাওলানা আবুল কালাম আজাদের বিখ্যাত আত্মজীবনীমূলক গ্রন্থ।"
+    },
+    {
+        id: 184,
+        category: "bcs",
+        question: 'Who wrote the allegorical novel "Lord of the Flies"?',
+        answer: "William Golding",
+        era: "Post-War British Fiction (1954)",
+        genre: "Allegorical Dystopian Novel",
+        note: "জনমানবহীন দ্বীপে আটকে পড়া ব্রিটিশ স্কুলছাত্রদের বর্বরতায় রূপান্তরের নোবেলজয়ী রূপক উপন্যাস।"
+    },
+    {
+        id: 185,
+        category: "bcs",
+        question: 'Who authored the futuristic dystopian novel "Brave New World"?',
+        answer: "Aldous Leonard Huxley",
+        era: "Modernist Dystopia (1932)",
+        genre: "Sci-Fi Dystopian Novel",
+        note: "প্রযুক্তিনির্ভর ভবিষ্যৎ পৃথিবীর অমানবিক ও কৃত্রিম সমাজব্যবস্থা নিয়ে অলডাস হাক্সলির বিখ্যাত উপন্যাস।"
+    },
+    {
+        id: 186,
+        category: "bcs",
+        question: 'Who is the author of the novel "The God of Small Things"?',
+        answer: "Arundhati Roy",
+        era: "Contemporary Indian English",
+        genre: "Booker Prize Winner (1997)",
+        note: "ভারতের অরুন্ধতী রায়ের ম্যান বুকারজয়ী পারিবারিক ও সামাজিক ট্র্যাজেডি উপন্যাস।"
+    },
+    {
+        id: 187,
+        category: "bcs",
+        question: 'Who wrote the classic Russian novel "Doctor Zhivago"?',
+        answer: "Boris Pasternak",
+        era: "Russian Modernist Literature (1957)",
+        genre: "Historical Epic Novel",
+        note: "রুশ বিপ্লব ও প্রথম বিশ্বযুদ্ধের পটভূমিতে ড. ইউরি জিভাগোর জীবনের নোবেলজয়ী উপন্যাস।"
+    },
+    {
+        id: 188,
+        category: "bcs",
+        question: 'Who is the playwright of the play "The Birthday Party"?',
+        answer: "Harold Pinter",
+        era: "Comedy of Menace (1957)",
+        genre: "Absurdist Drama (Nobel 2005)",
+        note: "নোবেলজয়ী নাট্যকার হ্যারল্ড পিন্টারের রহস্যময় ভীতি ও মনস্তাত্ত্বিক আশঙ্কার বিখ্যাত নাটক।"
+    }
+    
+    
+    ];
+
+        
+        
+        let currentTab = 'practice';
+        let currentCategory = 'all';
+        let favorites = [];
+
+        try {
+            const savedFavs = localStorage.getItem('bacademy_lit_favs');
+            if (savedFavs) favorites = JSON.parse(savedFavs);
+        } catch (e) {
+            favorites = [];
+        }
+
+        let renderList = [...literatureDb];
+
+        /* --- Header Auto-Hide on Scroll Logic --- */
+        let lastScrollTop = 0;
+        const mainHeader = document.getElementById('mainHeader');
+        const scrollThreshold = 10;
+
+        window.addEventListener('scroll', () => {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (Math.abs(lastScrollTop - scrollTop) <= scrollThreshold) return;
+
+            if (scrollTop > lastScrollTop && scrollTop > 60) {
+                if (mainHeader) mainHeader.classList.add('header-hidden');
+            } else {
+                if (mainHeader) mainHeader.classList.remove('header-hidden');
+            }
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+        }, { passive: true });
+
+        function setCategory(cat, el) {
+            currentCategory = cat;
+            document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+            if(el) el.classList.add('active');
+            renderCards();
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            if(tab === 'practice') document.getElementById('nav-practice').classList.add('active');
+            if(tab === 'favorites') document.getElementById('nav-fav').classList.add('active');
+
+            renderCards();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function shuffleData() {
+            renderList.sort(() => Math.random() - 0.5);
+            renderCards();
+            showToast("প্রশ্নগুলো এলোমেলো করা হয়েছে! 🔀", "#facc15");
+        }
+
+        function toggleFav(id, event) {
+            event.stopPropagation();
+            if(favorites.includes(id)) {
+                favorites = favorites.filter(favId => favId !== id);
+                showToast("বুকমার্ক থেকে সরানো হয়েছে", "#94a3b8");
+            } else {
+                favorites.push(id);
+                showToast("বুকমার্কে সংরক্ষণ করা হয়েছে! ⭐", "#facc15");
+            }
+            try {
+                localStorage.setItem('bacademy_lit_favs', JSON.stringify(favorites));
+            } catch (e) {}
+            renderCards();
+        }
+
+        /* --- Single Open Accordion Logic (Auto-close Previous) --- */
+        function toggleCard(cardEl) {
+            const isAlreadyOpen = cardEl.classList.contains('revealed');
+            
+            // পূর্বের যেকোনো খোলা কার্ড বন্ধ করা
+            document.querySelectorAll('.lit-card.revealed').forEach(c => {
+                c.classList.remove('revealed');
+            });
+
+            // ট্যাপ করা কার্ডটি খোলা (যদি আগে থেকে খোলা না থাকে)
+            if (!isAlreadyOpen) {
+                cardEl.classList.add('revealed');
+            }
+        }
+
+        function renderCards() {
+            const container = document.getElementById('cardsList');
+            const searchInput = document.getElementById('searchInput');
+            const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+
+            let filtered = renderList.filter(item => {
+                const matchCategory = (currentCategory === 'all') || (item.category === currentCategory);
+                const matchQuery = item.question.toLowerCase().includes(query) ||
+                                   item.answer.toLowerCase().includes(query) ||
+                                   (item.era && item.era.toLowerCase().includes(query)) ||
+                                   (item.genre && item.genre.toLowerCase().includes(query)) ||
+                                   (item.note && item.note.toLowerCase().includes(query));
+
+                if(currentTab === 'favorites') {
+                    return matchCategory && matchQuery && favorites.includes(item.id);
+                }
+                return matchCategory && matchQuery;
+            });
+
+            container.innerHTML = '';
+
+            if(filtered.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align:center; padding: 60px 20px; color: var(--text-muted);">
+                        <i class="fa-solid fa-book-bookmark" style="font-size: 32px; margin-bottom: 12px; opacity:0.4;"></i>
+                        <p style="font-size: 15px;">কোনো প্রশ্ন পাওয়া যায়নি!</p>
+                    </div>`;
+                return;
+            }
+
+            filtered.forEach((item, index) => {
+                const isFav = favorites.includes(item.id);
+                const favClass = isFav ? 'fav-star active' : 'fav-star';
+                const starIcon = isFav ? '★' : '☆';
+
+                let card = document.createElement('div');
+                card.id = `card-item-${item.id}`;
+                card.className = 'lit-card';
+                card.onclick = () => toggleCard(card);
+
+                card.innerHTML = `
+                    <div class="card-top-row">
+                        <span class="tag-pill">#${index + 1}</span>
+                        <div class="question-title">${item.question}</div>
+                        <span class="${favClass}" onclick="toggleFav(${item.id}, event)">${starIcon}</span>
+                    </div>
+
+                    <div class="answer-drawer">
+                        <div class="drawer-inner">
+                            <div class="author-answer-box">
+                                <i class="fa-solid fa-feather-pointed"></i>
+                                <div class="author-text">${item.answer}</div>
+                            </div>
+                            <p class="meta-detail"><strong>🏛️ Era/Period:</strong> ${item.era || 'English Literature'}</p>
+                            <p class="meta-detail"><strong>📖 Work/Genre:</strong> ${item.genre || 'Literature'}</p>
+                            <p class="meta-detail"><strong>💡 Key Note:</strong> ${item.note}</p>
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        function toggleRocketHub() {
+            const menu = document.getElementById('rocketMenu');
+            if (menu) {
+                menu.style.display = (menu.style.display === 'flex') ? 'none' : 'flex';
+            }
+        }
+
+        function jumpToCard() {
+            const inputVal = document.getElementById('jumpInput').value.trim();
+            const targetEl = document.getElementById(`card-item-${inputVal}`);
+            if (targetEl) {
+                targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                toggleRocketHub();
+                targetEl.style.borderColor = 'var(--gold-glow)';
+                setTimeout(() => { targetEl.style.borderColor = 'rgba(255, 255, 255, 0.08)'; }, 1600);
+            } else {
+                showToast("নম্বরটি খুঁজে পাওয়া যায়নি!", "#f43f5e");
+            }
+        }
+
+        function showToast(msg, color) {
+            const toast = document.getElementById('toastMsg');
+            if (toast) {
+                toast.innerText = msg; 
+                toast.style.borderLeft = `4px solid ${color}`; 
+                toast.style.display = 'block';
+                setTimeout(() => { toast.style.display = 'none'; }, 2000);
+            }
+        }
+
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCards();
+        });
+        renderCards();
+    </script>
+</body>
+</html>
