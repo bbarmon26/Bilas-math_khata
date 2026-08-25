@@ -22,6 +22,7 @@
     <link rel="icon" type="image/png" href="logobacca26v2.png">
 
     <!-- 🧬 ৩. ডাইনামিক Manifest এবং Service Worker -->
+        <!-- 🧬 ৩. পিডব্লিউএ ম্যানিফেস্ট ও সার্ভিস ওয়ার্কার ইঞ্জিন -->
     <script>
         (function() {
             const manifestObj = {
@@ -35,9 +36,10 @@
                         "purpose": "any maskable"
                     }
                 ],
-                "start_url": "./index.html",
+                "start_url": "./",
+                "scope": "./",
                 "background_color": "#000000",
-                "theme-color": "#000000",
+                "theme_color": "#000000",
                 "display": "standalone",
                 "orientation": "portrait"
             };
@@ -52,19 +54,17 @@
 
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
-                const swCode = `
-                    self.addEventListener('install', function(e) { self.skipWaiting(); });
-                    self.addEventListener('activate', function(e) { e.waitUntil(self.clients.claim()); });
-                    self.addEventListener('fetch', function(e) { e.respondWith(fetch(e.request)); });
-                `;
-                const blob = new Blob([swCode], {type: 'application/javascript'});
-                const swURL = URL.createObjectURL(blob);
-                navigator.serviceWorker.register(swURL).catch(function(err) {
-                    console.log('ServiceWorker registration failed: ', err);
-                });
+                navigator.serviceWorker.register('./sw.js')
+                    .then(function(reg) {
+                        console.log('SW Registered!', reg);
+                    })
+                    .catch(function(err) {
+                        console.log('SW registration failed: ', err);
+                    });
             });
         }
     </script>
+
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
