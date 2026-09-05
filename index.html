@@ -7,7 +7,7 @@
     
     <!-- 🌟 ১. সোশ্যাল মিডিয়া লিংক প্রিভিউ থাম্বনেইল (Open Graph) সেটিংস -->
     <meta property="og:title" content="BILAS ACADEMY ∆ স্মার্ট পড়াশোনা">
-    <meta property="og:description" content="চাকরি প্রস্তুতির জন্য ডিজিটাল স্টাডি অ্যাপ">
+    <meta property="og:description" content="চাকরি প্রস্তুতির জন্য আল্ট্রা-প্রিমিয়াম ডিজিটাল স্টাডি নোট ও খাতা।">
     <meta property="og:image" content="https://bbarmon26.github.io/Bilas-math_khata/thumbbacca26v2.jpg?v=1">
     <meta property="og:url" content="https://bbarmon26.github.io/Bilas-math_khata/index.html">
     <meta property="og:type" content="website">
@@ -55,7 +55,19 @@
                 const swCode = `
                     self.addEventListener('install', function(e) { self.skipWaiting(); });
                     self.addEventListener('activate', function(e) { e.waitUntil(self.clients.claim()); });
-                    self.addEventListener('fetch', function(e) { e.respondWith(fetch(e.request)); });
+                    self.addEventListener('fetch', function(e) {
+                        e.respondWith(
+                            fetch(e.request).then(function(response) {
+                                if (e.request.url.startsWith('http')) {
+                                    const resClone = response.clone();
+                                    caches.open('baccd-offline').then(function(cache) { cache.put(e.request, resClone); });
+                                }
+                                return response;
+                            }).catch(function() {
+                                return caches.match(e.request);
+                            })
+                        );
+                    });
                 `;
                 const blob = new Blob([swCode], {type: 'application/javascript'});
                 const swURL = URL.createObjectURL(blob);
@@ -271,6 +283,18 @@
         
         .taped-photo { background: #ffffff; padding: 4px; box-shadow: 3px 6px 15px rgba(0,0,0,0.3); transform: rotate(-1.5deg); margin: 15px auto 25px auto; width: 100%; max-width: 320px; position: relative; }
         #fullscreenViewer { position: fixed; inset: 0; z-index: 700; background: rgba(0,0,0,0.98); display: none; flex-direction: column; align-items: center; justify-content: center; }
+
+        /* 📲 ইনস্টল ব্যানারের নিখুঁত ফ্লোটিং পজিশন (কাটা পড়া প্রতিরোধ) */
+        #pwaInstallBanner {
+            position: fixed;
+            bottom: max(32px, calc(18px + env(safe-area-inset-bottom, 0px)));
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 380px;
+            z-index: 9999;
+            box-shadow: 0 20px 35px -5px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(16, 185, 129, 0.3);
+        }
     </style>
 </head>
 <body>
@@ -465,7 +489,69 @@
         <iframe id="fullscreenFrame" class="w-[98%] h-[85%] rounded-lg bg-white" src=""></iframe>
     </div>
 
+    <!-- 📲 ফ্লোটিং ইনস্টল ব্যানার -->
+    <div id="pwaInstallBanner" style="display: none;" class="bg-slate-900/95 border border-emerald-500/60 backdrop-blur-xl p-3 rounded-2xl flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+            <img src="logobacca26v2.png" class="w-10 h-10 rounded-xl shadow border border-white/20 object-cover" alt="Logo">
+            <div>
+                <h4 class="text-xs font-bold text-white leading-tight">BILAS ACADEMY</h4>
+                <p class="text-[10px] text-emerald-400 font-medium">স্মার্ট স্টাডি অ্যাপ ইনস্টল করুন</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <button id="pwaInstallBtn" class="bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold text-xs px-3.5 py-2 rounded-xl shadow-lg active:scale-95 transition-all">
+                ইনস্টল
+            </button>
+            <button onclick="dismissInstallBanner()" class="text-slate-400 hover:text-white p-1.5 text-sm font-bold">
+                ✕
+            </button>
+        </div>
+    </div>
+
     <script>
+        // 📲 ইনস্টল ব্যানার পরিচালনা ও পারসিস্টেন্ট মেমোরি
+        let deferredPrompt;
+        const isAppInstalled = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+        const isBannerDismissed = localStorage.getItem('pwa_banner_dismissed') === 'true';
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            const banner = document.getElementById('pwaInstallBanner');
+            if (banner && !isAppInstalled && !isBannerDismissed) {
+                banner.style.display = 'flex';
+            }
+        });
+
+        const installBtn = document.getElementById('pwaInstallBtn');
+        const installBanner = document.getElementById('pwaInstallBanner');
+
+        if (installBtn) {
+            installBtn.addEventListener('click', async () => {
+                if (!deferredPrompt) {
+                    alert("অ্যাপটি ইনস্টল করতে ব্রাউজারের ৩-ডট (...) মেন্যুতে গিয়ে 'Install app' বা 'Add to Home screen' চাপুন।");
+                    return;
+                }
+                deferredPrompt.prompt();
+                const choiceResult = await deferredPrompt.userChoice;
+                if (choiceResult.outcome === 'accepted') {
+                    localStorage.setItem('pwa_banner_dismissed', 'true');
+                }
+                deferredPrompt = null;
+                if (installBanner) installBanner.style.display = 'none';
+            });
+        }
+
+        function dismissInstallBanner() {
+            localStorage.setItem('pwa_banner_dismissed', 'true');
+            if (installBanner) installBanner.style.display = 'none';
+        }
+
+        window.addEventListener('appinstalled', () => {
+            localStorage.setItem('pwa_banner_dismissed', 'true');
+            if (installBanner) installBanner.style.display = 'none';
+        });
+
         function updateClock() {
             const now = new Date();
             const h = now.getHours() % 12;
@@ -605,26 +691,41 @@
             performPageFlip('view-dashboard', renderDashboard, true);
         }
 
+        // 🚀 অফলাইন PWA ডেটা ক্যাশিং ও সিঙ্ক লজিক
         function loadDataForSubject() {
-            if(memoryCache[currentSubject]) {
-                rawData = memoryCache[currentSubject];
-                processData();
-                return;
+            const cacheKey = 'cache_' + currentSubject;
+            const cachedRaw = localStorage.getItem(cacheKey);
+
+            // ১. অফলাইনে থাকলে মেমোরির ডাটা দিয়ে তৎক্ষণাৎ চালু
+            if (cachedRaw) {
+                try {
+                    rawData = JSON.parse(cachedRaw);
+                    memoryCache[currentSubject] = rawData;
+                    processData();
+                } catch(e) {}
+            } else {
+                const loader = document.getElementById('loader');
+                if(loader) { loader.classList.remove('hidden'); loader.classList.add('flex'); }
+                const viewDash = document.getElementById('view-dashboard');
+                if(viewDash) viewDash.innerHTML = '';
             }
-            const loader = document.getElementById('loader');
-            if(loader) { loader.classList.remove('hidden'); loader.classList.add('flex'); }
-            const viewDash = document.getElementById('view-dashboard');
-            if(viewDash) viewDash.innerHTML = '';
-            
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", DB_URLS[currentSubject] + "&cache=" + new Date().getTime(), true);
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4) {
-                    if(loader) { loader.classList.remove('flex'); loader.classList.add('hidden'); }
-                    if (xhr.status == 200) { parseCSV(xhr.responseText); } 
-                }
-            };
-            xhr.send();
+
+            // ২. ইন্টারনেট থাকলে ব্যাকগ্রাউন্ডে গুগল শিট থেকে সিঙ্ক করা
+            if (navigator.onLine && DB_URLS[currentSubject]) {
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", DB_URLS[currentSubject] + "&cache=" + new Date().getTime(), true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4) {
+                        const loader = document.getElementById('loader');
+                        if(loader) { loader.classList.remove('flex'); loader.classList.add('hidden'); }
+                        if (xhr.status == 200) { 
+                            parseCSV(xhr.responseText);
+                            localStorage.setItem(cacheKey, JSON.stringify(rawData));
+                        } 
+                    }
+                };
+                xhr.send();
+            }
         }
 
         function parseCSV(text) {
