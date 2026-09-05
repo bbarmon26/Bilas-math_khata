@@ -21,15 +21,57 @@
     <link rel="apple-touch-icon" href="logobacca26v2.png">
     <link rel="icon" type="image/png" href="logobacca26v2.png">
 
-    <!-- 🧬 ৩. ক্লিন Manifest ও Service Worker (WebAPK কমপ্লায়েন্ট) -->
-    <link rel="manifest" href="manifest.json">
-
+    <!-- 🧬 ৩. স্বয়ংসম্পূর্ণ PWA Manifest & Service Worker -->
     <script>
+        (function() {
+            const manifestObj = {
+                "short_name": "BAcademy",
+                "name": "BILAS ACADEMY",
+                "icons": [
+                    {
+                        "src": "logobacca26v2.png",
+                        "type": "image/png",
+                        "sizes": "192x192",
+                        "purpose": "any"
+                    },
+                    {
+                        "src": "logobacca26v2.png",
+                        "type": "image/png",
+                        "sizes": "512x512",
+                        "purpose": "any maskable"
+                    }
+                ],
+                "start_url": "./index.html",
+                "scope": "./",
+                "background_color": "#000000",
+                "theme_color": "#000000",
+                "display": "standalone",
+                "orientation": "portrait"
+            };
+            const stringManifest = JSON.stringify(manifestObj);
+            const blob = new Blob([stringManifest], {type: 'application/json'});
+            const manifestURL = URL.createObjectURL(blob);
+            const link = document.createElement('link');
+            link.rel = 'manifest';
+            link.href = manifestURL;
+            document.head.appendChild(link);
+        })();
+
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
-                navigator.serviceWorker.register('./sw.js')
-                    .then(function(reg) { console.log('SW Registered!', reg); })
-                    .catch(function(err) { console.log('SW Registration Failed: ', err); });
+                const swCode = `
+                    const CACHE_NAME = 'baccd-v1';
+                    self.addEventListener('install', e => { self.skipWaiting(); });
+                    self.addEventListener('activate', e => { e.waitUntil(self.clients.claim()); });
+                    self.addEventListener('fetch', e => {
+                        e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
+                    });
+                `;
+                const blob = new Blob([swCode], {type: 'application/javascript'});
+                const swURL = URL.createObjectURL(blob);
+                navigator.serviceWorker.register(swURL).catch(function(err) {
+                    console.log('SW Registration Failed: ', err);
+                });
             });
         }
     </script>
@@ -45,18 +87,26 @@
             --toc-accent: #dc2626;
         }
 
+        /* 🚀 120Hz GPU Hardware Acceleration & Smooth Engine */
+        * {
+            -webkit-tap-highlight-color: transparent;
+            backface-visibility: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
         body { 
             background: #1a0f0a; margin: 0; overflow: hidden; 
             font-family: 'Poppins', 'Noto Sans Bengali', sans-serif; 
-            perspective: 1500px; 
+            perspective: 1500px;
+            transform: translateZ(0);
         }
 
-        /* Netlify ও অন্যান্য ব্যানার হাইড করার ফিক্স */
+        /* Netlify ব্যানার চিরতরে হাইড */
         iframe[src*="netlify"], netlify-drawer, [data-netlify-deploy-id] { 
             display: none !important; 
         }
 
-        /* 100% Realistic Wood Wall - NO SCROLLING */
+        /* 100% Realistic Wood Wall */
         .shelf-wrapper {
             background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.9)), url('https://www.transparenttextures.com/patterns/wood-pattern.png');
             background-color: #2b1810;
@@ -66,6 +116,7 @@
             flex-direction: column;
             overflow: hidden;
             transform-style: preserve-3d;
+            contain: layout paint;
         }
 
         /* Wood Engraved Typography */
@@ -98,10 +149,12 @@
             box-shadow: inset 0 1px 1px rgba(255,255,255,0.15);
         }
 
-        /* 3D BOOK STRUCTURE FOR ANIMATION */
+        /* 3D BOOK STRUCTURE */
         .book-3d {
             width: 105px; height: 150px; perspective: 1200px; cursor: pointer;
             position: relative; z-index: 10;
+            will-change: transform;
+            transform: translateZ(0);
         }
         
         .book-page-inner {
@@ -123,12 +176,13 @@
             position: absolute; inset: 0;
             border-radius: 4px 8px 8px 4px;
             transform-origin: left center;
-            transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1), box-shadow 0.6s ease;
+            transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.5s ease;
             transform-style: preserve-3d;
             box-shadow: -2px 0 8px rgba(0,0,0,0.6) inset, 6px 8px 12px rgba(0,0,0,0.7);
             z-index: 2;
             background-size: cover; background-position: center;
             border: 1px solid rgba(255,255,255,0.1); border-right: none;
+            will-change: transform;
         }
         
         .book-hinge {
@@ -168,27 +222,26 @@
         }
         .clock-num { position: absolute; font-weight: 800; font-size: 10px; color: #3d2211; transform: translate(-50%, -50%); }
         .clock-center { width: 6px; height: 6px; background: #1a0f0a; border-radius: 50%; position: absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:30; }
-        .hand { position: absolute; bottom: 50%; left: 50%; transform-origin: bottom center; border-radius: 4px; background: #2b1810; }
+        .hand { position: absolute; bottom: 50%; left: 50%; transform-origin: bottom center; border-radius: 4px; background: #2b1810; will-change: transform; }
         .hour-hand { width: 3px; height: 16px; z-index: 10; }
         .min-hand { width: 2px; height: 22px; z-index: 11; }
         .sec-hand { width: 1px; height: 24px; background: #dc2626; z-index: 12; }
 
-        /* Fullscreen Expansion */
+        /* Ultra Smooth Expand Animations */
         .page-expand-in {
-            animation: expandIn 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            animation: expandIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         @keyframes expandIn {
-            0% { transform: scale(0.2); opacity: 0; border-radius: 20px; }
-            30% { opacity: 1; border-radius: 10px; }
-            100% { transform: scale(1); opacity: 1; border-radius: 0; }
+            0% { transform: scale(0.2); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         .page-shrink-out {
-            animation: shrinkOut 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            animation: shrinkOut 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         @keyframes shrinkOut {
             0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(0.2); opacity: 0; border-radius: 20px; }
+            100% { transform: scale(0.2); opacity: 0; }
         }
 
         .toc-page {
@@ -196,6 +249,7 @@
             background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
             height: 100vh; overflow-y: auto; color: var(--toc-text);
             will-change: transform, opacity;
+            scroll-behavior: smooth;
         }
         
         .toc-header {
@@ -219,7 +273,7 @@
 
         .topic-row {
             display: flex; align-items: baseline; margin-bottom: 18px; cursor: pointer;
-            transition: transform 0.2s; position: relative;
+            transition: transform 0.15s ease-out; position: relative;
         }
         .topic-row:active { transform: scale(0.98); opacity: 0.8; }
         
@@ -433,21 +487,42 @@
         </main>
     </div>
 
+    <!-- Fullscreen Media Modal -->
     <div id="fullscreenViewer">
         <button onclick="closeFullImage()" class="absolute top-5 right-5 text-white bg-white/20 p-2 rounded-full"><i data-lucide="x"></i></button>
         <iframe id="fullscreenFrame" class="w-[98%] h-[85%] rounded-lg bg-white" src=""></iframe>
     </div>
 
+    <!-- 📲 কাস্টম PWA ইনস্টল ব্যানার (অ্যাপ ইনস্টল না থাকলে স্বয়ংক্রিয়ভাবে দেখাবে) -->
+    <div id="pwaInstallBanner" class="hidden fixed bottom-4 left-4 right-4 max-w-sm mx-auto bg-slate-900/95 border border-emerald-500/50 backdrop-blur-xl p-4 rounded-2xl shadow-2xl z-[999] flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+            <img src="logobacca26v2.png" class="w-11 h-11 rounded-xl shadow-md border border-white/20" alt="Logo">
+            <div>
+                <h4 class="text-sm font-bold text-white leading-tight">BILAS ACADEMY</h4>
+                <p class="text-[11px] text-emerald-400 font-medium">অফলাইনে পড়তে অ্যাপ নামান</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <button id="pwaInstallBtn" class="bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold text-xs px-3.5 py-2 rounded-xl shadow-lg active:scale-95 transition-all">
+                ইনস্টল
+            </button>
+            <button onclick="dismissInstallBanner()" class="text-slate-400 hover:text-white p-1 text-sm font-bold">
+                ✕
+            </button>
+        </div>
+    </div>
+
     <script>
+        // রিকোয়েস্ট অ্যানিমেশন ফ্রেম দিয়ে ঘড়ি অপ্টিমাইজ (CPU ফ্রেম ড্রপ দূরীকরণ)
         function updateClock() {
             const now = new Date();
-            const h = now.getHours() % 12;
-            const m = now.getMinutes();
             const s = now.getSeconds();
+            const m = now.getMinutes();
+            const h = now.getHours() % 12;
             
+            const sDeg = s * 6;
+            const mDeg = (m * 6) + (s * 0.1);
             const hDeg = (h * 30) + (m * 0.5);
-            const mDeg = (m * 6);
-            const sDeg = (s * 6);
             
             const hh = document.getElementById('hourHand');
             const mm = document.getElementById('minHand');
@@ -484,63 +559,61 @@
         }
 
         function openNotebook(element, subject, title, colorCode, isQuickSwitch = false) {
-            try {
-                currentSubject = subject;
-                const titleSpan = document.getElementById('titleText');
-                if(titleSpan) titleSpan.innerText = title;
+            currentSubject = subject;
+            const titleSpan = document.getElementById('titleText');
+            if(titleSpan) titleSpan.innerText = title;
+            
+            document.documentElement.style.setProperty('--toc-accent', colorCode || '#dc2626');
+            document.getElementById('headerIcon').style.color = colorCode || '#dc2626';
+
+            const app = document.getElementById('mainApp');
+            const desk = document.getElementById('masterHome');
+            const backBtn = document.getElementById('backBtn');
+            const menuLayer = document.getElementById('quickMenuLayer');
+
+            if(!isQuickSwitch && element) {
+                element.classList.add('is-open');
                 
-                document.documentElement.style.setProperty('--toc-accent', colorCode || '#dc2626');
-                document.getElementById('headerIcon').style.color = colorCode || '#dc2626';
+                const rect = element.getBoundingClientRect();
+                const originX = rect.left + (rect.width / 2);
+                const originY = rect.top + (rect.height / 2);
+                app.style.transformOrigin = `${originX}px ${originY}px`;
 
-                const app = document.getElementById('mainApp');
-                const desk = document.getElementById('masterHome');
-                const backBtn = document.getElementById('backBtn');
-                const menuLayer = document.getElementById('quickMenuLayer');
-
-                if(!isQuickSwitch && element) {
-                    element.classList.add('is-open');
+                setTimeout(() => {
+                    app.classList.remove('hidden', 'page-shrink-out');
+                    app.classList.add('page-expand-in');
                     
-                    const rect = element.getBoundingClientRect();
-                    const originX = rect.left + (rect.width / 2);
-                    const originY = rect.top + (rect.height / 2);
-                    app.style.transformOrigin = `${originX}px ${originY}px`;
+                    setTimeout(() => { 
+                        desk.style.display = 'none'; 
+                        app.style.transform = 'none';
+                        app.classList.remove('page-expand-in');
+                        backBtn.classList.remove('hidden');
+                        menuLayer.classList.remove('hidden');
+                    }, 450); 
 
-                    setTimeout(() => {
-                        app.classList.remove('hidden', 'page-shrink-out');
-                        app.classList.add('page-expand-in');
-                        
-                        setTimeout(() => { 
-                            desk.style.display = 'none'; 
-                            app.style.transform = 'none';
-                            app.classList.remove('page-expand-in');
-                            backBtn.classList.remove('hidden');
-                            menuLayer.classList.remove('hidden');
-                        }, 600); 
-
-                        try { history.pushState({view: 'dashboard', sub: subject}, '', `#${subject}`); } catch(e){}
-                        loadDataForSubject();
-                    }, 400); 
-                    
-                } else {
-                    if(app) {
-                        app.classList.remove('hidden', 'page-shrink-out');
-                        app.style.transformOrigin = `bottom right`;
-                        app.classList.add('page-expand-in');
-                        setTimeout(() => { 
-                            app.style.transform = 'none';
-                            app.classList.remove('page-expand-in');
-                            backBtn.classList.remove('hidden');
-                            menuLayer.classList.remove('hidden');
-                        }, 600);
-                    }
-                    const sInput = document.getElementById('searchInput');
-                    if(sInput) sInput.value = '';
-                    performPageFlip('view-dashboard', () => {}, true);
                     try { history.pushState({view: 'dashboard', sub: subject}, '', `#${subject}`); } catch(e){}
                     loadDataForSubject();
+                }, 300); 
+                
+            } else {
+                if(app) {
+                    app.classList.remove('hidden', 'page-shrink-out');
+                    app.style.transformOrigin = `bottom right`;
+                    app.classList.add('page-expand-in');
+                    setTimeout(() => { 
+                        app.style.transform = 'none';
+                        app.classList.remove('page-expand-in');
+                        backBtn.classList.remove('hidden');
+                        menuLayer.classList.remove('hidden');
+                    }, 450);
                 }
-                setTimeout(() => { if(typeof lucide !== 'undefined') lucide.createIcons(); }, 350);
-            } catch(e) {}
+                const sInput = document.getElementById('searchInput');
+                if(sInput) sInput.value = '';
+                performPageFlip('view-dashboard', () => {}, true);
+                try { history.pushState({view: 'dashboard', sub: subject}, '', `#${subject}`); } catch(e){}
+                loadDataForSubject();
+            }
+            setTimeout(() => { if(typeof lucide !== 'undefined') lucide.createIcons(); }, 200);
         }
 
         function handleBackClick() {
@@ -561,7 +634,7 @@
                     app.classList.add('hidden'); 
                     app.classList.remove('page-shrink-out');
                     document.querySelectorAll('.book-3d').forEach(b => b.classList.remove('is-open'));
-                }, 500);
+                }, 400);
                 
                 currentViewState = 'hub';
                 try { history.pushState({view: 'hub'}, '', '#hub'); } catch(e){}
@@ -583,7 +656,6 @@
             const cacheKey = 'cache_' + currentSubject;
             const cachedRaw = localStorage.getItem(cacheKey);
 
-            // ১. ক্যাশে থাকলে ইনস্ট্যান্ট স্ক্রিনে রেন্ডার
             if (cachedRaw) {
                 try {
                     rawData = JSON.parse(cachedRaw);
@@ -597,7 +669,6 @@
                 if(viewDash) viewDash.innerHTML = '';
             }
 
-            // ২. ব্যাকগ্রাউন্ডে গুগল শিট থেকে রিয়েলটাইম আপডেট চেক
             if (navigator.onLine && DB_URLS[currentSubject]) {
                 fetch(DB_URLS[currentSubject] + "&cache=" + new Date().getTime())
                     .then(res => res.text())
@@ -613,7 +684,7 @@
                             processData();
                         }
                     })
-                    .catch(err => {
+                    .catch(() => {
                         const loader = document.getElementById('loader');
                         if(loader) { loader.classList.remove('flex'); loader.classList.add('hidden'); }
                     });
@@ -831,7 +902,7 @@
                         app.classList.add('hidden'); 
                         app.classList.remove('page-shrink-out');
                         document.querySelectorAll('.book-3d').forEach(b => b.classList.remove('is-open'));
-                    }, 500);
+                    }, 400);
                 }
                 currentViewState = 'hub';
             }
@@ -945,7 +1016,44 @@
             else { performPageFlip('view-dashboard', () => renderDashboard(res), true); }
         }
 
-        window.onload = () => { if(typeof lucide !== 'undefined') lucide.createIcons(); try { history.replaceState({view: 'hub'}, '', '#hub'); } catch(e){} };
+        /* 📲 PWA ইনস্টল ব্যানার লজিক */
+        let deferredPrompt;
+        const banner = document.getElementById('pwaInstallBanner');
+        const installBtn = document.getElementById('pwaInstallBtn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            if (banner && !window.matchMedia('(display-mode: standalone)').matches) {
+                banner.classList.remove('hidden');
+            }
+        });
+
+        if (installBtn) {
+            installBtn.addEventListener('click', async () => {
+                if (!deferredPrompt) return;
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    console.log('App Installed Successfully');
+                }
+                deferredPrompt = null;
+                if (banner) banner.classList.add('hidden');
+            });
+        }
+
+        function dismissInstallBanner() {
+            if (banner) banner.classList.add('hidden');
+        }
+
+        window.addEventListener('appinstalled', () => {
+            if (banner) banner.classList.add('hidden');
+        });
+
+        window.onload = () => { 
+            if(typeof lucide !== 'undefined') lucide.createIcons(); 
+            try { history.replaceState({view: 'hub'}, '', '#hub'); } catch(e){} 
+        };
     </script>
 </body>
 </html>
