@@ -21,47 +21,15 @@
     <link rel="apple-touch-icon" href="logobacca26v2.png">
     <link rel="icon" type="image/png" href="logobacca26v2.png">
 
-    <!-- 🧬 ৩. ডাইনামিক Manifest এবং Service Worker -->
-    <script>
-        (function() {
-            const manifestObj = {
-                "short_name": "BAcademy",
-                "name": "BILAS ACADEMY",
-                "icons": [
-                    {
-                        "src": "logobacca26.jpg",
-                        "type": "image/jpeg",
-                        "sizes": "512x512",
-                        "purpose": "any maskable"
-                    }
-                ],
-                "start_url": "./index.html",
-                "background_color": "#000000",
-                "theme-color": "#000000",
-                "display": "standalone",
-                "orientation": "portrait"
-            };
-            const stringManifest = JSON.stringify(manifestObj);
-            const blob = new Blob([stringManifest], {type: 'application/json'});
-            const manifestURL = URL.createObjectURL(blob);
-            const link = document.createElement('link');
-            link.rel = 'manifest';
-            link.href = manifestURL;
-            document.head.appendChild(link);
-        })();
+    <!-- 🧬 ৩. ক্লিন Manifest ও Service Worker (WebAPK কমপ্লায়েন্ট) -->
+    <link rel="manifest" href="manifest.json">
 
+    <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
-                const swCode = `
-                    self.addEventListener('install', function(e) { self.skipWaiting(); });
-                    self.addEventListener('activate', function(e) { e.waitUntil(self.clients.claim()); });
-                    self.addEventListener('fetch', function(e) { e.respondWith(fetch(e.request)); });
-                `;
-                const blob = new Blob([swCode], {type: 'application/javascript'});
-                const swURL = URL.createObjectURL(blob);
-                navigator.serviceWorker.register(swURL).catch(function(err) {
-                    console.log('ServiceWorker registration failed: ', err);
-                });
+                navigator.serviceWorker.register('./sw.js')
+                    .then(function(reg) { console.log('SW Registered!', reg); })
+                    .catch(function(err) { console.log('SW Registration Failed: ', err); });
             });
         }
     </script>
@@ -81,6 +49,11 @@
             background: #1a0f0a; margin: 0; overflow: hidden; 
             font-family: 'Poppins', 'Noto Sans Bengali', sans-serif; 
             perspective: 1500px; 
+        }
+
+        /* Netlify ও অন্যান্য ব্যানার হাইড করার ফিক্স */
+        iframe[src*="netlify"], netlify-drawer, [data-netlify-deploy-id] { 
+            display: none !important; 
         }
 
         /* 100% Realistic Wood Wall - NO SCROLLING */
@@ -372,7 +345,7 @@
                         </div>
                     </div>
 
-                    <!-- New BCS Book -->
+                    <!-- BCS Book -->
                     <div class="book-3d" onclick="openNotebook(this, 'bcs', 'BCS Question Bank', '#9333ea')">
                         <div class="book-page-inner"></div>
                         <div class="book-cover" style="background-image: url('https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=300&auto=format&fit=crop');">
@@ -382,7 +355,7 @@
                                     <i data-lucide="graduation-cap" class="text-[#e9d5ff] w-5 h-5"></i>
                                 </div>
                                 <h3 class="text-[17px] font-bold text-white drop-shadow-md">BCS</h3>
-                                <p class="text-[8px] uppercase tracking-widest mt-1 text-purple-100 font-bold opacity-90"> প্রশ্ন সমাধান</p>
+                                <p class="text-[8px] uppercase tracking-widest mt-1 text-purple-100 font-bold opacity-90">প্রশ্ন সমাধান</p>
                             </div>
                         </div>
                     </div>
@@ -605,31 +578,51 @@
             performPageFlip('view-dashboard', renderDashboard, true);
         }
 
+        /* 🚀 অফলাইন ফার্স্ট ও অটো-আপডেট ক্যাশিং মেকানিজম */
         function loadDataForSubject() {
-            if(memoryCache[currentSubject]) {
-                rawData = memoryCache[currentSubject];
-                processData();
-                return;
+            const cacheKey = 'cache_' + currentSubject;
+            const cachedRaw = localStorage.getItem(cacheKey);
+
+            // ১. ক্যাশে থাকলে ইনস্ট্যান্ট স্ক্রিনে রেন্ডার
+            if (cachedRaw) {
+                try {
+                    rawData = JSON.parse(cachedRaw);
+                    memoryCache[currentSubject] = rawData;
+                    processData();
+                } catch(e) {}
+            } else {
+                const loader = document.getElementById('loader');
+                if(loader) { loader.classList.remove('hidden'); loader.classList.add('flex'); }
+                const viewDash = document.getElementById('view-dashboard');
+                if(viewDash) viewDash.innerHTML = '';
             }
-            const loader = document.getElementById('loader');
-            if(loader) { loader.classList.remove('hidden'); loader.classList.add('flex'); }
-            const viewDash = document.getElementById('view-dashboard');
-            if(viewDash) viewDash.innerHTML = '';
-            
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", DB_URLS[currentSubject] + "&cache=" + new Date().getTime(), true);
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4) {
-                    if(loader) { loader.classList.remove('flex'); loader.classList.add('hidden'); }
-                    if (xhr.status == 200) { parseCSV(xhr.responseText); } 
-                }
-            };
-            xhr.send();
+
+            // ২. ব্যাকগ্রাউন্ডে গুগল শিট থেকে রিয়েলটাইম আপডেট চেক
+            if (navigator.onLine && DB_URLS[currentSubject]) {
+                fetch(DB_URLS[currentSubject] + "&cache=" + new Date().getTime())
+                    .then(res => res.text())
+                    .then(csvText => {
+                        const loader = document.getElementById('loader');
+                        if(loader) { loader.classList.remove('flex'); loader.classList.add('hidden'); }
+                        
+                        const parsed = parseCSV(csvText);
+                        if (parsed && parsed.length > 0) {
+                            rawData = parsed;
+                            memoryCache[currentSubject] = rawData;
+                            localStorage.setItem(cacheKey, JSON.stringify(rawData));
+                            processData();
+                        }
+                    })
+                    .catch(err => {
+                        const loader = document.getElementById('loader');
+                        if(loader) { loader.classList.remove('flex'); loader.classList.add('hidden'); }
+                    });
+            }
         }
 
         function parseCSV(text) {
             let lines = text.split(/\r?\n/);
-            if(lines.length === 0) return;
+            if(lines.length === 0) return [];
             let headers = lines[0].split(",").map(h => h.trim().replace(/^"|"$/g, ''));
             let tempData = [];
             for (let i = 1; i < lines.length; i++) {
@@ -650,9 +643,7 @@
                 headers.forEach((h, idx) => { obj[h] = currentline[idx]; });
                 tempData.push(obj);
             }
-            rawData = tempData;
-            memoryCache[currentSubject] = rawData; 
-            processData();
+            return tempData;
         }
 
         function processData() {
