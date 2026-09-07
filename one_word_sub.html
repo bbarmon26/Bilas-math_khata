@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One Word Substitution - Master Learning Tool</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #eef2ff;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --star-color: #f59e0b;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .wrapper {
+            width: 100%;
+            max-width: 580px;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary);
+            font-size: 22px;
+            margin-bottom: 4px;
+            font-weight: 800;
+        }
+        
+        .sub-title {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+
+        .search-container {
+            position: sticky;
+            top: 0;
+            background-color: var(--bg);
+            padding: 6px 0 14px 0;
+            z-index: 10;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 15px;
+            box-sizing: border-box;
+            outline: none;
+            transition: all 0.25s ease;
+            background: #fff;
+        }
+
+        .search-box:focus {
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.12);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            scrollbar-width: none;
+        }
+
+        .tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab {
+            background: #e2e8f0;
+            color: #334155;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+
+        .tab.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .word-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .word-card {
+            background: var(--card-bg);
+            border-radius: 14px;
+            padding: 16px;
+            box-shadow: 0 2px 6px -1px rgba(0, 0, 0, 0.06);
+            cursor: pointer;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            border: 1.5px solid #e2e8f0;
+            user-select: none;
+        }
+
+        .word-card:hover {
+            border-color: #cbd5e1;
+        }
+
+        .word-card.open {
+            border-color: #818cf8;
+            background: #ffffff;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .info-left {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .sn-badge {
+            background: var(--primary-light);
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 8px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .def-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1e293b;
+            line-height: 1.45;
+        }
+
+        .card-actions {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex-shrink: 0;
+        }
+
+        .fav-icon {
+            font-size: 20px;
+            color: #cbd5e1;
+            cursor: pointer;
+            padding: 4px;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+
+        .fav-icon.active {
+            color: var(--star-color);
+        }
+
+        .click-hint {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .word-card.open .click-hint {
+            display: none;
+        }
+
+        .card-details {
+            display: none;
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px dashed #cbd5e1;
+            animation: fadeIn 0.25s ease-in-out forwards;
+        }
+
+        .word-card.open .card-details {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .def-bn-box {
+            background: #f8fafc;
+            border-left: 3px solid #6366f1;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #334155;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .answer-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .word-tag {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: 0.2px;
+        }
+
+        .pronun-tag {
+            font-size: 13px;
+            font-weight: 600;
+            color: #b45309;
+            background: #fef3c7;
+            padding: 3px 8px;
+            border-radius: 6px;
+            border: 1px solid #fde68a;
+        }
+
+        .audio-btn {
+            background: #eef2ff;
+            color: var(--primary);
+            border: 1px solid #c7d2fe;
+            border-radius: 8px;
+            padding: 4px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s;
+        }
+
+        .audio-btn:hover {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .meaning-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #047857;
+            background: #ecfdf5;
+            padding: 6px 12px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <h1>One Word Substitution</h1>
+    <div class="sub-title">বাক্যে ট্যাপ করে অর্থ, সঠিক উচ্চারণ ও উত্তর দেখুন (১৯৪ টি)</div>
+
+    <div class="search-container">
+        <input type="text" class="search-box" id="searchBar" placeholder="ইংরেজি বাক্য, বাংলা অর্থ, উচ্চারণ বা শব্দ দিয়ে খুঁজুন...">
+    </div>
+
+    <div class="tabs" id="tabContainer">
+        <button class="tab active" onclick="filterCategory('All')">সবগুলো</button>
+        <button class="tab" onclick="filterCategory('Person')">ব্যক্তি ও স্বভাব</button>
+        <button class="tab" onclick="filterCategory('Marriage')">বিবাহ ও চিকিৎসা</button>
+        <button class="tab" onclick="filterCategory('Places')">স্থান, প্রাণী ও বাসস্থান</button>
+        <button class="tab" onclick="filterCategory('Govt')">শাসন ও বিদ্যা</button>
+        <button class="tab" onclick="filterCategory('Misc')">অন্যান্য গুরুত্বপূর্ণ</button>
+        <button class="tab" onclick="filterCategory('Favorites')">★ প্রিয় তালিকা</button>
+    </div>
+
+    <div class="word-list" id="wordList"></div>
+</div>
+
+<script>
+    const wordsData = [
+        // 1-51: Person Related
+        { sn: 1, word: "Philanthropist", pron: "ফিলানথ্রপিস্ট", meaning: "মানব প্রেমিক", def: "A person who loves mankind", defBn: "যিনি মানবজাতিকে ভালোবাসেন", cat: "Person" },
+        { sn: 2, word: "Misanthropist", pron: "মিসানথ্রপিস্ট", meaning: "মানববিদ্বেষী", def: "A person who hates mankind", defBn: "যিনি মানবজাতিকে ঘৃণা করেন", cat: "Person" },
+        { sn: 3, word: "Misologist", pron: "মিসোলজিস্ট", meaning: "জ্ঞানবিদ্বেষী", def: "A hater of knowledge and learning", defBn: "যিনি জ্ঞান ও শিক্ষাকে ঘৃণা করেন", cat: "Person" },
+        { sn: 4, word: "Insolvent", pron: "ইনসলভেন্ট", meaning: "দেউলিয়া", def: "A person who cannot pay his debts", defBn: "যিনি নিজের দেনা বা ঋণ পরিশোধ করতে অক্ষম", cat: "Person" },
+        { sn: 5, word: "Optimist", pron: "অপটিমিস্ট", meaning: "আশাবাদী", def: "A person who looks to the bright side of life", defBn: "যিনি জীবনের ইতিবাচক বা উজ্জ্বল দিক দেখেন", cat: "Person" },
+        { sn: 6, word: "Pessimist", pron: "পেসিমিস্ট", meaning: "নৈরাশ্যবাদী", def: "A person who looks to the dark side of life", defBn: "যিনি জীবনের অন্ধকার বা হতাশাজনক দিক দেখেন", cat: "Person" },
+        { sn: 7, word: "Theist", pron: "থিয়িস্ট", meaning: "আস্তিক", def: "A person who believes in God", defBn: "যিনি ঈশ্বরে বা সৃষ্টিকর্তায় বিশ্বাস করেন", cat: "Person" },
+        { sn: 8, word: "Atheist", pron: "অ্যাথিয়িস্ট", meaning: "নাস্তিক", def: "A person who does not believe in God", defBn: "যিনি ঈশ্বরে বা সৃষ্টিকর্তায় বিশ্বাস করেন না", cat: "Person" },
+        { sn: 9, word: "Agnostic", pron: "অ্যাগনস্টিক", meaning: "অজ্ঞেয়বাদী", def: "A person not sure of the existence of God", defBn: "যিনি ঈশ্বরের অস্তিত্ব সম্পর্কে নিশ্চিত নন", cat: "Person" },
+        { sn: 10, word: "Monotheist", pron: "মনোথিয়িস্ট", meaning: "একেশ্বরবাদী", def: "A person who believes in one God", defBn: "যিনি কেবল এক ঈশ্বরে বিশ্বাস করেন", cat: "Person" },
+        { sn: 11, word: "Polytheist", pron: "পলিথিয়িস্ট", meaning: "বহু ঈশ্বরবাদী", def: "A person who believes in many Gods & Goddess", defBn: "যিনি বহু দেব-দেবীতে বিশ্বাস করেন", cat: "Person" },
+        { sn: 12, word: "Polyglot", pron: "পলিগ্লট", meaning: "বহু ভাষাভাষী", def: "A person who knows many languages", defBn: "যিনি বহু ভাষা জানেন এবং বলতে পারেন", cat: "Person" },
+        { sn: 13, word: "Linguist", pron: "লিঙ্গুইস্ট", meaning: "বহু ভাষাবিদ", def: "A person who is skilled in foreign languages", defBn: "যিনি একাধিক বিদেশি ভাষায় অত্যন্ত দক্ষ", cat: "Person" },
+        { sn: 14, word: "Lexicographer", pron: "লেক্সিকোগ্রাফার", meaning: "অভিধান রচয়িতা", def: "A person who compiles/writes dictionary", defBn: "যিনি অভিধান বা ডিকশনারি রচনা ও সংকলন করেন", cat: "Person" },
+        { sn: 15, word: "Eccentric", pron: "একসেন্ট্রিক", meaning: "পাগল/খেয়ালী", def: "A person who has unusual habits", defBn: "অদ্ভুত ও খামখেয়ালি স্বভাবের মানুষ", cat: "Person" },
+        { sn: 16, word: "Curator", pron: "কিউরেটর", meaning: "জাদুঘরের কর্মাধ্যক্ষ/তত্ত্বাবধায়ক", def: "A person in charge of a museum", defBn: "জাদুঘরের সার্বিক দায়িত্বে থাকা কর্মকর্তা", cat: "Person" },
+        { sn: 17, word: "Playwright", pron: "প্লে-রাইট", meaning: "নাট্যকার", def: "A person who writes plays", defBn: "যিনি নাটক লেখেন", cat: "Person" },
+        { sn: 18, word: "Stoic", pron: "স্টোয়িক", meaning: "সরল/নির্বিকার", def: "A person who remains indifferent to pain or pleasure", defBn: "সুখ বা দুঃখে যাঁর মনে কোনো ভাবান্তর হয় না", cat: "Person" },
+        { sn: 19, word: "Fatalist", pron: "ফ্যাটালিস্ট", meaning: "অদৃষ্টবাদী", def: "A person who believes in the powers of fate", defBn: "যিনি সবকিছু ভাগ্যের হাতে ছেড়ে বিশ্বাস করেন", cat: "Person" },
+        { sn: 20, word: "Epicurean", pron: "এপিকিউরিয়ান", meaning: "ভোগবাদী", def: "A person who believes in the theory of eating, drinking and being merry", defBn: "খাও-দাও ফুর্তি করো—এই তত্ত্বে বিশ্বাসী ব্যক্তি", cat: "Person" },
+        { sn: 21, word: "Accomplice", pron: "অ্যাকমপ্লিস", meaning: "কুকর্মের দোসর/সহযোগী", def: "A person who helps you break the law", defBn: "অপরাধমূলক কাজে বা আইন ভাঙতে সাহায্যকারী ব্যক্তি", cat: "Person" },
+        { sn: 22, word: "Teetotaler", pron: "টিটোট্যালার", meaning: "মদ বিদ্বেষী", def: "A person who abstains completely from alcoholic drinks", defBn: "যিনি কোনো প্রকার মাদক স্পর্শ করেন না", cat: "Person" },
+        { sn: 23, word: "Traitor", pron: "ট্রেটর", meaning: "দেশদ্রোহী", def: "A person who does not love his country", defBn: "যিনি নিজের দেশের সাথে বেইমানি করেন", cat: "Person" },
+        { sn: 24, word: "Reticent", pron: "রেটিসেন্ট", meaning: "স্বল্পভাষী", def: "A person who is reserved in speech", defBn: "যিনি সচরাচর খুব কম কথা বলেন", cat: "Person" },
+        { sn: 25, word: "Amateur", pron: "অ্যামাচার", meaning: "অপেশাদার", def: "A person who does something for pleasure", defBn: "পেশা হিসেবে নয়, আনন্দের জন্য যে কাজ করে", cat: "Person" },
+        { sn: 26, word: "Amicable", pron: "অ্যামিকেবল", meaning: "বন্ধু ভাবাপন্ন", def: "A person who has a sweet and friendly nature", defBn: "মিষ্টি ও সৌহার্দ্যপূর্ণ আচরণের মানুষ", cat: "Person" },
+        { sn: 27, word: "Astrologer", pron: "অ্যাস্ট্রোলজার", meaning: "জ্যোতিষী", def: "A foreteller of things by the stars", defBn: "গ্রহ-নক্ষত্র দেখে ভবিষ্যৎ বলে দেন এমন ব্যক্তি", cat: "Person" },
+        { sn: 28, word: "Day dreamer", pron: "ডে ড্রিমার", meaning: "আকাশ-কুসুম কল্পনা", def: "A person whose head is in the clouds", defBn: "বাস্তব ছেড়ে আকাশ-কুসুম কল্পনায় মগ্ন থাকা ব্যক্তি", cat: "Person" },
+        { sn: 29, word: "Bibliophile", pron: "বিব্লিওফাইল", meaning: "বই প্রেমিক", def: "A great lover of books", defBn: "বই সংগ্রহ ও পাঠ করতে ভীষণ ভালোবাসেন এমন মানুষ", cat: "Person" },
+        { sn: 30, word: "Patriot", pron: "প্যাট্রিয়ট", meaning: "দেশপ্রেমিক", def: "One who loves his country", defBn: "যিনি নিজের দেশকে গভীর ভালোবাসেন", cat: "Person" },
+        { sn: 31, word: "Stenographer", pron: "স্টেনোগ্রাফার", meaning: "সাটলিপিকার/লঘুলিপিকার", def: "One who writes shorthand", defBn: "যিনি দ্রুত সংকেত লিপিতে লিখতে পারেন", cat: "Person" },
+        { sn: 32, word: "Novelist", pron: "নভেলিস্ট", meaning: "ঔপন্যাসিক", def: "One who writes novels", defBn: "যিনি উপন্যাস রচনা করেন", cat: "Person" },
+        { sn: 33, word: "Hawker", pron: "হকার", meaning: "ফেরিওয়ালা", def: "One who travels for selling articles", defBn: "ঘুরে ঘুরে জিনিসপত্র বিক্রি করেন যিনি", cat: "Person" },
+        { sn: 34, word: "Vegetarian", pron: "ভেজিটেরিয়ান", meaning: "নিরামিষভোজী", def: "One person who does not eat meat", defBn: "যিনি কোনো প্রকার মাছ-মাংস খান না", cat: "Person" },
+        { sn: 35, word: "Emigrant", pron: "এমিগ্র্যান্ট", meaning: "প্রবাসী", def: "One leaving country to settle in another", defBn: "অন্য দেশে বসবাসের জন্য যে নিজের দেশ ছাড়ে", cat: "Person" },
+        { sn: 36, word: "Immigrant", pron: "ইমিগ্র্যান্ট", meaning: "অভিবাসী", def: "One coming to a foreign land to settle there", defBn: "অন্য দেশ থেকে এসে স্থায়ীভাবে বসবাসকারী ব্যক্তি", cat: "Person" },
+        { sn: 37, word: "Alien", pron: "এলিয়েন", meaning: "বিদেশী", def: "One residing in a foreign country", defBn: "ভিনদেশি নাগরিক হিসেবে বসবাসকারী মানুষ", cat: "Person" },
+        { sn: 38, word: "Feminist", pron: "ফেমিনিস্ট", meaning: "নারীবাদী", def: "One who works for the welfare of women", defBn: "যিনি নারীর অধিকার ও কল্যাণে নিয়োজিত", cat: "Person" },
+        { sn: 39, word: "Colleague", pron: "কলিগ", meaning: "সহকর্মী", def: "One working in the same place", defBn: "একই কর্মস্থলে সঙ্গে কাজ করা ব্যক্তি", cat: "Person" },
+        { sn: 40, word: "Sculptor", pron: "স্কাল্পটর", meaning: "ভাস্কর", def: "One who carves on stone", defBn: "যিনি পাথরে খোদাই করে মূর্তি বা ভাস্কর্য গড়েন", cat: "Person" },
+        { sn: 41, word: "Bellicose", pron: "বেলিকোস", meaning: "যুদ্ধ/সমরপ্রিয়", def: "One who is fond of fighting", defBn: "ঝগড়া বা লড়াই করতে ভালোবাসে এমন স্বভাবের মানুষ", cat: "Person" },
+        { sn: 42, word: "Extravagant", pron: "এক্সট্রাভাগ্যান্ট", meaning: "অমিতব্যয়ী", def: "One who spends lavishly", defBn: "হিসাব ছাড়া অতিরিক্ত টাকা অপচয় করেন যিনি", cat: "Person" },
+        { sn: 43, word: "Incorrigible", pron: "ইনকরিজিবল", meaning: "সংশোধনের অযোগ্য", def: "One who cannot be corrected", defBn: "যাকে আর কোনোভাবেই শুধরানো যায় না", cat: "Person" },
+        { sn: 44, word: "Drover", pron: "ড্রোভার", meaning: "পশুব্যবসায়ী", def: "One who deals in cattle", defBn: "গবাদিপশু কেনাবেচার কাজ করেন এমন ব্যবসায়ী", cat: "Person" },
+        { sn: 45, word: "Bohemian", pron: "বোহেমিয়ান", meaning: "ছন্নছাড়া", def: "One who does not follow the usual rules of social life", defBn: "সমাজের নিয়মকানুন না মেনে স্বাধীনভাবে চলা মানুষ", cat: "Person" },
+        { sn: 46, word: "Sceptic", pron: "স্কেপটিক", meaning: "সংশয়বাদী", def: "One who has doubts about things that other people believe", defBn: "অন্যের বিশ্বাসের বিষয়েও যাঁর মনে সর্বদা সন্দেহ থাকে", cat: "Person" },
+        { sn: 47, word: "Complacent", pron: "কমপ্লেসেন্ট", meaning: "আত্মসন্তুষ্ট", def: "People who assume that no evil can befall them", defBn: "বিপদ আসবে না মনে করে অতিমাত্রায় নিশ্চিন্ত থাকা মানুষ", cat: "Person" },
+        { sn: 48, word: "Versatile", pron: "ভারসাটাইল", meaning: "বহু বিষয়ে পণ্ডিত", def: "A person who is able to do many different things", defBn: "একই সঙ্গে বহুবিধ কাজ করার দক্ষতাসম্পন্ন ব্যক্তি", cat: "Person" },
+        { sn: 49, word: "Spokesman", pron: "স্পোকসম্যান", meaning: "মুখপাত্র", def: "One who speaks for others", defBn: "অন্যের বা দলের পক্ষ হয়ে যে কথা বলে", cat: "Person" },
+        { sn: 50, word: "Anarchist", pron: "অ্যানারকিস্ট", meaning: "নৈরাজ্যবাদী", def: "A person who believes that laws and governments are not necessary", defBn: "আইন ও সরকার থাকার কোনো দরকার নেই মনে করেন যিনি", cat: "Person" },
+        { sn: 51, word: "Procrastinator", pron: "প্রোক্র্যাস্টিনেটর", meaning: "বিলম্বকারী", def: "A person who delays or postpones actions", defBn: "সব কাজ গড়িমসি করে পিছিয়ে দেওয়া ব্যক্তি", cat: "Person" },
+
+        // 52-69: Marriage & Specialist Related
+        { sn: 52, word: "Bachelor", pron: "ব্যাচেলর", meaning: "অবিবাহিত পুরুষ", def: "A man who has never married", defBn: "যে পুরুষ কখনও বিয়ে করেননি", cat: "Marriage" },
+        { sn: 53, word: "Spinster", pron: "স্পিনস্টার", meaning: "কুমারী", def: "An unmarried woman", defBn: "একজন অবিবাহিত নারী", cat: "Marriage" },
+        { sn: 54, word: "Misogamist", pron: "মিসোগ্যামিস্ট", meaning: "বিবাহ বিদ্বেষী", def: "A person who hates marriage", defBn: "যিনি বিয়ে করাকে চরম অপছন্দ করেন", cat: "Marriage" },
+        { sn: 55, word: "Widow", pron: "উইডো", meaning: "বিধবা", def: "A woman who has lost her husband", defBn: "যে নারীর স্বামী মারা গেছেন", cat: "Marriage" },
+        { sn: 56, word: "Widower", pron: "উইডোয়ার", meaning: "বিপত্নীক", def: "A man whose wife is dead", defBn: "যে পুরুষের স্ত্রী মারা গেছেন", cat: "Marriage" },
+        { sn: 57, word: "Dowry", pron: "ডাউরি", meaning: "যৌতুক", def: "Cash or kind given by the parents of the bride to the bridegroom", defBn: "বিয়ের সময় কনের বাড়ি থেকে বরপক্ষকে দেওয়া অর্থ বা সামগ্রী", cat: "Marriage" },
+        { sn: 58, word: "Divorce", pron: "ডিভোর্স", meaning: "বিবাহ বিচ্ছেদ", def: "Legal separation between husband and wife", defBn: "স্বামী ও স্ত্রীর মধ্যে আইনি বিচ্ছেদ", cat: "Marriage" },
+        { sn: 59, word: "Paramour", pron: "প্যারামোর", meaning: "পরকীয়া প্রেমিকা/প্রেমিক", def: "Lover of a married person", defBn: "বিবাহিত কোনো ব্যক্তির গোপন অবৈধ সঙ্গী", cat: "Marriage" },
+        { sn: 60, word: "Monogamy", pron: "মনোগ্যামি", meaning: "একক বিবাহ প্রথা", def: "The practice of keeping one wife or husband", defBn: "এক সময়ে একটি মাত্র বিয়ের রীতি", cat: "Marriage" },
+        { sn: 61, word: "Polygamy", pron: "পলিগ্যামি", meaning: "বহু বিবাহ প্রথা", def: "The practice of keeping two or several wives", defBn: "একসঙ্গে একাধিক স্ত্রী রাখার প্রথা", cat: "Marriage" },
+        { sn: 62, word: "Bride", pron: "ব্রাইড", meaning: "কনে", def: "A girl who is going to be married", defBn: "যে নারীর বিয়ে হতে যাচ্ছে", cat: "Marriage" },
+        { sn: 63, word: "Cardiologist", pron: "কার্ডিওলোজিস্ট", meaning: "হৃদরোগ বিশেষজ্ঞ", def: "A doctor who treats heart diseases", defBn: "হার্ট বা হৃদরোগের বিশেষজ্ঞ চিকিৎসক", cat: "Marriage" },
+        { sn: 64, word: "Dermatologist", pron: "ডার্মাটোলোজিস্ট", meaning: "ত্বক বিশেষজ্ঞ", def: "A doctor who treats skin diseases", defBn: "চর্ম বা ত্বক সংক্রান্ত রোগের চিকিৎসক", cat: "Marriage" },
+        { sn: 65, word: "Orthopedist", pron: "অর্থোপেডিস্ট", meaning: "অস্থিরোগ বিশেষজ্ঞ", def: "A doctor who treats bone diseases", defBn: "হাড় ও অস্থি সংক্রান্ত রোগের চিকিৎসক", cat: "Marriage" },
+        { sn: 66, word: "Psychiatrist", pron: "সাইকিয়াট্রিস্ট", meaning: "মানসিক রোগ বিশেষজ্ঞ", def: "A specialist in mental disorders", defBn: "মনোরোগ ও মানসিক স্বাস্থ্য বিশেষজ্ঞ", cat: "Marriage" },
+        { sn: 67, word: "Ophthalmologist", pron: "অপথালমোলোজিস্ট", meaning: "চক্ষু রোগ বিশেষজ্ঞ", def: "A specialist in eye diseases", defBn: "চোখের যাবতীয় রোগের বিশেষজ্ঞ চিকিৎসক", cat: "Marriage" },
+        { sn: 68, word: "Nephrologist / Urologist", pron: "নেফ্রোলোজিস্ট / ইউরোলোজিস্ট", meaning: "কিডনী বিশেষজ্ঞ", def: "The doctor who treats kidney patients", defBn: "কিডনি ও মূত্রনালীর চিকিৎসক", cat: "Marriage" },
+        { sn: 69, word: "Neurologist", pron: "নিউরোলোজিস্ট", meaning: "স্নায়ুবিশারদ", def: "The doctor who treats diseases of the brain", defBn: "মস্তিষ্ক ও স্নায়ুতন্ত্রের বিশেষজ্ঞ চিকিৎসক", cat: "Marriage" },
+
+        // 70-106: Animals, Murder & Places
+        { sn: 70, word: "Carnivorous", pron: "কার্নিভোরাস", meaning: "মাংসাশী", def: "Animals living on meat", defBn: "যেসব প্রাণী কেবল মাংস খেয়ে বাঁচে", cat: "Places" },
+        { sn: 71, word: "Herbivorous", pron: "হার্বিভোরাস", meaning: "তৃণভোজী", def: "Animals living on grass / plants", defBn: "যেসব প্রাণী ঘাস ও লতাপাতা খেয়ে বাঁচে", cat: "Places" },
+        { sn: 72, word: "Cannibals", pron: "ক্যানিবলস", meaning: "নরমাংসভোজী", def: "Animals living on human flesh", defBn: "মানুষের মাংস ভক্ষণ করে যে প্রাণী বা মানুষ", cat: "Places" },
+        { sn: 73, word: "Mammals", pron: "ম্যামালস", meaning: "স্তন্যপায়ী", def: "Animals sucking their mother's breasts", defBn: "মায়ের দুধ খেয়ে বড় হওয়া প্রাণী", cat: "Places" },
+        { sn: 74, word: "Aquatic", pron: "অ্যাকোয়াটিক", meaning: "জলচর", def: "Animals living in water", defBn: "পানিতে বসবাস করা জীব", cat: "Places" },
+        { sn: 75, word: "Amphibious", pron: "অ্যাম্ফিবিয়াস", meaning: "উভচর", def: "Animals living in both land and water", defBn: "জল ও ডাঙা উভয় স্থানে বাস করতে পারা প্রাণী", cat: "Places" },
+        { sn: 76, word: "Omnivorous", pron: "অমনিভোরাস", meaning: "সর্বভুক প্রাণী", def: "Animals eating all kinds of food", defBn: "সব ধরনের খাবার খেয়ে বাঁচে এমন প্রাণী", cat: "Places" },
+        { sn: 77, word: "Suicide", pron: "সুইসাইড", meaning: "আত্মহত্যা", def: "The act of killing oneself", defBn: "নিজেকে নিজে হত্যা করার কাজ", cat: "Places" },
+        { sn: 78, word: "Genocide", pron: "জেনোসাইড", meaning: "গণহত্যা", def: "The killing of a race", defBn: "একটি পুরো জাতি বা জনগোষ্ঠীকে মেরে ফেলা", cat: "Places" },
+        { sn: 79, word: "Homicide", pron: "হোমিসাইড", meaning: "মানবহত্যা", def: "The killing of a human being", defBn: "কোনো মানুষকে হত্যা বা খুন করা", cat: "Places" },
+        { sn: 80, word: "Parricide", pron: "প্যারিসাইড", meaning: "স্বজনহত্যা/গুরুহত্যা", def: "Murder of a parent", defBn: "বাবা-মা বা নিকটাত্মীয়কে হত্যা করা", cat: "Places" },
+        { sn: 81, word: "Patricide", pron: "প্যাট্রিসাইড", meaning: "পিতৃহত্যা", def: "Murder of a father", defBn: "নিজের বাবাকে হত্যা করা", cat: "Places" },
+        { sn: 82, word: "Matricide", pron: "ম্যাট্রিসাইড", meaning: "মাতৃহত্যা", def: "Murder of a mother", defBn: "নিজের মাকে হত্যা করা", cat: "Places" },
+        { sn: 83, word: "Fratricide", pron: "ফ্র্যাট্রিসাইড", meaning: "ভ্রাতৃহত্যা", def: "Murder of a brother", defBn: "নিজের ভাইকে হত্যা করা", cat: "Places" },
+        { sn: 84, word: "Sororicide", pron: "সোরোরিসাইড", meaning: "ভগ্নিহত্যা", def: "Murder of a sister", defBn: "নিজের বোনকে হত্যা করা", cat: "Places" },
+        { sn: 85, word: "Regicide", pron: "রেজিসাইড", meaning: "রাজহত্যা", def: "Murder of a king", defBn: "কোনো দেশের রাজাকে হত্যা করা", cat: "Places" },
+        { sn: 86, word: "Pesticide", pron: "পেস্টিসাইড", meaning: "কীটনাশক", def: "Chemical substance used for killing pests", defBn: "পোকামাকড় মারার জন্য ব্যবহৃত ওষুধ বা রাসায়নিক", cat: "Places" },
+        { sn: 87, word: "Uxoricide", pron: "আক্সোরিসাইড", meaning: "পত্নীহত্যা", def: "The killing of one's wife", defBn: "নিজের স্ত্রীকে হত্যা করা", cat: "Places" },
+        { sn: 88, word: "Resort", pron: "রিসোর্ট", meaning: "প্রমোদ-উদ্যান", def: "A place visited for enjoyment or health", defBn: "আনন্দ বা ছুটি কাটানোর মনোরম পর্যটন কেন্দ্র", cat: "Places" },
+        { sn: 89, word: "Museum", pron: "মিউজিয়াম", meaning: "জাদুঘর", def: "A place where treasures of art & curiosities are kept", defBn: "ঐতিহাসিক ও দুর্লভ জিনিস সাজিয়ে রাখার স্থান", cat: "Places" },
+        { sn: 90, word: "Auditorium", pron: "অডিটোরিয়াম", meaning: "মিলনায়তন", def: "A part of theatre where audience sits", defBn: "থিয়েটার বা হলের যে স্থানে দর্শকেরা বসেন", cat: "Places" },
+        { sn: 91, word: "Laboratory", pron: "ল্যাবরেটরি", meaning: "গবেষণাগার", def: "A place where scientific experiments are carried out", defBn: "বৈজ্ঞানিক পরীক্ষা-নিরীক্ষা করার নির্ধারিত স্থান", cat: "Places" },
+        { sn: 92, word: "Brewery", pron: "ব্রিউয়ারি", meaning: "মদের কারখানা", def: "A factory for manufacturing wine/beer", defBn: "মদ বা বিয়ার তৈরির কারখানা", cat: "Places" },
+        { sn: 93, word: "Tannery", pron: "ট্যানারি", meaning: "চামড়া কারখানা", def: "A place where leather is tanned", defBn: "পশুর কাঁচা চামড়া প্রক্রিয়াজাত করার জায়গা", cat: "Places" },
+        { sn: 94, word: "Library", pron: "লাইব্রেরি", meaning: "গ্রন্থাগার", def: "A house / room for keeping books", defBn: "বই সাজিয়ে রাখার পড়ার ঘর", cat: "Places" },
+        { sn: 95, word: "Kennel", pron: "কেনেল", meaning: "কুকুরশালা", def: "A place for keeping dogs", defBn: "কুকুরদের থাকার বা রাখার ঘর", cat: "Places" },
+        { sn: 96, word: "Aviary", pron: "এভিয়ারি", meaning: "পক্ষীশালা", def: "A place where birds are kept", defBn: "পাখি পালন বা পোষার বড় ঘর", cat: "Places" },
+        { sn: 97, word: "Hutch", pron: "হাচ", meaning: "খরগোশের খাঁচা", def: "A place where rabbits are kept", defBn: "খরগোশ রাখার ছোট খাঁচা বা খোপ", cat: "Places" },
+        { sn: 98, word: "Den", pron: "ডেন", meaning: "হিংস্র জন্তুর গুহা", def: "The resting/lying place of wild beasts", defBn: "বন্য পশুদের থাকার গুহা", cat: "Places" },
+        { sn: 99, word: "Stable", pron: "স্টেবল", meaning: "ঘোড়াশাল", def: "A place where horses are kept", defBn: "ঘোড়া রাখার ঘর বা আস্তাবল", cat: "Places" },
+        { sn: 100, word: "Aquarium", pron: "অ্যাকোয়ারিয়াম", meaning: "মৎস্যাধার", def: "A place/tank where fishes are kept", defBn: "মাছ রাখার কাঁচের পাত্র", cat: "Places" },
+        { sn: 101, word: "Mint", pron: "মিন্ট", meaning: "টাকশাল", def: "A place where currency/coins are minted", defBn: "যেখানে কয়েন বা টাকা তৈরি হয়", cat: "Places" },
+        { sn: 102, word: "Orphanage", pron: "অরফানেজ", meaning: "এতিমখানা", def: "A place where orphans are housed", defBn: "মা-বাবাহীন এতিম শিশুদের আশ্রয়স্থল", cat: "Places" },
+        { sn: 103, word: "Hangar", pron: "হ্যাঙ্গার", meaning: "এয়ারক্রাফট রাখার স্থান", def: "A very large building in which aircraft are kept", defBn: "বিমান বা উড়োজাহাজ রাখার ছাউনি", cat: "Places" },
+        { sn: 104, word: "Lair", pron: "লেয়ার", meaning: "বন্যপ্রাণীর আবাসস্থল", def: "A wild animal's resting place", defBn: "বন্য জীবজন্তুর বিশ্রামের জায়গা", cat: "Places" },
+        { sn: 105, word: "Vault", pron: "ভল্ট", meaning: "মূল্যবান সামগ্রীর ভাণ্ডার", def: "A secure room where currency notes are kept in a bank", defBn: "ব্যাংকের টাকা ও সোনাদানা রাখার অতি সুরক্ষিত কামরা", cat: "Places" },
+        { sn: 106, word: "Apiary", pron: "এপিয়ারি", meaning: "মৌমাছির আবাস", def: "A place for keeping bees", defBn: "মৌমাছি পালন করার নির্ধারিত স্থান", cat: "Places" },
+
+        // 107-146: Govt & Studies
+        { sn: 107, word: "Democracy", pron: "ডেমোক্রেসি", meaning: "গণতন্ত্র", def: "The government of people", defBn: "জনগণের দ্বারা পরিচালিত সরকার ব্যবস্থা", cat: "Govt" },
+        { sn: 108, word: "Autocracy", pron: "অটোক্সি", meaning: "স্বৈরতন্ত্র", def: "A government by one man", defBn: "একক ব্যক্তির একনায়কতান্ত্রিক শাসন", cat: "Govt" },
+        { sn: 109, word: "Monarchy", pron: "মনার্কি", meaning: "রাজতন্ত্র", def: "A government by a king", defBn: "রাজার মাধ্যমে চলা শাসনব্যবস্থা", cat: "Govt" },
+        { sn: 110, word: "Bureaucracy", pron: "ব্যুরোক্রেসি", meaning: "আমলাতন্ত্র", def: "Excessive official formalities", defBn: "সরকারি কর্মচারীদের নিয়মে চলা প্রশাসন", cat: "Govt" },
+        { sn: 111, word: "Despot", pron: "ডেসপট", meaning: "স্বৈরশাসক", def: "A ruler with absolute powers", defBn: "সীমাহীন ক্ষমতার অধিকারী একক শাসক", cat: "Govt" },
+        { sn: 112, word: "Anarchy", pron: "অ্যানার্কি", meaning: "নৈরাজ্য / অরাজকতা", def: "The absence of law and order", defBn: "আইন ও সরকারের পুরোপুরি অনুপস্থিতি", cat: "Govt" },
+        { sn: 113, word: "Regime", pron: "রেজিম", meaning: "প্রশাসন পদ্ধতি", def: "Method of government", defBn: "সরকার পরিচালনার নির্দিষ্ট কাঠামো বা আমল", cat: "Govt" },
+        { sn: 114, word: "Deadlock", pron: "ডেডলক", meaning: "অচল অবস্থা", def: "A situation which brings progress to a stand still", defBn: "এমন পরিস্থিতি যাতে কোনো সমঝোতা বা উন্নতি সম্ভব হয় না", cat: "Govt" },
+        { sn: 115, word: "Ambassador", pron: "অ্যাম্বাসেডর", meaning: "রাষ্ট্রদূত", def: "A political representative of the highest order to another country", defBn: "ভিনদেশে নিজ দেশের সর্বোচ্চ রাজনৈতিক প্রতিনিধি", cat: "Govt" },
+        { sn: 116, word: "Rebellion", pron: "রেবেলিয়ন", meaning: "সামরিক অভ্যুত্থান", def: "An army rising against a government", defBn: "সরকারের বিরুদ্ধে সেনাদলের সশস্ত্র প্রতিরোধ", cat: "Govt" },
+        { sn: 117, word: "Revolt", pron: "রিভোল্ট", meaning: "বিদ্রোহ", def: "General uprising against the government", defBn: "সরকারের বিরুদ্ধে সাধারণ মানুষের গণঅভ্যুত্থান", cat: "Govt" },
+        { sn: 118, word: "Diplomat", pron: "ডিপ্লোম্যাট", meaning: "কূটনৈতিক", def: "A person who is engaged in the diplomacy of his country", defBn: "আন্তর্জাতিক সম্পর্কের ক্ষেত্রে দেশের প্রতিনিধিত্বকারী ব্যক্তি", cat: "Govt" },
+        { sn: 119, word: "Secular", pron: "সেক্যুলার", meaning: "ধর্ম নিরপেক্ষ", def: "A state where all religions are respected", defBn: "যে রাষ্ট্রে সকল ধর্ম সমান সম্মান পায়", cat: "Govt" },
+        { sn: 120, word: "Aristocracy", pron: "অ্যারিস্টোক্রেসি", meaning: "অভিজাততন্ত্র", def: "A government by the nobles", defBn: "উচ্চবংশীয় অভিজাত ব্যক্তিদের দ্বারা চলা সরকার", cat: "Govt" },
+        { sn: 121, word: "Plutocracy", pron: "প্লুটোক্রেসি", meaning: "ধনতন্ত্র", def: "A government by the rich", defBn: "ধনী লোকদের দ্বারা পরিচালিত শাসন", cat: "Govt" },
+        { sn: 122, word: "Autonomy", pron: "অটোনমি", meaning: "স্বায়ত্তশাসন", def: "The right of self-government", defBn: "নিজের প্রশাসন নিজে চালানোর অধিকার", cat: "Govt" },
+        { sn: 123, word: "Plebiscite", pron: "প্লেবিসাইট", meaning: "গণভোট", def: "A direct vote on an important political question", defBn: "কোনো রাজনৈতিক প্রশ্নে সাধারণ মানুষের প্রত্যক্ষ ভোট", cat: "Govt" },
+        { sn: 124, word: "Geography", pron: "জিওগ্রাফি", meaning: "ভূগোল", def: "The science of earth and its study", defBn: "পৃথিবীর গঠন ও প্রকৃতি নিয়ে বিজ্ঞান", cat: "Govt" },
+        { sn: 125, word: "Linguistics", pron: "লিঙ্গুইস্টিকস", meaning: "ভাষাতত্ত্ব বিদ্যা", def: "Scientific study of language", defBn: "ভাষার বৈজ্ঞানিক বিশ্লেষণ ও তত্ত্ব", cat: "Govt" },
+        { sn: 126, word: "Genetics", pron: "জেনেটিকস", meaning: "বংশগতি বিজ্ঞান", def: "Science of heredity", defBn: "বংশপরম্পরায় পাওয়া গুণাবলি নিয়ে বিজ্ঞান", cat: "Govt" },
+        { sn: 127, word: "Anatomy", pron: "অ্যানাটমি", meaning: "অঙ্গসংস্থান বিদ্যা", def: "Science of the structure of animal bodies", defBn: "জীবদেহের গঠন সংক্রান্ত বিদ্যা", cat: "Govt" },
+        { sn: 128, word: "Biology", pron: "বায়োলজি", meaning: "জীববিজ্ঞান", def: "The science deals with insects, animals and plants", defBn: "উদ্ভিদ ও প্রাণীদের জীবন সংক্রান্ত বিজ্ঞান", cat: "Govt" },
+        { sn: 129, word: "Botany", pron: "বোটানি", meaning: "উদ্ভিদ বিদ্যা", def: "The science of vegetable life and plants", defBn: "গাছপালা ও উদ্ভিদের বিজ্ঞানভিত্তিক পাঠ", cat: "Govt" },
+        { sn: 130, word: "Anthropology", pron: "অ্যানথ্রোপোলজি", meaning: "নৃ-বিজ্ঞান", def: "Study of mankind", defBn: "মানুষের উৎপত্তি ও সমাজ নিয়ে পড়ালেখা", cat: "Govt" },
+        { sn: 131, word: "History", pron: "হিস্ট্রি", meaning: "ইতিহাস", def: "The study of past events", defBn: "অতীতের ঐতিহাসিক ঘটনাবলির পাঠ", cat: "Govt" },
+        { sn: 132, word: "Pathology", pron: "প্যাথোলজি", meaning: "রোগ বিজ্ঞান", def: "The science of the disease of the human body", defBn: "শরীরের রোগ নির্ণয় ও কারণ খোঁজার বিজ্ঞান", cat: "Govt" },
+        { sn: 133, word: "Toxicology", pron: "টক্সিকোলজি", meaning: "বিষবিদ্যা", def: "The study of poison", defBn: "বিষ ও তার ক্ষতিকর প্রভাব নিয়ে পড়াশোনা", cat: "Govt" },
+        { sn: 134, word: "Philology", pron: "ফিলোলজি", meaning: "ভাষার ইতিহাস বিদ্যা", def: "Study of language history and literature", defBn: "ভাষার ঐতিহাসিক বিবর্তন নিয়ে বিজ্ঞান", cat: "Govt" },
+        { sn: 135, word: "Paleontologist", pron: "প্যালিয়ন্টোলজিস্ট", meaning: "জীবাশ্মবিজ্ঞানী", def: "A person who studies fossils", defBn: "যিনি কোটি বছরের পুরোনো জীবাশ্ম নিয়ে কাজ করেন", cat: "Govt" },
+        { sn: 136, word: "Virology", pron: "ভাইরোলজি", meaning: "ভাইরাসবিদ্যা", def: "A branch of science that deals with virus", defBn: "ভাইরাস ও তার সংক্রমণ নিয়ে বিজ্ঞান", cat: "Govt" },
+        { sn: 137, word: "Plagiarism", pron: "প্লেজারিজম", meaning: "কুম্ভীলকবৃত্তি", def: "The act of using someone else's idea as one's own", defBn: "অন্যের লেখা বা আইডিয়া চুরি করে নিজের নামে চালানো", cat: "Govt" },
+        { sn: 138, word: "Pedagogy", pron: "পেডাগজি", meaning: "শিক্ষাদান পদ্ধতি বিদ্যা", def: "The science of teaching", defBn: "ছাত্রদের পড়ানোর আধুনিক নিয়ম ও কলাকৌশল", cat: "Govt" },
+        { sn: 139, word: "Olericulture", pron: "ওলেরিকালচার", meaning: "সবজিচাষ বিজ্ঞান", def: "Science of growing vegetables", defBn: "শাকসবজি উৎপাদনের বিশেষ কৃষিবিদ্যা", cat: "Govt" },
+        { sn: 140, word: "Hydroponics", pron: "হাইড্রোপনিক্স", meaning: "মাটিবিহীন জলচাষ", def: "Growing crops in water", defBn: "মাটি ছাড়াই পুষ্টিযুক্ত পানিতে গাছ ফলানোর পদ্ধতি", cat: "Govt" },
+        { sn: 141, word: "Seismology", pron: "সিসমোলজি", meaning: "ভূকম্পবিদ্যা", def: "Study of earthquakes", defBn: "ভূমিকম্প নিয়ে গবেষণা ও বিজ্ঞান", cat: "Govt" },
+        { sn: 142, word: "Meteorology", pron: "মিটিওরোলোজি", meaning: "আবহাওয়া বিজ্ঞান", def: "Study of weather forecasting", defBn: "আবহাওয়া ও তার পূর্বাভাস সংক্রান্ত বিজ্ঞান", cat: "Govt" },
+        { sn: 143, word: "Oncology", pron: "অনকোলজি", meaning: "ক্যান্সারবিদ্যা", def: "The scientific study and treatment of tumors", defBn: "টিউমার ও ক্যান্সারের চিকিৎসা সংক্রান্ত পাঠ", cat: "Govt" },
+        { sn: 144, word: "Psychiatry", pron: "সাইকিয়াট্রি", meaning: "মনোরোগবিদ্যা", def: "The study and treatment of mental illness", defBn: "মানসিক রোগের চিকিৎসা বিজ্ঞান", cat: "Govt" },
+        { sn: 145, word: "Geriatrics", pron: "জেরিয়াট্রিক্স", meaning: "বার্ধক্য চিকিৎসা", def: "The medical care of old people", defBn: "বয়স্ক মানুষদের রোগব্যাধি ও চিকিৎসাসেবা", cat: "Govt" },
+        { sn: 146, word: "Paediatric", pron: "পেডিয়াট্রিক", meaning: "শিশু চিকিৎসা", def: "The medical care of children", defBn: "ছোট বাচ্চাদের চিকিৎসা সংক্রান্ত চিকিৎসাশাখা", cat: "Govt" },
+
+        // 147-194: Misc
+        { sn: 147, word: "Omnipotent", pron: "অমনিপোটেন্ট", meaning: "সর্বশক্তিমান", def: "One who has infinite/supreme power", defBn: "যাঁর রয়েছে সীমাহীন ও অসীম শক্তি", cat: "Misc" },
+        { sn: 148, word: "Omniscient", pron: "অমনিশিয়েন্ট", meaning: "সর্বজ্ঞ", def: "One who has infinite knowledge", defBn: "যিনি সবকিছু জানেন", cat: "Misc" },
+        { sn: 149, word: "Omnipresent", pron: "অমনিপ্রেজেন্ট", meaning: "সর্বত্র বিরাজমান", def: "One who is everywhere", defBn: "যিনি সব জায়গায় উপস্থিত আছেন", cat: "Misc" },
+        { sn: 150, word: "Omnivorous", pron: "অমনিভোরাস", meaning: "সর্বভুক", def: "Animals eating all kinds of food", defBn: "যে প্রাণী সব ধরনের খাদ্য খায়", cat: "Misc" },
+        { sn: 151, word: "Theology", pron: "থিওলোজি", meaning: "ধর্মতত্ত্ব", def: "Study of religion", defBn: "ধর্ম ও ঈশ্বরতত্ত্ব সংক্রান্ত প্রাতিষ্ঠানিক পাঠ", cat: "Misc" },
+        { sn: 152, word: "Scripture", pron: "স্ক্রিপচার", meaning: "পবিত্র ধর্মগ্রন্থ", def: "A holy book", defBn: "ধর্মীয় বাণী সংবলিত পবিত্র গ্রন্থ", cat: "Misc" },
+        { sn: 153, word: "Pilgrim", pron: "পিলগ্রিম", meaning: "তীর্থযাত্রী", def: "One who undertakes a journey to a holy place", defBn: "যিনি কোনো পবিত্র ধর্মস্থানে যাত্রা করেন", cat: "Misc" },
+        { sn: 154, word: "Idolatry", pron: "আইডোল্যাট্রি", meaning: "মূর্তিপূজা", def: "Worshipping idols", defBn: "মূর্তিকে ঈশ্বর মেনে পূজা করা", cat: "Misc" },
+        { sn: 155, word: "Fundamentalism", pron: "ফান্ডামেন্টালিজম", meaning: "মৌলবাদ", def: "Blind adherence to the dictates of religious books", defBn: "ধর্মের মূল কথার প্রতি অন্ধ অনড় ভাব", cat: "Misc" },
+        { sn: 156, word: "Bigotry", pron: "বিগট্রি", meaning: "ধর্মান্ধতা / গোঁড়ামি", def: "Religious intolerance", defBn: "অন্যের বিশ্বাসের প্রতি চরম অসহিষ্ণুতা", cat: "Misc" },
+        { sn: 157, word: "Utopia", pron: "ইউটোপিয়া", meaning: "কাল্পনিক স্বর্গরাজ্য", def: "A place where everything is perfect", defBn: "এমন জায়গা যেখানে সবকিছু আদর্শ ও ত্রুটিহীন", cat: "Misc" },
+        { sn: 158, word: "Apostate", pron: "অ্যাপোস্টেট", meaning: "স্বধর্মত্যাগী", def: "A person who abandons his religious faith", defBn: "যিনি নিজের পুরোনো ধর্মবিশ্বাস ত্যাগ করেছেন", cat: "Misc" },
+        { sn: 159, word: "Choir", pron: "কোয়ায়ার", meaning: "গায়কদল", def: "A number of singers in a church", defBn: "গির্জায় একসঙ্গে গান গাওয়া গায়কের দল", cat: "Misc" },
+        { sn: 160, word: "Dais", pron: "ডেইস", meaning: "মঞ্চ / বেদী", def: "A stage on which people stand to make speeches", defBn: "বক্তৃতা দেওয়ার উঁচু কাঠে বাঁধানো মঞ্চ", cat: "Misc" },
+        { sn: 161, word: "Maiden speech", pron: "মেইডেন স্পিচ", meaning: "প্রথম বক্তৃতা", def: "A speech delivered for the first time in an assembly", defBn: "সংসদ বা সভায় কোনো রাজনীতিবিদের প্রথম বক্তব্য", cat: "Misc" },
+        { sn: 162, word: "Extempore", pron: "এক্সটেম্পোরি", meaning: "উপস্থিত বক্তৃতা", def: "A speech made without previous preparation", defBn: "আগে প্রস্তুতি না নিয়ে তাৎক্ষণিকভাবে দেওয়া বক্তব্য", cat: "Misc" },
+        { sn: 163, word: "Verbose speech", pron: "ভার্বোস স্পিচ", meaning: "বাগাড়ম্বরপূর্ণ বক্তব্য", def: "A speech full of too many words", defBn: "প্রয়োজনের চেয়ে মাত্রাতিরিক্ত কথায় ভরা লম্বা বক্তৃতা", cat: "Misc" },
+        { sn: 164, word: "Biography", pron: "বায়োগ্রাফি", meaning: "জীবনচরিত", def: "The life account of a person", defBn: "অন্য কারও লেখা কোনো মানুষের জীবনী", cat: "Misc" },
+        { sn: 165, word: "Autobiography", pron: "অটোবায়োগ্রাফি", meaning: "আত্মজীবনী", def: "An account of life written by self", defBn: "নিজের লেখা নিজের জীবনের ইতিহাস", cat: "Misc" },
+        { sn: 166, word: "Soliloquy", pron: "সোলিলোকুই", meaning: "স্বগতোক্তি", def: "The act of speaking of oneself aloud", defBn: "মঞ্চে একা একা নিজের মনে মনে কথা বলা", cat: "Misc" },
+        { sn: 167, word: "Monologue", pron: "মনোলগ", meaning: "একক দীর্ঘ ভাষণ", def: "A long speech by one man", defBn: "একজন ব্যক্তির একটানা দেওয়া দীর্ঘ বক্তব্য", cat: "Misc" },
+        { sn: 168, word: "Quatrain", pron: "কোয়াট্রেন", meaning: "চার লাইনের পদ্য", def: "A stanza of four lines", defBn: "কবিতার চার লাইনের স্তবক বা চরণ", cat: "Misc" },
+        { sn: 169, word: "Postscript", pron: "পোস্টস্ক্রিপ্ট", meaning: "পুনশ্চ / ক্রোড়পত্র", def: "An extra message added at the end of a letter", defBn: "চিঠিতে সই করার পর নিচে জুড়ে দেওয়া অতিরিক্ত কথা", cat: "Misc" },
+        { sn: 170, word: "Digression", pron: "ডাইগ্রেশন", meaning: "মূল বিষয় থেকে চ্যুতি", def: "If a part of a speech or writing breaks the theme", defBn: "মূল প্রসঙ্গ ছেড়ে অবান্তর অন্য কথায় চলে যাওয়া", cat: "Misc" },
+        { sn: 171, word: "Eulogy", pron: "ইউলোজি", meaning: "উচ্চপ্রশংসাসমৃদ্ধ রচনা", def: "A formal composition expressing high praise of somebody", defBn: "কারও ভূয়সী প্রশংসা করে তৈরি করা বক্তৃতা বা লেখা", cat: "Misc" },
+        { sn: 172, word: "Proverb", pron: "প্রভার্ব", meaning: "প্রবাদ বাক্য", def: "A short saying that expresses a general truth", defBn: "সাধারণ সত্য প্রকাশকারী পরিচিত প্রাচীন বাণী", cat: "Misc" },
+        { sn: 173, word: "Simultaneous", pron: "সাইমালটেনিয়ার্স", meaning: "যুগপৎ ঘটনা", def: "An incident happening at the same time", defBn: "একই মুহূর্তে ঘটে চলা দুটি বিষয়", cat: "Misc" },
+        { sn: 174, word: "Superfluous", pron: "সুপারফ্লুয়াস", meaning: "মাত্রাতিরিক্ত / অনাবশ্যক", def: "More than necessary", defBn: "প্রয়োজনের চেয়ে বেশি হওয়ার কারণে যা অপচয়", cat: "Misc" },
+        { sn: 175, word: "Supernatural", pron: "সুপারন্যাচারাল", meaning: "অলৌকিক", def: "Beyond the power of nature", defBn: "প্রকৃতির সাধারণ নিয়ম বা বিজ্ঞানের অতীত কিছু", cat: "Misc" },
+        { sn: 176, word: "Ultimatum", pron: "আল্টিমেটাম", meaning: "চরমপত্র", def: "A final proposal given by the government", defBn: "শর্ত পূরণের জন্য দেওয়া চূড়ান্ত ও শেষ সময়সীমা", cat: "Misc" },
+        { sn: 177, word: "Ostrich", pron: "অস্ট্রিচ", meaning: "উটপাখি", def: "The largest swift running bird", defBn: "উড়তে না পারা বিশ্বের দ্রুতগামী সবচেয়ে বড় পাখি", cat: "Misc" },
+        { sn: 178, word: "Monotonous", pron: "মনোটোনাস", meaning: "একঘেয়ে", def: "Characterized by dull uniformity", defBn: "কোনো রকম বৈচিত্র্য না থাকা ক্লান্তিকর বিষয়", cat: "Misc" },
+        { sn: 179, word: "Maternity", pron: "ম্যাটার্নিটি", meaning: "মাতৃত্ব", def: "A stage of motherhood", defBn: "সন্তান ধারণ ও মায়ের ভূমিকা পালনের কাল", cat: "Misc" },
+        { sn: 180, word: "Aborigines", pron: "অ্যাবোরিজিনিস", meaning: "আদিবাসী", def: "The original inhabitants of a country", defBn: "কোনো দেশের আদিমতম প্রাচীন অধিবাসী", cat: "Misc" },
+        { sn: 181, word: "Adolescence", pron: "অ্যাডোলেসেন্স", meaning: "বয়ঃসন্ধিকাল", def: "The period between boyhood and youth", defBn: "শৈশব থেকে তারুণ্যে রূপান্তরের সময়কাল", cat: "Misc" },
+        { sn: 182, word: "Ambiguous", pron: "অ্যাম্বিগুয়াস", meaning: "দ্ব্যর্থক / অস্পষ্ট", def: "A statement which has several interpretations", defBn: "যার একাধিক অর্থ দাঁড়ায় এবং পরিষ্কার বোঝা যায় না", cat: "Misc" },
+        { sn: 183, word: "Autograph", pron: "অটোগ্রাফ", meaning: "স্বহস্তাক্ষর", def: "A person's own handwriting / signature", defBn: "স্মারক হিসেবে নিজের হাতে করা কারও দস্তখত", cat: "Misc" },
+        { sn: 184, word: "Autopsy", pron: "অটোপসি", meaning: "ময়নাতদন্ত", def: "Medical examination of a dead body", defBn: "মৃত্যুর আসল কারণ জানতে লাশের ডাক্তারি পরীক্ষা", cat: "Misc" },
+        { sn: 185, word: "Fatal", pron: "ফেইটাল", meaning: "প্রাণঘাতী", def: "A disease which ends in death", defBn: "যার কারণে মানুষের অবধারিত মৃত্যু ঘটে", cat: "Misc" },
+        { sn: 186, word: "Millennium", pron: "মিলেনিয়াম", meaning: "সহস্রাব্দ", def: "A period of one thousand years", defBn: "একটানা এক হাজার বছর সময়কাল", cat: "Misc" },
+        { sn: 187, word: "Pandemic", pron: "প্যানডেমিক", meaning: "বিশ্বমহামারি", def: "A disease prevalent over a whole country or world", defBn: "গোটা পৃথিবী জুড়ে ছড়িয়ে পড়া সংক্রামক রোগ", cat: "Misc" },
+        { sn: 188, word: "Equivocation", pron: "ইকুইভোকেশন", meaning: "দ্ব্যর্থক চাতুরী", def: "Two contradictory things in the same statement", defBn: "একই কথার ভেতরে দুই অর্থ রেখে ধোঁকা দেওয়া", cat: "Misc" },
+        { sn: 189, word: "Epitaph", pron: "এপিটাফ", meaning: "সমাধিলিপি", def: "Words inscribed on a tomb", defBn: "কবরের পাথরে খোদাই করে লেখা স্মারক বাক্য", cat: "Misc" },
+        { sn: 190, word: "Manuscript", pron: "ম্যানুস্ক্রিপ্ট", meaning: "পাণ্ডুলিপি", def: "A paper written by hand", defBn: "ছাপার আগে নিজের হাতে লেখা বই বা দলিলের খসড়া", cat: "Misc" },
+        { sn: 191, word: "Audible", pron: "অডিবল", meaning: "শ্রুতিগোচর", def: "Something that can be heard", defBn: "যা কান পেতে স্পষ্ট শোনা যায়", cat: "Misc" },
+        { sn: 192, word: "Stagflation", pron: "স্ট্যাগফ্লেশন", meaning: "মুদ্রাস্ফীতিজনিত স্থবিরতা", def: "Simultaneous appearance of slow growth, unemployment & high prices", defBn: "একদিকে বেকারত্ব ও মন্দা, অন্যদিকে মাত্রাতিরিক্ত পণ্যের দাম বৃদ্ধি", cat: "Misc" },
+        { sn: 193, word: "Benevolence", pron: "বেনেভোলেন্স", meaning: "বদান্যতা / উদারতা", def: "An inclination to do kind or charitable acts", defBn: "অন্যের উপকার ও দানখয়রাত করার আন্তরিক স্বভাব", cat: "Misc" },
+        { sn: 194, word: "Namesake", pron: "নেইমসেক", meaning: "মিতা / সমনামধারী", def: "A person with the same name as another", defBn: "একই নামের অধিকারী অন্য কোনো মানুষ", cat: "Misc" }
+    ];
+
+    let currentCategory = 'All';
+    let favorites = JSON.parse(localStorage.getItem('ow_favs_vFinal')) || [];
+
+    function speakWord(text, event) {
+        event.stopPropagation();
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.85;
+            window.speechSynthesis.speak(utterance);
+        }
+    }
+
+    function renderWords(filterText = '') {
+        const listContainer = document.getElementById('wordList');
+        listContainer.innerHTML = '';
+
+        const cleanFilter = filterText.trim().toLowerCase();
+
+        const filtered = wordsData.filter(item => {
+            const matchesSearch = item.word.toLowerCase().includes(cleanFilter) || 
+                                  item.meaning.toLowerCase().includes(cleanFilter) || 
+                                  item.pron.toLowerCase().includes(cleanFilter) ||
+                                  item.def.toLowerCase().includes(cleanFilter) ||
+                                  item.defBn.toLowerCase().includes(cleanFilter);
+            
+            if (currentCategory === 'All') return matchesSearch;
+            if (currentCategory === 'Favorites') return matchesSearch && favorites.includes(item.sn);
+            return matchesSearch && item.cat === currentCategory;
+        });
+
+        if(filtered.length === 0) {
+            listContainer.innerHTML = '<p style="text-align:center; color:var(--text-muted); padding:30px;">কোনো মিল পাওয়া যায়নি!</p>';
+            return;
+        }
+
+        filtered.forEach(item => {
+            const isFav = favorites.includes(item.sn);
+            const card = document.createElement('div');
+            card.className = 'word-card';
+            card.onclick = (e) => {
+                if(e.target.closest('.card-actions') || e.target.closest('.audio-btn')) return;
+                card.classList.toggle('open');
+            };
+
+            card.innerHTML = `
+                <div class="card-header">
+                    <div class="info-left">
+                        <span class="sn-badge">#${item.sn}</span>
+                        <div>
+                            <div class="def-title">${item.def}</div>
+                            <div class="click-hint">👆 অর্থ, উত্তর ও উচ্চারণ দেখতে ক্লিক করুন</div>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <span class="fav-icon ${isFav ? 'active' : ''}" onclick="toggleFav(${item.sn}, this, event)">★</span>
+                    </div>
+                </div>
+                <div class="card-details">
+                    <div class="def-bn-box">
+                        <strong>বাক্যের অর্থ:</strong> ${item.defBn}
+                    </div>
+                    <div class="answer-row">
+                        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                            <span class="word-tag">${item.word}</span>
+                            <span class="pronun-tag">উচ্চারণ: ${item.pron}</span>
+                        </div>
+                        <button class="audio-btn" onclick="speakWord('${item.word.replace(/'/g, "\\'")}', event)">
+                            🔊 শুনুন
+                        </button>
+                    </div>
+                    <div class="meaning-title">বাংলা অর্থ: ${item.meaning}</div>
+                </div>
+            `;
+            listContainer.appendChild(card);
+        });
+    }
+
+    function toggleFav(sn, element, event) {
+        event.stopPropagation();
+        if (favorites.includes(sn)) {
+            favorites = favorites.filter(id => id !== sn);
+            element.classList.remove('active');
+        } else {
+            favorites.push(sn);
+            element.classList.add('active');
+        }
+        localStorage.setItem('ow_favs_vFinal', JSON.stringify(favorites));
+        if(currentCategory === 'Favorites') renderWords(document.getElementById('searchBar').value);
+    }
+
+    function filterCategory(category) {
+        currentCategory = category;
+        const tabs = document.querySelectorAll('.tab');
+        tabs.forEach(tab => tab.classList.remove('active'));
+        event.target.classList.add('active');
+        renderWords(document.getElementById('searchBar').value);
+    }
+
+    document.getElementById('searchBar').addEventListener('input', (e) => {
+        renderWords(e.target.value);
+    });
+
+    renderWords();
+</script>
+
+</body>
+</html>
