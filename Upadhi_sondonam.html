@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>সাহিত্যিকদের পরিচিতি | BILAS ACADEMY</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap');
+
+        :root {
+            --bg: #0d0221;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-highlight: rgba(255, 255, 255, 0.25);
+            --neon-blue: #00d2ff;
+            --neon-gold: #f6d365;
+            --neon-pink: #ff416c;
+            --heart-red: #ef4444; 
+        }
+
+        * {
+            -webkit-tap-highlight-color: transparent;
+            backface-visibility: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            margin: 0;
+            background: var(--bg);
+            color: #fff;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* 🚀 Smooth Auto-Hide Header */
+        .header-section {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            background: rgba(13, 2, 33, 0.75); 
+            backdrop-filter: blur(25px); 
+            -webkit-backdrop-filter: blur(25px);
+            padding: 8px 12px 12px 12px;
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            border-bottom: 1px solid var(--glass-border);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            will-change: transform;
+        }
+
+        .brand-header { text-align: center; padding: 2px 0; }
+        .brand-name {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            background: linear-gradient(to right, var(--neon-blue), var(--neon-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 10px rgba(0, 210, 255, 0.2);
+        }
+
+        /* 🚀 Glass Search Box */
+        .search-box {
+            width: 100%;
+            padding: 8px 18px;
+            border-radius: 50px;
+            border: 1px solid var(--glass-border);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(0, 0, 0, 0.2);
+            color: #fff;
+            outline: none;
+            margin: 8px 0;
+            box-sizing: border-box;
+            font-size: 14px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: 0.3s;
+        }
+        
+        .search-box:focus {
+            background: rgba(0, 0, 0, 0.4);
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.2);
+        }
+
+        /* 🚀 Controls Row */
+        .control-row {
+            display: flex;
+            gap: 10px;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .tab-group {
+            display: flex;
+            gap: 8px;
+            flex-grow: 1;
+        }
+
+        .icon-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* 🚀 Glass Buttons */
+        .icon-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            color: var(--neon-gold);
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.3s;
+            flex-shrink: 0;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .icon-btn.active {
+            background: rgba(246, 211, 101, 0.15);
+            border-color: var(--neon-gold);
+            box-shadow: 0 0 15px rgba(246, 211, 101, 0.3);
+        }
+
+        .tab-btn {
+            flex-grow: 1;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            color: #ccc;
+            padding: 6px 0;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .tab-btn.active {
+            background: rgba(0, 210, 255, 0.1);
+            color: var(--neon-blue);
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
+        }
+
+        /* 🚀 Content Container */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 130px 15px 100px 10px; 
+        }
+
+        .item-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center; 
+            gap: 10px; 
+            margin-bottom: 20px; 
+            padding-right: 8px; 
+            scroll-margin-top: 130px;
+        }
+
+        .serial { 
+            color: var(--neon-blue); 
+            font-weight: bold; 
+            font-size: 13px; 
+            min-width: 22px; 
+            text-align: right;
+            opacity: 0.6; 
+            text-shadow: 0 0 5px rgba(0, 210, 255, 0.3);
+        }
+
+        /* 🚀 Glassmorphism Card */
+        .card {
+            flex-grow: 1;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-top: 1px solid var(--glass-highlight);
+            border-left: 1px solid var(--glass-highlight);
+            border-radius: 16px; 
+            display: flex;
+            align-items: center;
+            position: relative;
+            cursor: pointer;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+            will-change: transform;
+            transform: translateZ(0); 
+        }
+
+        .card:active { 
+            transform: scale(0.97); 
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.05) 100%);
+            box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .text-trigger {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 20px; 
+            position: relative;
+        }
+
+        /* 🚀 Question Text (Fades out partially) */
+        .sentence { 
+            font-size: 17px; 
+            color: #f8fafc; 
+            font-weight: 500; 
+            text-align: center;
+            width: 100%;
+            user-select: none;
+            line-height: 1.4;
+            will-change: opacity, transform;
+            transition: all 0.3s ease;
+        }
+        
+        .faded { 
+            opacity: 0.15; /* হালকা অপাসিটি */
+            transform: scale(0.96); /* সামান্য ছোট হবে */
+        }
+
+        /* 🚀 Answer Overlay (Appears on top) */
+        .one-word {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 90%;
+            text-align: center;
+            font-size: 20px; 
+            font-weight: 800;
+            color: var(--neon-gold);
+            text-shadow: 0 0 15px rgba(0, 0, 0, 0.9), 0 0 15px rgba(246, 211, 101, 0.6); /* ডার্ক শ্যাডো দেওয়া হয়েছে যেন স্পষ্ট বোঝা যায় */
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            user-select: none;
+            will-change: opacity, transform;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: translate(-50%, -50%) scale(0.8);
+        }
+
+        .show-ans {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        /* 🚀 Outline Heart (Top Right Corner) */
+        .fav-btn { 
+            position: absolute;
+            top: -10px; 
+            right: -6px; 
+            background: rgba(13, 2, 33, 0.8); 
+            border-radius: 50%;
+            padding: 4px;
+            cursor: pointer; 
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.5); 
+        }
+
+        .fav-btn:active {
+            transform: scale(0.85);
+        }
+
+        /* 🚀 Rocket */
+        .rocket-hub {
+            position: fixed;
+            right: 15px;
+            bottom: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .rocket-menu {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            background: rgba(13, 2, 33, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-top: 1px solid var(--glass-highlight);
+            border-left: 1px solid var(--glass-highlight);
+            padding: 15px 10px;
+            border-radius: 40px;
+            margin-bottom: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+            animation: slideUp 0.2s ease;
+        }
+
+        .r-circle {
+            width: 36px;
+            height: 36px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .jump-box {
+            width: 36px;
+            height: 30px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--neon-pink);
+            color: white;
+            text-align: center;
+            border-radius: 6px;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .go-btn { background: var(--neon-pink); border: none; padding: 4px; border-radius: 5px; font-weight: bold; color: #fff; cursor: pointer; font-size: 10px;}
+
+        .rocket-icon {
+            font-size: 32px; 
+            cursor: pointer;
+            filter: drop-shadow(0 0 8px var(--neon-blue));
+            transition: transform 0.2s;
+            will-change: transform;
+        }
+        .rocket-icon:active { transform: scale(0.9); }
+
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    </style>
+</head>
+<body>
+
+<div class="header-section" id="header">
+    <div class="brand-header">
+        <span class="brand-name">BILAS ACADEMY</span>
+    </div>
+    <div style="max-width:600px; margin: 0 auto;">
+        <input type="text" id="search" class="search-box" placeholder="খুঁজুন (যেমন: বিদ্রোহী কবি)..." onkeyup="filter()">
+        
+        <div class="control-row">
+            <div class="tab-group">
+                <button class="tab-btn active" id="tab-upadhi" onclick="switchCategory('upadhi')">উপাধি</button>
+                <button class="tab-btn" id="tab-choddonam" onclick="switchCategory('choddonam')">ছদ্মনাম</button>
+            </div>
+            <div class="icon-group">
+                <button class="icon-btn" onclick="scrollToLastRead()" title="শেষ পড়া">
+                    <i data-lucide="clock" stroke-width="2.5" class="w-[16px] h-[16px]"></i>
+                </button>
+                <button class="icon-btn" id="favViewBtn" onclick="toggleFavView()" title="ফেভারিট">
+                    <i data-lucide="star" stroke-width="2.5" class="w-[16px] h-[16px]"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div id="main-list"></div>
+</div>
+
+<div class="rocket-hub">
+    <div class="rocket-menu" id="rocketMenu">
+        <div class="r-circle" onclick="window.scrollTo({top:0, behavior:'smooth'}); toggleRocket();">⬆️</div>
+        <input type="number" id="jumpInput" class="jump-box" placeholder="নং">
+        <button class="go-btn" onclick="jumpTo()">GO</button>
+        <div class="r-circle" onclick="window.scrollTo({top:document.body.scrollHeight, behavior:'smooth'}); toggleRocket();">⬇️</div>
+    </div>
+    <div class="rocket-icon" onclick="toggleRocket()">🚀</div>
+</div>
+
+<!-- 🧬 PWA Scripts -->
+<script>
+    (function() {
+        const manifestObj = {
+            "short_name": "BAcademy",
+            "name": "BILAS ACADEMY",
+            "icons": [{ "src": "logobacca26.jpg", "type": "image/jpeg", "sizes": "512x512", "purpose": "any maskable" }],
+            "start_url": "./index.html",
+            "background_color": "#0d0221",
+            "theme_color": "#0d0221",
+            "display": "standalone",
+            "orientation": "portrait"
+        };
+        const blob = new Blob([JSON.stringify(manifestObj)], {type: 'application/json'});
+        const link = document.createElement('link');
+        link.rel = 'manifest'; link.href = URL.createObjectURL(blob);
+        document.head.appendChild(link);
+    })();
+
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+            const swCode = `
+                self.addEventListener('install', e => e.waitUntil(self.skipWaiting()));
+                self.addEventListener('activate', e => e.waitUntil(self.clients.claim()));
+                self.addEventListener('fetch', e => e.respondWith(fetch(e.request).catch(() => caches.match(e.request))));
+            `;
+            const blob = new Blob([swCode], {type: 'application/javascript'});
+            navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(err => console.log(err));
+        });
+    }
+</script>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+    const dataUpadhi = [
+           
+        { q: "মহাকবি", a: "আলাওল" },
+        { q: "ছন্দের জাদুকর", a: "সত্যেন্দ্রনাথ দত্ত" },
+        { q: "বাংলা সাহিত্যের প্রথম সার্থক ঔপন্যাসিক", a: "বঙ্কিমচন্দ্র চট্টোপাধ্যায়" },
+        { q: "মুসলিম বা ইসলামি রেনেসাঁর কবি", a: "ফররুখ আহমদ" },
+        { q: "বাংলা ছোট গল্পের জনক", a: "রবীন্দ্রনাথ ঠাকুর" },
+        { q: "বাংলা গদ্যের জনক", a: "ঈশ্বরচন্দ্র বিদ্যাসাগর" },
+        { q: "নারী জাগরণের অগ্রদূত", a: "রোকেয়া সাখাওয়াত হোসেন" },
+        { q: "রূপসী বাংলার কবি", a: "জীবনানন্দ দাশ" },
+        { q: "কিশোর কবি", a: "সুকান্ত ভট্টাচার্য" },
+        { q: "মিথিলার কোকিল বা মৈথিল কোকিল", a: "বিদ্যাপতি" },
+        { q: "বাংলা সাহিত্যের প্রথম বিদ্রোহী কবি", a: "মাইকেল মধুসূদন দত্ত" },
+        { q: "পল্লীকবি", a: "জসীমউদ্দীন" },
+        { q: "প্রথম নাগরিক কবি", a: "ভারতচন্দ্র" },
+        { q: "বিদ্যাসাগর", a: "ঈশ্বরচন্দ্র বিদ্যাসাগর" },
+        { q: "শান্তিপুরের কবি", a: "মোজাম্মেল হক" },
+        { q: "বিদ্রোহী কবি", a: "কাজী নজরুল ইসলাম" },
+        { q: "দৌলত উজির", a: "বাহরাম খান" },
+        { q: "অপরাজেয় কথাশিল্পী", a: "শরৎচন্দ্র চট্টোপাধ্যায়" },
+        { q: "যুগসন্ধিক্ষণ বা যুগসন্ধিকালের কবি", a: "ঈশ্বরচন্দ্র গুপ্ত" },
+        { q: "জননী সাহসিকা", a: "সুফিয়া কামাল" },
+        { q: "বাংলার ওয়াল্টার স্কট", a: "বঙ্কিমচন্দ্র চট্টোপাধ্যায়" },
+        { q: "ভোরের পাখি", a: "বিহারীলাল চক্রবর্তী" },
+        { q: "ভাষাতত্ত্ববিদ", a: "ড. মুহম্মদ শহীদুল্লাহ" },
+        { q: "কবিকঙ্কন", a: "মুকুন্দরাম চক্রবর্তী" },
+        { q: "বাংলা সাহিত্যে আধুনিকতার উদ্যোগ", a: "মাইকেল মধুসূদন দত্ত" },
+        { q: "শহীদ জননী", a: "জাহানারা ইমাম" },
+        { q: "মরমি কবি", a: "হাসন রাজা" },
+        { q: "বাংলা গীতিকবিতার জনক", a: "বিহারীলাল চক্রবর্তী" },
+        { q: "তিমির হননের কবি", a: "জীবনানন্দ দাশ" },
+        { q: "কবিকণ্ঠহার", a: "বিদ্যাপতি" },
+        { q: "সাহিত্য বিশারদ", a: "আবদুল করিম" },
+        { q: "কবিগুরু", a: "রবীন্দ্রনাথ ঠাকুর" },
+        { q: "দুঃখবাদী কবি", a: "যতীন্দ্রনাথ সেনগুপ্ত" },
+        { q: "যতি বা বিরামচিহ্নের প্রবর্তক", a: "ঈশ্বরচন্দ্র বিদ্যাসাগর" },
+        { q: "তর্করত্ন", a: "রামনারায়ণ" },
+        { q: "বাংলার মিল্টন", a: "হেমচন্দ্র বন্দ্যোপাধ্যায়" },
+        { q: "আধুনিক যুগের নাগরিক কবি", a: "সমর সেন" },
+        { q: "বাংলাদেশের শ্রেষ্ঠ মহিলা কবি", a: "সুফিয়া কামাল" },
+        { q: "সাহিত্য সম্রাট", a: "বঙ্কিমচন্দ্র চট্টোপাধ্যায়" },
+        { q: "চলিত রীতির প্রবর্তক", a: "প্রমথ চৌধুরী" },
+        { q: "বাংলা উপন্যাস ধারার প্রতিষ্ঠাতা পুরুষ", a: "প্যারীচাঁদ মিত্র" },
+        { q: "প্রকৃতির কবি", a: "জীবনানন্দ দাশ" },
+        { q: "বাংলা সাহিত্যে সনেটের প্রবর্তক", a: "মাইকেল মধুসূদন দত্ত" },
+        { q: "বাংলাদেশের জাতীয় কবি", a: "কাজী নজরুল ইসলাম" },
+        { q: "বিশ্বকবি", a: "রবীন্দ্রনাথ ঠাকুর" },
+        { q: "নাগরিক কবি", a: "শামসুর রাহমান" },
+        { q: "রায়গুণাকর", a: "ভারতচন্দ্র" },
+        { q: "সাহিত্যরত্ন", a: "নজিবর রহমান" },
+        { q: "নির্জনতার কবি", a: "জীবনানন্দ দাশ" }
+    
+    ];
+
+    const dataChoddonam = [
+        { q: "বড়ু চণ্ডীদাস (ছদ্মনাম)", a: "অনন্ত বড়ু" },
+        { q: "ভানুসিংহ ঠাকুর (ছদ্মনাম)", a: "রবীন্দ্রনাথ ঠাকুর" },
+        { q: "বীরবল (ছদ্মনাম)", a: "প্রমথ চৌধুরী" },
+        { q: "টেকচাঁদ ঠাকুর (ছদ্মনাম)", a: "প্যারীচাঁদ মিত্র" },
+        { q: "কালকূট (ছদ্মনাম)", a: "সমরেশ বসু" },
+        { q: "বনফুল (ছদ্মনাম)", a: "বলাইচাঁদ মুখোপাধ্যায়" },
+        { q: "নীল লোহিত (ছদ্মনাম)", a: "সুনীল গঙ্গোপাধ্যায়" },
+        { q: "যাযাবর (ছদ্মনাম)", a: "বিনয়কৃষ্ণ মুখোপাধ্যায়" },
+        { q: "গাজী মিয়া (ছদ্মনাম)", a: "মীর মশাররফ হোসেন" },
+        { q: "শওকত ওসমান (ছদ্মনাম)", a: "শেখ আজিজুর রহমান" },
+        { q: "অশোক সৈয়দ (ছদ্মনাম)", a: "আবদুল মান্নান সৈয়দ" },
+        { q: "হুতোম প্যাঁচা (ছদ্মনাম)", a: "কালীপ্রসন্ন সিংহ" },
+        { q: "কায়কোবাদ (ছদ্মনাম)", a: "মুহম্মদ কাজেম আল কোরেশী" },
+        { q: "অবধূত (ছদ্মনাম)", a: "স্বামী কালিকানন্দ" },
+        { q: "বানভট্ট (ছদ্মনাম)", a: "নীহাররঞ্জন গুপ্ত" },
+        { q: "পরশুরাম (ছদ্মনাম)", a: "রাজশেখর বসু" },
+        { q: "ধূমকেতু (ছদ্মনাম)", a: "কাজী নজরুল ইসলাম" },
+        { q: "অনিলা দেবী (ছদ্মনাম)", a: "শরৎচন্দ্র চট্টোপাধ্যায়" },
+        { q: "জহির রায়হান (ছদ্মনাম)", a: "মোহাম্মদ জহিরুল্লাহ" },
+        { q: "মানিক বন্দ্যোপাধ্যায় (ছদ্মনাম)", a: "প্রবোধকুমার বন্দ্যোপাধ্যায়" },
+        { q: "শমসের উল আজাদ (ছদ্মনাম)", a: "আবুল ফজল" },
+        { q: "মৌমাছি (ছদ্মনাম)", a: "বিমল ঘোষ" }
+    ];
+
+    let currentCategory = 'upadhi';
+    let currentData = dataUpadhi;
+    let favorites = JSON.parse(localStorage.getItem('sahityaFavs_v7')) || [];
+    let showFavs = false;
+
+    // 🚀 Improved Header Scroll Logic
+    let lastScrollTop = 0;
+    window.addEventListener('scroll', function() {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const header = document.getElementById('header');
+        
+        if (scrollTop > lastScrollTop && scrollTop > 60) {
+            // Scroll Down - Hide Header
+            header.style.transform = 'translateY(-110%)';
+        } else {
+            // Scroll Up - Show Header
+            header.style.transform = 'translateY(0)';
+        }
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; 
+    }, { passive: true });
+
+    function toggleRocket() {
+        const menu = document.getElementById('rocketMenu');
+        menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+    }
+
+    function switchCategory(cat) {
+        currentCategory = cat;
+        currentData = cat === 'upadhi' ? dataUpadhi : dataChoddonam;
+        
+        document.getElementById('tab-upadhi').classList.toggle('active', cat === 'upadhi');
+        document.getElementById('tab-choddonam').classList.toggle('active', cat === 'choddonam');
+        
+        if(showFavs) toggleFavView();
+        else render();
+        
+        document.getElementById('search').value = '';
+        window.scrollTo({top:0, behavior:'smooth'});
+    }
+
+    function render() {
+        const list = document.getElementById('main-list');
+        list.innerHTML = "";
+        
+        if (currentData.length === 0) return;
+
+        currentData.forEach((item, index) => {
+            const favId = `${currentCategory}_${index}`;
+            const isFav = favorites.includes(favId);
+            
+            if (showFavs && !isFav) return;
+
+            const heartStyle = isFav 
+                ? 'fill: #ef4444; color: #ef4444; filter: drop-shadow(0 0 5px rgba(239, 68, 68, 0.6));' 
+                : 'color: rgba(255,255,255,0.3);';
+
+            const div = document.createElement('div');
+            div.className = 'item-wrapper';
+            div.id = `item-${index + 1}`;
+            div.innerHTML = `
+                <span class="serial">${index + 1}.</span>
+                <div class="card" onclick="magicFlip(${index})">
+                    <div class="text-trigger">
+                        <div id="q-${index}" class="sentence">${item.q}</div>
+                        <div id="a-${index}" class="one-word">${item.a}</div>
+                    </div>
+                </div>
+                <div class="fav-btn" onclick="toggleFav(event, '${favId}')">
+                    <i data-lucide="heart" stroke-width="2.5" class="w-[16px] h-[16px]" style="${heartStyle}"></i>
+                </div>
+            `;
+            list.appendChild(div);
+        });
+        
+        lucide.createIcons();
+    }
+
+    function magicFlip(index) {
+        const q = document.getElementById(`q-${index}`);
+        const a = document.getElementById(`a-${index}`);
+        if (a.classList.contains('show-ans')) {
+            q.classList.remove('faded');
+            a.classList.remove('show-ans');
+        } else {
+            q.classList.add('faded');
+            a.classList.add('show-ans');
+        }
+        localStorage.setItem(`sahityaLastRead_${currentCategory}`, index + 1);
+    }
+
+    function toggleFav(event, favId) {
+        event.stopPropagation(); 
+        const pos = favorites.indexOf(favId);
+        if (pos === -1) favorites.push(favId);
+        else favorites.splice(pos, 1);
+        localStorage.setItem('sahityaFavs_v7', JSON.stringify(favorites));
+        render();
+    }
+
+    function toggleFavView() {
+        showFavs = !showFavs;
+        document.getElementById('favViewBtn').classList.toggle('active', showFavs);
+        render();
+    }
+
+    function filter() {
+        let val = document.getElementById('search').value.toLowerCase();
+        document.querySelectorAll('.item-wrapper').forEach(row => {
+            row.style.display = row.innerText.toLowerCase().includes(val) ? "flex" : "none";
+        });
+    }
+
+    function jumpTo() {
+        let num = document.getElementById('jumpInput').value;
+        let el = document.getElementById(`item-${num}`);
+        if(el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            toggleRocket();
+        }
+    }
+
+    function scrollToLastRead() {
+        let last = localStorage.getItem(`sahityaLastRead_${currentCategory}`);
+        if(last) {
+            const el = document.getElementById(`item-${last}`);
+            if(el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+            alert("এই অংশে এখনও কোনো পড়া সেভ করা নেই।");
+        }
+    }
+
+    lucide.createIcons();
+    render();
+</script>
+</body>
+</html>
