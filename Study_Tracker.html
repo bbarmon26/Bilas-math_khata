@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Study Tracker • iOS Haptic</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Hind+Siliguri:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f2f3f7;
+      --card: rgba(255, 255, 255, 0.85);
+      --card-border: rgba(255, 255, 255, 0.9);
+      --text: #0f172a;
+      --subtext: #64748b;
+      --accent: #007aff;
+      --accent-gradient: linear-gradient(135deg, #007aff, #5856d6);
+      --danger: #ff3b30;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      font-family: 'Plus Jakarta Sans', 'Hind Siliguri', -apple-system, sans-serif;
+      user-select: none;
+    }
+
+    body {
+      background: linear-gradient(180deg, #f8f9fc 0%, #edf1f7 100%);
+      min-height: 100vh;
+      padding: 16px 14px 100px;
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+    }
+
+    .app-wrap {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* iOS Header */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2px 4px;
+    }
+    .top-bar h1 {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.4px;
+      background: linear-gradient(135deg, #0f172a, #334155);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .top-bar p {
+      font-size: 12px;
+      color: var(--subtext);
+      font-weight: 600;
+    }
+    .category-pill {
+      background: rgba(0, 122, 255, 0.12);
+      color: var(--accent);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    /* Floating Pill Segmented Tabs */
+    .tab-bar {
+      display: flex;
+      background: rgba(142, 142, 147, 0.12);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 4px;
+      border-radius: 16px;
+      gap: 5px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .tab-bar::-webkit-scrollbar { display: none; }
+
+    .tab-item {
+      flex: 1;
+      min-width: 80px;
+      padding: 8px 12px;
+      border: none;
+      background: transparent;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      cursor: pointer;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .tab-item.active {
+      background: #ffffff;
+      color: #000;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+      transform: scale(1.02);
+    }
+
+    .feed-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 6px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--subtext);
+    }
+
+    /* Minimalist Compact List */
+    .topics-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .topic-row {
+      background: var(--card);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 12px 14px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      touch-action: pan-y;
+    }
+    .topic-row:active {
+      transform: scale(0.97);
+    }
+
+    .topic-row-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+    .topic-row-title {
+      font-size: 15.5px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .topic-row-date {
+      font-size: 11px;
+      font-weight: 600;
+      color: #94a3b8;
+      background: rgba(148, 163, 184, 0.12);
+      padding: 2px 7px;
+      border-radius: 8px;
+    }
+    .topic-row-note {
+      font-size: 13.5px;
+      color: #475569;
+      line-height: 1.4;
+      white-space: pre-wrap;
+    }
+
+    /* Floating Pen Button */
+    .fab {
+      position: fixed;
+      right: 22px;
+      bottom: 24px;
+      width: 54px;
+      height: 54px;
+      border-radius: 27px;
+      background: var(--accent-gradient);
+      color: #fff;
+      border: none;
+      box-shadow: 0 8px 24px rgba(0, 122, 255, 0.4);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      z-index: 80;
+    }
+    .fab:active { transform: scale(0.88); }
+
+    /* iOS Haptic Context Menu Modal */
+    .context-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 120;
+      padding: 20px;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .context-menu {
+      width: 230px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+      transform: scale(0.95);
+      animation: springPopup 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    .context-btn {
+      width: 100%;
+      padding: 13px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: transparent;
+      border: none;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      color: #000;
+    }
+    .context-btn:first-child {
+      border-bottom: 0.5px solid rgba(0, 0, 0, 0.08);
+    }
+    .context-btn:active {
+      background: rgba(0, 0, 0, 0.06);
+    }
+    .context-btn.del {
+      color: var(--danger);
+    }
+
+    /* Input Bottom Sheet */
+    .sheet-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 110;
+    }
+    .sheet {
+      background: #ffffff;
+      width: 100%;
+      max-width: 480px;
+      border-radius: 26px 26px 0 0;
+      padding: 20px 18px 28px;
+      box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.12);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      animation: sheetUp 0.25s cubic-bezier(0.1, 0.9, 0.2, 1);
+    }
+
+    .sheet-title {
+      font-size: 17px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 2px;
+    }
+    .sheet input, .sheet textarea {
+      width: 100%;
+      background: #f2f4f7;
+      border: 1px solid transparent;
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-size: 14px;
+      outline: none;
+      user-select: text;
+    }
+    .sheet input:focus, .sheet textarea:focus {
+      background: #ffffff;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15);
+    }
+    .sheet-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      padding: 13px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    @keyframes springPopup {
+      to { transform: scale(1); }
+    }
+    @keyframes sheetUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-wrap">
+    
+    <!-- Header -->
+    <div class="top-bar">
+      <div>
+        <h1>স্টাডি ট্র্যাকার</h1>
+        <p>ব্যক্তিগত পাঠ্য অগ্রগতি ও নোটস</p>
+      </div>
+      <div class="category-pill" id="catBadge">বাংলা</div>
+    </div>
+
+    <!-- Segmented Filter -->
+    <div class="tab-bar" id="subTabs"></div>
+
+    <!-- Status Header -->
+    <div class="feed-header">
+      <span>সংরক্ষিত টপিকসমূহ</span>
+      <span id="topicCount">০ টি</span>
+    </div>
+
+    <!-- Topics Cards -->
+    <div class="topics-list" id="topicFeed"></div>
+
+  </div>
+
+  <!-- Floating Pen -->
+  <button class="fab" onclick="openInputSheet()" title="নতুন টপিক">✏️</button>
+
+  <!-- iOS Haptic Context Menu -->
+  <div class="context-overlay" id="contextMenuOverlay" onclick="closeContextMenu(event)">
+    <div class="context-menu" id="hapticMenu">
+      <button class="context-btn" onclick="triggerEdit()">
+        <span>এডিট করুন</span>
+        <span>✎</span>
+      </button>
+      <button class="context-btn del" onclick="triggerDelete()">
+        <span>মুছে ফেলুন</span>
+        <span>🗑</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Bottom Input Sheet -->
+  <div class="sheet-overlay" id="sheetOverlay" onclick="closeSheetOnBackdrop(event)">
+    <div class="sheet">
+      <h3 class="sheet-title" id="sheetHeading">নতুন টপিক যোগ করুন</h3>
+      <input type="text" id="topicName" placeholder="টপিকের নাম (যেমন: সমাস, শতকরা)...">
+      <textarea id="topicNotes" rows="3" placeholder="কতটুকু পড়লেন? পৃষ্ঠা নং বা বিবরণ..."></textarea>
+      <button class="sheet-btn" id="saveBtn" onclick="saveData()">সেভ করুন</button>
+    </div>
+  </div>
+
+  <script>
+    const subjects = [
+      { id: 'Bangla', name: 'বাংলা', icon: '📖' },
+      { id: 'English', name: 'ইংরেজি', icon: '📝' },
+      { id: 'Math', name: 'গণিত', icon: '📐' },
+      { id: 'GK', name: 'সাধারণ জ্ঞান', icon: '🌏' },
+      { id: 'BCS', name: 'বিসিএস', icon: '🎯' }
+    ];
+
+    let currentSubject = 'Bangla';
+    let activeTargetId = null;
+    let editModeId = null;
+    let pressTimer = null;
+
+    function getDB() {
+      const data = localStorage.getItem('study_ios_haptic');
+      return data ? JSON.parse(data) : { Bangla: [], English: [], Math: [], GK: [], BCS: [] };
+    }
+
+    function setDB(data) {
+      localStorage.setItem('study_ios_haptic', JSON.stringify(data));
+    }
+
+    function renderTabs() {
+      const container = document.getElementById('subTabs');
+      container.innerHTML = '';
+      subjects.forEach(sub => {
+        const btn = document.createElement('button');
+        btn.className = `tab-item ${sub.id === currentSubject ? 'active' : ''}`;
+        btn.innerHTML = `${sub.icon} ${sub.name}`;
+        btn.onclick = () => {
+          currentSubject = sub.id;
+          document.getElementById('catBadge').innerText = sub.name;
+          renderTabs();
+          renderFeed();
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    function renderFeed() {
+      const container = document.getElementById('topicFeed');
+      const counter = document.getElementById('topicCount');
+      const db = getDB();
+      const list = db[currentSubject] || [];
+
+      counter.innerText = `${list.length} টি`;
+      container.innerHTML = '';
+
+      if (list.length === 0) {
+        container.innerHTML = `
+          <div style="text-align:center; padding: 48px 16px; color:#94a3b8; font-size:13px; font-weight:600;">
+            কোনো টপিক নেই। নিচে ✏️ বাটনে চাপ দিয়ে যোগ করুন।
+          </div>
+        `;
+        return;
+      }
+
+      list.forEach(item => {
+        const row = document.createElement('div');
+        row.className = 'topic-row';
+        row.innerHTML = `
+          <div class="topic-row-top">
+            <span class="topic-row-title">${item.title}</span>
+            <span class="topic-row-date">${item.date}</span>
+          </div>
+          <div class="topic-row-note">${item.notes || 'কোনো নোট নেই'}</div>
+        `;
+
+        // Touch & Hold (Mobile Long Press)
+        row.addEventListener('touchstart', (e) => {
+          pressTimer = setTimeout(() => {
+            if (navigator.vibrate) navigator.vibrate(40);
+            showContextMenu(item.id);
+          }, 450);
+        }, { passive: true });
+
+        row.addEventListener('touchend', () => clearTimeout(pressTimer));
+        row.addEventListener('touchmove', () => clearTimeout(pressTimer));
+
+        // Desktop Right Click / Long Click
+        row.addEventListener('contextmenu', (e) => {
+          e.preventDefault();
+          showContextMenu(item.id);
+        });
+
+        container.appendChild(row);
+      });
+    }
+
+    function showContextMenu(id) {
+      activeTargetId = id;
+      document.getElementById('contextMenuOverlay').style.display = 'flex';
+    }
+
+    function closeContextMenu(e) {
+      if (e && e.target.id !== 'contextMenuOverlay' && !e.target.classList.contains('context-btn')) return;
+      document.getElementById('contextMenuOverlay').style.display = 'none';
+      activeTargetId = null;
+    }
+
+    function triggerEdit() {
+      const id = activeTargetId;
+      document.getElementById('contextMenuOverlay').style.display = 'none';
+      const db = getDB();
+      const item = (db[currentSubject] || []).find(i => i.id === id);
+      if (item) {
+        editModeId = id;
+        document.getElementById('sheetHeading').innerText = 'টপিক এডিট করুন';
+        document.getElementById('topicName').value = item.title;
+        document.getElementById('topicNotes').value = item.notes;
+        document.getElementById('saveBtn').innerText = 'আপডেট করুন';
+        document.getElementById('sheetOverlay').style.display = 'flex';
+      }
+    }
+
+    function triggerDelete() {
+      const id = activeTargetId;
+      document.getElementById('contextMenuOverlay').style.display = 'none';
+      const db = getDB();
+      db[currentSubject] = (db[currentSubject] || []).filter(i => i.id !== id);
+      setDB(db);
+      renderFeed();
+    }
+
+    function openInputSheet() {
+      editModeId = null;
+      document.getElementById('sheetHeading').innerText = 'নতুন টপিক যোগ করুন';
+      document.getElementById('topicName').value = '';
+      document.getElementById('topicNotes').value = '';
+      document.getElementById('saveBtn').innerText = 'সেভ করুন';
+      document.getElementById('sheetOverlay').style.display = 'flex';
+      setTimeout(() => document.getElementById('topicName').focus(), 150);
+    }
+
+    function closeSheetOnBackdrop(e) {
+      if (e.target.id === 'sheetOverlay') {
+        document.getElementById('sheetOverlay').style.display = 'none';
+      }
+    }
+
+    function saveData() {
+      const title = document.getElementById('topicName').value.trim();
+      const notes = document.getElementById('topicNotes').value.trim();
+
+      if (!title) {
+        alert('টপিকের নাম লিখুন!');
+        return;
+      }
+
+      const db = getDB();
+      const list = db[currentSubject] || [];
+
+      if (editModeId) {
+        const item = list.find(i => i.id === editModeId);
+        if (item) {
+          item.title = title;
+          item.notes = notes;
+          item.date = new Date().toLocaleDateString('bn-BD', { day: 'numeric', month: 'short' });
+        }
+      } else {
+        list.unshift({
+          id: Date.now(),
+          title: title,
+          notes: notes,
+          date: new Date().toLocaleDateString('bn-BD', { day: 'numeric', month: 'short' })
+        });
+      }
+
+      db[currentSubject] = list;
+      setDB(db);
+      document.getElementById('sheetOverlay').style.display = 'none';
+      renderFeed();
+    }
+
+    renderTabs();
+    renderFeed();
+  </script>
+</body>
+</html>
