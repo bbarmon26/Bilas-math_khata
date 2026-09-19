@@ -420,10 +420,15 @@
         </div>
     </div>
 
-    <!-- Controls -->
+    <!-- Controls (Left Back Button) -->
     <button id="backBtn" onclick="handleBackClick()" class="hidden fixed top-5 left-4 z-[500] text-slate-800 bg-white/60 rounded-full p-2 backdrop-blur-md active:scale-90 transition-transform shadow border border-slate-200">
         <i data-lucide="arrow-left" class="w-6 h-6"></i>
     </button>
+
+    <!-- Controls (Right Study Tracker Button) -->
+    <a id="trackerBtn" href="https://bbarmon26.github.io/Bilas-math_khata/Study_Tracker.html" class="hidden fixed top-5 right-4 z-[500] text-slate-800 bg-white/60 rounded-full p-2 backdrop-blur-md active:scale-90 transition-transform shadow border border-slate-200 flex items-center justify-center">
+        <i data-lucide="clipboard-check" class="w-6 h-6"></i>
+    </a>
 
     <!-- Quick Switch Menu -->
     <div id="quickMenuLayer" class="hidden fixed bottom-6 right-6 z-[500] flex flex-col-reverse items-end gap-3">
@@ -608,6 +613,7 @@
                 const app = document.getElementById('mainApp');
                 const desk = document.getElementById('masterHome');
                 const backBtn = document.getElementById('backBtn');
+                const trackerBtn = document.getElementById('trackerBtn');
                 const menuLayer = document.getElementById('quickMenuLayer');
 
                 if(!isQuickSwitch && element) {
@@ -627,6 +633,7 @@
                             app.style.transform = 'none';
                             app.classList.remove('page-expand-in');
                             backBtn.classList.remove('hidden');
+                            if(trackerBtn) trackerBtn.classList.remove('hidden');
                             menuLayer.classList.remove('hidden');
                         }, 600); 
 
@@ -643,6 +650,7 @@
                             app.style.transform = 'none';
                             app.classList.remove('page-expand-in');
                             backBtn.classList.remove('hidden');
+                            if(trackerBtn) trackerBtn.classList.remove('hidden');
                             menuLayer.classList.remove('hidden');
                         }, 600);
                     }
@@ -661,9 +669,11 @@
                 const app = document.getElementById('mainApp');
                 const desk = document.getElementById('masterHome');
                 const backBtn = document.getElementById('backBtn');
+                const trackerBtn = document.getElementById('trackerBtn');
                 const menuLayer = document.getElementById('quickMenuLayer');
                 
                 backBtn.classList.add('hidden');
+                if(trackerBtn) trackerBtn.classList.add('hidden');
                 menuLayer.classList.add('hidden');
                 desk.style.display = 'flex';
                 
@@ -928,9 +938,11 @@
                 const app = document.getElementById('mainApp');
                 const desk = document.getElementById('masterHome');
                 const backBtn = document.getElementById('backBtn');
+                const trackerBtn = document.getElementById('trackerBtn');
                 const menuLayer = document.getElementById('quickMenuLayer');
                 
                 if(backBtn) backBtn.classList.add('hidden');
+                if(trackerBtn) trackerBtn.classList.add('hidden');
                 if(menuLayer) menuLayer.classList.add('hidden');
                 if(desk) desk.style.display = 'flex';
                 
