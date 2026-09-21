@@ -3,19 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Study Tracker • iOS Haptic</title>
+  <title>Study Tracker • Compact</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Hind+Siliguri:wght@500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #f2f3f7;
-      --card: rgba(255, 255, 255, 0.85);
-      --card-border: rgba(255, 255, 255, 0.9);
+      --card: rgba(255, 255, 255, 0.92);
+      --card-border: rgba(255, 255, 255, 0.95);
       --text: #0f172a;
       --subtext: #64748b;
       --accent: #007aff;
       --accent-gradient: linear-gradient(135deg, #007aff, #5856d6);
+      --success: #34c759;
       --danger: #ff3b30;
     }
 
@@ -74,7 +75,7 @@
       font-weight: 700;
     }
 
-    /* Floating Pill Segmented Tabs */
+    /* Tabs */
     .tab-bar {
       display: flex;
       background: rgba(142, 142, 147, 0.12);
@@ -123,7 +124,7 @@
       color: var(--subtext);
     }
 
-    /* Minimalist Compact List */
+    /* Compact Topic Card */
     .topics-list {
       display: flex;
       flex-direction: column;
@@ -136,51 +137,67 @@
       -webkit-backdrop-filter: blur(15px);
       border: 1px solid var(--card-border);
       border-radius: 18px;
-      padding: 12px 14px;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+      padding: 14px 16px;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.03);
       cursor: pointer;
-      position: relative;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-      touch-action: pan-y;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: transform 0.15s ease;
     }
     .topic-row:active {
-      transform: scale(0.97);
+      transform: scale(0.98);
     }
 
     .topic-row-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 5px;
     }
     .topic-row-title {
-      font-size: 15.5px;
+      font-size: 16px;
       font-weight: 700;
       color: #0f172a;
     }
-    .topic-row-date {
-      font-size: 11px;
-      font-weight: 600;
-      color: #94a3b8;
-      background: rgba(148, 163, 184, 0.12);
-      padding: 2px 7px;
-      border-radius: 8px;
-    }
-    .topic-row-note {
-      font-size: 13.5px;
-      color: #475569;
-      line-height: 1.4;
-      white-space: pre-wrap;
+    .topic-row-stat {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--accent);
     }
 
-    /* Floating Pen Button */
+    .progress-bar-bg {
+      height: 7px;
+      background: rgba(142, 142, 147, 0.15);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 2px;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 10px;
+      background: var(--accent-gradient);
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .progress-bar-fill.completed {
+      background: var(--success);
+    }
+
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--subtext);
+    }
+
+    /* Floating Pen */
     .fab {
       position: fixed;
       right: 22px;
       bottom: 24px;
-      width: 54px;
-      height: 54px;
-      border-radius: 27px;
+      width: 52px;
+      height: 52px;
+      border-radius: 26px;
       background: var(--accent-gradient);
       color: #fff;
       border: none;
@@ -189,65 +206,13 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 22px;
-      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      font-size: 20px;
       z-index: 80;
     }
     .fab:active { transform: scale(0.88); }
 
-    /* iOS Haptic Context Menu Modal */
-    .context-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.25);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 120;
-      padding: 20px;
-      animation: fadeIn 0.2s ease;
-    }
-
-    .context-menu {
-      width: 230px;
-      background: rgba(255, 255, 255, 0.92);
-      backdrop-filter: blur(30px);
-      -webkit-backdrop-filter: blur(30px);
-      border-radius: 18px;
-      border: 1px solid rgba(255, 255, 255, 0.8);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-      overflow: hidden;
-      transform: scale(0.95);
-      animation: springPopup 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-    }
-
-    .context-btn {
-      width: 100%;
-      padding: 13px 18px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: transparent;
-      border: none;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      color: #000;
-    }
-    .context-btn:first-child {
-      border-bottom: 0.5px solid rgba(0, 0, 0, 0.08);
-    }
-    .context-btn:active {
-      background: rgba(0, 0, 0, 0.06);
-    }
-    .context-btn.del {
-      color: var(--danger);
-    }
-
-    /* Input Bottom Sheet */
-    .sheet-overlay {
+    /* Modals */
+    .sheet-overlay, .context-overlay {
       position: fixed;
       inset: 0;
       background: rgba(0, 0, 0, 0.35);
@@ -257,13 +222,17 @@
       justify-content: center;
       z-index: 110;
     }
+    .context-overlay {
+      align-items: center;
+      z-index: 120;
+    }
+
     .sheet {
       background: #ffffff;
       width: 100%;
       max-width: 480px;
-      border-radius: 26px 26px 0 0;
-      padding: 20px 18px 28px;
-      box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.12);
+      border-radius: 24px 24px 0 0;
+      padding: 22px 18px 30px;
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -274,9 +243,13 @@
       font-size: 17px;
       font-weight: 800;
       text-align: center;
-      margin-bottom: 2px;
     }
-    .sheet input, .sheet textarea {
+    .sheet-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .sheet input {
       width: 100%;
       background: #f2f4f7;
       border: 1px solid transparent;
@@ -286,7 +259,7 @@
       outline: none;
       user-select: text;
     }
-    .sheet input:focus, .sheet textarea:focus {
+    .sheet input:focus {
       background: #ffffff;
       border-color: var(--accent);
       box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15);
@@ -302,52 +275,59 @@
       cursor: pointer;
     }
 
-    @keyframes springPopup {
-      to { transform: scale(1); }
+    .context-menu {
+      width: 220px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(30px);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
     }
+    .context-btn {
+      width: 100%;
+      padding: 13px 18px;
+      display: flex;
+      justify-content: space-between;
+      border: none;
+      background: transparent;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .context-btn:first-child { border-bottom: 0.5px solid rgba(0, 0, 0, 0.08); }
+    .context-btn.del { color: var(--danger); }
+
     @keyframes sheetUp {
       from { transform: translateY(100%); }
       to { transform: translateY(0); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
     }
   </style>
 </head>
 <body>
 
   <div class="app-wrap">
-    
-    <!-- Header -->
     <div class="top-bar">
       <div>
         <h1>স্টাডি ট্র্যাকার</h1>
-        <p>ব্যক্তিগত পাঠ্য অগ্রগতি ও নোটস</p>
+        <p>পাঠ্য অগ্রগতি ও প্রশ্ন ট্র্যাকিং</p>
       </div>
       <div class="category-pill" id="catBadge">বাংলা</div>
     </div>
 
-    <!-- Segmented Filter -->
     <div class="tab-bar" id="subTabs"></div>
 
-    <!-- Status Header -->
     <div class="feed-header">
-      <span>সংরক্ষিত টপিকসমূহ</span>
+      <span>টপিক তালিকা</span>
       <span id="topicCount">০ টি</span>
     </div>
 
-    <!-- Topics Cards -->
     <div class="topics-list" id="topicFeed"></div>
-
   </div>
 
-  <!-- Floating Pen -->
   <button class="fab" onclick="openInputSheet()" title="নতুন টপিক">✏️</button>
 
-  <!-- iOS Haptic Context Menu -->
   <div class="context-overlay" id="contextMenuOverlay" onclick="closeContextMenu(event)">
-    <div class="context-menu" id="hapticMenu">
+    <div class="context-menu">
       <button class="context-btn" onclick="triggerEdit()">
         <span>এডিট করুন</span>
         <span>✎</span>
@@ -359,13 +339,17 @@
     </div>
   </div>
 
-  <!-- Bottom Input Sheet -->
   <div class="sheet-overlay" id="sheetOverlay" onclick="closeSheetOnBackdrop(event)">
     <div class="sheet">
       <h3 class="sheet-title" id="sheetHeading">নতুন টপিক যোগ করুন</h3>
-      <input type="text" id="topicName" placeholder="টপিকের নাম (যেমন: সমাস, শতকরা)...">
-      <textarea id="topicNotes" rows="3" placeholder="কতটুকু পড়লেন? পৃষ্ঠা নং বা বিবরণ..."></textarea>
-      <button class="sheet-btn" id="saveBtn" onclick="saveData()">সেভ করুন</button>
+      <input type="text" id="topicName" placeholder="টপিকের নাম (যেমন: শতকরা, সমাস)...">
+      
+      <div class="sheet-grid-2">
+        <input type="number" id="topicTotal" placeholder="মোট প্রশ্ন" min="1">
+        <input type="number" id="topicCompleted" placeholder="পড়া হয়েছে" min="0">
+      </div>
+
+      <button class="sheet-btn" id="saveBtn" onclick="saveData()">সংরক্ষণ করুন</button>
     </div>
   </div>
 
@@ -378,18 +362,77 @@
       { id: 'BCS', name: 'বিসিএস', icon: '🎯' }
     ];
 
+    const initialData = {
+      Bangla: [
+        { id: 101, title: 'সমাস', total: 568, completed: 0 },
+        { id: 102, title: 'কারক', total: 577, completed: 0 },
+        { id: 103, title: 'সন্ধি', total: 947, completed: 0 },
+		{ id: 104, title: 'এক কথায় প্রকাশ', total: 531, completed: 0 },
+		{ id: 105, title: 'বিপরীত শব্দ', total: 368, completed: 0 },
+		{ id: 106, title: 'বাক্য শুদ্ধি', total: 239, completed: 0 },
+		{ id: 107, title: 'সমার্থক শব্দ', total: 63, completed: 0 },
+		{ id: 108, title: 'বাগধারা', total: 538, completed: 0 },
+		{ id: 109, title: 'শব্দার্থ', total: 34, completed: 0 },
+		{ id: 110, title: 'লিঙ্গ পরিবর্তন', total: 63, completed: 0 },
+		{ id: 111, title: 'বানান শুদ্ধি', total: 553, completed: 0 },
+		{ id: 112, title: 'পারিভাষিক শব্দ', total: 207, completed: 0 },
+		{ id: 113, title: 'সাহিত্য', total: 0, completed: 0 },
+		{ id: 114, title: 'বিবিধ', total: 0, completed: 0 },
+		{ id: 115, title: 'Written Question', total: 0, completed: 0 },
+		{ id: 116, title: 'BCS Question', total: 0, completed: 0 }
+		
+      ],
+      English: [
+        { id: 201, title: 'Number', total: 81, completed: 0 },
+        { id: 202, title: 'Gender', total: 88, completed: 0 },
+		{ id: 203, title: 'Article', total: 381, completed: 0 },
+		{ id: 204, title: 'Preposition', total: 880, completed: 0 },
+		{ id: 205, title: 'Idioms & Phrases', total: 656, completed: 0 },
+		{ id: 206, title: 'Spelling', total: 206, completed: 0 },
+		{ id: 207, title: 'Fill in the black', total: 286, completed: 0 },
+		{ id: 208, title: 'Literature', total: 188, completed: 0 },
+		{ id: 209, title: 'Correction', total: 1100, completed: 0 },
+		{ id: 210, title: 'Voice', total: 450, completed: 0 },
+		{ id: 211, title: 'Right Form of Verbs', total: 611, completed: 0 },
+		{ id: 212, title: 'Degree', total: 50, completed: 0 },
+		{ id: 213, title: 'One Word Substitution', total: 194, completed: 0 },
+		{ id: 214, title: 'Miscellaneous', total: 172, completed: 0 }
+		
+      ],
+      Math: [
+        { id: 301, title: 'শতকরা ও লাভ-ক্ষতি', total: 160, completed: 80 },
+        { id: 302, title: 'ঐকিক নিয়ম ও কাজ', total: 85, completed: 20 }
+      ],
+      GK: [
+        { id: 401, title: 'বাংলাদেশের বিষয়াবলি', total: 2372, completed: 0 },
+		{ id: 402, title: 'আন্তর্জাতিক বিষয়াবলি', total: 1288, completed: 0 },
+		{ id: 403, title: 'দিবস ও খেলাধূলা', total: 142, completed: 0 },
+		{ id: 404, title: 'বিজ্ঞান', total: 628, completed: 0 },
+		{ id: 405, title: 'ICT', total: 663, completed: 0 },
+		{ id: 406, title: 'Abbreviation', total: 317, completed: 0 }
+		
+      ],
+      BCS: [
+        { id: 501, title: 'বিসিএস বিগত সালের প্রশ্ন', total: 500, completed: 220 }
+      ]
+    };
+
     let currentSubject = 'Bangla';
     let activeTargetId = null;
     let editModeId = null;
     let pressTimer = null;
 
     function getDB() {
-      const data = localStorage.getItem('study_ios_haptic');
-      return data ? JSON.parse(data) : { Bangla: [], English: [], Math: [], GK: [], BCS: [] };
+      const data = localStorage.getItem('study_tracker_compact_db');
+      if (!data) {
+        setDB(initialData);
+        return initialData;
+      }
+      return JSON.parse(data);
     }
 
     function setDB(data) {
-      localStorage.setItem('study_ios_haptic', JSON.stringify(data));
+      localStorage.setItem('study_tracker_compact_db', JSON.stringify(data));
     }
 
     function renderTabs() {
@@ -428,18 +471,34 @@
       }
 
       list.forEach(item => {
+        const total = Number(item.total) || 1;
+        const comp = Number(item.completed) || 0;
+        const pct = Math.min(100, Math.round((comp / total) * 100));
+        const isFinished = pct === 100;
+
         const row = document.createElement('div');
         row.className = 'topic-row';
         row.innerHTML = `
           <div class="topic-row-top">
             <span class="topic-row-title">${item.title}</span>
-            <span class="topic-row-date">${item.date}</span>
+            <span class="topic-row-stat">${pct}%</span>
           </div>
-          <div class="topic-row-note">${item.notes || 'কোনো নোট নেই'}</div>
+
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill ${isFinished ? 'completed' : ''}" style="width: ${pct}%"></div>
+          </div>
+
+          <div class="progress-info">
+            <span>পড়েছেন: ${comp} / ${total}</span>
+            <span>${Math.max(0, total - comp)} টি বাকি</span>
+          </div>
         `;
 
-        // Touch & Hold (Mobile Long Press)
-        row.addEventListener('touchstart', (e) => {
+        // Card tap korle direct edit sheet khulbe
+        row.onclick = () => openEditDirect(item.id);
+
+        // Mobile Long Press for Delete/Edit Context Menu
+        row.addEventListener('touchstart', () => {
           pressTimer = setTimeout(() => {
             if (navigator.vibrate) navigator.vibrate(40);
             showContextMenu(item.id);
@@ -449,7 +508,6 @@
         row.addEventListener('touchend', () => clearTimeout(pressTimer));
         row.addEventListener('touchmove', () => clearTimeout(pressTimer));
 
-        // Desktop Right Click / Long Click
         row.addEventListener('contextmenu', (e) => {
           e.preventDefault();
           showContextMenu(item.id);
@@ -457,6 +515,20 @@
 
         container.appendChild(row);
       });
+    }
+
+    function openEditDirect(id) {
+      const db = getDB();
+      const item = (db[currentSubject] || []).find(i => i.id === id);
+      if (item) {
+        editModeId = id;
+        document.getElementById('sheetHeading').innerText = 'টপিক এডিট করুন';
+        document.getElementById('topicName').value = item.title;
+        document.getElementById('topicTotal').value = item.total;
+        document.getElementById('topicCompleted').value = item.completed;
+        document.getElementById('saveBtn').innerText = 'আপডেট করুন';
+        document.getElementById('sheetOverlay').style.display = 'flex';
+      }
     }
 
     function showContextMenu(id) {
@@ -473,16 +545,7 @@
     function triggerEdit() {
       const id = activeTargetId;
       document.getElementById('contextMenuOverlay').style.display = 'none';
-      const db = getDB();
-      const item = (db[currentSubject] || []).find(i => i.id === id);
-      if (item) {
-        editModeId = id;
-        document.getElementById('sheetHeading').innerText = 'টপিক এডিট করুন';
-        document.getElementById('topicName').value = item.title;
-        document.getElementById('topicNotes').value = item.notes;
-        document.getElementById('saveBtn').innerText = 'আপডেট করুন';
-        document.getElementById('sheetOverlay').style.display = 'flex';
-      }
+      openEditDirect(id);
     }
 
     function triggerDelete() {
@@ -498,8 +561,9 @@
       editModeId = null;
       document.getElementById('sheetHeading').innerText = 'নতুন টপিক যোগ করুন';
       document.getElementById('topicName').value = '';
-      document.getElementById('topicNotes').value = '';
-      document.getElementById('saveBtn').innerText = 'সেভ করুন';
+      document.getElementById('topicTotal').value = '';
+      document.getElementById('topicCompleted').value = '0';
+      document.getElementById('saveBtn').innerText = 'সংরক্ষণ করুন';
       document.getElementById('sheetOverlay').style.display = 'flex';
       setTimeout(() => document.getElementById('topicName').focus(), 150);
     }
@@ -512,10 +576,15 @@
 
     function saveData() {
       const title = document.getElementById('topicName').value.trim();
-      const notes = document.getElementById('topicNotes').value.trim();
+      const total = parseInt(document.getElementById('topicTotal').value, 10);
+      const completed = parseInt(document.getElementById('topicCompleted').value, 10) || 0;
 
       if (!title) {
         alert('টপিকের নাম লিখুন!');
+        return;
+      }
+      if (isNaN(total) || total <= 0) {
+        alert('সঠিক মোট প্রশ্নের সংখ্যা দিন!');
         return;
       }
 
@@ -526,15 +595,15 @@
         const item = list.find(i => i.id === editModeId);
         if (item) {
           item.title = title;
-          item.notes = notes;
-          item.date = new Date().toLocaleDateString('bn-BD', { day: 'numeric', month: 'short' });
+          item.total = total;
+          item.completed = Math.min(completed, total);
         }
       } else {
         list.unshift({
           id: Date.now(),
           title: title,
-          notes: notes,
-          date: new Date().toLocaleDateString('bn-BD', { day: 'numeric', month: 'short' })
+          total: total,
+          completed: Math.min(completed, total)
         });
       }
 
