@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ইংরেজি সম্পূর্ণ প্রশ্ন, সমাধান ও ব্যাখ্যা ব্যাংক (৩৩৩টি প্রশ্ন) - BILAS ACADEMY</title>
+<style>
+  :root {
+    --primary: #1e3a8a;
+    --primary-soft: #eff6ff;
+    --accent-gold: #f59e0b;
+    --dark: #0f172a;
+    --slate: #475569;
+    --card-bg: #ffffff;
+    --page-bg: #f8fafc;
+    --border-color: #e2e8f0;
+    --ans-bg: #f0fdf4;
+    --ans-border: #22c55e;
+    --exp-bg: #fffbeb;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'SolaimanLipi', 'Kalpurush', 'Noto Sans Bengali', Arial, sans-serif;
+    background-color: var(--page-bg);
+    color: var(--dark);
+    line-height: 1.6;
+    padding: 10px;
+  }
+  .app-container {
+    max-width: 980px;
+    margin: 0 auto;
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+  }
+  .hero-header {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 60%, #0284c7 100%);
+    color: #ffffff;
+    padding: 24px 16px;
+    text-align: center;
+  }
+  .hero-header h1 { font-size: 22px; margin-bottom: 6px; }
+  .hero-header p { font-size: 13px; color: #cbd5e1; }
+  .smart-toolbar {
+    background: #ffffff;
+    border-bottom: 2px solid var(--border-color);
+    padding: 10px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .btn-action {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid transparent;
+  }
+  .btn-fav-filter { background: #fffbeb; color: #b45309; border-color: #fcd34d; }
+  .btn-fav-filter.active { background: #f59e0b; color: #fff; }
+  .btn-toggle-all { background: var(--primary-soft); color: var(--primary); border-color: #bfdbfe; }
+  .category-nav {
+    display: flex;
+    overflow-x: auto;
+    padding: 8px 12px;
+    background: #f8fafc;
+    border-bottom: 1px solid var(--border-color);
+    gap: 6px;
+  }
+  .cat-pill {
+    white-space: nowrap;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--slate);
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    padding: 3px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+  .cat-pill.active {
+    background: var(--primary);
+    color: #ffffff;
+  }
+  .content-body { padding: 14px; }
+  .cards-stack { display: flex; flex-direction: column; gap: 8px; }
+  .q-card {
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: #ffffff;
+  }
+  .q-card.is-favorite { border-color: #f59e0b; background: #fffdfa; }
+  .card-top { display: flex; align-items: stretch; }
+  .q-trigger {
+    flex: 1;
+    padding: 10px 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e293b;
+    cursor: pointer;
+    border: none;
+    background: none;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .q-num { color: var(--primary); font-weight: 700; margin-right: 4px; }
+  .reveal-hint {
+    font-size: 11px;
+    color: #0284c7;
+    background: #e0f2fe;
+    padding: 2px 6px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .btn-star {
+    border: none;
+    background: none;
+    padding: 0 12px;
+    font-size: 18px;
+    color: #cbd5e1;
+    cursor: pointer;
+    border-left: 1px solid #f1f5f9;
+  }
+  .btn-star:hover, .q-card.is-favorite .btn-star { color: #f59e0b; }
+  .ans-drawer {
+    display: none;
+    padding: 10px 12px;
+    background-color: var(--ans-bg);
+    border-top: 1px dashed #bbf7d0;
+    border-left: 4px solid var(--ans-border);
+    font-size: 13.5px;
+  }
+  .ans-drawer.show { display: block; }
+  .ans-primary { font-weight: 700; color: #047857; margin-bottom: 4px; }
+  .ans-explain {
+    background: var(--exp-bg);
+    border: 1px solid #fde68a;
+    border-radius: 4px;
+    padding: 5px 8px;
+    font-size: 12.5px;
+    color: #92400e;
+    margin-top: 4px;
+  }
+  #empty-fav-message {
+    display: none;
+    text-align: center;
+    padding: 30px;
+    background: #fffbeb;
+    border: 1px dashed #fcd34d;
+    border-radius: 8px;
+    color: #92400e;
+    margin: 15px 0;
+  }
+  footer {
+    background: #0f172a;
+    color: #94a3b8;
+    text-align: center;
+    padding: 16px;
+    font-size: 12px;
+  }
+</style>
+</head>
+<body>
+
+<div class="app-container">
+  <header class="hero-header">
+    <h1>ইংরেজি সম্পূর্ণ প্রশ্ন, সমাধান ও ব্যাখ্যা ব্যাংক</h1>
+    <p>বিগত সকল লিখিত পরীক্ষার প্রতিটি প্রশ্নের পুঙ্খানুপুঙ্খ সংকলন (মোট ৩৩৩টি প্রশ্ন)</p>
+  </header>
+
+  <div class="smart-toolbar">
+    <div>
+      <button class="btn-action btn-fav-filter" id="favFilterBtn" onclick="toggleFavoriteFilter()">
+        ★ প্রিয় প্রশ্নগুলো দেখুন (<span id="favCountBadge">০</span>)
+      </button>
+      <button class="btn-action btn-toggle-all" onclick="toggleAllAnswers()">সব উত্তর একসাথে খুলুন</button>
+    </div>
+    <div style="font-size: 12px; color: #64748b;">মোট প্রশ্ন: <strong>৩৩৩</strong> টি</div>
+  </div>
+
+  <div class="category-nav" id="catNav">
+    <span class="cat-pill active" onclick="filterCategory('All')">সকল প্রশ্ন (৩৩৩)</span>
+    <span class="cat-pill" onclick="filterCategory('অনুবাদ')">অনুবাদ (৮৭)</span>
+    <span class="cat-pill" onclick="filterCategory('Preposition')">Preposition (৫৪)</span>
+    <span class="cat-pill" onclick="filterCategory('Article')">Article (১৭)</span>
+    <span class="cat-pill" onclick="filterCategory('Conjunction & Vocab')">Conjunction/Vocab (১৩)</span>
+    <span class="cat-pill" onclick="filterCategory('Transformation')">Transformation (২১)</span>
+    <span class="cat-pill" onclick="filterCategory('Narration')">Narration (৫)</span>
+    <span class="cat-pill" onclick="filterCategory('Voice Change')">Voice Change (২৩)</span>
+    <span class="cat-pill" onclick="filterCategory('Correction')">Correction (১২)</span>
+    <span class="cat-pill" onclick="filterCategory('Idioms')">Idioms (২১)</span>
+    <span class="cat-pill" onclick="filterCategory('Number, Gender, Spelling')">Grammar & Spelling (৬৮)</span>
+    <span class="cat-pill" onclick="filterCategory('Writing')">Paragraph & Letter (১২)</span>
+  </div>
+
+  <div class="content-body">
+    <div id="empty-fav-message">
+      <h3>⭐ এখনও কোনো প্রশ্ন ফেভারিট করা হয়নি!</h3>
+      <p>ডানপাশে থাকা স্টার (☆) আইকনে ক্লিক করে প্রয়োজনীয় প্রশ্ন ফেভারিট তালিকায় যুক্ত করুন।</p>
+    </div>
+
+    <div class="cards-stack" id="cardsContainer">
+      <!-- 333টি প্রশ্ন জাভাস্ক্রিপ্ট দিয়ে স্বয়ংক্রিয়ভাবে লোড হবে -->
+    </div>
+  </div>
+
+  <footer>
+    <p>সংকলন: <strong>BILAS ACADEMY</strong> • অফিস সহায়ক ইংরেজি পূর্ণাঙ্গ মাস্টার ব্যাংক</p>
+  </footer>
+</div>
+
+<script>
+const bnNums = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+function toBnNum(n) {
+  return n.toString().split('').map(d => bnNums[parseInt(d)] || d).join('');
+}
+
+// ৩৩৩টি প্রশ্নের সম্পূর্ণ ডেটাবেজ
+const questionsData = [
+  // ১. অনুবাদ (১ - ৮৭)
+  { id: 1, cat: "অনুবাদ", q: "ঢাকা বুড়িগঙ্গার তীরে অবস্থিত।", a: "Dhaka is situated on the bank of the Buriganga. (or: Dhaka stands on the Buriganga.)", exp: "নদীর তীরে অবস্থিত বোঝাতে 'situated on the bank of' বা 'stands on' বসে। [বিসিএস প্রশাসন]" },
+  { id: 2, cat: "অনুবাদ", q: "আগামীকাল আমরা খুলনা যাব।", a: "We will go to Khulna tomorrow.", exp: "Future Indefinite Tense (shall/will + base verb)। [বিসিএস প্রশাসন]" },
+  { id: 3, cat: "অনুবাদ", q: "রহিম একটি বেসরকারি প্রতিষ্ঠানে চাকরি পেয়েছে।", a: "Rahim has got a job in a private organization.", exp: "Present Perfect Tense (has got)। [বিসিএস প্রশাসন]" },
+  { id: 4, cat: "অনুবাদ", q: "আমার মেয়ে স্কুলে পড়ে।", a: "My daughter reads in a school. (or: goes to school)", exp: "স্কুলে পড়া অর্থে reads in a school। [বিসিএস প্রশাসন]" },
+  { id: 5, cat: "অনুবাদ", q: "মিথ্যা বলা মহাপাপ।", a: "To tell a lie is a great sin. (or: Telling a lie is a great sin.)", exp: "মিথ্যা বলায় সর্বদা 'tell a lie' বসে। [বিসিএস প্রশাসন]" },
+  { id: 6, cat: "অনুবাদ", q: "সে আসবে কি আসবে না আমি জানি না।", a: "I do not know whether he will come or not.", exp: "বিকল্প বা অনিশ্চয়তায় whether... or not বসে। [বিপিএসসি]" },
+  { id: 7, cat: "অনুবাদ", q: "যতই পড়িবে ততই জানিবে।", a: "The more you read, the more you learn.", exp: "The + comparative... the + comparative গঠন। [বিপিএসসি]" },
+  { id: 8, cat: "অনুবাদ", q: "জ্ঞান অন্বেষণে আমাদের সর্বত্র যাওয়া উচিত।", a: "We should go everywhere in quest of knowledge.", exp: "অন্বেষণে = in quest of। [বিপিএসসি]" },
+  { id: 9, cat: "অনুবাদ", q: "দয়া করে একজন ডাক্তার ডাক।", a: "Please call in a doctor.", exp: "ডাক্তার ডেকে আনা অর্থে Phrasal verb হলো 'call in'। [বিপিএসসি]" },
+  { id: 10, cat: "অনুবাদ", q: "সকালে হাঁটা স্বাস্থ্যের জন্য উপকারী।", a: "Walking in the morning is good for health.", exp: "Gerund সাবজেক্ট হিসেবে কাজ করেছে। [বিপিএসসি]" },
+  { id: 11, cat: "অনুবাদ", q: "টাকায় টাকা হয়।", a: "Money begets money.", exp: "সুপরিচিত ইংরেজি প্রবাদ। [চুয়াডাঙ্গা আদালত]" },
+  { id: 12, cat: "অনুবাদ", q: "গত মঙ্গলবার হতে বৃষ্টি হচ্ছে।", a: "It has been raining since last Tuesday.", exp: "নির্দিষ্ট সূচনাকালে 'since' বসে। [চুয়াডাঙ্গা আদালত]" },
+  { id: 13, cat: "অনুবাদ", q: "যে দেশকে ভালোবাসে সে একজন দেশপ্রেমিক।", a: "He who loves his country is a patriot.", exp: "Relative pronoun 'who'-এর সঠিক প্রয়োগ। [চুয়াডাঙ্গা আদালত]" },
+  { id: 14, cat: "অনুবাদ", q: "বাংলাদেশ একটি নদীমাতৃক দেশ।", a: "Bangladesh is a riverine country.", exp: "নদীমাতৃক = riverine। [চুয়াডাঙ্গা আদালত]" },
+  { id: 15, cat: "অনুবাদ", q: "ঢাকা কোন দেশের রাজধানী?", a: "Which country is Dhaka the capital of?", exp: "Interrogative প্রশ্ন গঠন। [চুয়াডাঙ্গা আদালত]" },
+  { id: 16, cat: "অনুবাদ", q: "মেয়েটি হাসতে হাসতে চলে গেল।", a: "The girl went away laughing.", exp: "ক্রিয়ার সমান্তরালে Participle (laughing) বসেছে। [কাস্টমস রিস্ক]" },
+  { id: 17, cat: "অনুবাদ", q: "দুই ঘণ্টা ধরে গুঁড়িগুঁড়ি বৃষ্টি হচ্ছে।", a: "It has been drizzling for two hours.", exp: "গুঁড়িগুঁড়ি বৃষ্টি = drizzle; ব্যপ্তিকালে for। [কাস্টমস রিস্ক]" },
+  { id: 18, cat: "অনুবাদ", q: "সে কিছুই রেখে যায়নি।", a: "He has left nothing behind.", exp: "রেখে যাওয়া = leave behind। [কাস্টমস রিস্ক]" },
+  { id: 19, cat: "অনুবাদ", q: "চাঁদের নিজস্ব আলো নেই।", a: "The moon has no light of its own.", exp: "নিজস্ব = of its own। [কাস্টমস রিস্ক]" },
+  { id: 20, cat: "অনুবাদ", q: "তার বাবা কাপড়ের ব্যবসা করেন।", a: "His father deals in cloth.", exp: "পণ্যের ব্যবসা করা = deal in। [কাস্টমস রিস্ক]" },
+  { id: 21, cat: "অনুবাদ", q: "আমি চা খাই।", a: "I take tea. (or: I have tea.)", exp: "চা পান করা অর্থে take/have বসে। [নওগাঁ ডিসি]" },
+  { id: 22, cat: "অনুবাদ", q: "আমি সাঁতার জানি না।", a: "I do not know how to swim.", exp: "কৌশল জানায় know how to বসে। [নওগাঁ ডিসি]" },
+  { id: 23, cat: "অনুবাদ", q: "Grasp all, lose all. (বাংলা অনুবাদ)", a: "অতি লোভে তাঁতি নষ্ট।", exp: "ইংরেজি প্রবাদের বাংলা ভাবানুবাদ। [নওগাঁ ডিসি]" },
+  { id: 24, cat: "অনুবাদ", q: "দুইটা বাজতে দশ মিনিট বাকি।", a: "It is ten minutes to two.", exp: "বাজতে বাকি থাকলে 'to' বসে। [টাঙ্গাইল ডিসি]" },
+  { id: 25, cat: "অনুবাদ", q: "তুমি কি কখনো বিদেশে গিয়েছ?", a: "Have you ever been abroad?", exp: "কখনো কোথাও যাওয়া অর্থে have you ever been to/abroad। [টাঙ্গাইল ডিসি]" },
+  { id: 26, cat: "অনুবাদ", q: "স্বদেশপ্রীতি একটি মহৎ গুণ।", a: "Patriotism is a noble virtue.", exp: "চিরন্তন সত্য বাক্য। [টাঙ্গাইল ডিসি]" },
+  { id: 27, cat: "অনুবাদ", q: "সে ইংরেজিতে ভালো।", a: "He is good at English.", exp: "দক্ষ অর্থে good at বসে। [টাঙ্গাইল ডিসি]" },
+  { id: 28, cat: "অনুবাদ", q: "ইচ্ছা থাকলেই উপায় হয়।", a: "Where there is a will, there is a way.", exp: "ইংরেজি প্রবাদবাক্য। [কৃষি বিপণন]" },
+  { id: 29, cat: "অনুবাদ", q: "আয় বুঝে ব্যয় কর।", a: "Cut your coat according to your cloth.", exp: "ইংরেজি প্রবাদবাক্য। [কৃষি বিপণন]" },
+  { id: 30, cat: "অনুবাদ", q: "এখন বৃষ্টি পড়ছে।", a: "It is raining now.", exp: "Present Continuous Tense। [কৃষি বিপণন]" },
+  { id: 31, cat: "অনুবাদ", q: "ছেলেটি এত দুর্বল যে হাঁটতে পারে না।", a: "The boy is so weak that he cannot walk.", exp: "so... that + negative গঠন। [কৃষি বিপণন]" },
+  { id: 32, cat: "অনুবাদ", q: "বদঅভ্যাস ত্যাগ কর।", a: "Give up bad habits.", exp: "পরিত্যাগ করা = give up। [কৃষি বিপণন]" },
+  { id: 33, cat: "অনুবাদ", q: "সে সাঁতার কাটতে পারে না।", a: "He cannot swim.", exp: "Modal verb 'can'-এর প্রয়োগ। [বস্ত্র অধিদপ্তর]" },
+  { id: 34, cat: "অনুবাদ", q: "মুক্তিযোদ্ধারা জাতির শ্রেষ্ঠ সন্তান।", a: "Freedom fighters are the best sons of the nation.", exp: "Superlative degree। [বস্ত্র অধিদপ্তর]" },
+  { id: 35, cat: "অনুবাদ", q: "দুয়ে দুয়ে চার হয়।", a: "Two and two make four.", exp: "গাণিতিক সত্য বাক্য। [বস্ত্র অধিদপ্তর]" },
+  { id: 36, cat: "অনুবাদ", q: "নাচতে না জানলে উঠান বাঁকা।", a: "A bad workman quarrels with his tools.", exp: "ইংরেজি প্রবাদবাক্য। [বস্ত্র অধিদপ্তর]" },
+  { id: 37, cat: "অনুবাদ", q: "আমার মনে পড়ছে না।", a: "I cannot remember. (or: I cannot recall.)", exp: "স্মরণে না আসা = cannot remember। [বস্ত্র অধিদপ্তর]" },
+  { id: 38, cat: "অনুবাদ", q: "আমাকে বলতে হয়েছিল।", a: "I had to speak. (or: I had to tell.)", exp: "বাধ্যবাধকতায় had to + Verb। [খুলনা আদালত]" },
+  { id: 39, cat: "অনুবাদ", q: "তুমি কখন যাবে?", a: "When will you go?", exp: "ভবিষ্যতের ইন্টারোগেটিভ বাক্য। [খুলনা আদালত]" },
+  { id: 40, cat: "অনুবাদ", q: "কিছুক্ষণ অপেক্ষা করো।", a: "Wait for a while.", exp: "কিছুক্ষণ = for a while। [খুলনা আদালত]" },
+  { id: 41, cat: "অনুবাদ", q: "পদ্মা একটি বড় নদী।", a: "The Padma is a big river.", exp: "নদীর নামের পূর্বে The বসে। [খুলনা আদালত]" },
+  { id: 42, cat: "অনুবাদ", q: "গোলাপের গন্ধ মিষ্টি।", a: "The rose smells sweet.", exp: "Linking verb-এর পর Adjective (sweet) বসে। [খুলনা আদালত]" },
+  { id: 43, cat: "অনুবাদ", q: "তিনি সৎ লোক ছিলেন।", a: "He was an honest man.", exp: "Honest-এর পূর্বে an বসে। [ভূতাত্ত্বিক জরিপ]" },
+  { id: 44, cat: "অনুবাদ", q: "তিন ঘণ্টা যাবত বৃষ্টি হচ্ছে।", a: "It has been raining for three hours.", exp: "ব্যপ্তিকালে for বসে। [ভূতাত্ত্বিক জরিপ]" },
+  { id: 45, cat: "অনুবাদ", q: "মেয়েটি হাসতে হাসতে ঘরে ঢুকল।", a: "The girl entered the room laughing.", exp: "Participle (laughing) বসেছে। [ভূতাত্ত্বিক জরিপ]" },
+  { id: 46, cat: "অনুবাদ", q: "সূর্য পূর্ব দিকে ওঠে।", a: "The Sun rises in the east.", exp: "দিকের পূর্বে 'the' বসে। [ভূতাত্ত্বিক জরিপ]" },
+  { id: 47, cat: "অনুবাদ", q: "আজ শুক্রবার।", a: "Today is Friday. (or: It is Friday today.)", exp: "দিনের নাম Capital letter হয়। [ভূতাত্ত্বিক জরিপ]" },
+  { id: 48, cat: "অনুবাদ", q: "রতন কি স্কুলে যায়?", a: "Does Ratan go to school?", exp: "Does + Subject + Base verb। [স্বাস্থ্য মন্ত্রণালয়]" },
+  { id: 49, cat: "অনুবাদ", q: "বাঁচ এবং বাঁচতে দাও।", a: "Live and let live.", exp: "ইংরেজি প্রবাদবাক্য। [রেলপথ মন্ত্রণালয়]" },
+  { id: 50, cat: "অনুবাদ", q: "মেধার বলে একজন শিক্ষার্থী জীবনে সফল হয়।", a: "A student succeeds in life by dint of merit.", exp: "বলে/কারণে = by dint of। [রেলপথ মন্ত্রণালয়]" },
+  { id: 51, cat: "অনুবাদ", q: "খাদ্য নিরাপত্তার জন্য কৃষি শিক্ষা অপরিহার্য।", a: "Agricultural education is essential for food security.", exp: "সাধারণ সত্য বিবৃতি। [রেলপথ মন্ত্রণালয়]" },
+  { id: 52, cat: "অনুবাদ", q: "দুর্ঘটনাটি কোথায় ঘটেছিল?", a: "Where did the accident take place?", exp: "ঘটা = take place। [রেলপথ মন্ত্রণালয়]" },
+  { id: 53, cat: "অনুবাদ", q: "সে গতকাল ঢাকা এসেছে।", a: "He came to Dhaka yesterday.", exp: "Past Indefinite Tense। [রেলপথ মন্ত্রণালয়]" },
+  { id: 54, cat: "অনুবাদ", q: "সময় চলে যায়।", a: "Time flies.", exp: "ইংরেজি ইডিয়ম। [পানি সম্পদ মন্ত্রণালয়]" },
+  { id: 55, cat: "অনুবাদ", q: "সে হাসতে হাসতে চলে গেল।", a: "He went away laughing.", exp: "Participle (laughing)। [পানি সম্পদ মন্ত্রণালয়]" },
+  { id: 56, cat: "অনুবাদ", q: "আম খেতে মিষ্টি।", a: "Mango tastes sweet.", exp: "Quasi-passive বাক্য। [পানি সম্পদ মন্ত্রণালয়]" },
+  { id: 57, cat: "অনুবাদ", q: "গাইতে গাইতে গায়েন।", a: "Practice makes a man perfect.", exp: "ইংরেজি প্রবাদবাক্য। [এসআরডিআই]" },
+  { id: 58, cat: "অনুবাদ", q: "মানুষ মাত্রই ভুল করে।", a: "To err is human.", exp: "আলেকজান্ডার পোপের উক্তি। [এসআরডিআই]" },
+  { id: 59, cat: "অনুবাদ", q: "এখন সাতটা বাজতে ২০ মিনিট বাকি।", a: "It is twenty minutes to seven now.", exp: "বাজতে বাকি অর্থে 'to' বসে। [এসআরডিআই]" },
+  { id: 60, cat: "অনুবাদ", q: "আজ অসহ্য গরম।", a: "It is terribly hot today.", exp: "অসহ্য গরম = terribly hot। [এসআরডিআই]" },
+  { id: 61, cat: "অনুবাদ", q: "এক মাঘে শীত যায় না।", a: "One swallow does not make a summer.", exp: "ইংরেজি প্রবাদবাক্য। [উৎসে কর ইউনিট]" },
+  { id: 62, cat: "অনুবাদ", q: "বিনয় মহত্ত্বের ভূষণ।", a: "Modesty is the embellishment of greatness.", exp: "মহত্ত্বের ভূষণ = embellishment of greatness। [উৎসে কর ইউনিট]" },
+  { id: 63, cat: "অনুবাদ", q: "সে হাঁপাতে হাঁপাতে এখানে আসল।", a: "He came here panting.", exp: "হাঁপানো = panting। [উৎসে কর ইউনিট]" },
+  { id: 64, cat: "অনুবাদ", q: "আমি গতকাল অফিসে যাইনি।", a: "I did not go to office yesterday.", exp: "Past Indefinite Negative। [পরিকল্পনা বিভাগ]" },
+  { id: 65, cat: "অনুবাদ", q: "আমরা কি সেখানে যাবো?", a: "Shall we go there?", exp: "ভবিষ্যতের প্রস্তাবমূলক প্রশ্ন। [পরিকল্পনা বিভাগ]" },
+  { id: 66, cat: "অনুবাদ", q: "তিনি একজন জ্ঞানী ব্যক্তি ছিলেন।", a: "He was a wise man.", exp: "জ্ঞানী = wise। [এনএসডিএ]" },
+  { id: 67, cat: "অনুবাদ", q: "বাংলাদেশ ১৯৭৪ সালে জাতিসংঘের সদস্যপদ লাভ করে।", a: "Bangladesh achieved membership of the United Nations in 1974.", exp: "Past Indefinite Tense। [এনএসডিএ]" },
+  { id: 68, cat: "অনুবাদ", q: "পরিবেশ রক্ষায় আমাদের সকলের গাছ লাগানো উচিত।", a: "We all should plant trees to protect the environment.", exp: "উচিত অর্থে should + Base verb। [এনএসডিএ]" },
+  { id: 69, cat: "অনুবাদ", q: "ফুলের সৌন্দর্য সবাইকে মুগ্ধ করে।", a: "The beauty of flowers charms everyone.", exp: "The beauty (Singular) তাই charms। [এনএসডিএ]" },
+  { id: 70, cat: "অনুবাদ", q: "বিদেশে দক্ষ কর্মীর চাহিদা রয়েছে।", a: "There is a demand for skilled workers abroad.", exp: "চাহিদা = demand for। [এনএসডিএ]" },
+  { id: 71, cat: "অনুবাদ", q: "ঢেঁকি স্বর্গে গেলেও ধান ভানে।", a: "Habit is the second nature.", exp: "ইংরেজি প্রবাদবাক্য। [কর অঞ্চল-২৪]" },
+  { id: 72, cat: "অনুবাদ", q: "আমি তোমাকে খাওয়াবো।", a: "I will feed you.", exp: "খাওয়ানো = feed। [কর অঞ্চল-২৪]" },
+  { id: 73, cat: "অনুবাদ", q: "এখন আমার হাত খালি।", a: "I am empty-handed now.", exp: "হাত খালি = empty-handed / hard up। [কর অঞ্চল-২৪]" },
+  { id: 74, cat: "অনুবাদ", q: "সদা সত্য কথা বলবে।", a: "Always speak the truth.", exp: "সত্য বলায় speak the truth বসে। [কর অঞ্চল-২]" },
+  { id: 75, cat: "অনুবাদ", q: "আয় বুঝে ব্যয় কর।", a: "Cut your coat according to your cloth.", exp: "ইংরেজি প্রবাদ। [কর অঞ্চল-২]" },
+  { id: 76, cat: "অনুবাদ", q: "সুন্দরবন বাঘের জন্য বিখ্যাত।", a: "The Sundarbans is famous for tigers.", exp: "বিখ্যাত = famous for। [কর অঞ্চল-২]" },
+  { id: 77, cat: "অনুবাদ", q: "দুয়ে দুয়ে চার হয়।", a: "Two and two make four.", exp: "গাণিতিক সত্য। [কর অঞ্চল-১৮]" },
+  { id: 78, cat: "অনুবাদ", q: "যুদ্ধ মানবজাতির জন্য অভিশাপ।", a: "War is a curse for mankind.", exp: "অভিশাপ = curse। [কর অঞ্চল-১৮]" },
+  { id: 79, cat: "অনুবাদ", q: "আলতাফ মাহমুদ (মরণোত্তর) স্বাধীনতা পুরস্কার লাভ করেন।", a: "Altaf Mahmud was awarded the Independence Award posthumously.", exp: "মরণোত্তর = posthumously। [কর অঞ্চল-১৮]" },
+  { id: 80, cat: "অনুবাদ", q: "তুমি হাসছো কেন?", a: "Why are you laughing?", exp: "Present Continuous Interrogative। [কর অঞ্চল-১৮]" },
+  { id: 81, cat: "অনুবাদ", q: "সূর্য পূর্ব দিকে উদিত হয়।", a: "The Sun rises in the east.", exp: "চিরন্তন সত্য। [কর অঞ্চল-১৮]" },
+  { id: 82, cat: "অনুবাদ", q: "ডাক্তার আসিবার পূর্বেই রোগী মারা গেল।", a: "The patient had died before the doctor came.", exp: "Past Perfect + before + Past Indefinite। [আয়কর গোয়েন্দা]" },
+  { id: 83, cat: "অনুবাদ", q: "সে তিন বছর যাবৎ ঢাকায় বসবাস করিতেছে।", a: "He has been living in Dhaka for three years.", exp: "Present Perfect Continuous Tense। [আয়কর গোয়েন্দা]" },
+  { id: 84, cat: "অনুবাদ", q: "আমি, তুমি ও সে একত্রে যাব।", a: "You, he and I will go together.", exp: "231 নিয়ম (You, he and I)। [আয়কর গোয়েন্দা]" },
+  { id: 85, cat: "অনুবাদ", q: "সে সাঁতার জানে না।", a: "He does not know how to swim.", exp: "কৌশল না জানা অর্থে know how to। [কর গাজীপুর]" },
+  { id: 86, cat: "অনুবাদ", q: "সে কি স্কুলে যাচ্ছে না?", a: "Is he not going to school?", exp: "Negative-Interrogative। [কর গাজীপুর]" },
+  { id: 87, cat: "অনুবাদ", q: "আমি চা অপেক্ষা দুধ পছন্দ করি।", a: "I prefer milk to tea.", exp: "Prefer... to বসে (than নয়)। [কর গাজীপুর]" },
+
+  // ২. Preposition (৮৮ - ১৪১)
+  { id: 88, cat: "Preposition", q: "Rahim is afraid _____ dogs.", a: "of", exp: "ভীত হওয়া অর্থে afraid of বসে। [সেতু কর্তৃপক্ষ]" },
+  { id: 89, cat: "Preposition", q: "His house is adjacent _____ mine.", a: "to", exp: "সংলগ্ন অর্থে adjacent to বসে। [সেতু কর্তৃপক্ষ]" },
+  { id: 90, cat: "Preposition", q: "He was absorbed _____ deep thought.", a: "in", exp: "নিমগ্ন অর্থে absorbed in বসে। [সেতু কর্তৃপক্ষ]" },
+  { id: 91, cat: "Preposition", q: "The plane took off _____ time.", a: "on / in", exp: "নির্ধারিত সময়ে অর্থে on time। [বিপিএসসি]" },
+  { id: 92, cat: "Preposition", q: "Almost everybody has ambition _____ fame.", a: "for", exp: "উচ্চাকাঙ্ক্ষা অর্থে ambition for। [বিপিএসসি]" },
+  { id: 93, cat: "Preposition", q: "He is devoid _____ common sense.", a: "of", exp: "বর্জিত অর্থে devoid of বসে। [বিপিএসসি]" },
+  { id: 94, cat: "Preposition", q: "He is good _____ Mathematics.", a: "at", exp: "দক্ষ বোঝাতে good at বসে। [কাস্টমস রিস্ক]" },
+  { id: 95, cat: "Preposition", q: "We got _____ the train.", a: "into / on", exp: "ট্রেনে ওঠা অর্থে get into / on। [কাস্টমস রিস্ক]" },
+  { id: 96, cat: "Preposition", q: "He put his wallet _____ his pocket.", a: "into / in", exp: "ভেতরে প্রবেশের গতিময়তায় into বসে। [কাস্টমস রিস্ক]" },
+  { id: 97, cat: "Preposition", q: "I was pleased _____ your answer.", a: "with", exp: "সন্তুষ্ট অর্থে pleased with। [কাস্টমস রিস্ক]" },
+  { id: 98, cat: "Preposition", q: "He died _____ overeating.", a: "from", exp: "অতিরিক্ত খাওয়ার প্রভাবে মৃত্যুতে die from। [কাস্টমস রিস্ক]" },
+  { id: 99, cat: "Preposition", q: "He died _____ cholera.", a: "of", exp: "রোগে মৃত্যুতে die of বসে। [নওগাঁ ডিসি]" },
+  { id: 100, cat: "Preposition", q: "I bought this pen _____ one hundred Taka.", a: "for", exp: "মূল্যের পূর্বে for বসে। [টাঙ্গাইল ডিসি]" },
+  { id: 101, cat: "Preposition", q: "I will go to your house _____ Monday morning.", a: "on", exp: "দিন বা বারের পূর্বে on বসে। [টাঙ্গাইল ডিসি]" },
+  { id: 102, cat: "Preposition", q: "In which book did you keep the note? (Preposition)", a: "In", "exp": "স্থান প্রকাশক Preposition হলো In। [টাঙ্গাইল ডিসি]" },
+  { id: 103, cat: "Preposition", q: "The shop closes _____ midnight.", a: "at", exp: "নির্দিষ্ট মুহূর্তে at midnight বসে। [টাঙ্গাইল ডিসি]" },
+  { id: 104, cat: "Preposition", q: "We can go _____ the tunnel.", a: "through", exp: "মধ্য দিয়ে যাওয়া অর্থে through বসে। [টাঙ্গাইল ডিসি]" },
+  { id: 105, cat: "Preposition", q: "My book is different _____ yours.", a: "from", exp: "পৃথক অর্থে different from। [কৃষি বিপণন]" },
+  { id: 106, cat: "Preposition", q: "The jar was full _____ oil.", a: "of", exp: "পরিপূর্ণ অর্থে full of। [কৃষি বিপণন]" },
+  { id: 107, cat: "Preposition", q: "They are leaving _____ Bangladesh.", a: "for", exp: "গন্তব্যের উদ্দেশ্যে যাত্রা অর্থে leave for। [কৃষি বিপণন]" },
+  { id: 108, cat: "Preposition", q: "The house is opposite _____ ours.", a: "to", exp: "বিপরীত দিকে অর্থে opposite to। [কৃষি বিপণন]" },
+  { id: 109, cat: "Preposition", q: "Translate this passage _____ English.", a: "into", exp: "ভাষান্তর অর্থে translate into। [কৃষি বিপণন]" },
+  { id: 110, cat: "Preposition", q: "Death is common _____ all.", a: "to", exp: "সকলের ক্ষেত্রে সমভাবে প্রযোজ্য অর্থে common to। [প্রত্নতত্ত্ব অধিদপ্তর]" },
+  { id: 111, cat: "Preposition", q: "The man has no control _____ his sons.", a: "over", exp: "কর্তৃত্ব অর্থে control over। [প্রত্নতত্ত্ব অধিদপ্তর]" },
+  { id: 112, cat: "Preposition", q: "Poverty is a barrier _____ his success.", a: "to", exp: "প্রতিবন্ধকতা অর্থে barrier to। [প্রত্নতত্ত্ব অধিদপ্তর]" },
+  { id: 113, cat: "Preposition", q: "Curd is made _____ milk.", a: "from", exp: "উপাদান অদৃশ্য হলে made from বসে। [বস্ত্র অধিদপ্তর]" },
+  { id: 114, cat: "Preposition", q: "He was accused _____ theft.", a: "of", exp: "অভিযুক্ত অর্থে accused of বসে। [বস্ত্র অধিদপ্তর]" },
+  { id: 115, cat: "Preposition", q: "They entered _____ the room.", a: "No preposition", exp: "সরাসরি প্রবেশ করা অর্থে enter-এর পর Preposition বসে না। [মৎস্য অধিদপ্তর]" },
+  { id: 116, cat: "Preposition", q: "My birthday is _____ February.", a: "in", exp: "মাসের নামের পূর্বে in বসে। [মৎস্য অধিদপ্তর]" },
+  { id: 117, cat: "Preposition", q: "He will finish the work _____ a month.", a: "in / within", exp: "নির্দিষ্ট সময়ের মধ্যে অর্থে within/in। [মৎস্য অধিদপ্তর]" },
+  { id: 118, cat: "Preposition", q: "Divide the mangoes _____ them.", a: "among / between", exp: "বহুজনের মধ্যে বন্টনে among বসে। [মৎস্য অধিদপ্তর]" },
+  { id: 119, cat: "Preposition", q: "We should not laugh _____ the poor.", a: "at", exp: "উপহাস করা অর্থে laugh at বসে। [মৎস্য অধিদপ্তর]" },
+  { id: 120, cat: "Preposition", q: "I am not bad _____ football.", a: "at", exp: "কাঁচা বা মন্দ অর্থে bad at। [ভূতাত্ত্বিক জরিপ]" },
+  { id: 121, cat: "Preposition", q: "I agreed _____ what you say.", a: "with / to", exp: "একমত হওয়া অর্থে agree with/to। [ভূতাত্ত্বিক জরিপ]" },
+  { id: 122, cat: "Preposition", q: "Open _____ page 50.", a: "at", exp: "পৃষ্ঠা খোলা অর্থে open at বসে। [ভূতাত্ত্বিক জরিপ]" },
+  { id: 123, cat: "Preposition", q: "Please see the answer _____ page 50.", a: "on / at", exp: "পৃষ্ঠায় দেখার নির্দেশনায় on/at বসে। [রেলপথ মন্ত্রণালয়]" },
+  { id: 124, cat: "Preposition", q: "The child gets afraid _____ cockroach.", a: "of", exp: "ভীত হওয়া অর্থে afraid of। [পানি সম্পদ মন্ত্রণালয়]" },
+  { id: 125, cat: "Preposition", q: "He prevented me _____ going there.", a: "from", exp: "বাধা দেওয়া অর্থে prevent from। [পানি সম্পদ মন্ত্রণালয়]" },
+  { id: 126, cat: "Preposition", q: "I am familiar _____ them.", a: "with", exp: "পরিচিত অর্থে familiar with। [পানি সম্পদ মন্ত্রণালয়]" },
+  { id: 127, cat: "Preposition", q: "Never jump _____ conclusions.", a: "to", exp: "হঠাৎ সিদ্ধান্ত নেওয়া অর্থে jump to conclusions। [পানি সম্পদ মন্ত্রণালয়]" },
+  { id: 128, cat: "Preposition", q: "The stars are _____ the world.", a: "above", exp: "উঁচুতে অবস্থান অর্থে above বসে। [এনএসডিএ]" },
+  { id: 129, cat: "Preposition", q: "You should abstain _____ smoking.", a: "from", exp: "বিরত থাকা অর্থে abstain from। [এনএসডিএ]" },
+  { id: 130, cat: "Preposition", q: "He died _____ overeating.", a: "from", exp: "অতিরিক্ত খাওয়ার কারণে মৃত্যুতে die from। [এনএসডিএ]" },
+  { id: 131, cat: "Preposition", q: "He is accustomed _____ the new rules.", a: "to", exp: "অভ্যস্ত অর্থে accustomed to। [এনএসডিএ]" },
+  { id: 132, cat: "Preposition", q: "He was deprived _____ his rights.", a: "of", exp: "বঞ্চিত অর্থে deprived of। [এনএসডিএ]" },
+  { id: 133, cat: "Preposition", q: "The paper is _____ the table.", a: "on", exp: "তলের ওপর স্পর্শ লেগে থাকলে on বসে। [কর অঞ্চল-২]" },
+  { id: 134, cat: "Preposition", q: "Now it is _____ 5 a.m.", a: "about", exp: "প্রায় অর্থে about বসে। [কর অঞ্চল-২]" },
+  { id: 135, cat: "Preposition", q: "What time is it _____ your watch?", a: "by", exp: "ঘড়ির সময় জানতে by your watch বসে। [কর অঞ্চল-২]" },
+  { id: 136, cat: "Preposition", q: "I have no prejudice _____ any religion.", a: "against", exp: "কুসংস্কার বা পক্ষপাতিত্ব অর্থে prejudice against। [আয়কর গোয়েন্দা]" },
+  { id: 137, cat: "Preposition", q: "The teacher congratulated the students _____ their bright result.", a: "on / upon", exp: "অভিনন্দন জানাতে congratulate on বসে। [আয়কর গোয়েন্দা]" },
+  { id: 138, cat: "Preposition", q: "He died _____ suicide.", a: "by", exp: "আত্মহত্যায় মৃত্যুতে die by বসে। [আয়কর গোয়েন্দা]" },
+  { id: 139, cat: "Preposition", q: "He was accused _____ negligence.", a: "of", exp: "অভিযুক্ত অর্থে accused of বসে। [কর গাজীপুর]" },
+  { id: 140, cat: "Preposition", q: "The authorities took him _____ task.", a: "to", exp: "তিরস্কার করা = take to task। [কর গাজীপুর]" },
+  { id: 141, cat: "Preposition", q: "The ball is _____ my head.", a: "above / over", exp: "মাথার ওপর অর্থে above/over বসে। [কর গাজীপুর]" },
+
+  // ৩. Article (১৪২ - ১৫৮)
+  { id: 142, cat: "Article", q: "I saw _____ one-eyed man.", a: "a", exp: "'O'-এর উচ্চারণ 'ওয়া' হওয়ায় a বসে। [নওগাঁ ডিসি]" },
+  { id: 143, cat: "Article", q: "He is _____ FRCS.", a: "an", exp: "উচ্চারণ ভাওয়েল সাউন্ড (এফ) দিয়ে শুরু হওয়ায় an বসে। [বস্ত্র অধিদপ্তর]" },
+  { id: 144, cat: "Article", q: "Have you seen _____ ewe?", a: "a", exp: "Ewe-এর উচ্চারণ 'ইউ' হওয়ায় a বসে। [মৎস্য অধিদপ্তর]" },
+  { id: 145, cat: "Article", q: "He took _____ short sleep.", a: "a", exp: "সংক্ষিপ্ত ঘুমে a short sleep বসে। [মৎস্য অধিদপ্তর]" },
+  { id: 146, cat: "Article", q: "Of the two girls, she is _____ better.", a: "the", exp: "দুজনের মধ্যে নির্দিষ্ট বাছাইয়ে the বসে। [মৎস্য অধিদপ্তর]" },
+  { id: 147, cat: "Article", q: "Bangladesh is _____ land of rivers.", a: "a", exp: "সাধারণ বর্ণনায় a land of rivers। [ভূতাত্ত্বিক জরিপ]" },
+  { id: 148, cat: "Article", q: "Don't tell _____ lie.", a: "a", exp: "মিথ্যা বলায় tell a lie বসে। [ভূতাত্ত্বিক জরিপ]" },
+  { id: 149, cat: "Article", q: "He lives in _____ K.S.A.", a: "the", exp: "Kingdom সংযুক্ত সংক্ষিপ্ত দেশের নামের পূর্বে The বসে। [স্বাস্থ্য মন্ত্রণালয়]" },
+  { id: 150, cat: "Article", q: "This is _____ better of _____ two.", a: "the, the", exp: "তুলনায় the better এবং the two বসে। [রেলপথ মন্ত্রণালয়]" },
+  { id: 151, cat: "Article", q: "_____ Nelson is a British Warship.", a: "The", exp: "যুদ্ধজাহাজের নামের পূর্বে The বসে। [রেলপথ মন্ত্রণালয়]" },
+  { id: 152, cat: "Article", q: "He leads _____ most unhappy life.", a: "a", exp: "Most যখন 'খুব' (very) অর্থ প্রকাশ করে তখন a বসে। [রেলপথ মন্ত্রণালয়]" },
+  { id: 153, cat: "Article", q: "_____ ant is _____ industrious creature.", a: "The / An, an", exp: "সমগ্র জাতিতে The ant এবং an industrious। [রেলপথ মন্ত্রণালয়]" },
+  { id: 154, cat: "Article", q: "He is _____ engineer.", a: "an", exp: "ভাওয়েল সাউন্ডে an বসে। [পরিকল্পনা বিভাগ]" },
+  { id: 155, cat: "Article", q: "_____ Titanic sank in 1912 A.D.", a: "The", exp: "বিখ্যাত জাহাজের পূর্বে The বসে। [পরিকল্পনা বিভাগ]" },
+  { id: 156, cat: "Article", q: "I saw _____ one-eyed man.", a: "a", exp: "'ওয়া' উচ্চারণে a বসে। [কর অঞ্চল-২]" },
+  { id: 157, cat: "Article", q: "Omor was _____ great khalifa.", a: "a", exp: "অনির্দিষ্ট একবচনে a বসে। [কর অঞ্চল-২]" },
+  { id: 158, cat: "Article", q: "I saw _____ aunt.", a: "an", exp: "ভাওয়েল সাউন্ডে an বসে। [কর অঞ্চল-২]" },
+
+  // ৪. Conjunction & Vocab (১৫৯ - ১৭১)
+  { id: 159, cat: "Conjunction & Vocab", q: "_____ I didn't understand everything, I enjoyed the lecture.", a: "Although / Though", exp: "যদিও... তবুও অর্থে Although বসে। [সেতু কর্তৃপক্ষ]" },
+  { id: 160, cat: "Conjunction & Vocab", q: "Hurry up _____ you will be late.", a: "or / otherwise", exp: "নতুবা অর্থে or/otherwise বসে। [সেতু কর্তৃপক্ষ]" },
+  { id: 161, cat: "Conjunction & Vocab", q: "Neither Rahim _____ his father works here.", a: "nor", exp: "Neither-এর সাথে সর্বদা nor বসে। [বিপিএসসি]" },
+  { id: 162, cat: "Conjunction & Vocab", q: "_____ you read, you will learn.", a: "The more (or If)", exp: "The more you read বা If you read। [বিপিএসসি]" },
+  { id: 163, cat: "Conjunction & Vocab", q: "Rahim is a rich man _____ not happy.", a: "but", exp: "বৈপরীত্যে but বসে। [চুয়াডাঙ্গা আদালত]" },
+  { id: 164, cat: "Conjunction & Vocab", q: "He was absent _____ he was sick.", a: "because / as", exp: "কারণে because বসে। [চুয়াডাঙ্গা আদালত]" },
+  { id: 165, cat: "Conjunction & Vocab", q: "Dhaka has a larger population _____ Chattogram.", a: "than", exp: "Comparative-এ than বসে। [চুয়াডাঙ্গা আদালত]" },
+  { id: 166, cat: "Conjunction & Vocab", q: "The simplest answer _____ often the correct one.", a: "is", exp: "Singular Subject-এ is বসে। [চুয়াডাঙ্গা আদালত]" },
+  { id: 167, cat: "Conjunction & Vocab", q: "The Johnsons family _____ living in France for several years...", a: "has been / have been", exp: "Present Perfect Continuous Tense। [চুয়াডাঙ্গা আদালত]" },
+  { id: 168, cat: "Conjunction & Vocab", q: "Recycling can _____ soil pollution.", a: "reduce / prevent", exp: "হ্রাস করা বা প্রতিরোধ করা। [প্রত্নতত্ত্ব অধিদপ্তর]" },
+  { id: 169, cat: "Conjunction & Vocab", q: "The word 'disposal' means _____.", a: "getting rid of / removal", exp: "Disposal = বর্জন বা অপসারণ। [প্রত্নতত্ত্ব অধিদপ্তর]" },
+  { id: 170, cat: "Conjunction & Vocab", q: "Noun form of the word 'Simple' is _____.", a: "Simplicity", exp: "Simple (Adj) -> Simplicity (Noun)। [বস্ত্র অধিদপ্তর]" },
+  { id: 171, cat: "Conjunction & Vocab", q: "_____ beautiful the garden is!", a: "How", exp: "Exclamatory বাক্যে How বসে। [স্বাস্থ্য মন্ত্রণালয়]" },
+
+  // ৫. Transformation (১৭২ - ১৯২)
+  { id: 172, cat: "Transformation", q: "A terrorist is hated by all. (Active)", a: "All hate a terrorist. (or: Everybody hates a terrorist.)", exp: "Present Indefinite Active গঠন। [প্রত্নতত্ত্ব অধিদপ্তর]" },
+  { id: 173, cat: "Transformation", q: "Only Allah can stop it. (Negative)", a: "None but Allah can stop it.", exp: "স্রষ্টার ক্ষেত্রে Only উঠে None but বসে। [প্রত্নতত্ত্ব অধিদপ্তর]" },
+  { id: 174, cat: "Transformation", q: "He was unmarried. (Negative)", a: "He was not married.", exp: "বিপরীত শব্দ married এবং not যোগ হয়েছে। [প্রত্নতত্ত্ব অধিদপ্তর]" },
+  { id: 175, cat: "Transformation", q: "I accepted the invitation and visited the beach. (Simple)", a: "Accepting the invitation, I visited the beach.", exp: "Present Participle ব্যবহার করে Simple করা হয়েছে। [প্রত্নতত্ত্ব অধিদপ্তর]" },
+  { id: 176, cat: "Transformation", q: "Mrs. Aklima was well known in the locality for amicable behaviours. (Active)", a: "People in the locality knew Mrs. Aklima well for amicable behaviours.", exp: "Passive-এ অবজেক্ট উহ্য থাকলে People আসে। [এনএসডিএ]" },
+  { id: 177, cat: "Transformation", q: "Bangladesh is one of the most vulnerable countries... (Positive degree)", a: "Very few countries in the world are as vulnerable as Bangladesh...", exp: "One of the থাকলে Very few দিয়ে শুরু হয়। [এনএসডিএ]" },
+  { id: 178, cat: "Transformation", q: "Only Sabbir can solve this problem. (Negative)", a: "None but Sabbir can solve this problem.", exp: "ব্যক্তির ক্ষেত্রে None but বসে। [এনএসডিএ]" },
+  { id: 179, cat: "Transformation", q: "As soon as he sensed danger, he fled. (Negative)", a: "No sooner had he sensed danger than he fled.", exp: "No sooner had... than নিয়ম। [কাস্টমস রিস্ক]" },
+  { id: 180, cat: "Transformation", q: "Unless you know the answer, you will not win. (Affirmative)", a: "If you know the answer, you will win.", exp: "Unless তুলে If বসানো হয়েছে। [কাস্টমস রিস্ক]" },
+  { id: 181, cat: "Transformation", q: "I know her previous success stories. (Complex)", a: "I know the success stories that she achieved previously.", exp: "that যুক্ত করে Complex করা হয়েছে। [কাস্টমস রিস্ক]" },
+  { id: 182, cat: "Transformation", q: "Everybody hates a liar. (Negative)", a: "Who does not hate a liar? (or: There is nobody but hates a liar.)", exp: "There is nobody but বা Who does not নিয়ম। [এসআরডিআই]" },
+  { id: 183, cat: "Transformation", q: "I know that he is a poet. (Simple)", a: "I know him to be a poet.", exp: "him to be a poet Simple রূপ। [এসআরডিআই]" },
+  { id: 184, cat: "Transformation", q: "He is one of the best boys in the class. (Positive degree)", a: "Very few boys in the class are as good as he.", exp: "Very few boys... as good as he। [এসআরডিআই]" },
+  { id: 185, cat: "Transformation", q: "Alas! He has failed. (Assertive)", a: "It is a matter of sorrow that he has failed.", exp: "Alas-এর বদলে It is a matter of sorrow that। [এসআরডিআই]" },
+  { id: 186, cat: "Transformation", q: "Today's sunlight is very soothing. (Parts of speech of 'soothing')", a: "Adjective / Participle", exp: "সূর্যালোকের স্নিগ্ধ অবস্থা প্রকাশ করায় Adjective। [টাঙ্গাইল ডিসি]" },
+  { id: 187, cat: "Transformation", q: "She is a beauty. (Parts of speech of 'beauty')", a: "Noun (Common Noun)", exp: "Article 'a' বসায় সুন্দরী নারী অর্থে Common Noun। [টাঙ্গাইল ডিসি]" },
+  { id: 188, cat: "Transformation", q: "Gold is a valuable metal. (Parts of speech of 'valuable')", a: "Adjective", exp: "metal-এর গুণ প্রকাশ করায় Adjective। [এসআরডিআই]" },
+  { id: 189, cat: "Transformation", q: "He walks slowly. (Parts of speech of 'slowly')", a: "Adverb", exp: "ক্রিয়া সম্পাদনের ধরন প্রকাশ করায় Adverb। [এসআরডিআই]" },
+  { id: 190, cat: "Transformation", q: "Lazy students fail in examination. (Parts of speech of 'fail')", a: "Verb", exp: "কাজ বা ব্যর্থ হওয়া প্রকাশ করায় Verb। [এসআরডিআই]" },
+  { id: 191, cat: "Transformation", q: "The birds flew over the head. (Parts of speech of 'flew')", a: "Verb", exp: "উড়ার কাজ প্রকাশ করায় Verb। [এসআরডিআই]" },
+  { id: 192, cat: "Transformation", q: "Who is the writer of 'The Merchant of Venice'?", a: "William Shakespeare", exp: "শেকসপিয়রের বিখ্যাত নাটক। [এনএসডিএ]" },
+
+  // ৬. Narration (১৯৩ - ১৯৭)
+  { id: 193, cat: "Narration", q: "Mr. Hasan said to Mrs. Halima, 'You may please admit your son at our computer learning centre.' (Indirect)", a: "Mr. Hasan requested Mrs. Halima to admit her son at their computer learning centre.", exp: "বিনম্র অনুরোধে requested + to + Base verb বসে। [এনএসডিএ]" },
+  { id: 194, cat: "Narration", q: "He said, 'I wrote letters.' (Indirect)", a: "He said that he had written letters.", exp: "Past Indefinite পরিবর্তিত হয়ে Past Perfect হয়। [এসআরডিআই]" },
+  { id: 195, cat: "Narration", q: "I said to him, 'May you be happy.' (Indirect)", a: "I prayed/wished that he might be happy.", exp: "Optative বাক্যে prayed/wished + might বসে। [এসআরডিআই]" },
+  { id: 196, cat: "Narration", q: "The teacher said, 'We cannot live without oxygen.' (Indirect)", a: "The teacher said that we cannot live without oxygen.", exp: "চিরন্তন বা বৈজ্ঞানিক সত্যের Tense পরিবর্তন হয় না। [পরিকল্পনা বিভাগ]" },
+  { id: 197, cat: "Narration", q: "You said, 'What a happy news it is!' (Indirect)", a: "You exclaimed with joy that it was a very happy news.", exp: "Exclamatory বাক্যে exclaimed with joy that বসে। [পরিকল্পনা বিভাগ]" },
+
+  // ৭. Voice Change (১৯৮ - ২২০)
+  { id: 198, cat: "Voice Change", q: "Never deceive anyone. (Passive)", a: "Let not anyone ever be deceived.", exp: "Let not + Object + ever be + V3। [কাস্টমস রিস্ক]" },
+  { id: 199, cat: "Voice Change", q: "Who was recommended by you? (Active)", a: "Whom did you recommend?", exp: "Whom did you recommend? [কাস্টমস রিস্ক]" },
+  { id: 200, cat: "Voice Change", q: "She reads a book. (Passive)", a: "A book is read by her.", exp: "Object + is + V3 + by + Subject। [নওগাঁ ডিসি]" },
+  { id: 201, cat: "Voice Change", q: "He is not known to me. (Active)", a: "I do not know him.", exp: "Passive-এ known to থাকলে Active-এ know বসে। [নওগাঁ ডিসি]" },
+  { id: 202, cat: "Voice Change", q: "He bought a book. (Passive)", a: "A book was bought by him.", exp: "Past Indefinite Passive গঠন। [কৃষি বিপণন]" },
+  { id: 203, cat: "Voice Change", q: "Open the door. (Passive)", a: "Let the door be opened.", exp: "Let + Object + be + V3। [কৃষি বিপণন]" },
+  { id: 204, cat: "Voice Change", q: "The rose smells sweet. (Passive)", a: "The rose is sweet when it is smelt.", exp: "Quasi-passive নিয়ম। [কৃষি বিপণন]" },
+  { id: 205, cat: "Voice Change", q: "I know him. (Passive)", a: "He is known to me.", exp: "Know-এর পর Passive-এ 'to' বসে। [কৃষি বিপণন]" },
+  { id: 206, cat: "Voice Change", q: "He was eating an apple. (Passive)", a: "An apple was being eaten by him.", exp: "Past Continuous: was being + V3। [কৃষি বিপণন]" },
+  { id: 207, cat: "Voice Change", q: "He annoyed me. (Passive)", a: "I was annoyed with him.", exp: "Annoy-এ ব্যক্তির প্রতি বিরক্ত হলে 'with' বসে। [প্রত্নতত্ত্ব অধিদপ্তর]" },
+  { id: 208, cat: "Voice Change", q: "Let him do the work. (Passive)", a: "Let the work be done by him.", exp: "Let + বস্তুবাচক Obj + be + V3 + by + ব্যক্তিবাচক Obj। [এসআরডিআই]" },
+  { id: 209, cat: "Voice Change", q: "I have a cow. (Passive)", a: "A cow is had by me.", exp: "Have-এর তাত্ত্বিক Passive রূপ। [এসআরডিআই]" },
+  { id: 210, cat: "Voice Change", q: "Let a balanced diet be taken. (Active)", a: "Take a balanced diet.", exp: "সরাসরি মূল Verb দিয়ে শুরু। [উৎসে কর ইউনিট]" },
+  { id: 211, cat: "Voice Change", q: "You are requested to open the tender. (Active)", a: "Please open the tender.", exp: "অনুরোধমূলক বাক্যে Please বসে। [উৎসে কর ইউনিট]" },
+  { id: 212, cat: "Voice Change", q: "Who stole my pen? (Passive)", a: "By whom was my pen stolen?", exp: "By whom + was + my pen + stolen? [উৎসে কর ইউনিট]" },
+  { id: 213, cat: "Voice Change", q: "A book was being read by me. (Active)", a: "I was reading a book.", exp: "Past Continuous Active রূপ। [পরিকল্পনা বিভাগ]" },
+  { id: 214, cat: "Voice Change", q: "Who is singing songs? (Passive)", a: "By whom are songs being sung?", exp: "songs বহুবচন হওয়ায় are being sung। [পরিকল্পনা বিভাগ]" },
+  { id: 215, cat: "Voice Change", q: "Where was he seen by you? (Active)", a: "Where did you see him?", exp: "Past Indefinite Interrogative। [কর অঞ্চল-২৪]" },
+  { id: 216, cat: "Voice Change", q: "The news will shock you. (Passive)", a: "You will be shocked at the news.", exp: "Shock-এ সংবাদের ক্ষেত্রে 'at' বসে। [কর অঞ্চল-২৪]" },
+  { id: 217, cat: "Voice Change", q: "Never tell a lie. (Passive)", a: "Let not a lie ever be told.", exp: "Let not + Obj + ever be + V3। [কর অঞ্চল-২৪]" },
+  { id: 218, cat: "Voice Change", q: "The science exhibition was opened by the principal. (Active)", a: "The principal opened the science exhibition.", exp: "Past Indefinite Active রূপ। [আয়কর গোয়েন্দা]" },
+  { id: 219, cat: "Voice Change", q: "We shall be taking tea. (Passive)", a: "Tea will be being taken by us.", exp: "Future Continuous Passive গঠন। [আয়কর গোয়েন্দা]" },
+  { id: 220, cat: "Voice Change", q: "Do the sum. (Passive)", a: "Let the sum be done.", exp: "Let + Obj + be + V3। [আয়কর গোয়েন্দা]" },
+
+  // ৮. Correction (২২১ - ২৩২)
+  { id: 221, cat: "Correction", q: "Quran is a holy book. (Correct)", a: "The Quran is a holy book.", exp: "পবিত্র ধর্মগ্রন্থের পূর্বে The বসে। [সেতু কর্তৃপক্ষ]" },
+  { id: 222, cat: "Correction", q: "One should do his duty. (Correct)", a: "One should do one's duty.", exp: "One-এর Possessive হলো one's। [সেতু কর্তৃপক্ষ]" },
+  { id: 223, cat: "Correction", q: "He gave me wrong informations. (Correct)", a: "He gave me wrong information.", exp: "Information সর্বদা Uncountable। [সেতু কর্তৃপক্ষ]" },
+  { id: 224, cat: "Correction", q: "He learns the poem by memory. (Correct)", a: "He learns the poem by heart.", exp: "মুখস্থ করা = learn by heart। [সেতু কর্তৃপক্ষ]" },
+  { id: 225, cat: "Correction", q: "Does he has a house? (Correct)", a: "Does he have a house?", exp: "Does বসলে মূল Verb have হয়। [সেতু কর্তৃপক্ষ]" },
+  { id: 226, cat: "Correction", q: "Are/Is/Am she dancing on the stage? (Correct)", a: "Is she dancing on the stage?", exp: "She-এর সাথে Is বসে। [নওগাঁ ডিসি]" },
+  { id: 227, cat: "Correction", q: "Make present continuous: Mina walks slowly.", a: "Mina is walking slowly.", exp: "Subject + is + Verb+ing। [নওগাঁ ডিসি]" },
+  { id: 228, cat: "Correction", q: "He go to college. (Correct)", a: "He goes to college.", exp: "3rd person singular-এ goes বসে। [আইএমইডি]" },
+  { id: 229, cat: "Correction", q: "Ten miles are a long distance. (Correct)", a: "Ten miles is a long distance.", exp: "দূরত্বের সমষ্টিতে Verb Singular (is) হয়। [আইএমইডি]" },
+  { id: 230, cat: "Correction", q: "I have eat rice. (Correct)", a: "I have eaten rice.", exp: "have-এর পর Past Participle (eaten) বসে। [আইএমইডি]" },
+  { id: 231, cat: "Correction", q: "Walking are good for health. (Correct)", a: "Walking is good for health.", exp: "Gerund সাবজেক্ট হলে Verb Singular হয়। [আইএমইডি]" },
+  { id: 232, cat: "Correction", q: "Dhaka is capital of the Bangladesh. (Correct)", a: "Dhaka is the capital of Bangladesh.", exp: "the capital of Bangladesh। [আইএমইডি]" },
+
+  // ৯. Idioms (২৩৩ - ২৫৩)
+  { id: 233, cat: "Idioms", q: "Red letter day", a: "স্মরণীয় দিন", exp: "The 26th March is a red letter day in our history. [কাস্টমস রিস্ক]" },
+  { id: 234, cat: "Idioms", q: "Bread and butter", a: "জীবিকা", exp: "Teaching is his primary bread and butter. [কাস্টমস রিস্ক]" },
+  { id: 235, cat: "Idioms", q: "Break the ice", a: "জড়তা ভেঙে কথা শুরু করা", exp: "He told a joke to break the ice. [কাস্টমস রিস্ক]" },
+  { id: 236, cat: "Idioms", q: "Rule of thumb", a: "অভিজ্ঞতানির্ভর বাস্তব নিয়ম", exp: "As a rule of thumb, check twice. [কাস্টমস রিস্ক]" },
+  { id: 237, cat: "Idioms", q: "In a nutshell", a: "সংক্ষেপে", exp: "Tell me the story in a nutshell. [কাস্টমস রিস্ক]" },
+  { id: 238, cat: "Idioms", q: "Rag day", a: "শিক্ষাজীবনের শেষ দিনের উৎসব", exp: "They celebrated their rag day joyfully. [প্রত্নতত্ত্ব অধিদপ্তর]" },
+  { id: 239, cat: "Idioms", q: "Of late", a: "সম্প্রতি", exp: "I have not seen him of late. [প্রত্নতত্ত্ব অধিদপ্তর]" },
+  { id: 240, cat: "Idioms", q: "Get on", a: "উঠা বা অগ্রসর হওয়া", exp: "He helped her get on the bus. [প্রত্নতত্ত্ব অধিদপ্তর]" },
+  { id: 241, cat: "Idioms", q: "Fair play", a: "ন্যায়পরায়ণতা ও সততা", exp: "We expect absolute fair play in exam. [প্রত্নতত্ত্ব অধিদপ্তর]" },
+  { id: 242, cat: "Idioms", q: "Cut short", a: "সংক্ষেপ বা স্থগিত করা", exp: "We had to cut short our tour. [প্রত্নতত্ত্ব অধিদপ্তর]" },
+  { id: 243, cat: "Idioms", q: "Call off", a: "বাতিল বা প্রত্যাহার করা", exp: "The authority called off the strike. [বস্ত্র অধিদপ্তর]" },
+  { id: 244, cat: "Idioms", q: "Once in a while", a: "মাঝে মাঝে", exp: "He visits his village once in a while. [বস্ত্র অধিদপ্তর]" },
+  { id: 245, cat: "Idioms", q: "Part and parcel", a: "অবিচ্ছেদ্য অংশ", exp: "Discipline is part and parcel of success. [বস্ত্র অধিদপ্তর]" },
+  { id: 246, cat: "Idioms", q: "Cats and dogs", a: "মুষলধারে", exp: "It is raining cats and dogs. [স্বাস্থ্য মন্ত্রণালয়]" },
+  { id: 247, cat: "Idioms", q: "Cancer", a: "মারাত্মক সামাজিক ব্যাধি", exp: "Corruption is a cancer in society. [স্বাস্থ্য মন্ত্রণালয়]" },
+  { id: 248, cat: "Idioms", q: "Birds of a feather", a: "একই স্বভাবের লোক", exp: "They are birds of a feather. [আয়কর গোয়েন্দা]" },
+  { id: 249, cat: "Idioms", q: "Crying need", a: "অতি জরুরি প্রয়োজন", exp: "Education is a crying need for all. [আয়কর গোয়েন্দা]" },
+  { id: 250, cat: "Idioms", q: "Hue and cry", a: "শোরগোল বা হৈচৈ", exp: "They raised a hue and cry for help. [আয়কর গোয়েন্দা]" },
+  { id: 251, cat: "Idioms", q: "Make out", a: "বুঝতে পারা", exp: "I cannot make out his writing. [কর গাজীপুর]" },
+  { id: 252, cat: "Idioms", q: "Rainy day", a: "দুর্দিন বা অভাবের সময়", exp: "Save some money for a rainy day. [কর গাজীপুর]" },
+  { id: 253, cat: "Idioms", q: "In the long run", a: "অবশেষে বা পরিণামে", exp: "Honesty pays in the long run. [কর গাজীপুর]" },
+
+  // ১০. Number, Gender, Spelling (২৫৪ - ৩২১)
+  { id: 254, cat: "Number, Gender, Spelling", q: "Photo (Plural)", a: "Photos", exp: "সংক্ষেপিত শব্দে s যুক্ত হয়। [বিসিএস প্রশাসন]" },
+  { id: 255, cat: "Number, Gender, Spelling", q: "Thief (Plural)", a: "Thieves", exp: "f উঠে ves হয়। [বিসিএস প্রশাসন]" },
+  { id: 256, cat: "Number, Gender, Spelling", q: "Mouse (Plural)", a: "Mice", exp: "ভাওয়েল বদলে Mice। [বিসিএস প্রশাসন]" },
+  { id: 257, cat: "Number, Gender, Spelling", q: "Leaf (Plural)", a: "Leaves", exp: "f উঠে ves। [বিসিএস প্রশাসন]" },
+  { id: 258, cat: "Number, Gender, Spelling", q: "Tooth (Plural)", a: "Teeth", exp: "oo বদলে ee (Teeth)। [বিসিএস প্রশাসন]" },
+  { id: 259, cat: "Number, Gender, Spelling", q: "Cloth (Plural)", a: "Cloths / Clothes", exp: "কাপড়ের টুকরো Cloths; পোশাক Clothes। [কর অঞ্চল-২৪]" },
+  { id: 260, cat: "Number, Gender, Spelling", q: "Oasis (Plural)", a: "Oases", exp: "is উঠে es হয়। [কর অঞ্চল-২৪]" },
+  { id: 261, cat: "Number, Gender, Spelling", q: "Geese (Singular)", a: "Goose", exp: "Geese-এর একবচন Goose। [কর অঞ্চল-২৪]" },
+  { id: 262, cat: "Number, Gender, Spelling", q: "Knife (Plural)", a: "Knives", exp: "fe উঠে ves। [কর গাজীপুর]" },
+  { id: 263, cat: "Number, Gender, Spelling", q: "Story (Plural)", a: "Stories", exp: "y উঠে ies। [কর গাজীপুর]" },
+  { id: 264, cat: "Number, Gender, Spelling", q: "Salesman (Plural)", a: "Salesmen", exp: "man বদলে men। [কর গাজীপুর]" },
+  { id: 265, cat: "Number, Gender, Spelling", q: "Horse (Gender)", a: "Mare", exp: "ঘোটকী = Mare। [বিসিএস প্রশাসন]" },
+  { id: 266, cat: "Number, Gender, Spelling", q: "Lion (Gender)", a: "Lioness", exp: "সিংহী = Lioness। [বিসিএস প্রশাসন]" },
+  { id: 267, cat: "Number, Gender, Spelling", q: "Heir (Gender)", a: "Heiress", exp: "উত্তরাধিকারিণী = Heiress। [বিসিএস প্রশাসন]" },
+  { id: 268, cat: "Number, Gender, Spelling", q: "Widow (Gender)", a: "Widower", exp: "বিপত্নীক = Widower। [বিসিএস প্রশাসন]" },
+  { id: 269, cat: "Number, Gender, Spelling", q: "Niece (Gender)", a: "Nephew", exp: "ভাগ্নে = Nephew। [বিসিএস প্রশাসন]" },
+  { id: 270, cat: "Number, Gender, Spelling", q: "Lord (Gender)", a: "Lady", exp: "Lord-এর স্ত্রীলিঙ্গ Lady। [মৎস্য অধিদপ্তর]" },
+  { id: 271, cat: "Number, Gender, Spelling", q: "Cock (Gender)", a: "Hen", exp: "মুরগি = Hen। [মৎস্য অধিদপ্তর]" },
+  { id: 272, cat: "Number, Gender, Spelling", q: "Dog (Gender)", a: "Bitch", exp: "মাদি কুকুর = Bitch। [ভূতাত্ত্বিক জরিপ]" },
+  { id: 273, cat: "Number, Gender, Spelling", q: "Lad (Gender)", a: "Lass", exp: "কিশোরী = Lass। [ভূতাত্ত্বিক জরিপ]" },
+  { id: 274, cat: "Number, Gender, Spelling", q: "Nephew (Gender)", a: "Niece", exp: "ভাগ্নি = Niece। [ভূতাত্ত্বিক জরিপ]" },
+  { id: 275, cat: "Number, Gender, Spelling", q: "Milkman (Gender)", a: "Milkmaid", exp: "গোয়ালিনী = Milkmaid। [ভূতাত্ত্বিক জরিপ]" },
+  { id: 276, cat: "Number, Gender, Spelling", q: "Gentleman (Gender)", a: "Gentlewoman / Lady", exp: "ভদ্রমহিলা = Lady/Gentlewoman। [ভূতাত্ত্বিক জরিপ]" },
+  { id: 277, cat: "Number, Gender, Spelling", q: "Bride (Gender)", a: "Bridegroom", exp: "বর = Bridegroom। [পানি সম্পদ মন্ত্রণালয়]" },
+  { id: 278, cat: "Number, Gender, Spelling", q: "Nephew (Gender)", a: "Niece", exp: "Nephew -> Niece। [পানি সম্পদ মন্ত্রণালয়]" },
+  { id: 279, cat: "Number, Gender, Spelling", q: "Lad (Gender)", a: "Lass", exp: "Lad -> Lass। [পানি সম্পদ মন্ত্রণালয়]" },
+  { id: 280, cat: "Number, Gender, Spelling", q: "Jewess (Gender)", a: "Jew", exp: "ইহুদি পুরুষ = Jew। [উৎসে কর ইউনিট]" },
+  { id: 281, cat: "Number, Gender, Spelling", q: "Enchanter (Gender)", a: "Enchantress", exp: "জাদুকরী = Enchantress। [উৎসে কর ইউনিট]" },
+  { id: 282, cat: "Number, Gender, Spelling", q: "Vixen (Gender)", a: "Fox", exp: "পুরুষ খেঁকশিয়াল = Fox। [উৎসে কর ইউনিট]" },
+  { id: 283, cat: "Number, Gender, Spelling", q: "Hero (Gender)", a: "Heroine", exp: "নায়িকা = Heroine। [পরিকল্পনা বিভাগ]" },
+  { id: 284, cat: "Number, Gender, Spelling", q: "Nephew (Gender)", a: "Niece", exp: "Nephew -> Niece। [পরিকল্পনা বিভাগ]" },
+  { id: 285, cat: "Number, Gender, Spelling", q: "Hart (Gender)", a: "Roe", exp: "স্ত্রী হরিণ = Roe। [কর অঞ্চল-২৪]" },
+  { id: 286, cat: "Number, Gender, Spelling", q: "Witch (Gender)", a: "Wizard", exp: "জাদুকর = Wizard। [কর অঞ্চল-২৪]" },
+  { id: 287, cat: "Number, Gender, Spelling", q: "Governess (Gender)", a: "Governor", exp: "শাসক = Governor। [কর অঞ্চল-২৪]" },
+  { id: 288, cat: "Number, Gender, Spelling", q: "Niece (Gender)", a: "Nephew", exp: "Niece -> Nephew। [কর অঞ্চল-২]" },
+  { id: 289, cat: "Number, Gender, Spelling", q: "Mare (Gender)", a: "Horse / Stallion", exp: "ঘোড়া = Horse। [কর অঞ্চল-২]" },
+  { id: 290, cat: "Number, Gender, Spelling", q: "Bee (Gender)", a: "Drone", exp: "পুরুষ মৌমাছি = Drone। [কর অঞ্চল-২]" },
+  { id: 291, cat: "Number, Gender, Spelling", q: "Priest (Gender)", a: "Priestess", exp: "নারী পুরোহিত = Priestess। [কর গাজীপুর]" },
+  { id: 292, cat: "Number, Gender, Spelling", q: "Horse (Gender)", a: "Mare", exp: "ঘোটকী = Mare। [কর গাজীপুর]" },
+  { id: 293, cat: "Number, Gender, Spelling", q: "Fisherman (Gender)", a: "Fisherwoman", exp: "জেলেনী = Fisherwoman। [কর গাজীপুর]" },
+  { id: 294, cat: "Number, Gender, Spelling", q: "Liquid (Opposite)", a: "Solid", exp: "তরলের বিপরীত কঠিন। [টাঙ্গাইল ডিসি]" },
+  { id: 295, cat: "Number, Gender, Spelling", q: "Correct (Opposite)", a: "Incorrect / Wrong", exp: "সঠিকের বিপরীত ভুল। [টাঙ্গাইল ডিসি]" },
+  { id: 296, cat: "Number, Gender, Spelling", q: "Relevant (Opposite)", a: "Irrelevant", exp: "প্রাসঙ্গিকের বিপরীত অপ্রাসঙ্গিক। [টাঙ্গাইল ডিসি]" },
+  { id: 297, cat: "Number, Gender, Spelling", q: "Loss (Opposite)", a: "Profit / Gain", exp: "ক্ষতির বিপরীত লাভ। [টাঙ্গাইল ডিসি]" },
+  { id: 298, cat: "Number, Gender, Spelling", q: "Accept (Opposite)", a: "Reject / Refuse", exp: "গ্রহণের বিপরীত প্রত্যাখ্যান। [কর অঞ্চল-২]" },
+  { id: 299, cat: "Number, Gender, Spelling", q: "Different (Opposite)", a: "Similar / Same", exp: "ভিন্নর বিপরীত সদৃশ। [কর অঞ্চল-২]" },
+  { id: 300, cat: "Number, Gender, Spelling", q: "General (Opposite)", a: "Particular / Specific", exp: "সাধারণের বিপরীত বিশেষ। [কর অঞ্চল-২]" },
+  { id: 301, cat: "Number, Gender, Spelling", q: "Comision (Spelling)", a: "Commission", exp: "Double m এবং Double s। [বিসিএস প্রশাসন]" },
+  { id: 302, cat: "Number, Gender, Spelling", q: "Pasion (Spelling)", a: "Passion", exp: "Double s (Passion)। [বিসিএস প্রশাসন]" },
+  { id: 303, cat: "Number, Gender, Spelling", q: "Contry (Spelling)", a: "Country", exp: "দেশ = Country। [বিসিএস প্রশাসন]" },
+  { id: 304, cat: "Number, Gender, Spelling", q: "Favorit (Spelling)", a: "Favourite / Favorite", exp: "সঠিক বানান Favourite। [বিসিএস প্রশাসন]" },
+  { id: 305, cat: "Number, Gender, Spelling", q: "Identety (Spelling)", a: "Identity", exp: "মাঝখানে 'i' বসে (Identity)। [বিসিএস প্রশাসন]" },
+  { id: 306, cat: "Number, Gender, Spelling", q: "Miscelaneous (Spelling)", a: "Miscellaneous", exp: "Double l (Miscellaneous)। [সেতু কর্তৃপক্ষ]" },
+  { id: 307, cat: "Number, Gender, Spelling", q: "Grivance (Spelling)", a: "Grievance", exp: "ie দিয়ে Grievance। [সেতু কর্তৃপক্ষ]" },
+  { id: 308, cat: "Number, Gender, Spelling", q: "Exagarate (Spelling)", a: "Exaggerate", exp: "Double g (Exaggerate)। [সেতু কর্তৃপক্ষ]" },
+  { id: 309, cat: "Number, Gender, Spelling", q: "Secretariet (Spelling)", a: "Secretariat", exp: "শেষে 'at' (Secretariat)। [সেতু কর্তৃপক্ষ]" },
+  { id: 310, cat: "Number, Gender, Spelling", q: "Pediatrie (Spelling)", a: "Pediatric / Paediatric", exp: "শেষে 'ic' (Pediatric)। [সেতু কর্তৃপক্ষ]" },
+  { id: 311, cat: "Number, Gender, Spelling", q: "চেয়ারম্যান (ইংরেজি বানান)", a: "Chairman", exp: "C-h-a-i-r-m-a-n। [নওগাঁ ডিসি]" },
+  { id: 312, cat: "Number, Gender, Spelling", q: "Comitte (Spelling)", a: "Committee", exp: "Double m, Double t, Double e। [স্বাস্থ্য মন্ত্রণালয়]" },
+  { id: 313, cat: "Number, Gender, Spelling", q: "Secretariate (Spelling)", a: "Secretariat", exp: "Secretariat (শেষে at)। [স্বাস্থ্য মন্ত্রণালয়]" },
+  { id: 314, cat: "Number, Gender, Spelling", q: "Reminesceance (Spelling)", a: "Reminiscence", exp: "স্মৃতিচারণ = Reminiscence। [উৎসে কর ইউনিট]" },
+  { id: 315, cat: "Number, Gender, Spelling", q: "Millinium (Spelling)", a: "Millennium", exp: "Double l এবং Double n। [উৎসে কর ইউনিট]" },
+  { id: 316, cat: "Number, Gender, Spelling", q: "Hipopotamos (Spelling)", a: "Hippopotamus", exp: "Double p (Hippopotamus)। [উৎসে কর ইউনিট]" },
+  { id: 317, cat: "Number, Gender, Spelling", q: "Secratariate (Spelling)", a: "Secretariat", exp: "Secretariat। [কর অঞ্চল-১৮]" },
+  { id: 318, cat: "Number, Gender, Spelling", q: "Neumonia (Spelling)", a: "Pneumonia", exp: "P অনুচ্চারিত থাকে (Pneumonia)। [কর অঞ্চল-১৮]" },
+  { id: 319, cat: "Number, Gender, Spelling", q: "Comiite (Spelling)", a: "Committee", exp: "Committee। [কর অঞ্চল-১৮]" },
+  { id: 320, cat: "Number, Gender, Spelling", q: "Preleminary (Spelling)", a: "Preliminary", exp: "Preliminary। [কর অঞ্চল-১৮]" },
+  { id: 321, cat: "Number, Gender, Spelling", q: "Comisioner (Spelling)", a: "Commissioner", exp: "Double m ও Double s। [কর অঞ্চল-১৮]" },
+
+  // ১১. Writing (৩২২ - ৩৩৩)
+  { id: 322, cat: "Writing", q: "Padma Bridge (Five Sentences)", a: "1. The Padma Bridge is the longest multipurpose bridge in Bangladesh (6.15 km).<br>2. Constructed with self-funding and opened on 25 June 2022.<br>3. It has a four-lane highway on upper deck and rail track below.<br>4. Directly connects 21 southwestern districts with Dhaka.<br>5. Contributes 1.23% to GDP growth.", exp: "পদ্মা সেতু বিষয়ক প্রমিত ৫ বাক্য। [সেতু কর্তৃপক্ষ]" },
+  { id: 323, cat: "Writing", q: "Your Childhood (Paragraph)", a: "1. Childhood was the happiest phase of my life.<br>2. Grew up in a green village with open fields.<br>3. Fond memories of swimming and playing with friends.<br>4. Caring parents and folk stories made days sweet.<br>5. Its innocence still brings peace to mind.", exp: "শৈশব স্মৃতি বর্ণনামূলক অনুচ্ছেদ। [চুয়াডাঙ্গা আদালত]" },
+  { id: 324, cat: "Writing", q: "Naogaon District (Paragraph)", a: "1. Naogaon is a northern district in Rajshahi division.<br>2. Famous for fine rice and delicious mangoes.<br>3. Home to UNESCO site Somapura Mahavihara at Paharpur.<br>4. Kusumba Mosque is another prime heritage site.<br>5. Played active role under Sector 7 in 1971.", exp: "নওগাঁ জেলা পরিচিতি। [নওগাঁ ডিসি]" },
+  { id: 325, cat: "Writing", q: "International Mother Language Day (Five Sentences)", a: "1. Observed worldwide on 21st February.<br>2. Commemorates supreme sacrifice of Bengali language martyrs in 1952.<br>3. Proclaimed by UNESCO on 17 November 1999.<br>4. People walk barefoot to Shaheed Minar with flowers.<br>5. Inspires preservation of all mother tongues.", exp: "আন্তর্জাতিক মাতৃভাষা দিবস। [টাঙ্গাইল ডিসি]" },
+  { id: 326, cat: "Writing", q: "Environment Pollution (Paragraph)", a: "1. Environment pollution is a critical threat today.<br>2. Smoke, deforestation, and plastic contaminate nature.<br>3. Causes respiratory and waterborne diseases.<br>4. Leads to alarming global climate change.<br>5. Tree plantation and clean energy are vital.", exp: "পরিবেশ দূষণ সংক্রান্ত অনুচ্ছেদ। [কৃষি বিপণন]" },
+  { id: 327, cat: "Writing", q: "Short Passage on 'Lalbag Fort'", a: "1. Historic 17th-century Mughal fort in Old Dhaka.<br>2. Construction began in 1678 by Prince Muhammad Azam.<br>3. Contains Tomb of Pari Bibi, Diwan-i-Aam and Mosque.<br>4. Has beautiful gardens and underground tunnels.<br>5. Top tourist destination in Bangladesh.", exp: "লালবাগ কেল্লা পরিচিতি। [প্রত্নতত্ত্ব অধিদপ্তর]" },
+  { id: 328, cat: "Writing", q: "Application for 3 Days Casual Leave", a: "To: Assistant Director, Dept of Textiles.<br>Subject: Application for 3 days casual leave.<br>Sir, Praying for 3 days casual leave from [Date] to [Date] due to sudden family illness.<br>Yours obediently, [Name], Office Sahayak.", exp: "ছুটির দরখাস্তের প্রমিত রূপ। [বস্ত্র অধিদপ্তর]" },
+  { id: 329, cat: "Writing", q: "Letter Inviting a Friend to Book Fair", a: "Dear Friend, Inviting you warmly to visit Dhaka this February for Amar Ekushey Boi Mela at Bangla Academy. It is the most vibrant literary gathering. Looking forward to your visit. Warm regards, [Name].", exp: "বইমেলায় বন্ধুকে আমন্ত্রণপত্র। [আইন মন্ত্রণালয়]" },
+  { id: 330, cat: "Writing", q: "Bangabandhu and Bangladesh (Paragraph)", a: "1. Bangabandhu is the Father of the Nation.<br>2. Dedicated life for Bengali emancipation.<br>3. Historic 7th March speech united freedom fighters.<br>4. Led Bangladesh to independent sovereignty in 1971.<br>5. Bangabandhu and Bangladesh are indivisible.", exp: "বঙ্গবন্ধু ও বাংলাদেশ অনুচ্ছেদ। [আইএমইডি]" },
+  { id: 331, cat: "Writing", q: "Importance of Technical Education", a: "1. Imparts practical skills demanded by industry.<br>2. Curtails youth unemployment through job readiness.<br>3. Immense demand locally and abroad.<br>4. Vital for Fourth Industrial Revolution (4IR).<br>5. Drives sustainable economic growth.", exp: "কারিগরি শিক্ষার গুরুত্ব। [এনএসডিএ]" },
+  { id: 332, cat: "Writing", q: "Short Note on 'My School Life'", a: "1. School life was my most formative chapter.<br>2. Gained knowledge, values, and friendships.<br>3. Enjoyed sports and playground tiffin breaks.<br>4. Teachers shaped character with discipline.<br>5. Memories remain a lifelong treasure.", exp: "বিদ্যালয় স্মৃতি অনুচ্ছেদ। [কর অঞ্চল-২৪]" },
+  { id: 333, cat: "Writing", q: "Short Note on 'Traffic Jam in Dhaka City'", a: "1. Traffic jam is a severe daily hardship in Dhaka.<br>2. Excessive vehicles and narrow roads aggravate it.<br>3. Daily working hours and economic output are lost.<br>4. Metro Rail has provided major relief.<br>5. Strict traffic laws are essential.", exp: "ঢাকার যানজট বিষয়ক টিকা। [আয়কর গোয়েন্দা]" }
+];
+
+let favorites = new Set();
+let showFavOnly = false;
+let allOpened = false;
+let currentCat = "All";
+
+function initApp() {
+  try {
+    const saved = localStorage.getItem('bilas_eng_favs_unabridged');
+    if (saved) favorites = new Set(JSON.parse(saved));
+  } catch(e) {}
+  renderCards();
+  updateFavBadge();
+}
+
+function renderCards() {
+  const container = document.getElementById('cardsContainer');
+  container.innerHTML = '';
+  
+  let visibleCount = 0;
+  
+  questionsData.forEach(item => {
+    const isFav = favorites.has(item.id);
+    if (showFavOnly && !isFav) return;
+    if (currentCat !== "All" && item.cat !== currentCat) return;
+
+    visibleCount++;
+    const card = document.createElement('div');
+    card.className = `q-card ${isFav ? 'is-favorite' : ''}`;
+    card.setAttribute('data-id', item.id);
+    
+    card.innerHTML = `
+      <div class="card-top">
+        <button class="q-trigger" onclick="toggleAns(${item.id})">
+          <span><span class="q-num">${toBnNum(item.id)}.</span> ${item.q}</span>
+          <span class="reveal-hint">উত্তর ▾</span>
+        </button>
+        <button class="btn-star" onclick="toggleFav(${item.id})">${isFav ? '★' : '☆'}</button>
+      </div>
+      <div class="ans-drawer" id="ans-${item.id}">
+        <div class="ans-primary">Answer: ${item.a}</div>
+        <div class="ans-explain">ব্যাখ্যা: ${item.exp}</div>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+
+  const emptyMsg = document.getElementById('empty-fav-message');
+  if (showFavOnly && visibleCount === 0) {
+    emptyMsg.style.display = 'block';
+  } else {
+    emptyMsg.style.display = 'none';
+  }
+}
+
+function toggleAns(id) {
+  const el = document.getElementById('ans-' + id);
+  if (el) el.classList.toggle('show');
+}
+
+function toggleFav(id) {
+  if (favorites.has(id)) favorites.delete(id);
+  else favorites.add(id);
+  
+  try {
+    localStorage.setItem('bilas_eng_favs_unabridged', JSON.stringify(Array.from(favorites)));
+  } catch(e) {}
+  
+  updateFavBadge();
+  renderCards();
+}
+
+function updateFavBadge() {
+  document.getElementById('favCountBadge').innerText = toBnNum(favorites.size);
+}
+
+function toggleFavoriteFilter() {
+  showFavOnly = !showFavOnly;
+  const btn = document.getElementById('favFilterBtn');
+  btn.classList.toggle('active', showFavOnly);
+  renderCards();
+}
+
+function filterCategory(cat) {
+  currentCat = cat;
+  document.querySelectorAll('.cat-pill').forEach(pill => {
+    pill.classList.toggle('active', pill.innerText.includes(cat) || (cat === 'All' && pill.innerText.includes('সকল')));
+  });
+  renderCards();
+}
+
+function toggleAllAnswers() {
+  allOpened = !allOpened;
+  document.querySelectorAll('.ans-drawer').forEach(d => {
+    if (allOpened) d.classList.add('show');
+    else d.classList.remove('show');
+  });
+}
+
+window.addEventListener('DOMContentLoaded', initApp);
+</script>
+</body>
+</html>

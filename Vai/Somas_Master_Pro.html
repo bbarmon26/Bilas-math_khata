@@ -1,0 +1,2069 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>সমাস মাস্টার - আল্টিমেট প্রো</title>
+    <style>
+        /* Modern Animated Background */
+        body {
+            font-family: 'Kalpurush', 'SolaimanLipi', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(-45deg, #141e30, #243b55, #4b6cb7, #182848);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            scroll-behavior: smooth;
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Glassmorphism Main Container */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            max-width: 850px;
+            width: 100%;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+            margin-bottom: 50px;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 32px;
+            background: linear-gradient(to right, #ff9966, #ff5e62);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            border-bottom: 2px dashed rgba(255,255,255,0.2);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        /* Toolbar Styles */
+        .toolbar {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .search-box {
+            flex-grow: 1;
+            padding: 15px 25px;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(0,0,0,0.4);
+            color: #fff;
+            font-size: 18px;
+            outline: none;
+            transition: 0.3s;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+        }
+        .search-box:focus {
+            border-color: #ff9966;
+            background: rgba(0,0,0,0.6);
+            box-shadow: 0 0 15px rgba(255, 153, 102, 0.4);
+        }
+        .btn {
+            background: linear-gradient(135deg, #ff9966, #ff5e62);
+            color: #fff;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 94, 98, 0.4);
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 94, 98, 0.6);
+        }
+
+        /* Item Styles */
+        .samas-item {
+            margin-bottom: 20px;
+            font-size: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 15px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            scroll-margin-top: 100px;
+        }
+        .samas-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-left: 4px solid #ff9966;
+            transform: scale(1.01);
+        }
+        .samas-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+        .serial {
+            color: #ff9966;
+            font-weight: bold;
+            font-size: 22px;
+            min-width: 45px;
+        }
+        .samas-word {
+            flex-grow: 1;
+            background: rgba(255, 153, 102, 0.15);
+            border-bottom: 2px dashed #ff9966;
+            padding: 5px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: #ffcc99;
+            transition: 0.3s;
+            font-weight: bold;
+            font-size: 22px;
+            text-align: center;
+        }
+        .samas-word:hover {
+            background: #ff9966;
+            color: #000;
+        }
+        .answer {
+            display: none;
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            color: #000;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 18px;
+            animation: bounceIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-top: 10px;
+            line-height: 1.6;
+        }
+        
+        /* Floating Right Navigator */
+        .right-nav {
+            position: fixed;
+            right: 30px;
+            bottom: 30px;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 100;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden; 
+            width: 65px;
+            height: 65px;
+        }
+        .right-nav.expanded {
+            border-radius: 25px;
+            width: 70px;
+            height: 290px;
+            padding-top: 15px;
+            padding-bottom: 10px;
+            cursor: default;
+        }
+        .rocket-toggle {
+            font-size: 30px;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 65px;
+        }
+        .nav-panel-contents {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            height: 0;
+            pointer-events: none;
+        }
+        .right-nav.expanded .nav-panel-contents {
+            opacity: 1;
+            height: auto;
+            pointer-events: auto;
+            margin-bottom: 5px;
+        }
+        .jump-input {
+            width: 40px;
+            padding: 8px 5px;
+            border-radius: 8px;
+            border: 1px solid #ff9966;
+            background: rgba(0,0,0,0.5);
+            color: #fff;
+            text-align: center;
+            outline: none;
+        }
+        .jump-btn {
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.8) translateY(-10px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        
+        .fav-icon {
+            cursor: pointer;
+            font-size: 26px;
+            color: rgba(255,255,255,0.2);
+            transition: 0.3s;
+        }
+        .fav-icon.active {
+            color: #f6d365;
+        }
+
+        @media (max-width: 768px) {
+            .glass-panel { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="glass-panel">
+        <h2>✨ সমাস মাস্টার 📚</h2>
+        
+        <div class="toolbar">
+            <input type="text" id="searchInput" class="search-box" placeholder="🔍 সমস্ত পদ বা সমাস খুঁজুন..." onkeyup="filterItems()">
+            <button class="btn" id="favToggleBtn" onclick="toggleFavView()">⭐ ফেভারিটগুলো</button>
+            <button class="btn" onclick="scrollToLastRead()">🕒 শেষ পড়া স্থানে যান</button>
+        </div>
+
+        <div id="no-results" style="display:none; text-align:center;">কোনো ফলাফল পাওয়া যায়নি!</div>
+        <div id="samas-container"></div>
+    </div>
+
+    <div class="right-nav" id="rightNav" onclick="toggleNavPanel(event)">
+        <div class="nav-panel-contents">
+            <button style="background:none; border:none; cursor:pointer; font-size:20px;" onclick="window.scrollTo(0,0)">⬆️</button>
+            <div style="display:flex; flex-direction:column; gap:5px; align-items:center;">
+                <input type="number" id="jumpInput" class="jump-input" placeholder="নং">
+                <button class="jump-btn" onclick="jumpToQuestion()">যান</button>
+            </div>
+            <button style="background:none; border:none; cursor:pointer; font-size:20px;" onclick="window.scrollTo(0, document.body.scrollHeight)">⬇️</button>
+        </div>
+        <div class="rocket-toggle">🚀</div>
+    </div>
+
+    <script>
+        const samasData = [
+        {
+                "word": "অকাতর",
+                "byasbakya": "ন কাতর",
+                "samas": "নঞ তৎপুরুষ"
+        },
+        {
+                "word": "অকাল",
+                "byasbakya": "ন কাল",
+                "samas": "নঞ তৎপুরুষ"
+        },
+        {
+                "word": "অজ্ঞান",
+                "byasbakya": "নাই জ্ঞান যার",
+                "samas": "বহুব্রীহি সমাস"
+        },
+        {
+                "word": "অদ্বিতীয়",
+                "byasbakya": "নয় দ্বিতীয় যা",
+                "samas": "বহুব্রীহি সমাস"
+        },
+        {
+                "word": "অদ্যাবধি",
+                "byasbakya": "অদ্য পর্যন্ত",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "অনন্য",
+                "byasbakya": "নয় অন্য",
+                "samas": "নঞ তৎপুরুষ"
+        },
+        {
+                "word": "অনশন",
+                "byasbakya": "ন অশন",
+                "samas": "নঞ তৎপুরুষ"
+        },
+        {
+                "word": "অনাদর",
+                "byasbakya": "ন আদর",
+                "samas": "নঞ তৎপুরুষ"
+        },
+        {
+                "word": "অনুক্ষণ",
+                "byasbakya": "ক্ষণ ক্ষণ",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "অনুগমন",
+                "byasbakya": "পশ্চাৎ গমন",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "অনুতাপ",
+                "byasbakya": "অনুতে যে তাপ",
+                "samas": "প্রাদি সমাস"
+        },
+        {
+                "word": "অনুধাবন",
+                "byasbakya": "পশ্চাৎ ধাবন",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "অনুবাদ",
+                "byasbakya": "বাদের পশ্চাৎ",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "অনেক",
+                "byasbakya": "নয় এক",
+                "samas": "নঞ তৎপুরুষ"
+        },
+        {
+                "word": "অন্তরীপ",
+                "byasbakya": "অন্তর্গত অপ যার",
+                "samas": "বহুব্রীহি সমাস"
+        },
+        {
+                "word": "অপরাহ্ণ",
+                "byasbakya": "অহ্নের শেষভাগ",
+                "samas": "৬ষ্ঠী তৎপুরুষ"
+        },
+        {
+                "word": "অরুণরাঙা",
+                "byasbakya": "অরুণের ন্যায় রাঙা",
+                "samas": "উপমান কর্মধারয়"
+        },
+        {
+                "word": "অসাধু",
+                "byasbakya": "নয় সাধু",
+                "samas": "নঞ তৎপুরুষ"
+        },
+        {
+                "word": "অহর্নিশ",
+                "byasbakya": "অহ (দিন) ও নিশা",
+                "samas": "দ্বন্দ্ব সমাস"
+        },
+        {
+                "word": "অহি-নকুল",
+                "byasbakya": "অহি ও নকুল",
+                "samas": "দ্বন্দ্ব সমাস"
+        },
+        {
+                "word": "আজকাল",
+                "byasbakya": "আজ ও কাল",
+                "samas": "দ্বন্দ্ব সমাস"
+        },
+        {
+                "word": "আজানুলম্বিত",
+                "byasbakya": "জানু পর্যন্ত লম্বিত",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "আনন্দসাগর",
+                "byasbakya": "আনন্দ রূপ সাগর",
+                "samas": "রূপক কর্মধারয়"
+        },
+        {
+                "word": "আনন্দাশ্রু",
+                "byasbakya": "আনন্দে যে অশ্রু",
+                "samas": "কর্মধারয়"
+        },
+        {
+                "word": "আনাকম",
+                "byasbakya": "আনা কম যার",
+                "samas": "বহুব্রীহি"
+        },
+        {
+                "word": "আপনহারা",
+                "byasbakya": "আপনাকে হারা",
+                "samas": "তৎপুরুষ"
+        },
+        {
+                "word": "আবালবৃদ্ধবনিতা",
+                "byasbakya": "বালক, বৃদ্ধ ও বনিতা পর্যন্ত",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "আমরণ",
+                "byasbakya": "মরণ পর্যন্ত",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "আমরা",
+                "byasbakya": "তুমি, আমি ও সে",
+                "samas": "নিত্য সমাস"
+        },
+        {
+                "word": "আয়কর",
+                "byasbakya": "আয়ের উপর কর",
+                "samas": "মধ্যপদলোপী কর্মধারয়"
+        },
+        {
+                "word": "আয়তলোচনা",
+                "byasbakya": "আয়ত লোচন যার",
+                "samas": "বহুব্রীহি"
+        },
+        {
+                "word": "আলুনি",
+                "byasbakya": "লবণের অভাব",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "আশীবীষ",
+                "byasbakya": "আশীতে (দাঁতে) বিষ যার",
+                "samas": "বহুব্রীহি"
+        },
+        {
+                "word": "আশেপাশে",
+                "byasbakya": "আশে ও পাশে",
+                "samas": "দ্বন্দ্ব সমাস"
+        },
+        {
+                "word": "আশৈশব",
+                "byasbakya": "শৈশব থেকে",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "আসমুদ্রহিমাচল",
+                "byasbakya": "সমুদ্র থেকে হিমাচল পর্যন্ত",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "ইত্যাদি",
+                "byasbakya": "ইতি হতে আদি",
+                "samas": "৫মী তৎপুরুষ"
+        },
+        {
+                "word": "ইন্দ্রিয়গ্রাহ্য",
+                "byasbakya": "ইন্দ্রিয় দ্বারা গ্রাহ্য",
+                "samas": "তৎপুরুষ"
+        },
+        {
+                "word": "উচ্ছিৃঙ্খল",
+                "byasbakya": "শৃঙ্খলাকে অতিক্রান্ত",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "উচ্ছৃঙ্খল",
+                "byasbakya": "শৃঙ্খলাকে অতিক্রান্ত",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "উদ্বেল",
+                "byasbakya": "বেলাকে অতিক্রান্ত",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "উনিশ-বিশ",
+                "byasbakya": "উনিশ ও বিশ",
+                "samas": "দ্বন্দ্ব"
+        },
+        {
+                "word": "উপকণ্ঠ",
+                "byasbakya": "কণ্ঠের সমীপে",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "উপকথা",
+                "byasbakya": "কথার সদৃশ",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "উপকূল",
+                "byasbakya": "কূলের সমীপে",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "উপগ্রহ",
+                "byasbakya": "গ্রহের তুল্য",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "উপজেলা",
+                "byasbakya": "জেলার সদৃশ",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "উপদেবতা",
+                "byasbakya": "হীন দেবতা",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "উপদ্বীপ",
+                "byasbakya": "দ্বীপের সদৃশ",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "উপনগরী",
+                "byasbakya": "নগরীর সমীপে",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "উপবন",
+                "byasbakya": "বনের সদৃশ",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "উপশহর",
+                "byasbakya": "শহরের সদৃশ",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "একাদশ",
+                "byasbakya": "এক অধিক দশ",
+                "samas": "মধ্যপদলোপী কর্মধারয়"
+        },
+        {
+                "word": "একোন",
+                "byasbakya": "এক দ্বারা ঊন",
+                "samas": "৩য়া তৎপুরুষ"
+        },
+        {
+                "word": "কদাচার",
+                "byasbakya": "কু যে আচার",
+                "samas": "কর্মধারয় সমাস"
+        },
+        {
+                "word": "কবিগুরু",
+                "byasbakya": "কবিদের গুরু",
+                "samas": "৬ষ্ঠী তৎপুরুষ"
+        },
+        {
+                "word": "করিতকর্মা",
+                "byasbakya": "কৃত কর্ম যার",
+                "samas": "বহুব্রীহি"
+        },
+        {
+                "word": "কর্ণফুলী",
+                "byasbakya": "কর্ণে ফুল আছে যার",
+                "samas": "বহুব্রীহি"
+        },
+        {
+                "word": "কলেরগান",
+                "byasbakya": "কলের গান",
+                "samas": "তৎপুরুষ"
+        },
+        {
+                "word": "কাগজপত্র",
+                "byasbakya": "কাগজ ও পত্র",
+                "samas": "দ্বন্দ্ব সমাস"
+        },
+        {
+                "word": "কাজলকালো",
+                "byasbakya": "কাজলের ন্যায় কালো",
+                "samas": "উপমান কর্মধারয়"
+        },
+        {
+                "word": "কাঞ্চনপ্রভা",
+                "byasbakya": "কাঞ্চনের মতো প্রভা যার",
+                "samas": "বহুব্রীহি সমাস"
+        },
+        {
+                "word": "কানাকানি",
+                "byasbakya": "কানে কানে যে কথা",
+                "samas": "ব্যতিহার বহুব্রীহি"
+        },
+        {
+                "word": "কাঁচকলা",
+                "byasbakya": "কাঁচা যে কলা",
+                "samas": "কর্মধারয় সমাস"
+        },
+        {
+                "word": "কাঁচা-মিঠা",
+                "byasbakya": "যা কাঁচা তাই মিঠা",
+                "samas": "কর্মধারয়"
+        },
+        {
+                "word": "কাঁচামিঠা",
+                "byasbakya": "যা কাঁচা তাই মিঠা",
+                "samas": "কর্মধারয়"
+        },
+        {
+                "word": "কাঁচিছাঁটা",
+                "byasbakya": "কাঁচি দিয়ে ছাঁটা",
+                "samas": "৩য়া তৎপুরুষ"
+        },
+        {
+                "word": "কুশীলব",
+                "byasbakya": "কুশ ও লব",
+                "samas": "দ্বন্দ্ব সমাস"
+        },
+        {
+                "word": "কুসুম কোমল",
+                "byasbakya": "কুসুমের ন্যায় কোমল",
+                "samas": "উপমান কর্মধারয়"
+        },
+        {
+                "word": "কুসুমকোমল",
+                "byasbakya": "কুসুমের ন্যায় কোমল",
+                "samas": "কর্মধারয় সমাস"
+        },
+        {
+                "word": "কোকিলকণ্ঠী",
+                "byasbakya": "কোকিলের ন্যায় কণ্ঠ যার",
+                "samas": "বহুব্রীহি"
+        },
+        {
+                "word": "ক্রোধানল",
+                "byasbakya": "ক্রোধ রূপ অনল",
+                "samas": "রূপক কর্মধারয়"
+        },
+        {
+                "word": "ক্ষণজন্মা",
+                "byasbakya": "ক্ষণে জন্মে যা",
+                "samas": "উপপদ তৎপুরুষ"
+        },
+        {
+                "word": "ক্ষত-বিক্ষত",
+                "byasbakya": "ক্ষত ও বিক্ষত",
+                "samas": "দ্বন্দ্ব সমাস"
+        },
+        {
+                "word": "ক্ষীণজীবী",
+                "byasbakya": "ক্ষীণভাবে বাঁচে যে",
+                "samas": "উপপদ তৎপুরুষ"
+        },
+        {
+                "word": "ক্ষুধানল",
+                "byasbakya": "ক্ষুধা রূপ অনল",
+                "samas": "রূপক কর্মধারয়"
+        },
+        {
+                "word": "খনিজ",
+                "byasbakya": "খনিতে জন্মে যা",
+                "samas": "উপপদ তৎপুরুষ"
+        },
+        {
+                "word": "খাসজমি",
+                "byasbakya": "খাস যে জমি",
+                "samas": "কর্মধারয়"
+        },
+        {
+                "word": "খেয়াঘাট",
+                "byasbakya": "খেয়ার ঘাট",
+                "samas": "৬ষ্ঠী তৎপুরুষ"
+        },
+        {
+                "word": "গজনিরাজ",
+                "byasbakya": "গজনির রাজা",
+                "samas": "৬ষ্ঠী তৎপুরুষ"
+        },
+        {
+                "word": "গণতন্ত্র",
+                "byasbakya": "গণের তন্ত্র",
+                "samas": "৬ষ্ঠী তৎপুরুষ"
+        },
+        {
+                "word": "গণধোলাই",
+                "byasbakya": "গণের দ্বারা ধোলাই",
+                "samas": "৩য়া তৎপুরুষ"
+        },
+        {
+                "word": "গরুরগাড়ি",
+                "byasbakya": "গরুর টানা গাড়ি",
+                "samas": "অলুক তৎপুরুষ"
+        },
+        {
+                "word": "গলায়গামছা",
+                "byasbakya": "গলায় গামছা যার",
+                "samas": "ব্যধিকরণ বহুব্রীহি"
+        },
+        {
+                "word": "গাছপাকা",
+                "byasbakya": "গাছে পাকা",
+                "samas": "৭মী তৎপুরুষ"
+        },
+        {
+                "word": "গাছেপাকা",
+                "byasbakya": "গাছে পাকা",
+                "samas": "৭মী তৎপুরুষ"
+        },
+        {
+                "word": "গায়েপড়া",
+                "byasbakya": "গায়ে পড়ে যে",
+                "samas": "উপপদ তৎপুরুষ/অলুক তৎপুরুষ"
+        },
+        {
+                "word": "গায়েহলুদ",
+                "byasbakya": "গায়ে হলুদ দেওয়া হয় যে অনুষ্ঠানে",
+                "samas": "মধ্যপদলোপী বহুব্রীহি"
+        },
+        {
+                "word": "গুণগ্রাম",
+                "byasbakya": "গুণের গ্রাম",
+                "samas": "৬ষ্ঠী তৎপুরুষ"
+        },
+        {
+                "word": "গুরুভক্তি",
+                "byasbakya": "গুরুকে ভক্তি",
+                "samas": "৪র্থী তৎপুরুষ"
+        },
+        {
+                "word": "গৃহবাস",
+                "byasbakya": "গৃহে বাস",
+                "samas": "৭মী তৎপুরুষ"
+        },
+        {
+                "word": "গৃহান্তর",
+                "byasbakya": "অন্য গৃহ",
+                "samas": "নিত্য সমাস"
+        },
+        {
+                "word": "গৃহীত",
+                "byasbakya": "গৃহকে ইত",
+                "samas": "২য়া তৎপুরুষ"
+        },
+        {
+                "word": "গোবেচারা",
+                "byasbakya": "গোরুর ন্যায় বেচারা",
+                "samas": "উপমান কর্মধারয়"
+        },
+        {
+                "word": "গোঁফখেজুরে",
+                "byasbakya": "গোঁফে খেজুর যার",
+                "samas": "বহুব্রীহি"
+        },
+        {
+                "word": "গ্রামান্তর",
+                "byasbakya": "অন্য গ্রাম",
+                "samas": "নিত্য সমাস"
+        },
+        {
+                "word": "ঘরজামাই",
+                "byasbakya": "ঘরে আশ্রিত জামাই",
+                "samas": "মধ্যপদলোপী কর্মধারয়"
+        },
+        {
+                "word": "চতুরঙ্গ",
+                "byasbakya": "চার অঙ্গের সমাহার",
+                "samas": "দ্বিগু সমাস"
+        },
+        {
+                "word": "চতুর্ভুজ",
+                "byasbakya": "চার ভুজের সমাহার",
+                "samas": "দ্বিগু সমাস"
+        },
+        {
+                "word": "চতুষ্পদী",
+                "byasbakya": "চার পা বিশিষ্ট প্রাণী",
+                "samas": "বহুব্রীহি"
+        },
+        {
+                "word": "চন্দ্রমুখ",
+                "byasbakya": "মুখ চন্দ্রের ন্যায়",
+                "samas": "উপমিত কর্মধারয়"
+        },
+        {
+                "word": "চরণকমল",
+                "byasbakya": "চরণ কমলের ন্যায়",
+                "samas": "উপমিত কর্মধারয়"
+        },
+        {
+                "word": "চালকুমড়া",
+                "byasbakya": "চালে আশ্রিত কুমড়া",
+                "samas": "মধ্যপদলোপী কর্মধারয়"
+        },
+        {
+                "word": "চালাক-চতুর",
+                "byasbakya": "যে চালাক সেই চতুর",
+                "samas": "কর্মধারয় সমাস"
+        },
+        {
+                "word": "চিকিৎসাশাস্ত্র",
+                "byasbakya": "চিকিৎসা বিষয়ক শাস্ত্র",
+                "samas": "মধ্যপদলোপী কর্মধারয়"
+        },
+        {
+                "word": "চিড়িয়াখানা",
+                "byasbakya": "চিড়িয়াদের জন্য খানা",
+                "samas": "তৎপুরুষ"
+        },
+        {
+                "word": "চিনিপাতা",
+                "byasbakya": "চিনি দিয়ে পাতা",
+                "samas": "৩য়া তৎপুরুষ"
+        },
+        {
+                "word": "চিরসুখী",
+                "byasbakya": "চিরকাল ব্যাপিয়া সুখী",
+                "samas": "দ্বিতীয়া তৎপুরুষ"
+        },
+        {
+                "word": "চিরস্থায়ী",
+                "byasbakya": "চিরকাল ব্যাপিয়া স্থায়ী",
+                "samas": "২য়া তৎপুরুষ"
+        },
+        {
+                "word": "চুলাচুলি",
+                "byasbakya": "চুলে চুলে যে লড়াই",
+                "samas": "ব্যতিহার বহুব্রীহি"
+        },
+        {
+                "word": "চোখে-মুখে",
+                "byasbakya": "চোখে ও মুখে",
+                "samas": "দ্বন্দ্ব"
+        },
+        {
+                "word": "চোখেমুখে",
+                "byasbakya": "চোখে ও মুখে",
+                "samas": "অলুক দ্বন্দ্ব"
+        },
+        {
+                "word": "চোষকাগজ",
+                "byasbakya": "চোষার জন্য কাগজ",
+                "samas": "৪র্থী তৎপুরুষ"
+        },
+        {
+                "word": "চৌমাথা",
+                "byasbakya": "চার মাথার সমাহার",
+                "samas": "দ্বিগু"
+        },
+        {
+                "word": "চৌরাস্তা",
+                "byasbakya": "চৌ রাস্তার সমাহার",
+                "samas": "দ্বিগু সমাস"
+        },
+        {
+                "word": "ছাত্রজীবন",
+                "byasbakya": "ছাত্রকালীন জীবন",
+                "samas": "কর্মধারয়"
+        },
+        {
+                "word": "ছাত্রবৃন্দ",
+                "byasbakya": "ছাত্রদের বৃন্দ",
+                "samas": "৬ষ্ঠী তৎপুরুষ"
+        },
+        {
+                "word": "ছায়াতরু",
+                "byasbakya": "ছায়া প্রদানকারী তরু",
+                "samas": "মধ্যপদলোপী কর্মধারয়"
+        },
+        {
+                "word": "জজসাহেব",
+                "byasbakya": "যিনি জজ তিনিই সাহেব",
+                "samas": "কর্মধারয়"
+        },
+        {
+                "word": "জনহীন",
+                "byasbakya": "জন দ্বারা হীন",
+                "samas": "৩য়া তৎপুরুষ"
+        },
+        {
+                "word": "জনৈক",
+                "byasbakya": "এক জন",
+                "samas": "নিত্য সমাস"
+        },
+        {
+                "word": "জলচর",
+                "byasbakya": "জলে চরে যে",
+                "samas": "উপপদ তৎপুরুষ"
+        },
+        {
+                "word": "জলদ",
+                "byasbakya": "জল দেয় যে",
+                "samas": "উপপদ তৎপুরুষ"
+        },
+        {
+                "word": "জলসেচন",
+                "byasbakya": "জলকে সেচন",
+                "samas": "২য়া তৎপুরুষ"
+        },
+        {
+                "word": "জীবনবিমা",
+                "byasbakya": "জীবন নাশের আশঙ্কায় যে বিমা",
+                "samas": "মধ্যপদলোপী কর্মধারয়"
+        },
+        {
+                "word": "জীবনানন্দ",
+                "byasbakya": "জীবন ব্যাপিয়া আনন্দ",
+                "samas": "তৎপুরুষ"
+        },
+        {
+                "word": "জেলখালাস",
+                "byasbakya": "জেল থেকে খালাস",
+                "samas": "৫মী তৎপুরুষ"
+        },
+        {
+                "word": "জ্যোৎস্নালোকিত",
+                "byasbakya": "জ্যোৎস্না শোভিত রাত",
+                "samas": "মধ্যপদলোপী কর্মধারয়"
+        },
+        {
+                "word": "জ্যোৎস্নাস্নাত",
+                "byasbakya": "জ্যোৎস্না দ্বারা স্নাত",
+                "samas": "৩য়া তৎপুরুষ"
+        },
+        {
+                "word": "ঝড়বৃষ্টি",
+                "byasbakya": "ঝড় ও বৃষ্টি",
+                "samas": "দ্বন্দ্ব সমাস"
+        },
+        {
+                "word": "টকমিষ্টি",
+                "byasbakya": "যা টক তাই মিষ্টি",
+                "samas": "কর্মধারয়"
+        },
+        {
+                "word": "ডাকমাশুল",
+                "byasbakya": "ডাকের জন্য মাশুল",
+                "samas": "৪র্থী তৎপুরুষ"
+        },
+        {
+                "word": "তপোবন",
+                "byasbakya": "তপের নিমিত্ত বন",
+                "samas": "৪র্থী তৎপুরুষ"
+        },
+        {
+                "word": "তুষারধবল",
+                "byasbakya": "তুষারের ন্যায় ধবল",
+                "samas": "উপমান কর্মধারয়"
+        },
+        {
+                "word": "তুষারশুভ্র",
+                "byasbakya": "তুষারের ন্যায় শুভ্র",
+                "samas": "উপমান কর্মধারয়"
+        },
+        {
+                "word": "তেপান্তর",
+                "byasbakya": "তিন প্রান্তরের সমাহার",
+                "samas": "দ্বিগু সমাস"
+        },
+        {
+                "word": "তেমাথা",
+                "byasbakya": "তিন মাথার সমাহার",
+                "samas": "দ্বিগু সমাস"
+        },
+        {
+                "word": "তেরনদী",
+                "byasbakya": "তের নদীর সমাহার",
+                "samas": "দ্বিগু সমাস"
+        },
+        {
+                "word": "তেলেভাজা",
+                "byasbakya": "তেল দিয়ে ভাজা",
+                "samas": "৩য়া তৎপুরুষ"
+        },
+        {
+                "word": "ত্রিকাল",
+                "byasbakya": "তিন কালের সমাহার",
+                "samas": "দ্বিগু সমাস"
+        },
+        {
+                "word": "ত্রিফলা",
+                "byasbakya": "তিন ফলের সমাহার",
+                "samas": "দ্বিগু সমাস"
+        },
+        {
+                "word": "ত্রিভুজ",
+                "byasbakya": "তিন ভুজের সমাহার",
+                "samas": "দ্বিগু সমাস"
+        },
+        {
+                "word": "ত্রিলোক",
+                "byasbakya": "তিন লোকের সমাহার",
+                "samas": "দ্বিগু"
+        },
+        {
+                "word": "দম্পতি",
+                "byasbakya": "জায়া ও পতি",
+                "samas": "দ্বন্দ্ব সমাস"
+        },
+        {
+                "word": "দর্শনমাত্র",
+                "byasbakya": "কেবল দর্শন",
+                "samas": "নিত্য সমাস"
+        },
+        {
+                "word": "দশগজ",
+                "byasbakya": "দশ গজের সমাহার",
+                "samas": "দ্বিগু সমাস"
+        },
+        {
+                "word": "দশানন",
+                "byasbakya": "দশ আনন যার",
+                "samas": "বহুব্রীহি সমাস"
+        },
+        {
+                "word": "দালানকোঠা",
+                "byasbakya": "দালান ও কোঠা",
+                "samas": "দ্বন্দ্ব সমাস"
+        },
+        {
+                "word": "দিনরাত",
+                "byasbakya": "দিন ও রাত",
+                "samas": "দ্বন্দ্ব সমাস"
+        },
+        {
+                "word": "দিবানিদ্রা",
+                "byasbakya": "দিবায় নিদ্রা",
+                "samas": "৭মী তৎপুরুষ"
+        },
+        {
+                "word": "দিলদরিয়া",
+                "byasbakya": "দিল রূপ দরিয়া",
+                "samas": "রূপক কর্মধারয়"
+        },
+        {
+                "word": "দুধে-ভাতে",
+                "byasbakya": "দুধে ও ভাতে",
+                "samas": "অলুক দ্বন্দ্ব"
+        },
+        {
+                "word": "দুর্ভিক্ষ",
+                "byasbakya": "ভিক্ষার অভাব",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "দেশসেবা",
+                "byasbakya": "দেশের সেবা",
+                "samas": "৬ষ্ঠী তৎপুরুষ"
+        },
+        {
+                "word": "দেশান্তর",
+                "byasbakya": "অন্য দেশ",
+                "samas": "নিত্য সমাস"
+        },
+        {
+                "word": "দেশে-বিদেশে",
+                "byasbakya": "দেশে ও বিদেশে",
+                "samas": "দ্বন্দ্ব সমাস"
+        },
+        {
+                "word": "দোটানা",
+                "byasbakya": "দুই দিকে টান যার",
+                "samas": "বহুব্রীহি"
+        },
+        {
+                "word": "দোভাষী",
+                "byasbakya": "দুই ভাষায় পারদর্শী যিনি",
+                "samas": "বহুব্রীহি সমাস"
+        },
+        {
+                "word": "দোলনচাঁপা",
+                "byasbakya": "দোলনের ন্যায় চাঁপা",
+                "samas": "উপমান কর্মধারয়"
+        },
+        {
+                "word": "দ্বীপ",
+                "byasbakya": "দুই দিকে অপ যার",
+                "samas": "বহুব্রীহি"
+        },
+        {
+                "word": "ধনদৌলত",
+                "byasbakya": "ধন ও দৌলত",
+                "samas": "দ্বন্দ্ব সমাস"
+        },
+        {
+                "word": "ধামাধরা",
+                "byasbakya": "ধামা ধরে যে",
+                "samas": "উপপদ তৎপুরুষ"
+        },
+        {
+                "word": "ধীরবুদ্ধি",
+                "byasbakya": "ধীর বুদ্ধি যার",
+                "samas": "বহুব্রীহি"
+        },
+        {
+                "word": "ধোয়ামোছা",
+                "byasbakya": "আগে ধোয়া পরে মোছা",
+                "samas": "কর্মধারয় সমাস"
+        },
+        {
+                "word": "নতজানু",
+                "byasbakya": "নত যে জানু",
+                "samas": "কর্মধারয় সমাস"
+        },
+        {
+                "word": "নদীতট",
+                "byasbakya": "নদীর তট",
+                "samas": "৬ষ্ঠী তৎপুরুষ"
+        },
+        {
+                "word": "নদীমাতৃক",
+                "byasbakya": "নদী মাতা যার",
+                "samas": "বহুব্রীহি"
+        },
+        {
+                "word": "নবরত্ন",
+                "byasbakya": "নব রত্নের সমাহার",
+                "samas": "দ্বিগু"
+        },
+        {
+                "word": "নবীনবরণ",
+                "byasbakya": "নবীনকে বরণ",
+                "samas": "২য়া তৎপুরুষ"
+        },
+        {
+                "word": "নরসিংহ",
+                "byasbakya": "নর সিংহের ন্যায়",
+                "samas": "উপমিত কর্মধারয়"
+        },
+        {
+                "word": "নরাধম",
+                "byasbakya": "অধম যে নর",
+                "samas": "কর্মধারয় সমাস"
+        },
+        {
+                "word": "নিখুঁত",
+                "byasbakya": "নেই খুঁত যার",
+                "samas": "নঞ বহুব্রীহি"
+        },
+        {
+                "word": "নিয়ম-কানুন",
+                "byasbakya": "নিয়ম ও কানুন",
+                "samas": "দ্বন্দ্ব সমাস"
+        },
+        {
+                "word": "নিরামিষ",
+                "byasbakya": "আমিষের অভাব",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "নিরুৎসাহ",
+                "byasbakya": "উৎসাহের অভাব",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "নির্জল",
+                "byasbakya": "নাই জল যাহাতে",
+                "samas": "বহুব্রীহি"
+        },
+        {
+                "word": "নির্জলা",
+                "byasbakya": "নাই জল যাহাতে",
+                "samas": "বহুব্রীহি"
+        },
+        {
+                "word": "নীলকণ্ঠ",
+                "byasbakya": "নীল কণ্ঠ যার",
+                "samas": "বহুব্রীহি"
+        },
+        {
+                "word": "নীলকমল",
+                "byasbakya": "নীল যে কমল",
+                "samas": "কর্মধারয়"
+        },
+        {
+                "word": "নীলপদ্ম",
+                "byasbakya": "নীল যে পদ্ম",
+                "samas": "কর্মধারয়"
+        },
+        {
+                "word": "নীলাকাশ",
+                "byasbakya": "নীল যে আকাশ",
+                "samas": "কর্মধারয়"
+        },
+        {
+                "word": "নীলাম্বর",
+                "byasbakya": "নীল অম্বর যার",
+                "samas": "বহুব্রীহি"
+        },
+        {
+                "word": "নীলোৎপল",
+                "byasbakya": "নীল যে উৎপল",
+                "samas": "কর্মধারয়"
+        },
+        {
+                "word": "ন্যায়সঙ্গত",
+                "byasbakya": "ন্যায় দ্বারা সঙ্গত",
+                "samas": "৩য়া তৎপুরুষ"
+        },
+        {
+                "word": "পঙ্কজ",
+                "byasbakya": "পঙ্কে জন্মে যা",
+                "samas": "উপপদ তৎপুরুষ"
+        },
+        {
+                "word": "পঞ্চবটি",
+                "byasbakya": "পঞ্চ বটের সমাহার",
+                "samas": "দ্বিগু সমাস"
+        },
+        {
+                "word": "পঞ্চবটী",
+                "byasbakya": "পঞ্চ বটের সমাহার",
+                "samas": "দ্বিগু সমাস"
+        },
+        {
+                "word": "পঞ্চানন",
+                "byasbakya": "পঞ্চ আনন যার",
+                "samas": "বহুব্রীহি"
+        },
+        {
+                "word": "পণ্ডিতমূর্খ",
+                "byasbakya": "যিনি পণ্ডিত তিনিই মূর্খ",
+                "samas": "কর্মধারয়"
+        },
+        {
+                "word": "পথভ্রষ্ট",
+                "byasbakya": "পথ থেকে ভ্রষ্ট",
+                "samas": "৫মী তৎপুরুষ"
+        },
+        {
+                "word": "পদচ্যুতি",
+                "byasbakya": "পদ থেকে চ্যুতি",
+                "samas": "৫মী তৎপুরুষ"
+        },
+        {
+                "word": "পদ্মআঁখি",
+                "byasbakya": "আঁখি পদ্মের ন্যায়",
+                "samas": "উপমিত কর্মধারয়"
+        },
+        {
+                "word": "পদ্মগন্ধি",
+                "byasbakya": "পদ্মের ন্যায় গন্ধ যার",
+                "samas": "বহুব্রীহি"
+        },
+        {
+                "word": "পদ্মনাভ",
+                "byasbakya": "পদ্ম নাভিতে যার",
+                "samas": "বহুব্রীহি সমাস"
+        },
+        {
+                "word": "পরোক্ষ",
+                "byasbakya": "অক্ষির অগোচরে",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "পলান্ন",
+                "byasbakya": "পল মিশ্রিত অন্ন",
+                "samas": "মধ্যপদলোপী কর্মধারয়"
+        },
+        {
+                "word": "পশুরি",
+                "byasbakya": "পাঁচ সেরের সমাহার",
+                "samas": "দ্বিগু সমাস"
+        },
+        {
+                "word": "পসুরি",
+                "byasbakya": "পাঁচ সেরের সমাহার",
+                "samas": "দ্বিগু সমাস"
+        },
+        {
+                "word": "পিতৃতুল্য",
+                "byasbakya": "পিতার তুল্য",
+                "samas": "৬ষ্ঠী তৎপুরুষ"
+        },
+        {
+                "word": "পুত্রবধূ",
+                "byasbakya": "পুত্রের বধূ",
+                "samas": "৬ষ্ঠী তৎপুরুষ"
+        },
+        {
+                "word": "পুরুষসিংহ",
+                "byasbakya": "পুরুষ সিংহের ন্যায়",
+                "samas": "উপমিত কর্মধারয়"
+        },
+        {
+                "word": "পৃষ্ঠপ্রদর্শন",
+                "byasbakya": "পৃষ্ঠকে প্রদর্শন",
+                "samas": "২য়া তৎপুরুষ"
+        },
+        {
+                "word": "প্রতিকূল",
+                "byasbakya": "বিরুদ্ধ কূল",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "প্রতিচ্ছবি",
+                "byasbakya": "ছবির প্রতিনিধি",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "প্রতিপক্ষ",
+                "byasbakya": "পক্ষের বিপরীত",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "প্রত্যক্ষ",
+                "byasbakya": "অক্ষির সম্মুখে",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "প্রত্যুত্তর",
+                "byasbakya": "প্রতি উত্তর",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "প্রবচন",
+                "byasbakya": "প্র (প্রকৃষ্ট) যে বচন",
+                "samas": "প্রাদি সমাস"
+        },
+        {
+                "word": "প্রভাত",
+                "byasbakya": "প্র (প্রকৃষ্ট রূপে) ভাত",
+                "samas": "প্রাদি সমাস"
+        },
+        {
+                "word": "প্রশাসক",
+                "byasbakya": "প্র (প্রকৃষ্ট) যে শাসক",
+                "samas": "প্রাদি সমাস"
+        },
+        {
+                "word": "প্রশ্নপত্র",
+                "byasbakya": "প্রশ্নসূচক পত্র",
+                "samas": "কর্মধারয়"
+        },
+        {
+                "word": "প্রাণপ্রিয়",
+                "byasbakya": "প্রাণ হতে প্রিয়",
+                "samas": "৫মী তৎপুরুষ"
+        },
+        {
+                "word": "প্রাণভয়",
+                "byasbakya": "প্রাণ হারানোর ভয়",
+                "samas": "মধ্যপদলোপী কর্মধারয়"
+        },
+        {
+                "word": "ফুলকুমারী",
+                "byasbakya": "কুমারী ফুলের ন্যায়",
+                "samas": "উপমিত কর্মধারয়"
+        },
+        {
+                "word": "ফুলবাগান",
+                "byasbakya": "ফুলের বাগান",
+                "samas": "৬ষ্ঠী তৎপুরুষ"
+        },
+        {
+                "word": "বইপড়া",
+                "byasbakya": "বইকে পড়া",
+                "samas": "২য়া তৎপুরুষ"
+        },
+        {
+                "word": "বজ্রকঠোর",
+                "byasbakya": "বজ্রের ন্যায় কঠোর",
+                "samas": "উপমান কর্মধারয়"
+        },
+        {
+                "word": "বজ্রকণ্ঠ",
+                "byasbakya": "বজ্রের ন্যায় কণ্ঠ",
+                "samas": "উপমান কর্মধারয়"
+        },
+        {
+                "word": "বনবাস",
+                "byasbakya": "বনে বাস",
+                "samas": "৭মী তৎপুরুষ"
+        },
+        {
+                "word": "বনভোজন",
+                "byasbakya": "বনে ভোজন",
+                "samas": "৭মী তৎপুরুষ"
+        },
+        {
+                "word": "বলাবলি",
+                "byasbakya": "বলাতে বলাতে যে ক্রিয়া",
+                "samas": "ব্যতিহার বহুব্রীহি"
+        },
+        {
+                "word": "বসতবাড়ি",
+                "byasbakya": "বসতের নিমিত্ত বাড়ি",
+                "samas": "৪র্থী তৎপুরুষ"
+        },
+        {
+                "word": "বহুব্রীহি",
+                "byasbakya": "বহু ব্রীহি (ধান) আছে যার",
+                "samas": "বহুব্রীহি"
+        },
+        {
+                "word": "বাকপটু",
+                "byasbakya": "বাক্যে পটু",
+                "samas": "৭মী তৎপুরুষ"
+        },
+        {
+                "word": "বাহুলতা",
+                "byasbakya": "বাহু লতার ন্যায়",
+                "samas": "উপমিত কর্মধারয়"
+        },
+        {
+                "word": "বাঁচা-মরা",
+                "byasbakya": "বাঁচা ও মরা",
+                "samas": "দ্বন্দ্ব সমাস"
+        },
+        {
+                "word": "বিচিত্রকর্মা",
+                "byasbakya": "বিচিত্র কর্ম যার",
+                "samas": "বহুব্রীহি সমাস"
+        },
+        {
+                "word": "বিজয় পতাকা",
+                "byasbakya": "বিজয় নির্দেশক পতাকা",
+                "samas": "মধ্যপদলোপী কর্মধারয়"
+        },
+        {
+                "word": "বিজয়পতাকা",
+                "byasbakya": "বিজয় নির্দেশক পতাকা",
+                "samas": "মধ্যপদলোপী কর্মধারয়"
+        },
+        {
+                "word": "বিড়ালতপস্বী",
+                "byasbakya": "বিড়ালের ন্যায় তপস্বী",
+                "samas": "উপমান কর্মধারয়"
+        },
+        {
+                "word": "বিদ্যাধন",
+                "byasbakya": "বিদ্যা রূপ ধন",
+                "samas": "রূপক কর্মধারয়"
+        },
+        {
+                "word": "বিপত্নীক",
+                "byasbakya": "বি (গত) পত্নী যার",
+                "samas": "বহুব্রীহি"
+        },
+        {
+                "word": "বিপদাপন্ন",
+                "byasbakya": "বিপদকে আপন্ন",
+                "samas": "২য়া তৎপুরুষ"
+        },
+        {
+                "word": "বিয়পাগলা",
+                "byasbakya": "বিয়ের জন্য পাগলা",
+                "samas": "৪র্থী তৎপুরুষ"
+        },
+        {
+                "word": "বিয়েপাগলা",
+                "byasbakya": "বিয়ের জন্য পাগলা",
+                "samas": "৪র্থী তৎপুরুষ"
+        },
+        {
+                "word": "বিরানব্বই",
+                "byasbakya": "দুই এবং নব্বই",
+                "samas": "নিত্য সমাস"
+        },
+        {
+                "word": "বিলাতফেরত",
+                "byasbakya": "বিলাত থেকে ফেরত",
+                "samas": "৫মী তৎপুরুষ"
+        },
+        {
+                "word": "বিশ্বকবি",
+                "byasbakya": "বিশ্বের কবি",
+                "samas": "৬ষ্ঠী তৎপুরুষ"
+        },
+        {
+                "word": "বিশ্ববিখ্যাত",
+                "byasbakya": "বিশ্বে বিখ্যাত",
+                "samas": "৭মী তৎপুরুষ"
+        },
+        {
+                "word": "বিষবৃক্ষ",
+                "byasbakya": "বিষ রূপ বৃক্ষ",
+                "samas": "রূপক কর্মধারয়"
+        },
+        {
+                "word": "বিষাদসিন্ধু",
+                "byasbakya": "বিষাদ রূপ সিন্ধু",
+                "samas": "রূপক কর্মধারয়"
+        },
+        {
+                "word": "বীণাপাণি",
+                "byasbakya": "বীণা পাণিতে যার",
+                "samas": "বহুব্রীহি"
+        },
+        {
+                "word": "বেআইনি",
+                "byasbakya": "নয় আইনি (আইনের অভাব)",
+                "samas": "অব্যয়ীভাব/নঞ তৎপুরুষ"
+        },
+        {
+                "word": "বেগুনভাজা",
+                "byasbakya": "ভাজা যে বেগুন",
+                "samas": "কর্মধারয়"
+        },
+        {
+                "word": "বোঁটাখসা",
+                "byasbakya": "বোঁটা থেকে খসা",
+                "samas": "৫মী তৎপুরুষ"
+        },
+        {
+                "word": "বৌভাত",
+                "byasbakya": "বউ ভাত পরিবেশন করে যে অনুষ্ঠানে",
+                "samas": "মধ্যপদলোপী বহুব্রীহি"
+        },
+        {
+                "word": "ব্যক্তিগত",
+                "byasbakya": "ব্যক্তিকে গত",
+                "samas": "২য়া তৎপুরুষ"
+        },
+        {
+                "word": "ব্যথাতুর",
+                "byasbakya": "ব্যথায় আতুর",
+                "samas": "৩য়া তৎপুরুষ"
+        },
+        {
+                "word": "ভদ্রলোক",
+                "byasbakya": "ভদ্র যে লোক",
+                "samas": "কর্মধারয়"
+        },
+        {
+                "word": "ভালোমন্দ",
+                "byasbakya": "ভালো ও মন্দ",
+                "samas": "দ্বন্দ্ব সমাস"
+        },
+        {
+                "word": "ভ্রমরকৃষ্ণকেশ",
+                "byasbakya": "ভ্রমরের ন্যায় কৃষ্ণ কেশ",
+                "samas": "উপমান কর্মধারয়"
+        },
+        {
+                "word": "মধুমাখা",
+                "byasbakya": "মধু দিয়ে মাখা",
+                "samas": "৩য়া তৎপুরুষ"
+        },
+        {
+                "word": "মনগড়া",
+                "byasbakya": "মন দিয়ে গড়া",
+                "samas": "৩য়া তৎপুরুষ"
+        },
+        {
+                "word": "মনমাঝি",
+                "byasbakya": "মন রূপ মাঝি",
+                "samas": "রূপক কর্মধারয়"
+        },
+        {
+                "word": "মনোহারিণী",
+                "byasbakya": "মন হরণ করে যে (নারী)",
+                "samas": "উপপদ তৎপুরুষ"
+        },
+        {
+                "word": "মহাজন",
+                "byasbakya": "মহৎ যে জন",
+                "samas": "কর্মধারয় সমাস"
+        },
+        {
+                "word": "মহাজ্ঞান",
+                "byasbakya": "মহৎ যে জ্ঞান",
+                "samas": "কর্মধারয়"
+        },
+        {
+                "word": "মহাত্মা",
+                "byasbakya": "মহৎ আত্মা যার",
+                "samas": "বহুব্রীহি"
+        },
+        {
+                "word": "মহানবী",
+                "byasbakya": "মহান যে নবী",
+                "samas": "কর্মধারয় সমাস"
+        },
+        {
+                "word": "মহাপুরাণ",
+                "byasbakya": "মহৎ যে পুরাণ",
+                "samas": "কর্মধারয়"
+        },
+        {
+                "word": "মহাপুরুষ",
+                "byasbakya": "মহান যে পুরুষ",
+                "samas": "কর্মধারয়"
+        },
+        {
+                "word": "মহাসমুদ্র",
+                "byasbakya": "মহান যে সমুদ্র",
+                "samas": "কর্মধারয়"
+        },
+        {
+                "word": "মহাসম্মেলন",
+                "byasbakya": "মহান যে সম্মেলন",
+                "samas": "কর্মধারয়"
+        },
+        {
+                "word": "মা-বাবা",
+                "byasbakya": "মা ও বাবা",
+                "samas": "দ্বন্দ্ব সমাস"
+        },
+        {
+                "word": "মাছভাত",
+                "byasbakya": "মাছ ও ভাত",
+                "samas": "দ্বন্দ্ব সমাস"
+        },
+        {
+                "word": "মাতাপিতা",
+                "byasbakya": "মাতা ও পিতা",
+                "samas": "দ্বন্দ্ব সমাস"
+        },
+        {
+                "word": "মাথাপিছু",
+                "byasbakya": "প্রতি মাথা",
+                "samas": "অব্যয়ীভাব / নিত্য"
+        },
+        {
+                "word": "মাথায়পাগড়ি",
+                "byasbakya": "মাথায় পাগড়ি যার",
+                "samas": "ব্যধিকরণ বহুব্রীহি"
+        },
+        {
+                "word": "মামাবাড়ি",
+                "byasbakya": "মামার বাড়ি",
+                "samas": "৬ষ্ঠী তৎপুরুষ"
+        },
+        {
+                "word": "মাহারা",
+                "byasbakya": "মাকে হারা",
+                "samas": "২য়া তৎপুরুষ"
+        },
+        {
+                "word": "মীনাক্ষী",
+                "byasbakya": "মীনের ন্যায় অক্ষি যার",
+                "samas": "বহুব্রীহি"
+        },
+        {
+                "word": "মৃগশিশু",
+                "byasbakya": "মৃগের শিশু",
+                "samas": "৬ষ্ঠী তৎপুরুষ"
+        },
+        {
+                "word": "মৌমাছি",
+                "byasbakya": "মৌ সংগ্রহকারী মাছি",
+                "samas": "মধ্যপদলোপী কর্মধারয়"
+        },
+        {
+                "word": "যথানিয়ম",
+                "byasbakya": "নিয়মকে অতিক্রম না করে",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "যথাযথ",
+                "byasbakya": "যা যথা তাহাই যথা (অথবা যোগ্যতাকে অতিক্রম না করে)",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "যথাযোগ্য",
+                "byasbakya": "যোগ্যতাকে অতিক্রম না করে",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "যথারীতি",
+                "byasbakya": "রীতিকে অতিক্রম না করে",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "যথাসাধ্য",
+                "byasbakya": "সাধ্যকে অতিক্রম না করে",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "যাতায়াত",
+                "byasbakya": "যাওয়া ও আসা",
+                "samas": "দ্বন্দ্ব সমাস"
+        },
+        {
+                "word": "যুগান্তর",
+                "byasbakya": "অন্য যুগ",
+                "samas": "নিত্য সমাস"
+        },
+        {
+                "word": "যুবজানি",
+                "byasbakya": "যুবতী জায়া যার",
+                "samas": "বহুব্রীহি"
+        },
+        {
+                "word": "রক্তনেত্র",
+                "byasbakya": "রক্তের ন্যায় নেত্র যার",
+                "samas": "বহুব্রীহি সমাস"
+        },
+        {
+                "word": "রক্তাক্ত",
+                "byasbakya": "রক্ত দ্বারা অক্ত",
+                "samas": "৩য়া তৎপুরুষ"
+        },
+        {
+                "word": "রাজপথ",
+                "byasbakya": "পথের রাজা",
+                "samas": "৬ষ্ঠী তৎপুরুষ"
+        },
+        {
+                "word": "রাজবাড়ি",
+                "byasbakya": "রাজার বাড়ি",
+                "samas": "তৎপুরুষ"
+        },
+        {
+                "word": "রাজর্ষি",
+                "byasbakya": "যিনি রাজা তিনিই ঋষি",
+                "samas": "কর্মধারয় সমাস"
+        },
+        {
+                "word": "রাজহংস",
+                "byasbakya": "হংসের রাজা",
+                "samas": "৬ষ্ঠী তৎপুরুষ"
+        },
+        {
+                "word": "রাজহাঁস",
+                "byasbakya": "হাঁসের রাজা",
+                "samas": "৬ষ্ঠী তৎপুরুষ"
+        },
+        {
+                "word": "রাষ্ট্রনীতি",
+                "byasbakya": "রাষ্ট্র সম্বন্ধীয় নীতি",
+                "samas": "৬ষ্ঠী তৎপুরুষ / মধ্যপদলোপী কর্মধারয়"
+        },
+        {
+                "word": "লুচিভাজা",
+                "byasbakya": "ভাজা যে লুচি",
+                "samas": "কর্মধারয়"
+        },
+        {
+                "word": "লেফাফাদুরস্ত",
+                "byasbakya": "লেফাফায় দুরস্ত",
+                "samas": "৭মী তৎপুরুষ"
+        },
+        {
+                "word": "লোকটি",
+                "byasbakya": "একটি লোক",
+                "samas": "নিত্য সমাস"
+        },
+        {
+                "word": "শতবার্ষিক",
+                "byasbakya": "শত বর্ষের সমাহার",
+                "samas": "দ্বিগু সমাস"
+        },
+        {
+                "word": "শতাব্দী",
+                "byasbakya": "শত অব্দের সমাহার",
+                "samas": "দ্বিগু সমাস"
+        },
+        {
+                "word": "শশব্যস্ত",
+                "byasbakya": "শশকের ন্যায় ব্যস্ত",
+                "samas": "উপমান কর্মধারয়"
+        },
+        {
+                "word": "শান্তশিষ্ট",
+                "byasbakya": "শান্ত অথচ শিষ্ট",
+                "samas": "কর্মধারয়"
+        },
+        {
+                "word": "শিশুবিভাগ",
+                "byasbakya": "শিশুদের জন্য বিভাগ",
+                "samas": "৪র্থী তৎপুরুষ"
+        },
+        {
+                "word": "শ্রমলব্ধ",
+                "byasbakya": "শ্রম দ্বারা লব্ধ",
+                "samas": "৩য়া তৎপুরুষ"
+        },
+        {
+                "word": "ষড়ঋতু",
+                "byasbakya": "ছয় ঋতুর সমাহার",
+                "samas": "দ্বিগু সমাস"
+        },
+        {
+                "word": "সজল",
+                "byasbakya": "জলের সঙ্গে বর্তমান",
+                "samas": "সহার্থিক বহুব্রীহি"
+        },
+        {
+                "word": "সদর্প",
+                "byasbakya": "দর্পের সঙ্গে বর্তমান",
+                "samas": "সহার্থক বহুব্রীহি"
+        },
+        {
+                "word": "সপত্নীক",
+                "byasbakya": "স্ত্রীর সঙ্গে বর্তমান",
+                "samas": "বহুব্রীহি"
+        },
+        {
+                "word": "সপুত্রক",
+                "byasbakya": "পুত্রের সাথে বর্তমান",
+                "samas": "সহার্থিক বহুব্রীহি"
+        },
+        {
+                "word": "সপ্তর্ষি",
+                "byasbakya": "সপ্ত ঋষির সমাহার",
+                "samas": "দ্বিগু সমাস"
+        },
+        {
+                "word": "সপ্তাহ",
+                "byasbakya": "সপ্ত অহের সমাহার",
+                "samas": "দ্বিগু সমাস"
+        },
+        {
+                "word": "সর্বশ্রেষ্ঠ",
+                "byasbakya": "সবার মধ্যে শ্রেষ্ঠ",
+                "samas": "৭মী তৎপুরুষ"
+        },
+        {
+                "word": "সলিলসমাধি",
+                "byasbakya": "সলিলে সমাধি",
+                "samas": "৭মী তৎপুরুষ"
+        },
+        {
+                "word": "সহকর্মী",
+                "byasbakya": "সমান কর্মী যে",
+                "samas": "বহুব্রীহি সমাস"
+        },
+        {
+                "word": "সহোদর",
+                "byasbakya": "সমান উদর যাদের",
+                "samas": "বহুব্রীহি"
+        },
+        {
+                "word": "সাতসতেরো",
+                "byasbakya": "সাত ও সতেরো",
+                "samas": "দ্বন্দ্ব সমাস"
+        },
+        {
+                "word": "সাহিত্যসভা",
+                "byasbakya": "সাহিত্য বিষয়ক সভা",
+                "samas": "মধ্যপদলোপী কর্মধারয়"
+        },
+        {
+                "word": "সিলমোহর",
+                "byasbakya": "সিল ও মোহর",
+                "samas": "দ্বন্দ্ব সমাস"
+        },
+        {
+                "word": "সিংহপুরুষ",
+                "byasbakya": "পুরুষ সিংহের ন্যায়",
+                "samas": "উপমিত কর্মধারয়"
+        },
+        {
+                "word": "সিংহাসন",
+                "byasbakya": "সিংহ চিহ্নিত আসন",
+                "samas": "মধ্যপদলোপী কর্মধারয়"
+        },
+        {
+                "word": "সুবর্ণ",
+                "byasbakya": "সু/সুন্দর যে বর্ণ",
+                "samas": "কর্মধারয়"
+        },
+        {
+                "word": "সুহৃদ",
+                "byasbakya": "সু হৃদয় যার",
+                "samas": "বহুব্রীহি"
+        },
+        {
+                "word": "সেতার",
+                "byasbakya": "সে (তিন) তার যে যন্ত্রের",
+                "samas": "বহুব্রীহি"
+        },
+        {
+                "word": "সৈন্যসামন্ত",
+                "byasbakya": "সৈন্য ও সামন্ত",
+                "samas": "দ্বন্দ্ব"
+        },
+        {
+                "word": "স্কুল পালানো",
+                "byasbakya": "স্কুল থেকে পালানো",
+                "samas": "৫মী তৎপুরুষ"
+        },
+        {
+                "word": "স্কুলপালানো",
+                "byasbakya": "স্কুল থেকে পালানো",
+                "samas": "৫মী তৎপুরুষ"
+        },
+        {
+                "word": "স্থিরপ্রতিজ্ঞ",
+                "byasbakya": "স্থির প্রতিজ্ঞা যার",
+                "samas": "বহুব্রীহি"
+        },
+        {
+                "word": "স্ফটিকস্বচ্ছ",
+                "byasbakya": "স্ফটিকের মতো স্বচ্ছ",
+                "samas": "উপমান কর্মধারয়"
+        },
+        {
+                "word": "স্বর্ণাক্ষর",
+                "byasbakya": "স্বর্ণের ন্যায় উজ্জ্বল অক্ষর",
+                "samas": "মধ্যপদলোপী কর্মধারয়"
+        },
+        {
+                "word": "স্বামী-স্ত্রী",
+                "byasbakya": "স্বামী ও স্ত্রী",
+                "samas": "দ্বন্দ্ব সমাস"
+        },
+        {
+                "word": "স্মৃতিসৌধ",
+                "byasbakya": "স্মৃতি রক্ষার্থে সৌধ",
+                "samas": "মধ্যপদলোপী কর্মধারয় সমাস"
+        },
+        {
+                "word": "হজযাত্রা",
+                "byasbakya": "হজের নিমিত্ত যাত্রা",
+                "samas": "৪র্থী তৎপুরুষ"
+        },
+        {
+                "word": "হজ্জযাত্রা",
+                "byasbakya": "হজ্জের নিমিত্ত যাত্রা",
+                "samas": "৪র্থী তৎপুরুষ"
+        },
+        {
+                "word": "হতশ্রী",
+                "byasbakya": "হত হয়েছে শ্রী যার",
+                "samas": "বহুব্রীহি সমাস"
+        },
+        {
+                "word": "হরতাল",
+                "byasbakya": "তালের অভাব",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "হরবোলা",
+                "byasbakya": "হরেক রকম বলে যে",
+                "samas": "উপপদ তৎপুরুষ"
+        },
+        {
+                "word": "হররোজ",
+                "byasbakya": "রোজ রোজ",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "হস্তিশাবক",
+                "byasbakya": "হস্তীর শাবক",
+                "samas": "৬ষ্ঠী তৎপুরুষ"
+        },
+        {
+                "word": "হাটবাজার",
+                "byasbakya": "হাট ও বাজার",
+                "samas": "দ্বন্দ্ব সমাস"
+        },
+        {
+                "word": "হাটে-বাজারে",
+                "byasbakya": "হাটে ও বাজারে",
+                "samas": "অলুক দ্বন্দ্ব"
+        },
+        {
+                "word": "হাতাহাতি",
+                "byasbakya": "হাতে হাতে যে যুদ্ধ",
+                "samas": "ব্যতিহার বহুব্রীহি"
+        },
+        {
+                "word": "হাতেখড়ি",
+                "byasbakya": "হাতে খড়ি দেওয়া হয় যে অনুষ্ঠানে",
+                "samas": "বহুব্রীহি"
+        },
+        {
+                "word": "হাভাত",
+                "byasbakya": "ভাতের অভাব",
+                "samas": "অব্যয়ীভাব"
+        },
+        {
+                "word": "হাসাহাসি",
+                "byasbakya": "হাসিতে হাসিতে যে ক্রিয়া",
+                "samas": "ব্যতিহার বহুব্রীহি"
+        },
+        {
+                "word": "হাসিমুখ",
+                "byasbakya": "হাসি মাখা মুখ",
+                "samas": "মধ্যপদলোপী কর্মধারয়"
+        },
+        {
+                "word": "হিমশীতল",
+                "byasbakya": "হিমের ন্যায় শীতল",
+                "samas": "উপমান কর্মধারয়"
+        },
+        {
+                "word": "হৃতসর্বস্ব",
+                "byasbakya": "হৃত হয়েছে সর্বস্ব যার",
+                "samas": "বহুব্রীহি"
+        }
+];
+
+        let favorites = JSON.parse(localStorage.getItem('samasFavs')) || [];
+        let showOnlyFavs = false;
+        const container = document.getElementById('samas-container');
+
+        function renderItems(filterText = "") {
+            container.innerHTML = "";
+            let count = 0;
+            samasData.forEach((item, index) => {
+                const textForSearch = item.word.toLowerCase() + " " + item.samas.toLowerCase();
+                const isMatch = textForSearch.includes(filterText.toLowerCase());
+                const isFav = favorites.includes(index);
+                if (isMatch && (!showOnlyFavs || isFav)) {
+                    count++;
+                    const div = document.createElement('div');
+                    div.className = 'samas-item';
+                    div.id = `item-${index + 1}`;
+                    div.innerHTML = `
+                        <div class="samas-header">
+                            <span class="serial">${index + 1}.</span> 
+                            <div class="samas-word" onclick="showAnswer(this, ${index})">${item.word}</div>
+                            <span class="fav-icon ${isFav ? 'active' : ''}" onclick="toggleFavorite(${index}, this)">★</span>
+                        </div>
+                        <div class="answer">
+                            <b>ব্যাসবাক্য:</b> ${item.byasbakya} <br>
+                            <b>সমাস:</b> ${item.samas}
+                        </div>
+                    `;
+                    container.appendChild(div);
+                }
+            });
+            document.getElementById('no-results').style.display = count === 0 ? "block" : "none";
+        }
+
+        function showAnswer(element, index) {
+            const answerDiv = element.parentElement.nextElementSibling;
+            answerDiv.style.display = answerDiv.style.display === "block" ? "none" : "block";
+            if(answerDiv.style.display === "block") {
+                localStorage.setItem('samasLastRead', index + 1);
+            }
+        }
+
+        function toggleFavorite(index, element) {
+            const favIndex = favorites.indexOf(index);
+            if (favIndex === -1) { favorites.push(index); element.classList.add('active'); }
+            else { favorites.splice(favIndex, 1); element.classList.remove('active'); if(showOnlyFavs) renderItems(); }
+            localStorage.setItem('samasFavs', JSON.stringify(favorites));
+        }
+
+        function filterItems() { renderItems(document.getElementById('searchInput').value); }
+
+        function toggleFavView() {
+            showOnlyFavs = !showOnlyFavs;
+            document.getElementById('favToggleBtn').innerHTML = showOnlyFavs ? "📖 সবগুলো দেখুন" : "⭐ ফেভারিটগুলো";
+            renderItems();
+        }
+
+        function scrollToLastRead() {
+            const lastRead = localStorage.getItem('samasLastRead');
+            if (lastRead) jumpToElement(lastRead);
+            else alert("কোনো লাস্ট রিড ডেটা নেই!");
+        }
+
+        function jumpToQuestion() {
+            const num = parseInt(document.getElementById('jumpInput').value);
+            if(num > 0 && num <= samasData.length) jumpToElement(num);
+            else alert("সঠিক নম্বর দিন!");
+        }
+
+        function jumpToElement(id) {
+            const el = document.getElementById(`item-${id}`);
+            if(el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function toggleNavPanel(e) {
+            if(e.target.closest('.rocket-toggle') || e.target.id === 'rightNav') {
+                document.getElementById('rightNav').classList.toggle('expanded');
+            }
+        }
+
+        renderItems();
+    </script>
+</body>
+</html>

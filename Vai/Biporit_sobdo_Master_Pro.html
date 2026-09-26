@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BILAS ACADEMY - বিপরীত শব্দ মাস্টার প্রো</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap');
+
+        :root {
+            --bg: #0d0221;
+            --glass: rgba(255, 255, 255, 0.03);
+            --neon-blue: #00d2ff;
+            --neon-gold: #f6d365;
+            --neon-pink: #ff416c;
+            --correct: #2ecc71;
+            --wrong: #e74c3c;
+        }
+
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            margin: 0;
+            background: var(--bg);
+            color: #fff;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Fixed Header Section */
+        .header-section {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(13, 2, 33, 0.98);
+            backdrop-filter: blur(25px);
+            padding: 10px 20px 15px 20px;
+            transition: transform 0.4s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-hide { transform: translateY(-110%); }
+
+        .brand-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .brand-name {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--neon-blue), var(--neon-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .fav-logo { font-size: 24px; cursor: pointer; filter: drop-shadow(0 0 10px var(--neon-pink)); }
+
+        .mode-switcher {
+            display: flex;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 50px;
+            padding: 4px;
+            margin: 10px auto;
+            max-width: 360px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            gap: 2px;
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 10px 5px;
+            border-radius: 50px;
+            border: none;
+            background: transparent;
+            color: #999;
+            font-weight: bold;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        .mode-btn.active {
+            background: var(--neon-blue);
+            color: #000;
+            box-shadow: 0 0 15px var(--neon-blue);
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 20px;
+            border-radius: 50px;
+            border: 1px solid rgba(0, 210, 255, 0.3);
+            background: rgba(0, 0, 0, 0.4);
+            color: #fff;
+            outline: none;
+            margin-top: 10px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 250px 20px 100px 20px;
+        }
+
+        /* Item UI */
+        .item-wrapper { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; scroll-margin-top: 240px; }
+        .serial { color: var(--neon-blue); font-weight: bold; font-size: 13px; min-width: 25px; opacity: 0.4; }
+
+        .card {
+            flex-grow: 1;
+            background: var(--glass);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            min-height: 75px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Study Style */
+        .study-content { display: flex; width: 100%; justify-content: space-around; padding: 0 15px; }
+        .study-word { color: #fff; font-weight: 600; font-size: 18px; }
+        .study-antonym { color: var(--neon-gold); font-weight: 800; font-size: 20px; }
+
+        /* Practice Style */
+        .practice-trigger { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer; }
+        .p-word { font-size: 20px; color: #d1d5db; transition: 0.3s; }
+        .faded { opacity: 0.15; }
+        .p-ans {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8);
+            color: var(--neon-gold); font-size: 24px; font-weight: 800;
+            text-shadow: 0 0 15px var(--neon-gold); opacity: 0; visibility: hidden; transition: 0.3s;
+        }
+        .show-ans { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
+
+        .item-fav-btn { font-size: 20px; color: rgba(255,255,255,0.05); cursor: pointer; transition: 0.3s; }
+        .item-fav-btn.active { color: var(--neon-pink); text-shadow: 0 0 10px var(--neon-pink); }
+
+        /* Quiz UI */
+        .quiz-container { display: none; text-align: center; }
+        .quiz-card { background: var(--glass); padding: 30px 20px; border-radius: 30px; border: 1px solid var(--neon-blue); margin-bottom: 25px; }
+        .quiz-word { font-size: 32px; font-weight: 800; color: #fff; }
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .option-btn {
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px; border-radius: 15px; color: #fff; font-size: 18px; cursor: pointer;
+        }
+        .option-btn.correct { background: var(--correct) !important; color: #000; font-weight: bold; }
+        .option-btn.wrong { background: var(--wrong) !important; }
+        .next-btn { margin-top: 25px; background: var(--neon-pink); border: none; padding: 12px 35px; border-radius: 50px; color: #fff; font-weight: bold; cursor: pointer; display: none; }
+
+        /* Smart Rocket Navigator */
+        .rocket-hub {
+            position: fixed;
+            right: 20px;
+            bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .rocket-menu {
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+            background: rgba(26, 16, 61, 0.98);
+            padding: 25px 12px;
+            border-radius: 50px;
+            border: 1px solid var(--neon-blue);
+            margin-bottom: 15px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            animation: slideUp 0.3s ease;
+        }
+
+        .r-circle {
+            width: 50px;
+            height: 50px;
+            background: #1a103d;
+            border: 1px solid var(--neon-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .jump-box {
+            width: 50px;
+            height: 40px;
+            background: #000;
+            border: 1px solid var(--neon-pink);
+            color: white;
+            text-align: center;
+            border-radius: 12px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .go-btn { background: var(--neon-pink); border: none; padding: 8px; border-radius: 8px; font-weight: bold; color: #fff; cursor: pointer; font-size: 12px;}
+
+        .rocket-icon {
+            font-size: 48px;
+            cursor: pointer;
+            filter: drop-shadow(0 0 15px var(--neon-blue));
+            transition: 0.3s;
+        }
+
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    </style>
+</head>
+<body>
+
+<div class="header-section" id="header">
+    <div class="brand-area">
+        <span class="brand-name">BILAS ACADEMY</span>
+        <div class="fav-logo" id="favMainBtn" onclick="toggleFavView()">❤️</div>
+    </div>
+    
+    <div class="mode-switcher">
+        <button class="mode-btn active" id="studyBtn" onclick="setMode('study')">Study</button>
+        <button class="mode-btn" id="practiceBtn" onclick="setMode('practice')">Practice</button>
+        <button class="mode-btn" id="quizBtn" onclick="setMode('quiz')">Quiz</button>
+    </div>
+
+    <div style="max-width:600px; margin: 0 auto;" id="searchArea">
+        <input type="text" id="search" class="search-box" placeholder="বিপরীত শব্দ খুঁজুন..." onkeyup="filter()">
+    </div>
+</div>
+
+<div class="container">
+    <div id="main-list"></div>
+    <div id="quiz-area" class="quiz-container">
+        <div class="quiz-card">
+            <div style="font-size: 14px; color: var(--neon-blue); opacity: 0.7;">বিপরীত শব্দ কোনটি?</div>
+            <div class="quiz-word" id="targetWord">---</div>
+        </div>
+        <div class="options-grid" id="options"></div>
+        <button class="next-btn" id="nextBtn" onclick="startQuiz()">পরবর্তী শব্দ ➔</button>
+    </div>
+</div>
+
+<div class="rocket-hub">
+    <div class="rocket-menu" id="rocketMenu">
+        <div class="r-circle" onclick="window.scrollTo({top:0, behavior:'smooth'})">⬆️</div>
+        <input type="number" id="jumpInput" class="jump-box" placeholder="নং">
+        <button class="go-btn" onclick="jumpTo()">GO</button>
+        <div class="r-circle" onclick="window.scrollTo({top:document.body.scrollHeight, behavior:'smooth'})">⬇️</div>
+    </div>
+    <div class="rocket-icon" onclick="toggleRocket()">🚀</div>
+</div>
+
+<script>
+    const data = [
+        {
+                "w": "অগ্র",
+                "a": "পশ্চাৎ"
+        },
+        {
+                "w": "অগ্রগামী",
+                "a": "পশ্চাৎগামী"
+        },
+        {
+                "w": "অগ্রজ",
+                "a": "অনুজ"
+        },
+        {
+                "w": "অঘটন",
+                "a": "ঘটন"
+        },
+        {
+                "w": "অচলায়তন",
+                "a": "সচলায়তন"
+        },
+        {
+                "w": "অজ্ঞ",
+                "a": "বিজ্ঞ/জ্ঞানী"
+        },
+        {
+                "w": "অতিকায়",
+                "a": "ক্ষুদ্রকায়"
+        },
+        {
+                "w": "অতিবৃষ্টি",
+                "a": "অনাবৃষ্টি"
+        },
+        {
+                "w": "অধম",
+                "a": "উত্তম"
+        },
+        {
+                "w": "অধমর্ণ",
+                "a": "উত্তমর্ণ"
+        },
+        {
+                "w": "অধঃ",
+                "a": "ঊর্ধ্ব"
+        },
+        {
+                "w": "অধিত্যকা",
+                "a": "উপত্যকা"
+        },
+        {
+                "w": "অনন্ত",
+                "a": "সান্ত"
+        },
+        {
+                "w": "অনির্বাণ",
+                "a": "নির্বাণ"
+        },
+        {
+                "w": "অনুকূল",
+                "a": "প্রতিকূল"
+        },
+        {
+                "w": "অনুগ্রহ",
+                "a": "নিগ্রহ"
+        },
+        {
+                "w": "অনুরক্ত",
+                "a": "বিরক্ত"
+        },
+        {
+                "w": "অন্ত",
+                "a": "অনন্ত"
+        },
+        {
+                "w": "অন্তর",
+                "a": "বাহির"
+        },
+        {
+                "w": "অন্তরঙ্গ",
+                "a": "বহিরঙ্গ"
+        },
+        {
+                "w": "অন্বয়ী",
+                "a": "অনন্বয়ী"
+        },
+        {
+                "w": "অপকর্ষ",
+                "a": "উৎকর্ষ"
+        },
+        {
+                "w": "অপকার",
+                "a": "উপকার"
+        },
+        {
+                "w": "অবতরণ",
+                "a": "আরোহণ"
+        },
+        {
+                "w": "অবনত",
+                "a": "উন্নত"
+        },
+        {
+                "w": "অবনমিত",
+                "a": "উন্নীত"
+        },
+        {
+                "w": "অমৃত",
+                "a": "বিষ, গরল"
+        },
+        {
+                "w": "অর্জন",
+                "a": "বর্জন"
+        },
+        {
+                "w": "অর্পণ",
+                "a": "গ্রহণ"
+        },
+        {
+                "w": "অর্বাচীন",
+                "a": "প্রাচীন"
+        },
+        {
+                "w": "অলস",
+                "a": "পরিশ্রমী"
+        },
+        {
+                "w": "অলীক",
+                "a": "বাস্তব"
+        },
+        {
+                "w": "অস্তগামী",
+                "a": "উদীয়মান"
+        },
+        {
+                "w": "অস্তি",
+                "a": "নাস্তি"
+        },
+        {
+                "w": "আকর্ষণ",
+                "a": "বিকর্ষণ"
+        },
+        {
+                "w": "আকাশ",
+                "a": "পাতাল"
+        },
+        {
+                "w": "আকুঞ্চন",
+                "a": "প্রসারণ"
+        },
+        {
+                "w": "আগমন",
+                "a": "প্রস্থান"
+        },
+        {
+                "w": "আচার",
+                "a": "অনাচার"
+        },
+        {
+                "w": "আদান",
+                "a": "প্রদান"
+        },
+        {
+                "w": "আদি",
+                "a": "অন্ত"
+        },
+        {
+                "w": "আদিম",
+                "a": "অন্তিম"
+        },
+        {
+                "w": "আদ্য",
+                "a": "অন্ত্য"
+        },
+        {
+                "w": "আপন",
+                "a": "পর"
+        },
+        {
+                "w": "আবশ্যক",
+                "a": "ঐচ্ছিক"
+        },
+        {
+                "w": "আবাহন",
+                "a": "বিসর্জন"
+        },
+        {
+                "w": "আবির্ভাব",
+                "a": "তিরোভাব"
+        },
+        {
+                "w": "আবিল",
+                "a": "অনাবিল"
+        },
+        {
+                "w": "আমদানি",
+                "a": "রপ্তানি"
+        },
+        {
+                "w": "আয়",
+                "a": "ব্যয়"
+        },
+        {
+                "w": "আরোহণ",
+                "a": "অবরোহণ"
+        },
+        {
+                "w": "আলোক",
+                "a": "অন্ধকার"
+        },
+        {
+                "w": "আশা",
+                "a": "নিরাশা"
+        },
+        {
+                "w": "আশু",
+                "a": "বিলম্ব"
+        },
+        {
+                "w": "আশ্লেষ",
+                "a": "বিশ্লেষ"
+        },
+        {
+                "w": "আসক্তি",
+                "a": "নিরাসক্তি"
+        },
+        {
+                "w": "আস্তিক",
+                "a": "নাস্তিক"
+        },
+        {
+                "w": "ইতর",
+                "a": "ভদ্র"
+        },
+        {
+                "w": "ইতিবাচক",
+                "a": "নেতিবাচক"
+        },
+        {
+                "w": "ইন্দ্রিয়",
+                "a": "অতীন্দ্রিয়"
+        },
+        {
+                "w": "ইহকাল",
+                "a": "পরকাল"
+        },
+        {
+                "w": "ইহলৌকিক",
+                "a": "পারলৌকিক"
+        },
+        {
+                "w": "ঈষৎ",
+                "a": "অধিক"
+        },
+        {
+                "w": "উক্ত",
+                "a": "অনুক্ত"
+        },
+        {
+                "w": "উচাটন",
+                "a": "প্রশান্ত"
+        },
+        {
+                "w": "উজান",
+                "a": "ভাটি"
+        },
+        {
+                "w": "উত্তম",
+                "a": "অধম"
+        },
+        {
+                "w": "উত্তমর্ণ",
+                "a": "অধমর্ণ"
+        },
+        {
+                "w": "উত্থান",
+                "a": "পতন"
+        },
+        {
+                "w": "উৎকর্ষ",
+                "a": "অপকর্ষ"
+        },
+        {
+                "w": "উৎকৃষ্ট",
+                "a": "অপকৃষ্ট/নিকৃষ্ট"
+        },
+        {
+                "w": "উৎসাহ",
+                "a": "নিরুৎসাহ"
+        },
+        {
+                "w": "উদার",
+                "a": "কৃপণ"
+        },
+        {
+                "w": "উদ্ধত",
+                "a": "বিনয়"
+        },
+        {
+                "w": "উদ্ধত্য",
+                "a": "বিনয়"
+        },
+        {
+                "w": "উন্নতি",
+                "a": "অবনতি"
+        },
+        {
+                "w": "উন্মুখ",
+                "a": "বিমুখ"
+        },
+        {
+                "w": "উপচিকীর্ষা",
+                "a": "অপচিকীর্ষা"
+        },
+        {
+                "w": "উপত্যকা",
+                "a": "অধিত্যকা"
+        },
+        {
+                "w": "উপসর্গ",
+                "a": "অনুসর্গ"
+        },
+        {
+                "w": "উর্ধ্ব",
+                "a": "অধঃ"
+        },
+        {
+                "w": "উর্বর",
+                "a": "ঊষর"
+        },
+        {
+                "w": "ঊর্ধ্ব",
+                "a": "অধঃ/নিম্ন"
+        },
+        {
+                "w": "ঋজু",
+                "a": "বক্র"
+        },
+        {
+                "w": "ঐক্য",
+                "a": "অনৈক্য"
+        },
+        {
+                "w": "ঐশ্বর্য",
+                "a": "দারিদ্র্য"
+        },
+        {
+                "w": "ঐহিক",
+                "a": "পারত্রিক"
+        },
+        {
+                "w": "ওস্তাদ",
+                "a": "সাগরেদ"
+        },
+        {
+                "w": "কদাচিৎ",
+                "a": "হরদম/প্রায়শ"
+        },
+        {
+                "w": "কনিষ্ঠ",
+                "a": "জ্যেষ্ঠ"
+        },
+        {
+                "w": "করাল",
+                "a": "সৌম্য"
+        },
+        {
+                "w": "কর্মঠ",
+                "a": "অলস"
+        },
+        {
+                "w": "কলুষ",
+                "a": "নিষ্কলুষ"
+        },
+        {
+                "w": "কাপুরুষ",
+                "a": "বীরপুরুষ"
+        },
+        {
+                "w": "কুঞ্চন",
+                "a": "প্রসারণ"
+        },
+        {
+                "w": "কুটিল",
+                "a": "সরল"
+        },
+        {
+                "w": "কৃতজ্ঞ",
+                "a": "অকৃতজ্ঞ"
+        },
+        {
+                "w": "কৃত্রিম",
+                "a": "স্বাভাবিক"
+        },
+        {
+                "w": "কৃপণ",
+                "a": "উদার/বদান্য"
+        },
+        {
+                "w": "কৃশ",
+                "a": "স্থূল"
+        },
+        {
+                "w": "কৃশাঙ্গী",
+                "a": "স্থূলাঙ্গী"
+        },
+        {
+                "w": "কোমল",
+                "a": "কর্কশ"
+        },
+        {
+                "w": "ক্ষয়িষ্ণু",
+                "a": "বর্ধিষ্ণু"
+        },
+        {
+                "w": "ক্ষীয়মাণ",
+                "a": "বর্ধমান"
+        },
+        {
+                "w": "খাতক",
+                "a": "মহাজন"
+        },
+        {
+                "w": "খ্যাতি",
+                "a": "অখ্যাতি"
+        },
+        {
+                "w": "গরিষ্ঠ",
+                "a": "লঘিষ্ঠ"
+        },
+        {
+                "w": "গাঢ়",
+                "a": "পাতলা"
+        },
+        {
+                "w": "গৃহী",
+                "a": "সন্ন্যাসী"
+        },
+        {
+                "w": "গৌণ",
+                "a": "মুখ্য"
+        },
+        {
+                "w": "গ্রহণ",
+                "a": "বর্জন"
+        },
+        {
+                "w": "গ্রহণীয়",
+                "a": "বর্জনীয়"
+        },
+        {
+                "w": "গ্রাম্য",
+                "a": "শহুরে"
+        },
+        {
+                "w": "ঘোষ",
+                "a": "অঘোষ"
+        },
+        {
+                "w": "চঞ্চল",
+                "a": "স্থির"
+        },
+        {
+                "w": "চটুল",
+                "a": "গম্ভীর"
+        },
+        {
+                "w": "চতুর",
+                "a": "নির্বোধ"
+        },
+        {
+                "w": "চপল",
+                "a": "গম্ভীর"
+        },
+        {
+                "w": "জড়",
+                "a": "চেতন"
+        },
+        {
+                "w": "জরা",
+                "a": "যৌবন"
+        },
+        {
+                "w": "জলচর",
+                "a": "স্থলচর"
+        },
+        {
+                "w": "জাগ্রত",
+                "a": "সুপ্ত"
+        },
+        {
+                "w": "জ্ঞানী",
+                "a": "অজ্ঞান/মূর্খ"
+        },
+        {
+                "w": "জ্ঞেয়",
+                "a": "অজ্ঞেয়"
+        },
+        {
+                "w": "জ্যোৎস্না",
+                "a": "অমাবস্যা"
+        },
+        {
+                "w": "টক",
+                "a": "মিষ্টি"
+        },
+        {
+                "w": "টাটকা",
+                "a": "বাসি"
+        },
+        {
+                "w": "তরল",
+                "a": "কঠিন"
+        },
+        {
+                "w": "তস্কর",
+                "a": "সাধু"
+        },
+        {
+                "w": "তাপ",
+                "a": "শৈত্য"
+        },
+        {
+                "w": "তামসিক",
+                "a": "রাজসিক"
+        },
+        {
+                "w": "তারুণ্য",
+                "a": "বার্ধক্য"
+        },
+        {
+                "w": "তিক্ত",
+                "a": "মধুর"
+        },
+        {
+                "w": "তিমির",
+                "a": "আলো"
+        },
+        {
+                "w": "তিরস্কার",
+                "a": "পুরস্কার"
+        },
+        {
+                "w": "তির্যক",
+                "a": "সরল"
+        },
+        {
+                "w": "তীক্ষ্ণ",
+                "a": "ভোঁতা"
+        },
+        {
+                "w": "তীব্র",
+                "a": "লঘু/মৃদু"
+        },
+        {
+                "w": "তেজি",
+                "a": "নিস্তেজ"
+        },
+        {
+                "w": "ত্বরিত",
+                "a": "শ্লথ"
+        },
+        {
+                "w": "থামা",
+                "a": "চলা"
+        },
+        {
+                "w": "দণ্ড",
+                "a": "পুরস্কার"
+        },
+        {
+                "w": "দরাজ",
+                "a": "সংকীর্ণ"
+        },
+        {
+                "w": "দাতা",
+                "a": "গ্রহীতা"
+        },
+        {
+                "w": "দারক",
+                "a": "দুহিতা"
+        },
+        {
+                "w": "দিগন্ত",
+                "a": "আদিগন্ত"
+        },
+        {
+                "w": "দিন",
+                "a": "রাত"
+        },
+        {
+                "w": "দিবা",
+                "a": "রাত্রি"
+        },
+        {
+                "w": "দীন",
+                "a": "ধনী"
+        },
+        {
+                "w": "দীর্ঘ",
+                "a": "হ্রস্ব"
+        },
+        {
+                "w": "দুর্গম",
+                "a": "সুগম"
+        },
+        {
+                "w": "দুর্জন",
+                "a": "সজ্জন"
+        },
+        {
+                "w": "দুর্মতি",
+                "a": "সুমতি"
+        },
+        {
+                "w": "দুর্লভ",
+                "a": "সুলভ"
+        },
+        {
+                "w": "দুষ্কৃত",
+                "a": "সুকৃত"
+        },
+        {
+                "w": "দোষী",
+                "a": "নির্দোষ"
+        },
+        {
+                "w": "দ্যুলোক",
+                "a": "ভূলোক"
+        },
+        {
+                "w": "ধারালো",
+                "a": "ভোঁতা"
+        },
+        {
+                "w": "ধৃষ্ট",
+                "a": "বিনয়ী/নম্র"
+        },
+        {
+                "w": "নন্দিত",
+                "a": "নিন্দিত"
+        },
+        {
+                "w": "নর",
+                "a": "নারী"
+        },
+        {
+                "w": "নশ্বর",
+                "a": "অবিনশ্বর"
+        },
+        {
+                "w": "নাস্তিক",
+                "a": "আস্তিক"
+        },
+        {
+                "w": "নিন্দা",
+                "a": "স্তুতি/প্রশংসা"
+        },
+        {
+                "w": "নিরক্ষর",
+                "a": "সাক্ষর"
+        },
+        {
+                "w": "নিরর্থক",
+                "a": "সার্থক"
+        },
+        {
+                "w": "নিরীহ",
+                "a": "হিংস্র"
+        },
+        {
+                "w": "নিশি",
+                "a": "দিবা"
+        },
+        {
+                "w": "নৈসর্গিক",
+                "a": "কৃত্রিম"
+        },
+        {
+                "w": "পটু",
+                "a": "অপটু"
+        },
+        {
+                "w": "পদস্থ",
+                "a": "নিম্নস্থ"
+        },
+        {
+                "w": "পবিত্র",
+                "a": "অপবিত্র"
+        },
+        {
+                "w": "পরতন্ত্র",
+                "a": "স্বতন্ত্র"
+        },
+        {
+                "w": "পরলোক",
+                "a": "ইহলোক"
+        },
+        {
+                "w": "পশ্চাৎ",
+                "a": "অগ্র"
+        },
+        {
+                "w": "পাকা",
+                "a": "কাঁচা"
+        },
+        {
+                "w": "পাশবিক",
+                "a": "মানবিক"
+        },
+        {
+                "w": "পুরস্কার",
+                "a": "তিরস্কার"
+        },
+        {
+                "w": "পূর্বসুরি",
+                "a": "উত্তরসুরি"
+        },
+        {
+                "w": "প্রকাশ",
+                "a": "গোপন"
+        },
+        {
+                "w": "প্রচুর",
+                "a": "অল্প"
+        },
+        {
+                "w": "প্রতিঘাত",
+                "a": "ঘাত"
+        },
+        {
+                "w": "প্রতিযোগী",
+                "a": "সহযোগী"
+        },
+        {
+                "w": "প্রতিলোম",
+                "a": "অনুলোম"
+        },
+        {
+                "w": "প্রতীচী",
+                "a": "প্রাচী"
+        },
+        {
+                "w": "প্রত্যক্ষ",
+                "a": "পরোক্ষ"
+        },
+        {
+                "w": "প্রফুল্ল",
+                "a": "বিমর্ষ"
+        },
+        {
+                "w": "প্রবাস",
+                "a": "স্ববাস"
+        },
+        {
+                "w": "প্রসন্ন",
+                "a": "বিষণ্ণ"
+        },
+        {
+                "w": "প্রসারণ",
+                "a": "সংকোচন"
+        },
+        {
+                "w": "প্রসারিত",
+                "a": "সংকুচিত"
+        },
+        {
+                "w": "প্রাচ্য",
+                "a": "প্রতীচ্য/পাশ্চাত্য"
+        },
+        {
+                "w": "প্রায়শ",
+                "a": "কদাচিৎ"
+        },
+        {
+                "w": "ফলন্ত",
+                "a": "নিষ্ফলা"
+        },
+        {
+                "w": "ফাঁপা",
+                "a": "নিরেট"
+        },
+        {
+                "w": "বক্তা",
+                "a": "শ্রোতা"
+        },
+        {
+                "w": "বন্ধন",
+                "a": "মুক্তি"
+        },
+        {
+                "w": "বন্ধুর",
+                "a": "মসৃণ/সমতল"
+        },
+        {
+                "w": "বরখাস্ত",
+                "a": "বহাল"
+        },
+        {
+                "w": "বাউন্ডুলে",
+                "a": "সংসারী"
+        },
+        {
+                "w": "বাচাল",
+                "a": "স্বল্পভাষী"
+        },
+        {
+                "w": "বালক",
+                "a": "বালিকা"
+        },
+        {
+                "w": "বাহুল্য",
+                "a": "প্রয়োজনীয়"
+        },
+        {
+                "w": "বিচ্ছেদ",
+                "a": "সন্ধি"
+        },
+        {
+                "w": "বিদ্বান",
+                "a": "মূর্খ"
+        },
+        {
+                "w": "বিনীত",
+                "a": "উদ্ধত/দুর্বিনীত"
+        },
+        {
+                "w": "বিপত্নীক",
+                "a": "বিধবা"
+        },
+        {
+                "w": "বিরাগ",
+                "a": "অনুরাগ"
+        },
+        {
+                "w": "বিরোধ",
+                "a": "সদ্ভাব"
+        },
+        {
+                "w": "বিশ্বস্ত",
+                "a": "অবিশ্বস্ত"
+        },
+        {
+                "w": "বিশ্রী",
+                "a": "সুশ্রী"
+        },
+        {
+                "w": "বেনামে",
+                "a": "স্বনামে"
+        },
+        {
+                "w": "বৈরাগ্য",
+                "a": "আসক্তি"
+        },
+        {
+                "w": "ব্যষ্টি",
+                "a": "সমষ্টি"
+        },
+        {
+                "w": "ভর্ৎসনা",
+                "a": "প্রশংসা"
+        },
+        {
+                "w": "ভাটি",
+                "a": "জোয়ার"
+        },
+        {
+                "w": "ভাল",
+                "a": "মন্দ"
+        },
+        {
+                "w": "ভীরু",
+                "a": "নির্ভীক"
+        },
+        {
+                "w": "ভূত",
+                "a": "ভবিষ্যৎ"
+        },
+        {
+                "w": "ভূলোক",
+                "a": "দ্যুলোক"
+        },
+        {
+                "w": "ভূস্বামী",
+                "a": "ভূমিহীন"
+        },
+        {
+                "w": "ভেজাল",
+                "a": "খাঁটি"
+        },
+        {
+                "w": "মধুর",
+                "a": "কটু"
+        },
+        {
+                "w": "মন্থর",
+                "a": "ক্ষিপ্র"
+        },
+        {
+                "w": "মলিন",
+                "a": "নির্মল"
+        },
+        {
+                "w": "মহাপ্রাণ",
+                "a": "অল্পপ্রাণ"
+        },
+        {
+                "w": "মুক্ত",
+                "a": "আবদ্ধ"
+        },
+        {
+                "w": "মুখর",
+                "a": "মৌন"
+        },
+        {
+                "w": "মুখ্য",
+                "a": "গৌণ"
+        },
+        {
+                "w": "মূর্ত",
+                "a": "বিমূর্ত"
+        },
+        {
+                "w": "মৌন",
+                "a": "মুখর"
+        },
+        {
+                "w": "যত",
+                "a": "তত"
+        },
+        {
+                "w": "যাযাবর",
+                "a": "স্থায়ী"
+        },
+        {
+                "w": "যুক্ত",
+                "a": "বিযুক্ত"
+        },
+        {
+                "w": "রদ",
+                "a": "চালু"
+        },
+        {
+                "w": "রাগ",
+                "a": "বিরাগ"
+        },
+        {
+                "w": "রাজা",
+                "a": "প্রজা"
+        },
+        {
+                "w": "রিক্ত",
+                "a": "পূর্ণ"
+        },
+        {
+                "w": "রুষ্ট",
+                "a": "তুষ্ট"
+        },
+        {
+                "w": "লগ্ন",
+                "a": "চ্যুত"
+        },
+        {
+                "w": "লঘু",
+                "a": "গুরু"
+        },
+        {
+                "w": "শিথিল",
+                "a": "সুদৃঢ়"
+        },
+        {
+                "w": "শিষ্ট",
+                "a": "অশিষ্ট"
+        },
+        {
+                "w": "শীতল",
+                "a": "উষ্ণ"
+        },
+        {
+                "w": "শুরু",
+                "a": "শেষ"
+        },
+        {
+                "w": "শূন্য",
+                "a": "পূর্ণ"
+        },
+        {
+                "w": "শ্বশুর",
+                "a": "শাশুড়ি"
+        },
+        {
+                "w": "সচেতন",
+                "a": "অসচেতন"
+        },
+        {
+                "w": "সচেষ্ট",
+                "a": "নিশ্চেষ্ট"
+        },
+        {
+                "w": "সজীব",
+                "a": "নির্জীব"
+        },
+        {
+                "w": "সঞ্চয়",
+                "a": "অপচয়"
+        },
+        {
+                "w": "সদয়",
+                "a": "নির্দয়"
+        },
+        {
+                "w": "সন্ধি",
+                "a": "বিগ্রহ"
+        },
+        {
+                "w": "সন্ন্যাসী",
+                "a": "গৃহী"
+        },
+        {
+                "w": "সবল",
+                "a": "দুর্বল"
+        },
+        {
+                "w": "সমষ্টি",
+                "a": "ব্যষ্টি"
+        },
+        {
+                "w": "সমস্ত",
+                "a": "অংশ"
+        },
+        {
+                "w": "সম্বল",
+                "a": "নিঃসম্বল"
+        },
+        {
+                "w": "সম্মুখ",
+                "a": "পশ্চাৎ"
+        },
+        {
+                "w": "সরস",
+                "a": "নীরস"
+        },
+        {
+                "w": "সংকীর্ণ",
+                "a": "প্রশস্ত"
+        },
+        {
+                "w": "সংক্ষিপ্ত",
+                "a": "বিস্তৃত"
+        },
+        {
+                "w": "সংশয়",
+                "a": "প্রত্যয়"
+        },
+        {
+                "w": "সংশ্লেষণ",
+                "a": "বিশ্লেষণ"
+        },
+        {
+                "w": "সাকার",
+                "a": "নিরাকার"
+        },
+        {
+                "w": "সাধু",
+                "a": "অসাধু/চোর"
+        },
+        {
+                "w": "সাফল্য",
+                "a": "ব্যর্থতা"
+        },
+        {
+                "w": "সাবেক",
+                "a": "হাল"
+        },
+        {
+                "w": "সাহসী",
+                "a": "ভীতু"
+        },
+        {
+                "w": "সুখ",
+                "a": "দুঃখ"
+        },
+        {
+                "w": "সুন্দর",
+                "a": "কুৎসিত"
+        },
+        {
+                "w": "সুপ্ত",
+                "a": "জাগ্রত"
+        },
+        {
+                "w": "সুশীল",
+                "a": "দুঃশীল"
+        },
+        {
+                "w": "সূক্ষ্ম",
+                "a": "স্থূল"
+        },
+        {
+                "w": "সৃষ্টি",
+                "a": "ধ্বংস"
+        },
+        {
+                "w": "সৌম্য",
+                "a": "উগ্র"
+        },
+        {
+                "w": "স্তুতি",
+                "a": "নিন্দা"
+        },
+        {
+                "w": "স্থাবর",
+                "a": "অস্থাবর"
+        },
+        {
+                "w": "স্নিগ্ধ",
+                "a": "রুক্ষ"
+        },
+        {
+                "w": "স্বকীয়",
+                "a": "পরকীয়"
+        },
+        {
+                "w": "স্বতন্ত্র",
+                "a": "পরতন্ত্র"
+        },
+        {
+                "w": "স্বর্গ",
+                "a": "মর্ত্য"
+        },
+        {
+                "w": "স্বাধীন",
+                "a": "পরাধীন"
+        },
+        {
+                "w": "স্মৃতি",
+                "a": "বিস্মৃতি"
+        },
+        {
+                "w": "হতবুদ্ধি",
+                "a": "স্থিরবুদ্ধি"
+        },
+        {
+                "w": "হরণ",
+                "a": "পূরণ"
+        },
+        {
+                "w": "হর্ষ",
+                "a": "বিষাদ"
+        },
+        {
+                "w": "হাল",
+                "a": "সাবেক"
+        },
+        {
+                "w": "হৃদয়তা",
+                "a": "কপটতা"
+        }
+];
+
+   
+    let favorites = JSON.parse(localStorage.getItem('antonymFavs_v3')) || [];
+    let currentMode = 'study';
+    let showFavsOnly = false;
+
+    function setMode(mode) {
+        currentMode = mode;
+        showFavsOnly = false;
+        updateUI();
+    }
+
+    function toggleFavView() {
+        if (currentMode === 'quiz') return;
+        showFavsOnly = !showFavsOnly;
+        document.getElementById('favMainBtn').style.filter = showFavsOnly ? "drop-shadow(0 0 20px var(--neon-pink)) scale(1.2)" : "drop-shadow(0 0 10px var(--neon-pink))";
+        renderList();
+    }
+
+    function updateUI() {
+        document.getElementById('studyBtn').classList.toggle('active', currentMode === 'study');
+        document.getElementById('practiceBtn').classList.toggle('active', currentMode === 'practice');
+        document.getElementById('quizBtn').classList.toggle('active', currentMode === 'quiz');
+        
+        const listDiv = document.getElementById('main-list');
+        const quizDiv = document.getElementById('quiz-area');
+        const searchArea = document.getElementById('searchArea');
+
+        if (currentMode === 'quiz') {
+            listDiv.style.display = 'none';
+            quizDiv.style.display = 'block';
+            searchArea.style.visibility = 'hidden';
+            startQuiz();
+        } else {
+            listDiv.style.display = 'block';
+            quizDiv.style.display = 'none';
+            searchArea.style.visibility = 'visible';
+            renderList();
+        }
+    }
+
+    function renderList() {
+        const list = document.getElementById('main-list');
+        list.innerHTML = "";
+        data.forEach((item, index) => {
+            const isFav = favorites.includes(index);
+            if (showFavsOnly && !isFav) return;
+
+            const div = document.createElement('div');
+            div.className = 'item-wrapper';
+            div.id = `item-${index + 1}`; // রকেটের জাম্পের জন্য আইডি যুক্ত করা হলো
+            
+            let cardContent = "";
+            if (currentMode === 'study') {
+                cardContent = `
+                    <div class="study-content">
+                        <div class="study-word">${item.w}</div>
+                        <div style="color:var(--neon-blue); opacity:0.3;">×</div>
+                        <div class="study-antonym">${item.a}</div>
+                    </div>`;
+            } else {
+                cardContent = `
+                    <div class="practice-trigger" onclick="magicFlip(${index})">
+                        <div id="w-${index}" class="p-word">${item.w}</div>
+                        <div id="a-${index}" class="p-ans">${item.a}</div>
+                    </div>`;
+            }
+
+            div.innerHTML = `
+                <span class="serial">${index + 1}</span>
+                <div class="card">${cardContent}</div>
+                <div class="item-fav-btn ${isFav ? 'active' : ''}" onclick="toggleFav(${index})">❤️</div>
+            `;
+            list.appendChild(div);
+        });
+    }
+
+    function magicFlip(index) {
+        const w = document.getElementById(`w-${index}`);
+        const a = document.getElementById(`a-${index}`);
+        if (a.classList.contains('show-ans')) {
+            w.classList.remove('faded');
+            a.classList.remove('show-ans');
+        } else {
+            w.classList.add('faded');
+            a.classList.add('show-ans');
+        }
+    }
+
+    function toggleFav(idx) {
+        const pos = favorites.indexOf(idx);
+        if (pos === -1) favorites.push(idx);
+        else favorites.splice(pos, 1);
+        localStorage.setItem('antonymFavs_v3', JSON.stringify(favorites));
+        renderList();
+    }
+
+    function startQuiz() {
+        document.getElementById('nextBtn').style.display = 'none';
+        const randomIndex = Math.floor(Math.random() * data.length);
+        const currentItem = data[randomIndex];
+        document.getElementById('targetWord').innerText = currentItem.w;
+        
+        let opts = [currentItem.a];
+        while (opts.length < 4 && opts.length < data.length) {
+            let r = data[Math.floor(Math.random() * data.length)].a;
+            if (!opts.includes(r)) opts.push(r);
+        }
+        opts.sort(() => Math.random() - 0.5);
+        
+        const optionsDiv = document.getElementById('options');
+        optionsDiv.innerHTML = "";
+        opts.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerText = opt;
+            btn.onclick = () => {
+                const all = document.querySelectorAll('.option-btn');
+                all.forEach(b => b.disabled = true);
+                if (opt === currentItem.a) btn.classList.add('correct');
+                else {
+                    btn.classList.add('wrong');
+                    all.forEach(b => { if(b.innerText === currentItem.a) b.classList.add('correct'); });
+                }
+                document.getElementById('nextBtn').style.display = 'inline-block';
+            };
+            optionsDiv.appendChild(btn);
+        });
+    }
+
+    /* রকেটের ফংশনগুলো */
+    function toggleRocket() {
+        const menu = document.getElementById('rocketMenu');
+        menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+    }
+
+    function jumpTo() {
+        let num = document.getElementById('jumpInput').value;
+        let el = document.getElementById(`item-${num}`);
+        if(el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            toggleRocket();
+        }
+    }
+
+    window.onscroll = () => {
+        let top = window.scrollY;
+        const header = document.getElementById('header');
+        if (top > 100) header.classList.add('header-hide');
+        else header.classList.remove('header-hide');
+    };
+
+    function filter() {
+        let val = document.getElementById('search').value.toLowerCase();
+        document.querySelectorAll('.item-wrapper').forEach(row => {
+            row.style.display = row.innerText.toLowerCase().includes(val) ? "flex" : "none";
+        });
+    }
+
+    renderList();
+</script>
+</body>
+</html>
