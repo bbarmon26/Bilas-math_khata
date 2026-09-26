@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="bn">
 <head>
@@ -7,7 +8,7 @@
     
     <!-- 🌟 ১. সোশ্যাল মিডিয়া লিংক প্রিভিউ থাম্বনেইল (Open Graph) সেটিংস -->
     <meta property="og:title" content="BILAS ACADEMY ∆ স্মার্ট পড়াশোনা">
-    <meta property="og:description" content="চাকরি প্রস্তুতির জন্য আল্ট্রা-প্রিমিয়াম ডিজিটাল স্টাডি নোট ও খাতা।">
+    <meta property="og:description" content="চাকরি প্রস্তুতির জন্য ডিজিটাল স্টাডি নোট।">
     <meta property="og:image" content="https://bbarmon26.github.io/Bilas-math_khata/thumbbacca26v2.jpg?v=1">
     <meta property="og:url" content="https://bbarmon26.github.io/Bilas-math_khata/index.html">
     <meta property="og:type" content="website">
@@ -25,7 +26,7 @@
     <script>
         (function() {
             const manifestObj = {
-                "short_name": "BAcademy",
+                "short_name": "BILAS Academy",
                 "name": "BILAS ACADEMY",
                 "icons": [
                     {
@@ -284,14 +285,15 @@
         .taped-photo { background: #ffffff; padding: 4px; box-shadow: 3px 6px 15px rgba(0,0,0,0.3); transform: rotate(-1.5deg); margin: 15px auto 25px auto; width: 100%; max-width: 320px; position: relative; }
         #fullscreenViewer { position: fixed; inset: 0; z-index: 700; background: rgba(0,0,0,0.98); display: none; flex-direction: column; align-items: center; justify-content: center; }
 
-        /* 📲 ইনস্টল ব্যানারের নিখুঁত ফ্লোটিং পজিশন (কাটা পড়া প্রতিরোধ) */
+        /* 📲 ইনস্টল ব্যানার সেন্টারিং সেটিংস */
         #pwaInstallBanner {
             position: fixed;
-            bottom: max(32px, calc(18px + env(safe-area-inset-bottom, 0px)));
+            bottom: max(24px, calc(16px + env(safe-area-inset-bottom, 0px)));
             left: 50%;
             transform: translateX(-50%);
-            width: 90%;
+            width: calc(100% - 32px);
             max-width: 380px;
+            margin: 0 auto;
             z-index: 9999;
             box-shadow: 0 20px 35px -5px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(16, 185, 129, 0.3);
         }
@@ -494,7 +496,7 @@
         <iframe id="fullscreenFrame" class="w-[98%] h-[85%] rounded-lg bg-white" src=""></iframe>
     </div>
 
-    <!-- 📲 ফ্লোটিং ইনস্টল ব্যানার -->
+    <!-- 📲 ফ্লোটিং ইনস্টল ব্যানার (সেন্টার পজিশন) -->
     <div id="pwaInstallBanner" style="display: none;" class="bg-slate-900/95 border border-emerald-500/60 backdrop-blur-xl p-3 rounded-2xl flex items-center justify-between gap-3">
         <div class="flex items-center gap-3">
             <img src="logobacca26v2.png" class="w-10 h-10 rounded-xl shadow border border-white/20 object-cover" alt="Logo">
@@ -1071,3 +1073,4 @@
     </script>
 </body>
 </html>
+```
