@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Abbreviation Master PRO</title>
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Orbitron:wght@600;800&family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg: #0d0221;
+            --glass: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --neon-blue: #00d2ff;
+            --neon-gold: #f6d365;
+            --neon-pink: #ff416c;
+            --neon-mint: #2dd4bf;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Hind Siliguri', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg);
+            background-image: radial-gradient(circle at 50% 0%, #1e1035 0%, #0d0221 80%);
+            background-attachment: fixed;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Ultra Compact Header */
+        .header-section {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            background: rgba(13, 2, 33, 0.96);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 8px 12px 6px 12px;
+            border-bottom: 1px solid rgba(0, 210, 255, 0.2);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .header-hide { transform: translateY(-110%); }
+
+        .header-container {
+            max-width: 720px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .brand-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .brand-name {
+            font-size: 18px;
+            font-weight: 900;
+            background: linear-gradient(to right, var(--neon-pink), var(--neon-gold), var(--neon-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 0.5px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .fav-logo { 
+            font-size: 18px; 
+            cursor: pointer; 
+            user-select: none;
+        }
+
+        .info-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 210, 255, 0.4);
+            color: var(--neon-blue);
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        /* Slim Mode Switcher */
+        .mode-switcher {
+            display: flex;
+            background: rgba(0, 0, 0, 0.45);
+            border-radius: 30px;
+            padding: 2px;
+            border: 1px solid var(--card-border);
+            gap: 3px;
+        }
+
+        .mode-btn {
+            flex: 1; 
+            padding: 5px 4px;
+            border-radius: 30px; 
+            border: none;
+            background: transparent; 
+            color: var(--text-muted);
+            font-weight: 700; 
+            font-size: 11px; 
+            cursor: pointer; 
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .mode-btn.active {
+            background: linear-gradient(135deg, var(--neon-blue), #0072ff);
+            color: #000;
+            font-weight: 800;
+            box-shadow: 0 0 10px rgba(0, 210, 255, 0.4);
+        }
+
+        /* Compact Category Scrollbar */
+        .category-bar {
+            display: flex;
+            gap: 5px;
+            overflow-x: auto;
+            padding: 2px 0;
+            scrollbar-width: none;
+        }
+
+        .category-bar::-webkit-scrollbar { display: none; }
+
+        .cat-chip {
+            white-space: nowrap;
+            padding: 3px 10px;
+            font-size: 10.5px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .cat-chip.active {
+            background: var(--neon-mint);
+            color: #000;
+            border-color: var(--neon-mint);
+            font-weight: 700;
+            box-shadow: 0 0 8px rgba(45, 212, 191, 0.3);
+        }
+
+        .search-box {
+            width: 100%; 
+            padding: 6px 14px;
+            border-radius: 30px; 
+            border: 1px solid rgba(0, 210, 255, 0.25);
+            background: rgba(0, 0, 0, 0.5); 
+            color: #fff;
+            outline: none; 
+            box-sizing: border-box;
+            font-size: 11.5px;
+        }
+
+        .search-box:focus {
+            border-color: var(--neon-blue);
+        }
+
+        /* Main Container - Faka jaiga ekdom minimized */
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 135px 12px 60px 12px;
+        }
+
+        .section-header {
+            margin: 12px 0 6px 0;
+            padding: 4px 10px;
+            background: linear-gradient(90deg, rgba(0, 210, 255, 0.15), transparent);
+            border-left: 3px solid var(--neon-blue);
+            border-radius: 0 8px 8px 0;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--neon-gold);
+        }
+
+        .item-wrapper { 
+            width: 100%;
+            margin-bottom: 10px; 
+            scroll-margin-top: 145px; 
+            position: relative;
+        }
+
+        .corner-serial-text {
+            position: absolute;
+            top: -7px;
+            left: 12px;
+            z-index: 20;
+            font-family: 'Orbitron', sans-serif;
+            color: rgba(255, 255, 255, 0.35);
+            font-weight: 800;
+            font-size: 12px;
+            line-height: 1;
+        }
+
+        .item-fav-btn {
+            position: absolute;
+            top: -8px;
+            right: 4px;
+            z-index: 20;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 17px;
+            color: rgba(255, 255, 255, 0.35);
+            padding: 2px;
+        }
+
+        .item-fav-btn.active {
+            color: var(--neon-pink);
+            filter: drop-shadow(0 0 6px var(--neon-pink));
+        }
+
+        /* Compact Card */
+        .card {
+            width: 100%;
+            background: var(--glass);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            position: relative;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            border-color: rgba(0, 210, 255, 0.3);
+        }
+
+        .practice-trigger { 
+            padding: 12px 14px; 
+            display: grid; 
+            grid-template-columns: 1fr; 
+            min-height: 52px;
+            align-items: center;
+            position: relative;
+            width: 100%;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .p-word { 
+            grid-area: 1 / 1;
+            font-size: 15px; 
+            color: #fff; 
+            font-weight: 700; 
+            text-align: center;
+            transition: opacity 0.2s ease;
+        }
+
+        .p-word.faded-mode {
+            opacity: 0.05;
+        }
+
+        .p-ans-overlay {
+            grid-area: 1 / 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            padding: 0 4px;
+        }
+
+        .p-ans-overlay.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .p-ans-text {
+            color: var(--neon-gold); 
+            font-size: 14.5px; 
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(246, 211, 101, 0.35);
+            line-height: 1.35;
+        }
+
+        /* Rocket Hub */
+        .rocket-hub { 
+            position: fixed; 
+            right: 14px; 
+            bottom: 20px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            z-index: 2000; 
+        }
+
+        .rocket-menu {
+            display: none; 
+            flex-direction: column; 
+            gap: 8px; 
+            background: rgba(26, 16, 61, 0.98);
+            padding: 12px 6px; 
+            border-radius: 40px; 
+            border: 1px solid var(--neon-blue);
+            margin-bottom: 8px; 
+            backdrop-filter: blur(12px); 
+        }
+
+        .rocket-menu.active {
+            display: flex;
+        }
+
+        .r-circle { 
+            width: 36px; 
+            height: 36px; 
+            background: #1a103d; 
+            border: 1px solid var(--neon-blue); 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            color: white; 
+            cursor: pointer; 
+            font-size: 12px;
+        }
+
+        .jump-box { 
+            width: 36px; 
+            height: 30px; 
+            background: #000; 
+            border: 1px solid var(--neon-pink); 
+            color: white; 
+            text-align: center; 
+            border-radius: 6px; 
+            font-size: 11px;
+            outline: none;
+        }
+
+        .go-btn { 
+            background: var(--neon-pink); 
+            border: none; 
+            padding: 4px; 
+            border-radius: 5px; 
+            font-weight: bold; 
+            color: #fff; 
+            cursor: pointer; 
+            font-size: 10px;
+        }
+
+        .rocket-icon { 
+            font-size: 34px; 
+            cursor: pointer; 
+            filter: drop-shadow(0 0 10px var(--neon-blue)); 
+        }
+
+        /* Guide Modal */
+        .modal-backdrop {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .modal-box {
+            background: #120926;
+            border: 1px solid rgba(0, 210, 255, 0.35);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 420px;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 16px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+        }
+
+        .modal-title { font-size: 15px; font-weight: 800; color: var(--neon-gold); }
+        .modal-close { background: none; border: none; color: #fff; font-size: 18px; cursor: pointer; }
+        .guide-item { margin-bottom: 8px; text-align: left; }
+        .guide-item h4 { font-size: 12px; color: var(--neon-blue); margin-bottom: 2px; }
+        .guide-item p { font-size: 11px; color: var(--text-muted); line-height: 1.35; }
+    </style>
+</head>
+<body>
+
+<div class="header-section" id="header">
+    <div class="header-container">
+        <div class="brand-area">
+            <span class="brand-name">Abbreviation Master</span>
+            <div class="header-actions">
+                <div class="fav-logo" id="favMainBtn" onclick="toggleFavView()" title="পছন্দের তালিকা">❤️</div>
+                <button class="info-btn" onclick="openGuideModal()"><i class="fas fa-info"></i></button>
+            </div>
+        </div>
+        
+        <!-- View Mode Switcher -->
+        <div class="mode-switcher">
+            <button class="mode-btn active" id="btnTopic" onclick="switchMode('topic')">
+                <i class="fas fa-layer-group"></i> Topic Wise (Sheet 3)
+            </button>
+            <button class="mode-btn" id="btnAtoZ" onclick="switchMode('atoz')">
+                <i class="fas fa-arrow-down-a-z"></i> A to Z Mode (Sheet 1)
+            </button>
+        </div>
+
+        <!-- Category Horizontal Filter inside Header -->
+        <div class="category-bar" id="categoryBar"></div>
+
+        <!-- Search Bar -->
+        <input type="text" id="search" class="search-box" placeholder="সার্চ করুন (যেমন: BIOS, RAM, WHO)..." oninput="renderList()">
+    </div>
+</div>
+
+<div class="container">
+    <div id="main-list"></div>
+</div>
+
+<!-- Rocket Hub -->
+<div class="rocket-hub">
+    <div class="rocket-menu" id="rocketMenu">
+        <div class="r-circle" onclick="window.scrollTo({top:0, behavior:'smooth'}); closeRocket();">⬆</div>
+        <input type="number" id="jumpInput" class="jump-box" placeholder="নং">
+        <button class="go-btn" onclick="jumpTo()">GO</button>
+        <div class="r-circle" onclick="window.scrollTo({top:document.body.scrollHeight, behavior:'smooth'}); closeRocket();">⬇</div>
+    </div>
+    <div class="rocket-icon" onclick="toggleRocket()">🚀</div>
+</div>
+
+<!-- Guide Modal -->
+<div class="modal-backdrop" id="guideModal" onclick="closeGuideModal(event)">
+    <div class="modal-box" onclick="event.stopPropagation()">
+        <div class="modal-header">
+            <span class="modal-title">📖 ব্যবহার নির্দেশিকা</span>
+            <button class="modal-close" onclick="closeGuideModal()">&times;</button>
+        </div>
+        <div class="guide-item">
+            <h4><i class="fas fa-layer-group"></i> Category Filter</h4>
+            <p>হেডারে থাকা ক্যাটাগরি চিপস চেপে সরাসরি নির্দিষ্ট বিষয়ের প্রশ্নগুলো ফিল্টার করে পড়তে পারবেন।</p>
+        </div>
+        <div class="guide-item">
+            <h4><i class="fas fa-brain"></i> Practice Mode</h4>
+            <p>কার্ডে টাচ করলেই মূল শব্দটি আবছা হয়ে এর সঠিক পূর্ণরূপ ভেসে উঠবে।</p>
+        </div>
+    </div>
+</div>
+
+<script>
+   const rawData = [
+        // ১. তথ্যপ্রযুক্তি ও কম্পিউটার
+        { q: "MICR", a: "Magnetic Ink Character Recognition", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "LAN", a: "Local Area Network", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "BIOS", a: "Basic Input Output System", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "ADRAM", a: "Asynchronous Dynamic Random Access Memory", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "RAM", a: "Random Access Memory", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "ROM", a: "Read Only Memory", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "CPU", a: "Central Processing Unit", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "HTTP", a: "Hypertext Transfer Protocol", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "PDF", a: "Portable Document Format", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "QR Code", a: "Quick Response Code", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "Wi-Fi / Wifi", a: "Wireless Fidelity", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "ChatGPT / CHAT GPT", a: "Chat Generative Pre-Trained Transformer", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "DPI", a: "Dots Per Inch", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "IOT", a: "Internet of Things", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "GPS", a: "Global Positioning System", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "HTML", a: "Hypertext Markup Language", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "JPEG", a: "Joint Photographic Experts Group", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "HSDPA", a: "High Speed Downlink Packet Access", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "EDGE", a: "Enhanced Data rates for GSM Evolution", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "CD", a: "Compact Disc", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "MB", a: "Megabyte", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "3G", a: "Third Generation", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "NWD", a: "Nation Wide Dialing", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "USB", a: "Universal Serial Bus", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "DHCP", a: "Dynamic Host Configuration Protocol", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "SMTP", a: "Simple Mail Transfer Protocol", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "IMEI", a: "International Mobile Equipment Identity", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "GPU", a: "Graphics Processing Unit", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "WAN", a: "Wide Area Network", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "VIRUS", a: "Vital Information Resources under Siege", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "WWW", a: "World Wide Web", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "OCR", a: "Optical Character Reader", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "OMR", a: "Optical Mark Recognition / Reader", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "PIN", a: "Personal Identification Number", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "GIS", a: "Geographic Information System", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "TCP/IP", a: "Transmission Control Protocol / Internet Protocol", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "4IR", a: "Fourth Industrial Revolution", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "RFID", a: "Radio-Frequency Identification", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "ALU", a: "Arithmetic Logic Unit", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "Wi-MAX / WiMAX", a: "Worldwide Interoperability for Microwave Access", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "PHP", a: "Hypertext Preprocessor", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "RDBMS", a: "Relational Database Management System", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "AI", a: "Artificial Intelligence", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "URL", a: "Uniform Resource Locator", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "TRD", a: "Test Requirements Document", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "POP3", a: "Post Office Protocol 3", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "DOS", a: "Disk Operating System", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "ASCII", a: "American Standard Code for Information Interchange", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "PDA", a: "Personal Digital Assistant", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "MS DOS", a: "Microsoft Disk Operating System", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "Mbps", a: "Megabits per second", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "PAN", a: "Personal Area Network", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "Bcc", a: "Blind Carbon Copy", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "DSS", a: "Decision Support System", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "CC", a: "Carbon Copy", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "DVD", a: "Digital Versatile Disc", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "SQL", a: "Structured Query Language", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "MAN", a: "Metropolitan Area Network", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "ICT", a: "Information and Communication Technology", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "GNSS", a: "Global Navigation Satellite System", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "VoIP", a: "Voice over Internet Protocol", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "EEPROM", a: "Electrically Erasable Programmable Read Only Memory", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "COBOL", a: "Common Business-Oriented Language", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "IP", a: "Internet Protocol", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "BCD", a: "Binary Coded Decimal", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "VPN", a: "Virtual Private Network", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "UNIX", a: "Uniplexed Information and Computing System / UNIX", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "UPS", a: "Uninterruptible Power Supply", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "FORTRAN", a: "Formula Translation", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "E-mail", a: "Electronic Mail", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "VSAT", a: "Very Small Aperture Terminal", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "GSM", a: "Global System for Mobile Communications", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "NGSO", a: "Non-Geostationary Orbit", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "PASCAL", a: "Programming Language for Algorithmic and Symbolic Calculations", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "CAD", a: "Computer Aided Design", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "ISP", a: "Internet Service Provider", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "AGI", a: "Artificial General Intelligence", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "IC", a: "Integrated Circuit", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "LCD", a: "Liquid Crystal Display", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "BIT", a: "Binary Digit", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "BYTE", a: "8 bits", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+        { q: "V-Phone", a: "Video Phone", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
+		
+		// ২. আন্তর্জাতিক সংস্থা ও জোট
+        { q: "OPEC", a: "Organization of the Petroleum Exporting Countries", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "UNESCO", a: "United Nations Educational, Scientific and Cultural Organization", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "OIC", a: "Organization of Islamic Cooperation", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "WTO", a: "World Trade Organization", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "BRICS", a: "Brazil, Russia, India, China, and South Africa", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "IUCN", a: "International Union for Conservation of Nature", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "SDG", a: "Sustainable Development Goals", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "WMO", a: "World Meteorological Organization", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "IPCC", a: "Intergovernmental Panel on Climate Change", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "ILO", a: "International Labor Organization", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "ADB", a: "Asian Development Bank", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "INTERPOL", a: "The International Criminal Police Organization", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "NATO", a: "North Atlantic Treaty Organization", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "WHO", a: "World Health Organization", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "IMF", a: "International Monetary Fund", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "WIPO", a: "World Intellectual Property Organization", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "IINA", a: "International Information Network Analysis", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "UNHCR", a: "United Nations High Commissioner for Refugees", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "IRRI", a: "International Rice Research Institute", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "CIRDAP", a: "Centre on Integrated Rural Development for Asia and the Pacific", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "UNDP", a: "United Nations Development Programme", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "IMO", a: "International Maritime Organization", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "CARE", a: "Cooperative for Assistance and Relief Everywhere", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "UNCTAD", a: "United Nations Conference on Trade and Development", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "IJSG", a: "International Jute Study Group", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "ITLOS", a: "International Tribunal for the Law of the Sea", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "IPEC", a: "International Programme on the Elimination of Child Labour", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "ASEAN", a: "Association of Southeast Asian Nations", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "WFP", a: "World Food Programme", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "UNV", a: "United Nations Volunteers", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "FAO", a: "Food and Agriculture Organization", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "ISESCO", a: "Islamic Educational, Scientific and Cultural Organization", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "OAPEC", a: "Organization of Arab Petroleum Exporting Countries", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "SAARC", a: "South Asian Association for Regional Cooperation", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "BIMSTEC", a: "Bay of Bengal Initiative for Multi-Sectoral Technical and Economic Cooperation", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "GAVI", a: "Global Alliance for Vaccines and Immunization", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "UNICEF", a: "United Nations International Children's Emergency Fund", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "ICPO", a: "International Criminal Police Organization", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "LDC", a: "Least Developed Countries", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "IDA", a: "International Development Association", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "UNFCCC", a: "United Nations Framework Convention on Climate Change", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "Cop-26 / COP", a: "Conference of the Parties (26)", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "IOM", a: "International Organization for Migration", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "ICRC", a: "International Committee of the Red Cross", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "UNIDO", a: "United Nations Industrial Development Organization", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "WCED", a: "World Commission on Environment and Development", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "CEDAW", a: "Convention on the Elimination of All Forms of Discrimination Against Women", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "UNFPA", a: "United Nations Population Fund", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+        { q: "SAFTA", a: "South Asian Free Trade Area", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
+		// ৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান
+        { q: "SFDF", a: "Small Farmer Development Foundation", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "ECNEC", a: "Executive Committee of National Economic Council", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "CAG", a: "Comptroller and Auditor General", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "SRDI", a: "Soil Resource Development Institute", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "A2i", a: "Aspire to Innovate", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "BSTI", a: "Bangladesh Standards and Testing Institution", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "BSMMU", a: "Bangabandhu Sheikh Mujib Medical University", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "MRT", a: "Massive Rapid Transit", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "SREDA", a: "Sustainable and Renewable Energy Development Authority", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "DSCC", a: "Dhaka South City Corporation", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "BIRDEM", a: "Bangladesh Institute of Research and Rehabilitation in Diabetes, Endocrine and Metabolic Disorders", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "BRRI", a: "Bangladesh Rice Research Institute", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "SPARRSO", a: "Bangladesh Space Research and Remote Sensing Organization", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "BRTC", a: "Bangladesh Road Transport Corporation", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "FID", a: "Financial Institutions Division", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "NBR", a: "National Board of Revenue", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "BSEC", a: "Bangladesh Securities and Exchange Commission", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "EPZ", a: "Export Processing Zone", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "BIDS", a: "Bangladesh Institute of Development Studies", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "BTRC", a: "Bangladesh Telecommunication Regulatory Commission", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "BCSIR", a: "Bangladesh Council of Scientific and Industrial Research", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "BFDC", a: "Bangladesh Film Development Corporation", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "AL", a: "Awami League", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "BIDA", a: "Bangladesh Investment Development Authority", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "IDRA", a: "Insurance Development and Regulatory Authority", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "BPATC / PATC", a: "Bangladesh Public Administration Training Centre", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "UNO", a: "Upazila Nirbahi Officer", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "BANBEIS", a: "Bangladesh Bureau of Educational Information and Statistics", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "BRTA", a: "Bangladesh Road Transport Authority", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "BNCC", a: "Bangladesh National Cadet Corps", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "BARI", a: "Bangladesh Agricultural Research Institute", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "NILG", a: "National Institute of Local Government", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "NEC", a: "National Economic Council", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "NITOR", a: "National Institute of Traumatology and Orthopaedic Rehabilitation", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "BEZA", a: "Bangladesh Economic Zones Authority", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "BEPZA", a: "Bangladesh Export Processing Zones Authority", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "JEC", a: "Joint Evalution Committee", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+        { q: "BWMRI", a: "Bangladesh Wheat and Maize Research Institute", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
+		
+		// ৪. অর্থনীতি, ব্যাংক, ব্যবসা ও রাজস্ব
+        { q: "GNP", a: "Gross National Product", topic: "৪. অর্থনীতি, ব্যাংক, ব্যবসা ও রাজস্ব" },
+        { q: "iBAS", a: "Integrated Budget and Accounting System", topic: "৪. অর্থনীতি, ব্যাংক, ব্যবসা ও রাজস্ব" },
+        { q: "BIN", a: "Bank Identification Number", topic: "৪. অর্থনীতি, ব্যাংক, ব্যবসা ও রাজস্ব" },
+        { q: "TIN / e-TIN", a: "Taxpayer's Identification Number / Electronic Taxpayer Identification Number", topic: "৪. অর্থনীতি, ব্যাংক, ব্যবসা ও রাজস্ব" },
+        { q: "SWIFT", a: "Society for Worldwide Interbank Financial Telecommunications", topic: "৪. অর্থনীতি, ব্যাংক, ব্যবসা ও রাজস্ব" },
+        { q: "V.G.F / VGF", a: "Vulnerable Group Feeding", topic: "৪. অর্থনীতি, ব্যাংক, ব্যবসা ও রাজস্ব" },
+        { q: "HIPC", a: "Heavily Indebted Poor Countries", topic: "৪. অর্থনীতি, ব্যাংক, ব্যবসা ও রাজস্ব" },
+        { q: "ATM", a: "Automated Teller Machine", topic: "৪. অর্থনীতি, ব্যাংক, ব্যবসা ও রাজস্ব" },
+        { q: "FD", a: "Fixed Deposit", topic: "৪. অর্থনীতি, ব্যাংক, ব্যবসা ও রাজস্ব" },
+        { q: "MFS", a: "Mobile Financial Services", topic: "৪. অর্থনীতি, ব্যাংক, ব্যবসা ও রাজস্ব" },
+        { q: "HSBC", a: "Hongkong and Shanghai Banking Corporation", topic: "৪. অর্থনীতি, ব্যাংক, ব্যবসা ও রাজস্ব" },
+        { q: "EFT", a: "Electronic Fund Transfer", topic: "৪. অর্থনীতি, ব্যাংক, ব্যবসা ও রাজস্ব" },
+        { q: "Repo Rate", a: "Repurchase Rate", topic: "৪. অর্থনীতি, ব্যাংক, ব্যবসা ও রাজস্ব" },
+        { q: "GDP", a: "Gross Domestic Product", topic: "৪. অর্থনীতি, ব্যাংক, ব্যবসা ও রাজস্ব" },
+        { q: "NPL", a: "Non-Performing Loan", topic: "৪. অর্থনীতি, ব্যাংক, ব্যবসা ও রাজস্ব" },
+        { q: "OMS", a: "Open Market Sale", topic: "৪. অর্থনীতি, ব্যাংক, ব্যবসা ও রাজস্ব" },
+        { q: "FDI", a: "Foreign Direct Investment", topic: "৪. অর্থনীতি, ব্যাংক, ব্যবসা ও রাজস্ব" },
+        { q: "RMG", a: "Ready Made Garments", topic: "৪. অর্থনীতি, ব্যাংক, ব্যবসা ও রাজস্ব" },
+
+        // ৫. বিজ্ঞান, প্রযুক্তি, কৃষি ও পরিবেশ
+        { q: "MTBF", a: "Mean Time Between Failure", topic: "৫. বিজ্ঞান, প্রযুক্তি, কৃষি ও পরিবেশ" },
+        { q: "RCBD", a: "Randomized Complete Block Design", topic: "৫. বিজ্ঞান, প্রযুক্তি, কৃষি ও পরিবেশ" },
+        { q: "IMP", a: "Integrated Pest Management", topic: "৫. বিজ্ঞান, প্রযুক্তি, কৃষি ও পরিবেশ" },
+        { q: "LCC", a: "Land Capability Classification", topic: "৫. বিজ্ঞান, প্রযুক্তি, কৃষি ও পরিবেশ" },
+        { q: "LPG", a: "Liquified Petroleum Gas", topic: "৫. বিজ্ঞান, প্রযুক্তি, কৃষি ও পরিবেশ" },
+        { q: "CNG", a: "Compressed Natural Gas", topic: "৫. বিজ্ঞান, প্রযুক্তি, কৃষি ও পরিবেশ" },
+        { q: "LED", a: "Light Emitting Diode", topic: "৫. বিজ্ঞান, প্রযুক্তি, কৃষি ও পরিবেশ" },
+        { q: "NASA", a: "National Aeronautics and Space Administration", topic: "৫. বিজ্ঞান, প্রযুক্তি, কৃষি ও পরিবেশ" },
+        { q: "3R", a: "Reduce, Reuse, Recycle", topic: "৫. বিজ্ঞান, প্রযুক্তি, কৃষি ও পরিবেশ" },
+        { q: "ETP", a: "Effluent Treatment Plant", topic: "৫. বিজ্ঞান, প্রযুক্তি, কৃষি ও পরিবেশ" },
+        { q: "RADAR", a: "Radio Detection And Ranging", topic: "৫. বিজ্ঞান, প্রযুক্তি, কৃষি ও পরিবেশ" },
+        { q: "LASER", a: "Light Amplification by Stimulated Emission of Radiation", topic: "৫. বিজ্ঞান, প্রযুক্তি, কৃষি ও পরিবেশ" },
+        { q: "HFC", a: "Hydrofluorocarbon", topic: "৫. বিজ্ঞান, প্রযুক্তি, কৃষি ও পরিবেশ" },
+
+        // ৬. শিক্ষা, খেলাধুলা, গণমাধ্যম ও সমাজকল্যাণ
+        { q: "FINA", a: "Federation and International De-nation Amateur", topic: "৬. শিক্ষা, খেলাধুলা, গণমাধ্যম ও সমাজকল্যাণ" },
+        { q: "BBC", a: "British Broadcasting Corporation", topic: "৬. শিক্ষা, খেলাধুলা, গণমাধ্যম ও সমাজকল্যাণ" },
+        { q: "AFP", a: "Agence France-Presse", topic: "৬. শিক্ষা, খেলাধুলা, গণমাধ্যম ও সমাজকল্যাণ" },
+        { q: "SASC", a: "South Asian Sports Council", topic: "৬. শিক্ষা, খেলাধুলা, গণমাধ্যম ও সমাজকল্যাণ" },
+        { q: "NSSS", a: "National Social Security Strategy", topic: "৬. শিক্ষা, খেলাধুলা, গণমাধ্যম ও সমাজকল্যাণ" },
+        { q: "ATN", a: "Asian Television Network", topic: "৬. শিক্ষা, খেলাধুলা, গণমাধ্যম ও সমাজকল্যাণ" },
+        { q: "ETS", a: "Educational Testing Service", topic: "৬. শিক্ষা, খেলাধুলা, গণমাধ্যম ও সমাজকল্যাণ" },
+        { q: "BOA", a: "Bangladesh Olympic Association", topic: "৬. শিক্ষা, খেলাধুলা, গণমাধ্যম ও সমাজকল্যাণ" },
+        { q: "FIFA", a: "Fédération Internationale de Football Association", topic: "৬. শিক্ষা, খেলাধুলা, গণমাধ্যম ও সমাজকল্যাণ" },
+        { q: "AM", a: "Ante Meridiem", topic: "৬. শিক্ষা, খেলাধুলা, গণমাধ্যম ও সমাজকল্যাণ" },
+        { q: "Gen Z", a: "Generation Z", topic: "৬. শিক্ষা, খেলাধুলা, গণমাধ্যম ও সমাজকল্যাণ" },
+
+        // ৭. আইন, বিচার, ভূমি ও প্রশাসন
+        { q: "NID", a: "National Identity Card", topic: "৭. আইন, বিচার, ভূমি ও প্রশাসন" },
+        { q: "e-Judiciary", a: "Electronic Judiciary", topic: "৭. আইন, বিচার, ভূমি ও প্রশাসন" },
+        { q: "DCR", a: "Duplicate Carbon Receipt", topic: "৭. আইন, বিচার, ভূমি ও প্রশাসন" },
+        { q: "FIR", a: "First Information Report", topic: "৭. আইন, বিচার, ভূমি ও প্রশাসন" },
+        { q: "CS", a: "Cadastral Survey", topic: "৭. আইন, বিচার, ভূমি ও প্রশাসন" },
+        { q: "SA", a: "State Acquisition", topic: "৭. আইন, বিচার, ভূমি ও প্রশাসন" },
+        { q: "RS", a: "Revisional Survey", topic: "৭. আইন, বিচার, ভূমি ও প্রশাসন" },
+        { q: "LD Tax", a: "Land Development Tax", topic: "৭. আইন, বিচার, ভূমি ও প্রশাসন" },
+        { q: "PR", a: "Proportional representation", topic: "৭. আইন, বিচার, ভূমি ও প্রশাসন" },
+
+        // ৮. চিকিৎসা, স্বাস্থ্য ও জীববিজ্ঞান
+        { q: "BMI", a: "Body Mass Index", topic: "৮. চিকিৎসা, স্বাস্থ্য ও জীববিজ্ঞান" },
+        { q: "MRI", a: "Magnetic Resonance Imaging", topic: "৮. চিকিৎসা, স্বাস্থ্য ও জীববিজ্ঞান" },
+        { q: "ICDDR'B", a: "International Centre for Diarrheal Disease Research, Bangladesh", topic: "৮. চিকিৎসা, স্বাস্থ্য ও জীববিজ্ঞান" },
+        { q: "DNA", a: "Deoxyribonucleic Acid", topic: "৮. চিকিৎসা, স্বাস্থ্য ও জীববিজ্ঞান" },
+        { q: "EPI", a: "Expanded Programme on Immunization", topic: "৮. চিকিৎসা, স্বাস্থ্য ও জীববিজ্ঞান" },
+        { q: "HMPV", a: "Human Metapneumovirus", topic: "৮. চিকিৎসা, স্বাস্থ্য ও জীববিজ্ঞান" },
+        { q: "TCV", a: "Typhoid Conjugate Vaccine", topic: "৮. চিকিৎসা, স্বাস্থ্য ও জীববিজ্ঞান" },
+		{ q: "AIDS", a: "Acquired Immune Deficiency Syndrome", topic: "৮. চিকিৎসা, স্বাস্থ্য ও জীববিজ্ঞান" },
+        { q: "HIV", a: "Human Immunodeficiency Virus", topic: "৮. চিকিৎসা, স্বাস্থ্য ও জীববিজ্ঞান" },
+        { q: "ICU", a: "Intensive Care Unit", topic: "৮. চিকিৎসা, স্বাস্থ্য ও জীববিজ্ঞান" },
+        { q: "ECG", a: "Electrocardiogram", topic: "৮. চিকিৎসা, স্বাস্থ্য ও জীববিজ্ঞান" }
+    ];
+
+    let currentMode = 'topic'; 
+    let activeCategory = 'ALL';
+    let showFavsOnly = false;
+    let favorites = JSON.parse(localStorage.getItem('my_abbr_favs')) || [];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        renderCategories();
+        renderList();
+    });
+
+    function switchMode(mode) {
+        currentMode = mode;
+        activeCategory = 'ALL';
+        document.getElementById('btnTopic').classList.toggle('active', mode === 'topic');
+        document.getElementById('btnAtoZ').classList.toggle('active', mode === 'atoz');
+        renderCategories();
+        renderList();
+    }
+
+    function renderCategories() {
+        const catBar = document.getElementById('categoryBar');
+        catBar.innerHTML = "";
+
+        let items = ['ALL'];
+        if (currentMode === 'topic') {
+            const topics = [...new Set(rawData.map(i => i.topic))];
+            items = items.concat(topics);
+        } else {
+            const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+            items = items.concat(letters);
+        }
+
+        items.forEach(cat => {
+            const chip = document.createElement('button');
+            chip.className = `cat-chip ${activeCategory === cat ? 'active' : ''}`;
+            chip.textContent = cat;
+            chip.onclick = () => {
+                activeCategory = cat;
+                document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+                renderList();
+            };
+            catBar.appendChild(chip);
+        });
+    }
+
+    function toggleFavView() {
+        showFavsOnly = !showFavsOnly;
+        document.getElementById('favMainBtn').style.filter = showFavsOnly ? "drop-shadow(0 0 12px var(--neon-pink)) scale(1.15)" : "none";
+        renderList();
+    }
+
+    function renderList() {
+        const listContainer = document.getElementById('main-list');
+        const query = document.getElementById('search').value.toLowerCase().trim();
+        listContainer.innerHTML = "";
+
+        let filtered = rawData.filter(item => {
+            const matchesFav = !showFavsOnly || favorites.includes(item.q);
+            const matchesSearch = !query || item.q.toLowerCase().includes(query) || item.a.toLowerCase().includes(query);
+            
+            let matchesCat = true;
+            if (activeCategory !== 'ALL') {
+                if (currentMode === 'topic') {
+                    matchesCat = (item.topic === activeCategory);
+                } else {
+                    matchesCat = item.q.toUpperCase().startsWith(activeCategory);
+                }
+            }
+
+            return matchesFav && matchesSearch && matchesCat;
+        });
+
+        if (filtered.length === 0) {
+            listContainer.innerHTML = `
+                <div style="text-align:center; padding: 25px 10px; color: var(--text-muted); background: var(--glass); border-radius: 12px; border: 1px dashed var(--card-border);">
+                    <i class="fas fa-search" style="font-size: 22px; color: var(--neon-gold); margin-bottom: 6px; display:block;"></i>
+                    <p style="font-size: 13px; color: #fff;">কোনো তথ্য পাওয়া যায়নি!</p>
+                </div>
+            `;
+            return;
+        }
+
+        let serialCounter = 1;
+
+        if (currentMode === 'atoz') {
+            filtered.sort((a, b) => a.q.localeCompare(b.q));
+            filtered.forEach(item => {
+                listContainer.appendChild(createCard(item, serialCounter++));
+            });
+        } else {
+            const uniqueTopics = [...new Set(filtered.map(i => i.topic))];
+            uniqueTopics.forEach(topName => {
+                const groupItems = filtered.filter(i => i.topic === topName);
+                if (groupItems.length > 0) {
+                    if (activeCategory === 'ALL') {
+                        const sec = document.createElement('div');
+                        sec.className = 'section-header';
+                        sec.innerHTML = `<i class="fas fa-folder"></i> ${topName} (${groupItems.length})`;
+                        listContainer.appendChild(sec);
+                    }
+                    groupItems.forEach(item => {
+                        listContainer.appendChild(createCard(item, serialCounter++));
+                    });
+                }
+            });
+        }
+    }
+
+    function createCard(item, index) {
+        const isFav = favorites.includes(item.q);
+        const div = document.createElement('div');
+        div.className = 'item-wrapper';
+        div.id = `item-${index}`;
+
+        const safeQ = item.q.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+
+        div.innerHTML = `
+            <div class="corner-serial-text">${index}</div>
+            <button class="item-fav-btn ${isFav ? 'active' : ''}" onclick="toggleFav('${safeQ}', event)">
+                <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
+            </button>
+            <div class="card" onclick="flipPractice(${index})">
+                <div class="practice-trigger">
+                    <div id="q-word-${index}" class="p-word">${item.q}</div>
+                    <div id="ans-overlay-${index}" class="p-ans-overlay">
+                        <div class="p-ans-text">${item.a}</div>
+                    </div>
+                </div>
+            </div>
+        `;
+        return div;
+    }
+
+    function flipPractice(index) {
+        const qWord = document.getElementById(`q-word-${index}`);
+        const ansOverlay = document.getElementById(`ans-overlay-${index}`);
+        if (!qWord || !ansOverlay) return;
+
+        if (ansOverlay.classList.contains('show')) {
+            qWord.classList.remove('faded-mode');
+            ansOverlay.classList.remove('show');
+        } else {
+            qWord.classList.add('faded-mode');
+            ansOverlay.classList.add('show');
+        }
+    }
+
+    function toggleFav(text, event) {
+        if (event) event.stopPropagation();
+        const pos = favorites.indexOf(text);
+        if (pos === -1) favorites.push(text);
+        else favorites.splice(pos, 1);
+        localStorage.setItem('my_abbr_favs', JSON.stringify(favorites));
+        renderList();
+    }
+
+    function toggleRocket() {
+        document.getElementById('rocketMenu').classList.toggle('active');
+    }
+
+    function closeRocket() {
+        document.getElementById('rocketMenu').classList.remove('active');
+    }
+
+    function jumpTo() {
+        let num = document.getElementById('jumpInput').value;
+        let el = document.getElementById(`item-${num}`);
+        if(el) { 
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' }); 
+            closeRocket(); 
+        } else {
+            alert('উক্ত নম্বরের আইটেম পাওয়া যায়নি!');
+        }
+    }
+
+    function openGuideModal() { document.getElementById('guideModal').style.display = 'flex'; }
+    function closeGuideModal(e) {
+        if(!e || e.target.id === 'guideModal' || e.target.classList.contains('modal-close')) {
+            document.getElementById('guideModal').style.display = 'none';
+        }
+    }
+
+    let lastScroll = 0;
+    window.onscroll = () => {
+        let top = window.scrollY;
+        const header = document.getElementById('header');
+        closeRocket();
+        if (top > lastScroll && top > 80) header.classList.add('header-hide');
+        else header.classList.remove('header-hide');
+        lastScroll = top;
+    };
+</script>
+</body>
+</html>
