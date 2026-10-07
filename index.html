@@ -21,7 +21,7 @@
     <link rel="apple-touch-icon" href="logobacca26v2.png">
     <link rel="icon" type="image/png" href="logobacca26v2.png">
 
-    <!-- 🧬 ৩. PWA Install Requirement (No Offline Caching) -->
+    <!-- 🧬 ৩. PWA Install Requirement -->
     <script>
         (function() {
             const manifestObj = {
@@ -50,7 +50,6 @@
             document.head.appendChild(link);
         })();
 
-        // PWA install enable korte simple passthrough ServiceWorker (No offline caching)
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
                 const swCode = `
@@ -86,7 +85,6 @@
             perspective: 1500px; 
         }
 
-        /* 100% Realistic Wood Wall - NO SCROLLING */
         .shelf-wrapper {
             background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.9)), url('https://www.transparenttextures.com/patterns/wood-pattern.png');
             background-color: #2b1810;
@@ -98,7 +96,6 @@
             transform-style: preserve-3d;
         }
 
-        /* Wood Engraved Typography */
         .engraved-text {
             background: linear-gradient(to bottom, #f0c295 0%, #a66a38 100%);
             -webkit-background-clip: text;
@@ -108,7 +105,6 @@
             letter-spacing: 0.1em;
         }
 
-        /* 3D Shelves */
         .shelf-container { width: 100%; position: relative; margin-bottom: 25px; }
         .shelf-books {
             display: flex; justify-content: space-around; align-items: flex-end;
@@ -128,7 +124,6 @@
             box-shadow: inset 0 1px 1px rgba(255,255,255,0.15);
         }
 
-        /* 3D BOOK STRUCTURE FOR ANIMATION */
         .book-3d {
             width: 105px; height: 150px; perspective: 1200px; cursor: pointer;
             position: relative; z-index: 10;
@@ -189,7 +184,6 @@
         }
         .book-3d.is-open { transform: translateY(0); }
 
-        /* Clock */
         .analog-clock {
             width: 65px; height: 65px; border-radius: 50%; background: #fdf6e3;
             border: 5px solid #4a2a18; position: relative;
@@ -203,7 +197,6 @@
         .min-hand { width: 2px; height: 22px; z-index: 11; }
         .sec-hand { width: 1px; height: 24px; background: #dc2626; z-index: 12; }
 
-        /* Fullscreen Expansion */
         .page-expand-in {
             animation: expandIn 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
@@ -278,7 +271,6 @@
             position: relative; cursor: pointer; border-radius: 4px; overflow: hidden;
         }
 
-        /* 🖼️ পিউর ফুলস্ক্রিন লাইটবক্স ফিক্স */
         #fullscreenViewer { 
             position: fixed !important; 
             top: 0 !important; 
@@ -328,15 +320,12 @@
 
     <!-- Home: Shelf Room -->
     <div id="masterHome" class="shelf-wrapper">
-        
-        <!-- Header -->
         <div class="text-center pt-8 pb-4">
             <h1 class="text-4xl engraved-text uppercase tracking-widest">BILAS ACADEMY</h1>
             <p class="engraved-text text-[11px] mt-1 uppercase tracking-widest opacity-80" style="font-family: 'Kalam', cursive;">স্মার্ট পড়াশোনা</p>
         </div>
 
         <div class="flex-1 flex flex-col justify-evenly w-full pb-6">
-            
             <!-- TOP SHELF: Clock & Bangla -->
             <div class="shelf-container">
                 <div class="shelf-books">
@@ -442,7 +431,7 @@
             </div>
             
             <div class="text-center mt-2">
-                <p class="engraved-text text-[10px] font-mono tracking-widest opacity-60">©️ বিলাস। ২০২৬।</p>
+                <p class="engraved-text text-[10px] font-mono tracking-widest opacity-60">©️ বিলাস ২০২৬</p>
             </div>
         </div>
     </div>
@@ -518,14 +507,12 @@
 
     <!-- 🖼️ ফুলস্ক্রিন পিনচ-টু-জুম ও স্ক্রোল ভিউয়ার -->
     <div id="fullscreenViewer">
-        <!-- Top Toolbar -->
         <div class="w-full px-4 py-3 flex items-center justify-between text-white border-b border-white/10 shrink-0 bg-neutral-900/90 backdrop-blur-md z-20">
             <div class="flex items-center gap-2">
-                <span class="text-xs uppercase tracking-wider text-slate-400 font-bold">নোট ভিউয়ার</span>
+                <span class="text-xs uppercase tracking-wider text-slate-400 font-bold">BILAS Academy</span>
                 <span id="zoomPercent" class="text-xs bg-white/10 px-2 py-0.5 rounded text-amber-300 font-mono">100%</span>
             </div>
             
-            <!-- Zoom Controls & Close -->
             <div class="flex items-center gap-2">
                 <button onclick="changeZoom(-0.3)" class="text-white bg-white/10 hover:bg-white/20 p-2 rounded-full active:scale-90" title="জুম আউট">
                     <i data-lucide="zoom-out" class="w-4 h-4"></i>
@@ -542,14 +529,13 @@
             </div>
         </div>
         
-        <!-- Interactive Zoom & Pan Viewport -->
         <div id="zoomViewport">
             <img id="fullscreenImg" src="" alt="Note Preview">
             <iframe id="fullscreenFrame" class="w-[96vw] h-[82vh] rounded-lg bg-white hidden border-0" src=""></iframe>
         </div>
         
         <div class="w-full py-2 bg-neutral-900/80 text-center text-[11px] text-slate-400 border-t border-white/10 z-20">
-            দুই আঙুল দিয়ে জুম বা ড্র্যাগ করে স্ক্রোল করুন
+            
         </div>
     </div>
 
@@ -697,32 +683,55 @@
             performPageFlip('view-dashboard', renderDashboard, true);
         }
 
-        /* DIRECT ONLINE DATA LOAD */
+        /* 🚀 CACHE-FIRST + FAST BACKGROUND SYNC */
         function loadDataForSubject() {
             const loader = document.getElementById('loader');
-            if(loader) { loader.classList.remove('hidden'); loader.classList.add('flex'); }
             const viewDash = document.getElementById('view-dashboard');
-            if(viewDash) viewDash.innerHTML = '';
+            const cacheKey = 'bilas_academy_cache_' + currentSubject;
+            const cachedData = localStorage.getItem(cacheKey);
 
+            // 1. Jodi age theke cache kora thake, sathe sathe display korbe
+            if (cachedData) {
+                try {
+                    rawData = JSON.parse(cachedData);
+                    processData();
+                    if(loader) { loader.classList.remove('flex'); loader.classList.add('hidden'); }
+                } catch(e) {
+                    console.error("Cache parsing error:", e);
+                }
+            } else {
+                // Jodi prothom bar open hoy ebong cache na thake, tokhon shudhu loader dekhabe
+                if(viewDash) viewDash.innerHTML = '';
+                if(loader) { loader.classList.remove('hidden'); loader.classList.add('flex'); }
+            }
+
+            // 2. Background-e latest Sheet data fetch korbe
             if (DB_URLS[currentSubject]) {
                 fetch(DB_URLS[currentSubject] + "&_t=" + Date.now())
-                    .then(response => response.text())
+                    .then(response => {
+                        if (!response.ok) throw new Error("Network error");
+                        return response.text();
+                    })
                     .then(text => {
                         if(loader) { loader.classList.remove('flex'); loader.classList.add('hidden'); }
-                        parseCSV(text);
+                        parseCSV(text, cacheKey);
                     })
                     .catch(err => {
                         if(loader) { loader.classList.remove('flex'); loader.classList.add('hidden'); }
-                        if(viewDash) viewDash.innerHTML = `<p class="text-center mt-10 text-red-500 font-bold">ইন্টারনেট কানেকশন চেক করুন!</p>`;
+                        // Jodi ager data-o na thake ebong network-o fail hoy
+                        if(!cachedData && viewDash && (!rawData || rawData.length === 0)) {
+                            viewDash.innerHTML = `<p class="text-center mt-10 text-red-500 font-bold">ইন্টারনেট কানেকশন চেক করুন!</p>`;
+                        }
                     });
             }
         }
 
-        function parseCSV(text) {
+        function parseCSV(text, cacheKey) {
             let lines = text.split(/\r?\n/);
             if(lines.length === 0) return;
             let headers = lines[0].split(",").map(h => h.trim().replace(/^"|"$/g, ''));
             let tempData = [];
+            
             for (let i = 1; i < lines.length; i++) {
                 if (lines[i].trim() == "") continue;
                 let currentline = [];
@@ -741,8 +750,18 @@
                 headers.forEach((h, idx) => { obj[h] = currentline[idx]; });
                 tempData.push(obj);
             }
-            rawData = tempData;
-            processData();
+
+            // Fresh data save kora ebong changes thakle silent UI refresh
+            const newJson = JSON.stringify(tempData);
+            const oldJson = cacheKey ? localStorage.getItem(cacheKey) : null;
+
+            if (newJson !== oldJson) {
+                if(cacheKey) localStorage.setItem(cacheKey, newJson);
+                rawData = tempData;
+                if (currentViewState === 'dashboard') {
+                    processData();
+                }
+            }
         }
 
         function processData() {
@@ -1077,7 +1096,6 @@
 
         const viewport = document.getElementById('zoomViewport');
 
-        // Touch Events for Mobile (Pinch & Drag)
         viewport.addEventListener('touchstart', function(e) {
             if (e.touches.length === 2) {
                 isPanning = false;
@@ -1088,7 +1106,7 @@
                 initialScale = zoomScale;
             } else if (e.touches.length === 1) {
                 const now = Date.now();
-                if (now - lastTap < 300) { // Double tap to toggle zoom
+                if (now - lastTap < 300) {
                     if (zoomScale > 1.2) {
                         resetZoom();
                     } else {
@@ -1132,7 +1150,6 @@
             }
         });
 
-        // Mouse events for Desktop preview
         viewport.addEventListener('mousedown', function(e) {
             isPanning = true;
             startX = e.clientX - panX;
