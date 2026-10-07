@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>BILAS ACADEMY | Master Study Hub</title>
     
-    <!-- 🌟 ১. সোশ্যাল মিডিয়া লিংক প্রিভিউ থাম্বনেইল (Open Graph) সেটিংস -->
     <meta property="og:title" content="BILAS ACADEMY ∆ স্মার্ট পড়াশোনা">
     <meta property="og:description" content="চাকরি প্রস্তুতির জন্য ডিজিটাল স্টাডি নোট।">
     <meta property="og:image" content="https://bbarmon26.github.io/Bilas-math_khata/thumbbacca26v2.jpg?v=1">
@@ -13,7 +12,6 @@
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
 
-    <!-- 📱 ২. মোবাইল ব্রাউজার ও লোগো মেটা সেটিংস -->
     <meta name="theme-color" content="#000000">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -21,7 +19,6 @@
     <link rel="apple-touch-icon" href="logobacca26v2.png">
     <link rel="icon" type="image/png" href="logobacca26v2.png">
 
-    <!-- 🧬 ৩. ডাইনামিক Manifest এবং Service Worker -->
     <script>
         (function() {
             const manifestObj = {
@@ -49,33 +46,6 @@
             link.href = manifestURL;
             document.head.appendChild(link);
         })();
-
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                const swCode = `
-                    self.addEventListener('install', function(e) { self.skipWaiting(); });
-                    self.addEventListener('activate', function(e) { e.waitUntil(self.clients.claim()); });
-                    self.addEventListener('fetch', function(e) {
-                        e.respondWith(
-                            fetch(e.request).then(function(response) {
-                                if (e.request.url.startsWith('http')) {
-                                    const resClone = response.clone();
-                                    caches.open('baccd-offline').then(function(cache) { cache.put(e.request, resClone); });
-                                }
-                                return response;
-                            }).catch(function() {
-                                return caches.match(e.request);
-                            })
-                        );
-                    });
-                `;
-                const blob = new Blob([swCode], {type: 'application/javascript'});
-                const swURL = URL.createObjectURL(blob);
-                navigator.serviceWorker.register(swURL).catch(function(err) {
-                    console.log('ServiceWorker registration failed: ', err);
-                });
-            });
-        }
     </script>
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -95,7 +65,6 @@
             perspective: 1500px; 
         }
 
-        /* 100% Realistic Wood Wall - NO SCROLLING */
         .shelf-wrapper {
             background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.9)), url('https://www.transparenttextures.com/patterns/wood-pattern.png');
             background-color: #2b1810;
@@ -107,7 +76,6 @@
             transform-style: preserve-3d;
         }
 
-        /* Wood Engraved Typography */
         .engraved-text {
             background: linear-gradient(to bottom, #f0c295 0%, #a66a38 100%);
             -webkit-background-clip: text;
@@ -117,7 +85,6 @@
             letter-spacing: 0.1em;
         }
 
-        /* 3D Shelves */
         .shelf-container { width: 100%; position: relative; margin-bottom: 25px; }
         .shelf-books {
             display: flex; justify-content: space-around; align-items: flex-end;
@@ -137,7 +104,6 @@
             box-shadow: inset 0 1px 1px rgba(255,255,255,0.15);
         }
 
-        /* 3D BOOK STRUCTURE FOR ANIMATION */
         .book-3d {
             width: 105px; height: 150px; perspective: 1200px; cursor: pointer;
             position: relative; z-index: 10;
@@ -198,7 +164,6 @@
         }
         .book-3d.is-open { transform: translateY(0); }
 
-        /* Clock */
         .analog-clock {
             width: 65px; height: 65px; border-radius: 50%; background: #fdf6e3;
             border: 5px solid #4a2a18; position: relative;
@@ -212,7 +177,6 @@
         .min-hand { width: 2px; height: 22px; z-index: 11; }
         .sec-hand { width: 1px; height: 24px; background: #dc2626; z-index: 12; }
 
-        /* Fullscreen Expansion */
         .page-expand-in {
             animation: expandIn 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
@@ -282,9 +246,7 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         
         .taped-photo { background: #ffffff; padding: 4px; box-shadow: 3px 6px 15px rgba(0,0,0,0.3); transform: rotate(-1.5deg); margin: 15px auto 25px auto; width: 100%; max-width: 320px; position: relative; }
-        #fullscreenViewer { position: fixed; inset: 0; z-index: 700; background: rgba(0,0,0,0.98); display: none; flex-direction: column; align-items: center; justify-content: center; }
 
-        /* 📲 ইনস্টল ব্যানার সেন্টারিং সেটিংস - স্ক্রিনের একদম মাঝখানে (Center Screen) */
         #pwaInstallBanner {
             position: fixed;
             top: 50% !important;
@@ -302,18 +264,13 @@
 </head>
 <body>
 
-    <!-- Home: Shelf Room -->
     <div id="masterHome" class="shelf-wrapper">
-        
-        <!-- Header -->
         <div class="text-center pt-8 pb-4">
             <h1 class="text-4xl engraved-text uppercase tracking-widest">BILAS ACADEMY</h1>
             <p class="engraved-text text-[11px] mt-1 uppercase tracking-widest opacity-80" style="font-family: 'Kalam', cursive;">স্মার্ট পড়াশোনা</p>
         </div>
 
         <div class="flex-1 flex flex-col justify-evenly w-full pb-6">
-            
-            <!-- TOP SHELF: Clock & Bangla -->
             <div class="shelf-container">
                 <div class="shelf-books">
                     <div class="analog-clock">
@@ -327,7 +284,6 @@
                         <div id="secHand" class="hand sec-hand"></div>
                     </div>
 
-                    <!-- Bangla Book -->
                     <div class="book-3d" onclick="openNotebook(this, 'bangla', 'বাংলা', '#059669')">
                         <div class="book-page-inner"></div>
                         <div class="book-cover" style="background-image: url('https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=300&auto=format&fit=crop');">
@@ -345,10 +301,8 @@
                 <div class="shelf-wood"></div>
             </div>
 
-            <!-- MIDDLE SHELF: English & Math -->
             <div class="shelf-container">
                 <div class="shelf-books">
-                    <!-- English Book -->
                     <div class="book-3d" onclick="openNotebook(this, 'english', 'English', '#dc2626')">
                         <div class="book-page-inner"></div>
                         <div class="book-cover" style="background-image: url('https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?q=80&w=300&auto=format&fit=crop');">
@@ -363,7 +317,6 @@
                         </div>
                     </div>
 
-                    <!-- Math Book -->
                     <div class="book-3d" onclick="openNotebook(this, 'math', 'গণিত', '#2563eb')">
                         <div class="book-page-inner"></div>
                         <div class="book-cover" style="background-image: url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=300&auto=format&fit=crop');">
@@ -381,10 +334,8 @@
                 <div class="shelf-wood"></div>
             </div>
 
-            <!-- BOTTOM SHELF: GK & BCS -->
             <div class="shelf-container">
                 <div class="shelf-books">
-                    <!-- GK Book -->
                     <div class="book-3d" onclick="openNotebook(this, 'gk', 'সাধারণ জ্ঞান', '#475569')">
                         <div class="book-page-inner"></div>
                         <div class="book-cover" style="background-image: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=300&auto=format&fit=crop');">
@@ -399,7 +350,6 @@
                         </div>
                     </div>
 
-                    <!-- New BCS Book -->
                     <div class="book-3d" onclick="openNotebook(this, 'bcs', 'BCS Question Bank', '#9333ea')">
                         <div class="book-page-inner"></div>
                         <div class="book-cover" style="background-image: url('https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=300&auto=format&fit=crop');">
@@ -423,12 +373,11 @@
         </div>
     </div>
 
-    <!-- Controls (Left Back Button) -->
+    <!-- Controls -->
     <button id="backBtn" onclick="handleBackClick()" class="hidden fixed top-5 left-4 z-[500] text-slate-800 bg-white/60 rounded-full p-2 backdrop-blur-md active:scale-90 transition-transform shadow border border-slate-200">
         <i data-lucide="arrow-left" class="w-6 h-6"></i>
     </button>
 
-    <!-- Controls (Right Study Tracker Button) -->
     <a id="trackerBtn" href="https://bbarmon26.github.io/Bilas-math_khata/Study_Tracker.html?v=2" class="hidden fixed top-5 right-4 z-[500] text-slate-800 bg-white/60 rounded-full p-2 backdrop-blur-md active:scale-90 transition-transform shadow border border-slate-200 flex items-center justify-center">
         <i data-lucide="clipboard-check" class="w-6 h-6"></i>
     </a>
@@ -492,12 +441,15 @@
         </main>
     </div>
 
-    <div id="fullscreenViewer">
-        <button onclick="closeFullImage()" class="absolute top-5 right-5 text-white bg-white/20 p-2 rounded-full"><i data-lucide="x"></i></button>
-        <iframe id="fullscreenFrame" class="w-[98%] h-[85%] rounded-lg bg-white" src=""></iframe>
+    <!-- 💯 Fullscreen PDF/Image Viewer (100% FIXED POSITION) -->
+    <div id="fullscreenViewer" class="hidden fixed inset-0 z-[99999] bg-black">
+        <button onclick="closeFullImageUI()" class="absolute top-4 right-4 z-[100000] text-white bg-slate-900/90 border border-white/40 p-3 rounded-full shadow-2xl active:scale-90 flex items-center justify-center cursor-pointer">
+            <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+        <iframe id="fullscreenFrame" class="absolute inset-0 w-full h-full border-none bg-white z-[99998]" src="" allowfullscreen></iframe>
     </div>
 
-    <!-- 📲 স্ক্রিনের একদম মাঝখানে ইনস্টল পপআপ কার্ড -->
+    <!-- 📲 ইনস্টল ব্যানার -->
     <div id="pwaInstallBanner" style="display: none;" class="bg-slate-900/95 border border-emerald-500/60 backdrop-blur-xl p-4 rounded-2xl flex items-center justify-between gap-3">
         <div class="flex items-center gap-3">
             <img src="https://bbarmon26.github.io/Bilas-math_khata/logobacca26v2.png" 
@@ -520,7 +472,6 @@
     </div>
 
     <script>
-        // 📲 ইনস্টল ব্যানার পরিচালনা ও পারসিস্টেন্ট মেমোরি
         let deferredPrompt = null;
         const isAppInstalled = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
         const isPermanentlyInstalled = localStorage.getItem('pwa_app_installed') === 'true';
@@ -539,7 +490,6 @@
             showInstallBanner();
         });
 
-        // ব্রাউজারে ইভেন্ট ফায়ার হতে দেরি হলে বা স্ট্যান্ডার্ড ব্রাউজারে প্রথম লোডেও যাতে ব্যানার দৃশ্যমান থাকে
         window.addEventListener('DOMContentLoaded', () => {
             showInstallBanner();
         });
@@ -564,13 +514,11 @@
         }
 
         function dismissInstallBanner() {
-            // '✕' চাপলে শুধু বর্তমান সেশনের জন্য বন্ধ থাকবে, পরের বার ব্রাউজারে আসলে আবার দেখাবে
             sessionStorage.setItem('pwa_banner_dismissed_session', 'true');
             if (installBanner) installBanner.style.display = 'none';
         }
 
         window.addEventListener('appinstalled', () => {
-            // সফলভাবে ইনস্টল হয়ে গেলে স্থায়ীভাবে আর কখনো দেখাবে না
             localStorage.setItem('pwa_app_installed', 'true');
             if (installBanner) installBanner.style.display = 'none';
         });
@@ -595,7 +543,6 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        /* GOOGLE SHEETS CSV URLS */
         const DB_URLS = {
             math: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWvEMlB8yjZ96rWKGPmXIevhTjaFZ_SuLb_42IGHdRNAcljvveIJAPnSHlz13tu6wyr1X8D3lYUxJm/pub?gid=566628590&single=true&output=csv',
             bangla: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWvEMlB8yjZ96rWKGPmXIevhTjaFZ_SuLb_42IGHdRNAcljvveIJAPnSHlz13tu6wyr1X8D3lYUxJm/pub?gid=840059015&single=true&output=csv',
@@ -604,7 +551,6 @@
             bcs: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWvEMlB8yjZ96rWKGPmXIevhTjaFZ_SuLb_42IGHdRNAcljvveIJAPnSHlz13tu6wyr1X8D3lYUxJm/pub?gid=78346882&single=true&output=csv'
         };
 
-        let memoryCache = { math: null, bangla: null, english: null, gk: null, bcs: null };
         let currentSubject = '';
         let rawData = [], groupedChapters = {}, currentViewState = 'dashboard';
 
@@ -719,40 +665,29 @@
             performPageFlip('view-dashboard', renderDashboard, true);
         }
 
-        // 🚀 অফলাইন PWA ডেটা ক্যাশিং ও সিঙ্ক লজিক
         function loadDataForSubject() {
-            const cacheKey = 'cache_' + currentSubject;
-            const cachedRaw = localStorage.getItem(cacheKey);
+            const loader = document.getElementById('loader');
+            if(loader) { loader.classList.remove('hidden'); loader.classList.add('flex'); }
+            const viewDash = document.getElementById('view-dashboard');
+            if(viewDash) viewDash.innerHTML = '';
 
-            // ১. অফলাইনে থাকলে মেমোরির ডাটা দিয়ে তৎক্ষণাৎ চালু
-            if (cachedRaw) {
-                try {
-                    rawData = JSON.parse(cachedRaw);
-                    memoryCache[currentSubject] = rawData;
-                    processData();
-                } catch(e) {}
-            } else {
-                const loader = document.getElementById('loader');
-                if(loader) { loader.classList.remove('hidden'); loader.classList.add('flex'); }
-                const viewDash = document.getElementById('view-dashboard');
-                if(viewDash) viewDash.innerHTML = '';
-            }
-
-            // ২. ইন্টারনেট থাকলে ব্যাকগ্রাউন্ডে গুগল শিট থেকে সিঙ্ক করা
             if (navigator.onLine && DB_URLS[currentSubject]) {
                 var xhr = new XMLHttpRequest();
                 xhr.open("GET", DB_URLS[currentSubject] + "&cache=" + new Date().getTime(), true);
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState == 4) {
-                        const loader = document.getElementById('loader');
                         if(loader) { loader.classList.remove('flex'); loader.classList.add('hidden'); }
                         if (xhr.status == 200) { 
                             parseCSV(xhr.responseText);
-                            localStorage.setItem(cacheKey, JSON.stringify(rawData));
-                        } 
+                        } else {
+                            if(viewDash) viewDash.innerHTML = '<p class="text-center mt-10 opacity-50 italic">ডাটা লোড করতে সমস্যা হচ্ছে!</p>';
+                        }
                     }
                 };
                 xhr.send();
+            } else {
+                if(loader) { loader.classList.remove('flex'); loader.classList.add('hidden'); }
+                if(viewDash) viewDash.innerHTML = '<p class="text-center mt-10 text-red-500 font-bold">ইন্টারনেট সংযোগ নেই! দয়া করে ডাটা চালু করুন।</p>';
             }
         }
 
@@ -780,7 +715,6 @@
                 tempData.push(obj);
             }
             rawData = tempData;
-            memoryCache[currentSubject] = rawData; 
             processData();
         }
 
@@ -927,9 +861,10 @@
                                 const match = embedLink.match(/[-\w]{25,}/);
                                 if(match) embedLink = `https://drive.google.com/file/d/${match[0]}/preview`;
                             }
+                            // 💯 ইমেজে ক্লিক মিস না হওয়ার জন্য সিকিউরিটি ওভারলে দেওয়া হয়েছে
                             container.innerHTML += `
-                            <div class="taped-photo" onclick="openFullImage('${embedLink}')">
-                                <div class="absolute inset-0 z-30 cursor-zoom-in"></div>
+                            <div class="taped-photo relative cursor-zoom-in" onclick="openFullImage('${embedLink}')">
+                                <div class="absolute inset-0 z-30" style="background: transparent;"></div>
                                 <iframe class="w-full h-[38vh] pointer-events-none border-none bg-white" src="${embedLink}"></iframe>
                             </div>`;
                         });
@@ -946,9 +881,50 @@
             });
         }
 
+        // 💯 ফুলস্ক্রিন ভিউয়ার (FIXED JAVASCRIPT)
+        function openFullImage(link) {
+            if(link) {
+                try { history.pushState({view: 'fullscreen'}, '', '#full'); } catch(e){}
+                const viewer = document.getElementById('fullscreenViewer');
+                const frame = document.getElementById('fullscreenFrame');
+                
+                if(viewer) {
+                    viewer.classList.remove('hidden');
+                    viewer.style.display = 'block'; 
+                }
+                
+                if(frame) {
+                    frame.src = 'about:blank'; // আগে ক্লিয়ার করবে
+                    setTimeout(() => { frame.src = link; }, 100); // 100ms পর লোড করবে যেন ব্রাউজার আটকে না যায়
+                }
+            }
+        }
+        
+        function closeFullImageUI() { 
+            const viewer = document.getElementById('fullscreenViewer'); 
+            const frame = document.getElementById('fullscreenFrame');
+            
+            if(viewer) {
+                viewer.classList.add('hidden');
+                viewer.style.display = 'none'; 
+            }
+            if(frame) {
+                frame.src = 'about:blank'; 
+            }
+            if (history.state && history.state.view === 'fullscreen') {
+                history.back(); 
+            }
+        }
+
         window.addEventListener('popstate', function(event) {
             const viewer = document.getElementById('fullscreenViewer');
-            if (viewer && viewer.style.display === 'flex') { closeFullImageUI(); return; }
+            if (viewer && viewer.style.display === 'block') { 
+                viewer.classList.add('hidden');
+                viewer.style.display = 'none';
+                const frame = document.getElementById('fullscreenFrame');
+                if(frame) frame.src = 'about:blank';
+                return; 
+            }
             
             const state = event.state ? event.state.view : 'hub';
             
@@ -1064,18 +1040,6 @@
             currentViewState = targetViewId.replace('view-', '');
             lucide.createIcons();
         }
-
-        function openFullImage(link) {
-            if(link) {
-                try { history.pushState({view: 'fullscreen'}, '', '#full'); } catch(e){}
-                const viewer = document.getElementById('fullscreenViewer');
-                const frame = document.getElementById('fullscreenFrame');
-                if(frame) frame.src = link;
-                if(viewer) viewer.style.display = 'flex';
-            }
-        }
-        function closeFullImage() { history.back(); }
-        function closeFullImageUI() { const viewer = document.getElementById('fullscreenViewer'); if(viewer) viewer.style.display = 'none'; }
 
         function executeSearch() {
             const q = document.getElementById('searchInput').value.toLowerCase();
