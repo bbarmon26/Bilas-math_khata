@@ -21,6 +21,54 @@
     <link rel="apple-touch-icon" href="logobacca26v2.png">
     <link rel="icon" type="image/png" href="logobacca26v2.png">
 
+    <!-- 🧬 ৩. PWA Install Requirement (No Offline Caching) -->
+    <script>
+        (function() {
+            const manifestObj = {
+                "short_name": "BILAS Academy",
+                "name": "BILAS ACADEMY",
+                "icons": [
+                    {
+                        "src": "logobacca26v2.png",
+                        "type": "image/png",
+                        "sizes": "192x192 512x512",
+                        "purpose": "any maskable"
+                    }
+                ],
+                "start_url": "./index.html",
+                "background_color": "#000000",
+                "theme_color": "#000000",
+                "display": "standalone",
+                "orientation": "portrait"
+            };
+            const stringManifest = JSON.stringify(manifestObj);
+            const blob = new Blob([stringManifest], {type: 'application/json'});
+            const manifestURL = URL.createObjectURL(blob);
+            const link = document.createElement('link');
+            link.rel = 'manifest';
+            link.href = manifestURL;
+            document.head.appendChild(link);
+        })();
+
+        // PWA install enable korte simple passthrough ServiceWorker (No offline caching)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                const swCode = `
+                    self.addEventListener('install', function(e) { self.skipWaiting(); });
+                    self.addEventListener('activate', function(e) { e.waitUntil(self.clients.claim()); });
+                    self.addEventListener('fetch', function(e) {
+                        e.respondWith(fetch(e.request));
+                    });
+                `;
+                const blob = new Blob([swCode], {type: 'application/javascript'});
+                const swURL = URL.createObjectURL(blob);
+                navigator.serviceWorker.register(swURL).catch(function(err) {
+                    console.log('SW registration error:', err);
+                });
+            });
+        }
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -473,7 +521,7 @@
         <!-- Top Toolbar -->
         <div class="w-full px-4 py-3 flex items-center justify-between text-white border-b border-white/10 shrink-0 bg-neutral-900/90 backdrop-blur-md z-20">
             <div class="flex items-center gap-2">
-                <span class="text-xs uppercase tracking-wider text-slate-400 font-bold">BILAS Academy</span>
+                <span class="text-xs uppercase tracking-wider text-slate-400 font-bold">নোট ভিউয়ার</span>
                 <span id="zoomPercent" class="text-xs bg-white/10 px-2 py-0.5 rounded text-amber-300 font-mono">100%</span>
             </div>
             
@@ -501,6 +549,7 @@
         </div>
         
         <div class="w-full py-2 bg-neutral-900/80 text-center text-[11px] text-slate-400 border-t border-white/10 z-20">
+            দুই আঙুল দিয়ে জুম বা ড্র্যাগ করে স্ক্রোল করুন
         </div>
     </div>
 
