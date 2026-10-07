@@ -21,63 +21,6 @@
     <link rel="apple-touch-icon" href="logobacca26v2.png">
     <link rel="icon" type="image/png" href="logobacca26v2.png">
 
-    <!-- 🧬 ৩. ডাইনামিক Manifest এবং Service Worker -->
-    <script>
-        (function() {
-            const manifestObj = {
-                "short_name": "BILAS Academy",
-                "name": "BILAS ACADEMY",
-                "icons": [
-                    {
-                        "src": "logobacca26.jpg",
-                        "type": "image/jpeg",
-                        "sizes": "512x512",
-                        "purpose": "any maskable"
-                    }
-                ],
-                "start_url": "./index.html",
-                "background_color": "#000000",
-                "theme-color": "#000000",
-                "display": "standalone",
-                "orientation": "portrait"
-            };
-            const stringManifest = JSON.stringify(manifestObj);
-            const blob = new Blob([stringManifest], {type: 'application/json'});
-            const manifestURL = URL.createObjectURL(blob);
-            const link = document.createElement('link');
-            link.rel = 'manifest';
-            link.href = manifestURL;
-            document.head.appendChild(link);
-        })();
-
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                const swCode = `
-                    self.addEventListener('install', function(e) { self.skipWaiting(); });
-                    self.addEventListener('activate', function(e) { e.waitUntil(self.clients.claim()); });
-                    self.addEventListener('fetch', function(e) {
-                        e.respondWith(
-                            fetch(e.request).then(function(response) {
-                                if (e.request.url.startsWith('http')) {
-                                    const resClone = response.clone();
-                                    caches.open('baccd-offline').then(function(cache) { cache.put(e.request, resClone); });
-                                }
-                                return response;
-                            }).catch(function() {
-                                return caches.match(e.request);
-                            })
-                        );
-                    });
-                `;
-                const blob = new Blob([swCode], {type: 'application/javascript'});
-                const swURL = URL.createObjectURL(blob);
-                navigator.serviceWorker.register(swURL).catch(function(err) {
-                    console.log('ServiceWorker registration failed: ', err);
-                });
-            });
-        }
-    </script>
-
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -281,22 +224,55 @@
 
         .no-scrollbar::-webkit-scrollbar { display: none; }
         
-        .taped-photo { background: #ffffff; padding: 4px; box-shadow: 3px 6px 15px rgba(0,0,0,0.3); transform: rotate(-1.5deg); margin: 15px auto 25px auto; width: 100%; max-width: 320px; position: relative; }
-        #fullscreenViewer { position: fixed; inset: 0; z-index: 700; background: rgba(0,0,0,0.98); display: none; flex-direction: column; align-items: center; justify-content: center; }
+        .taped-photo { 
+            background: #ffffff; padding: 4px; box-shadow: 3px 6px 15px rgba(0,0,0,0.3); 
+            transform: rotate(-1.5deg); margin: 15px auto 25px auto; width: 100%; max-width: 340px; 
+            position: relative; cursor: pointer; border-radius: 4px; overflow: hidden;
+        }
 
-        /* 📲 ইনস্টল ব্যানার সেন্টারিং সেটিংস - স্ক্রিনের একদম মাঝখানে (Center Screen) */
-        #pwaInstallBanner {
-            position: fixed;
-            top: 50% !important;
-            left: 50% !important;
-            bottom: auto !important;
-            transform: translate(-50%, -50%) !important;
-            width: 340px !important;
-            max-width: 90% !important;
-            margin: 0 !important;
+        /* 🖼️ পিউর ফুলস্ক্রিন লাইটবক্স ফিক্স */
+        #fullscreenViewer { 
+            position: fixed !important; 
+            top: 0 !important; 
+            left: 0 !important; 
+            right: 0 !important; 
+            bottom: 0 !important; 
+            width: 100vw !important; 
+            height: 100vh !important; 
+            z-index: 9999999 !important; 
+            background: #000000 !important; 
+            display: none; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: space-between; 
             box-sizing: border-box;
-            z-index: 99999;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(16, 185, 129, 0.5);
+            user-select: none;
+            touch-action: none;
+        }
+
+        #zoomViewport {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: none;
+        }
+
+        #fullscreenImg {
+            touch-action: none;
+            transform-origin: center center;
+            cursor: grab;
+            transition: transform 0.05s linear;
+            max-width: 95vw;
+            max-height: 80vh;
+            object-fit: contain;
+        }
+
+        #fullscreenImg:active {
+            cursor: grabbing;
         }
     </style>
 </head>
@@ -399,7 +375,7 @@
                         </div>
                     </div>
 
-                    <!-- New BCS Book -->
+                    <!-- BCS Book -->
                     <div class="book-3d" onclick="openNotebook(this, 'bcs', 'BCS Question Bank', '#9333ea')">
                         <div class="book-page-inner"></div>
                         <div class="book-cover" style="background-image: url('https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=300&auto=format&fit=crop');">
@@ -409,7 +385,7 @@
                                     <i data-lucide="graduation-cap" class="text-[#e9d5ff] w-5 h-5"></i>
                                 </div>
                                 <h3 class="text-[17px] font-bold text-white drop-shadow-md">BCS</h3>
-                                <p class="text-[8px] uppercase tracking-widest mt-1 text-purple-100 font-bold opacity-90"> প্রশ্ন সমাধান</p>
+                                <p class="text-[8px] uppercase tracking-widest mt-1 text-purple-100 font-bold opacity-90">প্রশ্ন সমাধান</p>
                             </div>
                         </div>
                     </div>
@@ -492,89 +468,43 @@
         </main>
     </div>
 
+    <!-- 🖼️ ফুলস্ক্রিন পিনচ-টু-জুম ও স্ক্রোল ভিউয়ার -->
     <div id="fullscreenViewer">
-        <button onclick="closeFullImage()" class="absolute top-5 right-5 text-white bg-white/20 p-2 rounded-full"><i data-lucide="x"></i></button>
-        <iframe id="fullscreenFrame" class="w-[98%] h-[85%] rounded-lg bg-white" src=""></iframe>
-    </div>
-
-    <!-- 📲 স্ক্রিনের একদম মাঝখানে ইনস্টল পপআপ কার্ড -->
-    <div id="pwaInstallBanner" style="display: none;" class="bg-slate-900/95 border border-emerald-500/60 backdrop-blur-xl p-4 rounded-2xl flex items-center justify-between gap-3">
-        <div class="flex items-center gap-3">
-            <img src="https://bbarmon26.github.io/Bilas-math_khata/logobacca26v2.png" 
-                 onerror="this.onerror=null; this.src='https://bbarmon26.github.io/Bilas-math_khata/logobacca26.jpg';" 
-                 class="w-12 h-12 rounded-xl shadow border border-white/20 object-cover" 
-                 alt="Logo">
-            <div>
-                <h4 class="text-sm font-bold text-white leading-tight">BILAS ACADEMY</h4>
-                <p class="text-[11px] text-emerald-400 font-medium mt-0.5">স্মার্ট স্টাডি অ্যাপ ইনস্টল করুন</p>
+        <!-- Top Toolbar -->
+        <div class="w-full px-4 py-3 flex items-center justify-between text-white border-b border-white/10 shrink-0 bg-neutral-900/90 backdrop-blur-md z-20">
+            <div class="flex items-center gap-2">
+                <span class="text-xs uppercase tracking-wider text-slate-400 font-bold">BILAS Academy</span>
+                <span id="zoomPercent" class="text-xs bg-white/10 px-2 py-0.5 rounded text-amber-300 font-mono">100%</span>
+            </div>
+            
+            <!-- Zoom Controls & Close -->
+            <div class="flex items-center gap-2">
+                <button onclick="changeZoom(-0.3)" class="text-white bg-white/10 hover:bg-white/20 p-2 rounded-full active:scale-90" title="জুম আউট">
+                    <i data-lucide="zoom-out" class="w-4 h-4"></i>
+                </button>
+                <button onclick="resetZoom()" class="text-white bg-white/10 hover:bg-white/20 p-2 rounded-full active:scale-90" title="রিসেট">
+                    <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                </button>
+                <button onclick="changeZoom(0.3)" class="text-white bg-white/10 hover:bg-white/20 p-2 rounded-full active:scale-90" title="জুম ইন">
+                    <i data-lucide="zoom-in" class="w-4 h-4"></i>
+                </button>
+                <button onclick="closeFullImage()" class="text-white bg-red-600 hover:bg-red-700 p-2 rounded-full active:scale-90 ml-1" title="বন্ধ করুন">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
             </div>
         </div>
-        <div class="flex items-center gap-2">
-            <button id="pwaInstallBtn" class="bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold text-xs px-3.5 py-2.5 rounded-xl shadow-lg active:scale-95 transition-all">
-                ইনস্টল
-            </button>
-            <button onclick="dismissInstallBanner()" class="text-slate-400 hover:text-white p-1.5 text-sm font-bold">
-                ✕
-            </button>
+        
+        <!-- Interactive Zoom & Pan Viewport -->
+        <div id="zoomViewport">
+            <img id="fullscreenImg" src="" alt="Note Preview">
+            <iframe id="fullscreenFrame" class="w-[96vw] h-[82vh] rounded-lg bg-white hidden border-0" src=""></iframe>
+        </div>
+        
+        <div class="w-full py-2 bg-neutral-900/80 text-center text-[11px] text-slate-400 border-t border-white/10 z-20">
         </div>
     </div>
 
     <script>
-        // 📲 ইনস্টল ব্যানার পরিচালনা ও পারসিস্টেন্ট মেমোরি
-        let deferredPrompt = null;
-        const isAppInstalled = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-        const isPermanentlyInstalled = localStorage.getItem('pwa_app_installed') === 'true';
-        const isSessionDismissed = sessionStorage.getItem('pwa_banner_dismissed_session') === 'true';
-
-        function showInstallBanner() {
-            const banner = document.getElementById('pwaInstallBanner');
-            if (banner && !isAppInstalled && !isPermanentlyInstalled && !isSessionDismissed) {
-                banner.style.display = 'flex';
-            }
-        }
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            showInstallBanner();
-        });
-
-        // ব্রাউজারে ইভেন্ট ফায়ার হতে দেরি হলে বা স্ট্যান্ডার্ড ব্রাউজারে প্রথম লোডেও যাতে ব্যানার দৃশ্যমান থাকে
-        window.addEventListener('DOMContentLoaded', () => {
-            showInstallBanner();
-        });
-
-        const installBtn = document.getElementById('pwaInstallBtn');
-        const installBanner = document.getElementById('pwaInstallBanner');
-
-        if (installBtn) {
-            installBtn.addEventListener('click', async () => {
-                if (!deferredPrompt) {
-                    alert("অ্যাপটি ইনস্টল করতে ব্রাউজারের ৩-ডট (...) মেন্যুতে গিয়ে 'Install app' বা 'Add to Home screen' চাপুন।");
-                    return;
-                }
-                deferredPrompt.prompt();
-                const choiceResult = await deferredPrompt.userChoice;
-                if (choiceResult && choiceResult.outcome === 'accepted') {
-                    localStorage.setItem('pwa_app_installed', 'true');
-                }
-                deferredPrompt = null;
-                if (installBanner) installBanner.style.display = 'none';
-            });
-        }
-
-        function dismissInstallBanner() {
-            // '✕' চাপলে শুধু বর্তমান সেশনের জন্য বন্ধ থাকবে, পরের বার ব্রাউজারে আসলে আবার দেখাবে
-            sessionStorage.setItem('pwa_banner_dismissed_session', 'true');
-            if (installBanner) installBanner.style.display = 'none';
-        }
-
-        window.addEventListener('appinstalled', () => {
-            // সফলভাবে ইনস্টল হয়ে গেলে স্থায়ীভাবে আর কখনো দেখাবে না
-            localStorage.setItem('pwa_app_installed', 'true');
-            if (installBanner) installBanner.style.display = 'none';
-        });
-
         function updateClock() {
             const now = new Date();
             const h = now.getHours() % 12;
@@ -604,7 +534,6 @@
             bcs: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWvEMlB8yjZ96rWKGPmXIevhTjaFZ_SuLb_42IGHdRNAcljvveIJAPnSHlz13tu6wyr1X8D3lYUxJm/pub?gid=78346882&single=true&output=csv'
         };
 
-        let memoryCache = { math: null, bangla: null, english: null, gk: null, bcs: null };
         let currentSubject = '';
         let rawData = [], groupedChapters = {}, currentViewState = 'dashboard';
 
@@ -719,40 +648,24 @@
             performPageFlip('view-dashboard', renderDashboard, true);
         }
 
-        // 🚀 অফলাইন PWA ডেটা ক্যাশিং ও সিঙ্ক লজিক
+        /* DIRECT ONLINE DATA LOAD */
         function loadDataForSubject() {
-            const cacheKey = 'cache_' + currentSubject;
-            const cachedRaw = localStorage.getItem(cacheKey);
+            const loader = document.getElementById('loader');
+            if(loader) { loader.classList.remove('hidden'); loader.classList.add('flex'); }
+            const viewDash = document.getElementById('view-dashboard');
+            if(viewDash) viewDash.innerHTML = '';
 
-            // ১. অফলাইনে থাকলে মেমোরির ডাটা দিয়ে তৎক্ষণাৎ চালু
-            if (cachedRaw) {
-                try {
-                    rawData = JSON.parse(cachedRaw);
-                    memoryCache[currentSubject] = rawData;
-                    processData();
-                } catch(e) {}
-            } else {
-                const loader = document.getElementById('loader');
-                if(loader) { loader.classList.remove('hidden'); loader.classList.add('flex'); }
-                const viewDash = document.getElementById('view-dashboard');
-                if(viewDash) viewDash.innerHTML = '';
-            }
-
-            // ২. ইন্টারনেট থাকলে ব্যাকগ্রাউন্ডে গুগল শিট থেকে সিঙ্ক করা
-            if (navigator.onLine && DB_URLS[currentSubject]) {
-                var xhr = new XMLHttpRequest();
-                xhr.open("GET", DB_URLS[currentSubject] + "&cache=" + new Date().getTime(), true);
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState == 4) {
-                        const loader = document.getElementById('loader');
+            if (DB_URLS[currentSubject]) {
+                fetch(DB_URLS[currentSubject] + "&_t=" + Date.now())
+                    .then(response => response.text())
+                    .then(text => {
                         if(loader) { loader.classList.remove('flex'); loader.classList.add('hidden'); }
-                        if (xhr.status == 200) { 
-                            parseCSV(xhr.responseText);
-                            localStorage.setItem(cacheKey, JSON.stringify(rawData));
-                        } 
-                    }
-                };
-                xhr.send();
+                        parseCSV(text);
+                    })
+                    .catch(err => {
+                        if(loader) { loader.classList.remove('flex'); loader.classList.add('hidden'); }
+                        if(viewDash) viewDash.innerHTML = `<p class="text-center mt-10 text-red-500 font-bold">ইন্টারনেট কানেকশন চেক করুন!</p>`;
+                    });
             }
         }
 
@@ -780,7 +693,6 @@
                 tempData.push(obj);
             }
             rawData = tempData;
-            memoryCache[currentSubject] = rawData; 
             processData();
         }
 
@@ -922,15 +834,25 @@
                     
                     if(links.length > 0) {
                         links.forEach((link) => {
-                            let embedLink = link;
-                            if(embedLink.includes('drive.google.com')) {
-                                const match = embedLink.match(/[-\w]{25,}/);
-                                if(match) embedLink = `https://drive.google.com/file/d/${match[0]}/preview`;
+                            let previewLink = link;
+                            let driveFileId = '';
+                            if(link.includes('drive.google.com')) {
+                                const match = link.match(/[-\w]{25,}/);
+                                if(match) {
+                                    driveFileId = match[0];
+                                    previewLink = `https://drive.google.com/file/d/${driveFileId}/preview`;
+                                }
                             }
+                            
+                            const encodedLink = encodeURIComponent(link);
                             container.innerHTML += `
-                            <div class="taped-photo" onclick="openFullImage('${embedLink}')">
-                                <div class="absolute inset-0 z-30 cursor-zoom-in"></div>
-                                <iframe class="w-full h-[38vh] pointer-events-none border-none bg-white" src="${embedLink}"></iframe>
+                            <div class="taped-photo" onclick="openFullImage('${encodedLink}')">
+                                <div class="absolute inset-0 z-30 flex items-start justify-end p-2 pointer-events-none">
+                                    <div class="bg-black/60 text-white rounded p-1.5 shadow">
+                                        <i data-lucide="maximize-2" class="w-4 h-4"></i>
+                                    </div>
+                                </div>
+                                <iframe class="w-full h-[38vh] pointer-events-none border-none bg-white" src="${previewLink}"></iframe>
                             </div>`;
                         });
                     } else {
@@ -940,8 +862,14 @@
                 
                 const vBtn = document.getElementById('videoBtn');
                 if(vBtn) {
-                    if(item.Video_Link && item.Video_Link.startsWith('http')) { vBtn.href = item.Video_Link; vBtn.classList.remove('hidden'); vBtn.classList.add('flex'); } 
-                    else { vBtn.classList.remove('flex'); vBtn.classList.add('hidden'); }
+                    if(item.Video_Link && item.Video_Link.startsWith('http')) { 
+                        vBtn.href = item.Video_Link; 
+                        vBtn.classList.remove('hidden'); 
+                        vBtn.classList.add('flex'); 
+                    } else { 
+                        vBtn.classList.remove('flex'); 
+                        vBtn.classList.add('hidden'); 
+                    }
                 }
             });
         }
@@ -1065,17 +993,173 @@
             lucide.createIcons();
         }
 
-        function openFullImage(link) {
-            if(link) {
-                try { history.pushState({view: 'fullscreen'}, '', '#full'); } catch(e){}
-                const viewer = document.getElementById('fullscreenViewer');
-                const frame = document.getElementById('fullscreenFrame');
-                if(frame) frame.src = link;
-                if(viewer) viewer.style.display = 'flex';
+        /* 🔍 ULTRA-SMOOTH PINCH TO ZOOM & PAN ENGINE */
+        let zoomScale = 1;
+        let panX = 0, panY = 0;
+        let isPanning = false;
+        let startX = 0, startY = 0;
+        let initialDistance = 0;
+        let initialScale = 1;
+        let lastTap = 0;
+
+        function updateTransform() {
+            const img = document.getElementById('fullscreenImg');
+            const indicator = document.getElementById('zoomPercent');
+            if(img) {
+                img.style.transform = `translate(${panX}px, ${panY}px) scale(${zoomScale})`;
+            }
+            if(indicator) {
+                indicator.innerText = Math.round(zoomScale * 100) + '%';
             }
         }
+
+        function resetZoom() {
+            zoomScale = 1;
+            panX = 0;
+            panY = 0;
+            updateTransform();
+        }
+
+        function changeZoom(delta) {
+            zoomScale = Math.min(Math.max(0.6, zoomScale + delta), 4.5);
+            if(zoomScale === 1) { panX = 0; panY = 0; }
+            updateTransform();
+        }
+
+        const viewport = document.getElementById('zoomViewport');
+
+        // Touch Events for Mobile (Pinch & Drag)
+        viewport.addEventListener('touchstart', function(e) {
+            if (e.touches.length === 2) {
+                isPanning = false;
+                initialDistance = Math.hypot(
+                    e.touches[0].clientX - e.touches[1].clientX,
+                    e.touches[0].clientY - e.touches[1].clientY
+                );
+                initialScale = zoomScale;
+            } else if (e.touches.length === 1) {
+                const now = Date.now();
+                if (now - lastTap < 300) { // Double tap to toggle zoom
+                    if (zoomScale > 1.2) {
+                        resetZoom();
+                    } else {
+                        zoomScale = 2.2;
+                        updateTransform();
+                    }
+                    lastTap = 0;
+                    return;
+                }
+                lastTap = now;
+                isPanning = true;
+                startX = e.touches[0].clientX - panX;
+                startY = e.touches[0].clientY - panY;
+            }
+        }, { passive: false });
+
+        viewport.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+            if (e.touches.length === 2) {
+                const currentDistance = Math.hypot(
+                    e.touches[0].clientX - e.touches[1].clientX,
+                    e.touches[0].clientY - e.touches[1].clientY
+                );
+                if (initialDistance > 0) {
+                    zoomScale = Math.min(Math.max(0.6, initialScale * (currentDistance / initialDistance)), 4.5);
+                    updateTransform();
+                }
+            } else if (e.touches.length === 1 && isPanning) {
+                panX = e.touches[0].clientX - startX;
+                panY = e.touches[0].clientY - startY;
+                updateTransform();
+            }
+        }, { passive: false });
+
+        viewport.addEventListener('touchend', function(e) {
+            if (e.touches.length < 2) {
+                initialDistance = 0;
+            }
+            if (e.touches.length === 0) {
+                isPanning = false;
+            }
+        });
+
+        // Mouse events for Desktop preview
+        viewport.addEventListener('mousedown', function(e) {
+            isPanning = true;
+            startX = e.clientX - panX;
+            startY = e.clientY - panY;
+        });
+
+        window.addEventListener('mousemove', function(e) {
+            if (!isPanning) return;
+            panX = e.clientX - startX;
+            panY = e.clientY - startY;
+            updateTransform();
+        });
+
+        window.addEventListener('mouseup', function() {
+            isPanning = false;
+        });
+
+        viewport.addEventListener('wheel', function(e) {
+            e.preventDefault();
+            changeZoom(e.deltaY < 0 ? 0.2 : -0.2);
+        }, { passive: false });
+
+        function openFullImage(encodedLink) {
+            const rawLink = decodeURIComponent(encodedLink);
+            if(!rawLink) return;
+
+            resetZoom();
+            try { history.pushState({view: 'fullscreen'}, '', '#full'); } catch(e){}
+            const viewer = document.getElementById('fullscreenViewer');
+            const img = document.getElementById('fullscreenImg');
+            const frame = document.getElementById('fullscreenFrame');
+
+            if (rawLink.includes('drive.google.com')) {
+                const match = rawLink.match(/[-\w]{25,}/);
+                if (match) {
+                    const fileId = match[0];
+                    img.src = `https://drive.google.com/thumbnail?id=${fileId}&sz=w1600`;
+                    img.classList.remove('hidden');
+                    frame.classList.add('hidden');
+                    
+                    img.onerror = function() {
+                        img.classList.add('hidden');
+                        frame.classList.remove('hidden');
+                        frame.src = `https://drive.google.com/file/d/${fileId}/preview`;
+                    };
+                } else {
+                    frame.classList.remove('hidden');
+                    img.classList.add('hidden');
+                    frame.src = rawLink;
+                }
+            } else {
+                img.src = rawLink;
+                img.classList.remove('hidden');
+                frame.classList.add('hidden');
+                
+                img.onerror = function() {
+                    img.classList.add('hidden');
+                    frame.classList.remove('hidden');
+                    frame.src = rawLink;
+                };
+            }
+            
+            if(viewer) viewer.style.display = 'flex';
+            if(typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
         function closeFullImage() { history.back(); }
-        function closeFullImageUI() { const viewer = document.getElementById('fullscreenViewer'); if(viewer) viewer.style.display = 'none'; }
+        function closeFullImageUI() { 
+            const viewer = document.getElementById('fullscreenViewer'); 
+            const img = document.getElementById('fullscreenImg');
+            const frame = document.getElementById('fullscreenFrame');
+            if(img) img.src = '';
+            if(frame) frame.src = '';
+            resetZoom();
+            if(viewer) viewer.style.display = 'none'; 
+        }
 
         function executeSearch() {
             const q = document.getElementById('searchInput').value.toLowerCase();
