@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BILAS ACADEMY - বিপরীত শব্দ মাস্টার প্রো</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap');
+
+        :root {
+            --bg: #070314;
+            --glass: rgba(255, 255, 255, 0.05);
+            --neon-cyan: #00f2fe;
+            --neon-purple: #7f00ff;
+            --neon-gold: #ffbe0b;
+            --neon-pink: #ff007f;
+        }
+
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            margin: 0;
+            background: var(--bg);
+            color: #fff;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
+            padding-bottom: 80px;
+            background-image: radial-gradient(circle at 15% 15%, rgba(127, 0, 255, 0.18) 0%, transparent 45%),
+                              radial-gradient(circle at 85% 85%, rgba(0, 242, 254, 0.18) 0%, transparent 45%);
+            background-attachment: fixed;
+        }
+
+        /* Fixed Header */
+        .header-section {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(7, 3, 20, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .brand-name {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .top-btns {
+            display: flex;
+            gap: 10px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-box {
+            flex: 1;
+            padding: 11px 20px;
+            border-radius: 50px;
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            outline: none;
+            font-family: 'Hind Siliguri', sans-serif;
+            font-size: 15px;
+        }
+
+        .fav-filter-btn {
+            background: rgba(255, 0, 127, 0.15);
+            border: 1px solid var(--neon-pink);
+            color: var(--neon-pink);
+            padding: 0 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            font-family: 'Hind Siliguri', sans-serif;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .fav-filter-btn:hover {
+            background: var(--neon-pink);
+            color: #fff;
+            box-shadow: 0 0 15px var(--neon-pink);
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 160px 20px 50px 20px;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: var(--neon-gold);
+            margin-bottom: 20px;
+            font-size: 16px;
+            font-weight: 600;
+            text-shadow: 0 0 10px rgba(255, 190, 11, 0.3);
+        }
+
+        .item-wrapper { 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            margin-bottom: 20px; 
+        }
+
+        .serial { 
+            color: var(--neon-cyan); 
+            font-weight: 700; 
+            font-size: 14px; 
+            min-width: 28px; 
+            text-align: center;
+            text-shadow: 0 0 8px rgba(0, 242, 254, 0.4);
+        }
+
+        .card {
+            flex-grow: 1;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 20px;
+            min-height: 75px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            backdrop-filter: blur(8px);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.25);
+        }
+
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 22px;
+            box-sizing: border-box;
+        }
+
+        .word { 
+            font-size: 19px; 
+            color: #f1f5f9; 
+            font-weight: 500; 
+            transition: 0.4s;
+        }
+        
+        /* ডিফল্ট অ্যানিমেশন বেস ক্লাস */
+        .antonym {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--neon-gold);
+            text-shadow: 0 0 15px rgba(255, 190, 11, 0.6);
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* ১. বাম দিক থেকে স্লাইড হয়ে আসা */
+        .card.type-1.show .antonym { opacity: 1; transform: translateX(0); animation: animSlideL 0.5s ease; }
+        .card.type-1 .antonym { transform: translateX(-50px); }
+
+        /* ২. জুম ইন */
+        .card.type-2.show .antonym { opacity: 1; transform: scale(1); }
+        .card.type-2 .antonym { transform: scale(0.1); }
+
+        /* ৩. রোটেট বা স্পিন হয়ে আসা */
+        .card.type-3.show .antonym { opacity: 1; transform: rotate(0deg) scale(1); }
+        .card.type-3 .antonym { transform: rotate(180deg) scale(0.2); }
+
+        /* ৪. ডান দিক থেকে স্লাইড হয়ে আসা */
+        .card.type-4.show .antonym { opacity: 1; transform: translateX(0); }
+        .card.type-4 .antonym { transform: translateX(50px); }
+
+        /* ৫. নিচ থেকে উপরে বাউন্স করা */
+        .card.type-5.show .antonym { opacity: 1; transform: translateY(0); }
+        .card.type-5 .antonym { transform: translateY(40px); }
+
+        /* ৬. উপর থেকে নিচে ড্রপ হওয়া */
+        .card.type-6.show .antonym { opacity: 1; transform: translateY(0); }
+        .card.type-6 .antonym { transform: translateY(-40px); }
+
+        /* ৭. স্কিউ বা বাঁকা হয়ে সোজা হওয়া */
+        .card.type-7.show .antonym { opacity: 1; transform: skewX(0deg) scale(1); }
+        .card.type-7 .antonym { transform: skewX(40deg) scale(0.5); }
+
+        /* ৮. পপ-আপ ইফেক্ট */
+        .card.type-8.show .antonym { opacity: 1; transform: scale(1); }
+        .card.type-8 .antonym { transform: scale(1.5); opacity: 0; }
+
+        /* ৯. থ্রিডি ফ্লিপ এক্স एक्सिस */
+        .card.type-9.show .antonym { opacity: 1; transform: rotateX(0deg); }
+        .card.type-9 .antonym { transform: perspective(300px) rotateX(90deg); }
+
+        /* ১০. ব্লার থেকে পরিষ্কার হওয়া */
+        .card.type-10.show .antonym { opacity: 1; filter: blur(0px); transform: scale(1); }
+        .card.type-10 .antonym { filter: blur(10px); transform: scale(0.8); }
+
+        .card.show .word {
+            opacity: 0.3;
+            transform: scale(0.95);
+        }
+
+        .item-fav-btn { 
+            font-size: 24px; 
+            color: rgba(255, 255, 255, 0.15); 
+            cursor: pointer; 
+            transition: 0.3s; 
+            padding: 5px;
+        }
+        .item-fav-btn:hover { transform: scale(1.2); }
+        .item-fav-btn.active { color: var(--neon-pink); text-shadow: 0 0 15px var(--neon-pink); }
+
+        /* নেভিগেশন বাটন */
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin: 40px 0 20px 0;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 14px 22px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: 'Hind Siliguri', sans-serif;
+            flex: 1;
+            text-align: center;
+        }
+
+        .nav-btn:hover { 
+            background: rgba(255, 255, 255, 0.15); 
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
+        }
+
+        .complete-btn {
+            background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan));
+            border: none;
+            color: #fff;
+            box-shadow: 0 5px 20px rgba(127, 0, 255, 0.4);
+            flex: 1.5;
+        }
+        
+        .complete-btn:hover {
+            box-shadow: 0 8px 25px rgba(0, 242, 254, 0.6);
+        }
+    </style>
+</head>
+<body>
+
+<div class="header-section" id="header">
+    <div class="brand-name">বিলাস একাডেমি - বিপরীত শব্দ</div>
+    <div class="top-btns">
+        <input type="text" id="search" class="search-box" placeholder="শব্দ খুঁজুন..." onkeyup="filter()">
+        <button id="favFilterBtn" class="fav-filter-btn" onclick="toggleFavView()">⭐ ফেভারিট</button>
+    </div>
+</div>
+
+<div class="container">
+    <div id="progress-info" class="progress-text"></div>
+    <div id="main-list"></div>
+    
+    <div class="nav-container" id="navContainer">
+        <button id="prevBtn" class="nav-btn" onclick="loadPrevBatch()">⬅ পূর্ববর্তী</button>
+        <button id="nextBtn" class="nav-btn complete-btn" onclick="loadNextBatch()">কমপ্লিট (পরবর্তী ১০টি) ➡</button>
+    </div>
+</div>
+
+<script>
+    const data = [
+        { w: "অগ্র", a: "পশ্চাৎ" }, { w: "অগ্রগামী", a: "পশ্চাৎগামী" }, { w: "অগ্রজ", a: "অনুজ" },
+        { w: "অঘটন", a: "ঘটন" }, { w: "অচলায়তন", a: "সচলায়তন" }, { w: "অজ্ঞ", a: "বিজ্ঞ/জ্ঞানী" },
+        { w: "অতিকায়", a: "ক্ষুদ্রকায়" }, { w: "অতিবৃষ্টি", a: "অনাবৃষ্টি" }, { w: "অধম", a: "উত্তম" },
+        { w: "অধমর্ণ", a: "উত্তমর্ণ" }, { w: "অধঃ", a: "ঊর্ধ্ব" }, { w: "অধিত্যকা", a: "উপত্যকা" },
+        { w: "অনন্ত", a: "সান্ত" }, { w: "অনির্বাণ", a: "নির্বাণ" }, { w: "অনুকূল", a: "প্রতিকূল" },
+        { w: "অনুগ্রহ", a: "নিগ্রহ" }, { w: "অনুরক্ত", a: "বিরক্ত" }, { w: "অন্ত", a: "অনন্ত" },
+        { w: "অন্তর", a: "বাহির" }, { w: "অন্তরঙ্গ", a: "বহিরঙ্গ" }, { w: "অন্বয়ী", a: "অনন্বয়ী" },
+        { w: "অপকর্ষ", a: "উৎকর্ষ" }, { w: "অপকার", a: "উপকার" }, { w: "অবতরণ", a: "আরোহণ" },
+        { w: "অবনত", a: "উন্নত" }, { w: "অবনমিত", a: "উন্নীত" }, { w: "অমৃত", a: "বিষ, গরল" },
+        { w: "অর্জন", a: "বর্জন" }, { w: "অর্পণ", a: "গ্রহণ" }, { w: "অর্বাচীন", a: "প্রাচীন" },
+        { w: "অলস", a: "পরিশ্রমী" }, { w: "অলীক", a: "বাস্তব" }, { w: "অস্তগামী", a: "উদীয়মান" },
+        { w: "অস্তি", a: "নাস্তি" }, { w: "আকর্ষণ", a: "বিকর্ষণ" }, { w: "আকাশ", a: "পাতাল" },
+        { w: "আকুঞ্চন", a: "প্রসারণ" }, { w: "আগমন", a: "প্রস্থান" }, { w: "আচার", a: "অনাচার" },
+        { w: "আদান", a: "প্রদান" }, { w: "আদি", a: "অন্ত" }, { w: "আদিম", a: "অন্তিম" },
+        { w: "আদ্য", a: "অন্ত্য" }, { w: "আপন", a: "পর" }, { w: "আবশ্যক", a: "ঐচ্ছিক" },
+        { w: "আবাহন", a: "বিসর্জন" }, { w: "আবির্ভাব", a: "তিরোভাব" }, { w: "আবিল", a: "অনাবিল" },
+        { w: "আমদানি", a: "রপ্তানি" }, { w: "আয়", a: "ব্যয়" }, { w: "আরোহণ", a: "অবরোহণ" },
+        { w: "আলোক", a: "অন্ধকার" }, { w: "আশা", a: "নিরাশা" }, { w: "আশু", a: "বিলম্ব" },
+        { w: "আশ্লেষ", a: "বিশ্লেষ" }, { w: "আসক্তি", a: "নিরাসক্তি" }, { w: "আস্তিক", a: "নাস্তিক" },
+        { w: "ইতর", a: "ভদ্র" }, { w: "ইতিবাচক", a: "নেতিবাচক" }, { w: "ইন্দ্রিয়", a: "অতীন্দ্রিয়" },
+        { w: "ইহকাল", a: "পরকাল" }, { w: "ইহলৌকিক", a: "পারলৌকিক" }, { w: "ঈষৎ", a: "অধিক" },
+        { w: "উক্ত", a: "অনুক্ত" }, { w: "উচাটন", a: "প্রশান্ত" }, { w: "উজান", a: "ভাটি" },
+        { w: "উত্তম", a: "অধম" }, { w: "উত্তমর্ণ", a: "অধমর্ণ" }, { w: "উত্থান", a: "পতন" },
+        { w: "উৎকর্ষ", a: "অপকর্ষ" }, { w: "উৎকৃষ্ট", a: "অপকৃষ্ট/নিকৃষ্ট" }, { w: "উৎসাহ", a: "নিরুৎসাহ" },
+        { w: "উদার", a: "কৃপণ" }, { w: "উদ্ধত", a: "বিনয়" }, { w: "উদ্ধত্য", a: "বিনয়" },
+        { w: "উন্নতি", a: "অবনতি" }, { w: "উন্মুখ", a: "বিমুখ" }, { w: "উপচিকীর্ষা", a: "অপচিকীর্ষা" },
+        { w: "উপত্যকা", a: "অধিত্যকা" }, { w: "উপসর্গ", a: "অনুসর্গ" }, { w: "উর্ধ্ব", a: "অধঃ" },
+        { w: "উর্বর", a: "ঊষর" }, { w: "ঊর্ধ্ব", a: "অধঃ/নিম্ন" }, { w: "ঋজু", a: "বক্র" },
+        { w: "ঐক্য", a: "অনৈক্য" }, { w: "ঐশ্বর্য", a: "দারিদ্র্য" }, { w: "ঐহিক", a: "পারত্রিক" },
+        { w: "ওস্তাদ", a: "সাগরেদ" }, { w: "কদাচিৎ", a: "হরদম/প্রায়শ" }, { w: "কনিষ্ঠ", a: "জ্যেষ্ঠ" },
+        { w: "করাল", a: "সৌম্য" }, { w: "কর্মঠ", a: "অলস" }, { w: "কলুষ", a: "নিষ্কলুষ" },
+        { w: "কাপুরুষ", a: "বীরপুরুষ" }, { w: "কুঞ্চন", a: "প্রসারণ" }, { w: "কুটিল", a: "সরল" },
+        { w: "কৃতজ্ঞ", a: "অকৃতজ্ঞ" }, { w: "কৃত্রিম", a: "স্বাভাবিক" }, { w: "কৃপণ", a: "উদার/বদান্য" },
+        { w: "কৃশ", a: "স্থূল" }, { w: "কৃশাঙ্গী", a: "স্থূলাঙ্গী" }, { w: "কোমল", a: "কর্কশ" },
+        { w: "ক্ষয়িষ্ণু", a: "বর্ধিষ্ণু" }, { w: "ক্ষীয়মাণ", a: "বর্ধমান" }, { w: "খাতক", a: "মহাজন" },
+        { w: "খ্যাতি", a: "অখ্যাতি" }, { w: "গরিষ্ঠ", a: "লঘিষ্ঠ" }, { w: "গাঢ়", a: "পাতলা" },
+        { w: "গৃহী", a: "সন্ন্যাসী" }, { w: "গৌণ", a: "মুখ্য" }, { w: "গ্রহণ", a: "বর্জন" },
+        { w: "গ্রহণীয়", a: "বর্জনীয়" }, { w: "গ্রাম্য", a: "শহুরে" }, { w: "ঘোষ", a: "অঘোষ" },
+        { w: "চঞ্চল", a: "স্থির" }, { w: "চটুল", a: "গম্ভীর" }, { w: "চতুর", a: "নির্বোধ" },
+        { w: "চপল", a: "গম্ভীর" }, { w: "জড়", a: "চেতন" }, { w: "জরা", a: "যৌবন" },
+        { w: "জলচর", a: "স্থলচর" }, { w: "জাগ্রত", a: "সুপ্ত" }, { w: "জ্ঞানী", a: "অজ্ঞান/মূর্খ" },
+        { w: "জ্ঞেয়", a: "অজ্ঞেয়" }, { w: "জ্যোৎস্না", a: "অমাবস্যা" }, { w: "টক", a: "মিষ্টি" },
+        { w: "টাটকা", a: "বাসি" }, { w: "তরল", a: "কঠিন" }, { w: "তস্কর", a: "সাধু" },
+        { w: "তাপ", a: "শৈত্য" }, { w: "তামসিক", a: "রাজসিক" }, { w: "তারুণ্য", a: "বার্ধক্য" },
+        { w: "তিক্ত", a: "মধুর" }, { w: "তিমির", a: "আলো" }, { w: "তিরস্কার", a: "পুরস্কার" },
+        { w: "তির্যক", a: "সরল" }, { w: "তীক্ষ্ণ", a: "ভোঁতা" }, { w: "তীব্র", a: "লঘু/মৃদু" },
+        { w: "তেজি", a: "নিস্তেজ" }, { w: "ত্বরিত", a: "শ্লথ" }, { w: "থামা", a: "চলা" },
+        { w: "দণ্ড", a: "পুরস্কার" }, { w: "দরাজ", a: "সংকীর্ণ" }, { w: "দাতা", a: "গ্রহীতা" },
+        { w: "দারক", a: "দুহিতা" }, { w: "দিগন্ত", a: "আদিগন্ত" }, { w: "দিন", a: "রাত" },
+        { w: "দিবা", a: "রাত্রি" }, { w: "দীন", a: "ধনী" }, { w: "দীর্ঘ", a: "হ্রস্ব" },
+        { w: "দুর্গম", a: "সুগম" }, { w: "দুর্জন", a: "সজ্জন" }, { w: "দুর্মতি", a: "সুমতি" },
+        { w: "দুর্লভ", a: "সুলভ" }, { w: "দুষ্কৃত", a: "সুকৃত" }, { w: "দোষী", a: "নির্দোষ" },
+        { w: "দ্যুলোক", a: "ভূলোক" }, { w: "ধারালো", a: "ভোঁতা" }, { w: "ধৃষ্ট", a: "বিনয়ী/নম্র" },
+        { w: "নন্দিত", a: "নিন্দিত" }, { w: "নর", a: "নারী" }, { w: "নশ্বর", a: "অবিনশ্বর" },
+        { w: "নাস্তিক", a: "আস্তিক" }, { w: "নিন্দা", a: "স্তুতি/প্রশংসা" }, { w: "নিরক্ষর", a: "সাক্ষর" },
+        { w: "নিরর্থক", a: "সার্থক" }, { w: "নিরীহ", a: "হিংস্র" }, { w: "নিশি", a: "দিবা" },
+        { w: "নৈসর্গিক", a: "কৃত্রিম" }, { w: "পটু", a: "অপটু" }, { w: "পদস্থ", a: "নিম্নস্থ" },
+        { w: "পবিত্র", a: "অপবিত্র" }, { w: "পরতন্ত্র", a: "স্বতন্ত্র" }, { w: "পরলোক", a: "ইহলোক" },
+        { w: "পশ্চাৎ", a: "অগ্র" }, { w: "পাকা", a: "কাঁচা" }, { w: "পাশবিক", a: "মানবিক" },
+        { w: "পুরস্কার", a: "তিরস্কার" }, { w: "পূর্বসুরি", a: "উত্তরসুরি" }, { w: "প্রকাশ", a: "গোপন" },
+        { w: "প্রচুর", a: "অল্প" }, { w: "প্রতিঘাত", a: "ঘাত" }, { w: "প্রতিযোগী", a: "সহযোগী" },
+        { w: "প্রতিলোম", a: "অনুলোম" }, { w: "প্রতীচী", a: "প্রাচী" }, { w: "প্রত্যক্ষ", a: "পরোক্ষ" },
+        { w: "প্রফুল্ল", a: "বিমর্ষ" }, { w: "প্রবাস", a: "স্ববাস" }, { w: "প্রসন্ন", a: "বিষণ্ণ" },
+        { w: "প্রসারণ", a: "সংকোচন" }, { w: "প্রসারিত", a: "সংকুচিত" }, { w: "প্রাচ্য", a: "প্রতীচ্য/পাশ্চাত্য" },
+        { w: "প্রায়শ", a: "কদাচিৎ" }, { w: "ফলন্ত", a: "নিষ্ফলা" }, { w: "ফাঁপা", a: "নিরেট" },
+        { w: "বক্তা", a: "শ্রোতা" }, { w: "বন্ধন", a: "মুক্তি" }, { w: "বন্ধুর", a: "মসৃণ/সমতল" },
+        { w: "বরখাস্ত", a: "বহাল" }, { w: "বাউন্ডুলে", a: "সংসারী" }, { w: "বাচাল", a: "স্বল্পভাষী" },
+        { w: "বালক", a: "বালিকা" }, { w: "বাহুল্য", a: "প্রয়োজনীয়" }, { w: "বিচ্ছেদ", a: "সন্ধি" },
+        { w: "বিদ্বান", a: "মূর্খ" }, { w: "বিনীত", a: "উদ্ধত/দুর্বিনীত" }, { w: "বিপত্নীক", a: "বিধবা" },
+        { w: "বিরাগ", a: "অনুরাগ" }, { w: "বিরোধ", a: "সদ্ভাব" }, { w: "বিশ্বস্ত", a: "অবিশ্বস্ত" },
+        { w: "বিশ্রী", a: "সুশ্রী" }, { w: "বেনামে", a: "স্বনামে" }, { w: "বৈরাগ্য", a: "আসক্তি" },
+        { w: "ব্যষ্টি", a: "সমষ্টি" }, { w: "ভর্ৎসনা", a: "প্রশংসা" }, { w: "ভাটি", a: "জোয়ার" },
+        { w: "ভাল", a: "মন্দ" }, { w: "ভীরু", a: "নির্ভীক" }, { w: "ভূত", a: "ভবিষ্যৎ" },
+        { w: "ভূলোক", a: "দ্যুলোক" }, { w: "ভূস্বামী", a: "ভূমিহীন" }, { w: "ভেজাল", a: "খাঁটি" },
+        { w: "মধুর", a: "কটু" }, { w: "মন্থর", a: "ক্ষিপ্র" }, { w: "মলিন", a: "নির্মল" },
+        { w: "মহাপ্রাণ", a: "অল্পপ্রাণ" }, { w: "মুক্ত", a: "আবদ্ধ" }, { w: "মুখর", a: "মৌন" },
+        { w: "মুখ্য", a: "গৌণ" }, { w: "মূর্ত", a: "বিমূর্ত" }, { w: "মৌন", a: "মুখর" },
+        { w: "যত", a: "তত" }, { w: "যাযাবর", a: "স্থায়ী" }, { w: "যুক্ত", a: "বিযুক্ত" },
+        { w: "রদ", a: "চালু" }, { w: "রাগ", a: "বিরাগ" }, { w: "রাজা", a: "প্রজা" },
+        { w: "রিক্ত", a: "পূর্ণ" }, { w: "রুষ্ট", a: "তুষ্ট" }, { w: "লগ্ন", a: "চ্যুত" },
+        { w: "লঘু", a: "গুরু" }, { w: "শিথিল", a: "সুদৃঢ়" }, { w: "শিষ্ট", a: "অশিষ্ট" },
+        { w: "শীতল", a: "উষ্ণ" }, { w: "শুরু", a: "শেষ" }, { w: "শূন্য", a: "পূর্ণ" },
+        { w: "শ্বশুর", a: "শাশুড়ি" }, { w: "সচেতন", a: "অসচেতন" }, { w: "সচেষ্ট", a: "নিশ্চেষ্ট" },
+        { w: "সজীব", a: "নির্জীব" }, { w: "সঞ্চয়", a: "অপচয়" }, { w: "সদয়", a: "নির্দয়" },
+        { w: "সন্ধি", a: "বিগ্রহ" }, { w: "সন্ন্যাসী", a: "গৃহী" }, { w: "সবল", a: "দুর্বল" },
+        { w: "সমষ্টি", a: "ব্যষ্টি" }, { w: "সমস্ত", a: "অংশ" }, { w: "সম্বল", a: "নিঃসম্বল" },
+        { w: "সম্মুখ", a: "পশ্চাৎ" }, { w: "সরস", a: "নীরস" }, { w: "সংকীর্ণ", a: "প্রশস্ত" },
+        { w: "সংক্ষিপ্ত", a: "বিস্তৃত" }, { w: "সংশয়", a: "প্রত্যয়" }, { w: "সংশ্লেষণ", a: "বিশ্লেষণ" },
+        { w: "সাকার", a: "নিরাকার" }, { w: "সাধু", a: "অসাধু/চোর" }, { w: "সাফল্য", a: "ব্যর্থতা" },
+        { w: "সাবেক", a: "হাল" }, { w: "সাহসী", a: "ভীতু" }, { w: "সুখ", a: "দুঃখ" },
+        { w: "সুন্দর", a: "কুৎসিত" }, { w: "সুপ্ত", a: "জাগ্রত" }, { w: "সুশীল", a: "দুঃশীল" },
+        { w: "সূক্ষ্ম", a: "স্থূল" }, { w: "সৃষ্টি", a: "ধ্বংস" }, { w: "সৌম্য", a: "উগ্র" },
+        { w: "স্তুতি", a: "নিন্দা" }, { w: "স্থাবর", a: "অস্থাবর" }, { w: "স্নিগ্ধ", a: "রুক্ষ" },
+        { w: "স্বকীয়", a: "পরকীয়" }, { w: "স্বতন্ত্র", a: "পরতন্ত্র" }, { w: "স্বর্গ", a: "মর্ত্য" },
+        { w: "স্বাধীন", a: "পরাধীন" }, { w: "স্মৃতি", a: "বিস্মৃতি" }, { w: "হতবুদ্ধি", a: "স্থিরবুদ্ধি" },
+        { w: "হরণ", a: "পূরণ" }, { w: "হর্ষ", a: "বিষাদ" }, { w: "হাল", a: "সাবেক" },
+        { w: "হৃদয়তা", a: "কপটতা" }
+    ];
+
+    let favorites = JSON.parse(localStorage.getItem('antonymFavs_v9')) || [];
+    let showFavsOnly = false;
+    let currentIndex = 0;
+    const batchSize = 10;
+
+    function toggleFavView() {
+        showFavsOnly = !showFavsOnly;
+        currentIndex = 0;
+        const btn = document.getElementById('favFilterBtn');
+        if (showFavsOnly) {
+            btn.innerText = "📖 সব দেখুন";
+            btn.style.background = "var(--neon-pink)";
+            btn.style.color = "#fff";
+        } else {
+            btn.innerText = "⭐ ফেভারিট";
+            btn.style.background = "rgba(255, 0, 127, 0.15)";
+            btn.style.color = "var(--neon-pink)";
+        }
+        renderList();
+    }
+
+    function renderList() {
+        const list = document.getElementById('main-list');
+        list.innerHTML = "";
+        
+        let activeData = showFavsOnly ? data.filter((_, idx) => favorites.includes(idx)) : data;
+        let endIndex = Math.min(currentIndex + batchSize, activeData.length);
+        
+        if (showFavsOnly) {
+            document.getElementById('progress-info').innerText = `⭐ ফেভারিট তালিকা (${activeData.length} টি)`;
+        } else {
+            document.getElementById('progress-info').innerText = `প্রদর্শিত হচ্ছে: ${currentIndex + 1} থেকে ${endIndex} (মোট ${data.length} টি)`;
+        }
+
+        if (activeData.length === 0) {
+            list.innerHTML = `<div style="text-align:center; color:#999; margin-top:40px; font-size:16px;">কোনো ডেটা পাওয়া যায়নি!</div>`;
+            document.getElementById('navContainer').style.display = 'none';
+            return;
+        } else {
+            document.getElementById('navContainer').style.display = 'flex';
+        }
+
+        for (let i = currentIndex; i < endIndex; i++) {
+            const item = showFavsOnly ? activeData[i] : data[i];
+            const originalIndex = data.indexOf(item);
+            const isFav = favorites.includes(originalIndex);
+
+            // ১০টি কার্ডের জন্য ১০ রকমের সম্পূর্ণ আলাদা অ্যানিমেশন ক্লাস (type-1 থেকে type-10)
+            const animType = ((i - currentIndex) % 10) + 1;
+
+            const div = document.createElement('div');
+            div.className = `item-wrapper`;
+            div.innerHTML = `
+                <span class="serial">${originalIndex + 1}</span>
+                <div class="card type-${animType}" onclick="this.classList.toggle('show')">
+                    <div class="card-inner">
+                        <span class="word">${item.w}</span>
+                        <span class="antonym">${item.a}</span>
+                    </div>
+                </div>
+                <div class="item-fav-btn ${isFav ? 'active' : ''}" onclick="toggleFav(${originalIndex})">❤️</div>
+            `;
+            list.appendChild(div);
+        }
+
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        if (currentIndex === 0) {
+            prevBtn.style.opacity = "0.3";
+            prevBtn.style.pointerEvents = "none";
+        } else {
+            prevBtn.style.opacity = "1";
+            prevBtn.style.pointerEvents = "auto";
+        }
+
+        if (endIndex >= activeData.length) {
+            nextBtn.innerText = showFavsOnly ? "শুরুতে ফিরুন ⟳" : "সবগুলো শেষ! প্রথম থেকে শুরু করুন ⟳";
+        } else {
+            nextBtn.innerText = "কমপ্লিট (পরবর্তী ১০টি) ➡";
+        }
+    }
+
+    function toggleFav(originalIndex) {
+        const pos = favorites.indexOf(originalIndex);
+        if (pos === -1) favorites.push(originalIndex);
+        else favorites.splice(pos, 1);
+        localStorage.setItem('antonymFavs_v9', JSON.stringify(favorites));
+        renderList();
+    }
+
+    function loadNextBatch() {
+        let activeData = showFavsOnly ? data.filter((_, idx) => favorites.includes(idx)) : data;
+        currentIndex += batchSize;
+        if (currentIndex >= activeData.length) {
+            currentIndex = 0;
+        }
+        renderList();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function loadPrevBatch() {
+        currentIndex -= batchSize;
+        if (currentIndex < 0) {
+            currentIndex = 0;
+        }
+        renderList();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function filter() {
+        let val = document.getElementById('search').value.toLowerCase();
+        document.querySelectorAll('.item-wrapper').forEach(row => {
+            row.style.display = row.innerText.toLowerCase().includes(val) ? "flex" : "none";
+        });
+    }
+
+    renderList();
+</script>
+</body>
+</html>
