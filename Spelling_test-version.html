@@ -1,0 +1,1732 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>বানান শুদ্ধিকরণ ও টাইপিং প্র্যাকটিস - Bilas Academy</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts: Noto Sans Bengali, Poppins & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Noto+Sans+Bengali:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --panel-bg: #111827;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --correct-green: #10b981;
+            --wrong-red: #f43f5e;
+            --focus-cyan: #06b6d4;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Noto Sans Bengali', 'Poppins', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: #f1f5f9;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .panel-surface {
+            background-color: rgba(17, 24, 39, 0.85);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Passage Format Words */
+        .passage-token {
+            display: inline-block;
+            margin: 4px 6px;
+            padding: 3px 10px;
+            border-radius: 8px;
+            font-size: 1.45rem;
+            color: #94a3b8;
+            transition: all 0.15s ease-in-out;
+            user-select: none;
+        }
+
+        .passage-token.current {
+            background: rgba(6, 182, 212, 0.15);
+            color: #38bdf8;
+            border-bottom: 3px solid #06b6d4;
+            font-weight: 700;
+            transform: scale(1.04);
+        }
+
+        .passage-token.done-correct {
+            color: #34d399;
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .passage-token.done-wrong {
+            color: #fb7185;
+            background: rgba(244, 63, 94, 0.15);
+            text-decoration: line-through;
+        }
+
+        /* Subtle scrollbars for passage view */
+        ::-webkit-scrollbar {
+            width: 7px;
+            height: 7px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.35);
+        }
+    </style>
+</head>
+<body class="selection:bg-cyan-600 selection:text-white">
+
+    <!-- Top Minimalist Desktop Control Bar -->
+    <header class="w-full border-b border-white/10 bg-slate-900/90 backdrop-blur-md px-6 py-3.5 sticky top-0 z-30">
+        <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-4">
+            
+            <!-- Left Branding & Subtitle -->
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-cyan-600/20 text-cyan-400 border border-cyan-500/30 flex items-center justify-center font-bold text-lg">
+                    <i class="fas fa-spell-check"></i>
+                </div>
+                <div>
+                    <h1 class="text-base md:text-lg font-bold text-slate-100 flex items-center gap-2">
+                        বানান শুদ্ধিকরণ ও টাইপিং প্র্যাকটিস
+                        <span class="text-[11px] px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 font-medium">Desktop Memorizer</span>
+                    </h1>
+                </div>
+            </div>
+
+            <!-- Middle Controls: Language, Mode & Format -->
+            <div class="flex items-center gap-3 flex-wrap">
+                
+                <!-- Language Selector -->
+                <div class="flex items-center bg-black/50 p-1 rounded-xl border border-white/10 text-xs font-semibold">
+                    <button id="langBnBtn" onclick="setLanguage('bn')" class="px-3.5 py-1.5 rounded-lg transition-all bg-emerald-600 text-white shadow">
+                        বাংলা (<span id="countBnTotal">553</span>)
+                    </button>
+                    <button id="langEnBtn" onclick="setLanguage('en')" class="px-3.5 py-1.5 rounded-lg transition-all text-slate-400 hover:text-white">
+                        English (<span id="countEnTotal">206</span>)
+                    </button>
+                </div>
+
+                <!-- Practice Mode Selector: 'ভুল দেখে ঠিক' vs 'ঠিক দেখে ঠিক' -->
+                <div class="flex items-center bg-black/50 p-1 rounded-xl border border-white/10 text-xs font-semibold">
+                    <button id="modeFixBtn" onclick="setPracticeMode('fix')" class="px-3.5 py-1.5 rounded-lg transition-all bg-rose-600 text-white shadow flex items-center gap-1.5" title="ভুল বানান দেখে স্মৃতি থেকে সঠিক বানানটি লিখুন">
+                        <i class="fas fa-eye-slash"></i> ভুল দেখে ঠিক লেখা
+                    </button>
+                    <button id="modeDirectBtn" onclick="setPracticeMode('direct')" class="px-3.5 py-1.5 rounded-lg transition-all text-slate-400 hover:text-white flex items-center gap-1.5" title="সঠিক বানানটি দেখে সরাসরি টাইপ করে হাতের দক্ষতা বাড়ান">
+                        <i class="fas fa-check-double"></i> ঠিক দেখে ঠিক লেখা
+                    </button>
+                </div>
+
+                <!-- Format Selector: Single Word vs Passage -->
+                <div class="flex items-center bg-black/50 p-1 rounded-xl border border-white/10 text-xs font-semibold">
+                    <button id="fmtSingleBtn" onclick="setFormat('single')" class="px-3 py-1.5 rounded-lg transition-all bg-cyan-600 text-white shadow">
+                        <i class="fas fa-font mr-1"></i> একটি একটি
+                    </button>
+                    <button id="fmtPassageBtn" onclick="setFormat('passage')" class="px-3 py-1.5 rounded-lg transition-all text-slate-400 hover:text-white">
+                        <i class="fas fa-paragraph mr-1"></i> প্যাসেজ
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- Right Options: Sound, Shuffle & Restart -->
+            <div class="flex items-center gap-2">
+                <button id="soundToggleBtn" onclick="toggleAudio()" title="কীবোর্ড সাউন্ড অন/অফ (Alt+S)" class="w-8 h-8 rounded-lg bg-black/40 text-cyan-400 hover:bg-black/60 border border-white/10 flex items-center justify-center transition-all text-sm">
+                    <i id="soundIcon" class="fas fa-volume-up"></i>
+                </button>
+                <button onclick="shuffleCurrentSet()" title="শব্দগুলো এলোমেলো করুন" class="px-2.5 py-1.5 rounded-lg bg-black/40 text-slate-300 hover:text-white border border-white/10 text-xs font-semibold flex items-center gap-1 transition-all">
+                    <i class="fas fa-shuffle text-cyan-400"></i> শাফেল
+                </button>
+                <button onclick="promptJumpToWord()" title="নির্দিষ্ট নম্বরে যান" class="px-2.5 py-1.5 rounded-lg bg-black/40 text-slate-300 hover:text-white border border-white/10 text-xs font-semibold flex items-center gap-1 transition-all">
+                    <i class="fas fa-hashtag text-cyan-400"></i> জাম্প
+                </button>
+                <button onclick="resetPractice(true)" title="নতুন করে শুরু (Esc)" class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 border border-white/10 text-xs font-semibold flex items-center gap-1 transition-all">
+                    <i class="fas fa-rotate-right text-emerald-400"></i> রিস্টার্ট
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-5xl w-full mx-auto p-4 md:p-8 flex flex-col justify-center gap-6">
+
+        <!-- Progress and Status Row (No complex WPM, purely focused on memorization progress) -->
+        <div class="flex items-center justify-between px-2 text-xs md:text-sm font-medium text-slate-400">
+            <div class="flex items-center gap-3">
+                <span class="px-2.5 py-1 rounded-md bg-white/5 border border-white/10 text-slate-300">
+                    শব্দ অগ্রগতি: <strong id="progressCounter" class="mono text-cyan-400 font-bold text-sm">১ / ৫৫৩</strong>
+                </span>
+                <span id="mistakeBadge" class="px-2.5 py-1 rounded-md bg-rose-500/10 border border-rose-500/20 text-rose-300">
+                    ভুল হয়েছে: <strong id="mistakesCounter" class="mono font-bold text-sm">০</strong> টি
+                </span>
+            </div>
+
+            <!-- Filter Range & Mistake-Only Practice Trigger -->
+            <div class="flex items-center gap-2">
+                <button id="btnPracticeMistakesOnly" onclick="startMistakesOnlyPractice()" class="hidden px-3 py-1 rounded-lg bg-rose-600/20 text-rose-300 border border-rose-500/30 text-xs font-bold hover:bg-rose-600/30 transition-all flex items-center gap-1.5">
+                    <i class="fas fa-wrench"></i> শুধুমাত্র ভুলগুলো প্র্যাকটিস করুন (<span id="mistakesCountBtn">0</span>)
+                </button>
+                <div class="text-slate-400 text-xs hidden sm:block">
+                    
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress line -->
+        <div class="w-full bg-slate-800/80 h-1 rounded-full overflow-hidden">
+            <div id="topProgressBar" class="h-full bg-cyan-500 transition-all duration-300" style="width: 0%"></div>
+        </div>
+
+        <!-- ================= FORMAT 1: SINGLE WORD MEMORIZATION VIEW ================= -->
+        <section id="singleWordView" class="panel-surface rounded-3xl p-8 sm:p-12 flex flex-col items-center justify-center gap-6 shadow-2xl relative">
+            
+            <!-- Context & Instruction Indicator -->
+            <div id="singleModeLabel" class="px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-rose-500/10 text-rose-300 border border-rose-500/20 flex items-center gap-2">
+                <i class="fas fa-eye-slash"></i>
+                <span id="singleModeInstruction">ভুল বানানটি দেখে শুদ্ধ রূপটি মুখস্থ টাইপ করুন:</span>
+            </div>
+
+            <!-- Giant Focus Target Word (Strictly only the word required by the mode) -->
+            <div class="min-h-[120px] flex flex-col items-center justify-center py-2 text-center w-full">
+                <h2 id="singleTargetWord" class="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-wide text-rose-300 drop-shadow select-none">
+                    বিভিষীকা
+                </h2>
+                <!-- English Meaning/Pronunciation helper (subtle, doesn't spoil spelling) -->
+                <p id="singleSubHint" class="text-xs md:text-sm text-cyan-300/80 mt-2 font-medium hidden">
+                    উচ্চারণ ও অর্থ
+                </p>
+            </div>
+
+            <!-- Interactive Immediate Correction Box (Appears ONLY when user makes a mistake) -->
+            <div id="mistakeFeedbackBox" class="w-full max-w-xl p-4 rounded-2xl bg-rose-950/40 border border-rose-500/40 hidden flex flex-col sm:flex-row items-center justify-between gap-3 text-sm animate-in fade-in duration-200">
+                <div class="flex items-center gap-2">
+                    <span class="text-rose-400 font-semibold"><i class="fas fa-circle-xmark mr-1"></i> ভুল হয়েছে!</span>
+                    <span class="text-slate-300">শুদ্ধ বানানটি হলো:</span>
+                    <span id="mistakeCorrectWord" class="text-emerald-400 font-black text-xl px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30">
+                        বিভীষিকা
+                    </span>
+                </div>
+                <span class="text-xs text-amber-300 bg-amber-500/10 px-2 py-1 rounded border border-amber-500/20 whitespace-nowrap">
+                    মুখস্থ করে নিচে আবার লিখুন
+                </span>
+            </div>
+
+            <!-- Main Single Word Desktop Input Box -->
+            <div class="w-full max-w-xl relative flex items-center">
+                <input 
+                    type="text" 
+                    id="singleInputBox" 
+                    autocomplete="off" 
+                    autocorrect="off" 
+                    autocapitalize="off" 
+                    spellcheck="false" 
+                    placeholder="সঠিক বানানটি লিখুন..." 
+                    class="w-full px-6 py-4 rounded-2xl bg-black/60 border-2 border-cyan-500/30 text-2xl md:text-3xl font-bold text-center text-white placeholder-slate-400 focus:outline-none focus:border-cyan-400 focus:ring-4 focus:ring-cyan-500/20 shadow-2xl transition-all"
+                >
+                <button onclick="skipWord()" title="এই শব্দটি স্কিপ করুন (Tab)" class="absolute right-3.5 px-3 py-1.5 text-xs text-slate-400 hover:text-white rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-all font-semibold">
+                    স্কিপ <i class="fas fa-forward ml-1"></i>
+                </button>
+            </div>
+
+            <!-- Keyboard shortcuts reference -->
+            <div class="flex flex-wrap items-center justify-center gap-4 text-xs text-slate-400 mt-2">
+                <span class="flex items-center gap-1.5"><kbd class="px-2 py-0.5 rounded bg-white/10 border border-white/20 font-mono text-slate-300">Space</kbd> বা <kbd class="px-2 py-0.5 rounded bg-white/10 border border-white/20 font-mono text-slate-300">Enter</kbd> শব্দ সাবমিট করতে</span>
+                <span class="flex items-center gap-1.5"><kbd class="px-2 py-0.5 rounded bg-white/10 border border-white/20 font-mono text-slate-300">Tab</kbd> শব্দ স্কিপ করতে</span>
+                <span class="flex items-center gap-1.5"><kbd class="px-2 py-0.5 rounded bg-white/10 border border-white/20 font-mono text-slate-300">Esc</kbd> পুনরায় টেস্ট শুরু</span>
+            </div>
+
+        </section>
+
+        <!-- ================= FORMAT 2: CONTINUOUS PASSAGE MEMORIZATION VIEW ================= -->
+        <section id="passageView" class="panel-surface rounded-3xl p-6 sm:p-8 flex flex-col gap-5 shadow-2xl hidden relative">
+            
+            <div class="flex flex-wrap items-center justify-between gap-3 text-xs md:text-sm text-slate-400 px-1 font-medium border-b border-white/10 pb-3">
+                <div class="flex items-center gap-2">
+                    <span class="text-cyan-400 font-bold"><i class="fas fa-paragraph mr-1.5"></i> প্যাসেজ অনুশীলন মোড</span>
+                    <span id="passageWordTracker" class="mono text-slate-300">শব্দ: ১ / ৭৫</span>
+                </div>
+                <div id="passageModeInstruction" class="text-rose-300 font-semibold">
+                    প্যাসেজে প্রদর্শিত প্রতিটি ভুল বানান দেখে আপনার সঠিক বানানটি টাইপ করতে হবে!
+                </div>
+            </div>
+
+            <!-- Passage Text Flow Box -->
+            <div id="passageContainer" class="max-h-[300px] overflow-y-auto p-5 sm:p-7 rounded-2xl bg-black/50 border border-white/10 text-left leading-loose select-none scroll-smooth">
+                <!-- Dynamically generated word tokens -->
+            </div>
+
+            <!-- Passage Live Active Word Input -->
+            <div class="w-full relative flex items-center">
+                <input 
+                    type="text" 
+                    id="passageInputBox" 
+                    autocomplete="off" 
+                    autocorrect="off" 
+                    autocapitalize="off" 
+                    spellcheck="false" 
+                    placeholder="প্যাসেজের সক্রিয় শব্দটি দেখে এখানে টাইপ করুন (শব্দ শেষে Space চাপুন)..." 
+                    class="w-full px-6 py-4 rounded-2xl bg-black/60 border-2 border-cyan-500/30 text-xl md:text-2xl font-bold text-slate-100 placeholder-slate-400 focus:outline-none focus:border-cyan-400 focus:ring-4 focus:ring-cyan-500/20 shadow-2xl transition-all"
+                >
+            </div>
+
+            <div class="flex items-center justify-between text-xs text-slate-400 px-1">
+                <span>শব্দ টাইপ করার পর <kbd class="px-2 py-0.5 rounded bg-white/10 border border-white/20 font-mono text-slate-300">Space</kbd> চাপলেই পরবর্তী শব্দে যাবে এবং স্বয়ংক্রিয়ভাবে প্যাসেজ স্ক্রোল হবে।</span>
+                <button onclick="skipPassageWord()" class="text-xs text-slate-400 hover:text-white underline">এই শব্দটি বাদ দিন</button>
+            </div>
+
+        </section>
+
+        <!-- Summary & Mistake Completion Modal -->
+        <div id="completionModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+            <div class="panel-surface max-w-xl w-full rounded-3xl p-6 sm:p-8 flex flex-col gap-6 border border-cyan-500/30 shadow-2xl relative animate-in fade-in duration-200">
+                <div class="text-center">
+                    <div class="w-14 h-14 mx-auto rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center text-2xl mb-3">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3 class="text-2xl font-black text-white">প্র্যাকটিস সেশন সম্পন্ন!</h3>
+                    <p class="text-xs text-slate-400 mt-1">আপনার অনুশীলনের সারসংক্ষেপ</p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 text-center">
+                    <div class="bg-black/40 rounded-2xl p-3 border border-white/10">
+                        <div class="text-xs text-slate-400 uppercase font-semibold">সঠিক টাইপ</div>
+                        <div id="modalCorrectCount" class="mono text-2xl font-black text-emerald-400">0</div>
+                    </div>
+                    <div class="bg-black/40 rounded-2xl p-3 border border-white/10">
+                        <div class="text-xs text-slate-400 uppercase font-semibold">ভুল হয়েছিল</div>
+                        <div id="modalMistakeCount" class="mono text-2xl font-black text-rose-400">0</div>
+                    </div>
+                </div>
+
+                <!-- Mistakes Mastered Review List -->
+                <div id="modalMistakesWrap" class="flex flex-col gap-2 max-h-56 overflow-y-auto pr-1">
+                    <span class="text-xs font-bold text-rose-300 uppercase tracking-wider">যেসব বানানগুলোতে ভুল হয়েছিল:</span>
+                    <div id="modalMistakesList" class="flex flex-col gap-1.5 text-xs">
+                        <!-- Dynamic mistake items -->
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <button onclick="closeModalAndRestart()" class="flex-1 py-3 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-bold text-sm hover:brightness-110 transition-all shadow-lg">
+                        <i class="fas fa-rotate-right mr-1.5"></i> শুরু থেকে আবার প্র্যাকটিস
+                    </button>
+                    <button id="modalBtnOnlyMistakes" onclick="startMistakesOnlyFromModal()" class="py-3 px-4 rounded-xl bg-rose-600/20 text-rose-300 border border-rose-500/30 text-sm font-bold hover:bg-rose-600/30 transition-all hidden">
+                        <i class="fas fa-wrench mr-1"></i> শুধুমাত্র ভুলগুলো মুখস্থ করুন
+                    </button>
+                    <button onclick="closeModalOnly()" class="py-3 px-4 rounded-xl panel-surface text-slate-400 hover:text-white transition-all text-sm font-medium">
+                        বন্ধ করুন
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+    /* Complete Database of 553 Bengali and 206 English Spelling Pairs */
+    const fullDatabase = [
+  { id: 1, wrong: "বিভিষীকা", right: "বিভীষিকা" },
+  { id: 2, wrong: "পাষান", right: "পাষাণ" },
+  { id: 3, wrong: "মুহুর্মূহু", right: "মুহুর্মুহু" },
+  { id: 4, wrong: "সৌজন্যতা", right: "সৌজন্য" },
+  { id: 5, wrong: "সমীচিন", right: "সমীচীন" },
+  { id: 6, wrong: "সুচিস্মিতা", right: "শুচিস্মিতা" },
+  { id: 7, wrong: "আকাংখা", right: "আকাঙ্ক্ষা" },
+  { id: 8, wrong: "পিপিলীকা", right: "পিপীলিকা" },
+  { id: 9, wrong: "মনীষি", right: "মনীষী" },
+  { id: 10, wrong: "নিশিথীনি", right: "নিশীথিনী" },
+  { id: 11, wrong: "সায়ত্বশাসন", right: "স্বায়ত্তশাসন" },
+  { id: 12, wrong: "প্রজ্জ্বল", right: "প্রোজ্জ্বল" },
+  { id: 13, wrong: "মনোকষ্ট", right: "মনঃকষ্ট" },
+  { id: 14, wrong: "মুমূর্ষ", right: "মুমূর্ষু" },
+  { id: 15, wrong: "শিরচ্ছেদ", right: "শিরশ্ছেদ" },
+  { id: 16, wrong: "ভূবন", right: "ভুবন" },
+  { id: 17, wrong: "যন্ত্রনা", right: "যন্ত্রণা" },
+  { id: 18, wrong: "ধরনি", right: "ধরণি" },
+  { id: 19, wrong: "পুরষ্কার", right: "পুরস্কার" },
+  { id: 20, wrong: "স্বত্ত্ব", right: "স্বত্ব" },
+  { id: 21, wrong: "মনোজগত", right: "মনোজগৎ" },
+  { id: 22, wrong: "প্রত্যুপোকার", right: "প্রত্যুপকার" },
+  { id: 23, wrong: "কটূক্তি", right: "কটূক্তি" },
+  { id: 24, wrong: "বর্সন", right: "বর্ষণ" },
+  { id: 25, wrong: "অপেক্ষামান", right: "অপেক্ষমাণ" },
+  { id: 26, wrong: "দূরাবস্থা", right: "দুরবস্থা" },
+  { id: 27, wrong: "নিরবিচ্ছিন্ন", right: "নিরবচ্ছিন্ন" },
+  { id: 28, wrong: "নিলীমা", right: "নীলিমা" },
+  { id: 29, wrong: "তারুন্ন", right: "তারুণ্য" },
+  { id: 30, wrong: "মৃতবংসা", right: "মৃতবৎসা" },
+  { id: 31, wrong: "অনূন্য", right: "অনন্য" },
+  { id: 32, wrong: "নিরোপায়", right: "নিরুপায়" },
+  { id: 33, wrong: "তোরন", right: "তোরণ" },
+  { id: 34, wrong: "উচীৎ", right: "উচিত" },
+  { id: 35, wrong: "বাল্মিকী", right: "বাল্মীকি" },
+  { id: 36, wrong: "গীতাঞ্জলী", right: "গীতাঞ্জলি" },
+  { id: 37, wrong: "কজ্জটিকা", right: "কুজ্ঝটিকা" },
+  { id: 38, wrong: "দূর্গতী", right: "দুর্গতি" },
+  { id: 39, wrong: "বিদ্যান", right: "বিদ্বান" },
+  { id: 40, wrong: "কর্ণেল", right: "কর্নেল" },
+  { id: 41, wrong: "রুগ্ন", right: "রুগ্‌ণ" },
+  { id: 42, wrong: "নিক্কণ", right: "নিক্বণ" },
+  { id: 43, wrong: "মূহুর্ত", right: "মুহূর্ত" },
+  { id: 44, wrong: "মরূদ্দান", right: "মরূদ্যান" },
+  { id: 45, wrong: "সংঙ্গা", right: "সংজ্ঞা" },
+  { id: 46, wrong: "মিমাংসা", right: "মীমাংসা" },
+  { id: 47, wrong: "আষার", right: "আষাঢ়" },
+  { id: 48, wrong: "আশক্তি", right: "আসক্তি" },
+  { id: 49, wrong: "মন্ত্রীসভা", right: "মন্ত্রিসভা" },
+  { id: 50, wrong: "অধিন", right: "অধীন" },
+  { id: 51, wrong: "অধ্যায়ন", right: "অধ্যয়ন" },
+  { id: 52, wrong: "ব্যাতিক্রম", right: "ব্যতিক্রম" },
+  { id: 53, wrong: "অত্যান্ত", right: "অত্যন্ত" },
+  { id: 54, wrong: "খ্রীষ্টাব্দ", right: "খ্রিস্টাব্দ" },
+  { id: 55, wrong: "মনন্থর", right: "মন্থর" },
+  { id: 56, wrong: "প্রযুজ্য", right: "প্রযোজ্য" },
+  { id: 57, wrong: "নাগরীক", right: "নাগরিক" },
+  { id: 58, wrong: "উপকারীতা", right: "উপকারিতা" },
+  { id: 59, wrong: "ইতিপূর্বে", right: "ইতঃপূর্বে" },
+  { id: 60, wrong: "সুষ্ঠ", right: "সুষ্ঠু" },
+  { id: 61, wrong: "জেষ্ঠ", right: "জ্যেষ্ঠ" },
+  { id: 62, wrong: "তড়িতাহত", right: "তড়িতাহত" },
+  { id: 63, wrong: "অগ্রহায়ন", right: "অগ্রহায়ণ" },
+  { id: 64, wrong: "এদেশীয়", right: "দেশীয়" },
+  { id: 65, wrong: "সধর্মচ্যুত", right: "স্বধর্মচ্যুত" },
+  { id: 66, wrong: "জোসনারাত", right: "জ্যোৎস্নারাত" },
+  { id: 67, wrong: "গর্ভধারিনি", right: "গর্ভধারিণী" },
+  { id: 68, wrong: "বিপনী", right: "বিপণী" },
+  { id: 69, wrong: "ভিষন", right: "ভীষণ" },
+  { id: 70, wrong: "মাষ্টার", right: "মাস্টার" },
+  { id: 71, wrong: "প্রতিস্ঠান", right: "প্রতিষ্ঠান" },
+  { id: 72, wrong: "ইতঃস্তত", right: "ইতস্ততঃ" },
+  { id: 73, wrong: "অদীতী", right: "অদিতি" },
+  { id: 74, wrong: "অঞ্জলী", right: "অঞ্জলি" },
+  { id: 75, wrong: "অদ্যপি", right: "অদ্যাবধি" },
+  { id: 76, wrong: "অনুকুল", right: "অনুকূল" },
+  { id: 77, wrong: "অগ্নিবিনা", right: "অগ্নিবীণা" },
+  { id: 78, wrong: "ধীকীধিকি", right: "ধিকিধিকি" },
+  { id: 79, wrong: "ইতিমধ্যে", right: "ইতোমধ্যে" },
+  { id: 80, wrong: "আকসসিক", right: "আকস্মিক" },
+  { id: 81, wrong: "শ্বাপদসংকুল", right: "শ্বাপদসংকুল" },
+  { id: 82, wrong: "অপরিনামদর্শি", right: "অপরিণামদর্শী" },
+  { id: 83, wrong: "গুরুচন্ডালি", right: "গুরুচণ্ডালী" },
+  { id: 84, wrong: "কুঅর্থ", right: "কদর্থ" },
+  { id: 85, wrong: "বিহঙ্গিনী", right: "বিহঙ্গী" },
+  { id: 86, wrong: "চাতকিনী", right: "চাতকী" },
+  { id: 87, wrong: "রূপসী", right: "রূপসী" },
+  { id: 88, wrong: "সাফল্য মন্ডিত", right: "সাফল্যমণ্ডিত" },
+  { id: 89, wrong: "অশ্রুজল", right: "অশ্রু" },
+  { id: 90, wrong: "অচ্যাৎ", right: "অচ্ছুত" },
+  { id: 91, wrong: "অনিন্দসুন্দরী", right: "অনিন্দ্যসুন্দরী" },
+  { id: 92, wrong: "ক্যাম্পাষ", right: "ক্যাম্পাস" },
+  { id: 93, wrong: "দুর্গন্দ", right: "সুগন্ধ" },
+  { id: 94, wrong: "পুর্নিমা", right: "পূর্ণিমা" },
+  { id: 95, wrong: "ভ্রাম্যমান", right: "ভ্রাম্যমাণ" },
+  { id: 96, wrong: "প্রবাহমান", right: "প্রবহমান" },
+  { id: 97, wrong: "লিলাভূমি", right: "লীলাভূমি" },
+  { id: 98, wrong: "কিংবদন্তি", right: "কিংবদন্তি" },
+  { id: 99, wrong: "জ্যেষ্ঠতা", right: "জ্যেষ্ঠতা" },
+  { id: 100, wrong: "পোষ্ট অফিস", right: "পোস্ট অফিস" },
+  { id: 101, wrong: "মেজিষ্ট্রেট", right: "ম্যাজিস্ট্রেট" },
+  { id: 102, wrong: "অনুভূমিক", right: "অনুভূমিক" },
+  { id: 103, wrong: "আইনজীবি", right: "আইনজীবী" },
+  { id: 104, wrong: "দৈন্যতা", right: "দীনতা" },
+  { id: 105, wrong: "ঐক্যতান", right: "ঐকতান" },
+  { id: 106, wrong: "প্রজ্বলিত", right: "প্রজ্জ্বলিত" },
+  { id: 107, wrong: "তীমির", right: "তিমির" },
+  { id: 108, wrong: "শরির", right: "শরীর" },
+  { id: 109, wrong: "হৃদযোগ", right: "হৃদরোগ" },
+  { id: 110, wrong: "সাচ্ছন্দ্য", right: "স্বাচ্ছন্দ্য" },
+  { id: 111, wrong: "স্বরনীয়", right: "স্মরণীয়" },
+  { id: 112, wrong: "চত্তর", right: "চত্বর" },
+  { id: 113, wrong: "ততধিক", right: "ততোধিক" },
+  { id: 114, wrong: "ক্ষীনজিবি", right: "ক্ষীণজীবী" },
+  { id: 115, wrong: "দূর্নিরীক্ষ্য", right: "দুর্নিরীক্ষ্য" },
+  { id: 116, wrong: "প্রতিদ্বন্দী", right: "প্রতিদ্বন্দ্বী" },
+  { id: 117, wrong: "ব্যাবধান", right: "ব্যবধান" },
+  { id: 118, wrong: "ব্যার্থ", right: "ব্যর্থ" },
+  { id: 119, wrong: "রুপায়ন", right: "রূপায়ণ" },
+  { id: 120, wrong: "মনোযোগ", right: "মনোযোগ" },
+  { id: 121, wrong: "দুর্বিসহ", right: "দুর্বিষহ" },
+  { id: 122, wrong: "মরীচীকা", right: "মরীচিকা" },
+  { id: 123, wrong: "অপরাহ্ন", right: "অপরাহ্ণ" },
+  { id: 124, wrong: "ষ্টেশন", right: "স্টেশন" },
+  { id: 125, wrong: "দূরত্ব", right: "দূরত্ব" },
+  { id: 126, wrong: "শ্রদ্ধাঞ্জলী", right: "শ্রদ্ধাঞ্জলি" },
+  { id: 127, wrong: "কন্টক", right: "কণ্টক" },
+  { id: 128, wrong: "জানুয়ারী", right: "জানুয়ারি" },
+  { id: 129, wrong: "সরকারী", right: "সরকারি" },
+  { id: 130, wrong: "পাখী", right: "পাখি" },
+  { id: 131, wrong: "উর্ননাভ", right: "ঊর্ণনাভ" },
+  { id: 132, wrong: "পোস্টমাষ্টার", right: "পোস্টমাস্টার" },
+  { id: 133, wrong: "শান্তনা", right: "সান্ত্বনা" },
+  { id: 134, wrong: "ন্যুজ", right: "ন্যূব্জ" },
+  { id: 135, wrong: "ষড়ৈশ্বর্য", right: "ষড়ৈশ্বর্য" },
+  { id: 136, wrong: "তৌস্তভ", right: "কৌস্তুভ" },
+  { id: 137, wrong: "আত্মকেন্দ্রীক", right: "আত্মকেন্দ্রিক" },
+  { id: 138, wrong: "বনস্পতি", right: "বনস্পতি" },
+  { id: 139, wrong: "অনান্যপায়", right: "অনন্যোপায়" },
+  { id: 140, wrong: "উদ্ধাত", right: "উদ্ধত" },
+  { id: 141, wrong: "কিংকর্তব্যম্মির", right: "কিংকর্তব্যবিমূঢ়" },
+  { id: 142, wrong: "অগতিক্রম্য", right: "অনতিক্রম্য" },
+  { id: 143, wrong: "আবস্যক", right: "আবশ্যক" },
+  { id: 144, wrong: "সয়ংবরা", right: "স্বয়ংবরা" },
+  { id: 145, wrong: "কৃষিজীবী", right: "কৃষিজীবী" },
+  { id: 146, wrong: "অঙ্গরী", right: "অপ্সরা" },
+  { id: 147, wrong: "সমৃদ্ধশালী", right: "সমৃদ্ধিশালী" },
+  { id: 148, wrong: "লজ্জাস্কর", right: "লজ্জাকর" },
+  { id: 149, wrong: "প্রত্যুশ", right: "প্রত্যুষ" },
+  { id: 150, wrong: "দুর্নিতি", right: "দুর্নীতি" },
+  { id: 151, wrong: "সার্বজনিন", right: "সর্বজনীন" },
+  { id: 152, wrong: "দারিদ্রতা", right: "দরিদ্রতা" },
+  { id: 153, wrong: "দুরচরিত্র", right: "দুশ্চরিত্র" },
+  { id: 154, wrong: "সংগীত", right: "সংগীত" },
+  { id: 155, wrong: "আরস্ট", right: "আড়ষ্ট" },
+  { id: 156, wrong: "নুপুর", right: "নূপুর" },
+  { id: 157, wrong: "ব্যাপ্ত", right: "ব্যাপ্ত" },
+  { id: 158, wrong: "বিদুষী", right: "বিদুষী" },
+  { id: 159, wrong: "কল্যান", right: "কল্যাণ" },
+  { id: 160, wrong: "শারিরিক", right: "শারীরিক" },
+  { id: 161, wrong: "সদ্যঃজাত", right: "সদ্যোজাত" },
+  { id: 162, wrong: "শ্বশ্রু", right: "শ্মশ্রু" },
+  { id: 163, wrong: "সুশ্রূষা", right: "শুশ্রূষা" },
+  { id: 164, wrong: "অশরিরী", right: "অশরীরী" },
+  { id: 165, wrong: "প্রাণীবিদ্যা", right: "প্রাণিবিদ্যা" },
+  { id: 166, wrong: "ভক্ষন", right: "ভক্ষণ" },
+  { id: 167, wrong: "অধঃস্তন", right: "অধস্তন" },
+  { id: 168, wrong: "ঐক্যমত", right: "ঐকমত্য" },
+  { id: 169, wrong: "কূটর্নীতি", right: "কূটনীতি" },
+  { id: 170, wrong: "ধরণী", right: "ধরনি" },
+  { id: 171, wrong: "পাণিনি", right: "পাণিনি" },
+  { id: 172, wrong: "মুর্ধন্য", right: "মূর্ধন্য" },
+  { id: 173, wrong: "লাঘবতা", right: "লাঘব" },
+  { id: 174, wrong: "চোখের দৃষ্টিশক্তি", right: "দৃষ্টিশক্তি" },
+  { id: 175, wrong: "মহাত্মাগণ", right: "মহাত্মা" },
+  { id: 176, wrong: "ব্যাকুলিত", right: "ব্যাকুল" },
+  { id: 177, wrong: "পক্ক", right: "পক্ব" },
+  { id: 178, wrong: "সমুজ্জল", right: "সমুজ্জ্বল" },
+  { id: 179, wrong: "সিংহানি", right: "সিঞ্জনী" },
+  { id: 180, wrong: "সৌহাদ্য়তা", right: "সৌহার্দ" },
+  { id: 181, wrong: "পিতামহীন", right: "পিতৃহীন" },
+  { id: 182, wrong: "নৈঋিত", right: "নৈর্ঋত" },
+  { id: 183, wrong: "ভুমিষ্ট", right: "ভূমিষ্ঠ" },
+  { id: 184, wrong: "বুদ্ধীমতী", right: "বুদ্ধিমতী" },
+  { id: 185, wrong: "মুলত", right: "মূলত" },
+  { id: 186, wrong: "নিশব্দ", right: "নিঃশব্দ" },
+  { id: 187, wrong: "কান্ডারি", right: "কাণ্ডারী" },
+  { id: 188, wrong: "আনুসাঙ্গিক", right: "আনুষঙ্গিক" },
+  { id: 189, wrong: "মহিয়ষি", right: "মহীয়সী" },
+  { id: 190, wrong: "গনপূত", right: "গণপূর্ত" },
+  { id: 191, wrong: "ঘূর্নিঝড়", right: "ঘূর্ণিঝড়" },
+  { id: 192, wrong: "এতদ্বারা", right: "এতদ্বারা" },
+  { id: 193, wrong: "নুনতম", right: "ন্যূনতম" },
+  { id: 194, wrong: "দন্দ", right: "দ্বন্দ্ব" },
+  { id: 195, wrong: "আশিবিস", right: "আশীবিষ" },
+  { id: 196, wrong: "ত্রিনয়ণ", right: "ত্রিনয়ন" },
+  { id: 197, wrong: "শিল্পকির্ত্তি", right: "শিল্পকীর্তি" },
+  { id: 198, wrong: "ব্রাহ্মন", right: "ব্রাহ্মণ" },
+  { id: 199, wrong: "প্রতিশোধক", right: "প্রতিষেধক" },
+  { id: 200, wrong: "প্রতীযোগীতা", right: "প্রতিযোগিতা" },
+  { id: 201, wrong: "ক্ষতিগ্রস্থ", right: "ক্ষতিগ্রস্ত" },
+  { id: 202, wrong: "জরুরী", right: "জরুরি" },
+  { id: 203, wrong: "আশীষ", right: "আশিস" },
+  { id: 204, wrong: "কৃতীত্ব", right: "কৃতিত্ব" },
+  { id: 205, wrong: "চৈতালী", right: "চৈতালি" },
+  { id: 206, wrong: "সূচীপত্র", right: "সূচিপত্র" },
+  { id: 207, wrong: "সৌন্দর্য্য", right: "সৌন্দর্য" },
+  { id: 208, wrong: "প্রনাম", right: "প্রণাম" },
+  { id: 209, wrong: "উশৃঙ্খল", right: "উচ্ছৃঙ্খল" },
+  { id: 210, wrong: "জলন্ত", right: "জ্বলন্ত" },
+  { id: 211, wrong: "সর্বাঙ্গীন", right: "সর্বাঙ্গীণ" },
+  { id: 212, wrong: "পোষাক", right: "পোশাক" },
+  { id: 213, wrong: "ভন্ড", right: "ভণ্ড" },
+  { id: 214, wrong: "সুসমা", right: "সুষমা" },
+  { id: 215, wrong: "সুসুপ্ত", right: "সুষুপ্ত" },
+  { id: 216, wrong: "বুদ্ধিজীবি", right: "বুদ্ধিজীবী" },
+  { id: 217, wrong: "নীরিক্ষণ", right: "নিরীক্ষণ" },
+  { id: 218, wrong: "আদ্যোক্ষর", right: "আদ্যক্ষর" },
+  { id: 219, wrong: "ভুল", right: "ভুল" },
+  { id: 220, wrong: "মন্ত্রীপরিষদ", right: "মন্ত্রিপরিষদ" },
+  { id: 221, wrong: "স্বাশত", right: "শাশ্বত" },
+  { id: 222, wrong: "লক্ষ্যণীয়", right: "লক্ষণীয়" },
+  { id: 223, wrong: "উল্লেখিত", right: "উল্লিখিত" },
+  { id: 224, wrong: "ভবিষ্যৎবাণী", right: "ভবিষ্যদ্বাণী" },
+  { id: 225, wrong: "মধাহ্ণ", right: "মধ্যাহ্ন" },
+  { id: 226, wrong: "শ্রদ্ধাস্পদেসু", right: "শ্রদ্ধাস্পদেষু" },
+  { id: 227, wrong: "পোস্টমাষ্টার", right: "পোস্টমাস্টার" },
+  { id: 228, wrong: "উপরোক্ত", right: "উপর্যুক্ত" },
+  { id: 229, wrong: "অত্যাধিক", right: "অত্যধিক" },
+  { id: 230, wrong: "শ্বশুড়", right: "শ্বশুর" },
+  { id: 231, wrong: "গৃহিনী", right: "গৃহিণী" },
+  { id: 232, wrong: "কুনীর্শ", right: "কুর্নিশ" },
+  { id: 233, wrong: "শুষুপ্তি", right: "সুষুপ্তি" },
+  { id: 234, wrong: "নির্নিত", right: "নির্ণীত" },
+  { id: 235, wrong: "ধরিত্রি", right: "ধরিত্রী" },
+  { id: 236, wrong: "প্রতিতি", right: "প্রতীতি" },
+  { id: 237, wrong: "প্রশ্ৰবন", right: "প্রস্রবণ" },
+  { id: 238, wrong: "অন্তরকরন", right: "অন্তঃকরণ" },
+  { id: 239, wrong: "প্রত্নতত্ত্ব", right: "প্রত্নতত্ত্ব" },
+  { id: 240, wrong: "মনিষা", right: "মনীষা" },
+  { id: 241, wrong: "প্রতিচীকির্ষা", right: "প্রতিচিকীর্ষা" },
+  { id: 242, wrong: "ভৌগলিক", right: "ভৌগোলিক" },
+  { id: 243, wrong: "ক্ষুন্ন", right: "ক্ষুণ্ণ" },
+  { id: 244, wrong: "অহোরাত্রি", right: "অহোরাত্র" },
+  { id: 245, wrong: "অধ্যবসায়", right: "অধ্যবসায়" },
+  { id: 246, wrong: "উচ্ছাস", right: "উচ্ছ্বাস" },
+  { id: 247, wrong: "ওতঃপ্রোত", right: "ওতপ্রোত" },
+  { id: 248, wrong: "মনোহরিনী", right: "মনোহারিণী" },
+  { id: 249, wrong: "অহনিশি", right: "অহর্নিশ" },
+  { id: 250, wrong: "অসহনীয়", right: "অসহ্য" },
+  { id: 251, wrong: "সহযোগীতা", right: "সহযোগিতা" },
+  { id: 252, wrong: "স্বস্ত্রীক", right: "সস্ত্রীক" },
+  { id: 253, wrong: "স্বপবিবারে", right: "সপরিবারে" },
+  { id: 254, wrong: "শরাশণ", right: "শরাসন" },
+  { id: 255, wrong: "দুরবিক্ষন", right: "দূরবীক্ষণ" },
+  { id: 256, wrong: "জিবীকা", right: "জীবিকা" },
+  { id: 257, wrong: "কিন্ডারগারডেন", right: "কিন্ডারগার্টেন" },
+  { id: 258, wrong: "জন্মবার্ষিকী", right: "জন্মবার্ষিক" },
+  { id: 259, wrong: "নতিপত্র", right: "নথিপত্র" },
+  { id: 260, wrong: "জলোচ্ছাস", right: "জলোচ্ছ্বাস" },
+  { id: 261, wrong: "ব্যুৎপত্তি", right: "ব্যুৎপত্তি" },
+  { id: 262, wrong: "সৃংখলা", right: "শৃঙ্খলা" },
+  { id: 263, wrong: "ভূতপূর্ব", right: "ভূতপূর্ব" },
+  { id: 264, wrong: "অসদাচারন", right: "অসদাচরণ" },
+  { id: 265, wrong: "দেদিপ্যমান", right: "দেদীপ্যমান" },
+  { id: 266, wrong: "উদ্বাস্তু", right: "উদ্বাস্তু" },
+  { id: 267, wrong: "মৎস্যজিবি", right: "মৎস্যজীবী" },
+  { id: 268, wrong: "দৈন্যতা", right: "দৈন্য" },
+  { id: 269, wrong: "ভবিষ্যত", right: "ভবিষ্যৎ" },
+  { id: 270, wrong: "সম্বর্ধনা", right: "সংবর্ধনা" },
+  { id: 271, wrong: "শ্রাতিমধুর", right: "শ্রুতিমধুর" },
+  { id: 272, wrong: "অসাধারণ", right: "অসাধারণ" },
+  { id: 273, wrong: "নাতীশীতোষ্ণ", right: "নাতিশীতোষ্ণ" },
+  { id: 274, wrong: "সুদর্শন", right: "সুদর্শন" },
+  { id: 275, wrong: "জপনি", right: "জননী" },
+  { id: 276, wrong: "অভিনেত্রি", right: "অভিনেত্রী" },
+  { id: 277, wrong: "ব্যাতিত", right: "ব্যতীত" },
+  { id: 278, wrong: "ফটোট্ট্যাট", right: "ফটোকপি" },
+  { id: 279, wrong: "উর্মি", right: "ঊর্মি" },
+  { id: 280, wrong: "শিরপীড়া", right: "শিরঃপীড়া" },
+  { id: 281, wrong: "হরিতকি", right: "হরীতকী" },
+  { id: 282, wrong: "নির্নিমেশ", right: "নির্নিমেষ" },
+  { id: 283, wrong: "চাকরীজীবী", right: "চাকরিজীবী" },
+  { id: 284, wrong: "উপচীকির্ষা", right: "উপচিকীর্ষা" },
+  { id: 285, wrong: "জিবাম্ব", right: "জীবাশ্ম" },
+  { id: 286, wrong: "টিকা টিপ্পনী", right: "টীকা-টিপ্পনী" },
+  { id: 287, wrong: "বয়জেষ্ঠ", right: "বয়োজ্যেষ্ঠ" },
+  { id: 288, wrong: "মুনালীনি", right: "মৃণালিনী" },
+  { id: 289, wrong: "বিভূতিভূশন", right: "বিভূতিভূষণ" },
+  { id: 290, wrong: "মহিয়াশি", right: "মহীয়সী" },
+  { id: 291, wrong: "যুদ্ধমান", right: "যুধ্যমান" },
+  { id: 292, wrong: "সান্মাসিক", right: "ষাণ্মাসিক" },
+  { id: 293, wrong: "অধগতি", right: "অধোগতি" },
+  { id: 294, wrong: "চন্ডিদাস", right: "চণ্ডীদাস" },
+  { id: 295, wrong: "ডাষ্টবীন", right: "ডাস্টবিন" },
+  { id: 296, wrong: "দূর্দশাগ্রস্থ", right: "দুর্দশাগ্রস্ত" },
+  { id: 297, wrong: "পঙ্খানুপুঙ্খ", right: "পুঙ্খানুপুঙ্খ" },
+  { id: 298, wrong: "উপকরন", right: "উপকরণ" },
+  { id: 299, wrong: "আহ্বান", right: "আহ্বান" },
+  { id: 300, wrong: "প্রত্যুষ", right: "প্রত্যূষ" },
+  { id: 301, wrong: "স্মৃতিশোধ", right: "স্মৃতিসৌধ" },
+  { id: 302, wrong: "পরিক্ষা", right: "পরীক্ষা" },
+  { id: 303, wrong: "পিচাশ", right: "পিশাচ" },
+  { id: 304, wrong: "অনুসরণ", right: "অনুসরণ" },
+  { id: 305, wrong: "উত্থাপন", right: "উত্থাপন" },
+  { id: 306, wrong: "বিপনী", right: "বিপণি" },
+  { id: 307, wrong: "মাধুর্য্য", right: "মাধুর্য" },
+  { id: 308, wrong: "মুখস্ত", right: "মুখস্থ" },
+  { id: 309, wrong: "ফেব্রুয়ারী", right: "ফেব্রুয়ারি" },
+  { id: 310, wrong: "যথোষ্ঠ্য", right: "যথেষ্ট" },
+  { id: 311, wrong: "পরিপক্ক", right: "পরিপক্ব" },
+  { id: 312, wrong: "অনুশোশনা", right: "অনুশোচনা" },
+  { id: 313, wrong: "জাতিসত্ত্বা", right: "জাতিসত্তা" },
+  { id: 314, wrong: "নির্মুল", right: "নির্মূল" },
+  { id: 315, wrong: "আয়ত্তাধীন", right: "আয়ত্ত" },
+  { id: 316, wrong: "দোষনীয়", right: "দূষণীয়" },
+  { id: 317, wrong: "বৈশিষ্ট্যতা", right: "বৈশিষ্ট্য" },
+  { id: 318, wrong: "সুবুদ্ধিমান", right: "বুদ্ধিমান" },
+  { id: 319, wrong: "সতস্ফূর্ত", right: "স্বতঃস্ফূর্ত" },
+  { id: 320, wrong: "অকালকুম্বণ্ড", right: "অকালকূষ্মাণ্ড" },
+  { id: 321, wrong: "কৃচ্ছতা", right: "কৃচ্ছ্রতা" },
+  { id: 322, wrong: "বিশেষতঃ", right: "বিশেষত" },
+  { id: 323, wrong: "স্নেহাশীষ", right: "স্নেহাশিস" },
+  { id: 324, wrong: "মৌনতা", right: "মৌন" },
+  { id: 325, wrong: "এস.এস.সি", right: "এসএসসি" },
+  { id: 326, wrong: "তদুর্দ্ধ", right: "তদূর্ধ্ব" },
+  { id: 327, wrong: "মধুসুদন", right: "মধুসূদন" },
+  { id: 328, wrong: "জ্যোতিষি", right: "জ্যোতিষী" },
+  { id: 329, wrong: "আভীষ্ট", right: "অভীষ্ট" },
+  { id: 330, wrong: "পন্ডিতমন্য", right: "পণ্ডিতম্মন্য" },
+  { id: 331, wrong: "অন্তসত্তা", right: "অন্তঃসত্ত্বা" },
+  { id: 332, wrong: "আমাবশ্যা", right: "অমাবস্যা" },
+  { id: 333, wrong: "আত্মসাত", right: "আত্মসাৎ" },
+  { id: 334, wrong: "উদ্ধত্য", right: "ঔদ্ধত্য" },
+  { id: 335, wrong: "পেত্রিক", right: "পৈতৃক" },
+  { id: 336, wrong: "বীকেন্দ্রীকরণ", right: "বিকেন্দ্রীকরণ" },
+  { id: 337, wrong: "ধুলিস্যাৎ", right: "ধূলিসাৎ" },
+  { id: 338, wrong: "দৈন্যতা", right: "দীনতা" },
+  { id: 339, wrong: "শ্রাবণ", right: "শ্রাবণ" },
+  { id: 340, wrong: "নিঃশোষিত", right: "নিঃশেষিত" },
+  { id: 341, wrong: "শুধুমাত্র", right: "শুধু" },
+  { id: 342, wrong: "অনাথিনী", right: "অনাথা" },
+  { id: 343, wrong: "সম্ভ্রান্তশালী", right: "সম্ভ্রান্ত" },
+  { id: 344, wrong: "মুখছবি", right: "মুখচ্ছবি" },
+  { id: 345, wrong: "নিরপরাধী", right: "নিরপরাধ" },
+  { id: 346, wrong: "অনুষ্ঠাণ", right: "অনুষ্ঠান" },
+  { id: 347, wrong: "যাবতজীবন", right: "যাবজ্জীবন" },
+  { id: 348, wrong: "শিরপীড়া", right: "শিরঃপীড়া" },
+  { id: 349, wrong: "উপরোক্ত", right: "উপর্যুক্ত" },
+  { id: 350, wrong: "আদ্যক্ষর", right: "আদ্যাক্ষর" },
+  { id: 351, wrong: "প্রতীদ্বন্দিতা", right: "প্রতিদ্বন্দ্বিতা" },
+  { id: 352, wrong: "বহিৎসব", right: "বহ্ৎসব" },
+  { id: 353, wrong: "ইন্দ্রজালিক", right: "ঐন্দ্রজালিক" },
+  { id: 354, wrong: "অনূসুয়া", right: "অনসূয়া" },
+  { id: 355, wrong: "আভ্যন্তরীণ", right: "অভ্যন্তরীণ" },
+  { id: 356, wrong: "ষষ্টদশ", right: "ষোড়শ" },
+  { id: 357, wrong: "বৈয়াকরণিক", right: "বৈয়াকরণ" },
+  { id: 358, wrong: "এতবতীত", right: "এতদ্ব্যতীত" },
+  { id: 359, wrong: "জাজল্যমান", right: "জাজ্বল্যমান" },
+  { id: 360, wrong: "অংকন", right: "অঙ্কন" },
+  { id: 361, wrong: "আস্তাকুঁড়", right: "আস্তাকুঁড়" },
+  { id: 362, wrong: "উচিত্ত", right: "ঔচিত্য" },
+  { id: 363, wrong: "কতৃত্ব", right: "কর্তৃত্ব" },
+  { id: 364, wrong: "প্রনয়ন", right: "প্রণয়ন" },
+  { id: 365, wrong: "কর্মজীবি", right: "কর্মজীবী" },
+  { id: 366, wrong: "সার্বজনিন", right: "সর্বজনীন" },
+  { id: 367, wrong: "জনদরদি", right: "জনদরদী" },
+  { id: 368, wrong: "সারনী", right: "সারণি" },
+  { id: 369, wrong: "কিরণ্ময়ি", right: "কিরণময়ী" },
+  { id: 370, wrong: "ফটষ্ট্যাট", right: "ফটোস্ট্যাট" },
+  { id: 371, wrong: "শব্দদিত্য", right: "শব্দদ্বিত্ব" },
+  { id: 372, wrong: "বনৌষধী", right: "বনৌষধি" },
+  { id: 373, wrong: "দুরাদৃষ্টি", right: "দূরদৃষ্টি" },
+  { id: 374, wrong: "পরীপ্রেক্ষিতে", right: "প্রেক্ষিতে" },
+  { id: 375, wrong: "সারক", right: "স্মারক" },
+  { id: 376, wrong: "সুত্র", right: "সূত্র" },
+  { id: 377, wrong: "দূর্ঘটনা", right: "দুর্ঘটনা" },
+  { id: 378, wrong: "প্রবনতা", right: "প্রবণতা" },
+  { id: 379, wrong: "নির্ভুল", right: "নির্ভুল" },
+  { id: 380, wrong: "শ্রবনেন্দ্রীয", right: "শ্রবণেন্দ্রিয়" },
+  { id: 381, wrong: "আখি", right: "আঁখি" },
+  { id: 382, wrong: "কৌতূহল", right: "কৌতূহল" },
+  { id: 383, wrong: "রেজিষ্ট্রেশন", right: "রেজিস্ট্রেশন" },
+  { id: 384, wrong: "স্বাধীনতাত্তোর", right: "স্বাধীনতোত্তর" },
+  { id: 385, wrong: "সন্মান", right: "সম্মান" },
+  { id: 386, wrong: "বিসম", right: "বিষম" },
+  { id: 387, wrong: "অনুসঙ্গ", right: "অনুষঙ্গ" },
+  { id: 388, wrong: "অভিসেক", right: "অভিষেক" },
+  { id: 389, wrong: "শুন্য", right: "শূন্য" },
+  { id: 390, wrong: "পরিষ্কার", right: "পরিষ্কার" },
+  { id: 391, wrong: "মাতণ্ড", right: "মার্তণ্ড" },
+  { id: 392, wrong: "স্রোতমতী", right: "স্রোতস্বতী" },
+  { id: 393, wrong: "পঞ্চত্বপ্রাপ্তি", right: "পঞ্চত্বপ্রাপ্তি" },
+  { id: 394, wrong: "বিপদসংকুল", right: "বিপদসংকুল" },
+  { id: 395, wrong: "প্রত্যূপন্যমতি", right: "প্রত্যুৎপন্নমতি" },
+  { id: 396, wrong: "বন্দোপাধ্যায়", right: "বন্দ্যোপাধ্যায়" },
+  { id: 397, wrong: "শোনিত", right: "শোণিত" },
+  { id: 398, wrong: "বর্ধণ", right: "বর্ধন" },
+  { id: 399, wrong: "গুনবতি", right: "গুণবতী" },
+  { id: 400, wrong: "জিগিশা", right: "জিগীষা" },
+  { id: 401, wrong: "কূটনৈতিক", right: "কূটনৈতিক" },
+  { id: 402, wrong: "ঘূর্ণীয়মান", right: "ঘূর্ণায়মান" },
+  { id: 403, wrong: "উৎকর্ষতা", right: "উৎকর্ষ" },
+  { id: 404, wrong: "শ্রদ্ধাস্পদেসু", right: "শ্রদ্ধাস্পদেষু" },
+  { id: 405, wrong: "উদ্ধতপূর্ণ", right: "ঔদ্ধত্যপূর্ণ" },
+  { id: 406, wrong: "সাঙ্গপাঙ্গ", right: "সাঙ্গোপাঙ্গ" },
+  { id: 407, wrong: "অতীথি", right: "অতিথি" },
+  { id: 408, wrong: "সামর্থ", right: "সামর্থ্য" },
+  { id: 409, wrong: "জোতির্ময়", right: "জ্যোতির্ময়" },
+  { id: 410, wrong: "কথাপোকথোন", right: "কথোপকথন" },
+  { id: 411, wrong: "অঙ্কোষ্টিক্রিয়া", right: "অন্ত্যেষ্টিক্রিয়া" },
+  { id: 412, wrong: "অনুশাষণ", right: "অনুশাসন" },
+  { id: 413, wrong: "উজ্জল্য", right: "ঔজ্জ্বল্য" },
+  { id: 414, wrong: "দুরিভূত", right: "দূরীভূত" },
+  { id: 415, wrong: "জোৎস্না", right: "জ্যোৎস্না" },
+  { id: 416, wrong: "গড্ডালিকা", right: "গড্ডলিকা" },
+  { id: 417, wrong: "স্বত্তা", right: "সত্তা" },
+  { id: 418, wrong: "বানিজ্য", right: "বাণিজ্য" },
+  { id: 419, wrong: "মহৌষধী", right: "মহৌষধি" },
+  { id: 420, wrong: "মহৌষধী", right: "মহৌষধ" },
+  { id: 421, wrong: "দ্রবিভূত", right: "দ্রবীভূত" },
+  { id: 422, wrong: "শংশপ্তক", right: "সংশপ্তক" },
+  { id: 423, wrong: "উৎকর্ষতা", right: "উৎকৃষ্টতা" },
+  { id: 424, wrong: "অধ্যায়ন", right: "অধ্যয়ন" },
+  { id: 425, wrong: "শশ্রু", right: "শ্মশ্রু" },
+  { id: 426, wrong: "লক্ষন", right: "লক্ষণ" },
+  { id: 427, wrong: "পরিব্রজ্যা", right: "পারিভ্রাজ্য" },
+  { id: 428, wrong: "সাম্ববাদ", right: "সাম্যবাদ" },
+  { id: 429, wrong: "পরাহ্ন", right: "পূর্বাহ্ণ" },
+  { id: 430, wrong: "ভাষণ", right: "ভাষণ" },
+  { id: 431, wrong: "আবিস্কার", right: "আবিষ্কার" },
+  { id: 432, wrong: "মনক্ষুন্ন", right: "মনঃক্ষুণ্ণ" },
+  { id: 433, wrong: "সূচী", right: "সূচি" },
+  { id: 434, wrong: "সংস্কার", right: "সংস্কার" },
+  { id: 435, wrong: "শ্রেষ্ঠতম", right: "শ্রেষ্ঠ" },
+  { id: 436, wrong: "দিবারাত্রি", right: "দিবারাত্র" },
+  { id: 437, wrong: "নিস্প্রদিপ", right: "নিষ্প্রদীপ" },
+  { id: 438, wrong: "সায়ত্বশাসিত", right: "স্বায়ত্তশাসিত" },
+  { id: 439, wrong: "শ্বেতপত্র", right: "শ্বেতপত্র" },
+  { id: 440, wrong: "ধাধাঁ", right: "ধাঁধা" },
+  { id: 441, wrong: "স্বরস্বতী", right: "সরস্বতী" },
+  { id: 442, wrong: "উর্ধতন", right: "ঊর্ধ্বতন" },
+  { id: 443, wrong: "মহত্ব", right: "মহত্ত্ব" },
+  { id: 444, wrong: "উপরোক্ত", right: "উপরিউক্ত" },
+  { id: 445, wrong: "অদ্যপি", right: "অদ্যাপি" },
+  { id: 446, wrong: "অনুদ্বিত", right: "অনূদিত" },
+  { id: 447, wrong: "গননা", right: "গণনা" },
+  { id: 448, wrong: "লবন", right: "লবণ" },
+  { id: 449, wrong: "পুনরমিলনি", right: "পুনর্মিলনী" },
+  { id: 450, wrong: "গণপ্রজাতন্ত্রি", right: "গণপ্রজাতন্ত্রী" },
+  { id: 451, wrong: "উত্তরসূরি", right: "উত্তরসূরি" },
+  { id: 452, wrong: "প্রসিতভর্তৃকা", right: "প্রোষিতভর্তৃকা" },
+  { id: 453, wrong: "শ্মশান", right: "শ্মশান" },
+  { id: 454, wrong: "অধিকারিনি", right: "অধিকারিণী" },
+  { id: 455, wrong: "যশস্বিনি", right: "যশস্বিনী" },
+  { id: 456, wrong: "নিশিধ", right: "নিশীথ" },
+  { id: 457, wrong: "নিরিহ", right: "নিরীহ" },
+  { id: 458, wrong: "নিরোগ", right: "নীরোগ" },
+  { id: 459, wrong: "গগন", right: "গগন" },
+  { id: 460, wrong: "স্বাক্ষরজ্ঞান", right: "স্বাক্ষরজ্ঞান" },
+  { id: 461, wrong: "অন্বেষন", right: "অন্বেষণ" },
+  { id: 462, wrong: "ভুমিধ্বশ", right: "ভূমিধস" },
+  { id: 463, wrong: "কিম্বা", right: "কিংবা" },
+  { id: 464, wrong: "সখ্যতা", right: "সখ্য" },
+  { id: 465, wrong: "গড়মিল", right: "গরমিলে" },
+  { id: 466, wrong: "দধিচি", right: "দধীচি" },
+  { id: 467, wrong: "তিরষ্কার", right: "তিরস্কার" },
+  { id: 468, wrong: "অভিষন্দর্ভ", right: "অভিসন্ধর্ভ" },
+  { id: 469, wrong: "উদযাপণ", right: "উদযাপন" },
+  { id: 470, wrong: "কৃচ্ছতাসাধন", right: "কৃচ্ছ্রতাসাধন" },
+  { id: 471, wrong: "তসরুপ", right: "তদ্রূপ" },
+  { id: 472, wrong: "শম্ভুর্ষী", right: "সন্তুর্ষি" },
+  { id: 473, wrong: "মাননীয়াষু", right: "মাননীয়াসু" },
+  { id: 474, wrong: "সাড়থী", right: "সারথি" },
+  { id: 475, wrong: "অন্তোষ্তিক্রিয়া", right: "অন্ত্যেষ্টিক্রিয়া" },
+  { id: 476, wrong: "সাযুজ্য", right: "সাযুজ্য" },
+  { id: 477, wrong: "সাস্ত্য", right: "স্বাস্থ্য" },
+  { id: 478, wrong: "হরিন", right: "হরিণ" },
+  { id: 479, wrong: "প্রনয়ন", right: "প্রণয়ন" },
+  { id: 480, wrong: "ঘূর্ণয়মান", right: "ঘূর্ণায়মান" },
+  { id: 481, wrong: "হড়াহড়ি", right: "হুড়াহুড়ি" },
+  { id: 482, wrong: "মন্নান্তর", right: "মন্বন্তর" },
+  { id: 483, wrong: "কঞ্জুষ", right: "কঞ্জুস" },
+  { id: 484, wrong: "কণ্ঠধ্বনি", right: "কণ্ঠধ্বনি" },
+  { id: 485, wrong: "কাঙ্খিত", right: "কাঙ্ক্ষিত" },
+  { id: 486, wrong: "উম্মিলন", right: "উন্মীলন" },
+  { id: 487, wrong: "নিসূতি", right: "নিশুতি" },
+  { id: 488, wrong: "শশিভূসন", right: "শশিভূষণ" },
+  { id: 489, wrong: "দোষনীয়", right: "দূষণীয়" },
+  { id: 490, wrong: "অঙ্গীকারবদ্ধ", right: "অঙ্গীকারবদ্ধ" },
+  { id: 491, wrong: "অন্তর্ভূক্ত", right: "অন্তর্ভুক্ত" },
+  { id: 492, wrong: "অনুভূতী", right: "অনুভূতি" },
+  { id: 493, wrong: "উদ্ধোধন", right: "উদ্বোধন" },
+  { id: 494, wrong: "আতংক", right: "আতঙ্ক" },
+  { id: 495, wrong: "ধরণী", right: "ধ্বনি" },
+  { id: 496, wrong: "অগনিত", right: "অগণিত" },
+  { id: 497, wrong: "মানষিক", right: "মানসিক" },
+  { id: 498, wrong: "অনিষ্ঠ", right: "অনিষ্ট" },
+  { id: 499, wrong: "বাকদত্তা", right: "বাগদত্তা" },
+  { id: 500, wrong: "স্বপরিবার", right: "সপরিবার" },
+  { id: 501, wrong: "রুপালী", right: "রূপালি" },
+  { id: 502, wrong: "নিয়মাবলী", right: "নিয়মাবলি" },
+  { id: 503, wrong: "প্রায়শ্চিত্তু", right: "প্রায়শ্চিত্ত" },
+  { id: 504, wrong: "বিজ্ঞাপণ", right: "বিজ্ঞাপন" },
+  { id: 505, wrong: "ধাত্রি", right: "ধাত্রী" },
+  { id: 506, wrong: "জগত", right: "জগৎ" },
+  { id: 507, wrong: "অনুর্ধ্ব", right: "অনূর্ধ্ব" },
+  { id: 508, wrong: "তীতীক্ষা", right: "তিতিক্ষা" },
+  { id: 509, wrong: "ইদানিং", right: "ইদানীং" },
+  { id: 510, wrong: "পূবালী", right: "পুবালি" },
+  { id: 511, wrong: "কল্যানিয়েসু", right: "কল্যাণীয়াসু" },
+  { id: 512, wrong: "শ্রেষ্ঠতম", right: "শ্রেষ্ঠ" },
+  { id: 513, wrong: "শুধুমাত্র", right: "শুধু" },
+  { id: 514, wrong: "স্থুল", right: "স্থূল" },
+  { id: 515, wrong: "রমনিয়", right: "রমণীয়" },
+  { id: 516, wrong: "প্রবাহীনি", right: "প্রবাহিনী" },
+  { id: 517, wrong: "লাবন্যময়", right: "লাবণ্যময়" },
+  { id: 518, wrong: "মনহোর", right: "মনোহর" },
+  { id: 519, wrong: "পুনর্জাগরণ", right: "পুনর্জাগরণ" },
+  { id: 520, wrong: "রৌদকরজ্জল", right: "রৌদ্রকরোজ্জ্বল" },
+  { id: 521, wrong: "অংশীদারিত্ব", right: "অংশীদারি" },
+  { id: 522, wrong: "মূল্যোৎপাটন", right: "তত্ত্বাবধায়ক" },
+  { id: 523, wrong: "তত্ত্বাবধায়ক", right: "মূলোৎপাটন" },
+  { id: 524, wrong: "ভ্রাতাপুত্র", right: "ভ্রাতুষ্পুত্র" },
+  { id: 525, wrong: "নিস্পাপী", right: "নিষ্পাপ" },
+  { id: 526, wrong: "প্রত্যুৎগমন", right: "প্রত্যুদগমন" },
+  { id: 527, wrong: "রুগ্ন", right: "রুগ্ণ" },
+  { id: 528, wrong: "নির্বিরোধী", right: "নির্বিরোধ" },
+  { id: 529, wrong: "দারীদ্র", right: "দারিদ্র্য" },
+  { id: 530, wrong: "প্রতিবন্দী", right: "প্রতিবন্ধী" },
+  { id: 531, wrong: "দুরাত্মা", right: "দুরাত্মা" },
+  { id: 532, wrong: "ঐশিক", right: "ঐহিক" },
+  { id: 533, wrong: "বিরহীনি", right: "বিরহিণী" },
+  { id: 534, wrong: "অট্টোহাসি", right: "অট্টহাসি" },
+  { id: 535, wrong: "বিদ্যোপ", right: "বিদ্রূপ" },
+  { id: 536, wrong: "সংর্কীর্ণ", right: "সংকীর্ণ" },
+  { id: 537, wrong: "পল্লি", right: "পল্লী" },
+  { id: 538, wrong: "প্রণালি", right: "প্রণালী" },
+  { id: 539, wrong: "ষ্টিমার", right: "স্টিমার" },
+  { id: 540, wrong: "স্পর্দ্দা", right: "স্পর্ধা" },
+  { id: 541, wrong: "কনিকা", right: "কণিকা" },
+  { id: 542, wrong: "ক্রিপ্টোকারেন্সি", right: "ক্রিপ্টোকারেন্সি" },
+  { id: 543, wrong: "ইতঃস্তত", right: "ইতস্তত" },
+  { id: 544, wrong: "সিমাবদ্ধ", right: "সীমাবদ্ধ" },
+  { id: 545, wrong: "উদ্ভীজ", right: "উদ্ভিদ" },
+  { id: 546, wrong: "সুচরীতাশু", right: "সুচরিতাসু" },
+  { id: 547, wrong: "ভূমিস্যাত", right: "ভূমিসাৎ" },
+  { id: 548, wrong: "উল্ফন", right: "উল্লম্ফন" },
+  { id: 549, wrong: "দ্বায়িত্ব", right: "দায়িত্ব" },
+  { id: 550, wrong: "স্ববিশেষ", right: "সবিশেষ" },
+  { id: 551, wrong: "দৈনতা", right: "দীনতা" },
+  { id: 552, wrong: "ডাকপিয়ন", right: "ডাকপিয়ন" },
+  { id: 553, wrong: "জড়াজীর্ণ", right: "জরাজীর্ণ" },
+
+  /* English Database */
+  { id: 1001, wrong: "Diarhea", right: "Diarrhoea", lang: 'en', pron: "ডায়রিয়া", hint: "অতিসার বা ডায়রিয়া রোগ" },
+  { id: 1002, wrong: "Neumonina", right: "Pneumonia", lang: 'en', pron: "নিউমোনিয়া", hint: "ফুসফুসের প্রদাহজনিত রোগ" },
+  { id: 1003, wrong: "Univercity", right: "University", lang: 'en', pron: "ইউনিভার্সিটি", hint: "বিশ্ববিদ্যালয়" },
+  { id: 1004, wrong: "Nowledge", right: "Knowledge", lang: 'en', pron: "নলেজ", hint: "জ্ঞান বা বোধশক্তি" },
+  { id: 1005, wrong: "Comitte", right: "Committee", lang: 'en', pron: "কমিটি", hint: "কার্যনির্বাহী সভা বা কমিটি" },
+  { id: 1006, wrong: "Comon", right: "Common", lang: 'en', pron: "কমন", hint: "সাধারণ বা চিরাচরিত" },
+  { id: 1007, wrong: "Restorent", right: "Restaurant", lang: 'en', pron: "রেস্টুরেন্ট", hint: "রেস্তোরাঁ বা ভোজনালয়" },
+  { id: 1008, wrong: "Trimedas", right: "Tremendous", lang: 'en', pron: "ট্রেমেন্ডাস", hint: "ভয়াবহ বা চমৎকার কিছু" },
+  { id: 1009, wrong: "Umbrala", right: "Umbrella", lang: 'en', pron: "আমব্রেলা", hint: "ছাতা" },
+  { id: 1010, wrong: "Zulogy", right: "Zoology", lang: 'en', pron: "জুওলজি", hint: "প্রাণীবিজ্ঞান" },
+  { id: 1011, wrong: "Suparior", right: "Superior", lang: 'en', pron: "সুপিরিয়র", hint: "উচ্চতর বা শ্রেষ্ঠতর" },
+  { id: 1012, wrong: "Wellcome", right: "Welcome", lang: 'en', pron: "ওয়েলকাম", hint: "স্বাগতম" },
+  { id: 1013, wrong: "Phenix", right: "Phoenix", lang: 'en', pron: "ফিনিক্স", hint: "পৌরাণিক অমর পাখি" },
+  { id: 1014, wrong: "Quoram", right: "Quorum", lang: 'en', pron: "কোরাম", hint: "সভার ন্যূনতম সদস্য সংখ্যা" },
+  { id: 1015, wrong: "Superceed", right: "Supersede", lang: 'en', pron: "সুপারসিড", hint: "রদ করা বা স্থান দখল করা" },
+  { id: 1016, wrong: "Miscriant", right: "Miscreant", lang: 'en', pron: "মিসক্রিয়েন্ট", hint: "দুষ্কৃতকারী বা বদমাশ" },
+  { id: 1017, wrong: "Quee", right: "Queue", lang: 'en', pron: "কিউ", hint: "লাইন বা মানুষের কাতার" },
+  { id: 1018, wrong: "Beuranucracy", right: "Bureaucracy", lang: 'en', pron: "ব্যুরোক্রেসি", hint: "আমলাতন্ত্র" },
+  { id: 1019, wrong: "Aquerium", right: "Aquarium", lang: 'en', pron: "অ্যাকোয়ারিয়াম", hint: "জলজীবশালা বা মাছের পাত্র" },
+  { id: 1020, wrong: "Asaination", right: "Assignation", lang: 'en', pron: "অ্যাসাইনমেন্ট", hint: "গোপন চুক্তি বা মিলন" },
+  { id: 1021, wrong: "Cemouflage", right: "Camouflage", lang: 'en', pron: "ক্যামোফ্লেজ", hint: "ছদ্মবেশ বা আত্মগোপন" },
+  { id: 1022, wrong: "Gynacology", right: "Gynecology", lang: 'en', pron: "গাইনিকোলজি", hint: "স্ত্রীরোগ বিজ্ঞান" },
+  { id: 1023, wrong: "Chanceler", right: "Chancellor", lang: 'en', pron: "চ্যান্সেলর", hint: "উপাচার্য বা চ্যান্সেলর" },
+  { id: 1024, wrong: "Afidavit", right: "Affidavit", lang: 'en', pron: "অ্যাফিডেভিট", hint: "হলফনামা বা শপথপত্র" },
+  { id: 1025, wrong: "Defination", right: "Definition", lang: 'en', pron: "ডেফিনিশন", hint: "সংজ্ঞা বা অর্থ নিরূপণ" },
+  { id: 1026, wrong: "Grivence", right: "Grievance", lang: 'en', pron: "গ্রিভেন্স", hint: "ক্ষোভ বা নালিশ" },
+  { id: 1027, wrong: "Allagience", right: "Allegiance", lang: 'en', pron: "অ্যালিজিয়েন্স", hint: "আনুগত্য বা বশ্যতা" },
+  { id: 1028, wrong: "Sattellite", right: "Satellite", lang: 'en', pron: "স্যাটেলাইট", hint: "উপগ্রহ" },
+  { id: 1029, wrong: "Superstitous", right: "Superstitious", lang: 'en', pron: "সুপারস্টিশাস", hint: "কুসংস্কারাচ্ছন্ন" },
+  { id: 1030, wrong: "Perseverence", right: "Perseverance", lang: 'en', pron: "পারসিভিয়ারেন্স", hint: "অধ্যবসায় বা একনিষ্ঠ সাধনা" },
+  { id: 1031, wrong: "Kintergarden", right: "Kindergarten", lang: 'en', pron: "কিন্ডারগার্টেন", hint: "শিশুশিক্ষালয়" },
+  { id: 1032, wrong: "Etiqete", right: "Etiquette", lang: 'en', pron: "এটিকেত", hint: "শিষ্টাচার বা আদব-কায়দা" },
+  { id: 1033, wrong: "Asancinstion", right: "Assassination", lang: 'en', pron: "অ্যাসাসিনেশন", hint: "গুপ্তহত্যা" },
+  { id: 1034, wrong: "Lejure", right: "Leisure", lang: 'en', pron: "লেজার", hint: "অবসর বা ফুরসত সময়" },
+  { id: 1035, wrong: "Gagermutt", right: "Juggernaut", lang: 'en', pron: "জাগারনাট", hint: "অপ্রতিরোধ্য শক্তি" },
+  { id: 1036, wrong: "Discrtasion", right: "Dissertation", lang: 'en', pron: "ডিসার্টেশন", hint: "গবেষণামূলক প্রবন্ধ বা থিসিস" },
+  { id: 1037, wrong: "Repeatision", right: "Repetition", lang: 'en', pron: "রেপিটিশন", hint: "পুনরাবৃত্তি" },
+  { id: 1038, wrong: "Conspecious", right: "Conspicuous", lang: 'en', pron: "কনস্পিকুয়াস", hint: "সুস্পষ্ট বা দৃষ্টিগ্রাহ্য" },
+  { id: 1039, wrong: "Schizophrenia", right: "Schizophrenia", lang: 'en', pron: "সিজোফ্রেনিয়া", hint: "মানসিক রোগ বিশেষ" },
+  { id: 1040, wrong: "Razzmataz", right: "Razzmatazz", lang: 'en', pron: "রাজম্যাটাজ", hint: "শোরগোল বা হৈচৈপূর্ণ প্রদর্শনী" },
+  { id: 1041, wrong: "Gilotine", right: "Guillotine", lang: 'en', pron: "গিলোটিন", hint: "শিরশ্ছেদ করার ফরাসি যন্ত্র" },
+  { id: 1042, wrong: "Acomodation", right: "Accommodation", lang: 'en', pron: "অ্যাকোমোডেশন", hint: "আবাসন বা থাকার জায়গা" },
+  { id: 1043, wrong: "Lieutenant", right: "Lieutenant", lang: 'en', pron: "লেফটেন্যান্ট", hint: "সেনাবাহিনীর পদমর্যাদা" },
+  { id: 1044, wrong: "Aweful", right: "Awful", lang: 'en', pron: "আওফুল", hint: "ভয়াবহ বা অত্যন্ত খারাপ" },
+  { id: 1045, wrong: "Blusphamy", right: "Blasphemy", lang: 'en', pron: "ব্লাশফেমি", hint: "ধর্মনিন্দা" },
+  { id: 1046, wrong: "Misschivous", right: "Mischievous", lang: 'en', pron: "মিসচিভাস", hint: "দুষ্টু বা ক্ষতিকর স্বভাবের" },
+  { id: 1047, wrong: "Pilosaper", right: "Philosopher", lang: 'en', pron: "ফিলোসফার", hint: "দার্শনিক বা চিন্তাবিদ" },
+  { id: 1048, wrong: "Hetorogenus", right: "Heterogeneous", lang: 'en', pron: "হেটেরোজেনিয়াস", hint: "অসমজাতীয় মিশ্রণ" },
+  { id: 1049, wrong: "Adolessence", right: "Adolescence", lang: 'en', pron: "অ্যাডোলেসেন্স", hint: "কৈশোর কাল বা বয়ঃসন্ধি" },
+  { id: 1050, wrong: "Eufemisim", right: "Euphemism", lang: 'en', pron: "ইউফেমিসম", hint: "শ্রুতিমধুর কোমল শব্দপ্রয়োগ" },
+  { id: 1051, wrong: "Persimonius", right: "Parsimonious", lang: 'en', pron: "পারসিমোনিয়াস", hint: "অত্যন্ত কৃপণ" },
+  { id: 1052, wrong: "Altimatum", right: "Ultimatum", lang: 'en', pron: "আল্টিমেটাম", hint: "চরমপত্র" },
+  { id: 1053, wrong: "Comision", right: "Commission", lang: 'en', pron: "কমিশন", hint: "কমিশন বা তদন্ত কমিটি" },
+  { id: 1054, wrong: "Contegeous", right: "Contagious", lang: 'en', pron: "ছোঁয়াচে", hint: "সংক্রামক রোগ" },
+  { id: 1055, wrong: "Disentary", right: "Dysentery", lang: 'en', pron: "ডিসেন্ট্রি", hint: "আমাশয় রোগ" },
+  { id: 1056, wrong: "Asisstant", right: "Assistant", lang: 'en', pron: "অ্যাসিস্ট্যান্ট", hint: "সহকারী" },
+  { id: 1057, wrong: "Comunication", right: "Communication", lang: 'en', pron: "কমিউনিকেশন", hint: "যোগাযোগ ব্যবস্থা" },
+  { id: 1058, wrong: "Honororium", right: "Honorarium", lang: 'en', pron: "অনারেরিয়াম", hint: "সম্মানী বা পারিতোষিক" },
+  { id: 1059, wrong: "Substancial", right: "Substantial", lang: 'en', pron: "সাবস্ট্যান্সিয়াল", hint: "যথেষ্ট পরিমাণ বা বাস্তবসম্মত" },
+  { id: 1060, wrong: "Soverignty", right: "Sovereignty", lang: 'en', pron: "সোভরেইনটি", hint: "সার্বভৌমত্ব" },
+  { id: 1061, wrong: "Heirarchy", right: "Hierarchy", lang: 'en', pron: "হায়ারার্কি", hint: "পদমর্যাদার স্তরবিন্যাস" },
+  { id: 1062, wrong: "Rennaissance", right: "Renaissance", lang: 'en', pron: "রেনেসাঁস", hint: "নবজাগরণ বা সংস্কৃতির পুনরুজ্জীবন" },
+  { id: 1063, wrong: "Dillema", right: "Dilemma", lang: 'en', pron: "ডাইলেম্মা", hint: "উভয়সংকট অবস্থা" },
+  { id: 1064, wrong: "Bouquete", right: "Bouquet", lang: 'en', pron: "বোকে", hint: "ফুলের তোড়া" },
+  { id: 1065, wrong: "Parallal", right: "Parallel", lang: 'en', pron: "প্যারালাল", hint: "সমান্তরাল রেখা" },
+  { id: 1066, wrong: "Laboratory", right: "Laboratory", lang: 'en', pron: "ল্যাবরেটরি", hint: "পরীক্ষাগার" },
+  { id: 1067, wrong: "Exagerate", right: "Exaggerate", lang: 'en', pron: "এক্সাজারেট", hint: "অতিরঞ্জিত করা" },
+  { id: 1068, wrong: "Propitor", right: "Proprietor", lang: 'en', pron: "প্রোপ্রাইটর", hint: "মালিক বা স্বত্বাধিকারী" },
+  { id: 1069, wrong: "Millanium", right: "Millennium", lang: 'en', pron: "মিলেনিয়াম", hint: "সহস্রাব্দ (১০০০ বছর)" },
+  { id: 1070, wrong: "Hidrozen", right: "Hydrogen", lang: 'en', pron: "হাইড্রোজেন", hint: "মৌলিক গ্যাস" },
+  { id: 1071, wrong: "Atomsphare", right: "Atmosphere", lang: 'en', pron: "অ্যাটমোস্ফিয়ার", hint: "বায়ুমণ্ডল বা পরিবেশ" },
+  { id: 1072, wrong: "Dialogue", right: "Dialogue", lang: 'en', pron: "ডায়ালগ", hint: "সংলাপ" },
+  { id: 1073, wrong: "Achivment", right: "Achievement", lang: 'en', pron: "অ্যাচিভমেন্ট", hint: "কৃতিত্ব বা সাফল্য" },
+  { id: 1074, wrong: "Garantee", right: "Guarantee", lang: 'en', pron: "গ্যারান্টি", hint: "নিশ্চয়তা" },
+  { id: 1075, wrong: "Mississippi", right: "Mississippi", lang: 'en', pron: "মিসিসিপি", hint: "আমেরিকার বিখ্যাত নদী" },
+  { id: 1076, wrong: "Privileg", right: "Privilege", lang: 'en', pron: "প্রিভিলেজ", hint: "বিশেষাধিকার বা বিশেষ মর্যাদা" },
+  { id: 1077, wrong: "Enterpreneur", right: "Entrepreneur", lang: 'en', pron: "আঁন্ট্রাপ্রেনার", hint: "উদ্যোক্তা" },
+  { id: 1078, wrong: "Playwright", right: "Playwright", lang: 'en', pron: "প্লেরাইট", hint: "নাট্যকার" },
+  { id: 1079, wrong: "Attitude", right: "Attitude", lang: 'en', pron: "অ্যাটিটিউড", hint: "মনোভাব বা দৃষ্টিভঙ্গি" },
+  { id: 1080, wrong: "Nacessity", right: "Necessity", lang: 'en', pron: "নেসাসিটি", hint: "প্রয়োজনীয়তা" },
+  { id: 1081, wrong: "Chuttogam", right: "Chattogram", lang: 'en', pron: "চট্টগ্রাম", hint: "বন্দর নগরী চট্টগ্রাম" },
+  { id: 1082, wrong: "Diciplin", right: "Discipline", lang: 'en', pron: "ডিসিপ্লিন", hint: "শৃঙ্খলা বা নিয়মবর্তিতা" },
+  { id: 1083, wrong: "Exersice", right: "Exercise", lang: 'en', pron: "এক্সারসাইজ", hint: "অনুশীলন বা ব্যায়াম" },
+  { id: 1084, wrong: "Embition", right: "Ambition", lang: 'en', pron: "অ্যাম্বিশন", hint: "উচ্চাকাঙ্ক্ষা বা লক্ষ্য" },
+  { id: 1085, wrong: "Perticipation", right: "Participation", lang: 'en', pron: "পার্টিসিপেশন", hint: "অংশগ্রহণ" },
+  { id: 1086, wrong: "Sireous", right: "Serious", lang: 'en', pron: "সিরিয়াস", hint: "গুরুতর বা চিন্তাজনক" },
+  { id: 1087, wrong: "Expart", right: "Expert", lang: 'en', pron: "এক্সপার্ট", hint: "দক্ষ বা অভিজ্ঞ পন্ডিত" },
+  { id: 1088, wrong: "Psychology", right: "Psychology", lang: 'en', pron: "সাইকোলজি", hint: "মনোবিজ্ঞান" },
+  { id: 1089, wrong: "Pediatric", right: "Pediatric", lang: 'en', pron: "পেডিয়াট্রিক", hint: "শিশু চিকিৎসা সংক্রান্ত" },
+  { id: 1090, wrong: "Plentifull", right: "Plentiful", lang: 'en', pron: "প্লেন্টিফুল", hint: "প্রচুর বা পর্যাপ্ত" },
+  { id: 1091, wrong: "Magnanimity", right: "Magnanimity", lang: 'en', pron: "ম্যাগনানিমিতি", hint: "মহানুভবতা বা পরম উদারতা" },
+  { id: 1092, wrong: "Occassion", right: "Occasion", lang: 'en', pron: "অকেঁশন", hint: "উপলক্ষ বা বিশেষ উৎসব" },
+  { id: 1093, wrong: "Assessment", right: "Assessment", lang: 'en', pron: "অ্যাসেসমেন্ট", hint: "মূল্যায়ন বা নিরূপণ" },
+  { id: 1094, wrong: "Intarjection", right: "Interjection", lang: 'en', pron: "ইন্টারজেকশন", hint: "আবেগসূচক অব্যয়" },
+  { id: 1095, wrong: "Beginning", right: "Beginning", lang: 'en', pron: "বিগিনিং", hint: "সূচনা বা আরম্ভ" },
+  { id: 1096, wrong: "Dicission", right: "Decision", lang: 'en', pron: "ডিসিশন", hint: "সিদ্ধান্ত বা মীমাংসা" },
+  { id: 1097, wrong: "Naturelly", right: "Naturally", lang: 'en', pron: "ন্যাচারালি", hint: "স্বভাবতই বা প্রাকৃতিকভাবে" },
+  { id: 1098, wrong: "Anualy", right: "Annually", lang: 'en', pron: "অ্যানুয়ালি", hint: "বার্ষিকভাবে বা প্রতি বছর" },
+  { id: 1099, wrong: "Dehidration", right: "Dehydration", lang: 'en', pron: "ডিহাইড্রেশন", hint: "জলশূন্যতা" },
+  { id: 1100, wrong: "Recieve", right: "Receive", lang: 'en', pron: "রিসিভ", hint: "গ্রহণ করা বা পাওয়া" },
+  { id: 1101, wrong: "Ocurrance", right: "Occurrence", lang: 'en', pron: "অকারেন্স", hint: "সংঘটন বা ঘটনা" },
+  { id: 1102, wrong: "Authorative", right: "Authoritative", lang: 'en', pron: "অথরিটেটিভ", hint: "কর্তৃত্বপূর্ণ বা প্রামাণ্য" },
+  { id: 1103, wrong: "Ameture", right: "Amateur", lang: 'en', pron: "অ্যামেচার", hint: "শৌখিন বা অপেশাদার ব্যক্তি" },
+  { id: 1104, wrong: "Nomini", right: "Nominee", lang: 'en', pron: "নমিনি", hint: "মনোনীত ব্যক্তি" },
+  { id: 1105, wrong: "Ad-hoq", right: "Ad-hoc", lang: 'en', pron: "অ্যাড-হক", hint: "তদর্থক বা সাময়িক" },
+  { id: 1106, wrong: "Curiculam", right: "Curriculum", lang: 'en', pron: "কারিকুলাম", hint: "পাঠ্যসূচি বা শিক্ষাক্রম" },
+  { id: 1107, wrong: "Garntee", right: "Grantee", lang: 'en', pron: "গ্র্যান্টি", hint: "অনুদান গ্রহীতা" },
+  { id: 1108, wrong: "Influanga", right: "Influenza", lang: 'en', pron: "ইনফ্লুয়েঞ্জা", hint: "ছোঁয়াচে সর্দিজ্বর" },
+  { id: 1109, wrong: "Secretariate", right: "Secretariat", lang: 'en', pron: "সেক্রেটারিয়েট", hint: "সচিবালয়" },
+  { id: 1110, wrong: "Investiget", right: "Investigate", lang: 'en', pron: "ইনভেস্টিগেট", hint: "তদন্ত করা" },
+  { id: 1111, wrong: "Manuscript", right: "Manuscript", lang: 'en', pron: "ম্যানুস্ক্রিপ্ট", hint: "পান্ডুলিপি বা হস্তলিপি" },
+  { id: 1112, wrong: "Celescial", right: "Celestial", lang: 'en', pron: "সেলেস্টিয়াল", hint: "মহাজাগতিক বা স্বর্গীয় বস্তু" },
+  { id: 1113, wrong: "Inagural", right: "Inaugural", lang: 'en', pron: "ইনাগুরল", hint: "উদ্বোধনী অনুষ্ঠান" },
+  { id: 1114, wrong: "Miscelaneous", right: "Miscellaneous", lang: 'en', pron: "মিসেলেনিয়াস", hint: "বিবিধ বা মিশ্রিত" },
+  { id: 1115, wrong: "Fedatration", right: "Federation", lang: 'en', pron: "ফেডারেশন", hint: "রাষ্ট্রসংঘ বা সমিতি" },
+  { id: 1116, wrong: "Parlament", right: "Parliament", lang: 'en', pron: "পার্লামেন্ট", hint: "জাতীয় সংসদ বা আইনসভা" },
+  { id: 1117, wrong: "Instutition", right: "Institution", lang: 'en', pron: "ইনস্টিটিউশন", hint: "প্রতিষ্ঠান বা সংস্থা" },
+  { id: 1118, wrong: "Gurgien", right: "Guardian", lang: 'en', pron: "গার্ডিয়ান", hint: "অভিভাবক" },
+  { id: 1119, wrong: "Envyronment", right: "Environment", lang: 'en', pron: "এনভায়রনমেন্ট", hint: "পরিবেশ" },
+  { id: 1120, wrong: "Litareture", right: "Literature", lang: 'en', pron: "লিটারেচার", hint: "সাহিত্য ও রচনা" },
+  { id: 1121, wrong: "Embazlement", right: "Embezzlement", lang: 'en', pron: "এম্বেজেলমেন্ট", hint: "অর্থ আত্মসাৎ করা" },
+  { id: 1122, wrong: "Mispel", right: "Misspell", lang: 'en', pron: "মিসস্পেল", hint: "ভুল বানান লেখা" },
+  { id: 1123, wrong: "Marsal", right: "Marshal", lang: 'en', pron: "মার্শাল", hint: "সামরিক ফিল্ড মার্শাল" },
+  { id: 1124, wrong: "Aworness", right: "Awareness", lang: 'en', pron: "অ্যাওয়ারনেস", hint: "সচেতনতা" },
+  { id: 1125, wrong: "Principle", right: "Principle", lang: 'en', pron: "প্রিন্সিপল", hint: "মূল নীতি বা নিয়ম" },
+  { id: 1126, wrong: "Asthsma", right: "Asthma", lang: 'en', pron: "অ্যাজমা", hint: "হাঁপানি রোগ" },
+  { id: 1127, wrong: "Tommorow", right: "Tomorrow", lang: 'en', pron: "টুমরো", hint: "আগামীকাল" },
+  { id: 1128, wrong: "Souvenier", right: "Souvenir", lang: 'en', pron: "সুভেনিয়ার", hint: "স্মৃতিচিহ্ন বা স্মারক" },
+  { id: 1129, wrong: "Cealing", right: "Ceiling", lang: 'en', pron: "সিলিং", hint: "ঘরের ভেতরের ছাদ" },
+  { id: 1130, wrong: "Gazette", right: "Gazette", lang: 'en', pron: "গেজেট", hint: "সরকারি গেজেট বিজ্ঞপ্তি" },
+  { id: 1131, wrong: "Remettance", right: "Remittance", lang: 'en', pron: "রেমিট্যান্স", hint: "প্রবাসীদের পাঠানো অর্থ" },
+  { id: 1132, wrong: "Ilegal", right: "Illegal", lang: 'en', pron: "ইললিগাল", hint: "অবৈধ বা বেআইনি" },
+  { id: 1133, wrong: "Defolt", right: "Default", lang: 'en', pron: "ডিফল্ট", hint: "খেলাপি বা স্ট্যান্ডার্ড মান" },
+  { id: 1134, wrong: "Inteligent", right: "Intelligent", lang: 'en', pron: "ইন্টেলিজেন্ট", hint: "বুদ্ধিমান" },
+  { id: 1135, wrong: "Supereority", right: "Superiority", lang: 'en', pron: "সুপিরিওরিটি", hint: "শ্রেষ্ঠত্ব" },
+  { id: 1136, wrong: "Mathematics", right: "Mathematics", lang: 'en', pron: "ম্যাথমেটিক্স", hint: "গণিত শাস্ত্র" },
+  { id: 1137, wrong: "Appropriate", right: "Appropriate", lang: 'en', pron: "অ্যাপ্রোপ্রিয়েট", hint: "যথাযথ বা উপযুক্ত" },
+  { id: 1138, wrong: "Busines", right: "Business", lang: 'en', pron: "বিজনেস", hint: "ব্যবসা-বাণিজ্য" },
+  { id: 1139, wrong: "Suplemantary", right: "Supplementary", lang: 'en', pron: "সাপ্লিমেন্টারি", hint: "সম্পূরক বা অতিরিক্ত" },
+  { id: 1140, wrong: "deligunt", right: "diligent", lang: 'en', pron: "ডিলিজেন্ট", hint: "পরিশ্রমী বা অধ্যাবসায়ী" },
+  { id: 1141, wrong: "Performance", right: "Performance", lang: 'en', pron: "পারফরম্যান্স", hint: "দক্ষতা বা কার্যকারিতা" },
+  { id: 1142, wrong: "Coaplement", right: "Complement", lang: 'en', pron: "কমপ্লিমেন্ট", hint: "পরিপূরক উপাদান" },
+  { id: 1143, wrong: "Homogeneous", right: "Homogeneous", lang: 'en', pron: "হোমোজেনিয়াস", hint: "সমজাতীয়" },
+  { id: 1144, wrong: "Anxity", right: "Anxiety", lang: 'en', pron: "অ্যাংজাইটি", hint: "উদ্বেগ বা তীব্র দুশ্চিন্তা" },
+  { id: 1145, wrong: "Inititive", right: "Initiative", lang: 'en', pron: "ইনিশিয়েটিভ", hint: "প্রাথমিক উদ্যোগ" },
+  { id: 1146, wrong: "Reminiscence", right: "Reminiscence", lang: 'en', pron: "রেমিনিসেন্স", hint: "স্মৃতিচারণ" },
+  { id: 1147, wrong: "Hipopotanmos", right: "Hippopotamus", lang: 'en', pron: "হিপোপটেমাস", hint: "জলহস্তী" },
+  { id: 1148, wrong: "Prelminary", right: "Preliminary", lang: 'en', pron: "প্রিলিমিনারি", hint: "প্রাথমিক বাছাই পর্ব" },
+  { id: 1149, wrong: "Commissioner", right: "Commissioner", lang: 'en', pron: "কমিশনার", hint: "বিভাগীয় কমিশনার" },
+  { id: 1150, wrong: "Rebelieous", right: "Rebellious", lang: 'en', pron: "রিবেলিয়াস", hint: "বিদ্রোহী" },
+  { id: 1151, wrong: "Courageous", right: "Courageous", lang: 'en', pron: "কারেজিয়াস", hint: "সাহসী ব্যক্তি" },
+  { id: 1152, wrong: "Sovraing", right: "Sovereign", lang: 'en', pron: "সোভরেইন", hint: "সার্বভৌম শাসক" },
+  { id: 1153, wrong: "Cofee", right: "Coffee", lang: 'en', pron: "কফি", hint: "উষ্ণ পানীয় কফি" },
+  { id: 1154, wrong: "Monetari", right: "Monetary", lang: 'en', pron: "মনেটারি", hint: "আর্থিক নীতি বা মুদ্রাসংক্রান্ত" },
+  { id: 1155, wrong: "Critecism", right: "Criticism", lang: 'en', pron: "ক্রিটিসিজম", hint: "সমালোচনা" },
+  { id: 1156, wrong: "Wednessday", right: "Wednesday", lang: 'en', pron: "ওয়েডনেসডে", hint: "বুধবার" },
+  { id: 1157, wrong: "Acquital", right: "Acquittal", lang: 'en', pron: "অ্যাকুইটাল", hint: "খালাস বা মুক্তি" },
+  { id: 1158, wrong: "Neibor", right: "Neighbor", lang: 'en', pron: "নেইবার", hint: "প্রতিবেশী" },
+  { id: 1159, wrong: "Acused", right: "Accused", lang: 'en', pron: "অ্যাকিউজড", hint: "অভিযুক্ত ব্যক্তি" },
+  { id: 1160, wrong: "Dilli", right: "Delhi", lang: 'en', pron: "দিল্লি", hint: "ভারতের রাজধানী" },
+  { id: 1161, wrong: "Chattyagram", right: "Chittagong", lang: 'en', pron: "চিটাগাং", hint: "চট্টগ্রামের প্রাচীন ইংরেজি রূপ" },
+  { id: 1162, wrong: "Burocrnt", right: "Bureaucrat", lang: 'en', pron: "ব্যুরোক্র্যাট", hint: "সরকারি শীর্ষ আমলা" },
+  { id: 1163, wrong: "Hiuractacy", right: "Hierocracy", lang: 'en', pron: "হায়ারোক্রেসী", hint: "পুরোহিততান্ত্রিক শাসন" },
+  { id: 1164, wrong: "Voluntory", right: "Voluntary", lang: 'en', pron: "ভলান্টারি", hint: "স্বেচ্ছাধীন বা ঐচ্ছিক" },
+  { id: 1165, wrong: "Collegue", right: "Colleague", lang: 'en', pron: "কলিগ", hint: "সহকর্মী" },
+  { id: 1166, wrong: "Cardologist", right: "Cardiologist", lang: 'en', pron: "কার্ডিওলজিস্ট", hint: "হৃদরোগ বিশেষজ্ঞ ডাক্তার" },
+  { id: 1167, wrong: "Autobiographe", right: "Autobiography", lang: 'en', pron: "অটোবায়োগ্রাফি", hint: "আত্মজীবনী গ্রন্থ" },
+  { id: 1168, wrong: "Opthalmlogst", right: "Ophthalmologist", lang: 'en', pron: "অফথালমোলজিস্ট", hint: "চক্ষুরোগ বিশেষজ্ঞ" },
+  { id: 1169, wrong: "Itenirary", right: "Itinerary", lang: 'en', pron: "আইটিন্যারারি", hint: "ভ্রমণপথের সূচি" },
+  { id: 1170, wrong: "Proclaimation", right: "Proclamation", lang: 'en', pron: "প্রোক্লেমেশন", hint: "রাজকীয় বা সরকারি ঘোষণা" },
+  { id: 1171, wrong: "Narvous", right: "Nervous", lang: 'en', pron: "নার্ভাস", hint: "স্নায়বিক দুর্বলতা" },
+  { id: 1172, wrong: "Colision", right: "Collision", lang: 'en', pron: "কলিশন", hint: "সংঘর্ষ" },
+  { id: 1173, wrong: "Persive", right: "Pensive", lang: 'en', pron: "পেনসিভ", hint: "গভীর চিন্তামগ্ন" },
+  { id: 1174, wrong: "Ralef", right: "Relief", lang: 'en', pron: "রিলিফ", hint: "ত্রাণ বা স্বস্তি" },
+  { id: 1175, wrong: "Vacsinate", right: "Vaccinate", lang: 'en', pron: "ভ্যাকসিনেট", hint: "টিকা দেওয়া" },
+  { id: 1176, wrong: "Philanthropist", right: "Philanthropist", lang: 'en', pron: "ফিলানথ্রোপিস্ট", hint: "মানবপ্রেমিক বা দানশীল" },
+  { id: 1177, wrong: "Precedanse", right: "Precedence", lang: 'en', pron: "প্রিসিডেন্স", hint: "অগ্রাধিকার" },
+  { id: 1178, wrong: "Forsively", right: "Furtively", lang: 'en', pron: "ফার্টিভলি", hint: "গোপনে বা চুপিচুপি" },
+  { id: 1179, wrong: "Arthqik", right: "Earthquake", lang: 'en', pron: "আর্থকোয়েক", hint: "ভূমিকম্প" },
+  { id: 1180, wrong: "Dynosor", right: "Dinosaur", lang: 'en', pron: "ডাইনোসর", hint: "অতিকায় প্রাগৈতিহাসিক প্রাণী" },
+  { id: 1181, wrong: "Questionnaire", right: "Questionnaire", lang: 'en', pron: "কোয়েশ্চেনেয়ার", hint: "প্রশ্নাবলী" },
+  { id: 1182, wrong: "Snami", right: "Tsunami", lang: 'en', pron: "সুনামি", hint: "সামুদ্রিক জলোচ্ছ্বাস" },
+  { id: 1183, wrong: "Necessary", right: "Necessary", lang: 'en', pron: "নেসেশারি", hint: "প্রয়োজনীয় বা অপরিহার্য" },
+  { id: 1184, wrong: "Pidgeon", right: "Pigeon", lang: 'en', pron: "পায়রা", hint: "পায়রা বা কবুতর" },
+  { id: 1185, wrong: "Awkword", right: "Awkward", lang: 'en', pron: "অকওয়ার্ড", hint: "অস্বস্তিকর বা বেমানান" },
+  { id: 1186, wrong: "Machinary", right: "Machinery", lang: 'en', pron: "মেশিনারি", hint: "কলকব্জা বা যন্ত্রপাতি" },
+  { id: 1187, wrong: "Exhibision", right: "Exhibition", lang: 'en', pron: "এক্সিজিবীশন", hint: "প্রদর্শনী মেলা" },
+  { id: 1188, wrong: "Apprehand", right: "Apprehend", lang: 'en', pron: "অ্যাপ্রিহেন্ড", hint: "গ্রেপ্তার করা বা আশঙ্কা করা" },
+  { id: 1189, wrong: "Asociation", right: "Association", lang: 'en', pron: "অ্যাসোসিয়েশন", hint: "সমিতি বা সংস্থান" },
+  { id: 1190, wrong: "Disapoint", right: "Disappoint", lang: 'en', pron: "ডিসঅ্যাপয়েন্ট", hint: "হতাশ করা" },
+  { id: 1191, wrong: "Secretary", right: "Secretary", lang: 'en', pron: "সেক্রেটারি", hint: "মন্ত্রণালয়ের সচিব বা সম্পাদক" },
+  { id: 1192, wrong: "Biodiversity", right: "Biodiversity", lang: 'en', pron: "বায়োডাইভারসিটি", hint: "জীববৈচিত্র্য" },
+  { id: 1193, wrong: "Ocupied", right: "Occupied", lang: 'en', pron: "অকুপাইড", hint: "দখলকৃত বা ব্যস্ত" },
+  { id: 1194, wrong: "Commemorate", right: "Commemorate", lang: 'en', pron: "কমোমোরেট", hint: "বিশেষভাবে স্মরণ করা" },
+  { id: 1195, wrong: "Humorous", right: "Humorous", lang: 'en', pron: "হিউমারাস", hint: "কৌতুকপূর্ণ স্বভাব" },
+  { id: 1196, wrong: "Resesion", right: "Recession", lang: 'en', pron: "রিসেশন", hint: "অর্থনৈতিক মন্দা" },
+  { id: 1197, wrong: "Volunteer", right: "Volunteer", lang: 'en', pron: "ভলান্টিয়ার", hint: "স্বেচ্ছাসেবী" },
+  { id: 1198, wrong: "Acquisition", right: "Acquisition", lang: 'en', pron: "অ্যাকুইজিশন", hint: "অধিগ্রহণ বা নতুন জ্ঞান অর্জন" },
+  { id: 1199, wrong: "Autumn", right: "Autumn", lang: 'en', pron: "অটাম", hint: "শরৎকাল" },
+  { id: 1200, wrong: "Warranty", right: "Warranty", lang: 'en', pron: "ওয়ারেন্টি", hint: "পণ্যের লিখিত নিশ্চয়তা" },
+  { id: 1201, wrong: "Possession", right: "Possession", lang: 'en', pron: "পজেশন", hint: "মালিকানা বা অধিকার" },
+  { id: 1202, wrong: "Constellation", right: "Constellation", lang: 'en', pron: "কনস্টেলেশন", hint: "রাশিচক্র বা নক্ষত্রপুঞ্জ" },
+  { id: 1203, wrong: "Maintenance", right: "Maintenance", lang: 'en', pron: "মেইনটেন্যান্স", hint: "রক্ষণাবেক্ষণ" },
+  { id: 1204, wrong: "Scenary", right: "Scenery", lang: 'en', pron: "সিনারি", hint: "প্রাকৃতিক দৃশ্য" },
+  { id: 1205, wrong: "Maintenance", right: "Maintenance", lang: 'en', pron: "মেইনটেন্যান্স", hint: "রক্ষণাবেক্ষণের কাজ" },
+  { id: 1206, wrong: "Deceive", right: "Deceive", lang: 'en', pron: "ডিসিভ", hint: "প্রতারণা করা বা ঠকানো" }
+];
+    </script>
+
+    <script>
+    class WebAudioSynth {
+        constructor() {
+            this.ctx = null;
+            this.enabled = true;
+        }
+
+        init() {
+            if (!this.ctx) {
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                if (AudioCtx) this.ctx = new AudioCtx();
+            }
+            if (this.ctx && this.ctx.state === 'suspended') {
+                this.ctx.resume();
+            }
+        }
+
+        playTypeClick() {
+            if (!this.enabled) return;
+            this.init();
+            if (!this.ctx) return;
+            try {
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(600 + Math.random() * 60, this.ctx.currentTime);
+                gain.gain.setValueAtTime(0.02, this.ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.03);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start();
+                osc.stop(this.ctx.currentTime + 0.03);
+            } catch (e) {}
+        }
+
+        playSuccessTone() {
+            if (!this.enabled) return;
+            this.init();
+            if (!this.ctx) return;
+            try {
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, this.ctx.currentTime); // C5
+                osc.frequency.exponentialRampToValueAtTime(783.99, this.ctx.currentTime + 0.09); // G5
+                gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.15);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start();
+                osc.stop(this.ctx.currentTime + 0.15);
+            } catch (e) {}
+        }
+
+        playMistakeTone() {
+            if (!this.enabled) return;
+            this.init();
+            if (!this.ctx) return;
+            try {
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(170, this.ctx.currentTime);
+                osc.frequency.linearRampToValueAtTime(100, this.ctx.currentTime + 0.16);
+                gain.gain.setValueAtTime(0.09, this.ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.18);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start();
+                osc.stop(this.ctx.currentTime + 0.18);
+            } catch (e) {}
+        }
+    }
+
+    const sound = new WebAudioSynth();
+
+    function toggleAudio() {
+        sound.enabled = !sound.enabled;
+        const icon = document.getElementById('soundIcon');
+        const btn = document.getElementById('soundToggleBtn');
+        if (sound.enabled) {
+            icon.className = 'fas fa-volume-up';
+            btn.classList.remove('opacity-40');
+            sound.init();
+            sound.playSuccessTone();
+        } else {
+            icon.className = 'fas fa-volume-mute';
+            btn.classList.add('opacity-40');
+        }
+    }
+
+    /* Core Application State */
+    let currentLang = 'bn';         // 'bn' or 'en'
+    let practiceMode = 'fix';       // 'fix' (ভুল দেখে ঠিক) or 'direct' (ঠিক দেখে ঠিক)
+    let currentFormat = 'single';    // 'single' or 'passage'
+    
+    let activeWordList = [];
+    let currentWordIndex = 0;
+    let mistakesList = [];
+    let correctCount = 0;
+    let isRetryingMistake = false; // Flag if user made a typo and is retyping the same word
+
+    /* Language Switcher */
+    function setLanguage(lang) {
+        currentLang = lang;
+        const bnBtn = document.getElementById('langBnBtn');
+        const enBtn = document.getElementById('langEnBtn');
+        if (lang === 'bn') {
+            bnBtn.className = "px-3.5 py-1.5 rounded-lg transition-all bg-emerald-600 text-white shadow";
+            enBtn.className = "px-3.5 py-1.5 rounded-lg transition-all text-slate-400 hover:text-white";
+            document.getElementById('singleInputBox').placeholder = "সঠিক বানানটি লিখুন...";
+            document.getElementById('passageInputBox').placeholder = "প্যাসেজের সক্রিয় শব্দটি দেখে এখানে টাইপ করুন...";
+        } else {
+            enBtn.className = "px-3.5 py-1.5 rounded-lg transition-all bg-emerald-600 text-white shadow";
+            bnBtn.className = "px-3.5 py-1.5 rounded-lg transition-all text-slate-400 hover:text-white";
+            document.getElementById('singleInputBox').placeholder = "Type the corrected word...";
+            document.getElementById('passageInputBox').placeholder = "Type the current active word...";
+        }
+        resetPractice(true);
+    }
+
+    /* Practice Mode Switcher ('ভুল দেখে ঠিক' vs 'ঠিক দেখে ঠিক') */
+    function setPracticeMode(mode) {
+        practiceMode = mode;
+        const fixBtn = document.getElementById('modeFixBtn');
+        const directBtn = document.getElementById('modeDirectBtn');
+        const singleLabel = document.getElementById('singleModeLabel');
+        const singleText = document.getElementById('singleModeInstruction');
+        const passageText = document.getElementById('passageModeInstruction');
+
+        if (mode === 'fix') {
+            fixBtn.className = "px-3.5 py-1.5 rounded-lg transition-all bg-rose-600 text-white shadow flex items-center gap-1.5";
+            directBtn.className = "px-3.5 py-1.5 rounded-lg transition-all text-slate-400 hover:text-white flex items-center gap-1.5";
+            
+            singleLabel.className = "px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-rose-500/10 text-rose-300 border border-rose-500/20 flex items-center gap-2";
+            singleText.innerText = "ভুল বানানটি দেখে শুদ্ধ রূপটি মুখস্থ টাইপ করুন:";
+            passageText.className = "text-rose-300 font-semibold";
+            passageText.innerText = "প্যাসেজে প্রদর্শিত প্রতিটি ভুল বানান দেখে আপনার সঠিক বানানটি টাইপ করতে হবে!";
+        } else {
+            directBtn.className = "px-3.5 py-1.5 rounded-lg transition-all bg-emerald-600 text-white shadow flex items-center gap-1.5";
+            fixBtn.className = "px-3.5 py-1.5 rounded-lg transition-all text-slate-400 hover:text-white flex items-center gap-1.5";
+            
+            singleLabel.className = "px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 flex items-center gap-2";
+            singleText.innerText = "সঠিক বানানটি দেখে সরাসরি টাইপ করে হাতের দক্ষতা বাড়ান:";
+            passageText.className = "text-emerald-300 font-semibold";
+            passageText.innerText = "প্যাসেজে প্রদর্শিত সঠিক বানানটি দেখে সরাসরি টাইপ করুন!";
+        }
+
+        resetPractice(false);
+    }
+
+    /* Format Switcher (Single Word vs Passage) */
+    function setFormat(fmt) {
+        currentFormat = fmt;
+        const singleBtn = document.getElementById('fmtSingleBtn');
+        const passageBtn = document.getElementById('fmtPassageBtn');
+        const singleSec = document.getElementById('singleWordView');
+        const passageSec = document.getElementById('passageView');
+
+        if (fmt === 'single') {
+            singleBtn.className = "px-3 py-1.5 rounded-lg transition-all bg-cyan-600 text-white shadow";
+            passageBtn.className = "px-3 py-1.5 rounded-lg transition-all text-slate-400 hover:text-white";
+            singleSec.classList.remove('hidden');
+            passageSec.classList.add('hidden');
+        } else {
+            passageBtn.className = "px-3 py-1.5 rounded-lg transition-all bg-cyan-600 text-white shadow";
+            singleBtn.className = "px-3 py-1.5 rounded-lg transition-all text-slate-400 hover:text-white";
+            passageSec.classList.remove('hidden');
+            singleSec.classList.add('hidden');
+        }
+
+        resetPractice(false);
+    }
+
+    /* Reset Practice & Setup Queue */
+    function resetPractice(rebuildAll = true) {
+        currentWordIndex = 0;
+        correctCount = 0;
+        isRetryingMistake = false;
+        hideMistakeFeedback();
+
+        if (rebuildAll) {
+            mistakesList = [];
+            const filtered = fullDatabase.filter(item => (item.lang || 'bn') === currentLang);
+            activeWordList = [...filtered];
+        }
+
+        updateMistakeCounter();
+        updateProgressBar();
+
+        if (currentFormat === 'single') {
+            renderSingleTargetWord();
+            focusSingleInput();
+        } else {
+            renderPassageView();
+            focusPassageInput();
+        }
+    }
+
+    function shuffleCurrentSet() {
+        for (let i = activeWordList.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [activeWordList[i], activeWordList[j]] = [activeWordList[j], activeWordList[i]];
+        }
+        currentWordIndex = 0;
+        isRetryingMistake = false;
+        hideMistakeFeedback();
+        updateProgressBar();
+        if (currentFormat === 'single') {
+            renderSingleTargetWord();
+            focusSingleInput();
+        } else {
+            renderPassageView();
+            focusPassageInput();
+        }
+    }
+
+    function promptJumpToWord() {
+        const input = prompt(`১ থেকে ${activeWordList.length} এর মধ্যে কত নম্বর শব্দে যেতে চান?`);
+        if (input && !isNaN(input)) {
+            const num = parseInt(input.trim(), 10);
+            if (num >= 1 && num <= activeWordList.length) {
+                currentWordIndex = num - 1;
+                isRetryingMistake = false;
+                hideMistakeFeedback();
+                updateProgressBar();
+                if (currentFormat === 'single') {
+                    renderSingleTargetWord();
+                    focusSingleInput();
+                } else {
+                    renderPassageView();
+                    focusPassageInput();
+                }
+            } else {
+                alert(`অনুগ্রহ করে ১ থেকে ${activeWordList.length} এর মধ্যে সংখ্যা দিন।`);
+            }
+        }
+    }
+
+    function updateProgressBar() {
+        const total = activeWordList.length;
+        const current = Math.min(currentWordIndex + 1, total);
+        document.getElementById('progressCounter').innerText = `${toBnDigit(current)} / ${toBnDigit(total)}`;
+        const pct = Math.round((currentWordIndex / (total || 1)) * 100);
+        document.getElementById('topProgressBar').style.width = `${pct}%`;
+    }
+
+    function updateMistakeCounter() {
+        const count = mistakesList.length;
+        document.getElementById('mistakesCounter').innerText = toBnDigit(count);
+        const retryBtn = document.getElementById('btnPracticeMistakesOnly');
+        if (count > 0) {
+            retryBtn.classList.remove('hidden');
+            document.getElementById('mistakesCountBtn').innerText = toBnDigit(count);
+        } else {
+            retryBtn.classList.add('hidden');
+        }
+    }
+
+    function toBnDigit(n) {
+        if (currentLang === 'en') return n.toString();
+        const bnDigits = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+        return n.toString().replace(/\d/g, d => bnDigits[d]);
+    }
+
+    function focusSingleInput() {
+        const inp = document.getElementById('singleInputBox');
+        if (inp) inp.focus();
+    }
+
+    function focusPassageInput() {
+        const inp = document.getElementById('passageInputBox');
+        if (inp) inp.focus();
+    }
+
+    function hideMistakeFeedback() {
+        const box = document.getElementById('mistakeFeedbackBox');
+        box.classList.add('hidden');
+    }
+
+    function showMistakeFeedback(correctWord) {
+        const box = document.getElementById('mistakeFeedbackBox');
+        document.getElementById('mistakeCorrectWord').innerText = correctWord;
+        box.classList.remove('hidden');
+    }
+    </script>
+
+    <script>
+    /* ================= SINGLE WORD DRILL LOGIC ================= */
+    function renderSingleTargetWord() {
+        if (!activeWordList || currentWordIndex >= activeWordList.length) {
+            finishPracticeSession();
+            return;
+        }
+
+        const item = activeWordList[currentWordIndex];
+        const targetEl = document.getElementById('singleTargetWord');
+        const hintEl = document.getElementById('singleSubHint');
+
+        // Mode A: 'ভুল দেখে ঠিক' -> User sees ONLY the incorrect word on screen.
+        // Mode B: 'ঠিক দেখে ঠিক' -> User sees the correct word directly.
+        if (practiceMode === 'fix') {
+            targetEl.innerText = item.wrong;
+            targetEl.className = "text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-wide text-rose-300 drop-shadow select-none";
+        } else {
+            targetEl.innerText = item.right;
+            targetEl.className = "text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-wide text-emerald-300 drop-shadow select-none";
+        }
+
+        // English subtle hint (pronunciation/meaning) to aid memory without spoiling spelling
+        if (item.lang === 'en' && (item.pron || item.hint)) {
+            let str = '';
+            if (item.pron) str += `উচ্চারণ: [${item.pron}] `;
+            if (item.hint) str += `| অর্থ: ${item.hint}`;
+            hintEl.innerText = str;
+            hintEl.classList.remove('hidden');
+        } else {
+            hintEl.classList.add('hidden');
+        }
+
+        const inp = document.getElementById('singleInputBox');
+        inp.value = '';
+        updateProgressBar();
+    }
+
+    const singleInput = document.getElementById('singleInputBox');
+
+    singleInput.addEventListener('input', (e) => {
+        sound.init();
+        sound.playTypeClick();
+
+        const currentItem = activeWordList[currentWordIndex];
+        if (!currentItem) return;
+
+        const expectedWord = currentItem.right.trim();
+        const typedVal = singleInput.value;
+
+        // Auto submit if exact word typed followed by Space
+        if (typedVal.endsWith(' ')) {
+            evaluateSingleWord();
+            return;
+        }
+
+        // Instant match if user finishes full word without needing space
+        if (typedVal.trim() === expectedWord) {
+            evaluateSingleWord();
+        }
+    });
+
+    singleInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            evaluateSingleWord();
+        } else if (e.key === 'Tab') {
+            e.preventDefault();
+            skipWord();
+        } else if (e.key === 'Escape') {
+            e.preventDefault();
+            resetPractice(false);
+        }
+    });
+
+    function evaluateSingleWord() {
+        const currentItem = activeWordList[currentWordIndex];
+        if (!currentItem) return;
+
+        const expected = currentItem.right.trim();
+        const typed = singleInput.value.trim();
+
+        if (!typed) return;
+
+        if (typed === expected) {
+            // SUCCESS: Correct answer typed
+            sound.playSuccessTone();
+            correctCount++;
+            hideMistakeFeedback();
+            isRetryingMistake = false;
+
+            // Move to next word
+            currentWordIndex++;
+            renderSingleTargetWord();
+        } else {
+            // ERROR: Wrong spelling entered
+            sound.playMistakeTone();
+
+            // Track into mistake set if not already recorded
+            if (!mistakesList.some(m => m.id === currentItem.id)) {
+                mistakesList.push({
+                    id: currentItem.id,
+                    wrong: currentItem.wrong,
+                    right: currentItem.right,
+                    userTyped: typed,
+                    lang: currentItem.lang || 'bn'
+                });
+                updateMistakeCounter();
+            }
+
+            // Immediately show the right spelling so user can memorize it
+            showMistakeFeedback(expected);
+            isRetryingMistake = true;
+
+            // Shake input to alert typo
+            singleInput.classList.add('border-rose-500', 'ring-2', 'ring-rose-500/30');
+            setTimeout(() => {
+                singleInput.classList.remove('border-rose-500', 'ring-2', 'ring-rose-500/30');
+            }, 400);
+
+            // Clear input for immediate re-typing
+            singleInput.value = '';
+            focusSingleInput();
+        }
+    }
+
+    function skipWord() {
+        const currentItem = activeWordList[currentWordIndex];
+        if (!currentItem) return;
+
+        if (!mistakesList.some(m => m.id === currentItem.id)) {
+            mistakesList.push({
+                id: currentItem.id,
+                wrong: currentItem.wrong,
+                right: currentItem.right,
+                userTyped: '(স্কিপড)',
+                lang: currentItem.lang || 'bn'
+            });
+            updateMistakeCounter();
+        }
+
+        hideMistakeFeedback();
+        isRetryingMistake = false;
+        currentWordIndex++;
+        renderSingleTargetWord();
+        focusSingleInput();
+    }
+
+    /* ================= FORMAT 2: PASSAGE LOGIC ================= */
+    function renderPassageView() {
+        const container = document.getElementById('passageContainer');
+        container.innerHTML = '';
+
+        // If list is large, load 60 words for focused passage typing
+        const sliceLength = Math.min(60, activeWordList.length);
+        const passageSlice = activeWordList.slice(0, sliceLength);
+
+        passageSlice.forEach((item, idx) => {
+            const span = document.createElement('span');
+            span.id = `passage-token-${idx}`;
+            span.className = `passage-token ${idx === 0 ? 'current' : ''}`;
+            // If mode is 'fix', show wrong word in passage. If 'direct', show right word.
+            span.innerText = practiceMode === 'fix' ? item.wrong : item.right;
+            container.appendChild(span);
+        });
+
+        document.getElementById('passageWordTracker').innerText = `শব্দ: ${toBnDigit(1)} / ${toBnDigit(passageSlice.length)}`;
+        container.scrollTop = 0;
+    }
+
+    const passageInput = document.getElementById('passageInputBox');
+
+    passageInput.addEventListener('input', (e) => {
+        sound.init();
+        sound.playTypeClick();
+
+        const currentItem = activeWordList[currentWordIndex];
+        if (!currentItem) return;
+
+        const val = passageInput.value;
+        if (val.endsWith(' ')) {
+            evaluatePassageWord(val.trim());
+        }
+    });
+
+    passageInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            evaluatePassageWord(passageInput.value.trim());
+        } else if (e.key === 'Escape') {
+            e.preventDefault();
+            resetPractice(false);
+        }
+    });
+
+    function evaluatePassageWord(typed) {
+        if (!typed) return;
+        const currentItem = activeWordList[currentWordIndex];
+        if (!currentItem) return;
+
+        const expected = currentItem.right.trim();
+        const currentSpan = document.getElementById(`passage-token-${currentWordIndex}`);
+
+        if (typed === expected) {
+            sound.playSuccessTone();
+            correctCount++;
+            if (currentSpan) {
+                currentSpan.className = 'passage-token done-correct';
+            }
+        } else {
+            sound.playMistakeTone();
+            if (!mistakesList.some(m => m.id === currentItem.id)) {
+                mistakesList.push({
+                    id: currentItem.id,
+                    wrong: currentItem.wrong,
+                    right: currentItem.right,
+                    userTyped: typed,
+                    lang: currentItem.lang || 'bn'
+                });
+                updateMistakeCounter();
+            }
+            if (currentSpan) {
+                currentSpan.className = 'passage-token done-wrong';
+            }
+        }
+
+        currentWordIndex++;
+        passageInput.value = '';
+
+        // Check next word or finish
+        const nextSpan = document.getElementById(`passage-token-${currentWordIndex}`);
+        if (nextSpan) {
+            nextSpan.className = 'passage-token current';
+            
+            // Auto smooth scroll active word into center
+            const container = document.getElementById('passageContainer');
+            const offset = nextSpan.offsetTop - container.offsetTop;
+            if (offset > 120) {
+                container.scrollTo({ top: offset - 60, behavior: 'smooth' });
+            }
+            document.getElementById('passageWordTracker').innerText = `শব্দ: ${toBnDigit(currentWordIndex + 1)} / ${toBnDigit(container.children.length)}`;
+            updateProgressBar();
+        } else {
+            finishPracticeSession();
+        }
+    }
+
+    function skipPassageWord() {
+        evaluatePassageWord('(স্কিপড)');
+    }
+
+    /* ================= COMPLETION MODAL & MISTAKE RE-PRACTICE ================= */
+    function finishPracticeSession() {
+        document.getElementById('modalCorrectCount').innerText = toBnDigit(correctCount);
+        document.getElementById('modalMistakeCount').innerText = toBnDigit(mistakesList.length);
+
+        const listContainer = document.getElementById('modalMistakesList');
+        const modalMistakesWrap = document.getElementById('modalMistakesWrap');
+        const modalBtnOnlyMistakes = document.getElementById('modalBtnOnlyMistakes');
+        listContainer.innerHTML = '';
+
+        if (mistakesList.length > 0) {
+            modalMistakesWrap.classList.remove('hidden');
+            modalBtnOnlyMistakes.classList.remove('hidden');
+
+            mistakesList.forEach(m => {
+                const row = document.createElement('div');
+                row.className = "p-2.5 rounded-xl bg-black/50 border border-rose-500/25 flex items-center justify-between gap-3";
+                row.innerHTML = `
+                    <div class="flex items-center gap-2 text-sm">
+                        <span class="text-rose-400 line-through font-medium">${m.wrong}</span>
+                        <i class="fas fa-arrow-right text-slate-500 text-xs"></i>
+                        <span class="text-emerald-400 font-bold">${m.right}</span>
+                    </div>
+                    <span class="text-[11px] text-slate-400">আপনার টাইপ: <strong class="text-rose-300 font-mono">${m.userTyped}</strong></span>
+                `;
+                listContainer.appendChild(row);
+            });
+        } else {
+            modalMistakesWrap.classList.add('hidden');
+            modalBtnOnlyMistakes.classList.add('hidden');
+            listContainer.innerHTML = `<p class="text-emerald-400 font-semibold text-center py-2">অভিনন্দন! আপনার কোনো বানান ভুল হয়নি!</p>`;
+        }
+
+        document.getElementById('completionModal').classList.remove('hidden');
+    }
+
+    function closeModalOnly() {
+        document.getElementById('completionModal').classList.add('hidden');
+    }
+
+    function closeModalAndRestart() {
+        closeModalOnly();
+        resetPractice(true);
+    }
+
+    /* Start dedicated practice for only missed words */
+    function startMistakesOnlyPractice() {
+        if (mistakesList.length === 0) return;
+        activeWordList = mistakesList.map(m => ({
+            id: m.id,
+            wrong: m.wrong,
+            right: m.right,
+            lang: m.lang
+        }));
+        currentWordIndex = 0;
+        correctCount = 0;
+        mistakesList = [];
+        updateMistakeCounter();
+        resetPractice(false);
+    }
+
+    function startMistakesOnlyFromModal() {
+        closeModalOnly();
+        startMistakesOnlyPractice();
+    }
+
+    /* Global Keyboard Hotkeys */
+    window.addEventListener('keydown', (e) => {
+        if (e.altKey && (e.key === 's' || e.key === 'S')) {
+            e.preventDefault();
+            toggleAudio();
+        }
+    });
+
+    window.addEventListener('load', () => {
+        document.getElementById('countBnTotal').innerText = fullDatabase.filter(i => (i.lang || 'bn') === 'bn').length;
+        document.getElementById('countEnTotal').innerText = fullDatabase.filter(i => i.lang === 'en').length;
+        resetPractice(true);
+    });
+    </script>
+</body>
+</html>
