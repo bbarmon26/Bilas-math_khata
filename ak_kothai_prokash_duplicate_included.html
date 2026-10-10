@@ -367,8 +367,8 @@
 </div>
 
 <script>
-    // এক কথায় প্রকাশের ডাটাবেস: q = বাক্যাংশ, a = এক কথায় প্রকাশ
-    const data = [
+    // ১. মূল ডেটাবেস
+    const rawData = [
  { q: "যে আলোতে কুমুদ ফোটে", a: "কৌমুদী" },
  { q: "মৃত্তিকা দিয়ে তৈরি", a: "মৃন্ময়" },
  { q: "জয় করিবার ইচ্ছা", a: "জিগীষা" },
@@ -1511,6 +1511,9 @@
  { q: "দিনের প্রথম ভাগ", a: "পূর্বাহ্ণ" },
  { q: "ক্ষণকাল ব্যাপিয়া স্থায়ী", a: "ক্ষণস্থায়ী" }
     ];
+	
+	// ২. বর্ণানুক্রমিক সর্ট করার লাইন:
+    const data = rawData.sort((a, b) => a.q.localeCompare(b.q, 'bn'));
 
     let favorites = JSON.parse(localStorage.getItem('prokashFavs_v2')) || [];
     let showFavsOnly = false;
