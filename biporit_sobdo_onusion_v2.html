@@ -368,7 +368,7 @@
 
 <script>
     // বিপরীত শব্দের ডাটাবেস (w = মূল শব্দ, a = বিপরীত শব্দ)
-    const data = [
+    const rawData = [
         { w: "অজর", a: "বার্ধক্য" },
  { w: "বঙ্কিম", a: "ঋজু" },
  { w: "সরল", a: "গরল" },
@@ -823,6 +823,8 @@
  { w: "উচিত", a: "অনুচিত" },
  { w: "আস্থা", a: "অনাস্থা" }
     ];
+// বর্ণানুক্রমিক (অ থেকে ঁ) সর্ট করার এক্সট্রা লাইন:
+    const data = rawData.sort((a, b) => a.w.localeCompare(b.w, 'bn'));
 
     let favorites = JSON.parse(localStorage.getItem('antonymFavs_v10')) || [];
     let showFavsOnly = false;
