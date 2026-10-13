@@ -944,6 +944,9 @@
 
         ];
 
+        karakData.sort((a, b) => a.sentence.localeCompare(b.sentence, 'bn'));
+        
+
         let favorites = JSON.parse(localStorage.getItem('karakFavs')) || [];
         let showOnlyFavs = false;
         const container = document.getElementById('karak-container');
