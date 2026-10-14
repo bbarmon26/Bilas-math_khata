@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BAcademy - Appropriate Preposition</title>
+    <title>BILAS Academy - Appropriate Preposition</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
@@ -104,7 +104,22 @@
         .prep-card i { font-size: 20px; color: #38bdf8; }
         .prep-card span { font-size: 14px; font-weight: 700; color: #ffffff; }
         
-        .mixed-card { grid-column: span 3; background: linear-gradient(135deg, rgba(244, 114, 182, 0.15), rgba(56, 189, 248, 0.15)); flex-direction: row; justify-content: center; gap: 12px; padding: 14px; border-color: rgba(244, 114, 182, 0.3); }
+        .all-card { 
+            grid-column: span 3; 
+            background: linear-gradient(135deg, rgba(45, 212, 191, 0.2), rgba(56, 189, 248, 0.25)); 
+            flex-direction: row; justify-content: center; gap: 12px; padding: 15px; 
+            border: 1px solid rgba(45, 212, 191, 0.4);
+            box-shadow: 0 4px 20px rgba(45, 212, 191, 0.15);
+        }
+        .all-card i { color: #2dd4bf; font-size: 20px; }
+        .all-card span { font-size: 15px; letter-spacing: 0.5px; }
+
+        .mixed-card { 
+            grid-column: span 3; 
+            background: linear-gradient(135deg, rgba(244, 114, 182, 0.15), rgba(56, 189, 248, 0.15)); 
+            flex-direction: row; justify-content: center; gap: 12px; padding: 14px; 
+            border-color: rgba(244, 114, 182, 0.3); 
+        }
         .mixed-card i { color: #f472b6; font-size: 18px; }
 
         .data-item { 
@@ -132,7 +147,7 @@
         .sentence-overlay .bn-sen { font-size: 13px; color: #cbd5e1; line-height: 1.4; }
         .overlay-hint { position: absolute; bottom: 8px; font-size: 9px; color: #64748b; font-weight: 600; background: rgba(0,0,0,0.4); padding: 3px 8px; border-radius: 6px; }
 
-        /* Smooth Practice Card Animation (Butter Smooth Accordion) */
+        /* Smooth Practice Card Animation */
         .practice-card { 
             background: rgba(15, 23, 42, 0.9); 
             padding: 16px 18px; 
@@ -323,6 +338,8 @@
             </div>
         </div>
     </div>
+
+
 
     <script>
         // আপনার সম্পূর্ণ ৮৮০+ ডেটাবেজ (const db = [...];) এখানে বসবে।
@@ -1214,7 +1231,7 @@
     ];
 
 
-        const categories = [
+      const categories = [
             { name: "to", icon: "fa-arrow-right" }, { name: "of", icon: "fa-share-nodes" },
             { name: "for", icon: "fa-heart" }, { name: "in", icon: "fa-box-open" },
             { name: "at", icon: "fa-map-pin" }, { name: "with", icon: "fa-handshake" },
@@ -1231,6 +1248,15 @@
 
         // Build Home Categories
         const grid = document.getElementById('cardGrid');
+
+        // 1. ALL(A to Z) - Sob gulo ekshathe A-Z akare
+        let allDiv = document.createElement('div');
+        allDiv.className = 'prep-card all-card';
+        allDiv.innerHTML = `<i class="fa-solid fa-arrow-down-a-z"></i><span>All Prepositions</span>`;
+        allDiv.onclick = () => openCategoryList("ALL");
+        grid.appendChild(allDiv);
+
+        // 2. Individual Category Cards
         categories.forEach(cat => {
             let div = document.createElement('div');
             div.className = 'prep-card';
@@ -1239,6 +1265,7 @@
             grid.appendChild(div);
         });
 
+        // 3. Mixed Card
         let mixedDiv = document.createElement('div');
         mixedDiv.className = 'prep-card mixed-card';
         mixedDiv.innerHTML = `<i class="fa-solid fa-layer-group"></i><span>Mixed Elements</span>`;
@@ -1301,16 +1328,23 @@
         }
 
         function openCategoryList(categoryName) {
-            document.getElementById('categoryTitle').innerText = categoryName;
             let filtered = [];
-            if(categoryName === "Mixed") {
+            
+            if(categoryName === "ALL") {
+                document.getElementById('categoryTitle').innerText = "All (A - Z)";
+                // Sobgulo data ke A theke Z onujayi sort kora
+                filtered = [...db].sort((a, b) => a.phrase.localeCompare(b.phrase, 'en', { sensitivity: 'base' }));
+            } else if(categoryName === "Mixed") {
+                document.getElementById('categoryTitle').innerText = "Mixed";
                 filtered = db.filter(item => item.targetPrep === "Mixed");
             } else {
+                document.getElementById('categoryTitle').innerText = categoryName;
                 filtered = db.filter(item => {
                     let targets = item.targetPrep.toLowerCase().split(/[\/\s,]+/);
                     return targets.includes(categoryName.toLowerCase());
                 });
             }
+
             renderList('dataList', filtered, `এই ক্যাটাগরিতে কোনো ডেটা নেই।`);
             switchView('detailsView');
         }
