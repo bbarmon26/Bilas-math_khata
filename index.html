@@ -70,63 +70,323 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800;900&family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --toc-bg: #f9f6f0;
+            --toc-bg: #f8f5ec;
             --toc-text: #1e293b;
-            --toc-accent: #dc2626;
+            --toc-accent: #059669;
         }
 
         body { 
-            background: #1a0f0a; margin: 0; overflow: hidden; 
+            background: #140a05; margin: 0; overflow: hidden; 
             font-family: 'Poppins', 'Noto Sans Bengali', sans-serif; 
             perspective: 1500px; 
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
+        /* 🪵 Full-Width Clean Wooden Wall Background with Warm Top Lighting */
         .shelf-wrapper {
-            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.9)), url('https://www.transparenttextures.com/patterns/wood-pattern.png');
-            background-color: #2b1810;
+            background-image: 
+                radial-gradient(circle at 50% 6%, rgba(255, 195, 110, 0.22) 0%, rgba(0, 0, 0, 0.45) 45%, rgba(0, 0, 0, 0.88) 100%),
+                url('https://www.transparenttextures.com/patterns/wood-pattern.png');
+            background-color: #2b150c;
             height: 100vh;
             width: 100vw;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            transform-style: preserve-3d;
+            position: relative;
+            z-index: 1;
+            box-sizing: border-box;
         }
 
-        .engraved-text {
-            background: linear-gradient(to bottom, #f0c295 0%, #a66a38 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 1px 1px 2px rgba(255,255,255,0.1), -1px -1px 2px rgba(0,0,0,0.8);
+        /* 🔪 DIRECT WOOD-CARVED TITLE WITH WARM ILLUMINATION */
+        .carved-header-area {
+            text-align: center;
+            padding-top: 14px;
+            padding-bottom: 4px;
+            position: relative;
+            z-index: 20;
+        }
+
+        .carved-wood-title {
+            font-family: 'Cinzel', 'Poppins', serif;
+            color: #dca368;
             font-weight: 900;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.14em;
+            line-height: 1.1;
+            /* Authentic deep chiseled wood carving with soft top glow */
+            text-shadow: 
+                0px -2px 1.5px #0a0401,
+                -1px -1px 1px #0f0702,
+                1px -1px 1px #0f0702,
+                0px 2px 1px rgba(255, 230, 190, 0.65),
+                0px 4px 8px rgba(0, 0, 0, 0.95);
+            user-select: none;
         }
 
-        .shelf-container { width: 100%; position: relative; margin-bottom: 25px; }
+        .carved-wood-sub {
+            color: #c98c4f;
+            font-weight: 700;
+            letter-spacing: 0.22em;
+            text-shadow: 
+                0px -1.5px 1px #0a0401,
+                0px 1.5px 1px rgba(255, 230, 190, 0.5);
+        }
+
+        /* 🪵 REALISTIC 3D BOOKSHELF COMPARTMENTS */
+        .shelf-container { 
+            width: 100%; 
+            position: relative; 
+            margin-bottom: 16px; 
+        }
+
         .shelf-books {
-            display: flex; justify-content: space-around; align-items: flex-end;
-            width: 88%; margin: 0 auto; position: relative; z-index: 10;
-            padding-bottom: 5px; 
+            display: flex; 
+            justify-content: space-around; 
+            align-items: flex-end;
+            width: 90%; 
+            margin: 0 auto; 
+            position: relative; 
+            z-index: 10;
+            padding-bottom: 4px; 
         }
+        
+        /* Slanted Top Surface + Thick Wood Plank */
         .shelf-wood { 
-            width: 94%; height: 18px; margin: 0 auto;
-            background: linear-gradient(to bottom, #5c3412, #2b1408);
-            box-shadow: 0 15px 25px rgba(0,0,0,0.9), inset 0 -1px 3px rgba(0,0,0,0.8);
-            border-radius: 3px; position: relative; z-index: 5;
+            width: 96%; 
+            height: 22px; 
+            margin: 0 auto;
+            background: 
+                repeating-linear-gradient(90deg, rgba(0,0,0,0.06) 0px, rgba(0,0,0,0.06) 14px, transparent 14px, transparent 35px),
+                linear-gradient(to bottom, #7d481d 0%, #522c0e 45%, #2b1505 85%, #170a02 100%);
+            box-shadow: 
+                0 22px 32px rgba(0,0,0,0.98), 
+                0 6px 12px rgba(0,0,0,0.85),
+                inset 0 -3px 5px rgba(0,0,0,0.9);
+            border-radius: 2px; 
+            position: relative; 
+            z-index: 5;
             margin-top: -5px;
-        }
-        .shelf-wood::before {
-            content: ''; position: absolute; top: 0; left: 1%; right: 1%; height: 6px;
-            background: #8b5226; border-radius: 2px 2px 0 0;
-            box-shadow: inset 0 1px 1px rgba(255,255,255,0.15);
+            border-bottom: 1px solid #0f0601;
         }
 
+        .shelf-wood::before {
+            content: ''; 
+            position: absolute; 
+            top: -7px; 
+            left: 1%; 
+            right: 1%; 
+            height: 8px;
+            background: linear-gradient(to bottom, #42230c 0%, #8f5525 80%, #a86631 100%);
+            transform: perspective(300px) rotateX(35deg);
+            border-radius: 2px 2px 0 0;
+            box-shadow: inset 0 1px 2px rgba(255, 225, 185, 0.35);
+            z-index: 4;
+        }
+
+        .shelf-wood::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 6%;
+            right: 6%;
+            height: 10px;
+            background: 
+                linear-gradient(to bottom, #2b1506, #120802) left center / 18px 10px no-repeat,
+                linear-gradient(to bottom, #2b1506, #120802) right center / 18px 10px no-repeat;
+            filter: drop-shadow(0 5px 5px rgba(0,0,0,0.9));
+            z-index: 1;
+        }
+
+        /* 🕰️ Realistic 12-Hour Vintage Desk Clock */
+        .clock-wrapper {
+            position: relative;
+            width: 90px;
+            height: 94px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 12;
+            margin-bottom: -1px;
+        }
+
+        .clock-foot-left, .clock-foot-right {
+            position: absolute;
+            bottom: 1px;
+            width: 8.5px;
+            height: 12px;
+            background: linear-gradient(to right, #5c3818, #d4a359, #3b220c);
+            border-radius: 2px 2px 4px 4px;
+            z-index: 2;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.9);
+        }
+        .clock-foot-left { left: 17px; transform: rotate(22deg); }
+        .clock-foot-right { right: 17px; transform: rotate(-22deg); }
+
+        .clock-top-crown {
+            position: absolute;
+            top: -3px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 14px;
+            height: 6px;
+            background: linear-gradient(to right, #5c3818, #e6be7a, #472910);
+            border-radius: 4px 4px 0 0;
+            box-shadow: 0 -1px 3px rgba(0,0,0,0.6);
+            z-index: 3;
+        }
+
+        .analog-clock {
+            width: 84px;
+            height: 84px;
+            border-radius: 50%;
+            position: relative;
+            z-index: 10;
+            background: 
+                radial-gradient(circle, transparent 62%, rgba(74, 42, 24, 0.18) 63%, transparent 65%),
+                radial-gradient(circle at 35% 30%, #ffffff 0%, #f5ebd6 60%, #cfb48c 100%);
+            box-shadow: 
+                0 12px 16px -1px rgba(0, 0, 0, 0.92),
+                0 4px 6px rgba(0, 0, 0, 0.65),
+                inset 0 2px 4px rgba(255, 250, 220, 0.75),
+                inset 0 -2px 6px rgba(0, 0, 0, 0.55),
+                0 0 0 2px #cfa35c,
+                0 0 0 5px #4a2810,
+                0 0 0 6.5px #1f0f05;
+            overflow: hidden;
+        }
+
+        .analog-clock::after {
+            content: '';
+            position: absolute;
+            top: -5%;
+            left: -5%;
+            right: -5%;
+            height: 52%;
+            background: linear-gradient(155deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.1) 55%, transparent 100%);
+            border-radius: 50% 50% 35% 35%;
+            pointer-events: none;
+            z-index: 25;
+        }
+
+        .clock-brand {
+            position: absolute;
+            top: 23px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 4.5px;
+            font-weight: 800;
+            letter-spacing: 0.18em;
+            color: #6b4c35;
+            opacity: 0.8;
+            z-index: 4;
+            font-family: 'Cinzel', serif;
+        }
+
+        .clock-num {
+            position: absolute;
+            font-family: 'Cinzel', 'Times New Roman', serif;
+            font-weight: 800;
+            font-size: 8.5px;
+            color: #2b1709;
+            text-shadow: 0 1px 0.5px rgba(255, 255, 255, 0.8);
+            transform: translate(-50%, -50%);
+            user-select: none;
+            z-index: 5;
+            line-height: 1;
+        }
+
+        .n12, .n3, .n6, .n9 {
+            font-size: 10.5px;
+            font-weight: 900;
+            color: #1a0c04;
+        }
+
+        .n12 { top: 10px; left: 42px; }
+        .n1  { top: 14px; left: 58px; }
+        .n2  { top: 26px; left: 70px; }
+        .n3  { top: 42px; left: 74px; }
+        .n4  { top: 58px; left: 70px; }
+        .n5  { top: 70px; left: 58px; }
+        .n6  { top: 74px; left: 42px; }
+        .n7  { top: 70px; left: 26px; }
+        .n8  { top: 58px; left: 14px; }
+        .n9  { top: 42px; left: 10px; }
+        .n10 { top: 26px; left: 14px; }
+        .n11 { top: 14px; left: 26px; }
+
+        .hand {
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            transform-origin: bottom center;
+        }
+
+        .hour-hand {
+            width: 3.5px;
+            height: 21px;
+            margin-left: -1.75px;
+            background: linear-gradient(to right, #0f0f0f, #383838, #0f0f0f);
+            border-radius: 3px 3px 1px 1px;
+            box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.45);
+            z-index: 10;
+        }
+
+        .min-hand {
+            width: 2.3px;
+            height: 30px;
+            margin-left: -1.15px;
+            background: linear-gradient(to right, #141414, #474747, #141414);
+            border-radius: 2px 2px 1px 1px;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+            z-index: 12;
+        }
+
+        .sec-hand {
+            width: 1.2px;
+            height: 35px;
+            margin-left: -0.6px;
+            background: #b91c1c;
+            box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.35);
+            z-index: 15;
+            transition: transform 0.06s cubic-bezier(0.4, 2.08, 0.55, 0.44);
+        }
+
+        .sec-hand::after {
+            content: '';
+            position: absolute;
+            top: 35px;
+            left: -1px;
+            width: 3.2px;
+            height: 8px;
+            background: #b91c1c;
+            border-radius: 1px;
+        }
+
+        .clock-center {
+            width: 7px;
+            height: 7px;
+            background: radial-gradient(circle, #fef08a 20%, #b45309 80%, #451a03 100%);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.75);
+            z-index: 30;
+        }
+
+        /* 📚 3D Books */
         .book-3d {
-            width: 105px; height: 150px; perspective: 1200px; cursor: pointer;
+            width: 104px; height: 146px; perspective: 1200px; cursor: pointer;
             position: relative; z-index: 10;
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         
         .book-page-inner {
@@ -150,22 +410,29 @@
             transform-origin: left center;
             transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1), box-shadow 0.6s ease;
             transform-style: preserve-3d;
-            box-shadow: -2px 0 8px rgba(0,0,0,0.6) inset, 6px 8px 12px rgba(0,0,0,0.7);
+            box-shadow: 
+                -2px 0 8px rgba(0,0,0,0.6) inset, 
+                0 0 0 1px rgba(255, 215, 150, 0.22) inset,
+                8px 12px 18px rgba(0,0,0,0.9);
             z-index: 2;
             background-size: cover; background-position: center;
-            border: 1px solid rgba(255,255,255,0.1); border-right: none;
+            border: 1px solid rgba(255,255,255,0.14); border-right: none;
         }
         
         .book-hinge {
             position: absolute; left: 8px; top: 0; bottom: 0; width: 4px;
-            background: linear-gradient(to right, rgba(0,0,0,0.7), rgba(255,255,255,0.15), rgba(0,0,0,0.8));
+            background: linear-gradient(to right, rgba(0,0,0,0.75), rgba(255,255,255,0.2), rgba(0,0,0,0.85));
             z-index: 3; box-shadow: 1px 0 2px rgba(0,0,0,0.5); pointer-events: none;
         }
 
         .book-cover::after {
             content: ''; position: absolute; inset: 0;
-            background: linear-gradient(to right, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.1) 15%, rgba(0,0,0,0.6) 100%), url('https://www.transparenttextures.com/patterns/leather.png');
-            background-blend-mode: multiply; border-radius: 4px 8px 8px 4px; z-index: 1; pointer-events: none;
+            background: 
+                linear-gradient(135deg, rgba(255,255,255,0.14) 0%, transparent 45%, rgba(0,0,0,0.45) 100%),
+                linear-gradient(to right, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.1) 15%, rgba(0,0,0,0.6) 100%), 
+                url('https://www.transparenttextures.com/patterns/leather.png');
+            background-blend-mode: normal, multiply, multiply; 
+            border-radius: 4px 8px 8px 4px; z-index: 1; pointer-events: none;
         }
         .book-cover::before {
             content: ''; position: absolute; top: 2px; bottom: 2px; right: -4px; width: 4px;
@@ -173,9 +440,10 @@
             border-radius: 0 3px 3px 0;
             box-shadow: inset 1px 0 3px rgba(0,0,0,0.3); z-index: 0; pointer-events: none;
         }
-        .book-content { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; }
+        .book-content { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; padding: 0 4px; }
         
-        .book-3d:hover { transform: translateY(-4px); transition: transform 0.2s; }
+        .book-3d:hover { transform: translateY(-4px); }
+        .book-3d:active { transform: scale(0.96); }
         .book-3d:hover .book-cover { box-shadow: -2px 0 8px rgba(0,0,0,0.6) inset, 12px 15px 25px rgba(0,0,0,0.9); }
         
         .book-3d.is-open .book-cover {
@@ -184,21 +452,13 @@
         }
         .book-3d.is-open { transform: translateY(0); }
 
-        .analog-clock {
-            width: 65px; height: 65px; border-radius: 50%; background: #fdf6e3;
-            border: 5px solid #4a2a18; position: relative;
-            box-shadow: 4px 8px 15px rgba(0,0,0,0.8), inset 2px 2px 6px rgba(0,0,0,0.3);
-            z-index: 10;
+        /* 📖 MODERN CLEAN NOTEBOOK DESIGN */
+        #mainApp {
+            z-index: 400;
         }
-        .clock-num { position: absolute; font-weight: 800; font-size: 10px; color: #3d2211; transform: translate(-50%, -50%); }
-        .clock-center { width: 6px; height: 6px; background: #1a0f0a; border-radius: 50%; position: absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:30; }
-        .hand { position: absolute; bottom: 50%; left: 50%; transform-origin: bottom center; border-radius: 4px; background: #2b1810; }
-        .hour-hand { width: 3px; height: 16px; z-index: 10; }
-        .min-hand { width: 2px; height: 22px; z-index: 11; }
-        .sec-hand { width: 1px; height: 24px; background: #dc2626; z-index: 12; }
 
         .page-expand-in {
-            animation: expandIn 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            animation: expandIn 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
         @keyframes expandIn {
             0% { transform: scale(0.2); opacity: 0; border-radius: 20px; }
@@ -207,7 +467,7 @@
         }
 
         .page-shrink-out {
-            animation: shrinkOut 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            animation: shrinkOut 0.45s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
         @keyframes shrinkOut {
             0% { transform: scale(1); opacity: 1; }
@@ -218,57 +478,209 @@
             background-color: var(--toc-bg);
             background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
             height: 100vh; overflow-y: auto; color: var(--toc-text);
-            will-change: transform, opacity;
+            scroll-behavior: smooth;
         }
         
         .toc-header {
-            background-color: var(--toc-bg); 
+            background-color: rgba(248, 245, 236, 0.94);
             background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
-            padding: 20px 20px 10px 20px;
-            position: relative;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+            backdrop-filter: blur(10px);
+            padding: 16px 18px 14px 18px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(120, 80, 40, 0.14);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+        }
+
+        .toc-header.header-hidden {
+            transform: translateY(-110%);
+            opacity: 0;
+            pointer-events: none;
         }
 
         .toc-title-area {
-            border-bottom: 2px solid var(--toc-text);
-            padding-bottom: 10px; margin-bottom: 10px;
-            display: flex; align-items: center; justify-content: center; gap: 10px;
+            padding-bottom: 6px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .search-pill-box {
+            position: relative;
+            width: 100%;
+            max-width: 390px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.85);
+            border: 1.5px solid rgba(120, 80, 40, 0.18);
+            border-radius: 999px;
+            padding: 7px 38px 7px 16px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.03);
+            transition: all 0.2s ease;
+        }
+        .search-pill-box:focus-within {
+            background: #ffffff;
+            border-color: var(--toc-accent);
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.12);
         }
 
         .toc-search {
-            width: 100%; background: transparent; border: none; border-bottom: 1px dashed var(--toc-text);
-            padding: 5px 0; outline: none; font-size: 1.1rem; color: var(--toc-text);
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--toc-text);
+            user-select: text;
+            -webkit-user-select: text;
         }
 
         .topic-row {
-            display: flex; align-items: baseline; margin-bottom: 18px; cursor: pointer;
-            transition: transform 0.2s; position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 11px;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.82);
+            border: 1px solid rgba(140, 100, 60, 0.14);
+            border-left: 4.5px solid var(--toc-accent);
+            border-radius: 14px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+            transition: transform 0.18s ease, background 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
         }
-        .topic-row:active { transform: scale(0.98); opacity: 0.8; }
+        .topic-row:active {
+            transform: scale(0.98);
+        }
+
+        .topic-row.hl-yellow {
+            background: linear-gradient(135deg, #fef9c3 0%, #fef08a 100%) !important;
+            border-color: #facc15 !important;
+            border-left: 5px solid #ca8a04 !important;
+            box-shadow: 0 4px 12px rgba(234, 179, 8, 0.18);
+        }
+        .topic-row.hl-green {
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%) !important;
+            border-color: #4ade80 !important;
+            border-left: 5px solid #16a34a !important;
+            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.16);
+        }
+        .topic-row.hl-rose {
+            background: linear-gradient(135deg, #ffe4e6 0%, #fecdd3 100%) !important;
+            border-color: #fb7185 !important;
+            border-left: 5px solid #e11d48 !important;
+            box-shadow: 0 4px 12px rgba(225, 29, 72, 0.16);
+        }
+        .topic-row.hl-blue {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%) !important;
+            border-color: #60a5fa !important;
+            border-left: 5px solid #2563eb !important;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.16);
+        }
+
+        .topic-row.is-completed .topic-title {
+            text-decoration: line-through;
+            opacity: 0.65;
+        }
         
         .topic-title-wrapper {
-            display: flex; align-items: center;
-            background: transparent; padding-right: 8px; z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            padding-right: 8px;
+        }
+
+        .topic-icon-box {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.04);
+            flex-shrink: 0;
         }
         
-        .topic-title { font-weight: 700; font-size: 1.15rem; color: var(--toc-text); }
-        
-        .topic-dots { 
-            flex-grow: 1; border-bottom: 2px dotted #94a3b8; 
-            margin: 0 5px; position: relative; top: -5px; z-index: 1; opacity: 0.5;
+        .topic-title {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: #1e293b;
+            line-height: 1.35;
         }
-        
-        .topic-count { 
-            font-size: 0.75rem; font-weight: 800; color: var(--toc-accent);
-            background: transparent; padding-left: 8px; letter-spacing: 0.05em; padding-bottom: 2px; z-index: 2;
+
+        .compact-nav-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 48px;
+            margin-bottom: 16px;
+            border-bottom: 1px dashed rgba(120, 80, 40, 0.25);
+            text-align: center;
         }
 
         .no-scrollbar::-webkit-scrollbar { display: none; }
         
         .taped-photo { 
-            background: #ffffff; padding: 4px; box-shadow: 3px 6px 15px rgba(0,0,0,0.3); 
-            transform: rotate(-1.5deg); margin: 15px auto 25px auto; width: 100%; max-width: 340px; 
-            position: relative; cursor: pointer; border-radius: 4px; overflow: hidden;
+            background: #ffffff;
+            padding: 8px 8px 14px 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.16), 0 2px 6px rgba(0,0,0,0.08); 
+            border: 1px solid #e2e8f0;
+            margin: 14px auto 22px auto;
+            width: 100%;
+            max-width: 360px; 
+            position: relative;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+        .taped-photo::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-1.5deg);
+            width: 80px;
+            height: 20px;
+            background: rgba(254, 243, 199, 0.78);
+            border: 1px solid rgba(217, 119, 6, 0.2);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+            z-index: 35;
+            pointer-events: none;
+        }
+
+        #contextSheetOverlay {
+            position: fixed !important;
+            inset: 0 !important;
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(4px);
+            z-index: 99999 !important;
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+        }
+        #contextSheetOverlay.active {
+            display: flex !important;
+        }
+        .context-sheet {
+            width: 100%;
+            max-width: 420px;
+            background: #fffdf9;
+            border-radius: 24px 24px 0 0;
+            padding: 20px 20px 28px 20px;
+            box-shadow: 0 -10px 35px rgba(0,0,0,0.35);
+            animation: slideUpSheet 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes slideUpSheet {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
         }
 
         #fullscreenViewer { 
@@ -316,28 +728,46 @@
         }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
 
-    <!-- Home: Shelf Room -->
+    <!-- Home: Full-Width Clean Wooden Wall -->
     <div id="masterHome" class="shelf-wrapper">
-        <div class="text-center pt-8 pb-4">
-            <h1 class="text-4xl engraved-text uppercase tracking-widest">BILAS ACADEMY</h1>
-            <p class="engraved-text text-[11px] mt-1 uppercase tracking-widest opacity-80" style="font-family: 'Kalam', cursive;">স্মার্ট পড়াশোনা</p>
+        <!-- 🔪 Direct Wood-Carved Title with Soft Lighting -->
+        <div class="carved-header-area">
+            <h1 class="text-[30px] sm:text-4xl carved-wood-title uppercase">BILAS ACADEMY</h1>
+            <p class="carved-wood-sub text-[10px] mt-1 uppercase" style="font-family: 'Kalam', cursive;">স্মার্ট পড়াশোনা</p>
         </div>
 
-        <div class="flex-1 flex flex-col justify-evenly w-full pb-6">
-            <!-- TOP SHELF: Clock & Bangla -->
+        <div class="flex-1 flex flex-col justify-evenly w-full pb-3 relative z-10">
+            <!-- TOP SHELF: Realistic 12-Hour Clock & Bangla -->
             <div class="shelf-container">
                 <div class="shelf-books">
-                    <div class="analog-clock">
-                        <span class="clock-num" style="top: 10px; left: 50%;">12</span>
-                        <span class="clock-num" style="top: 50%; right: 4px;">3</span>
-                        <span class="clock-num" style="bottom: 0px; left: 50%;">6</span>
-                        <span class="clock-num" style="top: 50%; left: 10px;">9</span>
-                        <div class="clock-center"></div>
-                        <div id="hourHand" class="hand hour-hand"></div>
-                        <div id="minHand" class="hand min-hand"></div>
-                        <div id="secHand" class="hand sec-hand"></div>
+                    <!-- Realistic Vintage 12-Hour Clock -->
+                    <div class="clock-wrapper">
+                        <div class="clock-top-crown"></div>
+                        <div class="analog-clock">
+                            <span class="clock-brand">BILAS</span>
+                            <!-- All 12 Hour Numbers -->
+                            <span class="clock-num n12">12</span>
+                            <span class="clock-num n1">1</span>
+                            <span class="clock-num n2">2</span>
+                            <span class="clock-num n3">3</span>
+                            <span class="clock-num n4">4</span>
+                            <span class="clock-num n5">5</span>
+                            <span class="clock-num n6">6</span>
+                            <span class="clock-num n7">7</span>
+                            <span class="clock-num n8">8</span>
+                            <span class="clock-num n9">9</span>
+                            <span class="clock-num n10">10</span>
+                            <span class="clock-num n11">11</span>
+
+                            <div class="clock-center"></div>
+                            <div id="hourHand" class="hand hour-hand"></div>
+                            <div id="minHand" class="hand min-hand"></div>
+                            <div id="secHand" class="hand sec-hand"></div>
+                        </div>
+                        <div class="clock-foot-left"></div>
+                        <div class="clock-foot-right"></div>
                     </div>
 
                     <!-- Bangla Book -->
@@ -430,79 +860,122 @@
                 <div class="shelf-wood"></div>
             </div>
             
-            <div class="text-center mt-2">
-                <p class="engraved-text text-[10px] font-mono tracking-widest opacity-60">©️ বিলাস ২০২৬</p>
+            <div class="text-center mt-1">
+                <p class="carved-wood-sub text-[10px] font-mono tracking-widest opacity-80">©️ বিলাস ২০২৬</p>
             </div>
         </div>
     </div>
 
     <!-- Controls (Left Back Button) -->
-    <button id="backBtn" onclick="handleBackClick()" class="hidden fixed top-5 left-4 z-[500] text-slate-800 bg-white/60 rounded-full p-2 backdrop-blur-md active:scale-90 transition-transform shadow border border-slate-200">
-        <i data-lucide="arrow-left" class="w-6 h-6"></i>
+    <button id="backBtn" onclick="handleBackClick()" class="hidden fixed top-3.5 left-4 z-[600] text-slate-800 bg-white/85 rounded-full p-2.5 backdrop-blur-md active:scale-90 transition-all shadow-md border border-amber-900/15">
+        <i data-lucide="arrow-left" class="w-5 h-5"></i>
     </button>
 
-    <!-- Controls (Right Study Tracker Button) -->
-    <a id="trackerBtn" href="https://bbarmon26.github.io/Bilas-math_khata/Study_Tracker.html?v=2" class="hidden fixed top-5 right-4 z-[500] text-slate-800 bg-white/60 rounded-full p-2 backdrop-blur-md active:scale-90 transition-transform shadow border border-slate-200 flex items-center justify-center">
-        <i data-lucide="clipboard-check" class="w-6 h-6"></i>
+    <!-- Controls (Right Study Tracker Button Inside Notebook Dashboard Only) -->
+    <a id="trackerBtn" href="https://bbarmon26.github.io/Bilas-math_khata/Study_Tracker.html?v=2" class="hidden fixed top-3.5 right-4 z-[600] text-slate-800 bg-white/85 rounded-full p-2.5 backdrop-blur-md active:scale-90 transition-all shadow-md border border-amber-900/15 flex items-center justify-center">
+        <i data-lucide="clipboard-check" class="w-5 h-5"></i>
     </a>
 
     <!-- Quick Switch Menu -->
-    <div id="quickMenuLayer" class="hidden fixed bottom-6 right-6 z-[500] flex flex-col-reverse items-end gap-3">
-        <button onclick="toggleQuickMenu()" class="w-14 h-14 rounded-full bg-slate-800 text-white shadow-lg flex items-center justify-center border-2 border-white/20 active:scale-90 transition-transform">
+    <div id="quickMenuLayer" class="hidden fixed bottom-6 right-6 z-[600] flex flex-col-reverse items-end gap-3">
+        <button onclick="toggleQuickMenu()" class="w-14 h-14 rounded-full bg-slate-900 text-amber-200 shadow-xl flex items-center justify-center border-2 border-amber-500/30 active:scale-90 transition-transform">
             <i data-lucide="layers" class="w-6 h-6"></i>
         </button>
         <div id="quickMenu" class="hidden flex-col gap-3 mb-1">
-            <button onclick="quickSwitch('bcs', 'BCS Question Bank', '#9333ea')" class="w-12 h-12 rounded-full bg-[#581c87] text-[#e9d5ff] shadow-md flex items-center justify-center"><i data-lucide="graduation-cap"></i></button>
-            <button onclick="quickSwitch('gk', 'সাধারণ জ্ঞান', '#475569')" class="w-12 h-12 rounded-full bg-[#0f172a] text-[#e2e8f0] shadow-md flex items-center justify-center"><i data-lucide="globe"></i></button>
-            <button onclick="quickSwitch('english', 'English', '#dc2626')" class="w-12 h-12 rounded-full bg-[#7f1d1d] text-[#fecaca] shadow-md flex items-center justify-center"><i data-lucide="book-open"></i></button>
-            <button onclick="quickSwitch('bangla', 'বাংলা', '#059669')" class="w-12 h-12 rounded-full bg-[#064e3b] text-[#a7f3d0] shadow-md flex items-center justify-center"><i data-lucide="feather"></i></button>
-            <button onclick="quickSwitch('math', 'গণিত', '#2563eb')" class="w-12 h-12 rounded-full bg-[#1e293b] text-[#fbbf24] shadow-md flex items-center justify-center"><i data-lucide="calculator"></i></button>
+            <button onclick="quickSwitch('bcs', 'BCS Question Bank', '#9333ea')" class="w-12 h-12 rounded-full bg-[#581c87] text-[#e9d5ff] shadow-lg border border-white/20 flex items-center justify-center"><i data-lucide="graduation-cap"></i></button>
+            <button onclick="quickSwitch('gk', 'সাধারণ জ্ঞান', '#475569')" class="w-12 h-12 rounded-full bg-[#0f172a] text-[#e2e8f0] shadow-lg border border-white/20 flex items-center justify-center"><i data-lucide="globe"></i></button>
+            <button onclick="quickSwitch('english', 'English', '#dc2626')" class="w-12 h-12 rounded-full bg-[#7f1d1d] text-[#fecaca] shadow-lg border border-white/20 flex items-center justify-center"><i data-lucide="book-open"></i></button>
+            <button onclick="quickSwitch('bangla', 'বাংলা', '#059669')" class="w-12 h-12 rounded-full bg-[#064e3b] text-[#a7f3d0] shadow-lg border border-white/20 flex items-center justify-center"><i data-lucide="feather"></i></button>
+            <button onclick="quickSwitch('math', 'গণিত', '#2563eb')" class="w-12 h-12 rounded-full bg-[#1e293b] text-[#fbbf24] shadow-lg border border-white/20 flex items-center justify-center"><i data-lucide="calculator"></i></button>
         </div>
     </div>
 
-    <!-- Index Page -->
+    <!-- 📖 Inside Book Page -->
     <div id="mainApp" class="hidden fixed inset-0 toc-page no-scrollbar">
-        <header class="toc-header">
-            <div class="toc-title-area mt-2 pl-10">
-                <i data-lucide="bookmark" id="headerIcon" class="w-6 h-6"></i>
-                <h2 id="appTitle" class="text-3xl font-bold uppercase tracking-widest text-slate-800">
+        <!-- Main Header (Only visible on main Chapter Dashboard & Auto-hides on Scroll Down) -->
+        <header id="tocHeader" class="toc-header">
+            <div class="toc-title-area px-10">
+                <i data-lucide="book-open-check" id="headerIcon" class="w-6 h-6 shrink-0"></i>
+                <h2 id="appTitle" class="text-2xl sm:text-3xl font-extrabold uppercase tracking-wider text-slate-800 truncate">
                     <span id="titleText">INDEX</span>
                 </h2>
             </div>
-            <div class="relative w-full max-w-sm mx-auto mt-2">
-                <input type="text" id="searchInput" oninput="executeSearch()" placeholder="Search Topics..." class="toc-search">
-                <i data-lucide="search" class="absolute right-1 top-2 opacity-50 w-5 h-5"></i>
+            <div class="search-pill-box">
+                <input type="text" id="searchInput" oninput="executeSearch()" placeholder="টপিক বা অধ্যায় খুঁজুন..." class="toc-search">
+                <i data-lucide="search" class="absolute right-3.5 top-2.5 opacity-45 w-4 h-4"></i>
             </div>
+           
         </header>
 
-        <main class="p-6 pb-24 max-w-2xl mx-auto">
-            <div id="loader" class="hidden flex-col items-center justify-center py-10">
-                <i data-lucide="loader" class="w-8 h-8 animate-spin opacity-50 text-slate-500"></i>
+        <main class="p-4 pb-28 max-w-2xl mx-auto">
+            <div id="loader" class="hidden flex-col items-center justify-center py-12">
+                <i data-lucide="loader" class="w-8 h-8 animate-spin opacity-60 text-amber-800"></i>
+                <span class="text-xs mt-2 opacity-60 font-medium">নোট লোড হচ্ছে...</span>
             </div>
             
-            <div id="view-dashboard" class="flex flex-col"></div>
+            <!-- 1. Chapters List -->
+            <div id="view-dashboard" class="flex flex-col pt-1"></div>
             
+            <!-- 2. Topics Inside Chapter -->
             <div id="view-topics" class="hidden flex flex-col">
-                <h2 id="chapterHeading" class="text-xl font-bold border-b border-slate-300 pb-2 mb-6 uppercase tracking-wider text-center text-slate-700"></h2>
+                <div class="compact-nav-header">
+                    <h2 id="chapterHeading" class="text-lg font-extrabold uppercase tracking-wide text-slate-800 truncate"></h2>
+                </div>
                 <div id="topicList" class="flex flex-col"></div>
             </div>
 
+            <!-- 3. Subtopics Inside Topic -->
             <div id="view-subtopics" class="hidden flex flex-col">
-                <h2 id="subtopicHeading" class="text-xl font-bold border-b border-slate-300 pb-2 mb-6 uppercase tracking-wider text-center text-slate-700"></h2>
+                <div class="compact-nav-header">
+                    <h2 id="subtopicHeading" class="text-lg font-extrabold uppercase tracking-wide text-slate-800 truncate"></h2>
+                </div>
                 <div id="subtopicList" class="flex flex-col"></div>
             </div>
 
+            <!-- 4. Note Image Viewer -->
             <div id="view-image" class="hidden flex flex-col items-center">
-                <h3 id="imageTitle" class="w-full text-2xl font-bold mt-2 mb-6 leading-tight text-center uppercase border-b pb-4 text-slate-800"></h3>
-                <div id="imageContainer" class="w-full flex flex-col items-center gap-6"></div>
-                <p id="imageNote" class="text-center mt-6 text-sm font-bold opacity-80 italic px-2 text-slate-600"></p>
-                <div class="mt-10 w-full px-4 text-center">
-                    <a id="videoBtn" href="#" target="_blank" class="hidden items-center justify-center gap-3 bg-red-600 text-white py-3 px-6 rounded-full text-base font-bold shadow-lg active:scale-95 transition-all mx-auto">
-                        <i data-lucide="play-circle" class="w-5 h-5"></i> Watch Video Class
+                <div class="compact-nav-header w-full">
+                    <h3 id="imageTitle" class="text-base sm:text-lg font-extrabold leading-snug text-slate-800"></h3>
+                </div>
+                <div id="imageContainer" class="w-full flex flex-col items-center gap-4"></div>
+                <p id="imageNote" class="text-center mt-4 text-sm font-semibold opacity-85 italic px-4 py-3 bg-amber-50/90 border border-amber-200/70 rounded-xl text-slate-700"></p>
+                <div class="mt-6 w-full px-4 text-center">
+                    <a id="videoBtn" href="#" target="_blank" class="hidden items-center justify-center gap-2.5 bg-red-600 hover:bg-red-700 text-white py-3.5 px-7 rounded-full text-base font-bold shadow-lg active:scale-95 transition-all mx-auto max-w-xs">
+                        <i data-lucide="play-circle" class="w-5 h-5"></i> ভিডিও ক্লাস দেখুন
                     </a>
                 </div>
             </div>
         </main>
+    </div>
+
+    <!-- 🎨 LONG-PRESS HIGHLIGHT & MARK ACTION SHEET -->
+    <div id="contextSheetOverlay" onclick="closeContextSheet(event)">
+        <div class="context-sheet" onclick="event.stopPropagation()">
+            <div class="w-10 h-1 bg-slate-300 rounded-full mx-auto mb-3"></div>
+            <h4 id="contextItemTitle" class="text-center font-bold text-slate-800 text-base mb-4 px-4 truncate"></h4>
+            
+            <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2.5 text-center">হাইলাইট কালার বেছে নিন</p>
+            <div class="flex items-center justify-center gap-4 mb-5">
+                <button onclick="applyItemStyle('color', 'hl-yellow')" class="w-11 h-11 rounded-full bg-yellow-300 border-2 border-yellow-500 shadow-md active:scale-90 transition-transform flex items-center justify-center"></button>
+                <button onclick="applyItemStyle('color', 'hl-green')" class="w-11 h-11 rounded-full bg-green-300 border-2 border-green-600 shadow-md active:scale-90 transition-transform flex items-center justify-center"></button>
+                <button onclick="applyItemStyle('color', 'hl-rose')" class="w-11 h-11 rounded-full bg-rose-300 border-2 border-rose-600 shadow-md active:scale-90 transition-transform flex items-center justify-center"></button>
+                <button onclick="applyItemStyle('color', 'hl-blue')" class="w-11 h-11 rounded-full bg-blue-300 border-2 border-blue-600 shadow-md active:scale-90 transition-transform flex items-center justify-center"></button>
+                <button onclick="applyItemStyle('color', 'none')" class="w-11 h-11 rounded-full bg-slate-100 border-2 border-slate-300 text-slate-600 shadow-sm active:scale-90 transition-transform flex items-center justify-center" title="রিসেট">
+                    <i data-lucide="ban" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 mb-3">
+                <button onclick="applyItemStyle('toggleDone')" class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold text-sm active:scale-95 transition-transform">
+                    <i data-lucide="check-circle-2" class="w-4 h-4"></i> পড়া শেষ
+                </button>
+                <button onclick="applyItemStyle('toggleStar')" class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 font-bold text-sm active:scale-95 transition-transform">
+                    <i data-lucide="star" class="w-4 h-4"></i> গুরুত্বপূর্ণ ⭐
+                </button>
+            </div>
+
+            <button onclick="closeContextSheet()" class="w-full py-2.5 mt-1 rounded-xl bg-slate-100 text-slate-600 font-semibold text-sm active:scale-95">বন্ধ করুন</button>
+        </div>
     </div>
 
     <!-- 🖼️ ফুলস্ক্রিন পিনচ-টু-জুম ও স্ক্রোল ভিউয়ার -->
@@ -535,20 +1008,20 @@
         </div>
         
         <div class="w-full py-2 bg-neutral-900/80 text-center text-[11px] text-slate-400 border-t border-white/10 z-20">
-            
         </div>
     </div>
 
     <script>
+        /* 🕰️ Real-time Clock Engine */
         function updateClock() {
             const now = new Date();
-            const h = now.getHours() % 12;
-            const m = now.getMinutes();
             const s = now.getSeconds();
+            const m = now.getMinutes();
+            const h = now.getHours() % 12;
             
+            const sDeg = s * 6;
+            const mDeg = (m * 6) + (s * 0.1);
             const hDeg = (h * 30) + (m * 0.5);
-            const mDeg = (m * 6);
-            const sDeg = (s * 6);
             
             const hh = document.getElementById('hourHand');
             const mm = document.getElementById('minHand');
@@ -559,6 +1032,147 @@
         }
         setInterval(updateClock, 1000);
         updateClock();
+
+        /* 📉 AUTO-HIDE HEADER ON SCROLL DOWN */
+        const mainAppContainer = document.getElementById('mainApp');
+        const tocHeaderEl = document.getElementById('tocHeader');
+        let lastScrollY = 0;
+
+        mainAppContainer.addEventListener('scroll', function() {
+            if (currentViewState !== 'dashboard') return;
+            const currentScrollY = mainAppContainer.scrollTop;
+            
+            if (currentScrollY > lastScrollY && currentScrollY > 50) {
+                tocHeaderEl.classList.add('header-hidden');
+            } else if (currentScrollY < lastScrollY - 8 || currentScrollY <= 20) {
+                tocHeaderEl.classList.remove('header-hidden');
+            }
+            lastScrollY = currentScrollY;
+        }, { passive: true });
+
+        /* 🎨 LONG-PRESS HIGHLIGHT, DONE & STAR ENGINE */
+        const META_STORAGE_KEY = 'bilas_academy_item_marks_v1';
+        let savedItemMarks = JSON.parse(localStorage.getItem(META_STORAGE_KEY) || '{}');
+        let activeContextKey = null;
+        let pressTimer = null;
+        let isLongPressTriggered = false;
+        let touchStartX = 0, touchStartY = 0;
+
+        function getItemKey(type, name) {
+            return `${currentSubject}__${type}__${name}`;
+        }
+
+        function attachLongPressListeners() {
+            const rows = document.querySelectorAll('.topic-row[data-item-key]');
+            rows.forEach(row => {
+                const key = row.getAttribute('data-item-key');
+                const title = row.getAttribute('data-item-title');
+
+                const startPress = (e) => {
+                    isLongPressTriggered = false;
+                    if (e.touches && e.touches.length > 0) {
+                        touchStartX = e.touches[0].clientX;
+                        touchStartY = e.touches[0].clientY;
+                    }
+                    if (pressTimer) clearTimeout(pressTimer);
+                    pressTimer = setTimeout(() => {
+                        isLongPressTriggered = true;
+                        if (navigator.vibrate) navigator.vibrate(45);
+                        openContextSheet(key, title);
+                    }, 420);
+                };
+
+                const movePress = (e) => {
+                    if (!pressTimer || !e.touches || e.touches.length === 0) return;
+                    const dx = Math.abs(e.touches[0].clientX - touchStartX);
+                    const dy = Math.abs(e.touches[0].clientY - touchStartY);
+                    if (dx > 12 || dy > 12) {
+                        clearTimeout(pressTimer);
+                        pressTimer = null;
+                    }
+                };
+
+                const cancelPress = () => {
+                    if (pressTimer) {
+                        clearTimeout(pressTimer);
+                        pressTimer = null;
+                    }
+                };
+
+                row.addEventListener('touchstart', startPress, { passive: true });
+                row.addEventListener('touchmove', movePress, { passive: true });
+                row.addEventListener('touchend', cancelPress);
+                row.addEventListener('touchcancel', cancelPress);
+                row.addEventListener('mousedown', startPress);
+                row.addEventListener('mouseup', cancelPress);
+                row.addEventListener('mouseleave', cancelPress);
+            });
+        }
+
+        function openContextSheet(key, title) {
+            activeContextKey = key;
+            document.getElementById('contextItemTitle').innerText = title;
+            document.getElementById('contextSheetOverlay').classList.add('active');
+            if(typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        function closeContextSheet(e) {
+            document.getElementById('contextSheetOverlay').classList.remove('active');
+            activeContextKey = null;
+            setTimeout(() => { isLongPressTriggered = false; }, 100);
+        }
+
+        function applyItemStyle(action, value) {
+            if (!activeContextKey) return;
+            if (!savedItemMarks[activeContextKey]) {
+                savedItemMarks[activeContextKey] = { color: 'none', done: false, star: false };
+            }
+
+            if (action === 'color') {
+                savedItemMarks[activeContextKey].color = value;
+            } else if (action === 'toggleDone') {
+                savedItemMarks[activeContextKey].done = !savedItemMarks[activeContextKey].done;
+            } else if (action === 'toggleStar') {
+                savedItemMarks[activeContextKey].star = !savedItemMarks[activeContextKey].star;
+            }
+
+            localStorage.setItem(META_STORAGE_KEY, JSON.stringify(savedItemMarks));
+            refreshCurrentViewMarks();
+            closeContextSheet();
+        }
+
+        function refreshCurrentViewMarks() {
+            const rows = document.querySelectorAll('.topic-row[data-item-key]');
+            rows.forEach(row => {
+                const key = row.getAttribute('data-item-key');
+                const mark = savedItemMarks[key] || { color: 'none', done: false, star: false };
+
+                row.classList.remove('hl-yellow', 'hl-green', 'hl-rose', 'hl-blue', 'is-completed');
+                if (mark.color && mark.color !== 'none') row.classList.add(mark.color);
+                if (mark.done) row.classList.add('is-completed');
+
+                const badgeBox = row.querySelector('.item-status-badges');
+                if (badgeBox) {
+                    let badgesHTML = '';
+                    if (mark.star) badgesHTML += `<span class="text-amber-500 text-sm">⭐</span>`;
+                    if (mark.done) badgesHTML += `<span class="text-emerald-600 text-xs font-bold bg-emerald-100 px-1.5 py-0.5 rounded-md">✓</span>`;
+                    badgeBox.innerHTML = badgesHTML;
+                }
+            });
+        }
+
+        function buildRowClassesAndBadges(key) {
+            const mark = savedItemMarks[key] || { color: 'none', done: false, star: false };
+            let extraClasses = '';
+            if (mark.color && mark.color !== 'none') extraClasses += ` ${mark.color}`;
+            if (mark.done) extraClasses += ` is-completed`;
+
+            let badgesHTML = '';
+            if (mark.star) badgesHTML += `<span class="text-amber-500 text-sm">⭐</span>`;
+            if (mark.done) badgesHTML += `<span class="text-emerald-600 text-xs font-bold bg-emerald-100 px-1.5 py-0.5 rounded-md">✓</span>`;
+
+            return { extraClasses, badgesHTML };
+        }
 
         /* GOOGLE SHEETS CSV URLS */
         const DB_URLS = {
@@ -589,8 +1203,8 @@
                 const titleSpan = document.getElementById('titleText');
                 if(titleSpan) titleSpan.innerText = title;
                 
-                document.documentElement.style.setProperty('--toc-accent', colorCode || '#dc2626');
-                document.getElementById('headerIcon').style.color = colorCode || '#dc2626';
+                document.documentElement.style.setProperty('--toc-accent', colorCode || '#059669');
+                document.getElementById('headerIcon').style.color = colorCode || '#059669';
 
                 const app = document.getElementById('mainApp');
                 const desk = document.getElementById('masterHome');
@@ -609,19 +1223,20 @@
                     setTimeout(() => {
                         app.classList.remove('hidden', 'page-shrink-out');
                         app.classList.add('page-expand-in');
+                        performPageFlip('view-dashboard', () => {}, true);
                         
                         setTimeout(() => { 
                             desk.style.display = 'none'; 
-                            app.style.transform = 'none';
+                            app.style.transform = '';
                             app.classList.remove('page-expand-in');
                             backBtn.classList.remove('hidden');
                             if(trackerBtn) trackerBtn.classList.remove('hidden');
                             menuLayer.classList.remove('hidden');
-                        }, 600); 
+                        }, 500); 
 
                         try { history.pushState({view: 'dashboard', sub: subject}, '', `#${subject}`); } catch(e){}
                         loadDataForSubject();
-                    }, 400); 
+                    }, 360); 
                     
                 } else {
                     if(app) {
@@ -629,12 +1244,12 @@
                         app.style.transformOrigin = `bottom right`;
                         app.classList.add('page-expand-in');
                         setTimeout(() => { 
-                            app.style.transform = 'none';
+                            app.style.transform = '';
                             app.classList.remove('page-expand-in');
                             backBtn.classList.remove('hidden');
                             if(trackerBtn) trackerBtn.classList.remove('hidden');
                             menuLayer.classList.remove('hidden');
-                        }, 600);
+                        }, 500);
                     }
                     const sInput = document.getElementById('searchInput');
                     if(sInput) sInput.value = '';
@@ -647,6 +1262,12 @@
         }
 
         function handleBackClick() {
+            const sheet = document.getElementById('contextSheetOverlay');
+            if (sheet && sheet.classList.contains('active')) {
+                closeContextSheet();
+                return;
+            }
+
             if (currentViewState === 'dashboard') {
                 const app = document.getElementById('mainApp');
                 const desk = document.getElementById('masterHome');
@@ -666,7 +1287,7 @@
                     app.classList.add('hidden'); 
                     app.classList.remove('page-shrink-out');
                     document.querySelectorAll('.book-3d').forEach(b => b.classList.remove('is-open'));
-                }, 500);
+                }, 450);
                 
                 currentViewState = 'hub';
                 try { history.pushState({view: 'hub'}, '', '#hub'); } catch(e){}
@@ -683,14 +1304,12 @@
             performPageFlip('view-dashboard', renderDashboard, true);
         }
 
-        /* 🚀 CACHE-FIRST + FAST BACKGROUND SYNC */
         function loadDataForSubject() {
             const loader = document.getElementById('loader');
             const viewDash = document.getElementById('view-dashboard');
             const cacheKey = 'bilas_academy_cache_' + currentSubject;
             const cachedData = localStorage.getItem(cacheKey);
 
-            // 1. Jodi age theke cache kora thake, sathe sathe display korbe
             if (cachedData) {
                 try {
                     rawData = JSON.parse(cachedData);
@@ -700,12 +1319,10 @@
                     console.error("Cache parsing error:", e);
                 }
             } else {
-                // Jodi prothom bar open hoy ebong cache na thake, tokhon shudhu loader dekhabe
                 if(viewDash) viewDash.innerHTML = '';
                 if(loader) { loader.classList.remove('hidden'); loader.classList.add('flex'); }
             }
 
-            // 2. Background-e latest Sheet data fetch korbe
             if (DB_URLS[currentSubject]) {
                 fetch(DB_URLS[currentSubject] + "&_t=" + Date.now())
                     .then(response => {
@@ -718,9 +1335,8 @@
                     })
                     .catch(err => {
                         if(loader) { loader.classList.remove('flex'); loader.classList.add('hidden'); }
-                        // Jodi ager data-o na thake ebong network-o fail hoy
                         if(!cachedData && viewDash && (!rawData || rawData.length === 0)) {
-                            viewDash.innerHTML = `<p class="text-center mt-10 text-red-500 font-bold">ইন্টারনেট কানেকশন চেক করুন!</p>`;
+                            viewDash.innerHTML = `<p class="text-center mt-10 text-red-600 font-bold">ইন্টারনেট কানেকশন চেক করুন!</p>`;
                         }
                     });
             }
@@ -751,7 +1367,6 @@
                 tempData.push(obj);
             }
 
-            // Fresh data save kora ebong changes thakle silent UI refresh
             const newJson = JSON.stringify(tempData);
             const oldJson = cacheKey ? localStorage.getItem(cacheKey) : null;
 
@@ -782,30 +1397,45 @@
                 if(list.length === 0) container.innerHTML = `<p class="text-center mt-10 opacity-50 italic">কিছু পাওয়া যায়নি!</p>`;
                 list.forEach(item => {
                     const data = encodeURIComponent(JSON.stringify(item));
-                    const displayName = item.Subtopic ? `${item.Topic} > ${item.Subtopic}` : item.Topic;
-                    container.innerHTML += `<div onclick="openViewer('${data}')" class="topic-row">
+                    const displayName = item.Subtopic ? `${item.Topic} ▸ ${item.Subtopic}` : item.Topic;
+                    const itemKey = getItemKey('topic', displayName);
+                    const { extraClasses, badgesHTML } = buildRowClassesAndBadges(itemKey);
+
+                    container.innerHTML += `<div onclick="if(!isLongPressTriggered) openViewer('${data}')" data-item-key="${itemKey}" data-item-title="${displayName}" class="topic-row${extraClasses}">
                         <div class="topic-title-wrapper">
-                            <i data-lucide="file-text" class="w-4 h-4 mr-2 opacity-80" style="color: var(--toc-accent);"></i>
+                            <div class="topic-icon-box">
+                                <i data-lucide="file-text" class="w-4 h-4" style="color: var(--toc-accent);"></i>
+                            </div>
                             <h4 class="topic-title">${displayName}</h4>
                         </div>
-                        <div class="topic-dots"></div>
-                        <i data-lucide="chevron-right" class="w-4 h-4 opacity-40"></i>
+                        <div class="flex items-center gap-2">
+                            <div class="item-status-badges flex items-center gap-1">${badgesHTML}</div>
+                            <i data-lucide="chevron-right" class="w-4 h-4 opacity-40"></i>
+                        </div>
                     </div>`;
                 });
             } else {
                 Object.keys(groupedChapters).forEach(name => {
+                    const itemKey = getItemKey('chapter', name);
+                    const { extraClasses, badgesHTML } = buildRowClassesAndBadges(itemKey);
+
                     container.innerHTML += `
-                        <div onclick="openChapter('${name}')" class="topic-row">
+                        <div onclick="if(!isLongPressTriggered) openChapter('${name}')" data-item-key="${itemKey}" data-item-title="${name}" class="topic-row${extraClasses}">
                             <div class="topic-title-wrapper">
-                                <i data-lucide="folder" class="w-5 h-5 mr-3 opacity-90" style="color: var(--toc-accent);"></i>
+                                <div class="topic-icon-box">
+                                    <i data-lucide="folder" class="w-5 h-5" style="color: var(--toc-accent);"></i>
+                                </div>
                                 <h3 class="topic-title">${name}</h3>
                             </div>
-                            <div class="topic-dots"></div>
-                            <span class="topic-count">${groupedChapters[name].length} NOTES</span>
+                            <div class="flex items-center gap-2">
+                                <div class="item-status-badges flex items-center gap-1">${badgesHTML}</div>
+                                <i data-lucide="chevron-right" class="w-4 h-4 opacity-40"></i>
+                            </div>
                         </div>`;
                 });
             }
             if(typeof lucide !== 'undefined') lucide.createIcons();
+            attachLongPressListeners();
         }
 
         function openChapter(chapterName) {
@@ -827,27 +1457,39 @@
                     
                     Object.keys(topicsInChapter).forEach(topicName => {
                         const items = topicsInChapter[topicName];
+                        const itemKey = getItemKey('topic', `${chapterName}_${topicName}`);
+                        const { extraClasses, badgesHTML } = buildRowClassesAndBadges(itemKey);
+
                         if(items.some(i => i.Subtopic && i.Subtopic.trim() !== "")) {
-                            list.innerHTML += `<div onclick="openSubtopicView('${chapterName}', '${topicName}')" class="topic-row">
+                            list.innerHTML += `<div onclick="if(!isLongPressTriggered) openSubtopicView('${chapterName}', '${topicName}')" data-item-key="${itemKey}" data-item-title="${topicName}" class="topic-row${extraClasses}">
                                 <div class="topic-title-wrapper">
-                                    <i data-lucide="layers" class="w-4 h-4 mr-2 opacity-80" style="color: var(--toc-accent);"></i>
+                                    <div class="topic-icon-box">
+                                        <i data-lucide="layers" class="w-4 h-4" style="color: var(--toc-accent);"></i>
+                                    </div>
                                     <h4 class="topic-title">${topicName}</h4>
                                 </div>
-                                <div class="topic-dots"></div>
-                                <span class="topic-count">${items.length} SUBTOPICS</span>
+                                <div class="flex items-center gap-2">
+                                    <div class="item-status-badges flex items-center gap-1">${badgesHTML}</div>
+                                    <i data-lucide="chevron-right" class="w-4 h-4 opacity-40"></i>
+                                </div>
                             </div>`;
                         } else {
                             const data = encodeURIComponent(JSON.stringify(items[0]));
-                            list.innerHTML += `<div onclick="openViewer('${data}')" class="topic-row">
+                            list.innerHTML += `<div onclick="if(!isLongPressTriggered) openViewer('${data}')" data-item-key="${itemKey}" data-item-title="${topicName}" class="topic-row${extraClasses}">
                                 <div class="topic-title-wrapper">
-                                    <i data-lucide="file-text" class="w-4 h-4 mr-2 opacity-80" style="color: var(--toc-accent);"></i>
+                                    <div class="topic-icon-box">
+                                        <i data-lucide="file-text" class="w-4 h-4" style="color: var(--toc-accent);"></i>
+                                    </div>
                                     <h4 class="topic-title">${topicName}</h4>
                                 </div>
-                                <div class="topic-dots"></div>
-                                <i data-lucide="arrow-right" class="w-4 h-4 opacity-40"></i>
+                                <div class="flex items-center gap-2">
+                                    <div class="item-status-badges flex items-center gap-1">${badgesHTML}</div>
+                                    <i data-lucide="arrow-right" class="w-4 h-4 opacity-40"></i>
+                                </div>
                             </div>`;
                         }
                     });
+                    attachLongPressListeners();
                 }
             });
         }
@@ -865,15 +1507,23 @@
                     items.forEach(item => {
                         const subName = item.Subtopic || 'নোট';
                         const data = encodeURIComponent(JSON.stringify(item));
-                        list.innerHTML += `<div onclick="openViewer('${data}')" class="topic-row pl-4">
+                        const itemKey = getItemKey('subtopic', `${chapterName}_${topicName}_${subName}`);
+                        const { extraClasses, badgesHTML } = buildRowClassesAndBadges(itemKey);
+
+                        list.innerHTML += `<div onclick="if(!isLongPressTriggered) openViewer('${data}')" data-item-key="${itemKey}" data-item-title="${subName}" class="topic-row${extraClasses}">
                             <div class="topic-title-wrapper">
-                                <i data-lucide="file-text" class="w-4 h-4 mr-2 opacity-90" style="color: var(--toc-accent);"></i>
+                                <div class="topic-icon-box">
+                                    <i data-lucide="bookmark-check" class="w-4 h-4" style="color: var(--toc-accent);"></i>
+                                </div>
                                 <h4 class="topic-title">${subName}</h4>
                             </div>
-                            <div class="topic-dots"></div>
-                            <i data-lucide="arrow-right" class="w-4 h-4 opacity-40"></i>
+                            <div class="flex items-center gap-2">
+                                <div class="item-status-badges flex items-center gap-1">${badgesHTML}</div>
+                                <i data-lucide="arrow-right" class="w-4 h-4 opacity-40"></i>
+                            </div>
                         </div>`;
                     });
+                    attachLongPressListeners();
                 }
             });
         }
@@ -890,10 +1540,17 @@
             try { history.pushState({view: 'image', topic: item, sub: currentSubject}, '', '#topic'); } catch(e){}
             performPageFlip('view-image', () => {
                 const title = document.getElementById('imageTitle');
-                if(title) title.innerText = item.Subtopic ? `${item.Topic} > ${item.Subtopic}` : (item.Topic || "");
+                if(title) title.innerText = item.Subtopic ? `${item.Topic} ▸ ${item.Subtopic}` : (item.Topic || "");
                 
                 const note = document.getElementById('imageNote');
-                if(note) note.innerText = item.Short_Note || "";
+                if(note) {
+                    if(item.Short_Note && item.Short_Note.trim() !== "") {
+                        note.innerText = item.Short_Note;
+                        note.classList.remove('hidden');
+                    } else {
+                        note.classList.add('hidden');
+                    }
+                }
                 
                 const container = document.getElementById('imageContainer');
                 if(container) {
@@ -915,12 +1572,12 @@
                             const encodedLink = encodeURIComponent(link);
                             container.innerHTML += `
                             <div class="taped-photo" onclick="openFullImage('${encodedLink}')">
-                                <div class="absolute inset-0 z-30 flex items-start justify-end p-2 pointer-events-none">
-                                    <div class="bg-black/60 text-white rounded p-1.5 shadow">
-                                        <i data-lucide="maximize-2" class="w-4 h-4"></i>
+                                <div class="absolute inset-0 z-30 flex items-start justify-end p-3 pointer-events-none">
+                                    <div class="bg-black/65 text-white rounded-full p-2 shadow-md flex items-center gap-1 text-[10px] px-2.5">
+                                        <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i> বড় করুন
                                     </div>
                                 </div>
-                                <iframe class="w-full h-[38vh] pointer-events-none border-none bg-white" src="${previewLink}"></iframe>
+                                <iframe class="w-full h-[46vh] pointer-events-none border-none bg-white rounded" src="${previewLink}"></iframe>
                             </div>`;
                         });
                     } else {
@@ -943,6 +1600,9 @@
         }
 
         window.addEventListener('popstate', function(event) {
+            const sheet = document.getElementById('contextSheetOverlay');
+            if (sheet && sheet.classList.contains('active')) { closeContextSheet(); return; }
+
             const viewer = document.getElementById('fullscreenViewer');
             if (viewer && viewer.style.display === 'flex') { closeFullImageUI(); return; }
             
@@ -967,7 +1627,7 @@
                         app.classList.add('hidden'); 
                         app.classList.remove('page-shrink-out');
                         document.querySelectorAll('.book-3d').forEach(b => b.classList.remove('is-open'));
-                    }, 500);
+                    }, 450);
                 }
                 currentViewState = 'hub';
             }
@@ -993,29 +1653,41 @@
                         });
                         Object.keys(topicsInChapter).forEach(topicName => {
                             const items = topicsInChapter[topicName];
+                            const itemKey = getItemKey('topic', `${chapterName}_${topicName}`);
+                            const { extraClasses, badgesHTML } = buildRowClassesAndBadges(itemKey);
+
                             if(items.some(i => i.Subtopic && i.Subtopic.trim() !== "")) {
-                                list.innerHTML += `<div onclick="openSubtopicView('${chapterName}', '${topicName}')" class="topic-row">
+                                list.innerHTML += `<div onclick="if(!isLongPressTriggered) openSubtopicView('${chapterName}', '${topicName}')" data-item-key="${itemKey}" data-item-title="${topicName}" class="topic-row${extraClasses}">
                                     <div class="topic-title-wrapper">
-                                        <i data-lucide="layers" class="w-4 h-4 mr-2 opacity-80" style="color: var(--toc-accent);"></i>
+                                        <div class="topic-icon-box">
+                                            <i data-lucide="layers" class="w-4 h-4" style="color: var(--toc-accent);"></i>
+                                        </div>
                                         <h4 class="topic-title">${topicName}</h4>
                                     </div>
-                                    <div class="topic-dots"></div>
-                                    <span class="topic-count">${items.length} SUBTOPICS</span>
+                                    <div class="flex items-center gap-2">
+                                        <div class="item-status-badges flex items-center gap-1">${badgesHTML}</div>
+                                        <i data-lucide="chevron-right" class="w-4 h-4 opacity-40"></i>
+                                    </div>
                                 </div>`;
                             } else {
                                 const data = encodeURIComponent(JSON.stringify(items[0]));
-                                list.innerHTML += `<div onclick="openViewer('${data}')" class="topic-row">
+                                list.innerHTML += `<div onclick="if(!isLongPressTriggered) openViewer('${data}')" data-item-key="${itemKey}" data-item-title="${topicName}" class="topic-row${extraClasses}">
                                     <div class="topic-title-wrapper">
-                                        <i data-lucide="file-text" class="w-4 h-4 mr-2 opacity-80" style="color: var(--toc-accent);"></i>
+                                        <div class="topic-icon-box">
+                                            <i data-lucide="file-text" class="w-4 h-4" style="color: var(--toc-accent);"></i>
+                                        </div>
                                         <h4 class="topic-title">${topicName}</h4>
                                     </div>
-                                    <div class="topic-dots"></div>
-                                    <i data-lucide="arrow-right" class="w-4 h-4 opacity-40"></i>
+                                    <div class="flex items-center gap-2">
+                                        <div class="item-status-badges flex items-center gap-1">${badgesHTML}</div>
+                                        <i data-lucide="arrow-right" class="w-4 h-4 opacity-40"></i>
+                                    </div>
                                 </div>`;
                             }
                         });
+                        attachLongPressListeners();
                     }
-                }, true); 
+                }, true);
             }
             else if (state === 'subtopics') {
                 const chapterName = event.state.chapter;
@@ -1030,15 +1702,23 @@
                         items.forEach(item => {
                             const subName = item.Subtopic || 'নোট';
                             const data = encodeURIComponent(JSON.stringify(item));
-                            list.innerHTML += `<div onclick="openViewer('${data}')" class="topic-row pl-4">
+                            const itemKey = getItemKey('subtopic', `${chapterName}_${topicName}_${subName}`);
+                            const { extraClasses, badgesHTML } = buildRowClassesAndBadges(itemKey);
+
+                            list.innerHTML += `<div onclick="if(!isLongPressTriggered) openViewer('${data}')" data-item-key="${itemKey}" data-item-title="${subName}" class="topic-row${extraClasses}">
                                 <div class="topic-title-wrapper">
-                                    <i data-lucide="file-text" class="w-4 h-4 mr-2 opacity-90" style="color: var(--toc-accent);"></i>
+                                    <div class="topic-icon-box">
+                                        <i data-lucide="bookmark-check" class="w-4 h-4" style="color: var(--toc-accent);"></i>
+                                    </div>
                                     <h4 class="topic-title">${subName}</h4>
                                 </div>
-                                <div class="topic-dots"></div>
-                                <i data-lucide="arrow-right" class="w-4 h-4 opacity-40"></i>
+                                <div class="flex items-center gap-2">
+                                    <div class="item-status-badges flex items-center gap-1">${badgesHTML}</div>
+                                    <i data-lucide="arrow-right" class="w-4 h-4 opacity-40"></i>
+                                </div>
                             </div>`;
                         });
+                        attachLongPressListeners();
                     }
                 }, true);
             }
@@ -1049,11 +1729,23 @@
             const t = document.getElementById('view-topics');
             const st = document.getElementById('view-subtopics');
             const i = document.getElementById('view-image');
+            const header = document.getElementById('tocHeader');
+            const trackerBtn = document.getElementById('trackerBtn');
+
             if(d) d.classList.add('hidden');
             if(t) t.classList.add('hidden');
             if(st) st.classList.add('hidden');
             if(i) i.classList.add('hidden');
             
+            if (targetViewId === 'view-dashboard') {
+                if(header) header.classList.remove('hidden', 'header-hidden');
+                if(trackerBtn) trackerBtn.classList.remove('hidden');
+            } else {
+                if(header) header.classList.add('hidden');
+                if(trackerBtn) trackerBtn.classList.add('hidden');
+            }
+
+            mainAppContainer.scrollTop = 0;
             if(logicCallback) logicCallback();
             const target = document.getElementById(targetViewId);
             if(target) target.classList.remove('hidden');
