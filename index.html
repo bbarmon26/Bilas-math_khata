@@ -79,10 +79,12 @@
             --toc-accent: #059669;
         }
 
+        /* 🛠️ Removed perspective from body so fixed modals never break on mobile Chrome */
         body { 
-            background: #140a05; margin: 0; overflow: hidden; 
+            background: #140a05; 
+            margin: 0; 
+            overflow: hidden; 
             font-family: 'Poppins', 'Noto Sans Bengali', sans-serif; 
-            perspective: 1500px; 
             user-select: none;
             -webkit-user-select: none;
             -webkit-touch-callout: none;
@@ -105,6 +107,7 @@
             z-index: 1;
             box-sizing: border-box;
             padding: 16px 0 10px 0;
+            perspective: 1500px;
         }
 
         /* 🔪 CRISP CHISELED WOOD ENGRAVED HEADER */
@@ -122,7 +125,6 @@
             letter-spacing: 0.13em;
             line-height: 1.1;
             color: #e5ab70;
-            /* Deep carved top-inner shadow + sharp bottom-lip highlight */
             text-shadow: 
                 0px -2px 1px #070301,
                 -1.5px -1.5px 1px #0b0502,
@@ -552,7 +554,7 @@
             -webkit-user-select: text;
         }
 
-        /* ✨ Ultra-Clean Topic Cards (No ⋮ or > Icons) */
+        /* ✨ Ultra-Clean Topic Cards */
         .topic-row {
             display: flex;
             align-items: center;
@@ -570,10 +572,11 @@
             user-select: none;
             -webkit-user-select: none;
             -webkit-touch-callout: none;
+            touch-action: pan-y;
         }
         .topic-row.pressing-hold {
             transform: scale(0.96);
-            background: rgba(254, 243, 199, 0.9);
+            background: rgba(254, 243, 199, 0.95);
         }
 
         .topic-row.hl-yellow {
@@ -671,12 +674,19 @@
             pointer-events: none;
         }
 
+        /* 🎨 TOPMOST ACTION SHEET MODAL (Guaranteed Visible on Mobile Chrome) */
         #contextSheetOverlay {
             position: fixed !important;
-            inset: 0 !important;
-            background: rgba(0, 0, 0, 0.55);
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            width: 100vw !important;
+            height: 100dvh !important;
+            background: rgba(0, 0, 0, 0.6) !important;
             backdrop-filter: blur(4px);
-            z-index: 999999 !important;
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 2147483647 !important;
             display: none;
             align-items: flex-end;
             justify-content: center;
@@ -689,13 +699,10 @@
             max-width: 420px;
             background: #fffdf9;
             border-radius: 24px 24px 0 0;
-            padding: 20px 20px 28px 20px;
-            box-shadow: 0 -10px 35px rgba(0,0,0,0.35);
-            animation: slideUpSheet 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        @keyframes slideUpSheet {
-            from { transform: translateY(100%); }
-            to { transform: translateY(0); }
+            padding: 20px 20px 30px 20px;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.45);
+            position: relative;
+            z-index: 2147483647;
         }
 
         #fullscreenViewer { 
@@ -963,13 +970,13 @@
         </main>
     </div>
 
-    <!-- 🎨 HIGHLIGHT & MARK ACTION SHEET (Pure HTML/SVG - Zero Dependency Error) -->
-    <div id="contextSheetOverlay" onclick="closeContextSheet()">
+    <!-- 🎨 HIGHLIGHT & MARK ACTION SHEET (Fixed Outside Perspective Context + Ghost-Click Protected) -->
+    <div id="contextSheetOverlay" onclick="handleOverlayClick(event)">
         <div class="context-sheet" onclick="event.stopPropagation()">
-            <div class="w-10 h-1 bg-slate-300 rounded-full mx-auto mb-3"></div>
-            <h4 id="contextItemTitle" class="text-center font-bold text-slate-800 text-base mb-4 px-4 truncate"></h4>
+            <div class="w-10 h-1.5 bg-slate-300 rounded-full mx-auto mb-3"></div>
+            <h4 id="contextItemTitle" class="text-center font-extrabold text-slate-800 text-base mb-4 px-4 truncate"></h4>
             
-            <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2.5 text-center">হাইলাইট কালার বেছে নিন</p>
+            <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 text-center">হাইলাইট কালার বেছে নিন</p>
             <div class="flex items-center justify-center gap-4 mb-5">
                 <button type="button" onclick="applyItemStyle('color', 'hl-yellow')" class="w-11 h-11 rounded-full bg-yellow-300 border-2 border-yellow-500 shadow-md active:scale-90 transition-transform"></button>
                 <button type="button" onclick="applyItemStyle('color', 'hl-green')" class="w-11 h-11 rounded-full bg-green-300 border-2 border-green-600 shadow-md active:scale-90 transition-transform"></button>
@@ -987,7 +994,7 @@
                 </button>
             </div>
 
-            <button type="button" onclick="closeContextSheet()" class="w-full py-2.5 mt-1 rounded-xl bg-slate-100 text-slate-600 font-semibold text-sm active:scale-95">বন্ধ করুন</button>
+            <button type="button" onclick="forceCloseContextSheet()" class="w-full py-3 mt-1 rounded-xl bg-slate-100 text-slate-700 font-bold text-sm active:scale-95">বন্ধ করুন</button>
         </div>
     </div>
 
@@ -1025,7 +1032,6 @@
     </div>
 
     <script>
-        /* Safe Icon Loader */
         function refreshIcons() {
             try {
                 if (typeof lucide !== 'undefined' && lucide.createIcons) {
@@ -1072,7 +1078,7 @@
             lastScrollY = currentScrollY;
         }, { passive: true });
 
-        /* 🎨 BULLETPROOF NATIVE TOUCH LONG-PRESS ENGINE */
+        /* 🎨 GHOST-CLICK PROOF LONG-PRESS ENGINE */
         const META_STORAGE_KEY = 'bilas_academy_item_marks_v1';
         let savedItemMarks = {};
         try {
@@ -1080,6 +1086,8 @@
         } catch(e) { savedItemMarks = {}; }
 
         let activeContextKey = null;
+        let sheetOpenedTimestamp = 0;
+        let blockNextClickUntil = 0;
 
         function getItemKey(type, name) {
             return `${currentSubject}__${type}__${name}`;
@@ -1087,16 +1095,36 @@
 
         function openContextSheet(key, title) {
             activeContextKey = key;
+            sheetOpenedTimestamp = Date.now();
+            blockNextClickUntil = Date.now() + 600;
+
             const titleEl = document.getElementById('contextItemTitle');
             if (titleEl) titleEl.innerText = title || '';
+
             const overlay = document.getElementById('contextSheetOverlay');
-            if (overlay) overlay.classList.add('active');
+            if (overlay) {
+                overlay.style.display = 'flex';
+                overlay.classList.add('active');
+            }
         }
 
-        function closeContextSheet() {
+        function handleOverlayClick(e) {
+            // Prevent finger-release ghost click from closing the modal immediately
+            if (Date.now() - sheetOpenedTimestamp < 450) {
+                if (e) { e.preventDefault(); e.stopPropagation(); }
+                return;
+            }
+            forceCloseContextSheet();
+        }
+
+        function forceCloseContextSheet() {
             const overlay = document.getElementById('contextSheetOverlay');
-            if (overlay) overlay.classList.remove('active');
+            if (overlay) {
+                overlay.classList.remove('active');
+                overlay.style.display = 'none';
+            }
             activeContextKey = null;
+            blockNextClickUntil = Date.now() + 250;
         }
 
         function applyItemStyle(action, value) {
@@ -1117,7 +1145,7 @@
                 localStorage.setItem(META_STORAGE_KEY, JSON.stringify(savedItemMarks));
             } catch(e) {}
             refreshCurrentViewMarks();
-            closeContextSheet();
+            forceCloseContextSheet();
         }
 
         function refreshCurrentViewMarks() {
@@ -1170,12 +1198,13 @@
                     startX = x;
                     startY = y;
                     if (holdTimer) clearTimeout(holdTimer);
+                    row.classList.add('pressing-hold');
+
                     holdTimer = setTimeout(() => {
                         isLongPress = true;
-                        row.classList.add('pressing-hold');
-                        try { if (navigator.vibrate) navigator.vibrate(45); } catch(e){}
+                        row.classList.remove('pressing-hold');
+                        try { if (navigator.vibrate) navigator.vibrate(50); } catch(e){}
                         openContextSheet(key, title);
-                        setTimeout(() => row.classList.remove('pressing-hold'), 200);
                     }, 420);
                 };
 
@@ -1188,15 +1217,18 @@
                     }
                 };
 
-                const endHold = () => {
+                const endHold = (e) => {
                     if (holdTimer) {
                         clearTimeout(holdTimer);
                         holdTimer = null;
                     }
                     row.classList.remove('pressing-hold');
+                    // If long press was triggered, stop touchend from generating a ghost click
+                    if (isLongPress && e && e.cancelable) {
+                        e.preventDefault();
+                    }
                 };
 
-                // Mobile Touch Events
                 row.addEventListener('touchstart', (e) => {
                     if (e.touches.length === 1) {
                         startHold(e.touches[0].clientX, e.touches[0].clientY);
@@ -1209,10 +1241,9 @@
                     }
                 }, { passive: true });
 
-                row.addEventListener('touchend', endHold);
+                row.addEventListener('touchend', endHold, { passive: false });
                 row.addEventListener('touchcancel', endHold);
 
-                // Desktop Mouse Events
                 row.addEventListener('mousedown', (e) => {
                     if (e.button === 0) startHold(e.clientX, e.clientY);
                 });
@@ -1220,9 +1251,8 @@
                 row.addEventListener('mouseup', endHold);
                 row.addEventListener('mouseleave', endHold);
 
-                // Normal Tap Action
                 row.addEventListener('click', (e) => {
-                    if (isLongPress) {
+                    if (isLongPress || Date.now() < blockNextClickUntil || activeContextKey !== null) {
                         e.preventDefault();
                         e.stopPropagation();
                         isLongPress = false;
@@ -1340,7 +1370,7 @@
         function handleBackClick() {
             const sheet = document.getElementById('contextSheetOverlay');
             if (sheet && sheet.classList.contains('active')) {
-                closeContextSheet();
+                forceCloseContextSheet();
                 return;
             }
 
@@ -1465,7 +1495,6 @@
             renderDashboard();
         }
 
-        /* 📋 Clean Rendering Without ⋮ or > Buttons */
         function renderDashboard(list = null) {
             const container = document.getElementById('view-dashboard');
             if(!container) return;
@@ -1701,7 +1730,7 @@
 
         window.addEventListener('popstate', function(event) {
             const sheet = document.getElementById('contextSheetOverlay');
-            if (sheet && sheet.classList.contains('active')) { closeContextSheet(); return; }
+            if (sheet && sheet.classList.contains('active')) { forceCloseContextSheet(); return; }
 
             const viewer = document.getElementById('fullscreenViewer');
             if (viewer && viewer.style.display === 'flex') { closeFullImageUI(); return; }
