@@ -89,61 +89,75 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* 🪵 Full-Width Clean Wooden Wall Background with Warm Top Lighting */
+        /* 🪵 Full-Width Clean Wooden Wall Background with Warm Spotlight */
         .shelf-wrapper {
             background-image: 
-                radial-gradient(circle at 50% 6%, rgba(255, 195, 110, 0.22) 0%, rgba(0, 0, 0, 0.45) 45%, rgba(0, 0, 0, 0.88) 100%),
+                radial-gradient(ellipse at 50% 6%, rgba(255, 195, 110, 0.25) 0%, rgba(0, 0, 0, 0.48) 48%, rgba(0, 0, 0, 0.9) 100%),
                 url('https://www.transparenttextures.com/patterns/wood-pattern.png');
             background-color: #2b150c;
-            height: 100vh;
+            height: 100dvh;
             width: 100vw;
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
             overflow: hidden;
             position: relative;
             z-index: 1;
             box-sizing: border-box;
+            padding: 16px 0 10px 0;
         }
 
-        /* 🔪 DIRECT WOOD-CARVED TITLE WITH WARM ILLUMINATION */
+        /* 🔪 CRISP CHISELED WOOD ENGRAVED HEADER */
         .carved-header-area {
             text-align: center;
-            padding-top: 14px;
-            padding-bottom: 4px;
             position: relative;
             z-index: 20;
+            padding-top: 2px;
         }
 
         .carved-wood-title {
-            font-family: 'Cinzel', 'Poppins', serif;
-            color: #dca368;
+            font-family: 'Cinzel', serif;
             font-weight: 900;
-            letter-spacing: 0.14em;
+            font-size: 31px;
+            letter-spacing: 0.13em;
             line-height: 1.1;
-            /* Authentic deep chiseled wood carving with soft top glow */
+            color: #e5ab70;
+            /* Deep carved top-inner shadow + sharp bottom-lip highlight */
             text-shadow: 
-                0px -2px 1.5px #0a0401,
-                -1px -1px 1px #0f0702,
-                1px -1px 1px #0f0702,
-                0px 2px 1px rgba(255, 230, 190, 0.65),
-                0px 4px 8px rgba(0, 0, 0, 0.95);
-            user-select: none;
+                0px -2px 1px #070301,
+                -1.5px -1.5px 1px #0b0502,
+                1.5px -1.5px 1px #0b0502,
+                0px 1.5px 0px rgba(255, 232, 195, 0.75),
+                0px 4px 8px rgba(0, 0, 0, 0.9);
+            margin: 0;
         }
 
-        .carved-wood-sub {
-            color: #c98c4f;
-            font-weight: 700;
+        .carved-sub-bangla {
+            display: inline-block;
+            margin-top: 3px;
+            font-size: 12px;
+            font-weight: 800;
             letter-spacing: 0.22em;
+            color: #d69859;
             text-shadow: 
-                0px -1.5px 1px #0a0401,
-                0px 1.5px 1px rgba(255, 230, 190, 0.5);
+                0px -1.5px 1px #070301,
+                0px 1px 0px rgba(255, 228, 185, 0.55);
         }
 
         /* 🪵 REALISTIC 3D BOOKSHELF COMPARTMENTS */
+        .shelves-main-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            width: 100%;
+            padding-top: 8px;
+            padding-bottom: 4px;
+        }
+
         .shelf-container { 
             width: 100%; 
             position: relative; 
-            margin-bottom: 16px; 
         }
 
         .shelf-books {
@@ -157,16 +171,15 @@
             padding-bottom: 4px; 
         }
         
-        /* Slanted Top Surface + Thick Wood Plank */
         .shelf-wood { 
-            width: 96%; 
-            height: 22px; 
+            width: 95%; 
+            height: 21px; 
             margin: 0 auto;
             background: 
                 repeating-linear-gradient(90deg, rgba(0,0,0,0.06) 0px, rgba(0,0,0,0.06) 14px, transparent 14px, transparent 35px),
                 linear-gradient(to bottom, #7d481d 0%, #522c0e 45%, #2b1505 85%, #170a02 100%);
             box-shadow: 
-                0 22px 32px rgba(0,0,0,0.98), 
+                0 20px 30px rgba(0,0,0,0.98), 
                 0 6px 12px rgba(0,0,0,0.85),
                 inset 0 -3px 5px rgba(0,0,0,0.9);
             border-radius: 2px; 
@@ -477,7 +490,7 @@
         .toc-page {
             background-color: var(--toc-bg);
             background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
-            height: 100vh; overflow-y: auto; color: var(--toc-text);
+            height: 100dvh; overflow-y: auto; color: var(--toc-text);
             scroll-behavior: smooth;
         }
         
@@ -539,26 +552,28 @@
             -webkit-user-select: text;
         }
 
+        /* ✨ Ultra-Clean Topic Cards (No ⋮ or > Icons) */
         .topic-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
             margin-bottom: 11px;
             padding: 14px 16px;
-            background: rgba(255, 255, 255, 0.82);
+            background: rgba(255, 255, 255, 0.88);
             border: 1px solid rgba(140, 100, 60, 0.14);
             border-left: 4.5px solid var(--toc-accent);
             border-radius: 14px;
             cursor: pointer;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
-            transition: transform 0.18s ease, background 0.2s ease, box-shadow 0.2s ease;
+            transition: transform 0.15s ease, background 0.2s ease;
             position: relative;
             user-select: none;
             -webkit-user-select: none;
             -webkit-touch-callout: none;
         }
-        .topic-row:active {
-            transform: scale(0.98);
+        .topic-row.pressing-hold {
+            transform: scale(0.96);
+            background: rgba(254, 243, 199, 0.9);
         }
 
         .topic-row.hl-yellow {
@@ -596,7 +611,7 @@
             align-items: center;
             gap: 12px;
             flex: 1;
-            padding-right: 8px;
+            pointer-events: none;
         }
 
         .topic-icon-box {
@@ -661,7 +676,7 @@
             inset: 0 !important;
             background: rgba(0, 0, 0, 0.55);
             backdrop-filter: blur(4px);
-            z-index: 99999 !important;
+            z-index: 999999 !important;
             display: none;
             align-items: flex-end;
             justify-content: center;
@@ -676,7 +691,7 @@
             border-radius: 24px 24px 0 0;
             padding: 20px 20px 28px 20px;
             box-shadow: 0 -10px 35px rgba(0,0,0,0.35);
-            animation: slideUpSheet 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: slideUpSheet 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         @keyframes slideUpSheet {
             from { transform: translateY(100%); }
@@ -732,13 +747,15 @@
 
     <!-- Home: Full-Width Clean Wooden Wall -->
     <div id="masterHome" class="shelf-wrapper">
-        <!-- 🔪 Direct Wood-Carved Title with Soft Lighting -->
+        
+        <!-- 🔪 High-Contrast Chiseled Wood Engraved Title -->
         <div class="carved-header-area">
-            <h1 class="text-[30px] sm:text-4xl carved-wood-title uppercase">BILAS ACADEMY</h1>
-            <p class="carved-wood-sub text-[10px] mt-1 uppercase" style="font-family: 'Kalam', cursive;">স্মার্ট পড়াশোনা</p>
+            <h1 class="carved-wood-title uppercase">BILAS ACADEMY</h1>
+            <p class="carved-sub-bangla uppercase" style="font-family: 'Kalam', cursive;">স্মার্ট পড়াশোনা</p>
         </div>
 
-        <div class="flex-1 flex flex-col justify-evenly w-full pb-3 relative z-10">
+        <!-- 🪵 Three Shelves Lowered & Balanced -->
+        <div class="shelves-main-group relative z-10">
             <!-- TOP SHELF: Realistic 12-Hour Clock & Bangla -->
             <div class="shelf-container">
                 <div class="shelf-books">
@@ -747,7 +764,6 @@
                         <div class="clock-top-crown"></div>
                         <div class="analog-clock">
                             <span class="clock-brand">BILAS</span>
-                            <!-- All 12 Hour Numbers -->
                             <span class="clock-num n12">12</span>
                             <span class="clock-num n1">1</span>
                             <span class="clock-num n2">2</span>
@@ -859,10 +875,11 @@
                 </div>
                 <div class="shelf-wood"></div>
             </div>
-            
-            <div class="text-center mt-1">
-                <p class="carved-wood-sub text-[10px] font-mono tracking-widest opacity-80">©️ বিলাস ২০২৬</p>
-            </div>
+        </div>
+
+        <!-- ©️ Footer Pushed Down Near Bottom Edge -->
+        <div class="text-center pb-0.5 relative z-20">
+            <p class="carved-sub-bangla text-[10px] font-mono tracking-widest opacity-80">©️ বিলাস ২০২৬</p>
         </div>
     </div>
 
@@ -892,7 +909,6 @@
 
     <!-- 📖 Inside Book Page -->
     <div id="mainApp" class="hidden fixed inset-0 toc-page no-scrollbar">
-        <!-- Main Header (Only visible on main Chapter Dashboard & Auto-hides on Scroll Down) -->
         <header id="tocHeader" class="toc-header">
             <div class="toc-title-area px-10">
                 <i data-lucide="book-open-check" id="headerIcon" class="w-6 h-6 shrink-0"></i>
@@ -904,7 +920,6 @@
                 <input type="text" id="searchInput" oninput="executeSearch()" placeholder="টপিক বা অধ্যায় খুঁজুন..." class="toc-search">
                 <i data-lucide="search" class="absolute right-3.5 top-2.5 opacity-45 w-4 h-4"></i>
             </div>
-           
         </header>
 
         <main class="p-4 pb-28 max-w-2xl mx-auto">
@@ -948,33 +963,31 @@
         </main>
     </div>
 
-    <!-- 🎨 LONG-PRESS HIGHLIGHT & MARK ACTION SHEET -->
-    <div id="contextSheetOverlay" onclick="closeContextSheet(event)">
+    <!-- 🎨 HIGHLIGHT & MARK ACTION SHEET (Pure HTML/SVG - Zero Dependency Error) -->
+    <div id="contextSheetOverlay" onclick="closeContextSheet()">
         <div class="context-sheet" onclick="event.stopPropagation()">
             <div class="w-10 h-1 bg-slate-300 rounded-full mx-auto mb-3"></div>
             <h4 id="contextItemTitle" class="text-center font-bold text-slate-800 text-base mb-4 px-4 truncate"></h4>
             
             <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2.5 text-center">হাইলাইট কালার বেছে নিন</p>
             <div class="flex items-center justify-center gap-4 mb-5">
-                <button onclick="applyItemStyle('color', 'hl-yellow')" class="w-11 h-11 rounded-full bg-yellow-300 border-2 border-yellow-500 shadow-md active:scale-90 transition-transform flex items-center justify-center"></button>
-                <button onclick="applyItemStyle('color', 'hl-green')" class="w-11 h-11 rounded-full bg-green-300 border-2 border-green-600 shadow-md active:scale-90 transition-transform flex items-center justify-center"></button>
-                <button onclick="applyItemStyle('color', 'hl-rose')" class="w-11 h-11 rounded-full bg-rose-300 border-2 border-rose-600 shadow-md active:scale-90 transition-transform flex items-center justify-center"></button>
-                <button onclick="applyItemStyle('color', 'hl-blue')" class="w-11 h-11 rounded-full bg-blue-300 border-2 border-blue-600 shadow-md active:scale-90 transition-transform flex items-center justify-center"></button>
-                <button onclick="applyItemStyle('color', 'none')" class="w-11 h-11 rounded-full bg-slate-100 border-2 border-slate-300 text-slate-600 shadow-sm active:scale-90 transition-transform flex items-center justify-center" title="রিসেট">
-                    <i data-lucide="ban" class="w-5 h-5"></i>
-                </button>
+                <button type="button" onclick="applyItemStyle('color', 'hl-yellow')" class="w-11 h-11 rounded-full bg-yellow-300 border-2 border-yellow-500 shadow-md active:scale-90 transition-transform"></button>
+                <button type="button" onclick="applyItemStyle('color', 'hl-green')" class="w-11 h-11 rounded-full bg-green-300 border-2 border-green-600 shadow-md active:scale-90 transition-transform"></button>
+                <button type="button" onclick="applyItemStyle('color', 'hl-rose')" class="w-11 h-11 rounded-full bg-rose-300 border-2 border-rose-600 shadow-md active:scale-90 transition-transform"></button>
+                <button type="button" onclick="applyItemStyle('color', 'hl-blue')" class="w-11 h-11 rounded-full bg-blue-300 border-2 border-blue-600 shadow-md active:scale-90 transition-transform"></button>
+                <button type="button" onclick="applyItemStyle('color', 'none')" class="w-11 h-11 rounded-full bg-slate-100 border-2 border-slate-300 text-slate-600 font-bold text-sm shadow-sm active:scale-90 transition-transform flex items-center justify-center" title="রিসেট">✕</button>
             </div>
 
             <div class="grid grid-cols-2 gap-3 mb-3">
-                <button onclick="applyItemStyle('toggleDone')" class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold text-sm active:scale-95 transition-transform">
-                    <i data-lucide="check-circle-2" class="w-4 h-4"></i> পড়া শেষ
+                <button type="button" onclick="applyItemStyle('toggleDone')" class="flex items-center justify-center gap-1.5 py-3 px-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold text-sm active:scale-95 transition-transform">
+                    ✓ পড়া শেষ
                 </button>
-                <button onclick="applyItemStyle('toggleStar')" class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 font-bold text-sm active:scale-95 transition-transform">
-                    <i data-lucide="star" class="w-4 h-4"></i> গুরুত্বপূর্ণ ⭐
+                <button type="button" onclick="applyItemStyle('toggleStar')" class="flex items-center justify-center gap-1.5 py-3 px-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 font-bold text-sm active:scale-95 transition-transform">
+                    ⭐ গুরুত্বপূর্ণ
                 </button>
             </div>
 
-            <button onclick="closeContextSheet()" class="w-full py-2.5 mt-1 rounded-xl bg-slate-100 text-slate-600 font-semibold text-sm active:scale-95">বন্ধ করুন</button>
+            <button type="button" onclick="closeContextSheet()" class="w-full py-2.5 mt-1 rounded-xl bg-slate-100 text-slate-600 font-semibold text-sm active:scale-95">বন্ধ করুন</button>
         </div>
     </div>
 
@@ -1012,6 +1025,15 @@
     </div>
 
     <script>
+        /* Safe Icon Loader */
+        function refreshIcons() {
+            try {
+                if (typeof lucide !== 'undefined' && lucide.createIcons) {
+                    lucide.createIcons();
+                }
+            } catch (e) {}
+        }
+
         /* 🕰️ Real-time Clock Engine */
         function updateClock() {
             const now = new Date();
@@ -1050,76 +1072,31 @@
             lastScrollY = currentScrollY;
         }, { passive: true });
 
-        /* 🎨 LONG-PRESS HIGHLIGHT, DONE & STAR ENGINE */
+        /* 🎨 BULLETPROOF NATIVE TOUCH LONG-PRESS ENGINE */
         const META_STORAGE_KEY = 'bilas_academy_item_marks_v1';
-        let savedItemMarks = JSON.parse(localStorage.getItem(META_STORAGE_KEY) || '{}');
+        let savedItemMarks = {};
+        try {
+            savedItemMarks = JSON.parse(localStorage.getItem(META_STORAGE_KEY) || '{}');
+        } catch(e) { savedItemMarks = {}; }
+
         let activeContextKey = null;
-        let pressTimer = null;
-        let isLongPressTriggered = false;
-        let touchStartX = 0, touchStartY = 0;
 
         function getItemKey(type, name) {
             return `${currentSubject}__${type}__${name}`;
         }
 
-        function attachLongPressListeners() {
-            const rows = document.querySelectorAll('.topic-row[data-item-key]');
-            rows.forEach(row => {
-                const key = row.getAttribute('data-item-key');
-                const title = row.getAttribute('data-item-title');
-
-                const startPress = (e) => {
-                    isLongPressTriggered = false;
-                    if (e.touches && e.touches.length > 0) {
-                        touchStartX = e.touches[0].clientX;
-                        touchStartY = e.touches[0].clientY;
-                    }
-                    if (pressTimer) clearTimeout(pressTimer);
-                    pressTimer = setTimeout(() => {
-                        isLongPressTriggered = true;
-                        if (navigator.vibrate) navigator.vibrate(45);
-                        openContextSheet(key, title);
-                    }, 420);
-                };
-
-                const movePress = (e) => {
-                    if (!pressTimer || !e.touches || e.touches.length === 0) return;
-                    const dx = Math.abs(e.touches[0].clientX - touchStartX);
-                    const dy = Math.abs(e.touches[0].clientY - touchStartY);
-                    if (dx > 12 || dy > 12) {
-                        clearTimeout(pressTimer);
-                        pressTimer = null;
-                    }
-                };
-
-                const cancelPress = () => {
-                    if (pressTimer) {
-                        clearTimeout(pressTimer);
-                        pressTimer = null;
-                    }
-                };
-
-                row.addEventListener('touchstart', startPress, { passive: true });
-                row.addEventListener('touchmove', movePress, { passive: true });
-                row.addEventListener('touchend', cancelPress);
-                row.addEventListener('touchcancel', cancelPress);
-                row.addEventListener('mousedown', startPress);
-                row.addEventListener('mouseup', cancelPress);
-                row.addEventListener('mouseleave', cancelPress);
-            });
-        }
-
         function openContextSheet(key, title) {
             activeContextKey = key;
-            document.getElementById('contextItemTitle').innerText = title;
-            document.getElementById('contextSheetOverlay').classList.add('active');
-            if(typeof lucide !== 'undefined') lucide.createIcons();
+            const titleEl = document.getElementById('contextItemTitle');
+            if (titleEl) titleEl.innerText = title || '';
+            const overlay = document.getElementById('contextSheetOverlay');
+            if (overlay) overlay.classList.add('active');
         }
 
-        function closeContextSheet(e) {
-            document.getElementById('contextSheetOverlay').classList.remove('active');
+        function closeContextSheet() {
+            const overlay = document.getElementById('contextSheetOverlay');
+            if (overlay) overlay.classList.remove('active');
             activeContextKey = null;
-            setTimeout(() => { isLongPressTriggered = false; }, 100);
         }
 
         function applyItemStyle(action, value) {
@@ -1136,7 +1113,9 @@
                 savedItemMarks[activeContextKey].star = !savedItemMarks[activeContextKey].star;
             }
 
-            localStorage.setItem(META_STORAGE_KEY, JSON.stringify(savedItemMarks));
+            try {
+                localStorage.setItem(META_STORAGE_KEY, JSON.stringify(savedItemMarks));
+            } catch(e) {}
             refreshCurrentViewMarks();
             closeContextSheet();
         }
@@ -1174,6 +1153,97 @@
             return { extraClasses, badgesHTML };
         }
 
+        /* Dedicated Touch & Mouse Long-Press Handler */
+        function bindInteractiveRows(containerEl) {
+            if (!containerEl) return;
+            const rows = containerEl.querySelectorAll('.topic-row');
+            rows.forEach(row => {
+                let holdTimer = null;
+                let startX = 0, startY = 0;
+                let isLongPress = false;
+
+                const key = row.getAttribute('data-item-key');
+                const title = row.getAttribute('data-item-title');
+
+                const startHold = (x, y) => {
+                    isLongPress = false;
+                    startX = x;
+                    startY = y;
+                    if (holdTimer) clearTimeout(holdTimer);
+                    holdTimer = setTimeout(() => {
+                        isLongPress = true;
+                        row.classList.add('pressing-hold');
+                        try { if (navigator.vibrate) navigator.vibrate(45); } catch(e){}
+                        openContextSheet(key, title);
+                        setTimeout(() => row.classList.remove('pressing-hold'), 200);
+                    }, 420);
+                };
+
+                const moveHold = (x, y) => {
+                    if (!holdTimer) return;
+                    if (Math.abs(x - startX) > 15 || Math.abs(y - startY) > 15) {
+                        clearTimeout(holdTimer);
+                        holdTimer = null;
+                        row.classList.remove('pressing-hold');
+                    }
+                };
+
+                const endHold = () => {
+                    if (holdTimer) {
+                        clearTimeout(holdTimer);
+                        holdTimer = null;
+                    }
+                    row.classList.remove('pressing-hold');
+                };
+
+                // Mobile Touch Events
+                row.addEventListener('touchstart', (e) => {
+                    if (e.touches.length === 1) {
+                        startHold(e.touches[0].clientX, e.touches[0].clientY);
+                    }
+                }, { passive: true });
+
+                row.addEventListener('touchmove', (e) => {
+                    if (e.touches.length === 1) {
+                        moveHold(e.touches[0].clientX, e.touches[0].clientY);
+                    }
+                }, { passive: true });
+
+                row.addEventListener('touchend', endHold);
+                row.addEventListener('touchcancel', endHold);
+
+                // Desktop Mouse Events
+                row.addEventListener('mousedown', (e) => {
+                    if (e.button === 0) startHold(e.clientX, e.clientY);
+                });
+                row.addEventListener('mousemove', (e) => moveHold(e.clientX, e.clientY));
+                row.addEventListener('mouseup', endHold);
+                row.addEventListener('mouseleave', endHold);
+
+                // Normal Tap Action
+                row.addEventListener('click', (e) => {
+                    if (isLongPress) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        isLongPress = false;
+                        return;
+                    }
+                    const actionType = row.getAttribute('data-action-type');
+                    const idx = parseInt(row.getAttribute('data-idx'), 10);
+
+                    if (actionType === 'chapter') {
+                        openChapterByIndex(idx);
+                    } else if (actionType === 'topic-group') {
+                        openTopicGroupByIndex(idx);
+                    } else if (actionType === 'subtopic-item') {
+                        openSubtopicItemByIndex(idx);
+                    } else if (actionType === 'search-item') {
+                        openSearchItemByIndex(idx);
+                    }
+                });
+            });
+        }
+
         /* GOOGLE SHEETS CSV URLS */
         const DB_URLS = {
             math: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWvEMlB8yjZ96rWKGPmXIevhTjaFZ_SuLb_42IGHdRNAcljvveIJAPnSHlz13tu6wyr1X8D3lYUxJm/pub?gid=566628590&single=true&output=csv',
@@ -1185,6 +1255,12 @@
 
         let currentSubject = '';
         let rawData = [], groupedChapters = {}, currentViewState = 'dashboard';
+        let currentChapterList = [];
+        let currentTopicKeys = [];
+        let currentTopicsMap = {};
+        let activeChapterName = '';
+        let currentSubtopicItems = [];
+        let currentSearchResults = [];
 
         function toggleQuickMenu() {
             const menu = document.getElementById('quickMenu');
@@ -1257,7 +1333,7 @@
                     try { history.pushState({view: 'dashboard', sub: subject}, '', `#${subject}`); } catch(e){}
                     loadDataForSubject();
                 }
-                setTimeout(() => { if(typeof lucide !== 'undefined') lucide.createIcons(); }, 350);
+                setTimeout(refreshIcons, 350);
             } catch(e) {}
         }
 
@@ -1308,16 +1384,15 @@
             const loader = document.getElementById('loader');
             const viewDash = document.getElementById('view-dashboard');
             const cacheKey = 'bilas_academy_cache_' + currentSubject;
-            const cachedData = localStorage.getItem(cacheKey);
+            let cachedData = null;
+            try { cachedData = localStorage.getItem(cacheKey); } catch(e){}
 
             if (cachedData) {
                 try {
                     rawData = JSON.parse(cachedData);
                     processData();
                     if(loader) { loader.classList.remove('flex'); loader.classList.add('hidden'); }
-                } catch(e) {
-                    console.error("Cache parsing error:", e);
-                }
+                } catch(e) {}
             } else {
                 if(viewDash) viewDash.innerHTML = '';
                 if(loader) { loader.classList.remove('hidden'); loader.classList.add('flex'); }
@@ -1368,10 +1443,11 @@
             }
 
             const newJson = JSON.stringify(tempData);
-            const oldJson = cacheKey ? localStorage.getItem(cacheKey) : null;
+            let oldJson = null;
+            try { oldJson = cacheKey ? localStorage.getItem(cacheKey) : null; } catch(e){}
 
             if (newJson !== oldJson) {
-                if(cacheKey) localStorage.setItem(cacheKey, newJson);
+                try { if(cacheKey) localStorage.setItem(cacheKey, newJson); } catch(e){}
                 rawData = tempData;
                 if (currentViewState === 'dashboard') {
                     processData();
@@ -1389,147 +1465,171 @@
             renderDashboard();
         }
 
+        /* 📋 Clean Rendering Without ⋮ or > Buttons */
         function renderDashboard(list = null) {
             const container = document.getElementById('view-dashboard');
             if(!container) return;
             container.innerHTML = '';
+
             if (list) {
-                if(list.length === 0) container.innerHTML = `<p class="text-center mt-10 opacity-50 italic">কিছু পাওয়া যায়নি!</p>`;
-                list.forEach(item => {
-                    const data = encodeURIComponent(JSON.stringify(item));
+                currentSearchResults = list;
+                if(list.length === 0) {
+                    container.innerHTML = `<p class="text-center mt-10 opacity-50 italic">কিছু পাওয়া যায়নি!</p>`;
+                    return;
+                }
+                let html = '';
+                list.forEach((item, idx) => {
                     const displayName = item.Subtopic ? `${item.Topic} ▸ ${item.Subtopic}` : item.Topic;
                     const itemKey = getItemKey('topic', displayName);
                     const { extraClasses, badgesHTML } = buildRowClassesAndBadges(itemKey);
 
-                    container.innerHTML += `<div onclick="if(!isLongPressTriggered) openViewer('${data}')" data-item-key="${itemKey}" data-item-title="${displayName}" class="topic-row${extraClasses}">
+                    html += `<div data-action-type="search-item" data-idx="${idx}" data-item-key="${itemKey}" data-item-title="${displayName}" class="topic-row${extraClasses}">
                         <div class="topic-title-wrapper">
                             <div class="topic-icon-box">
                                 <i data-lucide="file-text" class="w-4 h-4" style="color: var(--toc-accent);"></i>
                             </div>
                             <h4 class="topic-title">${displayName}</h4>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <div class="item-status-badges flex items-center gap-1">${badgesHTML}</div>
-                            <i data-lucide="chevron-right" class="w-4 h-4 opacity-40"></i>
-                        </div>
+                        <div class="item-status-badges flex items-center gap-1">${badgesHTML}</div>
                     </div>`;
                 });
+                container.innerHTML = html;
             } else {
-                Object.keys(groupedChapters).forEach(name => {
+                currentChapterList = Object.keys(groupedChapters);
+                let html = '';
+                currentChapterList.forEach((name, idx) => {
                     const itemKey = getItemKey('chapter', name);
                     const { extraClasses, badgesHTML } = buildRowClassesAndBadges(itemKey);
 
-                    container.innerHTML += `
-                        <div onclick="if(!isLongPressTriggered) openChapter('${name}')" data-item-key="${itemKey}" data-item-title="${name}" class="topic-row${extraClasses}">
-                            <div class="topic-title-wrapper">
-                                <div class="topic-icon-box">
-                                    <i data-lucide="folder" class="w-5 h-5" style="color: var(--toc-accent);"></i>
-                                </div>
-                                <h3 class="topic-title">${name}</h3>
+                    html += `<div data-action-type="chapter" data-idx="${idx}" data-item-key="${itemKey}" data-item-title="${name}" class="topic-row${extraClasses}">
+                        <div class="topic-title-wrapper">
+                            <div class="topic-icon-box">
+                                <i data-lucide="folder" class="w-5 h-5" style="color: var(--toc-accent);"></i>
                             </div>
-                            <div class="flex items-center gap-2">
-                                <div class="item-status-badges flex items-center gap-1">${badgesHTML}</div>
-                                <i data-lucide="chevron-right" class="w-4 h-4 opacity-40"></i>
-                            </div>
-                        </div>`;
+                            <h3 class="topic-title">${name}</h3>
+                        </div>
+                        <div class="item-status-badges flex items-center gap-1">${badgesHTML}</div>
+                    </div>`;
                 });
+                container.innerHTML = html;
             }
-            if(typeof lucide !== 'undefined') lucide.createIcons();
-            attachLongPressListeners();
+
+            refreshIcons();
+            bindInteractiveRows(container);
         }
 
-        function openChapter(chapterName) {
-            try { history.pushState({view: 'topics', chapter: chapterName, sub: currentSubject}, '', '#'+chapterName); } catch(e){}
+        function openChapterByIndex(idx) {
+            const chapterName = currentChapterList[idx];
+            if (!chapterName) return;
+            openChapter(chapterName);
+        }
+
+        function openSearchItemByIndex(idx) {
+            const item = currentSearchResults[idx];
+            if (!item) return;
+            openViewerObj(item);
+        }
+
+        function openChapter(chapterName, isFromHistory = false) {
+            activeChapterName = chapterName;
+            if (!isFromHistory) {
+                try { history.pushState({view: 'topics', chapter: chapterName, sub: currentSubject}, '', '#topics'); } catch(e){}
+            }
             performPageFlip('view-topics', () => {
                 const heading = document.getElementById('chapterHeading');
                 if(heading) heading.innerText = chapterName;
                 const list = document.getElementById('topicList');
                 if(list) {
                     list.innerHTML = '';
-                    let chapterItems = rawData.filter(i => i.Chapter === chapterName);
+                    let chapterItems = rawData.filter(i => (i.Chapter || 'অন্যান্য') === chapterName);
                     
-                    let topicsInChapter = {};
+                    currentTopicsMap = {};
                     chapterItems.forEach(item => {
                         const t = item.Topic || 'অজানা টপিক';
-                        if(!topicsInChapter[t]) topicsInChapter[t] = [];
-                        topicsInChapter[t].push(item);
+                        if(!currentTopicsMap[t]) currentTopicsMap[t] = [];
+                        currentTopicsMap[t].push(item);
                     });
                     
-                    Object.keys(topicsInChapter).forEach(topicName => {
-                        const items = topicsInChapter[topicName];
+                    currentTopicKeys = Object.keys(currentTopicsMap);
+                    let html = '';
+
+                    currentTopicKeys.forEach((topicName, idx) => {
+                        const items = currentTopicsMap[topicName];
                         const itemKey = getItemKey('topic', `${chapterName}_${topicName}`);
                         const { extraClasses, badgesHTML } = buildRowClassesAndBadges(itemKey);
+                        const hasSub = items.some(i => i.Subtopic && i.Subtopic.trim() !== "");
 
-                        if(items.some(i => i.Subtopic && i.Subtopic.trim() !== "")) {
-                            list.innerHTML += `<div onclick="if(!isLongPressTriggered) openSubtopicView('${chapterName}', '${topicName}')" data-item-key="${itemKey}" data-item-title="${topicName}" class="topic-row${extraClasses}">
-                                <div class="topic-title-wrapper">
-                                    <div class="topic-icon-box">
-                                        <i data-lucide="layers" class="w-4 h-4" style="color: var(--toc-accent);"></i>
-                                    </div>
-                                    <h4 class="topic-title">${topicName}</h4>
+                        html += `<div data-action-type="topic-group" data-idx="${idx}" data-item-key="${itemKey}" data-item-title="${topicName}" class="topic-row${extraClasses}">
+                            <div class="topic-title-wrapper">
+                                <div class="topic-icon-box">
+                                    <i data-lucide="${hasSub ? 'layers' : 'file-text'}" class="w-4 h-4" style="color: var(--toc-accent);"></i>
                                 </div>
-                                <div class="flex items-center gap-2">
-                                    <div class="item-status-badges flex items-center gap-1">${badgesHTML}</div>
-                                    <i data-lucide="chevron-right" class="w-4 h-4 opacity-40"></i>
-                                </div>
-                            </div>`;
-                        } else {
-                            const data = encodeURIComponent(JSON.stringify(items[0]));
-                            list.innerHTML += `<div onclick="if(!isLongPressTriggered) openViewer('${data}')" data-item-key="${itemKey}" data-item-title="${topicName}" class="topic-row${extraClasses}">
-                                <div class="topic-title-wrapper">
-                                    <div class="topic-icon-box">
-                                        <i data-lucide="file-text" class="w-4 h-4" style="color: var(--toc-accent);"></i>
-                                    </div>
-                                    <h4 class="topic-title">${topicName}</h4>
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <div class="item-status-badges flex items-center gap-1">${badgesHTML}</div>
-                                    <i data-lucide="arrow-right" class="w-4 h-4 opacity-40"></i>
-                                </div>
-                            </div>`;
-                        }
+                                <h4 class="topic-title">${topicName}</h4>
+                            </div>
+                            <div class="item-status-badges flex items-center gap-1">${badgesHTML}</div>
+                        </div>`;
                     });
-                    attachLongPressListeners();
+
+                    list.innerHTML = html;
+                    refreshIcons();
+                    bindInteractiveRows(list);
                 }
             });
         }
 
-        function openSubtopicView(chapterName, topicName) {
-            try { history.pushState({view: 'subtopics', chapter: chapterName, topic: topicName, sub: currentSubject}, '', '#subtopics'); } catch(e){}
+        function openTopicGroupByIndex(idx) {
+            const topicName = currentTopicKeys[idx];
+            if (!topicName) return;
+            const items = currentTopicsMap[topicName] || [];
+            if (items.some(i => i.Subtopic && i.Subtopic.trim() !== "")) {
+                openSubtopicView(activeChapterName, topicName);
+            } else if (items.length > 0) {
+                openViewerObj(items[0]);
+            }
+        }
+
+        function openSubtopicView(chapterName, topicName, isFromHistory = false) {
+            if (!isFromHistory) {
+                try { history.pushState({view: 'subtopics', chapter: chapterName, topic: topicName, sub: currentSubject}, '', '#subtopics'); } catch(e){}
+            }
             performPageFlip('view-subtopics', () => {
                 const heading = document.getElementById('subtopicHeading');
                 if(heading) heading.innerText = topicName;
                 const list = document.getElementById('subtopicList');
                 if(list) {
                     list.innerHTML = '';
-                    let items = rawData.filter(i => i.Chapter === chapterName && i.Topic === topicName);
+                    currentSubtopicItems = rawData.filter(i => (i.Chapter || 'অন্যান্য') === chapterName && i.Topic === topicName);
                     
-                    items.forEach(item => {
+                    let html = '';
+                    currentSubtopicItems.forEach((item, idx) => {
                         const subName = item.Subtopic || 'নোট';
-                        const data = encodeURIComponent(JSON.stringify(item));
                         const itemKey = getItemKey('subtopic', `${chapterName}_${topicName}_${subName}`);
                         const { extraClasses, badgesHTML } = buildRowClassesAndBadges(itemKey);
 
-                        list.innerHTML += `<div onclick="if(!isLongPressTriggered) openViewer('${data}')" data-item-key="${itemKey}" data-item-title="${subName}" class="topic-row${extraClasses}">
+                        html += `<div data-action-type="subtopic-item" data-idx="${idx}" data-item-key="${itemKey}" data-item-title="${subName}" class="topic-row${extraClasses}">
                             <div class="topic-title-wrapper">
                                 <div class="topic-icon-box">
                                     <i data-lucide="bookmark-check" class="w-4 h-4" style="color: var(--toc-accent);"></i>
                                 </div>
                                 <h4 class="topic-title">${subName}</h4>
                             </div>
-                            <div class="flex items-center gap-2">
-                                <div class="item-status-badges flex items-center gap-1">${badgesHTML}</div>
-                                <i data-lucide="arrow-right" class="w-4 h-4 opacity-40"></i>
-                            </div>
+                            <div class="item-status-badges flex items-center gap-1">${badgesHTML}</div>
                         </div>`;
                     });
-                    attachLongPressListeners();
+                    list.innerHTML = html;
+                    refreshIcons();
+                    bindInteractiveRows(list);
                 }
             });
         }
 
-        function openViewer(jsonStr) {
-            const item = JSON.parse(decodeURIComponent(jsonStr));
+        function openSubtopicItemByIndex(idx) {
+            const item = currentSubtopicItems[idx];
+            if (!item) return;
+            openViewerObj(item);
+        }
+
+        function openViewerObj(item) {
             let link = item.ImageLink || item.Video_Link || "";
             
             if (link.endsWith('.html') || (link.startsWith('http') && !link.includes('drive.google.com') && !link.includes('youtube.com'))) {
@@ -1537,7 +1637,7 @@
                 return;
             }
 
-            try { history.pushState({view: 'image', topic: item, sub: currentSubject}, '', '#topic'); } catch(e){}
+            try { history.pushState({view: 'image', topic: item, sub: currentSubject}, '', '#note'); } catch(e){}
             performPageFlip('view-image', () => {
                 const title = document.getElementById('imageTitle');
                 if(title) title.innerText = item.Subtopic ? `${item.Topic} ▸ ${item.Subtopic}` : (item.Topic || "");
@@ -1558,18 +1658,18 @@
                     let links = (item.ImageLink || "").split(/[,|\s]+/).map(l => l.trim()).filter(l => l);
                     
                     if(links.length > 0) {
-                        links.forEach((link) => {
-                            let previewLink = link;
+                        links.forEach((lnk) => {
+                            let previewLink = lnk;
                             let driveFileId = '';
-                            if(link.includes('drive.google.com')) {
-                                const match = link.match(/[-\w]{25,}/);
+                            if(lnk.includes('drive.google.com')) {
+                                const match = lnk.match(/[-\w]{25,}/);
                                 if(match) {
                                     driveFileId = match[0];
                                     previewLink = `https://drive.google.com/file/d/${driveFileId}/preview`;
                                 }
                             }
                             
-                            const encodedLink = encodeURIComponent(link);
+                            const encodedLink = encodeURIComponent(lnk);
                             container.innerHTML += `
                             <div class="taped-photo" onclick="openFullImage('${encodedLink}')">
                                 <div class="absolute inset-0 z-30 flex items-start justify-end p-3 pointer-events-none">
@@ -1637,90 +1737,10 @@
                 performPageFlip('view-dashboard', renderDashboard, true);
             } 
             else if (state === 'topics') {
-                const chapterName = event.state.chapter;
-                performPageFlip('view-topics', () => {
-                    const heading = document.getElementById('chapterHeading');
-                    if(heading) heading.innerText = chapterName;
-                    const list = document.getElementById('topicList');
-                    if(list) {
-                        list.innerHTML = '';
-                        let chapterItems = rawData.filter(i => i.Chapter === chapterName);
-                        let topicsInChapter = {};
-                        chapterItems.forEach(item => {
-                            const t = item.Topic || 'অজানা টপিক';
-                            if(!topicsInChapter[t]) topicsInChapter[t] = [];
-                            topicsInChapter[t].push(item);
-                        });
-                        Object.keys(topicsInChapter).forEach(topicName => {
-                            const items = topicsInChapter[topicName];
-                            const itemKey = getItemKey('topic', `${chapterName}_${topicName}`);
-                            const { extraClasses, badgesHTML } = buildRowClassesAndBadges(itemKey);
-
-                            if(items.some(i => i.Subtopic && i.Subtopic.trim() !== "")) {
-                                list.innerHTML += `<div onclick="if(!isLongPressTriggered) openSubtopicView('${chapterName}', '${topicName}')" data-item-key="${itemKey}" data-item-title="${topicName}" class="topic-row${extraClasses}">
-                                    <div class="topic-title-wrapper">
-                                        <div class="topic-icon-box">
-                                            <i data-lucide="layers" class="w-4 h-4" style="color: var(--toc-accent);"></i>
-                                        </div>
-                                        <h4 class="topic-title">${topicName}</h4>
-                                    </div>
-                                    <div class="flex items-center gap-2">
-                                        <div class="item-status-badges flex items-center gap-1">${badgesHTML}</div>
-                                        <i data-lucide="chevron-right" class="w-4 h-4 opacity-40"></i>
-                                    </div>
-                                </div>`;
-                            } else {
-                                const data = encodeURIComponent(JSON.stringify(items[0]));
-                                list.innerHTML += `<div onclick="if(!isLongPressTriggered) openViewer('${data}')" data-item-key="${itemKey}" data-item-title="${topicName}" class="topic-row${extraClasses}">
-                                    <div class="topic-title-wrapper">
-                                        <div class="topic-icon-box">
-                                            <i data-lucide="file-text" class="w-4 h-4" style="color: var(--toc-accent);"></i>
-                                        </div>
-                                        <h4 class="topic-title">${topicName}</h4>
-                                    </div>
-                                    <div class="flex items-center gap-2">
-                                        <div class="item-status-badges flex items-center gap-1">${badgesHTML}</div>
-                                        <i data-lucide="arrow-right" class="w-4 h-4 opacity-40"></i>
-                                    </div>
-                                </div>`;
-                            }
-                        });
-                        attachLongPressListeners();
-                    }
-                }, true);
+                openChapter(event.state.chapter, true);
             }
             else if (state === 'subtopics') {
-                const chapterName = event.state.chapter;
-                const topicName = event.state.topic;
-                performPageFlip('view-subtopics', () => {
-                    const heading = document.getElementById('subtopicHeading');
-                    if(heading) heading.innerText = topicName;
-                    const list = document.getElementById('subtopicList');
-                    if(list) {
-                        list.innerHTML = '';
-                        let items = rawData.filter(i => i.Chapter === chapterName && i.Topic === topicName);
-                        items.forEach(item => {
-                            const subName = item.Subtopic || 'নোট';
-                            const data = encodeURIComponent(JSON.stringify(item));
-                            const itemKey = getItemKey('subtopic', `${chapterName}_${topicName}_${subName}`);
-                            const { extraClasses, badgesHTML } = buildRowClassesAndBadges(itemKey);
-
-                            list.innerHTML += `<div onclick="if(!isLongPressTriggered) openViewer('${data}')" data-item-key="${itemKey}" data-item-title="${subName}" class="topic-row${extraClasses}">
-                                <div class="topic-title-wrapper">
-                                    <div class="topic-icon-box">
-                                        <i data-lucide="bookmark-check" class="w-4 h-4" style="color: var(--toc-accent);"></i>
-                                    </div>
-                                    <h4 class="topic-title">${subName}</h4>
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <div class="item-status-badges flex items-center gap-1">${badgesHTML}</div>
-                                    <i data-lucide="arrow-right" class="w-4 h-4 opacity-40"></i>
-                                </div>
-                            </div>`;
-                        });
-                        attachLongPressListeners();
-                    }
-                }, true);
+                openSubtopicView(event.state.chapter, event.state.topic, true);
             }
         });
 
@@ -1750,7 +1770,7 @@
             const target = document.getElementById(targetViewId);
             if(target) target.classList.remove('hidden');
             currentViewState = targetViewId.replace('view-', '');
-            lucide.createIcons();
+            refreshIcons();
         }
 
         /* 🔍 ULTRA-SMOOTH PINCH TO ZOOM & PAN ENGINE */
@@ -1905,7 +1925,7 @@
             }
             
             if(viewer) viewer.style.display = 'flex';
-            if(typeof lucide !== 'undefined') lucide.createIcons();
+            refreshIcons();
         }
 
         function closeFullImage() { history.back(); }
@@ -1927,7 +1947,7 @@
             else { performPageFlip('view-dashboard', () => renderDashboard(res), true); }
         }
 
-        window.onload = () => { if(typeof lucide !== 'undefined') lucide.createIcons(); try { history.replaceState({view: 'hub'}, '', '#hub'); } catch(e){} };
+        window.onload = () => { refreshIcons(); try { history.replaceState({view: 'hub'}, '', '#hub'); } catch(e){} };
     </script>
 </body>
 </html>
