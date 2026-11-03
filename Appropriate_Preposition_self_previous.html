@@ -275,29 +275,37 @@
             </div>
         </div>
 
-        <!-- 2. DETAILS / CATEGORY VIEW -->
+        <!-- 2. DETAILS / CATEGORY VIEW (Question Wise Toggle বাটন যুক্ত) -->
         <div id="detailsView" class="view-section">
             <header>
                 <div class="header-icon" onclick="switchView('homeView')">
                     <i class="fa-solid fa-chevron-left"></i>
                 </div>
-                <div class="logo" style="text-align: right;">
+                <div class="logo" style="text-align: center; flex: 1;">
                     <h1 id="categoryTitle" style="text-transform: uppercase;">Category</h1>
-                    <p>কার্ডে ট্যাপ করে বাক্য দেখুন</p>
+                    <p id="categorySubTitle">কার্ডে ট্যাপ করে বাক্য দেখুন</p>
+                </div>
+                <div class="header-icon" id="toggleQuestionModeBtn" title="Question Mode পরিবর্তন করুন" onclick="toggleDetailsViewMode()">
+                    <i class="fa-solid fa-pen-to-square"></i>
                 </div>
             </header>
             <div class="content-area" id="dataList"></div>
         </div>
 
-        <!-- 3. PRACTICE TAB -->
+        <!-- 3. PRACTICE TAB (Header-এ A-Z Preposition সাজানোর বাটন যুক্ত) -->
         <div id="practiceView" class="view-section">
             <header>
                 <div class="logo">
                     <h1>Fill in the Blank</h1>
                     <p>প্র্যাকটিস টেস্ট</p>
                 </div>
-                <div class="header-icon" title="এলোমেলো (Shuffle) করুন" onclick="shufflePracticeList()">
-                    <i class="fa-solid fa-shuffle"></i>
+                <div style="display: flex; gap: 8px;">
+                    <div class="header-icon" title="A to Z Preposition সাজান" onclick="sortPracticeByPrepAtoZ()">
+                        <i class="fa-solid fa-arrow-down-a-z"></i>
+                    </div>
+                    <div class="header-icon" title="এলোমেলো (Shuffle) করুন" onclick="shufflePracticeList()">
+                        <i class="fa-solid fa-shuffle"></i>
+                    </div>
                 </div>
             </header>
             <div class="content-area" id="practiceList"></div>
@@ -339,13 +347,9 @@
         </div>
     </div>
 
-
-
     <script>
-        // আপনার সম্পূর্ণ ৮৮০+ ডেটাবেজ (const db = [...];) এখানে বসবে।
-
         // ----------------------------------------------------
-        // DATABASE (আপনার সম্পূর্ণ ৮৮০+ ডেটাবেজ এখানে বসিয়ে দিন)
+        // DATABASE (আপনার ৮৮০+ ডেটাবেজ এখানে বসিয়ে দিন)
         // ----------------------------------------------------
         const db = [
     { id: 1, bookNo: "142:b", phrase: "About to", targetPrep: "to", pron: "অ্যাবাউট টু", meaning: "প্রায় উপক্রম হওয়া (মরো মরো অবস্থা)", sentence: "He is about to die.", trans: "সে প্রায় মৃতপ্রায় বা মরো মরো অবস্থা।" },
@@ -1228,10 +1232,9 @@
     { id: 878, bookNo: "2:e", phrase: "Hanker after", targetPrep: "after", pron: "হ্যাংকার আফটার", meaning: "পিছনে ছোটা", sentence: "He hankers after pride.", trans: "সে অহংকারের পেছনে ছোটে।" },
     { id: 879, bookNo: "25:d", phrase: "Hankers after", targetPrep: "after", pron: "হ্যাংকার্স আফটার", meaning: "পিছনে ছোটা", sentence: "An honest man never hankers after riches.", trans: "একজন সৎ মানুষ কখনো ধন-সম্পদের পেছনে diliছায় না।" },
     { id: 880, bookNo: "83:e", phrase: "Look after", targetPrep: "after", pron: "লুক আফটার", meaning: "দেখাশোনা করা", sentence: "There is none to look after her.", trans: "তার দেখাশোনা করারএই ধরনের কিছু করার জন্য আমায় প্রোগ্রাম করা হয়নি।" }
-    ];
+   ];
 
-
-      const categories = [
+        const categories = [
             { name: "to", icon: "fa-arrow-right" }, { name: "of", icon: "fa-share-nodes" },
             { name: "for", icon: "fa-heart" }, { name: "in", icon: "fa-box-open" },
             { name: "at", icon: "fa-map-pin" }, { name: "with", icon: "fa-handshake" },
@@ -1245,6 +1248,8 @@
 
         let favorites = JSON.parse(localStorage.getItem('bacademy_favs')) || [];
         let practiceData = null;
+        let currentDetailsData = [];
+        let isDetailsQuestionMode = false;
 
         // Build Home Categories
         const grid = document.getElementById('cardGrid');
@@ -1327,12 +1332,14 @@
             container.innerHTML = html;
         }
 
+        // Category / Details View Controller
         function openCategoryList(categoryName) {
             let filtered = [];
+            isDetailsQuestionMode = false;
+            updateQuestionModeButton();
             
             if(categoryName === "ALL") {
                 document.getElementById('categoryTitle').innerText = "All (A - Z)";
-                // Sobgulo data ke A theke Z onujayi sort kora
                 filtered = [...db].sort((a, b) => a.phrase.localeCompare(b.phrase, 'en', { sensitivity: 'base' }));
             } else if(categoryName === "Mixed") {
                 document.getElementById('categoryTitle').innerText = "Mixed";
@@ -1345,49 +1352,57 @@
                 });
             }
 
-            renderList('dataList', filtered, `এই ক্যাটাগরিতে কোনো ডেটা নেই।`);
+            currentDetailsData = filtered;
+            renderDetailsCurrentMode();
             switchView('detailsView');
         }
 
-        function openFavoritesView() {
-            const favData = db.filter(item => favorites.includes(item.id));
-            renderList('favoritesList', favData, `আপনার নোটবুকে কোনো প্রিপজিশন সেভ করা নেই।`);
-            switchView('favoritesView');
-        }
-
-        // --- PRACTICE ENGINE WITH PERSISTENT SHUFFLE ---
-        function loadSavedPracticeOrder() {
-            const savedOrderIds = JSON.parse(localStorage.getItem('bacademy_practice_order'));
-            if (savedOrderIds && Array.isArray(savedOrderIds) && savedOrderIds.length > 0) {
-                const dbMap = new Map(db.map(item => [item.id, item]));
-                practiceData = savedOrderIds.map(id => dbMap.get(id)).filter(Boolean);
-                if (practiceData.length !== db.length) practiceData = [...db];
+        // Toggle Details Question Mode (Blank Question)
+        function toggleDetailsViewMode() {
+            isDetailsQuestionMode = !isDetailsQuestionMode;
+            updateQuestionModeButton();
+            renderDetailsCurrentMode();
+            
+            if (isDetailsQuestionMode) {
+                showToast("Question Mode চালু হয়েছে! ✍️", "#2dd4bf");
             } else {
-                practiceData = [...db];
+                showToast("Standard Mode চালু হয়েছে! 📖", "#38bdf8");
             }
         }
 
-        function openPracticeView() {
-            switchView('practiceView');
-            if (!practiceData) {
-                loadSavedPracticeOrder();
-                renderPracticeList();
+        function updateQuestionModeButton() {
+            const btn = document.getElementById('toggleQuestionModeBtn');
+            const subTitle = document.getElementById('categorySubTitle');
+            if (isDetailsQuestionMode) {
+                btn.innerHTML = `<i class="fa-solid fa-book-open"></i>`;
+                btn.style.color = "var(--mint-green)";
+                subTitle.innerText = "ট্যাপ করে উত্তর দেখুন";
+            } else {
+                btn.innerHTML = `<i class="fa-solid fa-pen-to-square"></i>`;
+                btn.style.color = "#e2e8f0";
+                subTitle.innerText = "কার্ডে ট্যাপ করে বাক্য দেখুন";
             }
         }
 
-        function shufflePracticeList() {
-            practiceData = [...db].sort(() => Math.random() - 0.5);
-            localStorage.setItem('bacademy_practice_order', JSON.stringify(practiceData.map(i => i.id)));
-            renderPracticeList();
-            showToast("তালিকা এলোমেলো ও সংরক্ষিত হয়েছে! 🔀", "#2dd4bf");
+        function renderDetailsCurrentMode() {
+            if (!isDetailsQuestionMode) {
+                renderList('dataList', currentDetailsData, `এই ক্যাটাগরিতে কোনো ডেটা নেই।`);
+            } else {
+                renderQuestionList('dataList', currentDetailsData, `এই ক্যাটাগরিতে কোনো ডেটা নেই।`);
+            }
         }
 
-        function renderPracticeList() {
-            const container = document.getElementById('practiceList');
+        // Question Wise Card Rendering Function
+        function renderQuestionList(containerId, dataArray, emptyMsg) {
+            const container = document.getElementById(containerId);
             container.innerHTML = '';
-            const fragment = document.createDocumentFragment();
+            if(dataArray.length === 0) {
+                container.innerHTML = `<p style="text-align:center; opacity:0.5; margin-top:40px;">${emptyMsg}</p>`;
+                return;
+            }
 
-            practiceData.forEach((item, index) => {
+            const fragment = document.createDocumentFragment();
+            dataArray.forEach((item, index) => {
                 let ans = item.targetPrep === "Mixed" ? item.phrase.split(' ')[0] : item.targetPrep;
                 let targetWordRegex = new RegExp(`\\b${ans}\\b`, "i");
                 
@@ -1423,6 +1438,61 @@
                 fragment.appendChild(card);
             });
             container.appendChild(fragment);
+        }
+
+        function openFavoritesView() {
+            const favData = db.filter(item => favorites.includes(item.id));
+            renderList('favoritesList', favData, `আপনার নোটবুকে কোনো প্রিপজিশন সেভ করা নেই।`);
+            switchView('favoritesView');
+        }
+
+        // --- PRACTICE ENGINE WITH PERSISTENT SHUFFLE & A-Z SORT ---
+        function loadSavedPracticeOrder() {
+            const savedOrderIds = JSON.parse(localStorage.getItem('bacademy_practice_order'));
+            if (savedOrderIds && Array.isArray(savedOrderIds) && savedOrderIds.length > 0) {
+                const dbMap = new Map(db.map(item => [item.id, item]));
+                practiceData = savedOrderIds.map(id => dbMap.get(id)).filter(Boolean);
+                if (practiceData.length !== db.length) practiceData = [...db];
+            } else {
+                practiceData = [...db];
+            }
+        }
+
+        function openPracticeView() {
+            switchView('practiceView');
+            if (!practiceData) {
+                loadSavedPracticeOrder();
+                renderPracticeList();
+            }
+        }
+
+        function shufflePracticeList() {
+            practiceData = [...db].sort(() => Math.random() - 0.5);
+            localStorage.setItem('bacademy_practice_order', JSON.stringify(practiceData.map(i => i.id)));
+            renderPracticeList();
+            showToast("তালিকা এলোমেলো ও সংরক্ষিত হয়েছে! 🔀", "#2dd4bf");
+        }
+
+        // Preposition wise A to Z sort korar function
+        function sortPracticeByPrepAtoZ() {
+            practiceData = [...db].sort((a, b) => {
+                const prepA = (a.targetPrep || '').toLowerCase();
+                const prepB = (b.targetPrep || '').toLowerCase();
+                const prepCompare = prepA.localeCompare(prepB, 'en', { sensitivity: 'base' });
+                
+                if (prepCompare === 0) {
+                    return (a.phrase || '').localeCompare(b.phrase || '', 'en', { sensitivity: 'base' });
+                }
+                return prepCompare;
+            });
+
+            localStorage.setItem('bacademy_practice_order', JSON.stringify(practiceData.map(i => i.id)));
+            renderPracticeList();
+            showToast("Preposition অনুযায়ী A-Z সাজানো হয়েছে! 🔤", "#38bdf8");
+        }
+
+        function renderPracticeList() {
+            renderQuestionList('practiceList', practiceData, `কোনো প্র্যাকটিস আইটেম নেই।`);
         }
 
         function triggerPracticeFlip(cardEl, answerText) {
