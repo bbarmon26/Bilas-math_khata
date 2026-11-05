@@ -4838,7 +4838,19 @@
     }
 
             
-        ];
+       ];
+
+        // --- Auto Duplicate Remover (Same question bar bar thakle auto bad jabe) ---
+        const seenQuestions = new Set();
+        const uniqueVoiceDb = voiceDb.filter(item => {
+            // Choto-boro hater lekhagulo same hishebe dhorar jonno lowercase kora holo
+            const cleanQ = item.question.trim().toLowerCase();
+            if (seenQuestions.has(cleanQ)) {
+                return false; // Age ashle duplicate hishebe bad jabe
+            }
+            seenQuestions.add(cleanQ);
+            return true;
+        });
 
         let currentMode = 'study';
         let favorites = JSON.parse(localStorage.getItem('bacademy_voice_favs')) || [];
@@ -4854,7 +4866,7 @@
             document.getElementById('btnShuffle').style.display = (mode === 'practice') ? 'flex' : 'none';
 
             if(mode === 'practice' && !practiceList) {
-                practiceList = [...voiceDb];
+                practiceList = [...uniqueVoiceDb].sort((a, b) => a.question.localeCompare(b.question, undefined, { sensitivity: 'base' }));
             }
 
             renderVoiceCards();
@@ -4862,7 +4874,7 @@
         }
 
         function shufflePracticeData() {
-            practiceList = [...voiceDb].sort(() => Math.random() - 0.5);
+            practiceList = [...uniqueVoiceDb].sort(() => Math.random() - 0.5);
             renderVoiceCards();
             showToast("প্রশ্নগুলো এলোমেলো করা হয়েছে! 🔀", "#2dd4bf");
         }
@@ -4901,7 +4913,8 @@
             const container = document.getElementById('cardsList');
             const query = document.getElementById('searchInput').value.toLowerCase().trim();
             
-            let dataset = (currentMode === 'practice') ? practiceList : voiceDb;
+            // Duplicate chara unique data bebohar kora hocche
+            let dataset = (currentMode === 'practice') ? practiceList : uniqueVoiceDb;
 
             let filtered = dataset.filter(item => {
                 const matchQuery = item.question.toLowerCase().includes(query) ||
@@ -4913,6 +4926,11 @@
                 }
                 return matchQuery;
             });
+
+            // Question gulo A theke Z akare sajano hocche
+            if (currentMode !== 'practice') {
+                filtered.sort((a, b) => a.question.localeCompare(b.question, undefined, { sensitivity: 'base' }));
+            }
 
             container.innerHTML = '';
 
