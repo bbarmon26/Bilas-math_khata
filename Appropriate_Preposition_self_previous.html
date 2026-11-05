@@ -122,48 +122,132 @@
         }
         .mixed-card i { color: #f472b6; font-size: 18px; }
 
+        /* Compact Standard Item */
         .data-item { 
-            background: rgba(15, 23, 42, 0.85); padding: 18px; border-radius: 20px; border-left: 4px solid #fb923c; margin-bottom: 14px; position: relative; box-shadow: 0 8px 20px rgba(0,0,0,0.3); border-top: 1px solid rgba(255,255,255,0.05); border-right: 1px solid rgba(255,255,255,0.05); cursor: pointer; overflow: hidden;
+            background: rgba(15, 23, 42, 0.85); 
+            padding: 12px 14px; 
+            border-radius: 16px; 
+            border-left: 4px solid #fb923c; 
+            margin-bottom: 10px; 
+            position: relative; 
+            box-shadow: 0 6px 16px rgba(0,0,0,0.25); 
+            border-top: 1px solid rgba(255,255,255,0.05); 
+            border-right: 1px solid rgba(255,255,255,0.05); 
+            cursor: pointer; 
+            overflow: hidden;
+            transition: transform 0.15s ease;
         }
+        .data-item:active { transform: scale(0.99); }
         .primary-content { transition: opacity 0.3s ease; }
         .data-item.show-overlay .primary-content { opacity: 0.06; } 
 
-        .card-meta-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .badge-container { display: flex; gap: 6px; align-items: center; }
-        .serial-badge { background: #38bdf8; color: #020617; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 800; }
-        .book-badge { background: rgba(255,255,255,0.05); color: #cbd5e1; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; border: 1px solid rgba(255,255,255,0.1); }
-        .fav-btn { font-size: 18px; color: #475569; padding: 4px; transition: 0.2s; }
+        /* Standard Header Row: Number + Phrase + Pron + Fav on single line */
+        .card-top-row { 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            gap: 10px; 
+            margin-bottom: 6px; 
+        }
+        .card-title-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            flex: 1;
+        }
+        .serial-badge { 
+            background: #38bdf8; 
+            color: #020617; 
+            padding: 2px 8px; 
+            border-radius: 6px; 
+            font-size: 12px; 
+            font-weight: 800; 
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .phrase-text {
+            font-size: 17px;
+            color: #ffffff;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: baseline;
+            gap: 6px;
+        }
+        .pron-text { 
+            font-size: 12px; 
+            color: #94a3b8; 
+            font-weight: 400; 
+        }
+
+        .fav-btn { font-size: 18px; color: #475569; padding: 4px; cursor: pointer; transition: 0.2s; flex-shrink: 0; }
         .fav-btn.active { color: #f43f5e; text-shadow: 0 0 10px rgba(244,63,94,0.5); }
 
-        .data-item h3 { font-size: 19px; color: #ffffff; font-weight: 800; margin-bottom: 10px; display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px; }
-        .data-item .pron { font-size: 13px; color: #94a3b8; font-weight: 400; font-style: normal; }
-        .data-item .meaning { font-size: 13px; color: #f472b6; font-weight: 600; background: rgba(244, 114, 182, 0.1); padding: 8px 10px; border-radius: 10px; display: inline-block; width: 100%; text-align: center; border: 1px solid rgba(244, 114, 182, 0.15); }
+        .meaning-compact { 
+            font-size: 13px; 
+            color: #f472b6; 
+            font-weight: 600; 
+            background: rgba(244, 114, 182, 0.08); 
+            padding: 6px 10px; 
+            border-radius: 8px; 
+            display: block; 
+            width: 100%; 
+            border: 1px solid rgba(244, 114, 182, 0.12);
+            text-align: left;
+            margin-top: 2px;
+        }
 
         .sentence-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: transparent; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 15px; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; text-align: center;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: transparent; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 12px; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; text-align: center;
         }
         .data-item.show-overlay .sentence-overlay { opacity: 1; pointer-events: auto; }
-        .sentence-overlay .eng-sen { font-size: 15px; color: #f8fafc; font-style: italic; font-weight: 600; margin-bottom: 6px; }
-        .sentence-overlay .bn-sen { font-size: 13px; color: #cbd5e1; line-height: 1.4; }
-        .overlay-hint { position: absolute; bottom: 8px; font-size: 9px; color: #64748b; font-weight: 600; background: rgba(0,0,0,0.4); padding: 3px 8px; border-radius: 6px; }
+        .sentence-overlay .eng-sen { font-size: 14px; color: #f8fafc; font-style: italic; font-weight: 600; margin-bottom: 4px; }
+        .sentence-overlay .bn-sen { font-size: 12px; color: #cbd5e1; line-height: 1.3; }
+        .overlay-hint { position: absolute; bottom: 4px; font-size: 8px; color: #64748b; font-weight: 600; background: rgba(0,0,0,0.4); padding: 2px 6px; border-radius: 5px; }
 
-        /* Smooth Practice Card Animation */
+        /* Compact Practice & Question Card */
         .practice-card { 
             background: rgba(15, 23, 42, 0.9); 
-            padding: 16px 18px; 
-            border-radius: 18px; 
+            padding: 12px 14px; 
+            border-radius: 16px; 
             border: 1px solid rgba(255,255,255,0.08);
             border-left: 4px solid var(--mint-green); 
-            margin-bottom: 14px; 
-            box-shadow: 0 8px 20px rgba(0,0,0,0.35); 
+            margin-bottom: 10px; 
+            box-shadow: 0 6px 16px rgba(0,0,0,0.25); 
             cursor: pointer; 
             user-select: none;
-            transition: transform 0.15s ease, border-color 0.2s ease;
-            will-change: transform;
+            transition: transform 0.15s ease;
         }
         .practice-card:active { transform: scale(0.985); }
 
-        .sentence-node { font-size: 16px; font-weight: 600; color: #ffffff; line-height: 1.6; margin-top: 4px; }
+        .question-main-row {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        .question-text-area {
+            flex: 1;
+            font-size: 15px;
+            font-weight: 600;
+            color: #ffffff;
+            line-height: 1.5;
+        }
+        .question-serial-tag {
+            background: var(--mint-green);
+            color: #020617;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 800;
+            display: inline-block;
+            margin-right: 8px;
+            vertical-align: middle;
+            line-height: normal;
+        }
+
         .dot-placeholder {
             color: transparent; font-weight: 700;
             border-bottom: 2px dashed var(--gold-glow);
@@ -194,18 +278,18 @@
         }
         .practice-card.card-revealed .extra-info-content {
             opacity: 1;
-            padding-top: 12px;
-            margin-top: 10px;
+            padding-top: 10px;
+            margin-top: 8px;
             border-top: 1px dashed rgba(255,255,255,0.1);
         }
 
         .prep-detail-badge {
             display: inline-flex; align-items: center; gap: 6px;
             background: rgba(250, 204, 21, 0.12); color: var(--gold-glow);
-            padding: 4px 10px; border-radius: 8px; font-size: 13px; font-weight: 700;
-            margin-bottom: 8px; border: 1px solid rgba(250, 204, 21, 0.25);
+            padding: 3px 8px; border-radius: 6px; font-size: 12px; font-weight: 700;
+            margin-bottom: 6px; border: 1px solid rgba(250, 204, 21, 0.25);
         }
-        .meaning-line { font-size: 13px; color: #cbd5e1; line-height: 1.5; margin-bottom: 4px; }
+        .meaning-line { font-size: 13px; color: #cbd5e1; line-height: 1.4; margin-bottom: 3px; }
         .meaning-line strong { color: var(--mint-green); font-weight: 700; margin-right: 4px; }
 
         .rocket-hub { position: fixed; right: 16px; bottom: 80px; display: flex; flex-direction: column; align-items: center; z-index: 999; }
@@ -275,7 +359,7 @@
             </div>
         </div>
 
-        <!-- 2. DETAILS / CATEGORY VIEW (Question Wise Toggle বাটন যুক্ত) -->
+        <!-- 2. DETAILS / CATEGORY VIEW -->
         <div id="detailsView" class="view-section">
             <header>
                 <div class="header-icon" onclick="switchView('homeView')">
@@ -292,7 +376,7 @@
             <div class="content-area" id="dataList"></div>
         </div>
 
-        <!-- 3. PRACTICE TAB (Header-এ A-Z Preposition সাজানোর বাটন যুক্ত) -->
+        <!-- 3. PRACTICE TAB -->
         <div id="practiceView" class="view-section">
             <header>
                 <div class="logo">
@@ -349,8 +433,8 @@
 
     <script>
         // ----------------------------------------------------
-        // DATABASE (আপনার ৮৮০+ ডেটাবেজ এখানে বসিয়ে দিন)
-        // ----------------------------------------------------
+        // DATABASE (Apnar DB array ekhane thakbe)
+        
         const db = [
     { id: 1, bookNo: "142:b", phrase: "About to", targetPrep: "to", pron: "অ্যাবাউট টু", meaning: "প্রায় উপক্রম হওয়া (মরো মরো অবস্থা)", sentence: "He is about to die.", trans: "সে প্রায় মৃতপ্রায় বা মরো মরো অবস্থা।" },
     { id: 2, bookNo: "314:a", phrase: "Acceded to", targetPrep: "to", pron: "অ্যাক্সিডেড টু", meaning: "অনুরোধ বা প্রস্তাবে রাজি হওয়া", sentence: "I acceded to his request.", trans: "আমি তার অনুরোধে রাজি হয়েছিলাম।" },
@@ -802,7 +886,7 @@
     { id: 448, bookNo: "238:b", phrase: "Zealous for", targetPrep: "for", pron: "জিলাস ফর", meaning: "স্বাধীনতার জন্য ব্যাকুল বা প্রবল আগ্রহ থাকা", sentence: "He is zealous for freedom.", trans: "সে স্বাধীনতার জন্য ব্যাকুল।" },
     { id: 449, bookNo: "281:c", phrase: "Zest for", targetPrep: "for", pron: "জেস্ট ফর", meaning: "সঙ্গীতের প্রতি প্রবল উৎসাহ", sentence: "Rahim has zest for music.", trans: "সঙ্গীতের প্রতি রহিমের প্রবল উৎসাহ বা আগ্রহ রয়েছে।" },
     { id: 450, bookNo: "327:c", phrase: "Abide in", targetPrep: "in", pron: "অ্যাবাইড ইন", meaning: "কোনো স্থানে বসবাস করা", sentence: "I abide in Dhaka.", trans: "আমি ঢাকায় বাস করি।" },
-    { id: 451, bookNo: "85:d", phrase: "Ability in", targetPrep: "in", pron: "অ্যাবিলিটি ইন", meaning: "কোনো বিষয়ে দক্ষতা", sentence: "The girl has no ability of painting.", trans: "মেয়েটির ছবি আঁকার কোনো দক্ষতা নেই।" },
+    { id: 451, bookNo: "85:d", phrase: "Ability in", targetPrep: "in", pron: "অ্যাবিলিটি ইন", meaning: "কোনো বিষয়ে দক্ষতা", sentence: "The girl has no ability in painting.", trans: "মেয়েটির ছবি আঁকার কোনো দক্ষতা নেই।" },
     { id: 452, bookNo: "136:e", phrase: "Abounds in", targetPrep: "in", pron: "অ্যাবউন্ডস ইন", meaning: "পরিপূর্ণ থাকা (মাছে)", sentence: "Fish abounds in this pond.", trans: "এই পুকুরটি মাছে ভরপুর।" },
     { id: 453, bookNo: "67:e", phrase: "Absorbed in", targetPrep: "in", pron: "অ্যাবজর্বভ ইন", meaning: "নিমগ্ন", sentence: "He was absorbed in his book.", trans: "সে ভার বইয়ে নিমগ্ন ছিল।" },
     { id: 454, bookNo: "189:c", phrase: "Accomplished in", targetPrep: "in", pron: "অ্যাকমপ্লিশড ইন", meaning: "কোনো শিল্প বা বিদ্যায় পারদর্শী", sentence: "The boy is accomplished in painting.", trans: "ছেলেটি চিত্রাঙ্কনে পারদর্শী।" },
@@ -967,7 +1051,6 @@
     { id: 613, bookNo: "154:d", phrase: "Precaution against", targetPrep: "against", pron: "প্রিকশন এগেইনস্ট", meaning: "কোনো বিপদের বিরুদ্ধে সতর্কতা", sentence: "We should take precaution against diseases.", trans: "আমাদের রোগের বিরুদ্ধে সতর্কতা অবলম্বন করা উচিত।" },
     { id: 614, bookNo: "28:a", phrase: "Prejudice against", targetPrep: "against", pron: "প্রেজুডিস এগেইনস্ট", meaning: "কুসংস্কার বা বিদ্বেষ", sentence: "I have no prejudice against her.", trans: "তার প্রতি আমার কোনো বিদ্বেষ নেই।" },
     { id: 615, bookNo: "37:d", phrase: "Abide by", targetPrep: "by", pron: "অ্যাবাইড বাই", meaning: "মেনে করা", sentence: "You should abide by your promise.", trans: "তোমার প্রতিজ্ঞা মেনে চলা উচিত।" },
-    { id: 616, bookNo: "92:b", phrase: "Abides by", targetPrep: "by", pron: "অ্যাবাইডস বাই", meaning: "মেনে চলা", sentence: "He abides by me.", trans: "সে আমার কথা মেনে চলে/আমার সাথে থাকে।" },
     { id: 617, bookNo: "311:b", phrase: "Blown out by", targetPrep: "by", pron: "ব্লোন আউট বাই", meaning: "বাতাসে নিভে যাওয়া", sentence: "The lights have been blown out by the strong wind.", trans: "প্রবল বাতাসে আলোগুলো niভে গিয়েছিল।" },
     { id: 618, bookNo: "310:e", phrase: "Call me by", targetPrep: "by", pron: "কল মি বাই", meaning: "ফোনে ডেকে পাঠানো", sentence: "Call me by phone.", trans: "আমাকে ফোনে ডেকো।" },
     { id: 619, bookNo: "345:a", phrase: "Called me by", targetPrep: "by", pron: "কলড মি বাই", meaning: "টেলিফোনের মাধ্যমে ডাকা", sentence: "She called me by the telephone.", trans: "সে আমাকে টেলিফোনে ডেকেছিল।" },
@@ -1089,7 +1172,6 @@
     { id: 735, bookNo: "234:b", phrase: "Write an essay on", targetPrep: "on", pron: "রাইট অ্যান এসে অন", meaning: "কোনো বিষয়ের ওপর প্রবন্ধ লেখা", sentence: "Write an essay on agriculture.", trans: "কৃষির ওপর একটি প্রবন্ধ লেখো।" },
     { id: 736, bookNo: "277:b", phrase: "You are on", targetPrep: "on", pron: "ইউ আর অন", meaning: "নির্দিষ্ট সময়ে থাকা", sentence: "You are on time.", trans: "তুমি সঠিক সময়ে এসেছ।" },
     { id: 737, bookNo: "10:a", phrase: "Abide with", targetPrep: "with", pron: "অ্যাবাইড উইথ", meaning: "কারো সাথে থাকা", sentence: "He abides with me.", trans: "সে আমার সাথে থাকে।" },
-    { id: 738, bookNo: "209:a", phrase: "Abides with", targetPrep: "with", pron: "অ্যাবাইডস উইথ", meaning: "কারো সাথে থাকা বা মেনে চলা", sentence: "He abides with me.", trans: "সে আমার সাথেই থাকে।" },
     { id: 739, bookNo: "43:a", phrase: "Abound with", targetPrep: "with", pron: "অ্যাবউন্ড উইথ", meaning: "পরিপূর্ণ (মাছে)", sentence: "Our rivers abound with fishes.", trans: "আমাদের নদীগুলো maছে ভরপুর।" },
     { id: 740, bookNo: "315:b", phrase: "Accord with", targetPrep: "with", pron: "অ্যাকর্ড উইথ", meaning: "ঘোষিত নীতির সাথে মিল না থাকা", sentence: "His behavior does not accord with his stated principles.", trans: "তার আচরণ তার ঘোষিত নীতির সাথে খাপ খায় না বা মেলে না।" },
     { id: 741, bookNo: "112:a", phrase: "Account with", targetPrep: "with", pron: "অ্যাকাউন্ট উইথ", meaning: "কোনো ব্যাংকে হিসাব থাকা", sentence: "I have a saving account with AB Bank.", trans: "এবি ব্যাংকে আমার একটি সঞ্চয়ী হিসাব রয়েছে।" },
@@ -1234,6 +1316,9 @@
     { id: 880, bookNo: "83:e", phrase: "Look after", targetPrep: "after", pron: "লুক আফটার", meaning: "দেখাশোনা করা", sentence: "There is none to look after her.", trans: "তার দেখাশোনা করারএই ধরনের কিছু করার জন্য আমায় প্রোগ্রাম করা হয়নি।" }
    ];
 
+        // ----------------------------------------------------
+        // JAVASCRIPT LOGIC (Database er porer ongsho)
+        // ----------------------------------------------------
         const categories = [
             { name: "to", icon: "fa-arrow-right" }, { name: "of", icon: "fa-share-nodes" },
             { name: "for", icon: "fa-heart" }, { name: "in", icon: "fa-box-open" },
@@ -1254,7 +1339,7 @@
         // Build Home Categories
         const grid = document.getElementById('cardGrid');
 
-        // 1. ALL(A to Z) - Sob gulo ekshathe A-Z akare
+        // 1. ALL(A to Z)
         let allDiv = document.createElement('div');
         allDiv.className = 'prep-card all-card';
         allDiv.innerHTML = `<i class="fa-solid fa-arrow-down-a-z"></i><span>All Prepositions</span>`;
@@ -1290,22 +1375,21 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Standard Card Builder
+        // Standard Compact Card Builder (Number + Word on Same Line)
         function compileStandardCardHtml(item, index) {
             const isFav = favorites.includes(item.id);
             const favClass = isFav ? 'fa-solid active' : 'fa-regular';
             return `
                 <div class="data-item" id="cell-item-${index + 1}" onclick="toggleOverlay(this)">
                     <div class="primary-content">
-                        <div class="card-meta-row">
-                            <div class="badge-container">
-                                <span class="serial-badge">#${index + 1}</span>
-                                <span class="book-badge"><i class="fa-solid fa-book-bookmark"></i> Book: ${item.bookNo}</span>
+                        <div class="card-top-row">
+                            <div class="card-title-wrap">
+                                <span class="serial-badge">${index + 1}</span>
+                                <span class="phrase-text">${item.phrase} <span class="pron-text">(${item.pron})</span></span>
                             </div>
                             <i class="fa-heart ${favClass} fav-btn" onclick="event.stopPropagation(); toggleFav(${item.id}, this)"></i>
                         </div>
-                        <h3>${item.phrase} <span class="pron">(${item.pron})</span></h3>
-                        <p class="meaning">${item.meaning}</p>
+                        <div class="meaning-compact">${item.meaning}</div>
                     </div>
                     <div class="sentence-overlay">
                         <p class="eng-sen"><i class="fa-solid fa-quote-left" style="color:#38bdf8; font-size:12px;"></i> ${item.sentence} <i class="fa-solid fa-quote-right" style="color:#38bdf8; font-size:12px;"></i></p>
@@ -1392,7 +1476,7 @@
             }
         }
 
-        // Question Wise Card Rendering Function
+        // Question Wise Card Rendering Function (Number + Sentence eksathe ebong Favorite button)
         function renderQuestionList(containerId, dataArray, emptyMsg) {
             const container = document.getElementById(containerId);
             container.innerHTML = '';
@@ -1413,19 +1497,21 @@
                     blankSentence = `${item.sentence} (<span class="dot-placeholder">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>)`;
                 }
 
+                const isFav = favorites.includes(item.id);
+                const favClass = isFav ? 'fa-solid active' : 'fa-regular';
+
                 let card = document.createElement('div');
                 card.className = 'practice-card';
                 card.id = `cell-item-${index + 1}`;
                 card.onclick = () => triggerPracticeFlip(card, ans);
                 card.innerHTML = `
-                    <div class="card-meta-row">
-                        <div class="badge-container">
-                            <span class="serial-badge" style="background:var(--mint-green);">#${index + 1}</span>
-                            <span class="book-badge"><i class="fa-solid fa-book-bookmark"></i> Book: ${item.bookNo}</span>
+                    <div class="question-main-row">
+                        <div class="question-text-area">
+                            <span class="question-serial-tag">${index + 1}</span>
+                            <span>${blankSentence}</span>
                         </div>
+                        <i class="fa-heart ${favClass} fav-btn" onclick="event.stopPropagation(); toggleFav(${item.id}, this)"></i>
                     </div>
-                    
-                    <div class="sentence-node">${blankSentence}</div>
                     
                     <div class="extra-info-wrapper">
                         <div class="extra-info-content">
@@ -1446,7 +1532,7 @@
             switchView('favoritesView');
         }
 
-        // --- PRACTICE ENGINE WITH PERSISTENT SHUFFLE & A-Z SORT ---
+        // Practice Tab Functions
         function loadSavedPracticeOrder() {
             const savedOrderIds = JSON.parse(localStorage.getItem('bacademy_practice_order'));
             if (savedOrderIds && Array.isArray(savedOrderIds) && savedOrderIds.length > 0) {
@@ -1473,7 +1559,6 @@
             showToast("তালিকা এলোমেলো ও সংরক্ষিত হয়েছে! 🔀", "#2dd4bf");
         }
 
-        // Preposition wise A to Z sort korar function
         function sortPracticeByPrepAtoZ() {
             practiceData = [...db].sort((a, b) => {
                 const prepA = (a.targetPrep || '').toLowerCase();
