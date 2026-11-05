@@ -654,9 +654,8 @@
             border: 1px solid #e2e8f0;
             margin: 14px auto 22px auto;
             width: 100%;
-            max-width: 360px; 
+            max-width: 380px; 
             position: relative;
-            cursor: pointer;
             border-radius: 10px;
         }
         .taped-photo::before {
@@ -712,7 +711,7 @@
             right: 0 !important; 
             bottom: 0 !important; 
             width: 100vw !important; 
-            height: 100vh !important; 
+            height: 100dvh !important; 
             z-index: 9999999 !important; 
             background: #000000 !important; 
             display: none; 
@@ -721,18 +720,16 @@
             justify-content: space-between; 
             box-sizing: border-box;
             user-select: none;
-            touch-action: none;
         }
 
         #zoomViewport {
             position: relative;
             width: 100%;
-            height: 100%;
+            flex: 1;
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            touch-action: none;
         }
 
         #fullscreenImg {
@@ -741,7 +738,7 @@
             cursor: grab;
             transition: transform 0.05s linear;
             max-width: 95vw;
-            max-height: 80vh;
+            max-height: 82dvh;
             object-fit: contain;
         }
 
@@ -954,7 +951,7 @@
                 <div id="subtopicList" class="flex flex-col"></div>
             </div>
 
-            <!-- 4. Note Image Viewer -->
+            <!-- 4. Note Image / PDF Viewer -->
             <div id="view-image" class="hidden flex flex-col items-center">
                 <div class="compact-nav-header w-full">
                     <h3 id="imageTitle" class="text-base sm:text-lg font-extrabold leading-snug text-slate-800"></h3>
@@ -970,7 +967,7 @@
         </main>
     </div>
 
-    <!-- 🎨 HIGHLIGHT & MARK ACTION SHEET (Fixed Outside Perspective Context + Ghost-Click Protected) -->
+    <!-- 🎨 HIGHLIGHT & MARK ACTION SHEET -->
     <div id="contextSheetOverlay" onclick="handleOverlayClick(event)">
         <div class="context-sheet" onclick="event.stopPropagation()">
             <div class="w-10 h-1.5 bg-slate-300 rounded-full mx-auto mb-3"></div>
@@ -998,24 +995,32 @@
         </div>
     </div>
 
-    <!-- 🖼️ ফুলস্ক্রিন পিনচ-টু-জুম ও স্ক্রোল ভিউয়ার -->
+    <!-- 🖼️ ফুলস্ক্রিন পিনচ-টু-জুম ও মাল্টি-পেজ PDF ভিউয়ার -->
     <div id="fullscreenViewer">
-        <div class="w-full px-4 py-3 flex items-center justify-between text-white border-b border-white/10 shrink-0 bg-neutral-900/90 backdrop-blur-md z-20">
+        <div class="w-full px-3 sm:px-4 py-2.5 flex items-center justify-between text-white border-b border-white/10 shrink-0 bg-neutral-900/95 backdrop-blur-md z-20">
             <div class="flex items-center gap-2">
-                <span class="text-xs uppercase tracking-wider text-slate-400 font-bold">BILAS Academy</span>
-                <span id="zoomPercent" class="text-xs bg-white/10 px-2 py-0.5 rounded text-amber-300 font-mono">100%</span>
+                <span class="text-xs uppercase tracking-wider text-slate-400 font-bold hidden sm:inline">BILAS Academy</span>
+                <span id="zoomPercent" class="text-xs bg-white/10 px-2 py-0.5 rounded text-amber-300 font-mono">PDF</span>
+                
+                <!-- 📄 Multi-page PDF / Image Mode Toggle Button -->
+                <button id="pdfModeToggleBtn" onclick="toggleViewerMode()" class="hidden text-[11px] bg-amber-500/20 border border-amber-400/40 text-amber-200 px-2.5 py-1 rounded-full font-semibold flex items-center gap-1 active:scale-95">
+                    <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+                    <span id="pdfModeToggleText">সব পেজ (PDF)</span>
+                </button>
             </div>
             
-            <div class="flex items-center gap-2">
-                <button onclick="changeZoom(-0.3)" class="text-white bg-white/10 hover:bg-white/20 p-2 rounded-full active:scale-90" title="জুম আউট">
-                    <i data-lucide="zoom-out" class="w-4 h-4"></i>
-                </button>
-                <button onclick="resetZoom()" class="text-white bg-white/10 hover:bg-white/20 p-2 rounded-full active:scale-90" title="রিসেট">
-                    <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
-                </button>
-                <button onclick="changeZoom(0.3)" class="text-white bg-white/10 hover:bg-white/20 p-2 rounded-full active:scale-90" title="জুম ইন">
-                    <i data-lucide="zoom-in" class="w-4 h-4"></i>
-                </button>
+            <div class="flex items-center gap-1.5">
+                <div id="imageZoomControls" class="flex items-center gap-1.5">
+                    <button onclick="changeZoom(-0.3)" class="text-white bg-white/10 hover:bg-white/20 p-2 rounded-full active:scale-90" title="জুম আউট">
+                        <i data-lucide="zoom-out" class="w-4 h-4"></i>
+                    </button>
+                    <button onclick="resetZoom()" class="text-white bg-white/10 hover:bg-white/20 p-2 rounded-full active:scale-90" title="রিসেট">
+                        <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                    </button>
+                    <button onclick="changeZoom(0.3)" class="text-white bg-white/10 hover:bg-white/20 p-2 rounded-full active:scale-90" title="জুম ইন">
+                        <i data-lucide="zoom-in" class="w-4 h-4"></i>
+                    </button>
+                </div>
                 <button onclick="closeFullImage()" class="text-white bg-red-600 hover:bg-red-700 p-2 rounded-full active:scale-90 ml-1" title="বন্ধ করুন">
                     <i data-lucide="x" class="w-4 h-4"></i>
                 </button>
@@ -1023,11 +1028,12 @@
         </div>
         
         <div id="zoomViewport">
-            <img id="fullscreenImg" src="" alt="Note Preview">
-            <iframe id="fullscreenFrame" class="w-[96vw] h-[82vh] rounded-lg bg-white hidden border-0" src=""></iframe>
+            <img id="fullscreenImg" src="" alt="Note Preview" class="hidden">
+            <iframe id="fullscreenFrame" class="w-full h-full bg-white hidden border-0" src="" allow="autoplay"></iframe>
         </div>
         
-        <div class="w-full py-2 bg-neutral-900/80 text-center text-[11px] text-slate-400 border-t border-white/10 z-20">
+        <div id="viewerFooterHint" class="w-full py-1.5 bg-neutral-900/90 text-center text-[11px] text-slate-400 border-t border-white/10 z-20">
+            নিচে স্ক্রল করে পরবর্তী পেজগুলো দেখুন
         </div>
     </div>
 
@@ -1109,7 +1115,6 @@
         }
 
         function handleOverlayClick(e) {
-            // Prevent finger-release ghost click from closing the modal immediately
             if (Date.now() - sheetOpenedTimestamp < 450) {
                 if (e) { e.preventDefault(); e.stopPropagation(); }
                 return;
@@ -1223,7 +1228,6 @@
                         holdTimer = null;
                     }
                     row.classList.remove('pressing-hold');
-                    // If long press was triggered, stop touchend from generating a ghost click
                     if (isLongPress && e && e.cancelable) {
                         e.preventDefault();
                     }
@@ -1661,7 +1665,7 @@
         function openViewerObj(item) {
             let link = item.ImageLink || item.Video_Link || "";
             
-            if (link.endsWith('.html') || (link.startsWith('http') && !link.includes('drive.google.com') && !link.includes('youtube.com'))) {
+            if (link.endsWith('.html') || (link.startsWith('http') && !link.includes('drive.google.com') && !link.includes('youtube.com') && !link.match(/\.(jpeg|jpg|gif|png|webp|pdf)$/i))) {
                 window.location.href = link; 
                 return;
             }
@@ -1700,13 +1704,16 @@
                             
                             const encodedLink = encodeURIComponent(lnk);
                             container.innerHTML += `
-                            <div class="taped-photo" onclick="openFullImage('${encodedLink}')">
-                                <div class="absolute inset-0 z-30 flex items-start justify-end p-3 pointer-events-none">
-                                    <div class="bg-black/65 text-white rounded-full p-2 shadow-md flex items-center gap-1 text-[10px] px-2.5">
-                                        <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i> বড় করুন
-                                    </div>
+                            <div class="taped-photo">
+                                <div class="flex items-center justify-between gap-2 mb-2 px-1">
+                                    <button onclick="openFullImage('${encodedLink}', 'pdf')" class="flex-1 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg py-2 px-3 shadow flex items-center justify-center gap-1.5 text-xs font-bold active:scale-95 transition-transform">
+                                        <i data-lucide="book-open" class="w-3.5 h-3.5"></i> সব পেজ পড়ুন (PDF)
+                                    </button>
+                                    <button onclick="openFullImage('${encodedLink}', 'image')" class="bg-slate-800 hover:bg-slate-900 text-white rounded-lg py-2 px-3 shadow flex items-center justify-center gap-1 text-xs font-bold active:scale-95 transition-transform" title="ছবি জুম মোড">
+                                        <i data-lucide="zoom-in" class="w-3.5 h-3.5"></i> জুম মোড
+                                    </button>
                                 </div>
-                                <iframe class="w-full h-[46vh] pointer-events-none border-none bg-white rounded" src="${previewLink}"></iframe>
+                                <iframe class="w-full h-[52vh] border border-slate-200 bg-white rounded" src="${previewLink}" allow="autoplay"></iframe>
                             </div>`;
                         });
                     } else {
@@ -1802,7 +1809,7 @@
             refreshIcons();
         }
 
-        /* 🔍 ULTRA-SMOOTH PINCH TO ZOOM & PAN ENGINE */
+        /* 🔍 ULTRA-SMOOTH PINCH TO ZOOM & MULTI-PAGE PDF VIEWER ENGINE */
         let zoomScale = 1;
         let panX = 0, panY = 0;
         let isPanning = false;
@@ -1811,13 +1818,22 @@
         let initialScale = 1;
         let lastTap = 0;
 
+        let activeRawLink = '';
+        let activeDriveId = '';
+        let currentViewerMode = 'pdf'; // 'pdf' (multi-page iframe) or 'image' (single page pinch-zoom)
+
+        function isImageModeActive() {
+            const img = document.getElementById('fullscreenImg');
+            return img && !img.classList.contains('hidden');
+        }
+
         function updateTransform() {
             const img = document.getElementById('fullscreenImg');
             const indicator = document.getElementById('zoomPercent');
             if(img) {
                 img.style.transform = `translate(${panX}px, ${panY}px) scale(${zoomScale})`;
             }
-            if(indicator) {
+            if(indicator && currentViewerMode === 'image') {
                 indicator.innerText = Math.round(zoomScale * 100) + '%';
             }
         }
@@ -1830,6 +1846,7 @@
         }
 
         function changeZoom(delta) {
+            if (!isImageModeActive()) return;
             zoomScale = Math.min(Math.max(0.6, zoomScale + delta), 4.5);
             if(zoomScale === 1) { panX = 0; panY = 0; }
             updateTransform();
@@ -1838,6 +1855,7 @@
         const viewport = document.getElementById('zoomViewport');
 
         viewport.addEventListener('touchstart', function(e) {
+            if (!isImageModeActive()) return; // Allow native multi-page scrolling in PDF mode
             if (e.touches.length === 2) {
                 isPanning = false;
                 initialDistance = Math.hypot(
@@ -1865,6 +1883,7 @@
         }, { passive: false });
 
         viewport.addEventListener('touchmove', function(e) {
+            if (!isImageModeActive()) return; // Do not block PDF scrolling
             e.preventDefault();
             if (e.touches.length === 2) {
                 const currentDistance = Math.hypot(
@@ -1883,6 +1902,7 @@
         }, { passive: false });
 
         viewport.addEventListener('touchend', function(e) {
+            if (!isImageModeActive()) return;
             if (e.touches.length < 2) {
                 initialDistance = 0;
             }
@@ -1892,13 +1912,14 @@
         });
 
         viewport.addEventListener('mousedown', function(e) {
+            if (!isImageModeActive()) return;
             isPanning = true;
             startX = e.clientX - panX;
             startY = e.clientY - panY;
         });
 
         window.addEventListener('mousemove', function(e) {
-            if (!isPanning) return;
+            if (!isImageModeActive() || !isPanning) return;
             panX = e.clientX - startX;
             panY = e.clientY - startY;
             updateTransform();
@@ -1909,50 +1930,93 @@
         });
 
         viewport.addEventListener('wheel', function(e) {
+            if (!isImageModeActive()) return;
             e.preventDefault();
             changeZoom(e.deltaY < 0 ? 0.2 : -0.2);
         }, { passive: false });
 
-        function openFullImage(encodedLink) {
+        function applyViewerMode(mode) {
+            currentViewerMode = mode;
+            const img = document.getElementById('fullscreenImg');
+            const frame = document.getElementById('fullscreenFrame');
+            const zoomControls = document.getElementById('imageZoomControls');
+            const indicator = document.getElementById('zoomPercent');
+            const toggleBtnText = document.getElementById('pdfModeToggleText');
+            const footerHint = document.getElementById('viewerFooterHint');
+
+            resetZoom();
+
+            if (mode === 'pdf') {
+                // Multi-page PDF & Drive Preview Mode (Supports all pages!)
+                img.classList.add('hidden');
+                frame.classList.remove('hidden');
+                if (zoomControls) zoomControls.classList.add('hidden');
+                if (indicator) indicator.innerText = 'PDF / সব পেজ';
+                if (toggleBtnText) toggleBtnText.innerText = '১ম পেজ জুম মোড';
+                if (footerHint) footerHint.innerText = 'নিচে স্ক্রল করে ২য় ও পরবর্তী সব পেজ দেখুন';
+
+                const previewSrc = activeDriveId 
+                    ? `https://drive.google.com/file/d/${activeDriveId}/preview` 
+                    : activeRawLink;
+                if (frame.src !== previewSrc) {
+                    frame.src = previewSrc;
+                }
+            } else {
+                // Single Image Pinch-Zoom Mode
+                frame.classList.add('hidden');
+                img.classList.remove('hidden');
+                if (zoomControls) zoomControls.classList.remove('hidden');
+                if (indicator) indicator.innerText = '100%';
+                if (toggleBtnText) toggleBtnText.innerText = 'সব পেজ (PDF)';
+                if (footerHint) footerHint.innerText = 'দুই আঙুলে জুম করুন • একাধিক পেজ থাকলে উপরে "সব পেজ (PDF)" বাটনে চাপুন';
+
+                if (activeDriveId) {
+                    img.src = `https://drive.google.com/thumbnail?id=${activeDriveId}&sz=w1600`;
+                } else {
+                    img.src = activeRawLink;
+                }
+
+                img.onerror = function() {
+                    applyViewerMode('pdf');
+                };
+            }
+        }
+
+        function toggleViewerMode() {
+            if (currentViewerMode === 'pdf') {
+                applyViewerMode('image');
+            } else {
+                applyViewerMode('pdf');
+            }
+        }
+
+        function openFullImage(encodedLink, preferredMode = 'pdf') {
             const rawLink = decodeURIComponent(encodedLink);
             if(!rawLink) return;
 
-            resetZoom();
-            try { history.pushState({view: 'fullscreen'}, '', '#full'); } catch(e){}
-            const viewer = document.getElementById('fullscreenViewer');
-            const img = document.getElementById('fullscreenImg');
-            const frame = document.getElementById('fullscreenFrame');
+            activeRawLink = rawLink;
+            activeDriveId = '';
 
             if (rawLink.includes('drive.google.com')) {
                 const match = rawLink.match(/[-\w]{25,}/);
-                if (match) {
-                    const fileId = match[0];
-                    img.src = `https://drive.google.com/thumbnail?id=${fileId}&sz=w1600`;
-                    img.classList.remove('hidden');
-                    frame.classList.add('hidden');
-                    
-                    img.onerror = function() {
-                        img.classList.add('hidden');
-                        frame.classList.remove('hidden');
-                        frame.src = `https://drive.google.com/file/d/${fileId}/preview`;
-                    };
-                } else {
-                    frame.classList.remove('hidden');
-                    img.classList.add('hidden');
-                    frame.src = rawLink;
-                }
-            } else {
-                img.src = rawLink;
-                img.classList.remove('hidden');
-                frame.classList.add('hidden');
-                
-                img.onerror = function() {
-                    img.classList.add('hidden');
-                    frame.classList.remove('hidden');
-                    frame.src = rawLink;
-                };
+                if (match) activeDriveId = match[0];
             }
-            
+
+            try { history.pushState({view: 'fullscreen'}, '', '#full'); } catch(e){}
+            const viewer = document.getElementById('fullscreenViewer');
+            const toggleBtn = document.getElementById('pdfModeToggleBtn');
+
+            if (toggleBtn) {
+                if (activeDriveId) {
+                    toggleBtn.classList.remove('hidden');
+                    toggleBtn.classList.add('flex');
+                } else {
+                    toggleBtn.classList.add('hidden');
+                }
+            }
+
+            applyViewerMode(preferredMode);
+
             if(viewer) viewer.style.display = 'flex';
             refreshIcons();
         }
