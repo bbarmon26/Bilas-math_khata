@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>বিশ্বের প্রধান প্রণালীসমূহ - এক নজরে ম্যাপে অধ্যয়ন</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Hind Siliguri -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Leaflet CSS & JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <style>
+        * {
+            font-family: 'Hind Siliguri', sans-serif;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #030b12;
+            color: #f8fafc;
+        }
+
+        /* 100% Full Screen Map */
+        #map {
+            width: 100vw;
+            height: 100vh;
+            background-color: #041019;
+            z-index: 1;
+        }
+
+        .leaflet-tile-pane {
+            filter: contrast(1.06) saturate(1.12);
+        }
+
+        /* Ultra-minimal attribution */
+        .leaflet-control-attribution {
+            font-size: 8px !important;
+            background: rgba(3, 11, 18, 0.5) !important;
+            color: #64748b !important;
+            padding: 0 4px !important;
+        }
+        .leaflet-control-attribution a { color: #94a3b8 !important; }
+
+        /* ================= 1. OCEAN WATERMARK LABELS ================= */
+        .ocean-watermark {
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            white-space: nowrap;
+        }
+        .ocean-watermark .bn {
+            font-size: 13px;
+            font-weight: 700;
+            color: rgba(125, 211, 252, 0.52);
+            letter-spacing: 0.08em;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95);
+            display: block;
+        }
+        .ocean-watermark .en {
+            font-size: 8.5px;
+            font-weight: 600;
+            color: rgba(186, 230, 253, 0.35);
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            display: block;
+            margin-top: -2px;
+        }
+
+        /* ================= 2. CLEAN WORLD VIEW NUMBERED PINS (NO OVERLAP) ================= */
+        .world-step-pin {
+            position: relative;
+            width: 0;
+            height: 0;
+            cursor: pointer;
+        }
+        .world-step-dot {
+            position: absolute;
+            top: -11px;
+            left: -11px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #0f172a;
+            border: 2px solid #facc15;
+            color: #fef08a;
+            font-size: 11px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 10px rgba(250, 204, 21, 0.7), 0 2px 6px rgba(0,0,0,0.9);
+            transition: transform 0.2s ease, background 0.2s ease;
+            z-index: 20;
+        }
+        .world-step-pin:hover .world-step-dot {
+            transform: scale(1.25);
+            background: #f59e0b;
+            color: #020617;
+            border-color: #ffffff;
+        }
+        .world-step-label {
+            position: absolute;
+            white-space: nowrap;
+            background: rgba(6, 18, 28, 0.88);
+            border: 1px solid rgba(45, 212, 191, 0.55);
+            color: #f1f5f9;
+            font-size: 10.5px;
+            font-weight: 600;
+            padding: 1px 6px;
+            border-radius: 6px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.85);
+            pointer-events: auto;
+            transition: all 0.2s ease;
+        }
+        .world-step-pin:hover .world-step-label {
+            background: #0f293a;
+            border-color: #facc15;
+            color: #fde047;
+            transform: scale(1.08);
+            z-index: 50;
+        }
+
+        /* Smart directional positioning so close straits never collide on World View */
+        .pos-bottom { top: 13px; left: 0; transform: translateX(-50%); }
+        .pos-top    { bottom: 13px; left: 0; transform: translateX(-50%); }
+        .pos-right  { left: 14px; top: 0; transform: translateY(-50%); }
+        .pos-left   { right: 14px; top: 0; transform: translateY(-50%); }
+
+        /* Start (1) & Finish (17) Special Flags */
+        .start-finish-flag {
+            position: absolute;
+            bottom: 28px;
+            left: 0;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.9);
+            animation: bounceFlag 1.8s infinite ease-in-out;
+            pointer-events: none;
+        }
+        .flag-start {
+            background: #10b981;
+            color: #022c22;
+            border: 1.5px solid #a7f3d0;
+        }
+        .flag-end {
+            background: #f43f5e;
+            color: #ffffff;
+            border: 1.5px solid #fecdd3;
+        }
+        @keyframes bounceFlag {
+            0%, 100% { transform: translate(-50%, 0); }
+            50% { transform: translate(-50%, -4px); }
+        }
+
+        /* Animated Study Line (1 -> 17) */
+        .study-path-line {
+            stroke-dasharray: 8, 8;
+            animation: studyLineDash 1.4s linear infinite;
+        }
+        @keyframes studyLineDash {
+            from { stroke-dashoffset: 32; }
+            to { stroke-dashoffset: 0; }
+        }
+
+        /* ================= 3. ZOOMED-IN LABELS DIRECTLY ON COUNTRIES & SEAS ================= */
+        /* Placed directly on top of the Country's geographic landmass */
+        .on-country-label {
+            transform: translate(-50%, -50%);
+            background: rgba(40, 24, 5, 0.92);
+            border: 2px solid #f59e0b;
+            border-radius: 10px;
+            padding: 4px 11px;
+            text-align: center;
+            white-space: nowrap;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.9), 0 0 15px rgba(245, 158, 11, 0.35);
+            animation: popIn 0.3s ease-out forwards;
+        }
+        .on-country-label .tag {
+            font-size: 9px;
+            color: #fbbf24;
+            font-weight: 700;
+            display: block;
+            letter-spacing: 0.04em;
+        }
+        .on-country-label .name-bn {
+            font-size: 14px;
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1.15;
+        }
+        .on-country-label .name-en {
+            font-size: 10px;
+            color: #fde68a;
+            display: block;
+        }
+
+        /* Placed directly on top of the Sea/Ocean water */
+        .on-sea-label {
+            transform: translate(-50%, -50%);
+            background: rgba(5, 32, 52, 0.92);
+            border: 2px solid #38bdf8;
+            border-radius: 12px;
+            padding: 4px 11px;
+            text-align: center;
+            white-space: nowrap;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.9), 0 0 15px rgba(56, 189, 248, 0.35);
+            animation: popIn 0.3s ease-out forwards;
+        }
+        .on-sea-label .tag {
+            font-size: 9px;
+            color: #7dd3fc;
+            font-weight: 700;
+            display: block;
+            letter-spacing: 0.04em;
+        }
+        .on-sea-label .name-bn {
+            font-size: 13.5px;
+            font-weight: 700;
+            color: #38bdf8;
+            line-height: 1.15;
+        }
+        .on-sea-label .name-en {
+            font-size: 10px;
+            color: #bae6fd;
+            display: block;
+        }
+
+        /* Center Strait Interactive Pill when Zoomed In */
+        .center-strait-pill {
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+        }
+        .center-strait-pulse {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 2.5px solid #2dd4bf;
+            background: radial-gradient(circle, rgba(45,212,191,0.45) 0%, rgba(45,212,191,0.05) 70%);
+            box-shadow: 0 0 18px rgba(45, 212, 191, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulseCenter 1.8s infinite ease-in-out;
+        }
+        .center-strait-title-box {
+            margin-top: 4px;
+            background: linear-gradient(135deg, #0b2232, #071620);
+            border: 1.5px solid #2dd4bf;
+            padding: 3px 10px;
+            border-radius: 999px;
+            white-space: nowrap;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.95);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: transform 0.2s ease;
+        }
+        .center-strait-pill:hover .center-strait-title-box {
+            transform: scale(1.06);
+            border-color: #facc15;
+        }
+
+        @keyframes pulseCenter {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.16); }
+        }
+        @keyframes popIn {
+            0% { opacity: 0; transform: translate(-50%, -40%) scale(0.85); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: #07121b; }
+        ::-webkit-scrollbar-thumb { background: #1e3a4c; border-radius: 999px; }
+    </style>
+</head>
+<body class="relative w-screen h-screen overflow-hidden select-none">
+
+    <!-- ================= 1. TINY TOP-LEFT MENU BUTTON & TOP-RIGHT FULLSCREEN BUTTON ================= -->
+    <!-- Takes practically zero space on the map! -->
+    <div class="fixed top-2 left-2 z-[500] flex items-center gap-1.5">
+        <button onclick="toggleMenuDrawer()" class="h-8 px-3 rounded-full bg-[#071622]/90 hover:bg-[#0e2638] border border-teal-500/50 text-white text-xs font-bold flex items-center gap-1.5 shadow-lg backdrop-blur-md transition">
+            <i class="fa-solid fa-bars text-teal-400"></i>
+            <span>মেনু ও তালিকা</span>
+        </button>
+    </div>
+
+    <div class="fixed top-2 right-2 z-[500] flex items-center gap-1.5">
+        <button onclick="toggleFullscreenLandscape()" class="h-8 px-2.5 rounded-full bg-[#071622]/90 hover:bg-[#0e2638] border border-amber-400/50 text-amber-300 text-xs font-bold flex items-center gap-1.5 shadow-lg backdrop-blur-md transition" title="ফুলস্ক্রিন ও ল্যান্ডস্কেপ">
+            <i class="fa-solid fa-expand"></i>
+            <span class="hidden sm:inline">ফুলস্ক্রিন</span>
+        </button>
+    </div>
+
+    <!-- ================= 2. COMPACT BOTTOM STUDY PATH BAR (34px tall) ================= -->
+    <div class="fixed bottom-2 left-1/2 -translate-x-1/2 z-[500] flex items-center gap-1 bg-[#071622]/95 border border-teal-500/50 px-2 py-1 rounded-full shadow-[0_8px_25px_rgba(0,0,0,0.9)] backdrop-blur-md max-w-[96vw] whitespace-nowrap">
+        
+        <!-- Previous Strait Button -->
+        <button onclick="stepStudyPath(-1)" class="h-7 px-2.5 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold flex items-center gap-1 transition" title="আগের প্রণালী">
+            <i class="fa-solid fa-chevron-left text-[10px]"></i>
+            <span class="hidden xs:inline">পূর্ববর্তী</span>
+        </button>
+
+        <!-- Current Strait Indicator (Click to open details or start at #1) -->
+        <button onclick="handleCenterPillClick()" id="bottomStatusBtn" class="h-7 px-3 rounded-full bg-teal-950/80 hover:bg-teal-900/90 border border-teal-500/40 text-teal-200 text-xs font-bold flex items-center gap-1.5 transition">
+            <span id="bottomStatusText">🚀 শুরু করতে ১ নম্বরে বা ‘পরবর্তী’ চাপুন (১-১৭)</span>
+        </button>
+
+        <!-- Details Popup Trigger Button (Visible when a strait is focused) -->
+        <button onclick="openCurrentDetailModal()" id="bottomInfoBtn" class="hidden h-7 px-2.5 rounded-full bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-extrabold items-center gap-1 transition shadow">
+            <i class="fa-solid fa-circle-info"></i>
+            <span>তথ্য</span>
+        </button>
+
+        <!-- Next Strait Button -->
+        <button onclick="stepStudyPath(1)" class="h-7 px-2.5 rounded-full bg-teal-500 hover:bg-teal-400 text-slate-950 text-xs font-extrabold flex items-center gap-1 transition shadow" title="পরবর্তী প্রণালী">
+            <span>পরবর্তী</span>
+            <i class="fa-solid fa-chevron-right text-[10px]"></i>
+        </button>
+
+        <!-- Reset Full World Map Button -->
+        <button onclick="showFullWorldMap()" class="h-7 px-2.5 rounded-full bg-sky-500/20 hover:bg-sky-500/30 border border-sky-400/50 text-sky-300 text-xs font-bold flex items-center gap-1 transition" title="পুরো পৃথিবীর ম্যাপ">
+            <i class="fa-solid fa-earth-asia"></i>
+            <span class="hidden sm:inline">পুরো ম্যাপ</span>
+        </button>
+    </div>
+
+    <!-- ================= 3. HIDDEN SLIDE-OUT MENU DRAWER (Opens only when '☰ মেনু' is clicked) ================= -->
+    <div id="menuBackdrop" onclick="toggleMenuDrawer()" class="hidden fixed inset-0 z-[600] bg-black/60 backdrop-blur-xs"></div>
+    
+    <aside id="menuDrawer" class="fixed top-0 left-0 bottom-0 w-72 sm:w-80 z-[650] bg-[#081722] border-r border-teal-500/40 shadow-2xl transform -translate-x-full transition-transform duration-300 flex flex-col">
+        <!-- Drawer Header -->
+        <div class="p-3.5 bg-[#0b2030] border-b border-slate-800 flex items-center justify-between">
+            <div>
+                <h2 class="text-sm font-bold text-white">বিশ্বের ১৭টি প্রধান প্রণালী</h2>
+                <p class="text-[11px] text-teal-400">পশ্চিম থেকে পূর্বে ক্রমানুসারে সাজানো</p>
+            </div>
+            <button onclick="toggleMenuDrawer()" class="w-7 h-7 rounded-full bg-slate-800 hover:bg-rose-600 text-slate-200 flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <!-- Drawer Quick Actions -->
+        <div class="p-2.5 grid grid-cols-2 gap-1.5 border-b border-slate-800 bg-[#06121b]">
+            <button onclick="showFullWorldMap(); toggleMenuDrawer();" class="p-2 rounded-lg bg-teal-500/15 hover:bg-teal-500/25 border border-teal-500/40 text-teal-300 text-xs font-bold flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-route"></i>
+                <span>পুরো রুট ম্যাপ</span>
+            </button>
+
+            <button onclick="toggleStudyLineVisibility()" class="p-2 rounded-lg bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/40 text-amber-300 text-xs font-bold flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-bezier-curve"></i>
+                <span id="lineToggleText">লাইন লুকান</span>
+            </button>
+
+            <button onclick="switchBaseMap()" class="p-2 rounded-lg bg-sky-500/15 hover:bg-sky-500/25 border border-sky-500/40 text-sky-300 text-xs font-bold flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-layer-group"></i>
+                <span id="mapThemeText">ডার্ক ম্যাপ</span>
+            </button>
+
+            <button onclick="toggleMenuDrawer(); openQuizModal();" class="p-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-circle-question"></i>
+                <span>কুইজ পরীক্ষা</span>
+            </button>
+        </div>
+
+        <!-- Ordered List of Straits (1 to 17) -->
+        <div id="drawerStraitList" class="flex-1 overflow-y-auto p-2 space-y-1.5"></div>
+    </aside>
+
+    <!-- ================= 4. FULL-SCREEN LEAFLET WORLD MAP ================= -->
+    <div id="map"></div>
+
+    <!-- ================= 5. STRAIT DETAILED INFO MODAL (Opens when clicking a Strait or 'ⓘ তথ্য') ================= -->
+    <div id="detailModal" class="hidden fixed inset-0 z-[700] bg-slate-950/75 backdrop-blur-sm flex items-center justify-center p-2.5">
+        <div class="bg-[#0a1c29] border-2 border-teal-400/70 rounded-2xl max-w-lg w-full max-h-[90vh] flex flex-col shadow-[0_15px_50px_rgba(0,0,0,0.95)] overflow-hidden">
+            
+            <!-- Modal Header -->
+            <div class="px-4 py-2.5 bg-gradient-to-r from-[#0e293c] to-[#091a26] border-b border-slate-700/80 flex items-center justify-between shrink-0">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span id="modalStepBadge" class="px-2 py-0.5 rounded bg-amber-500 text-slate-950 text-[10px] font-extrabold">ধাপ ১ / ১৭</span>
+                        <span id="modalRegionBadge" class="text-[11px] text-teal-300 font-semibold">এশিয়া ও উত্তর আমেরিকা</span>
+                    </div>
+                    <h3 id="modalTitleBn" class="text-base sm:text-lg font-bold text-white mt-0.5">১. বেরিং প্রণালী (Bering Strait)</h3>
+                </div>
+                <button onclick="closeDetailModal()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-rose-600 text-white flex items-center justify-center shrink-0">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-3.5 overflow-y-auto space-y-3 text-xs sm:text-sm flex-1">
+                
+                <!-- Visual Schematic Diagram of the Strait -->
+                <div class="relative w-full h-36 rounded-xl overflow-hidden bg-gradient-to-r from-[#042f49] via-[#075985] to-[#042f49] border border-sky-400/40 flex flex-col justify-between items-center p-2 shadow-inner">
+                    <!-- Top Landmass -->
+                    <div class="w-4/5 py-1 bg-gradient-to-b from-[#78350f] to-[#b45309] border border-amber-300 rounded-b-xl text-center shadow z-10">
+                        <span class="text-[9px] text-amber-200 block leading-none">পৃথককারী দেশ / ভূখণ্ড - ১</span>
+                        <span id="diagLand1" class="text-xs font-bold text-white">রাশিয়া (এশিয়া)</span>
+                    </div>
+
+                    <!-- Water Channel -->
+                    <div class="w-full flex items-center justify-between px-1 relative z-10">
+                        <div class="absolute left-6 right-6 h-0.5 border-b-2 border-dashed border-cyan-300/80"></div>
+                        <div class="bg-[#082f49]/95 border border-sky-400 px-2 py-1 rounded-lg text-center z-10 max-w-[36%]">
+                            <span class="text-[8px] text-sky-300 block leading-none">সাগর - ১</span>
+                            <span id="diagWater1" class="text-[11px] font-bold text-white leading-tight block">উত্তর মহাসাগর</span>
+                        </div>
+                        <div class="bg-teal-400 text-slate-950 font-extrabold px-2.5 py-0.5 rounded-full border-2 border-white text-[11px] shadow z-20">
+                            <span id="diagStrait">বেরিং প্রণালী</span>
+                        </div>
+                        <div class="bg-[#082f49]/95 border border-sky-400 px-2 py-1 rounded-lg text-center z-10 max-w-[36%]">
+                            <span class="text-[8px] text-sky-300 block leading-none">সাগর - ২</span>
+                            <span id="diagWater2" class="text-[11px] font-bold text-white leading-tight block">বেরিং সাগর</span>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Landmass -->
+                    <div class="w-4/5 py-1 bg-gradient-to-t from-[#78350f] to-[#b45309] border border-amber-300 rounded-t-xl text-center shadow z-10">
+                        <span id="diagLand2" class="text-xs font-bold text-white block">যুক্তরাষ্ট্রের আলাস্কা</span>
+                        <span class="text-[9px] text-amber-200 block leading-none">পৃথককারী দেশ / ভূখণ্ড - ২</span>
+                    </div>
+                </div>
+
+                <!-- Two Key Facts: Separates & Connects -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <div class="bg-[#07131c] p-2.5 rounded-xl border-l-4 border-amber-400">
+                        <span class="text-[10px] text-amber-300 font-bold block">পৃথক করেছে (২টি দেশ):</span>
+                        <p id="modalSeparates" class="text-white font-bold text-xs sm:text-sm mt-0.5"></p>
+                    </div>
+                    <div class="bg-[#07131c] p-2.5 rounded-xl border-l-4 border-sky-400">
+                        <span class="text-[10px] text-sky-300 font-bold block">সংযুক্ত করেছে (২টি সাগর):</span>
+                        <p id="modalConnects" class="text-white font-bold text-xs sm:text-sm mt-0.5"></p>
+                    </div>
+                </div>
+
+                <!-- Shortcut Mnemonic & Exam History -->
+                <div class="bg-teal-950/40 p-2.5 rounded-xl border border-teal-500/40 space-y-1">
+                    <span class="text-[11px] text-teal-300 font-bold block">
+                        <i class="fa-solid fa-lightbulb text-amber-300 mr-1"></i>মনে রাখার শর্টকাট কৌশল ও তথ্য:
+                    </span>
+                    <p id="modalMnemonic" class="text-slate-200 text-xs leading-relaxed"></p>
+                    <p id="modalExam" class="text-[11px] text-amber-300 font-semibold pt-1 border-t border-teal-800/50"></p>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="px-4 py-2.5 bg-[#07131c] border-t border-slate-800 flex items-center justify-between shrink-0">
+                <button onclick="closeDetailModal()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold">
+                    ম্যাপে ফিরে যান
+                </button>
+                <div class="flex items-center gap-1.5">
+                    <button onclick="closeDetailModal(); stepStudyPath(-1);" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold">
+                        ❮ পূর্ববর্তী
+                    </button>
+                    <button onclick="closeDetailModal(); stepStudyPath(1);" class="px-3.5 py-1.5 rounded-lg bg-teal-500 hover:bg-teal-400 text-slate-950 text-xs font-extrabold">
+                        পরবর্তী প্রণালী ❯
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= 6. EXAM QUIZ MODAL ================= -->
+    <div id="quizModal" class="hidden fixed inset-0 z-[750] bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-2.5">
+        <div class="bg-[#0b1d2a] border-2 border-teal-500/50 rounded-2xl max-w-lg w-full p-4 shadow-2xl space-y-3">
+            <div class="flex items-center justify-between border-b border-slate-700 pb-2">
+                <h3 class="text-base font-bold text-white"><i class="fa-solid fa-graduation-cap text-teal-400 mr-1.5"></i>প্রণালী বিষয়ক কুইজ পরীক্ষা</h3>
+                <button onclick="closeQuizModal()" class="w-7 h-7 rounded-full bg-slate-800 hover:bg-rose-600 text-white flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="flex items-center justify-between text-xs bg-[#07131c] px-3 py-1.5 rounded-lg">
+                <span id="quizCountText" class="text-slate-300 font-semibold">প্রশ্ন: ১ / ১০</span>
+                <div class="flex gap-3 font-bold">
+                    <span class="text-emerald-400">সঠিক: <span id="qRight">০</span></span>
+                    <span class="text-rose-400">ভুল: <span id="qWrong">০</span></span>
+                </div>
+            </div>
+            <div id="quizQuestionBox" class="text-xs sm:text-sm font-bold text-white bg-[#11283a] p-3 rounded-xl border-l-4 border-teal-400"></div>
+            <div id="quizOptionsBox" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
+            <div id="quizExplainBox" class="hidden p-2.5 rounded-xl border text-xs"></div>
+            <div class="flex justify-between pt-2 border-t border-slate-800">
+                <button onclick="initQuiz()" class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 text-xs font-semibold">নতুন কুইজ</button>
+                <button onclick="nextQuestion()" class="px-4 py-1.5 rounded-lg bg-teal-500 text-slate-950 font-bold text-xs">পরবর্তী প্রশ্ন ❯</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= JAVASCRIPT ENGINE ================= -->
+    <script>
+        /**
+         * 5 Major Oceans of the World (Displayed cleanly on the water)
+         */
+        const majorOceans = [
+            { bn: "প্রশান্ত মহাসাগর", en: "PACIFIC OCEAN", coords: [12.0, -142.0] },
+            { bn: "প্রশান্ত মহাসাগর", en: "PACIFIC OCEAN", coords: [18.0, 154.0] },
+            { bn: "আটলান্টিক মহাসাগর", en: "ATLANTIC OCEAN", coords: [20.0, -40.0] },
+            { bn: "দক্ষিণ আটলান্টিক", en: "SOUTH ATLANTIC", coords: [-22.0, -18.0] },
+            { bn: "ভারত মহাসাগর", en: "INDIAN OCEAN", coords: [-18.0, 78.0] },
+            { bn: "উত্তর মহাসাগর", en: "ARCTIC OCEAN", coords: [75.0, 40.0] }
+        ];
+
+        /**
+         * 17 Exam-Essential World Straits Ordered from WEST TO EAST (1 -> 17)
+         * Ensures a smooth, continuous study line across the World Map!
+         */
+        const straitsData = [
+            {
+                id: 1,
+                bnNum: "১",
+                shortBn: "বেরিং",
+                nameBn: "বেরিং প্রণালী",
+                nameEn: "Bering Strait",
+                region: "উত্তর আমেরিকা ও এশিয়া",
+                coords: [65.75, -168.95],
+                zoom: 5,
+                labelPos: "pos-bottom",
+                land1: { nameBn: "রাশিয়া (এশিয়া)", nameEn: "Russia", coords: [66.6, -176.5] },
+                land2: { nameBn: "আলাস্কা (যুক্তরাষ্ট্র)", nameEn: "Alaska, USA", coords: [64.8, -161.0] },
+                water1: { nameBn: "উত্তর মহাসাগর (চুকচি সাগর)", nameEn: "Arctic Ocean", coords: [69.0, -168.9] },
+                water2: { nameBn: "বেরিং সাগর (প্রশান্ত মহাসাগর)", nameEn: "Bering Sea", coords: [61.8, -168.9] },
+                connectsText: "উত্তর মহাসাগর ও বেরিং সাগর (প্রশান্ত মহাসাগর)",
+                separatesText: "রাশিয়া (এশিয়া) ও যুক্তরাষ্ট্রের আলাস্কা (উত্তর আমেরিকা)",
+                mnemonic: "আন্তর্জাতিক তারিখ রেখা (১৮০° দ্রাঘিমা) এই বেরিং প্রণালীর ভেতর দিয়ে গেছে। এটি এশিয়া থেকে উত্তর আমেরিকাকে পৃথক করেছে।",
+                examHistory: "১৫তম, ২৯তম, ৪০তম বিসিএস ও শিক্ষক নিবন্ধন"
+            },
+            {
+                id: 2,
+                bnNum: "২",
+                shortBn: "ডেভিস",
+                nameBn: "ডেভিস প্রণালী",
+                nameEn: "Davis Strait",
+                region: "উত্তর আমেরিকা",
+                coords: [66.00, -57.50],
+                zoom: 4.5,
+                labelPos: "pos-bottom",
+                land1: { nameBn: "গ্রিনল্যান্ড (ডেনমার্ক)", nameEn: "Greenland", coords: [68.2, -46.5] },
+                land2: { nameBn: "কানাডা (ব্যাফিন দ্বীপ)", nameEn: "Canada", coords: [65.2, -68.5] },
+                water1: { nameBn: "ব্যাফিন উপসাগর", nameEn: "Baffin Bay", coords: [72.0, -62.5] },
+                water2: { nameBn: "ল্যাব্রাডর সাগর (আটলান্টিক)", nameEn: "Labrador Sea", coords: [59.8, -54.0] },
+                connectsText: "ব্যাফিন উপসাগর ও ল্যাব্রাডর সাগর (আটলান্টিক মহাসাগর)",
+                separatesText: "গ্রিনল্যান্ড ও কানাডা",
+                mnemonic: "বিশ্বের সবচেয়ে প্রশস্ত (চওড়া) প্রণালী হলো ডেভিস প্রণালী, যা পৃথিবীর বৃহত্তম দ্বীপ গ্রিনল্যান্ডকে কানাডা থেকে পৃথক করেছে।",
+                examHistory: "বিশ্ববিদ্যালয় ভর্তি ও ব্যাংক নিয়োগ পরীক্ষা"
+            },
+            {
+                id: 3,
+                bnNum: "৩",
+                shortBn: "ফ্লোরিডা",
+                nameBn: "ফ্লোরিডা প্রণালী",
+                nameEn: "Strait of Florida",
+                region: "উত্তর আমেরিকা",
+                coords: [24.10, -80.80],
+                zoom: 6,
+                labelPos: "pos-bottom",
+                land1: { nameBn: "যুক্তরাষ্ট্র (ফ্লোরিডা)", nameEn: "USA (Florida)", coords: [27.0, -81.5] },
+                land2: { nameBn: "কিউবা", nameEn: "Cuba", coords: [21.8, -79.5] },
+                water1: { nameBn: "মেক্সিকো উপসাগর", nameEn: "Gulf of Mexico", coords: [24.8, -84.8] },
+                water2: { nameBn: "আটলান্টিক মহাসাগর", nameEn: "Atlantic Ocean", coords: [25.5, -76.8] },
+                connectsText: "মেক্সিকো উপসাগর ও আটলান্টিক মহাসাগর",
+                separatesText: "যুক্তরাষ্ট্র (ফ্লোরিডা) ও কিউবা",
+                mnemonic: "যুক্তরাষ্ট্রের ফ্লোরিডা অঙ্গরাজ্যকে কিউবা দেশ থেকে পৃথক করেছে এবং মেক্সিকো উপসাগরকে আটলান্টিকের সাথে যুক্ত করেছে।",
+                examHistory: "২৫তম বিসিএস ও বাংলাদেশ ব্যাংক পরীক্ষা"
+            },
+            {
+                id: 4,
+                bnNum: "৪",
+                shortBn: "জিব্রাল্টার",
+                nameBn: "জিব্রাল্টার প্রণালী",
+                nameEn: "Strait of Gibraltar",
+                region: "ইউরোপ ও আফ্রিকা",
+                coords: [35.96, -5.50],
+                zoom: 6,
+                labelPos: "pos-left",
+                land1: { nameBn: "স্পেন (ইউরোপ)", nameEn: "Spain", coords: [39.2, -4.2] },
+                land2: { nameBn: "মরক্কো (আফ্রিকা)", nameEn: "Morocco", coords: [32.6, -6.0] },
+                water1: { nameBn: "আটলান্টিক মহাসাগর", nameEn: "Atlantic Ocean", coords: [35.8, -10.2] },
+                water2: { nameBn: "ভূমধ্যসাগর", nameEn: "Mediterranean Sea", coords: [36.5, -0.8] },
+                connectsText: "আটলান্টিক মহাসাগর ও ভূমধ্যসাগর",
+                separatesText: "স্পেন (ইউরোপ) ও মরক্কো (আফ্রিকা)",
+                mnemonic: "শর্টকাট: ‘মাসজিদ’ — ম=মরক্কো ও স=স্পেনকে পৃথক করেছে; জি=জিব্রাল্টার প্রণালী; ভ=ভূমধ্যসাগর ও আটলান্টিক মহাসাগরকে যুক্ত করেছে।",
+                examHistory: "১০ম, ২৭তম, ৩২তম বিসিএস ও প্রাইমারি নিয়োগ"
+            },
+            {
+                id: 5,
+                bnNum: "৫",
+                shortBn: "ইংলিশ চ্যানেল",
+                nameBn: "ইংলিশ চ্যানেল",
+                nameEn: "English Channel",
+                region: "পশ্চিম ইউরোপ",
+                coords: [50.15, -1.80],
+                zoom: 6,
+                labelPos: "pos-left",
+                land1: { nameBn: "যুক্তরাজ্য (ব্রিটেন)", nameEn: "United Kingdom", coords: [51.8, -2.2] },
+                land2: { nameBn: "ফ্রান্স", nameEn: "France", coords: [48.2, -1.5] },
+                water1: { nameBn: "আটলান্টিক মহাসাগর", nameEn: "Atlantic Ocean", coords: [49.2, -6.0] },
+                water2: { nameBn: "উত্তর সাগর (ডোভার)", nameEn: "North Sea", coords: [51.2, 1.8] },
+                connectsText: "আটলান্টিক মহাসাগর ও উত্তর সাগর",
+                separatesText: "যুক্তরাজ্য (ব্রিটেন) ও ফ্রান্স",
+                mnemonic: "ইংলিশ চ্যানেল যুক্তরাজ্যকে ফ্রান্স থেকে পৃথক করেছে। সাতারু ব্রজেন দাস প্রথম বাঙালি হিসেবে এটি পাড়ি দেন।",
+                examHistory: "বিভিন্ন সরকারি চাকরির পরীক্ষা"
+            },
+            {
+                id: 6,
+                bnNum: "৬",
+                shortBn: "ডোভার",
+                nameBn: "ডোভার প্রণালী",
+                nameEn: "Strait of Dover",
+                region: "পশ্চিম ইউরোপ",
+                coords: [51.02, 1.48],
+                zoom: 6.5,
+                labelPos: "pos-top",
+                land1: { nameBn: "যুক্তরাজ্য (ইংল্যান্ড)", nameEn: "United Kingdom", coords: [52.2, 0.2] },
+                land2: { nameBn: "ফ্রান্স", nameEn: "France", coords: [49.6, 2.8] },
+                water1: { nameBn: "ইংলিশ চ্যানেল", nameEn: "English Channel", coords: [50.1, -1.2] },
+                water2: { nameBn: "উত্তর সাগর", nameEn: "North Sea", coords: [52.3, 3.5] },
+                connectsText: "ইংলিশ চ্যানেল ও উত্তর সাগর",
+                separatesText: "যুক্তরাজ্য (ব্রিটেন) ও ফ্রান্স",
+                mnemonic: "ডোভার প্রণালী ইংলিশ চ্যানেলের সবচেয়ে সরু অংশ, যা ব্রিটেন ও ফ্রান্সকে পৃথক করেছে (এর নিচে চ্যানেল টানেল অবস্থিত)।",
+                examHistory: "২০তম, ৩১তম বিসিএস ও শিক্ষক নিয়োগ"
+            },
+            {
+                id: 7,
+                bnNum: "৭",
+                shortBn: "দার্দানেলিস",
+                nameBn: "দার্দানেলিস প্রণালী",
+                nameEn: "Dardanelles Strait",
+                region: "তুরস্ক (ইউরোপ ও এশিয়া)",
+                coords: [40.20, 26.40],
+                zoom: 7,
+                labelPos: "pos-left",
+                land1: { nameBn: "ইউরোপীয় তুরস্ক", nameEn: "European Turkey", coords: [41.0, 26.2] },
+                land2: { nameBn: "এশীয় তুরস্ক", nameEn: "Asian Turkey", coords: [39.5, 27.2] },
+                water1: { nameBn: "ঈজিয়ান সাগর (ভূমধ্যসাগর)", nameEn: "Aegean Sea", coords: [39.4, 24.8] },
+                water2: { nameBn: "মর্মর সাগর", nameEn: "Sea of Marmara", coords: [40.7, 27.8] },
+                connectsText: "ঈজিয়ান সাগর (ভূমধ্যসাগর) ও মর্মর সাগর",
+                separatesText: "ইউরোপ ও এশিয়া (তুরস্ক)",
+                mnemonic: "শর্টকাট: ‘দাদি’ — দা=দার্দানেলিস, ঈ=ঈজিয়ান সাগর ও মর্মর সাগরকে সংযুক্ত করেছে এবং ইউরোপ ও এশিয়াকে পৃথক করেছে।",
+                examHistory: "২৬তম, ৩৪তম বিসিএস ও দুদক পরীক্ষা"
+            },
+            {
+                id: 8,
+                bnNum: "৮",
+                shortBn: "বসফরাস",
+                nameBn: "বসফরাস প্রণালী",
+                nameEn: "Bosphorus Strait",
+                region: "তুরস্ক (ইউরোপ ও এশিয়া)",
+                coords: [41.15, 29.08],
+                zoom: 7,
+                labelPos: "pos-top",
+                land1: { nameBn: "ইউরোপীয় তুরস্ক (ইস্তাম্বুল)", nameEn: "European Turkey", coords: [41.6, 27.6] },
+                land2: { nameBn: "এশীয় তুরস্ক (আনাতোলিয়া)", nameEn: "Asian Turkey", coords: [40.7, 30.8] },
+                water1: { nameBn: "মর্মর সাগর", nameEn: "Sea of Marmara", coords: [40.6, 28.0] },
+                water2: { nameBn: "কৃষ্ণ সাগর", nameEn: "Black Sea", coords: [42.3, 29.5] },
+                connectsText: "কৃষ্ণ সাগর ও মর্মর সাগর",
+                separatesText: "এশিয়া ও ইউরোপ (তুরস্ক)",
+                mnemonic: "শর্টকাট: ‘বস’ (বসফরাস) কৃষ্ণ সাগর ও মর্মর সাগরকে যুক্ত করেছে। এটি বিশ্বের সবচেয়ে সরু আন্তঃমহাদেশীয় প্রণালী।",
+                examHistory: "১৮তম, ৩০তম, ৩৭তম বিসিএস"
+            },
+            {
+                id: 9,
+                bnNum: "৯",
+                shortBn: "বাবেল মান্দেব",
+                nameBn: "বাবেল মান্দেব প্রণালী",
+                nameEn: "Bab-el-Mandeb",
+                region: "এশিয়া ও আফ্রিকা",
+                coords: [12.60, 43.33],
+                zoom: 6,
+                labelPos: "pos-bottom",
+                land1: { nameBn: "ইয়েমেন (এশিয়া)", nameEn: "Yemen", coords: [15.2, 45.5] },
+                land2: { nameBn: "জিবুতি ও ইরিত্রিয়া (আফ্রিকা)", nameEn: "Djibouti", coords: [11.3, 41.5] },
+                water1: { nameBn: "লোহিত সাগর", nameEn: "Red Sea", coords: [16.2, 40.8] },
+                water2: { nameBn: "এডেন উপসাগর (আরব সাগর)", nameEn: "Gulf of Aden", coords: [12.1, 47.8] },
+                connectsText: "লোহিত সাগর ও এডেন উপসাগর (আরব সাগর)",
+                separatesText: "ইয়েমেন (এশিয়া) ও জিবুতি (আফ্রিকা)",
+                mnemonic: "‘বাবেল মান্দেব’ অর্থ ‘অশ্রুর প্রবেশদ্বার’ (Gate of Tears)। এটি এশিয়া ও আফ্রিকা মহাদেশকে পৃথক করেছে।",
+                examHistory: "১৭তম, ৩৩তম, ৪৩তম বিসিএস"
+            },
+            {
+                id: 10,
+                bnNum: "১০",
+                shortBn: "হরমুজ",
+                nameBn: "হরমুজ প্রণালী",
+                nameEn: "Strait of Hormuz",
+                region: "মধ্যপ্রাচ্য (এশিয়া)",
+                coords: [26.58, 56.25],
+                zoom: 6,
+                labelPos: "pos-top",
+                land1: { nameBn: "ইরান", nameEn: "Iran", coords: [29.0, 55.2] },
+                land2: { nameBn: "ওমান ও আরব আমিরাত", nameEn: "Oman & UAE", coords: [23.5, 55.5] },
+                water1: { nameBn: "পারস্য উপসাগর", nameEn: "Persian Gulf", coords: [26.8, 51.5] },
+                water2: { nameBn: "ওমান উপসাগর (আরব সাগর)", nameEn: "Gulf of Oman", coords: [24.5, 60.0] },
+                connectsText: "পারস্য উপসাগর ও ওমান উপসাগর (আরব সাগর)",
+                separatesText: "ইরান ও ওমান/সংযুক্ত আরব আমিরাত",
+                mnemonic: "বিশ্বের সবচেয়ে গুরুত্বপূর্ণ জ্বালানি তেল পরিবহন রুট। এটি ইরানকে আরব উপদ্বীপ (ওমান ও আমিরাত) থেকে পৃথক করেছে।",
+                examHistory: "৩৫তম, ৪১তম বিসিএস ও পররাষ্ট্র মন্ত্রণালয়"
+            },
+            {
+                id: 11,
+                bnNum: "১১",
+                shortBn: "পক",
+                nameBn: "পক প্রণালী",
+                nameEn: "Palk Strait",
+                region: "দক্ষিণ এশিয়া",
+                coords: [9.60, 79.45],
+                zoom: 6,
+                labelPos: "pos-bottom",
+                land1: { nameBn: "ভারত (তামিলনাড়ু)", nameEn: "India", coords: [11.2, 77.8] },
+                land2: { nameBn: "শ্রীলঙ্কা", nameEn: "Sri Lanka", coords: [7.5, 80.8] },
+                water1: { nameBn: "মান্নার উপসাগর (ভারত মহাসাগর)", nameEn: "Indian Ocean", coords: [7.8, 77.2] },
+                water2: { nameBn: "বঙ্গোপসাগর", nameEn: "Bay of Bengal", coords: [11.5, 82.5] },
+                connectsText: "বঙ্গোপসাগর ও মান্নার উপসাগর (ভারত মহাসাগর)",
+                separatesText: "ভারত ও শ্রীলঙ্কা",
+                mnemonic: "পক প্রণালী ভারত ও শ্রীলঙ্কাকে পৃথক করেছে এবং বঙ্গোপসাগর ও ভারত মহাসাগরকে সংযুক্ত করেছে।",
+                examHistory: "১১তম, ২৪তম, ৩৬তম বিসিএস"
+            },
+            {
+                id: 12,
+                bnNum: "১২",
+                shortBn: "মালাক্কা",
+                nameBn: "মালাক্কা প্রণালী",
+                nameEn: "Strait of Malacca",
+                region: "দক্ষিণ-পূর্ব এশিয়া",
+                coords: [2.80, 101.20],
+                zoom: 6,
+                labelPos: "pos-left",
+                land1: { nameBn: "মালয়েশিয়া", nameEn: "Malaysia", coords: [4.6, 102.4] },
+                land2: { nameBn: "ইন্দোনেশিয়া (সুমাত্রা দ্বীপ)", nameEn: "Indonesia (Sumatra)", coords: [0.5, 100.0] },
+                water1: { nameBn: "বঙ্গোপসাগর / আন্দামান সাগর", nameEn: "Bay of Bengal", coords: [6.8, 97.0] },
+                water2: { nameBn: "জাভা সাগর / দক্ষিণ চীন সাগর", nameEn: "Java / South China Sea", coords: [1.2, 105.5] },
+                connectsText: "বঙ্গোপসাগর (ভারত মহাসাগর) ও জাভা/দক্ষিণ চীন সাগর",
+                separatesText: "মালয়েশিয়া ও ইন্দোনেশিয়া (সুমাত্রা)",
+                mnemonic: "শর্টকাট: ‘মাই বজা’ — মা=মালয়েশিয়া ও ই=ইন্দোনেশিয়াকে পৃথক করেছে; ব=বঙ্গোপসাগর ও জা=জাভা সাগরকে যুক্ত করেছে।",
+                examHistory: "১২তম, ২৮তম, ৩৮তম বিসিএস"
+            },
+            {
+                id: 13,
+                bnNum: "১৩",
+                shortBn: "সুন্দা",
+                nameBn: "সুন্দা প্রণালী",
+                nameEn: "Sunda Strait",
+                region: "দক্ষিণ-পূর্ব এশিয়া",
+                coords: [-6.00, 105.75],
+                zoom: 6,
+                labelPos: "pos-bottom",
+                land1: { nameBn: "সুমাত্রা দ্বীপ (ইন্দোনেশিয়া)", nameEn: "Sumatra Island", coords: [-4.2, 104.2] },
+                land2: { nameBn: "জাভা দ্বীপ (ইন্দোনেশিয়া)", nameEn: "Java Island", coords: [-7.2, 107.8] },
+                water1: { nameBn: "ভারত মহাসাগর", nameEn: "Indian Ocean", coords: [-7.5, 103.0] },
+                water2: { nameBn: "জাভা সাগর", nameEn: "Java Sea", coords: [-4.5, 108.0] },
+                connectsText: "ভারত মহাসাগর ও জাভা সাগর",
+                separatesText: "সুমাত্রা দ্বীপ ও জাভা দ্বীপ (ইন্দোনেশিয়া)",
+                mnemonic: "সুন্দা প্রণালী ইন্দোনেশিয়ার সুমাত্রা ও জাভা দ্বীপকে পৃথক করেছে এবং জাভা সাগর ও ভারত মহাসাগরকে যুক্ত করেছে।",
+                examHistory: "৩৬তম বিসিএস ও শিক্ষক নিয়োগ পরীক্ষা"
+            },
+            {
+                id: 14,
+                bnNum: "১৪",
+                shortBn: "মাকাসসার",
+                nameBn: "মাকাসসার প্রণালী",
+                nameEn: "Makassar Strait",
+                region: "দক্ষিণ-পূর্ব এশিয়া",
+                coords: [-1.80, 117.80],
+                zoom: 5.5,
+                labelPos: "pos-right",
+                land1: { nameBn: "বোর্নিও দ্বীপ (ইন্দোনেশিয়া)", nameEn: "Borneo Island", coords: [0.2, 114.8] },
+                land2: { nameBn: "সুলাওয়েসি দ্বীপ (ইন্দোনেশিয়া)", nameEn: "Sulawesi Island", coords: [-2.2, 120.5] },
+                water1: { nameBn: "সেলিবিস সাগর", nameEn: "Celebes Sea", coords: [2.5, 119.5] },
+                water2: { nameBn: "জাভা সাগর", nameEn: "Java Sea", coords: [-5.2, 116.0] },
+                connectsText: "সেলিবিস সাগর ও জাভা সাগর",
+                separatesText: "বোর্নিও দ্বীপ ও সুলাওয়েসি দ্বীপ (ইন্দোনেশিয়া)",
+                mnemonic: "ইন্দোনেশিয়ার বোর্নিও ও সুলাওয়েসি দ্বীপকে পৃথক করেছে এবং সেলিবিস সাগর ও জাভা সাগরকে সংযুক্ত করেছে।",
+                examHistory: "ব্যাংক ও সরকারি চাকরির সাধারণ জ্ঞান"
+            },
+            {
+                id: 15,
+                bnNum: "১৫",
+                shortBn: "ফরমোজা",
+                nameBn: "ফরমোজা (তাইওয়ান) প্রণালী",
+                nameEn: "Taiwan (Formosa) Strait",
+                region: "পূর্ব এশিয়া",
+                coords: [24.50, 119.50],
+                zoom: 6,
+                labelPos: "pos-right",
+                land1: { nameBn: "চীন (মূল ভূখণ্ড)", nameEn: "China", coords: [26.0, 116.8] },
+                land2: { nameBn: "তাইওয়ান (ফরমোজা দ্বীপ)", nameEn: "Taiwan", coords: [23.5, 121.2] },
+                water1: { nameBn: "দক্ষিণ চীন সাগর", nameEn: "South China Sea", coords: [21.5, 117.2] },
+                water2: { nameBn: "পূর্ব চীন সাগর", nameEn: "East China Sea", coords: [27.2, 122.0] },
+                connectsText: "পূর্ব চীন সাগর ও দক্ষিণ চীন সাগর",
+                separatesText: "চীন ও তাইওয়ান (ফরমোজা)",
+                mnemonic: "তাইওয়ানের পূর্ব নাম ছিল ‘ফরমোজা’। এটি এশিয়ার মূল ভূখণ্ড চীন থেকে তাইওয়ান দ্বীপকে পৃথক করেছে।",
+                examHistory: "৩৯তম, ৪৪তম বিসিএস"
+            },
+            {
+                id: 16,
+                bnNum: "১৬",
+                shortBn: "কোরিয়া",
+                nameBn: "কোরিয়া প্রণালী",
+                nameEn: "Korea Strait",
+                region: "পূর্ব এশিয়া",
+                coords: [34.25, 129.30],
+                zoom: 6,
+                labelPos: "pos-right",
+                land1: { nameBn: "দক্ষিণ কোরিয়া", nameEn: "South Korea", coords: [36.4, 127.8] },
+                land2: { nameBn: "জাপান", nameEn: "Japan", coords: [32.6, 131.2] },
+                water1: { nameBn: "পূর্ব চীন সাগর", nameEn: "East China Sea", coords: [31.5, 126.5] },
+                water2: { nameBn: "জাপান সাগর", nameEn: "Sea of Japan", coords: [37.0, 132.5] },
+                connectsText: "জাপান সাগর ও পূর্ব চীন সাগর",
+                separatesText: "দক্ষিণ কোরিয়া ও জাপান",
+                mnemonic: "কোরিয়া উপদ্বীপ (দক্ষিণ কোরিয়া) ও জাপানকে পৃথক করেছে এবং জাপান সাগর ও পূর্ব চীন সাগরকে যুক্ত করেছে।",
+                examHistory: "সরকারি চাকরির সাধারণ জ্ঞান"
+            },
+            {
+                id: 17,
+                bnNum: "১৭",
+                shortBn: "তাতার",
+                nameBn: "তাতার প্রণালী",
+                nameEn: "Strait of Tartary",
+                region: "উত্তর-পূর্ব এশিয়া",
+                coords: [50.50, 141.20],
+                zoom: 5.5,
+                labelPos: "pos-right",
+                land1: { nameBn: "রাশিয়া (মূল ভূখণ্ড)", nameEn: "Russia Mainland", coords: [51.8, 137.5] },
+                land2: { nameBn: "সাখালিন দ্বীপ (রাশিয়া)", nameEn: "Sakhalin Island", coords: [49.2, 143.5] },
+                water1: { nameBn: "জাপান সাগর", nameEn: "Sea of Japan", coords: [46.0, 139.5] },
+                water2: { nameBn: "ওখটস্ক সাগর", nameEn: "Sea of Okhotsk", coords: [54.5, 143.0] },
+                connectsText: "ওখটস্ক সাগর ও জাপান সাগর",
+                separatesText: "রাশিয়ার মূল ভূখণ্ড ও সাখালিন দ্বীপ",
+                mnemonic: "রাশিয়ার মূল ভূখণ্ড থেকে সাখালিন দ্বীপকে পৃথক করেছে এবং ওখটস্ক সাগর ও জাপান সাগরকে সংযুক্ত করেছে।",
+                examHistory: "বিভিন্ন ব্যাংক ও অধিদপ্তরের পরীক্ষা"
+            }
+        ];
+
+        // Global State
+        let map;
+        let satelliteLayer, darkLayer;
+        let isSatellite = true;
+        let showStudyLine = true;
+        let currentStraitId = null;
+
+        let oceanGroup, studyLineGroup, worldPinsGroup, zoomDetailGroup;
+
+        // Quiz State
+        let quizList = [];
+        let qIndex = 0, qRightCount = 0, qWrongCount = 0, qLocked = false;
+
+        function toBnNum(n) {
+            const d = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+            return String(n).replace(/\d/g, x => d[x]);
+        }
+
+        window.onload = function () {
+            populateDrawerList();
+            initMap();
+            window.addEventListener('resize', () => {
+                if (map) {
+                    map.invalidateSize();
+                    if (!currentStraitId) fitEntireWorldCleanly();
+                }
+            });
+        };
+
+        // Populate Slide-Out Drawer List
+        function populateDrawerList() {
+            const box = document.getElementById('drawerStraitList');
+            box.innerHTML = straitsData.map(s => `
+                <button onclick="selectStrait(${s.id}); toggleMenuDrawer();" class="w-full p-2 rounded-xl bg-[#0d2232] hover:bg-[#15344b] border border-slate-800 hover:border-teal-400 text-left flex items-center justify-between transition">
+                    <div>
+                        <div class="text-xs font-bold text-white">${s.bnNum}. ${s.nameBn}</div>
+                        <div class="text-[10px] text-amber-300">পৃথক: ${s.separatesText}</div>
+                    </div>
+                    <i class="fa-solid fa-location-arrow text-teal-400 text-xs"></i>
+                </button>
+            `).join('');
+        }
+
+        // Initialize Map with Fractional Zoom so Full World fits on Mobile Landscape
+        function initMap() {
+            map = L.map('map', {
+                center: [25, 10],
+                zoom: 2,
+                minZoom: 1,
+                maxZoom: 10,
+                zoomSnap: 0.1,
+                zoomDelta: 0.5,
+                zoomControl: false,
+                worldCopyJump: true
+            });
+
+            // 100% Label-Free Satellite Map
+            satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                attribution: 'Esri Satellite'
+            });
+
+            // 100% Label-Free Dark Map
+            darkLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
+                attribution: 'CartoDB Dark'
+            });
+
+            satelliteLayer.addTo(map);
+
+            oceanGroup = L.layerGroup().addTo(map);
+            studyLineGroup = L.layerGroup().addTo(map);
+            worldPinsGroup = L.layerGroup().addTo(map);
+            zoomDetailGroup = L.layerGroup().addTo(map);
+
+            renderOceans();
+            showFullWorldMap();
+        }
+
+        // Fit the entire study path (from Alaska -169 to Japan +142) neatly inside any mobile screen
+        function fitEntireWorldCleanly() {
+            const bounds = L.latLngBounds([
+                [-20, -172],
+                [72, 148]
+            ]);
+            map.fitBounds(bounds, {
+                paddingTopLeft: [20, 36],
+                paddingBottomRight: [20, 44],
+                animate: true,
+                duration: 1.0
+            });
+        }
+
+        // Render 5 Major Ocean Watermarks
+        function renderOceans() {
+            oceanGroup.clearLayers();
+            majorOceans.forEach(oc => {
+                const icon = L.divIcon({
+                    className: 'ocean-icon',
+                    html: `<div class="ocean-watermark"><span class="bn">${oc.bn}</span><span class="en">${oc.en}</span></div>`,
+                    iconSize: [0, 0]
+                });
+                L.marker(oc.coords, { icon, interactive: false }).addTo(oceanGroup);
+            });
+        }
+
+        // Render the Continuous Start-to-Finish Study Line (1 -> 17) & Clean Numbered Pins
+        function renderWorldStudyView() {
+            studyLineGroup.clearLayers();
+            worldPinsGroup.clearLayers();
+            zoomDetailGroup.clearLayers();
+
+            // 1. Draw the Golden Dashed Study Line from #1 (Bering) to #17 (Tartary)
+            if (showStudyLine) {
+                const pathCoords = straitsData.map(s => s.coords);
+
+                // Soft glow under the line
+                L.polyline(pathCoords, {
+                    color: '#0284c7',
+                    weight: 6,
+                    opacity: 0.35
+                }).addTo(studyLineGroup);
+
+                // Animated golden dashed study line
+                L.polyline(pathCoords, {
+                    color: '#facc15',
+                    weight: 2.5,
+                    opacity: 0.9,
+                    className: 'study-path-line'
+                }).addTo(studyLineGroup);
+            }
+
+            // 2. Render Clean Numbered Pins (1 to 17) with smart non-overlapping label positions
+            straitsData.forEach((s, idx) => {
+                const isFirst = idx === 0;
+                const isLast = idx === straitsData.length - 1;
+
+                let extraFlag = '';
+                if (isFirst) {
+                    extraFlag = `<div class="start-finish-flag flag-start">🚀 শুরু (১)</div>`;
+                } else if (isLast) {
+                    extraFlag = `<div class="start-finish-flag flag-end">🏁 শেষ (১৭)</div>`;
+                }
+
+                const pinIcon = L.divIcon({
+                    className: 'world-pin-wrapper',
+                    html: `
+                        <div class="world-step-pin">
+                            ${extraFlag}
+                            <div class="world-step-dot">${s.bnNum}</div>
+                            <div class="world-step-label ${s.labelPos}">${s.bnNum}. ${s.shortBn}</div>
+                        </div>
+                    `,
+                    iconSize: [0, 0]
+                });
+
+                const marker = L.marker(s.coords, { icon: pinIcon }).addTo(worldPinsGroup);
+                marker.on('click', () => selectStrait(s.id));
+            });
+        }
+
+        // Show Full World Map with the 1->17 Study Line
+        function showFullWorldMap() {
+            currentStraitId = null;
+            closeDetailModal();
+
+            document.getElementById('bottomStatusText').textContent = '🚀 শুরু করতে ১ নম্বরে বা ‘পরবর্তী’ চাপুন (১-১৭)';
+            document.getElementById('bottomInfoBtn').classList.add('hidden');
+            document.getElementById('bottomInfoBtn').classList.remove('flex');
+
+            renderWorldStudyView();
+            fitEntireWorldCleanly();
+        }
+
+        // Select & Zoom into a Specific Strait: Put Country Names ON Countries & Sea Names ON Seas!
+        function selectStrait(id) {
+            const s = straitsData.find(item => item.id === id);
+            if (!s) return;
+
+            currentStraitId = id;
+
+            // Update bottom compact bar
+            document.getElementById('bottomStatusText').textContent = `${s.bnNum}/১৭: ${s.nameBn}`;
+            const infoBtn = document.getElementById('bottomInfoBtn');
+            infoBtn.classList.remove('hidden');
+            infoBtn.classList.add('flex');
+
+            // Clear global pins so only this strait's 2 countries & 2 seas appear crystal clear
+            studyLineGroup.clearLayers();
+            worldPinsGroup.clearLayers();
+            zoomDetailGroup.clearLayers();
+
+            // Fly smoothly to the strait
+            map.flyTo(s.coords, s.zoom, {
+                animate: true,
+                duration: 1.15
+            });
+
+            // 1. Animated Cyan Water Flow Line connecting Sea 1 -> Strait -> Sea 2
+            const waterRoute = [s.water1.coords, s.coords, s.water2.coords];
+            L.polyline(waterRoute, {
+                color: '#0284c7',
+                weight: 8,
+                opacity: 0.35
+            }).addTo(zoomDetailGroup);
+
+            L.polyline(waterRoute, {
+                color: '#38bdf8',
+                weight: 3,
+                opacity: 0.95,
+                className: 'study-path-line'
+            }).addTo(zoomDetailGroup);
+
+            // 2. Subtle Gold Dashed Line showing Separation between Country 1 & Country 2
+            L.polyline([s.land1.coords, s.coords, s.land2.coords], {
+                color: '#f59e0b',
+                weight: 2,
+                dashArray: '4, 6',
+                opacity: 0.65
+            }).addTo(zoomDetailGroup);
+
+            // 3. Country 1 Badge (Placed directly on Country 1's coordinates)
+            const land1Icon = L.divIcon({
+                className: 'zoom-pin',
+                html: `
+                    <div class="on-country-label">
+                        <span class="tag"><i class="fa-solid fa-location-dot mr-1"></i>পৃথককারী দেশ - ১</span>
+                        <div class="name-bn">${s.land1.nameBn}</div>
+                        <span class="name-en">${s.land1.nameEn}</span>
+                    </div>
+                `,
+                iconSize: [0, 0]
+            });
+            L.marker(s.land1.coords, { icon: land1Icon }).addTo(zoomDetailGroup);
+
+            // 4. Country 2 Badge (Placed directly on Country 2's coordinates)
+            const land2Icon = L.divIcon({
+                className: 'zoom-pin',
+                html: `
+                    <div class="on-country-label">
+                        <span class="tag"><i class="fa-solid fa-location-dot mr-1"></i>পৃথককারী দেশ - ২</span>
+                        <div class="name-bn">${s.land2.nameBn}</div>
+                        <span class="name-en">${s.land2.nameEn}</span>
+                    </div>
+                `,
+                iconSize: [0, 0]
+            });
+            L.marker(s.land2.coords, { icon: land2Icon }).addTo(zoomDetailGroup);
+
+            // 5. Sea 1 Badge (Placed directly on Sea 1's water coordinates)
+            const water1Icon = L.divIcon({
+                className: 'zoom-pin',
+                html: `
+                    <div class="on-sea-label">
+                        <span class="tag"><i class="fa-solid fa-water mr-1"></i>সংযুক্ত সাগর - ১</span>
+                        <div class="name-bn">${s.water1.nameBn}</div>
+                        <span class="name-en">${s.water1.nameEn}</span>
+                    </div>
+                `,
+                iconSize: [0, 0]
+            });
+            L.marker(s.water1.coords, { icon: water1Icon }).addTo(zoomDetailGroup);
+
+            // 6. Sea 2 Badge (Placed directly on Sea 2's water coordinates)
+            const water2Icon = L.divIcon({
+                className: 'zoom-pin',
+                html: `
+                    <div class="on-sea-label">
+                        <span class="tag"><i class="fa-solid fa-water mr-1"></i>সংযুক্ত সাগর - ২</span>
+                        <div class="name-bn">${s.water2.nameBn}</div>
+                        <span class="name-en">${s.water2.nameEn}</span>
+                    </div>
+                `,
+                iconSize: [0, 0]
+            });
+            L.marker(s.water2.coords, { icon: water2Icon }).addTo(zoomDetailGroup);
+
+            // 7. Center Strait Marker (Clicking it opens the Detailed Info Modal)
+            const centerIcon = L.divIcon({
+                className: 'zoom-pin',
+                html: `
+                    <div class="center-strait-pill" title="বিস্তারিত তথ্য দেখতে ক্লিক করুন">
+                        <div class="center-strait-pulse">
+                            <div class="w-2.5 h-2.5 rounded-full bg-white"></div>
+                        </div>
+                        <div class="center-strait-title-box">
+                            <span class="text-xs font-extrabold text-white">${s.bnNum}. ${s.nameBn}</span>
+                            <span class="px-1.5 py-0.5 rounded-full bg-amber-400 text-slate-950 text-[9px] font-extrabold">ⓘ বিস্তারিত</span>
+                        </div>
+                    </div>
+                `,
+                iconSize: [0, 0]
+            });
+            const centerMarker = L.marker(s.coords, { icon: centerIcon, zIndexOffset: 1000 }).addTo(zoomDetailGroup);
+            centerMarker.on('click', () => openDetailModal(s));
+        }
+
+        // Step Forward or Backward along the 1 -> 17 Study Line
+        function stepStudyPath(dir) {
+            if (!currentStraitId) {
+                selectStrait(dir > 0 ? 1 : straitsData.length);
+                return;
+            }
+            let nextId = currentStraitId + dir;
+            if (nextId > straitsData.length) nextId = 1;
+            if (nextId < 1) nextId = straitsData.length;
+            selectStrait(nextId);
+        }
+
+        function handleCenterPillClick() {
+            if (!currentStraitId) {
+                selectStrait(1);
+            } else {
+                openCurrentDetailModal();
+            }
+        }
+
+        // Open Detailed Info Modal for the Currently Selected Strait
+        function openCurrentDetailModal() {
+            const s = straitsData.find(item => item.id === currentStraitId) || straitsData[0];
+            openDetailModal(s);
+        }
+
+        function openDetailModal(s) {
+            document.getElementById('modalStepBadge').textContent = `ধাপ ${s.bnNum} / ১৭`;
+            document.getElementById('modalRegionBadge').textContent = s.region;
+            document.getElementById('modalTitleBn').textContent = `${s.bnNum}. ${s.nameBn} (${s.nameEn})`;
+
+            document.getElementById('diagLand1').textContent = s.land1.nameBn;
+            document.getElementById('diagLand2').textContent = s.land2.nameBn;
+            document.getElementById('diagWater1').textContent = s.water1.nameBn;
+            document.getElementById('diagWater2').textContent = s.water2.nameBn;
+            document.getElementById('diagStrait').textContent = s.nameBn;
+
+            document.getElementById('modalSeparates').textContent = s.separatesText;
+            document.getElementById('modalConnects').textContent = s.connectsText;
+            document.getElementById('modalMnemonic').textContent = s.mnemonic;
+            document.getElementById('modalExam').textContent = `বিগত সালের প্রশ্ন: ${s.examHistory}`;
+
+            document.getElementById('detailModal').classList.remove('hidden');
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detailModal').classList.add('hidden');
+        }
+
+        // Drawer & Control Toggles
+        function toggleMenuDrawer() {
+            const drawer = document.getElementById('menuDrawer');
+            const backdrop = document.getElementById('menuBackdrop');
+            const isClosed = drawer.classList.contains('-translate-x-full');
+            if (isClosed) {
+                drawer.classList.remove('-translate-x-full');
+                backdrop.classList.remove('hidden');
+            } else {
+                drawer.classList.add('-translate-x-full');
+                backdrop.classList.add('hidden');
+            }
+        }
+
+        function toggleStudyLineVisibility() {
+            showStudyLine = !showStudyLine;
+            document.getElementById('lineToggleText').textContent = showStudyLine ? 'লাইন লুকান' : 'লাইন দেখান';
+            if (!currentStraitId) renderWorldStudyView();
+        }
+
+        function switchBaseMap() {
+            const txt = document.getElementById('mapThemeText');
+            if (isSatellite) {
+                map.removeLayer(satelliteLayer);
+                darkLayer.addTo(map);
+                txt.textContent = 'স্যাটেলাইট ম্যাপ';
+                isSatellite = false;
+            } else {
+                map.removeLayer(darkLayer);
+                satelliteLayer.addTo(map);
+                txt.textContent = 'ডার্ক ম্যাপ';
+                isSatellite = true;
+            }
+        }
+
+        async function toggleFullscreenLandscape() {
+            try {
+                if (!document.fullscreenElement) {
+                    if (document.documentElement.requestFullscreen) {
+                        await document.documentElement.requestFullscreen();
+                    }
+                    if (screen.orientation && screen.orientation.lock) {
+                        await screen.orientation.lock('landscape').catch(() => {});
+                    }
+                } else {
+                    if (document.exitFullscreen) await document.exitFullscreen();
+                }
+            } catch (e) {}
+            setTimeout(() => {
+                if (map) {
+                    map.invalidateSize();
+                    if (!currentStraitId) fitEntireWorldCleanly();
+                }
+            }, 300);
+        }
+
+        // ================= QUIZ ENGINE =================
+        function openQuizModal() {
+            document.getElementById('quizModal').classList.remove('hidden');
+            if (quizList.length === 0) initQuiz();
+        }
+
+        function closeQuizModal() {
+            document.getElementById('quizModal').classList.add('hidden');
+        }
+
+        function initQuiz() {
+            qRightCount = 0; qWrongCount = 0; qIndex = 0;
+            document.getElementById('qRight').textContent = '০';
+            document.getElementById('qWrong').textContent = '০';
+
+            const shuffled = [...straitsData].sort(() => 0.5 - Math.random()).slice(0, 10);
+            quizList = shuffled.map((s, i) => {
+                const askSep = i % 2 === 0;
+                const correct = askSep ? s.separatesText : s.connectsText;
+                const wrongs = straitsData
+                    .filter(x => x.id !== s.id)
+                    .sort(() => 0.5 - Math.random())
+                    .slice(0, 3)
+                    .map(x => askSep ? x.separatesText : x.connectsText);
+
+                return {
+                    q: askSep
+                        ? `‘${s.nameBn}’ কোন দুটি দেশ বা ভূখণ্ডকে পৃথক করেছে?`
+                        : `‘${s.nameBn}’ কোন দুটি সাগর বা মহাসাগরকে সংযুক্ত করেছে?`,
+                    ans: correct,
+                    opts: [correct, ...wrongs].sort(() => 0.5 - Math.random()),
+                    exp: `${s.nameBn} — পৃথক করেছে: ${s.separatesText} | সংযুক্ত করেছে: ${s.connectsText}।`
+                };
+            });
+            renderQuizQuestion();
+        }
+
+        function renderQuizQuestion() {
+            qLocked = false;
+            const item = quizList[qIndex];
+            document.getElementById('quizCountText').textContent = `প্রশ্ন: ${toBnNum(qIndex + 1)} / ${toBnNum(quizList.length)}`;
+            document.getElementById('quizQuestionBox').textContent = `${toBnNum(qIndex + 1)}. ${item.q}`;
+            document.getElementById('quizExplainBox').classList.add('hidden');
+
+            const letters = ['ক', 'খ', 'গ', 'ঘ'];
+            document.getElementById('quizOptionsBox').innerHTML = item.opts.map((opt, idx) => `
+                <button onclick="checkQuizOption(${idx})" id="qBtn_${idx}" class="p-2.5 rounded-xl bg-[#13293a] hover:bg-[#1b3a52] border border-slate-700 text-left text-xs text-white font-semibold flex items-center gap-2 transition">
+                    <span class="w-5 h-5 rounded bg-slate-800 text-teal-300 flex items-center justify-center font-bold shrink-0">${letters[idx]}</span>
+                    <span>${opt}</span>
+                </button>
+            `).join('');
+        }
+
+        function checkQuizOption(idx) {
+            if (qLocked) return;
+            qLocked = true;
+            const item = quizList[qIndex];
+            const ok = item.opts[idx] === item.ans;
+
+            if (ok) qRightCount++; else qWrongCount++;
+            document.getElementById('qRight').textContent = toBnNum(qRightCount);
+            document.getElementById('qWrong').textContent = toBnNum(qWrongCount);
+
+            item.opts.forEach((opt, i) => {
+                const b = document.getElementById(`qBtn_${i}`);
+                if (opt === item.ans) {
+                    b.className = "p-2.5 rounded-xl bg-emerald-950 border-2 border-emerald-400 text-left text-xs text-white font-bold flex items-center gap-2";
+                } else if (i === idx && !ok) {
+                    b.className = "p-2.5 rounded-xl bg-rose-950 border-2 border-rose-400 text-left text-xs text-rose-200 font-semibold flex items-center gap-2";
+                }
+            });
+
+            const exp = document.getElementById('quizExplainBox');
+            exp.classList.remove('hidden');
+            exp.className = `p-2.5 rounded-xl border text-xs ${ok ? 'bg-emerald-950/40 border-emerald-500/50 text-emerald-200' : 'bg-rose-950/40 border-rose-500/50 text-rose-200'}`;
+            exp.innerHTML = `<strong>${ok ? '✔ সঠিক!' : '✖ ভুল!'}</strong> ${item.exp}`;
+        }
+
+        function nextQuestion() {
+            if (qIndex < quizList.length - 1) {
+                qIndex++;
+                renderQuizQuestion();
+            } else {
+                initQuiz();
+            }
+        }
+    </script>
+</body>
+</html>
