@@ -213,7 +213,7 @@
             color: var(--title-yellow);
         }
 
-        /* Card Container - Screenshot Style */
+        /* Card Container */
         .card {
             width: 100%;
             background: var(--card-bg);
@@ -582,7 +582,6 @@
   { q: "BYTE", a: "8 bits", bn: "৮ বিটস", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
   { q: "V-Phone", a: "Video Phone", bn: "ভিডিও ফোন", topic: "১. তথ্যপ্রযুক্তি ও কম্পিউটার" },
   
-  
  // ২. আন্তর্জাতিক সংস্থা ও জোট
   { q: "OPEC", a: "Organization of the Petroleum Exporting Countries", bn: "অর্গানাইজেশন অব দ্য পেট্রোলিয়াম এক্সপোর্টিং কান্ট্রিজ", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
   { q: "UNESCO", a: "United Nations Educational, Scientific and Cultural Organization", bn: "ইউনাইটেড নেশনস এডুকেশনাল, সায়েন্টিফিক অ্যান্ড কালচারাল অর্গানাইজেশন", topic: "২. আন্তর্জাতিক সংস্থা ও জোট" },
@@ -674,7 +673,6 @@
   { q: "JEC", a: "Joint Evalution Committee", bn: "জয়েন্ট ইভ্যালুয়েশন কমিটি", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
   { q: "BWMRI", a: "Bangladesh Wheat and Maize Research Institute", bn: "বাংলাদেশ গম ও ভুট্টা গবেষণা ইনস্টিটিউট", topic: "৩. বাংলাদেশের প্রশাসনিক ও সরকারি প্রতিষ্ঠান" },
   
-
   // ৪. অর্থনীতি, ব্যাংক, ব্যবসা ও রাজস্ব
   { q: "GNP", a: "Gross National Product", bn: "গ্রোস ন্যাশনাল প্রোডাক্ট", topic: "৪. অর্থনীতি, ব্যাংক, ব্যবসা ও রাজস্ব" },
   { q: "iBAS", a: "Integrated Budget and Accounting System", bn: "ইন্টিগ্রেটেড বাজেট অ্যান্ড অ্যাকাউন্টিং সিস্টেম", topic: "৪. অর্থনীতি, ব্যাংক, ব্যবসা ও রাজস্ব" },
@@ -709,7 +707,6 @@
   { q: "RADAR", a: "Radio Detection And Ranging", bn: "রেডিও ডিটেকশন অ্যান্ড রেঞ্জিং", topic: "৫. বিজ্ঞান, প্রযুক্তি, কৃষি ও পরিবেশ" },
   { q: "LASER", a: "Light Amplification by Stimulated Emission of Radiation", bn: "লাইট অ্যাম্প্লিফিকেশন বাই স্টিমুলেটেড এমিশন অব রেডিয়েশন", topic: "৫. বিজ্ঞান, প্রযুক্তি, কৃষি ও পরিবেশ" },
   { q: "HFC", a: "Hydrofluorocarbon", bn: "হাইড্রোফ্লুরোকার্বন", topic: "৫. বিজ্ঞান, প্রযুক্তি, কৃষি ও পরিবেশ" },
-  
 
   // ৬. শিক্ষা, খেলাধুলা, গণমাধ্যম ও সমাজকল্যাণ
   { q: "FINA", a: "Federation and International De-nation Amateur", bn: "ফেডারেশন অ্যান্ড ইন্টারন্যাশনাল ডি-নেশন অ্যামেচার", topic: "৬. শিক্ষা, খেলাধুলা, গণমাধ্যম ও সমাজকল্যাণ" },
@@ -747,7 +744,6 @@
   { q: "HIV", a: "Human Immunodeficiency Virus", bn: "হিউম্যান ইমিউনোডেফিসিয়েন্সি ভাইরাস", topic: "৮. চিকিৎসা, স্বাস্থ্য ও জীববিজ্ঞান" },
   { q: "ICU", a: "Intensive Care Unit", bn: "ইনটেনসিভ কেয়ার ইউনিট", topic: "৮. চিকিৎসা, স্বাস্থ্য ও জীববিজ্ঞান" },
   { q: "ECG", a: "Electrocardiogram", bn: "ইলেক্ট্রোকার্ডিওগ্রাম", topic: "৮. চিকিৎসা, স্বাস্থ্য ও জীববিজ্ঞান" }
-
     ];
 
     let currentMode = 'topic'; 
@@ -844,9 +840,14 @@
                 listContainer.appendChild(createCard(item, serialCounter++));
             });
         } else {
+            // Bisoyvittik group gulo create kora
             const uniqueTopics = [...new Set(filtered.map(i => i.topic))];
             uniqueTopics.forEach(topName => {
-                const groupItems = filtered.filter(i => i.topic === topName);
+                let groupItems = filtered.filter(i => i.topic === topName);
+                
+                // Topic er moddhe thaka item gulo ke A to Z akare sort kora
+                groupItems.sort((a, b) => a.q.localeCompare(b.q, undefined, { numeric: true, sensitivity: 'base' }));
+
                 if (groupItems.length > 0) {
                     if (activeCategory === 'ALL') {
                         const sec = document.createElement('div');
