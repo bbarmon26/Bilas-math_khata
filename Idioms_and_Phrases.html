@@ -2,227 +2,356 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Idioms & Phrases Mastery</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Hind+Siliguri:wght@400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap');
 
         :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --primary-accent: #3b82f6;
-            --gold-glow: #f59e0b;
-            --switch-pink: #f43f5e;
+            --ios-bg: #000000;
+            --ios-card: #1c1c1e;
+            --ios-border: rgba(255, 255, 255, 0.1);
+            --ios-text: #ffffff;
+            --ios-subtext: #8e8e93;
+            --ios-blue: #0a84ff;
+            --ios-gold: #ffd60a;
+            --ios-green: #30d158;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: 'Poppins', 'Hind Siliguri', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.6;
-            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Hind Siliguri', sans-serif;
+            background-color: var(--ios-bg);
+            color: var(--ios-text);
+            line-height: 1.45;
+            padding-top: 12px;
+            padding-bottom: 110px;
             scroll-behavior: smooth;
         }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding-bottom: 70px;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        header h1 {
-            font-size: 2rem;
-            color: var(--primary-accent);
-            margin-bottom: 5px;
-        }
-
-        /* Search Bar */
-        .search-container {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        #searchInput {
-            width: 100%;
-            max-width: 500px;
-            padding: 12px 20px;
-            border-radius: 8px;
-            border: 1px solid #334155;
-            background-color: var(--card-bg);
-            color: var(--text-main);
-            font-size: 1rem;
-            font-family: inherit;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-
-        #searchInput:focus {
-            border-color: var(--primary-accent);
-            box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
-        }
-
-        /* Navigation Buttons */
-        .nav-buttons {
+        /* --- Minimal Top Title Bar --- */
+        .top-bar {
+            max-width: 720px;
+            margin: 0 auto 12px;
+            padding: 0 18px;
             display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 30px;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .nav-btn {
-            background-color: var(--card-bg);
-            color: var(--text-main);
-            border: 2px solid #334155;
-            padding: 10px 20px;
-            font-size: 1.1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: inherit;
+        .app-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            letter-spacing: -0.4px;
+            color: var(--ios-text);
+        }
+
+        .badge-count {
+            font-size: 0.82rem;
+            background: rgba(10, 132, 255, 0.16);
+            color: var(--ios-blue);
+            padding: 3px 10px;
+            border-radius: 20px;
             font-weight: 600;
         }
 
-        .nav-btn.active, .nav-btn:hover {
-            background-color: var(--primary-accent);
-            border-color: var(--primary-accent);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        /* --- Main Container & Compact Cards --- */
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 14px;
         }
 
-        #btn-favorites.active {
-            background-color: #f59e0b;
-            border-color: #f59e0b;
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
-        }
-
-        /* Card Styles */
         .card {
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            border: 1px solid #334155;
-            transition: transform 0.2s, border-color 0.3s;
+            background-color: var(--ios-card);
+            border-radius: 16px;
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            border: 0.5px solid var(--ios-border);
             position: relative;
-        }
-
-        .card:hover {
-            border-color: #475569;
-        }
-
-        /* Favorite Star Button */
-        .fav-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: transparent;
-            border: none;
-            font-size: 2rem;
-            color: #475569;
             cursor: pointer;
-            transition: all 0.3s ease;
-            outline: none;
-            z-index: 10;
+            transition: transform 0.15s ease, border-color 0.25s ease;
+            user-select: none;
         }
 
-        .fav-btn.active {
-            color: #f59e0b;
-            text-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+        .card:active {
+            transform: scale(0.985);
         }
 
-        .fav-btn:hover {
-            transform: scale(1.15);
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .title-group {
+            padding-right: 82px;
         }
 
         .idiom-title {
-            font-size: 1.6rem;
+            font-size: 1.22rem;
             font-weight: 700;
-            margin-bottom: 15px;
-            padding-right: 40px;
+            letter-spacing: -0.3px;
+            line-height: 1.3;
         }
 
-        .meaning-line {
-            font-size: 1.3rem;
-            color: #e2e8f0;
+        /* Idiom-এর ঠিক নিচে উচ্চারণ (জায়গা বাঁচানোর জন্য) */
+        .idiom-pron {
+            font-size: 0.86rem;
+            color: var(--ios-subtext);
+            margin-top: 2px;
             font-weight: 500;
-            margin-bottom: 4px;
         }
 
-        .example-box {
-            border-left: 5px solid var(--primary-accent);
-            padding-left: 15px;
-            margin-top: 10px;
-            font-style: italic;
-            color: #cbd5e1;
-            font-size: 1.2rem;
-            background: rgba(59, 130, 246, 0.05);
-            padding-top: 8px;
-            padding-bottom: 8px;
-            border-radius: 0 8px 8px 0;
-        }
-
-        /* Practice Mode Specifics */
-        .practice-card {
-            cursor: pointer;
-        }
-        
-        .practice-card::after {
-            content: '▼ চাপ দিন';
+        .card-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             position: absolute;
-            right: 65px;
-            top: 30px;
-            font-size: 0.9rem;
-            color: #64748b;
+            right: 14px;
+            top: 14px;
+        }
+
+        .chevron-badge {
+            font-size: 0.74rem;
+            color: var(--ios-subtext);
+            background: rgba(255, 255, 255, 0.06);
+            padding: 4px 8px;
+            border-radius: 10px;
             font-weight: 500;
+            transition: all 0.2s ease;
         }
 
-        .practice-card.open::after {
-            content: '▲ লুকান';
+        .card.open .chevron-badge {
+            background: rgba(10, 132, 255, 0.15);
+            color: var(--ios-blue);
         }
 
-        .hidden-details {
+        .fav-btn {
+            background: transparent;
+            border: none;
+            font-size: 1.4rem;
+            color: #48484a;
+            cursor: pointer;
+            line-height: 1;
+            padding: 2px;
+            transition: transform 0.2s, color 0.2s;
+        }
+
+        .fav-btn.active {
+            color: var(--ios-gold);
+            text-shadow: 0 0 10px rgba(255, 214, 10, 0.4);
+        }
+
+        /* --- 1st Click: Meaning Row --- */
+        .meaning-panel {
             display: none;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px dashed #475569;
-            animation: fadeIn 0.3s ease-in-out;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 0.5px solid rgba(255, 255, 255, 0.1);
+            animation: iosSlide 0.22s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .practice-card.open .hidden-details {
+        .card.open .meaning-panel {
             display: block;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
+        .meaning-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .meaning-line {
+            font-size: 1.12rem;
+            font-weight: 600;
+            color: #f2f2f7;
+            flex: 1;
+        }
+
+        .meaning-bn {
+            color: var(--ios-green);
+        }
+
+        .example-btn {
+            flex-shrink: 0;
+            background: rgba(10, 132, 255, 0.14);
+            color: var(--ios-blue);
+            border: 0.5px solid rgba(10, 132, 255, 0.35);
+            padding: 5px 12px;
+            border-radius: 18px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s ease;
+        }
+
+        .example-btn.active {
+            background: var(--ios-blue);
+            color: #ffffff;
+        }
+
+        /* --- 2nd Click: Example Box --- */
+        .example-box {
+            display: none;
+            margin-top: 10px;
+            background: rgba(255, 255, 255, 0.04);
+            border-left: 3px solid var(--ios-blue);
+            padding: 8px 12px;
+            border-radius: 0 10px 10px 0;
+            font-size: 0.96rem;
+            color: #e5e5ea;
+            animation: iosSlide 0.2s ease-out;
+        }
+
+        .example-box.show {
+            display: block;
+        }
+
+        .example-bn {
+            display: block;
+            font-size: 0.88rem;
+            color: var(--ios-subtext);
+            margin-top: 2px;
+        }
+
+        @keyframes iosSlide {
+            from { opacity: 0; transform: translateY(-5px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .no-result {
             text-align: center;
-            color: #94a3b8;
-            font-size: 1.2rem;
-            margin-top: 30px;
+            color: var(--ios-subtext);
+            font-size: 1.05rem;
+            padding: 60px 20px;
         }
 
-        /* --- 🚀 ROCKET NAVIGATION HUB --- */
+        /* --- 🍏 iOS Floating Bottom Glass Dock --- */
+        .ios-bottom-dock {
+            position: fixed;
+            bottom: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2500;
+            width: calc(100% - 28px);
+            max-width: 440px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        /* পপ-আপ সার্চ বার (ডকের ঠিক উপরে খুলবে) */
+        .dock-search-popup {
+            display: none;
+            background: rgba(28, 28, 30, 0.82);
+            backdrop-filter: saturate(190%) blur(25px);
+            -webkit-backdrop-filter: saturate(190%) blur(25px);
+            border: 0.5px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 12px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            align-items: center;
+            gap: 8px;
+            animation: iosSlide 0.2s ease-out;
+        }
+
+        .dock-search-popup.show {
+            display: flex;
+        }
+
+        #searchInput {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--ios-text);
+            font-size: 0.95rem;
+            font-family: inherit;
+            outline: none;
+        }
+
+        #searchInput::placeholder {
+            color: var(--ios-subtext);
+        }
+
+        .clear-search-btn {
+            background: rgba(255, 255, 255, 0.12);
+            border: none;
+            color: var(--ios-subtext);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            font-size: 0.75rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* মূল গ্লাস বাটন বার */
+        .dock-pill {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(28, 28, 30, 0.75);
+            backdrop-filter: saturate(190%) blur(25px);
+            -webkit-backdrop-filter: saturate(190%) blur(25px);
+            border: 0.5px solid rgba(255, 255, 255, 0.18);
+            padding: 5px;
+            border-radius: 35px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.75);
+            gap: 4px;
+        }
+
+        .dock-btn {
+            flex: 1;
+            background: transparent;
+            color: var(--ios-subtext);
+            border: none;
+            padding: 9px 10px;
+            border-radius: 28px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            transition: all 0.22s ease;
+            white-space: nowrap;
+        }
+
+        .dock-btn.active {
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--ios-text);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+        }
+
+        .dock-btn#btn-favorites.active {
+            background: rgba(255, 214, 10, 0.2);
+            color: var(--ios-gold);
+        }
+
+        .dock-btn#btn-search.active {
+            background: rgba(10, 132, 255, 0.22);
+            color: var(--ios-blue);
+        }
+
+        /* --- 🚀 ROCKET NAVIGATION HUB (ডকের উপরে ডান পাশে) --- */
         .rocket-hub {
             position: fixed;
-            right: 20px;
-            bottom: 25px;
+            right: 16px;
+            bottom: 82px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -233,97 +362,80 @@
         .rocket-menu {
             display: none;
             flex-direction: column;
-            gap: 10px;
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(15px);
-            padding: 14px 10px;
-            border-radius: 35px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            gap: 8px;
+            background: rgba(28, 28, 30, 0.85);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            padding: 10px 8px;
+            border-radius: 28px;
+            border: 0.5px solid rgba(255, 255, 255, 0.18);
             margin-bottom: 10px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.65);
             align-items: center;
         }
 
         .r-circle {
-            width: 40px;
-            height: 40px;
-            background: #1e293b;
-            border: 1px solid var(--gold-glow);
+            width: 34px;
+            height: 34px;
+            background: #2c2c2e;
+            border: 0.5px solid rgba(255, 255, 255, 0.15);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: var(--ios-text);
             cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.2s;
-        }
-
-        .r-circle:active {
-            transform: scale(0.9);
-            background: var(--primary-accent);
+            font-size: 0.9rem;
         }
 
         .jump-box {
-            width: 48px;
-            height: 34px;
-            background: #020617;
-            border: 1px solid var(--switch-pink);
-            color: white;
+            width: 44px;
+            height: 30px;
+            background: #000000;
+            border: 1px solid var(--ios-blue);
+            color: var(--ios-text);
             text-align: center;
             border-radius: 8px;
-            font-size: 13px;
+            font-size: 12px;
             outline: none;
-            font-family: inherit;
         }
 
         .go-btn {
-            background: var(--switch-pink);
+            background: var(--ios-blue);
             border: none;
-            padding: 5px 10px;
-            border-radius: 6px;
-            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 7px;
+            font-weight: 700;
             color: #fff;
             cursor: pointer;
             font-size: 11px;
-            transition: all 0.2s;
-        }
-
-        .go-btn:active {
-            transform: scale(0.9);
         }
 
         .rocket-icon {
-            font-size: 34px;
+            width: 44px;
+            height: 44px;
+            background: rgba(28, 28, 30, 0.82);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 0.5px solid rgba(255, 255, 255, 0.18);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
             cursor: pointer;
-            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
-            transition: transform 0.2s;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
         }
-
-        .rocket-icon:active {
-            transform: scale(0.9);
-        }
-
     </style>
 </head>
 <body>
 
+<div class="top-bar">
+    <span class="app-title">Idioms & Phrases</span>
+    <span class="badge-count" id="totalCount">0 টি</span>
+</div>
+
 <div class="container">
-    <header>
-        <h1>Idioms & Phrases Mastery</h1>
-        <p style="color: #94a3b8; font-size: 1.1rem;">চাকরির প্রস্তুতির জন্য সহজ উদাহরণসহ</p>
-    </header>
-
-    <div class="search-container">
-        <input type="text" id="searchInput" oninput="searchIdioms()" placeholder="Idiom বা বাংলা অর্থ লিখে খুঁজুন...">
-    </div>
-
-    <div class="nav-buttons">
-        <button id="btn-study" class="nav-btn active" onclick="switchTab('study')">Study Mode</button>
-        <button id="btn-practice" class="nav-btn" onclick="switchTab('practice')">Practice</button>
-        <button id="btn-favorites" class="nav-btn" onclick="switchTab('favorites')">⭐ Favorites</button>
-    </div>
-
     <div id="app-content"></div>
 </div>
 
@@ -338,12 +450,35 @@
     <div class="rocket-icon" onclick="toggleRocketHub()">🚀</div>
 </div>
 
+<!-- 🍏 iOS FLOATING GLASS BOTTOM DOCK -->
+<div class="ios-bottom-dock">
+    <div class="dock-search-popup" id="searchPopup">
+        <span>🔍</span>
+        <input type="text" id="searchInput" oninput="searchIdioms()" placeholder="Idiom, অর্থ বা নম্বর লিখে খুঁজুন...">
+        <button class="clear-search-btn" onclick="clearSearch()">✕</button>
+    </div>
+
+    <div class="dock-pill">
+        <button id="btn-practice" class="dock-btn active" onclick="switchTab('practice')">
+            🏠
+        </button>
+        <button id="btn-favorites" class="dock-btn" onclick="switchTab('favorites')">
+            ⭐
+        </button>
+        <button id="btn-search" class="dock-btn" onclick="toggleSearchPopup()">
+            🔍
+        </button>
+    </div>
+</div>
+
 <script>
-    const titleColors = ['#10b981', '#f59e0b', '#3b82f6', '#8b5cf6', '#ec4899', '#14b8a6', '#f43f5e'];
+    const titleColors = ['#30d158', '#ffd60a', '#0a84ff', '#bf5af2', '#ff375f', '#64d2ff', '#ff9f0a'];
 
     // ==========================================
-    // নিচে আপনার ডেটাবেজ পেস্ট করুন
+    // নিচে আপনার ডেটাবেজ (const idiomsData = [...];) পেস্ট করুন
     // ==========================================
+
+
     const idiomsData = [
         {number: 1, idiom: "Get by heart", idiomPron: "গেট বাই হার্ট", meaningEn: "Memorize", meaningBn: "মুখস্থ করা", exampleEn: "The student got the whole poem by heart.", exampleBn: "ছাত্রটি পুরো কবিতাটি মুখস্থ করেছিল।"},
         {number: 2, idiom: "At large", idiomPron: "অ্যাট লার্জ", meaningEn: "Free", meaningBn: "মুক্ত", exampleEn: "The notorious criminal is still at large.", exampleBn: "কুখ্যাত অপরাধীটি এখনো ধরাছোঁয়ার বাইরে।"},
@@ -1006,34 +1141,110 @@
     ];
 
 
-    let currentTab = 'study';
+                    // ==========================================
+    // ডেটাবেজের নিচের অংশ এখান থেকে শুরু
+    // ==========================================
+
+    let currentTab = 'practice';
     let favorites = JSON.parse(localStorage.getItem('idiomFavs')) || [];
 
-    // ফেভারিট সেভ বা ডিলিট করার ফাংশন
-    function toggleFavorite(id, event) {
+    // ফেভারিট সেভ বা ডিলিট করার ফাংশন (কোনো কার্ড ক্লোজ হবে না বা স্ক্রল নড়বে না)
+    function toggleFavorite(id, event, btnElement) {
         event.stopPropagation();
         
-        if(favorites.includes(id)) {
+        const isFav = favorites.includes(id);
+        if (isFav) {
             favorites = favorites.filter(favId => favId !== id);
         } else {
             favorites.push(id);
         }
         
         localStorage.setItem('idiomFavs', JSON.stringify(favorites));
-        renderCards();
+
+        // যদি প্রিয় তালিকা (Favorites) ট্যাবে থাকা অবস্থায় আনফেভারিট করা হয়, তবে শুধু ওই কার্ডটি সরবে
+        if (currentTab === 'favorites' && isFav) {
+            const card = document.getElementById(`card-item-${id}`);
+            if (card) card.remove();
+            document.getElementById('totalCount').textContent = `${favorites.length} টি`;
+            if (favorites.length === 0) {
+                document.getElementById('app-content').innerHTML = '<div class="no-result">কোনো ফলাফল বা প্রিয় তালিকা পাওয়া যায়নি! 😞</div>';
+            }
+        } else {
+            // Practice মোডে পুরো পেজ রেন্ডার না করে শুধু ওই স্টার বাটনটি আপডেট করা হবে
+            btnElement.classList.toggle('active', !isFav);
+            btnElement.innerHTML = !isFav ? '★' : '☆';
+        }
     }
 
-    // ট্যাব চেঞ্জ করার ফাংশন
+    // নিচের ডক থেকে ট্যাব চেঞ্জ করার ফাংশন
     function switchTab(tabId) {
         currentTab = tabId;
-        document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-        document.getElementById('btn-' + tabId).classList.add('active');
+        document.getElementById('btn-practice').classList.toggle('active', tabId === 'practice');
+        document.getElementById('btn-favorites').classList.toggle('active', tabId === 'favorites');
         renderCards();
     }
 
-    // Practice কার্ড ওপেন/ক্লোজ করার ফাংশন
-    function togglePracticeCard(element) {
-        element.classList.toggle('open');
+    // নিচের ডকে সার্চ পপ-আপ খোলা ও বন্ধ করার ফাংশন
+    function toggleSearchPopup() {
+        const popup = document.getElementById('searchPopup');
+        const searchBtn = document.getElementById('btn-search');
+        const input = document.getElementById('searchInput');
+
+        const isShowing = popup.classList.toggle('show');
+        searchBtn.classList.toggle('active', isShowing);
+
+        if (isShowing) {
+            input.focus();
+        }
+    }
+
+    // সার্চ ক্লিয়ার করার ফাংশন
+    function clearSearch() {
+        const input = document.getElementById('searchInput');
+        input.value = '';
+        renderCards();
+        document.getElementById('searchPopup').classList.remove('show');
+        document.getElementById('btn-search').classList.remove('active');
+    }
+
+    // কার্ডে ক্লিক হ্যান্ডলার (১ম ক্লিক: মিনিং, ২য় ক্লিক: এক্সাম্পল, ৩য় ক্লিক: বন্ধ)
+    function handleCardClick(cardElement) {
+        const isOpen = cardElement.classList.contains('open');
+        const exBox = cardElement.querySelector('.example-box');
+        const exBtn = cardElement.querySelector('.example-btn');
+        const badge = cardElement.querySelector('.chevron-badge');
+
+        if (!isOpen) {
+            // ১ম ক্লিক: শুধু মিনিং খুলবে
+            cardElement.classList.add('open');
+            badge.textContent = '▼ বাক্য';
+        } else if (isOpen && !exBox.classList.contains('show')) {
+            // ২য় ক্লিক: পুরো কার্ডে চাপ দিলেই এক্সাম্পল খুলবে
+            exBox.classList.add('show');
+            exBtn.classList.add('active');
+            exBtn.innerHTML = '🙈 লুকান';
+            badge.textContent = '▲ বন্ধ';
+        } else {
+            // ৩য় ক্লিক: পুরো কার্ড বন্ধ হয়ে রিসেট হবে
+            cardElement.classList.remove('open');
+            exBox.classList.remove('show');
+            exBtn.classList.remove('active');
+            exBtn.innerHTML = '💡 বাক্য';
+            badge.textContent = '▼ অর্থ';
+        }
+    }
+
+    // ডান পাশের Example বাটনে আলাদাভাবে চাপ দিলে শুধু Example টগল হবে
+    function toggleExampleBtn(btnElement, event) {
+        event.stopPropagation();
+        const cardElement = btnElement.closest('.card');
+        const exBox = cardElement.querySelector('.example-box');
+        const badge = cardElement.querySelector('.chevron-badge');
+
+        const isShowing = exBox.classList.toggle('show');
+        btnElement.classList.toggle('active', isShowing);
+        btnElement.innerHTML = isShowing ? '🙈 লুকান' : '💡 বাক্য';
+        badge.textContent = isShowing ? '▲ বন্ধ' : '▼ বাক্য';
     }
 
     // সার্চ ফাংশন
@@ -1054,10 +1265,12 @@
         if (targetEl) {
             targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
             toggleRocketHub();
-            targetEl.style.borderColor = 'var(--gold-glow)';
+            targetEl.style.borderColor = 'var(--ios-gold)';
+            targetEl.style.boxShadow = '0 0 15px rgba(255, 214, 10, 0.35)';
             setTimeout(() => {
-                targetEl.style.borderColor = '#334155';
-            }, 1500);
+                targetEl.style.borderColor = 'var(--ios-border)';
+                targetEl.style.boxShadow = 'none';
+            }, 1600);
         } else {
             alert("এই নম্বরের কোনো Idiom কার্ড খুঁজে পাওয়া যায়নি!");
         }
@@ -1065,22 +1278,25 @@
 
     // স্ক্রিনে কার্ডগুলো দেখানোর ফাংশন
     function renderCards() {
-        const query = document.getElementById('searchInput').value.toLowerCase();
+        const query = document.getElementById('searchInput').value.toLowerCase().trim();
         
         let dataToRender = idiomsData.filter(item => {
             return item.idiom.toLowerCase().includes(query) || 
                    item.meaningEn.toLowerCase().includes(query) || 
-                   item.meaningBn.includes(query);
+                   item.meaningBn.includes(query) ||
+                   String(item.number) === query;
         });
 
-        if(currentTab === 'favorites') {
+        if (currentTab === 'favorites') {
             dataToRender = dataToRender.filter(item => favorites.includes(item.number));
         }
+
+        document.getElementById('totalCount').textContent = `${dataToRender.length} টি`;
 
         let html = '';
 
         if (dataToRender.length === 0) {
-            html = '<div class="no-result">কোনো ফলাফল বা ফেভারিট পাওয়া যায়নি! 😞</div>';
+            html = '<div class="no-result">কোনো ফলাফল বা প্রিয় তালিকা পাওয়া যায়নি! 😞</div>';
         } else {
             dataToRender.forEach((item, index) => {
                 const color = titleColors[index % titleColors.length];
@@ -1088,36 +1304,36 @@
                 const starIcon = isFav ? '★' : '☆';
                 const starClass = isFav ? 'fav-btn active' : 'fav-btn';
 
-                const detailsHTML = `
-                    <div class="pronunciation-line" style="color: #94a3b8; font-size: 1.1rem; margin-bottom: 5px;">
-                        <strong>উচ্চারণ:</strong> ${item.idiomPron}
-                    </div>
-                    <div class="meaning-line">${item.meaningEn} - ${item.meaningBn}</div>
-                    <div class="example-box">
-                        <strong>Ex:</strong> ${item.exampleEn} <br>
-                        <span style="font-size: 1.1rem; color: #94a3b8;">(${item.exampleBn})</span>
-                    </div>
-                `;
-
-                if (currentTab === 'practice') {
-                    html += `
-                        <div class="card practice-card" id="card-item-${item.number}" onclick="togglePracticeCard(this)">
-                            <button class="${starClass}" onclick="toggleFavorite(${item.number}, event)">${starIcon}</button>
-                            <div class="idiom-title" style="color: ${color}">${item.number}. ${item.idiom}</div>
-                            <div class="hidden-details">
-                                ${detailsHTML}
+                html += `
+                    <div class="card" id="card-item-${item.number}" onclick="handleCardClick(this)">
+                        <div class="card-top">
+                            <div class="title-group">
+                                <div class="idiom-title" style="color: ${color}">${item.number}. ${item.idiom}</div>
+                                ${item.idiomPron ? `<div class="idiom-pron">🗣️ ${item.idiomPron}</div>` : ''}
+                            </div>
+                            <div class="card-actions">
+                                <span class="chevron-badge">▼ অর্থ</span>
+                                <button class="${starClass}" onclick="toggleFavorite(${item.number}, event, this)">${starIcon}</button>
                             </div>
                         </div>
-                    `;
-                } else {
-                    html += `
-                        <div class="card" id="card-item-${item.number}">
-                            <button class="${starClass}" onclick="toggleFavorite(${item.number}, event)">${starIcon}</button>
-                            <div class="idiom-title" style="color: ${color}">${item.number}. ${item.idiom}</div>
-                            <div>${detailsHTML}</div>
+
+                        <div class="meaning-panel">
+                            <div class="meaning-row">
+                                <div class="meaning-line">
+                                    ${item.meaningEn} — <span class="meaning-bn">${item.meaningBn}</span>
+                                </div>
+                                <button class="example-btn" onclick="toggleExampleBtn(this, event)">
+                                    💡 বাক্য
+                                </button>
+                            </div>
+
+                            <div class="example-box">
+                                <strong>Ex:</strong> <em>${item.exampleEn}</em>
+                                <span class="example-bn">(${item.exampleBn})</span>
+                            </div>
                         </div>
-                    `;
-                }
+                    </div>
+                `;
             });
         }
 
