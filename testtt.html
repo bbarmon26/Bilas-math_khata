@@ -1,0 +1,2338 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>BILAS ACADEMY | Master Study Hub</title>
+    
+    <!-- 🌟 ১. সোশ্যাল মিডিয়া লিংক প্রিভিউ থাম্বনেইল (Open Graph) সেটিংস -->
+    <meta property="og:title" content="BILAS ACADEMY ∆ স্মার্ট পড়াশোনা">
+    <meta property="og:description" content="চাকরি প্রস্তুতির জন্য ডিজিটাল স্টাডি নোট ও ভিজ্যুয়াল চিট-শিট।">
+    <meta property="og:image" content="https://bbarmon26.github.io/Bilas-math_khata/thumbbacca26v2.jpg?v=1">
+    <meta property="og:url" content="https://bbarmon26.github.io/Bilas-math_khata/index.html">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- 📱 ২. মোবাইল ব্রাউজার ও লোগো মেটা সেটিংস -->
+    <meta name="theme-color" content="#140a05">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="BILAS">
+    <link rel="apple-touch-icon" href="logobacca26v2.png">
+    <link rel="icon" type="image/png" href="logobacca26v2.png">
+
+    <!-- 🧬 ৩. PWA Install Requirement -->
+    <script>
+        (function() {
+            const manifestObj = {
+                "short_name": "BILAS Academy",
+                "name": "BILAS ACADEMY",
+                "icons": [
+                    {
+                        "src": "logobacca26v2.png",
+                        "type": "image/png",
+                        "sizes": "192x192 512x512",
+                        "purpose": "any maskable"
+                    }
+                ],
+                "start_url": "./index.html",
+                "background_color": "#140a05",
+                "theme_color": "#140a05",
+                "display": "standalone",
+                "orientation": "portrait"
+            };
+            const stringManifest = JSON.stringify(manifestObj);
+            const blob = new Blob([stringManifest], {type: 'application/json'});
+            const manifestURL = URL.createObjectURL(blob);
+            const link = document.createElement('link');
+            link.rel = 'manifest';
+            link.href = manifestURL;
+            document.head.appendChild(link);
+        })();
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                const swCode = `
+                    self.addEventListener('install', function(e) { self.skipWaiting(); });
+                    self.addEventListener('activate', function(e) { e.waitUntil(self.clients.claim()); });
+                    self.addEventListener('fetch', function(e) {
+                        e.respondWith(fetch(e.request));
+                    });
+                `;
+                const blob = new Blob([swCode], {type: 'application/javascript'});
+                const swURL = URL.createObjectURL(blob);
+                navigator.serviceWorker.register(swURL).catch(function(err) {
+                    console.log('SW registration error:', err);
+                });
+            });
+        }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800;900&family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --toc-bg: #f8f5ec;
+            --toc-text: #1e293b;
+            --toc-accent: #059669;
+            --lamp-glow: rgba(255, 195, 110, 0.28);
+            --spring-easing: cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        body { 
+            background: #140a05; 
+            margin: 0; 
+            overflow: hidden; 
+            font-family: 'Poppins', 'Noto Sans Bengali', sans-serif; 
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* 🪵 Full-Width Realistic Wooden Wall with Interactive Study Lamp Spotlight */
+        .shelf-wrapper {
+            background-image: 
+                radial-gradient(ellipse at 50% 4%, var(--lamp-glow) 0%, rgba(0, 0, 0, 0.48) 52%, rgba(0, 0, 0, 0.92) 100%),
+                url('https://www.transparenttextures.com/patterns/wood-pattern.png');
+            background-color: #2b150c;
+            height: 100dvh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+            box-sizing: border-box;
+            padding: 14px 0 8px 0;
+            perspective: 1500px;
+            transition: background-image 0.4s ease, background-color 0.4s ease;
+        }
+        .shelf-wrapper.lamp-dimmed {
+            --lamp-glow: rgba(90, 200, 250, 0.12);
+            background-color: #160b06;
+        }
+
+        /* 💡 Interactive Overhead Study Lamp Button */
+        .study-lamp-btn {
+            position: absolute;
+            top: 0;
+            right: 18px;
+            z-index: 35;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.25s var(--spring-easing);
+        }
+        .study-lamp-btn:active { transform: translateY(4px); }
+        .lamp-cord {
+            width: 2px;
+            height: 14px;
+            background: #78350f;
+        }
+        .lamp-shade {
+            width: 34px;
+            height: 18px;
+            background: linear-gradient(to bottom, #451a03, #78350f);
+            border-radius: 16px 16px 4px 4px;
+            border-bottom: 2.5px solid #fde047;
+            box-shadow: 0 6px 20px rgba(253, 224, 71, 0.55);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .shelf-wrapper.lamp-dimmed .lamp-shade {
+            border-bottom-color: #38bdf8;
+            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+        }
+
+        /* 🔪 CRISP CHISELED WOOD ENGRAVED HEADER */
+        .carved-header-area {
+            text-align: center;
+            position: relative;
+            z-index: 20;
+            padding-top: 2px;
+        }
+
+        .carved-wood-title {
+            font-family: 'Cinzel', serif;
+            font-weight: 900;
+            font-size: 30px;
+            letter-spacing: 0.13em;
+            line-height: 1.1;
+            color: #e5ab70;
+            text-shadow: 
+                0px -2px 1px #070301,
+                -1.5px -1.5px 1px #0b0502,
+                1.5px -1.5px 1px #0b0502,
+                0px 1.5px 0px rgba(255, 232, 195, 0.75),
+                0px 4px 8px rgba(0, 0, 0, 0.9);
+            margin: 0;
+        }
+
+        .carved-sub-bangla {
+            display: inline-block;
+            margin-top: 2px;
+            font-size: 11.5px;
+            font-weight: 800;
+            letter-spacing: 0.22em;
+            color: #d69859;
+            text-shadow: 
+                0px -1.5px 1px #070301,
+                0px 1px 0px rgba(255, 228, 185, 0.55);
+        }
+
+        /* 🪵 REALISTIC 3D BOOKSHELF COMPARTMENTS */
+        .shelves-main-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            width: 100%;
+            max-width: 540px;
+            margin: 0 auto;
+            padding-top: 6px;
+            padding-bottom: 4px;
+        }
+
+        .shelf-container { 
+            width: 100%; 
+            position: relative; 
+        }
+
+        .shelf-books {
+            display: flex; 
+            justify-content: space-around; 
+            align-items: flex-end;
+            width: 90%; 
+            margin: 0 auto; 
+            position: relative; 
+            z-index: 10;
+            padding-bottom: 4px; 
+        }
+        
+        .shelf-wood { 
+            width: 95%; 
+            height: 21px; 
+            margin: 0 auto;
+            background: 
+                repeating-linear-gradient(90deg, rgba(0,0,0,0.06) 0px, rgba(0,0,0,0.06) 14px, transparent 14px, transparent 35px),
+                linear-gradient(to bottom, #7d481d 0%, #522c0e 45%, #2b1505 85%, #170a02 100%);
+            box-shadow: 
+                0 20px 30px rgba(0,0,0,0.98), 
+                0 6px 12px rgba(0,0,0,0.85),
+                inset 0 -3px 5px rgba(0,0,0,0.9);
+            border-radius: 2px; 
+            position: relative; 
+            z-index: 5;
+            margin-top: -5px;
+            border-bottom: 1px solid #0f0601;
+        }
+
+        .shelf-wood::before {
+            content: ''; 
+            position: absolute; 
+            top: -7px; 
+            left: 1%; 
+            right: 1%; 
+            height: 8px;
+            background: linear-gradient(to bottom, #42230c 0%, #8f5525 80%, #a86631 100%);
+            transform: perspective(300px) rotateX(35deg);
+            border-radius: 2px 2px 0 0;
+            box-shadow: inset 0 1px 2px rgba(255, 225, 185, 0.35);
+            z-index: 4;
+        }
+
+        .shelf-wood::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 6%;
+            right: 6%;
+            height: 10px;
+            background: 
+                linear-gradient(to bottom, #2b1506, #120802) left center / 18px 10px no-repeat,
+                linear-gradient(to bottom, #2b1506, #120802) right center / 18px 10px no-repeat;
+            filter: drop-shadow(0 5px 5px rgba(0,0,0,0.9));
+            z-index: 1;
+        }
+
+        /* 🕰️ Realistic 12-Hour Vintage Desk Clock */
+        .clock-wrapper {
+            position: relative;
+            width: 90px;
+            height: 94px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 12;
+            margin-bottom: -1px;
+            cursor: pointer;
+        }
+
+        .clock-foot-left, .clock-foot-right {
+            position: absolute;
+            bottom: 1px;
+            width: 8.5px;
+            height: 12px;
+            background: linear-gradient(to right, #5c3818, #d4a359, #3b220c);
+            border-radius: 2px 2px 4px 4px;
+            z-index: 2;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.9);
+        }
+        .clock-foot-left { left: 17px; transform: rotate(22deg); }
+        .clock-foot-right { right: 17px; transform: rotate(-22deg); }
+
+        .clock-top-crown {
+            position: absolute;
+            top: -3px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 14px;
+            height: 6px;
+            background: linear-gradient(to right, #5c3818, #e6be7a, #472910);
+            border-radius: 4px 4px 0 0;
+            box-shadow: 0 -1px 3px rgba(0,0,0,0.6);
+            z-index: 3;
+        }
+
+        .analog-clock {
+            width: 84px;
+            height: 84px;
+            border-radius: 50%;
+            position: relative;
+            z-index: 10;
+            background: 
+                radial-gradient(circle, transparent 62%, rgba(74, 42, 24, 0.18) 63%, transparent 65%),
+                radial-gradient(circle at 35% 30%, #ffffff 0%, #f5ebd6 60%, #cfb48c 100%);
+            box-shadow: 
+                0 12px 16px -1px rgba(0, 0, 0, 0.92),
+                0 4px 6px rgba(0, 0, 0, 0.65),
+                inset 0 2px 4px rgba(255, 250, 220, 0.75),
+                inset 0 -2px 6px rgba(0, 0, 0, 0.55),
+                0 0 0 2px #cfa35c,
+                0 0 0 5px #4a2810,
+                0 0 0 6.5px #1f0f05;
+            overflow: hidden;
+        }
+
+        .analog-clock::after {
+            content: '';
+            position: absolute;
+            top: -5%;
+            left: -5%;
+            right: -5%;
+            height: 52%;
+            background: linear-gradient(155deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.1) 55%, transparent 100%);
+            border-radius: 50% 50% 35% 35%;
+            pointer-events: none;
+            z-index: 25;
+        }
+
+        .clock-brand {
+            position: absolute;
+            top: 23px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 4.5px;
+            font-weight: 800;
+            letter-spacing: 0.18em;
+            color: #6b4c35;
+            opacity: 0.8;
+            z-index: 4;
+            font-family: 'Cinzel', serif;
+        }
+
+        .clock-num {
+            position: absolute;
+            font-family: 'Cinzel', 'Times New Roman', serif;
+            font-weight: 800;
+            font-size: 8.5px;
+            color: #2b1709;
+            text-shadow: 0 1px 0.5px rgba(255, 255, 255, 0.8);
+            transform: translate(-50%, -50%);
+            user-select: none;
+            z-index: 5;
+            line-height: 1;
+        }
+
+        .n12, .n3, .n6, .n9 {
+            font-size: 10.5px;
+            font-weight: 900;
+            color: #1a0c04;
+        }
+
+        .n12 { top: 10px; left: 42px; }
+        .n1  { top: 14px; left: 58px; }
+        .n2  { top: 26px; left: 70px; }
+        .n3  { top: 42px; left: 74px; }
+        .n4  { top: 58px; left: 70px; }
+        .n5  { top: 70px; left: 58px; }
+        .n6  { top: 74px; left: 42px; }
+        .n7  { top: 70px; left: 26px; }
+        .n8  { top: 58px; left: 14px; }
+        .n9  { top: 42px; left: 10px; }
+        .n10 { top: 26px; left: 14px; }
+        .n11 { top: 14px; left: 26px; }
+
+        .hand {
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            transform-origin: bottom center;
+        }
+
+        .hour-hand {
+            width: 3.5px;
+            height: 21px;
+            margin-left: -1.75px;
+            background: linear-gradient(to right, #0f0f0f, #383838, #0f0f0f);
+            border-radius: 3px 3px 1px 1px;
+            box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.45);
+            z-index: 10;
+        }
+
+        .min-hand {
+            width: 2.3px;
+            height: 30px;
+            margin-left: -1.15px;
+            background: linear-gradient(to right, #141414, #474747, #141414);
+            border-radius: 2px 2px 1px 1px;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+            z-index: 12;
+        }
+
+        .sec-hand {
+            width: 1.2px;
+            height: 35px;
+            margin-left: -0.6px;
+            background: #b91c1c;
+            box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.35);
+            z-index: 15;
+            transition: transform 0.06s cubic-bezier(0.4, 2.08, 0.55, 0.44);
+        }
+
+        .sec-hand::after {
+            content: '';
+            position: absolute;
+            top: 35px;
+            left: -1px;
+            width: 3.2px;
+            height: 8px;
+            background: #b91c1c;
+            border-radius: 1px;
+        }
+
+        .clock-center {
+            width: 7px;
+            height: 7px;
+            background: radial-gradient(circle, #fef08a 20%, #b45309 80%, #451a03 100%);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.75);
+            z-index: 30;
+        }
+
+        /* 📚 3D Books with Gold Foil & Progress Pill */
+        .book-3d {
+            width: 106px; height: 148px; perspective: 1200px; cursor: pointer;
+            position: relative; z-index: 10;
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        .book-page-inner {
+            position: absolute; top: 2px; bottom: 2px; left: 5px; right: -2px;
+            background-color: var(--toc-bg);
+            background-image: 
+                repeating-linear-gradient(transparent, transparent 12px, rgba(0,0,0,0.04) 12px, rgba(0,0,0,0.04) 13px),
+                url('https://www.transparenttextures.com/patterns/cream-paper.png');
+            border-radius: 2px 6px 6px 2px;
+            box-shadow: inset 2px 0 5px rgba(0,0,0,0.1), 4px 6px 10px rgba(0,0,0,0.5);
+            z-index: 1; overflow: hidden;
+        }
+
+        .book-cover {
+            position: absolute; inset: 0;
+            border-radius: 4px 8px 8px 4px;
+            transform-origin: left center;
+            transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1), box-shadow 0.6s ease;
+            transform-style: preserve-3d;
+            box-shadow: 
+                -2px 0 8px rgba(0,0,0,0.6) inset, 
+                0 0 0 1px rgba(255, 215, 150, 0.28) inset,
+                8px 12px 18px rgba(0,0,0,0.9);
+            z-index: 2;
+            background-size: cover; background-position: center;
+            border: 1px solid rgba(255,255,255,0.16); border-right: none;
+        }
+        
+        .book-hinge {
+            position: absolute; left: 8px; top: 0; bottom: 0; width: 4px;
+            background: linear-gradient(to right, rgba(0,0,0,0.75), rgba(255,255,255,0.22), rgba(0,0,0,0.85));
+            z-index: 3; box-shadow: 1px 0 2px rgba(0,0,0,0.5); pointer-events: none;
+        }
+
+        .book-cover::after {
+            content: ''; position: absolute; inset: 0;
+            background: 
+                linear-gradient(135deg, rgba(255,255,255,0.16) 0%, transparent 45%, rgba(0,0,0,0.48) 100%),
+                linear-gradient(to right, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.1) 15%, rgba(0,0,0,0.6) 100%), 
+                url('https://www.transparenttextures.com/patterns/leather.png');
+            background-blend-mode: normal, multiply, multiply; 
+            border-radius: 4px 8px 8px 4px; z-index: 1; pointer-events: none;
+        }
+        .book-cover::before {
+            content: ''; position: absolute; top: 2px; bottom: 2px; right: -4px; width: 4px;
+            background: repeating-linear-gradient(to bottom, #fdf6e3, #d4c5a9 2px);
+            border-radius: 0 3px 3px 0;
+            box-shadow: inset 1px 0 3px rgba(0,0,0,0.3); z-index: 0; pointer-events: none;
+        }
+        .book-content { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; padding: 0 4px; }
+        
+        .book-progress-badge {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            z-index: 15;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(6px);
+            border: 0.5px solid rgba(255, 255, 255, 0.3);
+            color: #fde047;
+            font-size: 9px;
+            font-weight: 800;
+            padding: 1.5px 6px;
+            border-radius: 999px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+        }
+
+        .book-3d:hover { transform: translateY(-4px); }
+        .book-3d:active { transform: scale(0.96); }
+        .book-3d.is-open .book-cover {
+            transform: rotateY(-155deg);
+            box-shadow: -10px 10px 20px rgba(0,0,0,0.4);
+        }
+
+        /* 📖 MODERN CLEAN NOTEBOOK DESIGN */
+        #mainApp { z-index: 400; }
+
+        .page-expand-in {
+            animation: expandIn 0.48s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+        @keyframes expandIn {
+            0% { transform: scale(0.2); opacity: 0; border-radius: 20px; }
+            30% { opacity: 1; border-radius: 10px; }
+            100% { transform: scale(1); opacity: 1; border-radius: 0; }
+        }
+
+        .page-shrink-out {
+            animation: shrinkOut 0.42s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+        @keyframes shrinkOut {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0.2); opacity: 0; border-radius: 20px; }
+        }
+
+        .toc-page {
+            background-color: var(--toc-bg);
+            background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
+            height: 100dvh; overflow-y: auto; color: var(--toc-text);
+            scroll-behavior: smooth;
+        }
+        
+        .toc-header {
+            background-color: rgba(248, 245, 236, 0.92);
+            background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 14px 16px 12px 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(120, 80, 40, 0.14);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+        }
+
+        .toc-header.header-hidden {
+            transform: translateY(-110%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .toc-title-area {
+            padding-bottom: 6px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .search-pill-box {
+            position: relative;
+            width: 100%;
+            max-width: 420px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1.5px solid rgba(120, 80, 40, 0.18);
+            border-radius: 999px;
+            padding: 7px 38px 7px 16px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.03);
+            transition: all 0.2s ease;
+        }
+        .search-pill-box:focus-within {
+            background: #ffffff;
+            border-color: var(--toc-accent);
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.12);
+        }
+
+        .toc-search {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 0.94rem;
+            font-weight: 500;
+            color: var(--toc-text);
+        }
+
+        /* 🎨 NotebookLM Style Visual Subject Cheat-Sheet Banner inside Notebook */
+        .subject-visual-banner {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 14px;
+            margin-bottom: 14px;
+            border: 1px solid rgba(140, 100, 60, 0.18);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ✨ Ultra-Clean Topic & Chapter Cards with Visual Thumbnails */
+        .topic-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 11px;
+            padding: 13px 15px;
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid rgba(140, 100, 60, 0.15);
+            border-left: 4.5px solid var(--toc-accent);
+            border-radius: 16px;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.035);
+            transition: transform 0.18s var(--spring-easing), box-shadow 0.2s ease, background 0.2s ease;
+            position: relative;
+            user-select: none;
+            touch-action: pan-y;
+        }
+        .topic-row:active, .topic-row.pressing-hold {
+            transform: scale(0.975);
+            background: rgba(254, 243, 199, 0.95);
+        }
+
+        .topic-row.hl-yellow {
+            background: linear-gradient(135deg, #fef9c3 0%, #fef08a 100%) !important;
+            border-color: #facc15 !important;
+            border-left: 5px solid #ca8a04 !important;
+        }
+        .topic-row.hl-green {
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%) !important;
+            border-color: #4ade80 !important;
+            border-left: 5px solid #16a34a !important;
+        }
+        .topic-row.hl-rose {
+            background: linear-gradient(135deg, #ffe4e6 0%, #fecdd3 100%) !important;
+            border-color: #fb7185 !important;
+            border-left: 5px solid #e11d48 !important;
+        }
+        .topic-row.hl-blue {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%) !important;
+            border-color: #60a5fa !important;
+            border-left: 5px solid #2563eb !important;
+        }
+
+        .topic-row.is-completed .topic-title {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+        
+        .topic-title-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            min-width: 0;
+            pointer-events: none;
+        }
+
+        .topic-icon-box {
+            width: 38px;
+            height: 38px;
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.045);
+            flex-shrink: 0;
+        }
+
+        /* 🖼️ Mini Visual Note Thumbnail inside Topic Card */
+        .topic-thumb-preview {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 1px solid rgba(0,0,0,0.12);
+            background: #f1f5f9;
+            flex-shrink: 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+        }
+        
+        .topic-title {
+            font-weight: 700;
+            font-size: 1.02rem;
+            color: #1e293b;
+            line-height: 1.35;
+        }
+
+        .compact-nav-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 48px;
+            margin-bottom: 14px;
+            border-bottom: 1px dashed rgba(120, 80, 40, 0.25);
+            text-align: center;
+        }
+
+        /* 🍎 iOS Floating Glass Buttons for Back & Tracker */
+        .ios-floating-glass-btn {
+            background: rgba(255, 255, 255, 0.78);
+            backdrop-filter: blur(25px) saturate(200%);
+            -webkit-backdrop-filter: blur(25px) saturate(200%);
+            border: 0.5px solid rgba(120, 80, 40, 0.22);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+
+        /* 🍎 Ultra-Realistic iOS Liquid Glass Quick Subject Switcher */
+        .ios-quick-switcher-pill {
+            background: linear-gradient(180deg, rgba(38, 38, 44, 0.72) 0%, rgba(18, 18, 22, 0.85) 100%);
+            backdrop-filter: blur(35px) saturate(220%);
+            -webkit-backdrop-filter: blur(35px) saturate(220%);
+            border: 0.5px solid rgba(255, 255, 255, 0.28);
+            box-shadow: 0 16px 35px rgba(0, 0, 0, 0.55), inset 0 1px 0.5px rgba(255, 255, 255, 0.3);
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        
+        .taped-photo { 
+            background: #ffffff;
+            padding: 10px 10px 16px 10px;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.14), 0 2px 6px rgba(0,0,0,0.08); 
+            border: 1px solid #e2e8f0;
+            margin: 12px auto 20px auto;
+            width: 100%;
+            max-width: 420px; 
+            position: relative;
+            border-radius: 14px;
+        }
+        .taped-photo::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-1.5deg);
+            width: 85px;
+            height: 22px;
+            background: rgba(254, 243, 199, 0.82);
+            border: 1px solid rgba(217, 119, 6, 0.22);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+            z-index: 35;
+            pointer-events: none;
+        }
+
+        /* 🎨 TOPMOST ACTION SHEET MODAL */
+        #contextSheetOverlay {
+            position: fixed !important;
+            inset: 0 !important;
+            width: 100vw !important;
+            height: 100dvh !important;
+            background: rgba(0, 0, 0, 0.6) !important;
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            z-index: 2147483647 !important;
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+        }
+        #contextSheetOverlay.active { display: flex !important; }
+        .context-sheet {
+            width: 100%;
+            max-width: 420px;
+            background: #fffdf9;
+            border-radius: 26px 26px 0 0;
+            padding: 20px 20px 30px 20px;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.45);
+        }
+
+        /* 📱 Embedded Sub-App Modal (For interactive HTML apps like Right Form of Verbs) */
+        #subAppOverlay {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100dvh;
+            background: #000000;
+            z-index: 999999;
+            display: none;
+            flex-direction: column;
+        }
+        #subAppOverlay.open { display: flex; }
+
+        #fullscreenViewer { 
+            position: fixed !important; 
+            inset: 0 !important; 
+            width: 100vw !important; 
+            height: 100dvh !important; 
+            z-index: 9999999 !important; 
+            background: #000000 !important; 
+            display: none; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: space-between; 
+            user-select: none;
+        }
+
+        #zoomViewport {
+            position: relative;
+            width: 100%;
+            flex: 1;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #fullscreenImg {
+            touch-action: none;
+            transform-origin: center center;
+            cursor: grab;
+            transition: transform 0.05s linear;
+            max-width: 95vw;
+            max-height: 82dvh;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body oncontextmenu="return false;">
+
+    <!-- 🪵 Home: Full-Width Realistic Wooden Bookshelf -->
+    <div id="masterHome" class="shelf-wrapper">
+        
+        <!-- 💡 Interactive Overhead Study Lamp (Tap to toggle Warm Spotlight / Night Mode) -->
+        <div class="study-lamp-btn" onclick="toggleStudyLamp()" title="স্টাডি ল্যাম্প অন/অফ করুন">
+            <div class="lamp-cord"></div>
+            <div class="lamp-shade">
+                <span class="text-[9px] text-amber-200 font-bold">💡</span>
+            </div>
+        </div>
+
+        <!-- 🔪 High-Contrast Chiseled Wood Engraved Title -->
+        <div class="carved-header-area">
+            <h1 class="carved-wood-title uppercase">BILAS ACADEMY</h1>
+            <p class="carved-sub-bangla uppercase">স্মার্ট ভিজ্যুয়াল স্টাডি হাব</p>
+        </div>
+
+        <!-- 🪵 Three Shelves Lowered & Balanced -->
+        <div class="shelves-main-group relative z-10">
+            <!-- TOP SHELF: Realistic 12-Hour Clock & Bangla -->
+            <div class="shelf-container">
+                <div class="shelf-books">
+                    <!-- Realistic Vintage 12-Hour Clock -->
+                    <div class="clock-wrapper" onclick="toggleStudyLamp()" title="আলো পরিবর্তন করতে ঘড়ি বা ল্যাম্পে ট্যাপ করুন">
+                        <div class="clock-top-crown"></div>
+                        <div class="analog-clock">
+                            <span class="clock-brand">BILAS</span>
+                            <span class="clock-num n12">12</span>
+                            <span class="clock-num n1">1</span>
+                            <span class="clock-num n2">2</span>
+                            <span class="clock-num n3">3</span>
+                            <span class="clock-num n4">4</span>
+                            <span class="clock-num n5">5</span>
+                            <span class="clock-num n6">6</span>
+                            <span class="clock-num n7">7</span>
+                            <span class="clock-num n8">8</span>
+                            <span class="clock-num n9">9</span>
+                            <span class="clock-num n10">10</span>
+                            <span class="clock-num n11">11</span>
+
+                            <div class="clock-center"></div>
+                            <div id="hourHand" class="hand hour-hand"></div>
+                            <div id="minHand" class="hand min-hand"></div>
+                            <div id="secHand" class="hand sec-hand"></div>
+                        </div>
+                        <div class="clock-foot-left"></div>
+                        <div class="clock-foot-right"></div>
+                    </div>
+
+                    <!-- Bangla Book -->
+                    <div class="book-3d" onclick="openNotebook(this, 'bangla', 'বাংলা', '#059669')">
+                        <div class="book-page-inner"></div>
+                        <div class="book-cover" style="background-image: url('https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=300&auto=format&fit=crop');">
+                            <div class="book-hinge"></div>
+                            <span id="badge-bangla" class="book-progress-badge hidden">0✓</span>
+                            <div class="book-content">
+                                <div class="w-10 h-10 rounded-full border border-white/40 bg-[#064e3b]/80 backdrop-blur-sm flex items-center justify-center mb-1 shadow-lg">
+                                    <i data-lucide="feather" class="text-[#a7f3d0] w-5 h-5"></i>
+                                </div>
+                                <h3 class="text-[17px] font-bold text-white drop-shadow-md">বাংলা</h3>
+                                <p class="text-[8px] uppercase tracking-widest mt-1 text-emerald-100 font-bold opacity-90">সাহিত্য ও ব্যাকরণ</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="shelf-wood"></div>
+            </div>
+
+            <!-- MIDDLE SHELF: English & Math -->
+            <div class="shelf-container">
+                <div class="shelf-books">
+                    <!-- English Book -->
+                    <div class="book-3d" onclick="openNotebook(this, 'english', 'English', '#dc2626')">
+                        <div class="book-page-inner"></div>
+                        <div class="book-cover" style="background-image: url('https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?q=80&w=300&auto=format&fit=crop');">
+                            <div class="book-hinge"></div>
+                            <span id="badge-english" class="book-progress-badge hidden">0✓</span>
+                            <div class="book-content">
+                                <div class="w-10 h-10 rounded-full border border-white/40 bg-[#7f1d1d]/80 backdrop-blur-sm flex items-center justify-center mb-1 shadow-lg">
+                                    <i data-lucide="book-open" class="text-[#fecaca] w-5 h-5"></i>
+                                </div>
+                                <h3 class="text-[17px] font-bold text-white drop-shadow-md">English</h3>
+                                <p class="text-[8px] uppercase tracking-widest mt-1 text-rose-100 font-bold opacity-90">Grammar & Vocab</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Math Book -->
+                    <div class="book-3d" onclick="openNotebook(this, 'math', 'গণিত', '#2563eb')">
+                        <div class="book-page-inner"></div>
+                        <div class="book-cover" style="background-image: url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=300&auto=format&fit=crop');">
+                            <div class="book-hinge"></div>
+                            <span id="badge-math" class="book-progress-badge hidden">0✓</span>
+                            <div class="book-content">
+                                <div class="w-10 h-10 rounded-full border border-white/40 bg-[#1e293b]/80 backdrop-blur-sm flex items-center justify-center mb-1 shadow-lg">
+                                    <i data-lucide="calculator" class="text-[#fbbf24] w-5 h-5"></i>
+                                </div>
+                                <h3 class="text-[17px] font-bold text-white drop-shadow-md">গণিত</h3>
+                                <p class="text-[8px] uppercase tracking-widest mt-1 text-amber-100 font-bold opacity-90">শর্টকাট ও বেসিক</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="shelf-wood"></div>
+            </div>
+
+            <!-- BOTTOM SHELF: GK & BCS -->
+            <div class="shelf-container">
+                <div class="shelf-books">
+                    <!-- GK Book -->
+                    <div class="book-3d" onclick="openNotebook(this, 'gk', 'সাধারণ জ্ঞান', '#475569')">
+                        <div class="book-page-inner"></div>
+                        <div class="book-cover" style="background-image: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=300&auto=format&fit=crop');">
+                            <div class="book-hinge"></div>
+                            <span id="badge-gk" class="book-progress-badge hidden">0✓</span>
+                            <div class="book-content">
+                                <div class="w-10 h-10 rounded-full border border-white/40 bg-[#0f172a]/80 backdrop-blur-sm flex items-center justify-center mb-1 shadow-lg">
+                                    <i data-lucide="globe" class="text-[#e2e8f0] w-5 h-5"></i>
+                                </div>
+                                <h3 class="text-[17px] font-bold text-white drop-shadow-md">সা. জ্ঞান</h3>
+                                <p class="text-[8px] uppercase tracking-widest mt-1 text-slate-100 font-bold opacity-90">জব প্রস্তুতি</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BCS Book -->
+                    <div class="book-3d" onclick="openNotebook(this, 'bcs', 'BCS Question Bank', '#9333ea')">
+                        <div class="book-page-inner"></div>
+                        <div class="book-cover" style="background-image: url('https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=300&auto=format&fit=crop');">
+                            <div class="book-hinge"></div>
+                            <span id="badge-bcs" class="book-progress-badge hidden">0✓</span>
+                            <div class="book-content">
+                                <div class="w-10 h-10 rounded-full border border-white/40 bg-[#581c87]/80 backdrop-blur-sm flex items-center justify-center mb-1 shadow-lg">
+                                    <i data-lucide="graduation-cap" class="text-[#e9d5ff] w-5 h-5"></i>
+                                </div>
+                                <h3 class="text-[17px] font-bold text-white drop-shadow-md">BCS</h3>
+                                <p class="text-[8px] uppercase tracking-widest mt-1 text-purple-100 font-bold opacity-90">প্রশ্ন সমাধান</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="shelf-wood"></div>
+            </div>
+        </div>
+
+        <!-- ©️ Footer Pushed Down Near Bottom Edge -->
+        <div class="text-center pb-0.5 relative z-20">
+            <p class="carved-sub-bangla text-[10px] font-mono tracking-widest opacity-80">©️ বিলাস একাডেমি ২০২৬</p>
+        </div>
+    </div>
+
+    <!-- 🍎 Left iOS Style Back Button -->
+    <button id="backBtn" onclick="handleBackClick()" class="hidden fixed top-3.5 left-4 z-[600] text-slate-800 ios-floating-glass-btn rounded-full px-3.5 py-2 active:scale-90 transition-all flex items-center gap-1 font-bold text-xs">
+        <i data-lucide="chevron-left" class="w-4 h-4"></i>
+        <span>ফিরে যান</span>
+    </button>
+
+    <!-- 🍎 Right Study Tracker Button Inside Notebook Dashboard Only -->
+    <a id="trackerBtn" href="https://bbarmon26.github.io/Bilas-math_khata/Study_Tracker.html?v=2" class="hidden fixed top-3.5 right-4 z-[600] text-slate-800 ios-floating-glass-btn rounded-full px-3.5 py-2 active:scale-90 transition-all flex items-center gap-1.5 font-bold text-xs">
+        <i data-lucide="clipboard-check" class="w-4 h-4 text-emerald-700"></i>
+        <span>ট্র্যাকার</span>
+    </a>
+
+    <!-- 🍎 Quick Switch Menu (iOS Liquid Glass) -->
+    <div id="quickMenuLayer" class="hidden fixed bottom-6 right-5 z-[600] flex flex-col-reverse items-end gap-3 pointer-events-none">
+        <button onclick="toggleQuickMenu()" class="pointer-events-auto w-13 h-13 p-3.5 rounded-full ios-quick-switcher-pill text-amber-300 flex items-center justify-center active:scale-90 transition-transform">
+            <i data-lucide="layers" class="w-6 h-6"></i>
+        </button>
+        <div id="quickMenu" class="hidden flex-col gap-2.5 mb-1 pointer-events-auto p-2 rounded-full ios-quick-switcher-pill">
+            <button onclick="quickSwitch('bcs', 'BCS Question Bank', '#9333ea')" class="w-11 h-11 rounded-full bg-[#581c87] text-[#e9d5ff] shadow-lg border border-white/25 flex items-center justify-center" title="BCS"><i data-lucide="graduation-cap" class="w-5 h-5"></i></button>
+            <button onclick="quickSwitch('gk', 'সাধারণ জ্ঞান', '#475569')" class="w-11 h-11 rounded-full bg-[#0f172a] text-[#e2e8f0] shadow-lg border border-white/25 flex items-center justify-center" title="সাধারণ জ্ঞান"><i data-lucide="globe" class="w-5 h-5"></i></button>
+            <button onclick="quickSwitch('english', 'English', '#dc2626')" class="w-11 h-11 rounded-full bg-[#7f1d1d] text-[#fecaca] shadow-lg border border-white/25 flex items-center justify-center" title="English"><i data-lucide="book-open" class="w-5 h-5"></i></button>
+            <button onclick="quickSwitch('bangla', 'বাংলা', '#059669')" class="w-11 h-11 rounded-full bg-[#064e3b] text-[#a7f3d0] shadow-lg border border-white/25 flex items-center justify-center" title="বাংলা"><i data-lucide="feather" class="w-5 h-5"></i></button>
+            <button onclick="quickSwitch('math', 'গণিত', '#2563eb')" class="w-11 h-11 rounded-full bg-[#1e293b] text-[#fbbf24] shadow-lg border border-white/25 flex items-center justify-center" title="গণিত"><i data-lucide="calculator" class="w-5 h-5"></i></button>
+        </div>
+    </div>
+
+    <!-- 📖 Inside Book Page -->
+    <div id="mainApp" class="hidden fixed inset-0 toc-page no-scrollbar">
+        <header id="tocHeader" class="toc-header">
+            <div class="toc-title-area px-16">
+                <i data-lucide="book-open-check" id="headerIcon" class="w-6 h-6 shrink-0"></i>
+                <h2 id="appTitle" class="text-xl sm:text-2xl font-extrabold uppercase tracking-wider text-slate-800 truncate">
+                    <span id="titleText">INDEX</span>
+                </h2>
+            </div>
+            <div class="search-pill-box">
+                <input type="text" id="searchInput" oninput="executeSearch()" placeholder="টপিক, সূত্র বা অধ্যায় খুঁজুন..." class="toc-search">
+                <i data-lucide="search" class="absolute right-3.5 top-2.5 opacity-45 w-4 h-4"></i>
+            </div>
+        </header>
+
+        <main class="p-4 pb-28 max-w-2xl mx-auto">
+            <!-- 🎨 Dynamic Visual Subject Cheat-Sheet Banner -->
+            <div id="subjectVisualBanner" class="hidden"></div>
+
+            <div id="loader" class="hidden flex-col items-center justify-center py-12">
+                <i data-lucide="loader" class="w-8 h-8 animate-spin opacity-60 text-amber-800"></i>
+                <span class="text-xs mt-2 opacity-60 font-medium">ভিজ্যুয়াল নোট লোড হচ্ছে...</span>
+            </div>
+            
+            <!-- 1. Chapters List -->
+            <div id="view-dashboard" class="flex flex-col pt-1"></div>
+            
+            <!-- 2. Topics Inside Chapter -->
+            <div id="view-topics" class="hidden flex flex-col">
+                <div class="compact-nav-header">
+                    <h2 id="chapterHeading" class="text-lg font-extrabold uppercase tracking-wide text-slate-800 truncate"></h2>
+                </div>
+                <div id="topicList" class="flex flex-col"></div>
+            </div>
+
+            <!-- 3. Subtopics Inside Topic -->
+            <div id="view-subtopics" class="hidden flex flex-col">
+                <div class="compact-nav-header">
+                    <h2 id="subtopicHeading" class="text-lg font-extrabold uppercase tracking-wide text-slate-800 truncate"></h2>
+                </div>
+                <div id="subtopicList" class="flex flex-col"></div>
+            </div>
+
+            <!-- 4. Note Image / PDF Viewer -->
+            <div id="view-image" class="hidden flex flex-col items-center">
+                <div class="compact-nav-header w-full">
+                    <h3 id="imageTitle" class="text-base sm:text-lg font-extrabold leading-snug text-slate-800"></h3>
+                </div>
+                <div id="imageContainer" class="w-full flex flex-col items-center gap-4"></div>
+                <p id="imageNote" class="text-center mt-4 text-sm font-semibold opacity-90 px-4 py-3 bg-amber-50 border border-amber-300/80 rounded-2xl text-slate-800 shadow-sm"></p>
+                <div class="mt-6 w-full px-4 text-center">
+                    <a id="videoBtn" href="#" target="_blank" class="hidden items-center justify-center gap-2.5 bg-red-600 hover:bg-red-700 text-white py-3.5 px-7 rounded-full text-base font-bold shadow-lg active:scale-95 transition-all mx-auto max-w-xs">
+                        <i data-lucide="play-circle" class="w-5 h-5"></i> ভিডিও ক্লাস দেখুন
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 📱 Embedded Interactive Sub-App Viewer (Opens HTML Apps like Right Form of Verbs inside main app!) -->
+    <div id="subAppOverlay">
+        <div class="fixed top-3 left-3 z-[1000000]">
+            <button onclick="closeSubApp()" class="px-3.5 py-2 rounded-full bg-zinc-900/80 backdrop-blur-xl border border-white/25 text-sky-400 font-extrabold text-xs flex items-center gap-1 shadow-xl active:scale-90 transition">
+                <span>‹</span> <span>খাতায় ফিরুন</span>
+            </button>
+        </div>
+        <iframe id="subAppFrame" class="w-full h-full border-0 bg-black" src=""></iframe>
+    </div>
+
+    <!-- 🎨 HIGHLIGHT & MARK ACTION SHEET -->
+    <div id="contextSheetOverlay" onclick="handleOverlayClick(event)">
+        <div class="context-sheet" onclick="event.stopPropagation()">
+            <div class="w-10 h-1.5 bg-slate-300 rounded-full mx-auto mb-3"></div>
+            <h4 id="contextItemTitle" class="text-center font-extrabold text-slate-800 text-base mb-4 px-4 truncate"></h4>
+            
+            <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 text-center">হাইলাইট কালার বেছে নিন</p>
+            <div class="flex items-center justify-center gap-4 mb-5">
+                <button type="button" onclick="applyItemStyle('color', 'hl-yellow')" class="w-11 h-11 rounded-full bg-yellow-300 border-2 border-yellow-500 shadow-md active:scale-90 transition-transform"></button>
+                <button type="button" onclick="applyItemStyle('color', 'hl-green')" class="w-11 h-11 rounded-full bg-green-300 border-2 border-green-600 shadow-md active:scale-90 transition-transform"></button>
+                <button type="button" onclick="applyItemStyle('color', 'hl-rose')" class="w-11 h-11 rounded-full bg-rose-300 border-2 border-rose-600 shadow-md active:scale-90 transition-transform"></button>
+                <button type="button" onclick="applyItemStyle('color', 'hl-blue')" class="w-11 h-11 rounded-full bg-blue-300 border-2 border-blue-600 shadow-md active:scale-90 transition-transform"></button>
+                <button type="button" onclick="applyItemStyle('color', 'none')" class="w-11 h-11 rounded-full bg-slate-100 border-2 border-slate-300 text-slate-600 font-bold text-sm shadow-sm active:scale-90 transition-transform flex items-center justify-center" title="রিসেট">✕</button>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 mb-3">
+                <button type="button" onclick="applyItemStyle('toggleDone')" class="flex items-center justify-center gap-1.5 py-3 px-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold text-sm active:scale-95 transition-transform">
+                    ✓ পড়া শেষ
+                </button>
+                <button type="button" onclick="applyItemStyle('toggleStar')" class="flex items-center justify-center gap-1.5 py-3 px-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 font-bold text-sm active:scale-95 transition-transform">
+                    ⭐ গুরুত্বপূর্ণ
+                </button>
+            </div>
+
+            <button type="button" onclick="forceCloseContextSheet()" class="w-full py-3 mt-1 rounded-xl bg-slate-100 text-slate-700 font-bold text-sm active:scale-95">বন্ধ করুন</button>
+        </div>
+    </div>
+
+    <!-- 🖼️ ফুলস্ক্রিন পিনচ-টু-জুম ও মাল্টি-পেজ PDF ভিউয়ার -->
+    <div id="fullscreenViewer">
+        <div class="w-full px-3 sm:px-4 py-2.5 flex items-center justify-between text-white border-b border-white/10 shrink-0 bg-neutral-900/95 backdrop-blur-md z-20">
+            <div class="flex items-center gap-2">
+                <span class="text-xs uppercase tracking-wider text-slate-400 font-bold hidden sm:inline">BILAS Academy</span>
+                <span id="zoomPercent" class="text-xs bg-white/10 px-2 py-0.5 rounded text-amber-300 font-mono">PDF</span>
+                
+                <button id="pdfModeToggleBtn" onclick="toggleViewerMode()" class="hidden text-[11px] bg-amber-500/20 border border-amber-400/40 text-amber-200 px-2.5 py-1 rounded-full font-semibold flex items-center gap-1 active:scale-95">
+                    <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+                    <span id="pdfModeToggleText">সব পেজ (PDF)</span>
+                </button>
+            </div>
+            
+            <div class="flex items-center gap-1.5">
+                <div id="imageZoomControls" class="flex items-center gap-1.5">
+                    <button onclick="changeZoom(-0.3)" class="text-white bg-white/10 hover:bg-white/20 p-2 rounded-full active:scale-90" title="জুম আউট">
+                        <i data-lucide="zoom-out" class="w-4 h-4"></i>
+                    </button>
+                    <button onclick="resetZoom()" class="text-white bg-white/10 hover:bg-white/20 p-2 rounded-full active:scale-90" title="রিসেট">
+                        <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                    </button>
+                    <button onclick="changeZoom(0.3)" class="text-white bg-white/10 hover:bg-white/20 p-2 rounded-full active:scale-90" title="জুম ইন">
+                        <i data-lucide="zoom-in" class="w-4 h-4"></i>
+                    </button>
+                </div>
+                <button onclick="closeFullImage()" class="text-white bg-red-600 hover:bg-red-700 p-2 rounded-full active:scale-90 ml-1" title="বন্ধ করুন">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div id="zoomViewport">
+            <img id="fullscreenImg" src="" alt="Note Preview" class="hidden">
+            <iframe id="fullscreenFrame" class="w-full h-full bg-white hidden border-0" src="" allow="autoplay"></iframe>
+        </div>
+        
+        <div id="viewerFooterHint" class="w-full py-1.5 bg-neutral-900/90 text-center text-[11px] text-slate-400 border-t border-white/10 z-20">
+            নিচে স্ক্রল করে পরবর্তী পেজগুলো দেখুন
+        </div>
+    </div>
+
+    <script>
+        // 🎨 SUBJECT VISUAL CHEAT-SHEET METADATA (NotebookLM Style Overview)
+        const SUBJECT_VISUAL_META = {
+            bangla: {
+                badge: "বাংলা সাহিত্য ও ব্যাকরণ",
+                gradient: "from-emerald-600 to-teal-600",
+                lightBg: "bg-emerald-50/90 border-emerald-200",
+                FormulaPill: "ধ্বনি ➔ শব্দ ➔ সমাস ➔ বাগধারা ➔ সাহিত্য যুগ",
+                tip: "যেকোনো অধ্যায়ে লং-প্রেস (চাপ দিয়ে ধরে রাখা) করে কালার হাইলাইট ও ✓ পড়া শেষ মার্ক করতে পারবেন।"
+            },
+            english: {
+                badge: "English Grammar & Vocabulary",
+                gradient: "from-rose-600 to-orange-500",
+                lightBg: "bg-rose-50/90 border-rose-200",
+                FormulaPill: "Parts of Speech ➔ Right Form of Verbs ➔ Voice ➔ Vocabulary",
+                tip: "ইন্টারেক্টিভ অ্যাপ ও হাতে লেখা ভিজ্যুয়াল নোটগুলো সহজেই এক ক্লিকে অনুশীলন করুন।"
+            },
+            math: {
+                badge: "গণিত শর্টকাট ও বেসিক",
+                gradient: "from-blue-600 to-indigo-600",
+                lightBg: "bg-blue-50/90 border-blue-200",
+                FormulaPill: "পাটিগণিত ➔ বীজগণিত ➔ জ্যামিতি ➔ শর্টকাট টেকনিক",
+                tip: "অঙ্কের হাতে লেখা নোটগুলো ফুল-স্ক্রিনে জুম করে অথবা সব পেজ (PDF) মোডে পড়ুন।"
+            },
+            gk: {
+                badge: "সাধারণ জ্ঞান মাস্টার হাব",
+                gradient: "from-slate-700 to-zinc-800",
+                lightBg: "bg-slate-100 border-slate-300",
+                FormulaPill: "বাংলাদেশ বিষয়াবলি ➔ আন্তর্জাতিক ➔ সাম্প্রতিক তথ্য",
+                tip: "গুরুত্বপূর্ণ টপিকগুলো ⭐ স্টার মার্ক করে রাখুন যাতে পরীক্ষার আগে দ্রুত রিভিশন দেওয়া যায়।"
+            },
+            bcs: {
+                badge: "BCS & Job Question Bank",
+                gradient: "from-purple-600 to-fuchsia-600",
+                lightBg: "bg-purple-50/90 border-purple-200",
+                FormulaPill: "১০ম–৪৬তম বিসিএস ➔ ব্যাখ্যাসহ সমাধান ➔ ফ্রিকোয়েন্সি বিশ্লেষণ",
+                tip: "বিগত সালের প্রশ্নগুলো নিয়ম ও ব্যাখ্যাসহ অনুশীলন করলে যেকোনো পরীক্ষায় কমন পাবেন।"
+            }
+        };
+
+        function refreshIcons() {
+            try {
+                if (typeof lucide !== 'undefined' && lucide.createIcons) {
+                    lucide.createIcons();
+                }
+            } catch (e) {}
+        }
+
+        /* 💡 Interactive Study Lamp Toggle */
+        function toggleStudyLamp() {
+            const desk = document.getElementById('masterHome');
+            if (desk) desk.classList.toggle('lamp-dimmed');
+        }
+
+        /* 🕰️ Real-time Clock Engine */
+        function updateClock() {
+            const now = new Date();
+            const s = now.getSeconds();
+            const m = now.getMinutes();
+            const h = now.getHours() % 12;
+            
+            const sDeg = s * 6;
+            const mDeg = (m * 6) + (s * 0.1);
+            const hDeg = (h * 30) + (m * 0.5);
+            
+            const hh = document.getElementById('hourHand');
+            const mm = document.getElementById('minHand');
+            const ss = document.getElementById('secHand');
+            if(hh) hh.style.transform = `rotate(${hDeg}deg)`;
+            if(mm) mm.style.transform = `rotate(${mDeg}deg)`;
+            if(ss) ss.style.transform = `rotate(${sDeg}deg)`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        /* 📉 AUTO-HIDE HEADER ON SCROLL DOWN */
+        const mainAppContainer = document.getElementById('mainApp');
+        const tocHeaderEl = document.getElementById('tocHeader');
+        let lastScrollY = 0;
+
+        mainAppContainer.addEventListener('scroll', function() {
+            if (currentViewState !== 'dashboard') return;
+            const currentScrollY = mainAppContainer.scrollTop;
+            
+            if (currentScrollY > lastScrollY && currentScrollY > 50) {
+                tocHeaderEl.classList.add('header-hidden');
+            } else if (currentScrollY < lastScrollY - 8 || currentScrollY <= 20) {
+                tocHeaderEl.classList.remove('header-hidden');
+            }
+            lastScrollY = currentScrollY;
+        }, { passive: true });
+
+        /* 🎨 GHOST-CLICK PROOF LONG-PRESS ENGINE */
+        const META_STORAGE_KEY = 'bilas_academy_item_marks_v1';
+        let savedItemMarks = {};
+        try {
+            savedItemMarks = JSON.parse(localStorage.getItem(META_STORAGE_KEY) || '{}');
+        } catch(e) { savedItemMarks = {}; }
+
+        let activeContextKey = null;
+        let sheetOpenedTimestamp = 0;
+        let blockNextClickUntil = 0;
+
+        function getItemKey(type, name) {
+            return `${currentSubject}__${type}__${name}`;
+        }
+
+        function updateBookshelfBadges() {
+            ['bangla', 'english', 'math', 'gk', 'bcs'].forEach(sub => {
+                const doneCount = Object.keys(savedItemMarks).filter(k => k.startsWith(sub + '__') && savedItemMarks[k].done).length;
+                const badgeEl = document.getElementById(`badge-${sub}`);
+                if (badgeEl) {
+                    if (doneCount > 0) {
+                        badgeEl.innerText = `${doneCount} ✓`;
+                        badgeEl.classList.remove('hidden');
+                    } else {
+                        badgeEl.classList.add('hidden');
+                    }
+                }
+            });
+        }
+
+        function renderSubjectVisualBanner() {
+            const bannerEl = document.getElementById('subjectVisualBanner');
+            if (!bannerEl || currentViewState !== 'dashboard') {
+                if (bannerEl) bannerEl.classList.add('hidden');
+                return;
+            }
+            const meta = SUBJECT_VISUAL_META[currentSubject];
+            if (!meta) {
+                bannerEl.classList.add('hidden');
+                return;
+            }
+
+            const totalChapters = Object.keys(groupedChapters).length;
+            const totalNotes = rawData.length;
+            const doneCount = Object.keys(savedItemMarks).filter(k => k.startsWith(currentSubject + '__') && savedItemMarks[k].done).length;
+            const starCount = Object.keys(savedItemMarks).filter(k => k.startsWith(currentSubject + '__') && savedItemMarks[k].star).length;
+
+            bannerEl.className = "subject-visual-banner block";
+            bannerEl.innerHTML = `
+                <div class="flex items-center justify-between gap-2 mb-2">
+                    <span class="px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-gradient-to-r ${meta.gradient} text-white shadow-sm">
+                        ✦ ${meta.badge}
+                    </span>
+                    <div class="flex items-center gap-1.5 text-xs font-extrabold text-slate-700">
+                        <span class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full">⭐ ${starCount}</span>
+                        <span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full">✓ ${doneCount} সম্পন্ন</span>
+                    </div>
+                </div>
+                <div class="${meta.lightBg} border rounded-xl p-2.5 mb-2">
+                    <div class="text-[11px] font-extrabold text-slate-500 uppercase">Visual Roadmap • মোট ${totalChapters}টি অধ্যায় (${totalNotes}টি নোট)</div>
+                    <div class="text-xs font-bold text-slate-800 mt-0.5">${meta.FormulaPill}</div>
+                </div>
+                <div class="text-[11px] text-slate-600 font-medium flex items-center gap-1.5">
+                    <span>💡</span> <span>${meta.tip}</span>
+                </div>
+            `;
+        }
+
+        function openContextSheet(key, title) {
+            activeContextKey = key;
+            sheetOpenedTimestamp = Date.now();
+            blockNextClickUntil = Date.now() + 600;
+
+            const titleEl = document.getElementById('contextItemTitle');
+            if (titleEl) titleEl.innerText = title || '';
+
+            const overlay = document.getElementById('contextSheetOverlay');
+            if (overlay) {
+                overlay.style.display = 'flex';
+                overlay.classList.add('active');
+            }
+        }
+
+        function handleOverlayClick(e) {
+            if (Date.now() - sheetOpenedTimestamp < 450) {
+                if (e) { e.preventDefault(); e.stopPropagation(); }
+                return;
+            }
+            forceCloseContextSheet();
+        }
+
+        function forceCloseContextSheet() {
+            const overlay = document.getElementById('contextSheetOverlay');
+            if (overlay) {
+                overlay.classList.remove('active');
+                overlay.style.display = 'none';
+            }
+            activeContextKey = null;
+            blockNextClickUntil = Date.now() + 250;
+        }
+
+        function applyItemStyle(action, value) {
+            if (!activeContextKey) return;
+            if (!savedItemMarks[activeContextKey]) {
+                savedItemMarks[activeContextKey] = { color: 'none', done: false, star: false };
+            }
+
+            if (action === 'color') {
+                savedItemMarks[activeContextKey].color = value;
+            } else if (action === 'toggleDone') {
+                savedItemMarks[activeContextKey].done = !savedItemMarks[activeContextKey].done;
+            } else if (action === 'toggleStar') {
+                savedItemMarks[activeContextKey].star = !savedItemMarks[activeContextKey].star;
+            }
+
+            try {
+                localStorage.setItem(META_STORAGE_KEY, JSON.stringify(savedItemMarks));
+            } catch(e) {}
+            refreshCurrentViewMarks();
+            renderSubjectVisualBanner();
+            updateBookshelfBadges();
+            forceCloseContextSheet();
+        }
+
+        function refreshCurrentViewMarks() {
+            const rows = document.querySelectorAll('.topic-row[data-item-key]');
+            rows.forEach(row => {
+                const key = row.getAttribute('data-item-key');
+                const mark = savedItemMarks[key] || { color: 'none', done: false, star: false };
+
+                row.classList.remove('hl-yellow', 'hl-green', 'hl-rose', 'hl-blue', 'is-completed');
+                if (mark.color && mark.color !== 'none') row.classList.add(mark.color);
+                if (mark.done) row.classList.add('is-completed');
+
+                const badgeBox = row.querySelector('.item-status-badges');
+                if (badgeBox) {
+                    let badgesHTML = '';
+                    if (mark.star) badgesHTML += `<span class="text-amber-500 text-sm">⭐</span>`;
+                    if (mark.done) badgesHTML += `<span class="text-emerald-600 text-xs font-bold bg-emerald-100 px-1.5 py-0.5 rounded-md">✓</span>`;
+                    badgeBox.innerHTML = badgesHTML;
+                }
+            });
+        }
+
+        function buildRowClassesAndBadges(key) {
+            const mark = savedItemMarks[key] || { color: 'none', done: false, star: false };
+            let extraClasses = '';
+            if (mark.color && mark.color !== 'none') extraClasses += ` ${mark.color}`;
+            if (mark.done) extraClasses += ` is-completed`;
+
+            let badgesHTML = '';
+            if (mark.star) badgesHTML += `<span class="text-amber-500 text-sm">⭐</span>`;
+            if (mark.done) badgesHTML += `<span class="text-emerald-600 text-xs font-bold bg-emerald-100 px-1.5 py-0.5 rounded-md">✓</span>`;
+
+            return { extraClasses, badgesHTML };
+        }
+
+        /* Extract Drive Thumbnail or Interactive App Badge for Visual Cards */
+        function getVisualPreviewHTML(itemsArray) {
+            if (!itemsArray || itemsArray.length === 0) return '';
+            const firstItem = itemsArray[0];
+            const link = (firstItem.ImageLink || firstItem.Video_Link || '').trim();
+            if (!link) return '';
+
+            if (link.endsWith('.html') || (link.startsWith('http') && !link.includes('drive.google.com') && !link.includes('youtube.com'))) {
+                return `<span class="px-2.5 py-1 rounded-full bg-purple-100 border border-purple-300 text-purple-800 text-[10px] font-extrabold shrink-0">⚡ অ্যাপ</span>`;
+            }
+
+            if (link.includes('drive.google.com')) {
+                const match = link.match(/[-\w]{25,}/);
+                if (match) {
+                    const thumbUrl = `https://drive.google.com/thumbnail?id=${match[0]}&sz=w160`;
+                    return `<img src="${thumbUrl}" loading="lazy" class="topic-thumb-preview" alt="Note" onerror="this.style.display='none'">`;
+                }
+            }
+            return '';
+        }
+
+        /* Dedicated Touch & Mouse Long-Press Handler */
+        function bindInteractiveRows(containerEl) {
+            if (!containerEl) return;
+            const rows = containerEl.querySelectorAll('.topic-row');
+            rows.forEach(row => {
+                let holdTimer = null;
+                let startX = 0, startY = 0;
+                let isLongPress = false;
+
+                const key = row.getAttribute('data-item-key');
+                const title = row.getAttribute('data-item-title');
+
+                const startHold = (x, y) => {
+                    isLongPress = false;
+                    startX = x;
+                    startY = y;
+                    if (holdTimer) clearTimeout(holdTimer);
+                    row.classList.add('pressing-hold');
+
+                    holdTimer = setTimeout(() => {
+                        isLongPress = true;
+                        row.classList.remove('pressing-hold');
+                        try { if (navigator.vibrate) navigator.vibrate(50); } catch(e){}
+                        openContextSheet(key, title);
+                    }, 420);
+                };
+
+                const moveHold = (x, y) => {
+                    if (!holdTimer) return;
+                    if (Math.abs(x - startX) > 15 || Math.abs(y - startY) > 15) {
+                        clearTimeout(holdTimer);
+                        holdTimer = null;
+                        row.classList.remove('pressing-hold');
+                    }
+                };
+
+                const endHold = (e) => {
+                    if (holdTimer) {
+                        clearTimeout(holdTimer);
+                        holdTimer = null;
+                    }
+                    row.classList.remove('pressing-hold');
+                    if (isLongPress && e && e.cancelable) {
+                        e.preventDefault();
+                    }
+                };
+
+                row.addEventListener('touchstart', (e) => {
+                    if (e.touches.length === 1) {
+                        startHold(e.touches[0].clientX, e.touches[0].clientY);
+                    }
+                }, { passive: true });
+
+                row.addEventListener('touchmove', (e) => {
+                    if (e.touches.length === 1) {
+                        moveHold(e.touches[0].clientX, e.touches[0].clientY);
+                    }
+                }, { passive: true });
+
+                row.addEventListener('touchend', endHold, { passive: false });
+                row.addEventListener('touchcancel', endHold);
+
+                row.addEventListener('mousedown', (e) => {
+                    if (e.button === 0) startHold(e.clientX, e.clientY);
+                });
+                row.addEventListener('mousemove', (e) => moveHold(e.clientX, e.clientY));
+                row.addEventListener('mouseup', endHold);
+                row.addEventListener('mouseleave', endHold);
+
+                row.addEventListener('click', (e) => {
+                    if (isLongPress || Date.now() < blockNextClickUntil || activeContextKey !== null) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        isLongPress = false;
+                        return;
+                    }
+                    const actionType = row.getAttribute('data-action-type');
+                    const idx = parseInt(row.getAttribute('data-idx'), 10);
+
+                    if (actionType === 'chapter') {
+                        openChapterByIndex(idx);
+                    } else if (actionType === 'topic-group') {
+                        openTopicGroupByIndex(idx);
+                    } else if (actionType === 'subtopic-item') {
+                        openSubtopicItemByIndex(idx);
+                    } else if (actionType === 'search-item') {
+                        openSearchItemByIndex(idx);
+                    }
+                });
+            });
+        }
+
+        /* GOOGLE SHEETS CSV URLS */
+        const DB_URLS = {
+            math: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWvEMlB8yjZ96rWKGPmXIevhTjaFZ_SuLb_42IGHdRNAcljvveIJAPnSHlz13tu6wyr1X8D3lYUxJm/pub?gid=566628590&single=true&output=csv',
+            bangla: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWvEMlB8yjZ96rWKGPmXIevhTjaFZ_SuLb_42IGHdRNAcljvveIJAPnSHlz13tu6wyr1X8D3lYUxJm/pub?gid=840059015&single=true&output=csv',
+            english: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWvEMlB8yjZ96rWKGPmXIevhTjaFZ_SuLb_42IGHdRNAcljvveIJAPnSHlz13tu6wyr1X8D3lYUxJm/pub?gid=1921260160&single=true&output=csv',
+            gk: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWvEMlB8yjZ96rWKGPmXIevhTjaFZ_SuLb_42IGHdRNAcljvveIJAPnSHlz13tu6wyr1X8D3lYUxJm/pub?gid=570235809&single=true&output=csv',            
+            bcs: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWvEMlB8yjZ96rWKGPmXIevhTjaFZ_SuLb_42IGHdRNAcljvveIJAPnSHlz13tu6wyr1X8D3lYUxJm/pub?gid=78346882&single=true&output=csv'
+        };
+
+        let currentSubject = '';
+        let rawData = [], groupedChapters = {}, currentViewState = 'dashboard';
+        let currentChapterList = [];
+        let currentTopicKeys = [];
+        let currentTopicsMap = {};
+        let activeChapterName = '';
+        let currentSubtopicItems = [];
+        let currentSearchResults = [];
+
+        function toggleQuickMenu() {
+            const menu = document.getElementById('quickMenu');
+            if(menu) { menu.classList.toggle('hidden'); menu.classList.toggle('flex'); }
+        }
+
+        function quickSwitch(subject, title, colorCode) {
+            toggleQuickMenu();
+            if(subject === currentSubject) return;
+            openNotebook(null, subject, title, colorCode, true);
+        }
+
+        function openNotebook(element, subject, title, colorCode, isQuickSwitch = false) {
+            try {
+                currentSubject = subject;
+                const titleSpan = document.getElementById('titleText');
+                if(titleSpan) titleSpan.innerText = title;
+                
+                document.documentElement.style.setProperty('--toc-accent', colorCode || '#059669');
+                document.getElementById('headerIcon').style.color = colorCode || '#059669';
+
+                const app = document.getElementById('mainApp');
+                const desk = document.getElementById('masterHome');
+                const backBtn = document.getElementById('backBtn');
+                const trackerBtn = document.getElementById('trackerBtn');
+                const menuLayer = document.getElementById('quickMenuLayer');
+
+                if(!isQuickSwitch && element) {
+                    element.classList.add('is-open');
+                    
+                    const rect = element.getBoundingClientRect();
+                    const originX = rect.left + (rect.width / 2);
+                    const originY = rect.top + (rect.height / 2);
+                    app.style.transformOrigin = `${originX}px ${originY}px`;
+
+                    setTimeout(() => {
+                        app.classList.remove('hidden', 'page-shrink-out');
+                        app.classList.add('page-expand-in');
+                        performPageFlip('view-dashboard', () => {}, true);
+                        
+                        setTimeout(() => { 
+                            desk.style.display = 'none'; 
+                            app.style.transform = '';
+                            app.classList.remove('page-expand-in');
+                            backBtn.classList.remove('hidden');
+                            if(trackerBtn) trackerBtn.classList.remove('hidden');
+                            menuLayer.classList.remove('hidden');
+                        }, 480); 
+
+                        try { history.pushState({view: 'dashboard', sub: subject}, '', `#${subject}`); } catch(e){}
+                        loadDataForSubject();
+                    }, 340); 
+                    
+                } else {
+                    if(app) {
+                        app.classList.remove('hidden', 'page-shrink-out');
+                        app.style.transformOrigin = `bottom right`;
+                        app.classList.add('page-expand-in');
+                        setTimeout(() => { 
+                            app.style.transform = '';
+                            app.classList.remove('page-expand-in');
+                            backBtn.classList.remove('hidden');
+                            if(trackerBtn) trackerBtn.classList.remove('hidden');
+                            menuLayer.classList.remove('hidden');
+                        }, 480);
+                    }
+                    const sInput = document.getElementById('searchInput');
+                    if(sInput) sInput.value = '';
+                    performPageFlip('view-dashboard', () => {}, true);
+                    try { history.pushState({view: 'dashboard', sub: subject}, '', `#${subject}`); } catch(e){}
+                    loadDataForSubject();
+                }
+                setTimeout(refreshIcons, 350);
+            } catch(e) {}
+        }
+
+        function handleBackClick() {
+            const subApp = document.getElementById('subAppOverlay');
+            if (subApp && subApp.classList.contains('open')) {
+                closeSubApp();
+                return;
+            }
+
+            const sheet = document.getElementById('contextSheetOverlay');
+            if (sheet && sheet.classList.contains('active')) {
+                forceCloseContextSheet();
+                return;
+            }
+
+            if (currentViewState === 'dashboard') {
+                const app = document.getElementById('mainApp');
+                const desk = document.getElementById('masterHome');
+                const backBtn = document.getElementById('backBtn');
+                const trackerBtn = document.getElementById('trackerBtn');
+                const menuLayer = document.getElementById('quickMenuLayer');
+                
+                backBtn.classList.add('hidden');
+                if(trackerBtn) trackerBtn.classList.add('hidden');
+                menuLayer.classList.add('hidden');
+                desk.style.display = 'flex';
+                
+                app.style.transform = ''; 
+                app.classList.add('page-shrink-out');
+                
+                setTimeout(() => { 
+                    app.classList.add('hidden'); 
+                    app.classList.remove('page-shrink-out');
+                    document.querySelectorAll('.book-3d').forEach(b => b.classList.remove('is-open'));
+                }, 420);
+                
+                currentViewState = 'hub';
+                updateBookshelfBadges();
+                try { history.pushState({view: 'hub'}, '', '#hub'); } catch(e){}
+            } else {
+                history.back();
+            }
+        }
+
+        function goHome() {
+            if(currentViewState === 'dashboard') return;
+            const sInput = document.getElementById('searchInput');
+            if(sInput) sInput.value = '';
+            try { history.pushState({view: 'dashboard', sub: currentSubject}, '', `#${currentSubject}`); } catch(e){}
+            performPageFlip('view-dashboard', renderDashboard, true);
+        }
+
+        function loadDataForSubject() {
+            const loader = document.getElementById('loader');
+            const viewDash = document.getElementById('view-dashboard');
+            const cacheKey = 'bilas_academy_cache_' + currentSubject;
+            let cachedData = null;
+            try { cachedData = localStorage.getItem(cacheKey); } catch(e){}
+
+            if (cachedData) {
+                try {
+                    rawData = JSON.parse(cachedData);
+                    processData();
+                    if(loader) { loader.classList.remove('flex'); loader.classList.add('hidden'); }
+                } catch(e) {}
+            } else {
+                if(viewDash) viewDash.innerHTML = '';
+                if(loader) { loader.classList.remove('hidden'); loader.classList.add('flex'); }
+            }
+
+            if (DB_URLS[currentSubject]) {
+                fetch(DB_URLS[currentSubject] + "&_t=" + Date.now())
+                    .then(response => {
+                        if (!response.ok) throw new Error("Network error");
+                        return response.text();
+                    })
+                    .then(text => {
+                        if(loader) { loader.classList.remove('flex'); loader.classList.add('hidden'); }
+                        parseCSV(text, cacheKey);
+                    })
+                    .catch(err => {
+                        if(loader) { loader.classList.remove('flex'); loader.classList.add('hidden'); }
+                        if(!cachedData && viewDash && (!rawData || rawData.length === 0)) {
+                            viewDash.innerHTML = `<p class="text-center mt-10 text-red-600 font-bold">ইন্টারনেট কানেকশন চেক করুন!</p>`;
+                        }
+                    });
+            }
+        }
+
+        function parseCSV(text, cacheKey) {
+            let lines = text.split(/\r?\n/);
+            if(lines.length === 0) return;
+            let headers = lines[0].split(",").map(h => h.trim().replace(/^"|"$/g, ''));
+            let tempData = [];
+            
+            for (let i = 1; i < lines.length; i++) {
+                if (lines[i].trim() == "") continue;
+                let currentline = [];
+                let inQuotes = false;
+                let val = '';
+                for(let char of lines[i]) {
+                    if(char === '"') inQuotes = !inQuotes;
+                    else if(char === ',' && !inQuotes) {
+                        currentline.push(val.trim().replace(/^"|"$/g, ''));
+                        val = '';
+                    } else val += char;
+                }
+                currentline.push(val.trim().replace(/^"|"$/g, ''));
+                if (currentline.length < 2) continue;
+                let obj = {};
+                headers.forEach((h, idx) => { obj[h] = currentline[idx]; });
+                tempData.push(obj);
+            }
+
+            const newJson = JSON.stringify(tempData);
+            let oldJson = null;
+            try { oldJson = cacheKey ? localStorage.getItem(cacheKey) : null; } catch(e){}
+
+            if (newJson !== oldJson) {
+                try { if(cacheKey) localStorage.setItem(cacheKey, newJson); } catch(e){}
+                rawData = tempData;
+                if (currentViewState === 'dashboard') {
+                    processData();
+                }
+            }
+        }
+
+        function processData() {
+            groupedChapters = {};
+            rawData.forEach(item => {
+                const ch = item.Chapter || 'অন্যান্য';
+                if (!groupedChapters[ch]) groupedChapters[ch] = [];
+                groupedChapters[ch].push(item);
+            });
+            renderDashboard();
+        }
+
+        function renderDashboard(list = null) {
+            const container = document.getElementById('view-dashboard');
+            if(!container) return;
+            container.innerHTML = '';
+            renderSubjectVisualBanner();
+
+            if (list) {
+                currentSearchResults = list;
+                if(list.length === 0) {
+                    container.innerHTML = `<p class="text-center mt-10 opacity-50 italic">কিছু পাওয়া যায়নি!</p>`;
+                    return;
+                }
+                let html = '';
+                list.forEach((item, idx) => {
+                    const displayName = item.Subtopic ? `${item.Topic} ▸ ${item.Subtopic}` : item.Topic;
+                    const itemKey = getItemKey('topic', displayName);
+                    const { extraClasses, badgesHTML } = buildRowClassesAndBadges(itemKey);
+                    const visualThumb = getVisualPreviewHTML([item]);
+
+                    html += `<div data-action-type="search-item" data-idx="${idx}" data-item-key="${itemKey}" data-item-title="${displayName}" class="topic-row${extraClasses}">
+                        <div class="topic-title-wrapper">
+                            <div class="topic-icon-box">
+                                <i data-lucide="file-text" class="w-4 h-4" style="color: var(--toc-accent);"></i>
+                            </div>
+                            <div class="min-w-0 flex-1">
+                                <h4 class="topic-title truncate">${displayName}</h4>
+                                ${item.Short_Note ? `<p class="text-[11px] text-slate-500 truncate mt-0.5">💡 ${item.Short_Note}</p>` : ''}
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2 shrink-0">
+                            ${visualThumb}
+                            <div class="item-status-badges flex items-center gap-1">${badgesHTML}</div>
+                        </div>
+                    </div>`;
+                });
+                container.innerHTML = html;
+            } else {
+                currentChapterList = Object.keys(groupedChapters);
+                let html = '';
+                currentChapterList.forEach((name, idx) => {
+                    const itemKey = getItemKey('chapter', name);
+                    const { extraClasses, badgesHTML } = buildRowClassesAndBadges(itemKey);
+                    const chItems = groupedChapters[name] || [];
+
+                    html += `<div data-action-type="chapter" data-idx="${idx}" data-item-key="${itemKey}" data-item-title="${name}" class="topic-row${extraClasses}">
+                        <div class="topic-title-wrapper">
+                            <div class="topic-icon-box">
+                                <i data-lucide="folder-open" class="w-5 h-5" style="color: var(--toc-accent);"></i>
+                            </div>
+                            <div class="min-w-0 flex-1">
+                                <h3 class="topic-title">${name}</h3>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2 shrink-0">
+                            <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200">${chItems.length}টি নোট</span>
+                            <div class="item-status-badges flex items-center gap-1">${badgesHTML}</div>
+                        </div>
+                    </div>`;
+                });
+                container.innerHTML = html;
+            }
+
+            refreshIcons();
+            bindInteractiveRows(container);
+        }
+
+        function openChapterByIndex(idx) {
+            const chapterName = currentChapterList[idx];
+            if (!chapterName) return;
+            openChapter(chapterName);
+        }
+
+        function openSearchItemByIndex(idx) {
+            const item = currentSearchResults[idx];
+            if (!item) return;
+            openViewerObj(item);
+        }
+
+        function openChapter(chapterName, isFromHistory = false) {
+            activeChapterName = chapterName;
+            if (!isFromHistory) {
+                try { history.pushState({view: 'topics', chapter: chapterName, sub: currentSubject}, '', '#topics'); } catch(e){}
+            }
+            performPageFlip('view-topics', () => {
+                const heading = document.getElementById('chapterHeading');
+                if(heading) heading.innerText = chapterName;
+                const list = document.getElementById('topicList');
+                if(list) {
+                    list.innerHTML = '';
+                    let chapterItems = rawData.filter(i => (i.Chapter || 'অন্যান্য') === chapterName);
+                    
+                    currentTopicsMap = {};
+                    chapterItems.forEach(item => {
+                        const t = item.Topic || 'অজানা টপিক';
+                        if(!currentTopicsMap[t]) currentTopicsMap[t] = [];
+                        currentTopicsMap[t].push(item);
+                    });
+                    
+                    currentTopicKeys = Object.keys(currentTopicsMap);
+                    let html = '';
+
+                    currentTopicKeys.forEach((topicName, idx) => {
+                        const items = currentTopicsMap[topicName];
+                        const itemKey = getItemKey('topic', `${chapterName}_${topicName}`);
+                        const { extraClasses, badgesHTML } = buildRowClassesAndBadges(itemKey);
+                        const hasSub = items.some(i => i.Subtopic && i.Subtopic.trim() !== "");
+                        const visualThumb = hasSub ? `<span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">${items.length} পার্ট</span>` : getVisualPreviewHTML(items);
+                        const noteHint = (!hasSub && items[0] && items[0].Short_Note) ? `<p class="text-[11px] text-slate-500 truncate mt-0.5">💡 ${items[0].Short_Note}</p>` : '';
+
+                        html += `<div data-action-type="topic-group" data-idx="${idx}" data-item-key="${itemKey}" data-item-title="${topicName}" class="topic-row${extraClasses}">
+                            <div class="topic-title-wrapper">
+                                <div class="topic-icon-box">
+                                    <i data-lucide="${hasSub ? 'layers' : 'file-text'}" class="w-4 h-4" style="color: var(--toc-accent);"></i>
+                                </div>
+                                <div class="min-w-0 flex-1">
+                                    <h4 class="topic-title">${topicName}</h4>
+                                    ${noteHint}
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 shrink-0">
+                                ${visualThumb}
+                                <div class="item-status-badges flex items-center gap-1">${badgesHTML}</div>
+                            </div>
+                        </div>`;
+                    });
+
+                    list.innerHTML = html;
+                    refreshIcons();
+                    bindInteractiveRows(list);
+                }
+            });
+        }
+
+        function openTopicGroupByIndex(idx) {
+            const topicName = currentTopicKeys[idx];
+            if (!topicName) return;
+            const items = currentTopicsMap[topicName] || [];
+            if (items.some(i => i.Subtopic && i.Subtopic.trim() !== "")) {
+                openSubtopicView(activeChapterName, topicName);
+            } else if (items.length > 0) {
+                openViewerObj(items[0]);
+            }
+        }
+
+        function openSubtopicView(chapterName, topicName, isFromHistory = false) {
+            if (!isFromHistory) {
+                try { history.pushState({view: 'subtopics', chapter: chapterName, topic: topicName, sub: currentSubject}, '', '#subtopics'); } catch(e){}
+            }
+            performPageFlip('view-subtopics', () => {
+                const heading = document.getElementById('subtopicHeading');
+                if(heading) heading.innerText = topicName;
+                const list = document.getElementById('subtopicList');
+                if(list) {
+                    list.innerHTML = '';
+                    currentSubtopicItems = rawData.filter(i => (i.Chapter || 'অন্যান্য') === chapterName && i.Topic === topicName);
+                    
+                    let html = '';
+                    currentSubtopicItems.forEach((item, idx) => {
+                        const subName = item.Subtopic || 'নোট';
+                        const itemKey = getItemKey('subtopic', `${chapterName}_${topicName}_${subName}`);
+                        const { extraClasses, badgesHTML } = buildRowClassesAndBadges(itemKey);
+                        const visualThumb = getVisualPreviewHTML([item]);
+
+                        html += `<div data-action-type="subtopic-item" data-idx="${idx}" data-item-key="${itemKey}" data-item-title="${subName}" class="topic-row${extraClasses}">
+                            <div class="topic-title-wrapper">
+                                <div class="topic-icon-box">
+                                    <i data-lucide="bookmark-check" class="w-4 h-4" style="color: var(--toc-accent);"></i>
+                                </div>
+                                <div class="min-w-0 flex-1">
+                                    <h4 class="topic-title">${subName}</h4>
+                                    ${item.Short_Note ? `<p class="text-[11px] text-slate-500 truncate mt-0.5">💡 ${item.Short_Note}</p>` : ''}
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 shrink-0">
+                                ${visualThumb}
+                                <div class="item-status-badges flex items-center gap-1">${badgesHTML}</div>
+                            </div>
+                        </div>`;
+                    });
+                    list.innerHTML = html;
+                    refreshIcons();
+                    bindInteractiveRows(list);
+                }
+            });
+        }
+
+        function openSubtopicItemByIndex(idx) {
+            const item = currentSubtopicItems[idx];
+            if (!item) return;
+            openViewerObj(item);
+        }
+
+        /* Open Embedded HTML Sub-Apps (Like Right Form of Verbs) seamlessly */
+        function openEmbeddedSubApp(url) {
+            const overlay = document.getElementById('subAppOverlay');
+            const frame = document.getElementById('subAppFrame');
+            if (overlay && frame) {
+                frame.src = url;
+                overlay.classList.add('open');
+                try { history.pushState({view: 'subapp'}, '', '#app'); } catch(e){}
+            }
+        }
+
+        function closeSubApp() {
+            const overlay = document.getElementById('subAppOverlay');
+            const frame = document.getElementById('subAppFrame');
+            if (overlay && frame) {
+                overlay.classList.remove('open');
+                frame.src = '';
+            }
+        }
+
+        function openViewerObj(item) {
+            let link = (item.ImageLink || item.Video_Link || "").trim();
+            
+            if (link.endsWith('.html') || (link.startsWith('http') && !link.includes('drive.google.com') && !link.includes('youtube.com') && !link.match(/\.(jpeg|jpg|gif|png|webp|pdf)$/i))) {
+                openEmbeddedSubApp(link);
+                return;
+            }
+
+            try { history.pushState({view: 'image', topic: item, sub: currentSubject}, '', '#note'); } catch(e){}
+            performPageFlip('view-image', () => {
+                const title = document.getElementById('imageTitle');
+                if(title) title.innerText = item.Subtopic ? `${item.Topic} ▸ ${item.Subtopic}` : (item.Topic || "");
+                
+                const note = document.getElementById('imageNote');
+                if(note) {
+                    if(item.Short_Note && item.Short_Note.trim() !== "") {
+                        note.innerHTML = `<span class="font-extrabold text-amber-800">📌 মূল নোট:</span> ${item.Short_Note}`;
+                        note.classList.remove('hidden');
+                    } else {
+                        note.classList.add('hidden');
+                    }
+                }
+                
+                const container = document.getElementById('imageContainer');
+                if(container) {
+                    container.innerHTML = '';
+                    let links = (item.ImageLink || "").split(/[,|\s]+/).map(l => l.trim()).filter(l => l);
+                    
+                    if(links.length > 0) {
+                        links.forEach((lnk, pageIdx) => {
+                            let previewLink = lnk;
+                            let driveFileId = '';
+                            if(lnk.includes('drive.google.com')) {
+                                const match = lnk.match(/[-\w]{25,}/);
+                                if(match) {
+                                    driveFileId = match[0];
+                                    previewLink = `https://drive.google.com/file/d/${driveFileId}/preview`;
+                                }
+                            }
+                            
+                            const encodedLink = encodeURIComponent(lnk);
+                            container.innerHTML += `
+                            <div class="taped-photo">
+                                <div class="flex items-center justify-between gap-2 mb-2.5 px-1">
+                                    <span class="text-xs font-extrabold text-slate-600">📄 শিট #${pageIdx + 1}</span>
+                                    <div class="flex items-center gap-1.5">
+                                        <button onclick="openFullImage('${encodedLink}', 'pdf')" class="bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg py-1.5 px-3 shadow flex items-center gap-1 text-xs font-bold active:scale-95 transition-transform">
+                                            <i data-lucide="book-open" class="w-3.5 h-3.5"></i> সব পেজ (PDF)
+                                        </button>
+                                        <button onclick="openFullImage('${encodedLink}', 'image')" class="bg-slate-800 hover:bg-slate-900 text-white rounded-lg py-1.5 px-3 shadow flex items-center gap-1 text-xs font-bold active:scale-95 transition-transform" title="ছবি জুম মোড">
+                                            <i data-lucide="zoom-in" class="w-3.5 h-3.5"></i> জুম
+                                        </button>
+                                    </div>
+                                </div>
+                                <iframe class="w-full h-[54vh] border border-slate-200 bg-white rounded-lg" src="${previewLink}" allow="autoplay"></iframe>
+                            </div>`;
+                        });
+                    } else {
+                        container.innerHTML = `<p class="text-sm opacity-50 italic mt-4">কোনো ছবি বা নোট যুক্ত করা হয়নি</p>`;
+                    }
+                }
+                
+                const vBtn = document.getElementById('videoBtn');
+                if(vBtn) {
+                    if(item.Video_Link && item.Video_Link.startsWith('http')) { 
+                        vBtn.href = item.Video_Link; 
+                        vBtn.classList.remove('hidden'); 
+                        vBtn.classList.add('flex'); 
+                    } else { 
+                        vBtn.classList.remove('flex'); 
+                        vBtn.classList.add('hidden'); 
+                    }
+                }
+            });
+        }
+
+        window.addEventListener('popstate', function(event) {
+            const subApp = document.getElementById('subAppOverlay');
+            if (subApp && subApp.classList.contains('open')) { closeSubApp(); return; }
+
+            const sheet = document.getElementById('contextSheetOverlay');
+            if (sheet && sheet.classList.contains('active')) { forceCloseContextSheet(); return; }
+
+            const viewer = document.getElementById('fullscreenViewer');
+            if (viewer && viewer.style.display === 'flex') { closeFullImageUI(); return; }
+            
+            const state = event.state ? event.state.view : 'hub';
+            
+            if(state === 'hub') { 
+                const app = document.getElementById('mainApp');
+                const desk = document.getElementById('masterHome');
+                const backBtn = document.getElementById('backBtn');
+                const trackerBtn = document.getElementById('trackerBtn');
+                const menuLayer = document.getElementById('quickMenuLayer');
+                
+                if(backBtn) backBtn.classList.add('hidden');
+                if(trackerBtn) trackerBtn.classList.add('hidden');
+                if(menuLayer) menuLayer.classList.add('hidden');
+                if(desk) desk.style.display = 'flex';
+                
+                if(app) {
+                    app.style.transform = '';
+                    app.classList.add('page-shrink-out');
+                    setTimeout(() => { 
+                        app.classList.add('hidden'); 
+                        app.classList.remove('page-shrink-out');
+                        document.querySelectorAll('.book-3d').forEach(b => b.classList.remove('is-open'));
+                    }, 420);
+                }
+                currentViewState = 'hub';
+                updateBookshelfBadges();
+            }
+            else if (state === 'dashboard') {
+                const sInput = document.getElementById('searchInput');
+                if(sInput) sInput.value = '';
+                performPageFlip('view-dashboard', renderDashboard, true);
+            } 
+            else if (state === 'topics') {
+                openChapter(event.state.chapter, true);
+            }
+            else if (state === 'subtopics') {
+                openSubtopicView(event.state.chapter, event.state.topic, true);
+            }
+        });
+
+        function performPageFlip(targetViewId, logicCallback, isBackward = false) {
+            const d = document.getElementById('view-dashboard');
+            const t = document.getElementById('view-topics');
+            const st = document.getElementById('view-subtopics');
+            const i = document.getElementById('view-image');
+            const header = document.getElementById('tocHeader');
+            const trackerBtn = document.getElementById('trackerBtn');
+            const bannerEl = document.getElementById('subjectVisualBanner');
+
+            if(d) d.classList.add('hidden');
+            if(t) t.classList.add('hidden');
+            if(st) st.classList.add('hidden');
+            if(i) i.classList.add('hidden');
+            
+            if (targetViewId === 'view-dashboard') {
+                if(header) header.classList.remove('hidden', 'header-hidden');
+                if(trackerBtn) trackerBtn.classList.remove('hidden');
+                if(bannerEl) bannerEl.classList.remove('hidden');
+            } else {
+                if(header) header.classList.add('hidden');
+                if(trackerBtn) trackerBtn.classList.add('hidden');
+                if(bannerEl) bannerEl.classList.add('hidden');
+            }
+
+            currentViewState = targetViewId.replace('view-', '');
+            mainAppContainer.scrollTop = 0;
+            if(logicCallback) logicCallback();
+            const target = document.getElementById(targetViewId);
+            if(target) target.classList.remove('hidden');
+            refreshIcons();
+        }
+
+        /* 🔍 ULTRA-SMOOTH PINCH TO ZOOM & MULTI-PAGE PDF VIEWER ENGINE */
+        let zoomScale = 1;
+        let panX = 0, panY = 0;
+        let isPanning = false;
+        let startX = 0, startY = 0;
+        let initialDistance = 0;
+        let initialScale = 1;
+        let lastTap = 0;
+
+        let activeRawLink = '';
+        let activeDriveId = '';
+        let currentViewerMode = 'pdf';
+
+        function isImageModeActive() {
+            const img = document.getElementById('fullscreenImg');
+            return img && !img.classList.contains('hidden');
+        }
+
+        function updateTransform() {
+            const img = document.getElementById('fullscreenImg');
+            const indicator = document.getElementById('zoomPercent');
+            if(img) {
+                img.style.transform = `translate(${panX}px, ${panY}px) scale(${zoomScale})`;
+            }
+            if(indicator && currentViewerMode === 'image') {
+                indicator.innerText = Math.round(zoomScale * 100) + '%';
+            }
+        }
+
+        function resetZoom() {
+            zoomScale = 1;
+            panX = 0;
+            panY = 0;
+            updateTransform();
+        }
+
+        function changeZoom(delta) {
+            if (!isImageModeActive()) return;
+            zoomScale = Math.min(Math.max(0.6, zoomScale + delta), 4.5);
+            if(zoomScale === 1) { panX = 0; panY = 0; }
+            updateTransform();
+        }
+
+        const viewport = document.getElementById('zoomViewport');
+
+        viewport.addEventListener('touchstart', function(e) {
+            if (!isImageModeActive()) return;
+            if (e.touches.length === 2) {
+                isPanning = false;
+                initialDistance = Math.hypot(
+                    e.touches[0].clientX - e.touches[1].clientX,
+                    e.touches[0].clientY - e.touches[1].clientY
+                );
+                initialScale = zoomScale;
+            } else if (e.touches.length === 1) {
+                const now = Date.now();
+                if (now - lastTap < 300) {
+                    if (zoomScale > 1.2) {
+                        resetZoom();
+                    } else {
+                        zoomScale = 2.2;
+                        updateTransform();
+                    }
+                    lastTap = 0;
+                    return;
+                }
+                lastTap = now;
+                isPanning = true;
+                startX = e.touches[0].clientX - panX;
+                startY = e.touches[0].clientY - panY;
+            }
+        }, { passive: false });
+
+        viewport.addEventListener('touchmove', function(e) {
+            if (!isImageModeActive()) return;
+            e.preventDefault();
+            if (e.touches.length === 2) {
+                const currentDistance = Math.hypot(
+                    e.touches[0].clientX - e.touches[1].clientX,
+                    e.touches[0].clientY - e.touches[1].clientY
+                );
+                if (initialDistance > 0) {
+                    zoomScale = Math.min(Math.max(0.6, initialScale * (currentDistance / initialDistance)), 4.5);
+                    updateTransform();
+                }
+            } else if (e.touches.length === 1 && isPanning) {
+                panX = e.touches[0].clientX - startX;
+                panY = e.touches[0].clientY - startY;
+                updateTransform();
+            }
+        }, { passive: false });
+
+        viewport.addEventListener('touchend', function(e) {
+            if (!isImageModeActive()) return;
+            if (e.touches.length < 2) initialDistance = 0;
+            if (e.touches.length === 0) isPanning = false;
+        });
+
+        viewport.addEventListener('mousedown', function(e) {
+            if (!isImageModeActive()) return;
+            isPanning = true;
+            startX = e.clientX - panX;
+            startY = e.clientY - panY;
+        });
+
+        window.addEventListener('mousemove', function(e) {
+            if (!isImageModeActive() || !isPanning) return;
+            panX = e.clientX - startX;
+            panY = e.clientY - startY;
+            updateTransform();
+        });
+
+        window.addEventListener('mouseup', function() { isPanning = false; });
+
+        viewport.addEventListener('wheel', function(e) {
+            if (!isImageModeActive()) return;
+            e.preventDefault();
+            changeZoom(e.deltaY < 0 ? 0.2 : -0.2);
+        }, { passive: false });
+
+        function applyViewerMode(mode) {
+            currentViewerMode = mode;
+            const img = document.getElementById('fullscreenImg');
+            const frame = document.getElementById('fullscreenFrame');
+            const zoomControls = document.getElementById('imageZoomControls');
+            const indicator = document.getElementById('zoomPercent');
+            const toggleBtnText = document.getElementById('pdfModeToggleText');
+            const footerHint = document.getElementById('viewerFooterHint');
+
+            resetZoom();
+
+            if (mode === 'pdf') {
+                img.classList.add('hidden');
+                frame.classList.remove('hidden');
+                if (zoomControls) zoomControls.classList.add('hidden');
+                if (indicator) indicator.innerText = 'PDF / সব পেজ';
+                if (toggleBtnText) toggleBtnText.innerText = '১ম পেজ জুম মোড';
+                if (footerHint) footerHint.innerText = 'নিচে স্ক্রল করে ২য় ও পরবর্তী সব পেজ দেখুন';
+
+                const previewSrc = activeDriveId 
+                    ? `https://drive.google.com/file/d/${activeDriveId}/preview` 
+                    : activeRawLink;
+                if (frame.src !== previewSrc) {
+                    frame.src = previewSrc;
+                }
+            } else {
+                frame.classList.add('hidden');
+                img.classList.remove('hidden');
+                if (zoomControls) zoomControls.classList.remove('hidden');
+                if (indicator) indicator.innerText = '100%';
+                if (toggleBtnText) toggleBtnText.innerText = 'সব পেজ (PDF)';
+                if (footerHint) footerHint.innerText = 'দুই আঙুলে জুম করুন • একাধিক পেজ থাকলে উপরে "সব পেজ (PDF)" বাটনে চাপুন';
+
+                if (activeDriveId) {
+                    img.src = `https://drive.google.com/thumbnail?id=${activeDriveId}&sz=w1600`;
+                } else {
+                    img.src = activeRawLink;
+                }
+
+                img.onerror = function() {
+                    applyViewerMode('pdf');
+                };
+            }
+        }
+
+        function toggleViewerMode() {
+            applyViewerMode(currentViewerMode === 'pdf' ? 'image' : 'pdf');
+        }
+
+        function openFullImage(encodedLink, preferredMode = 'pdf') {
+            const rawLink = decodeURIComponent(encodedLink);
+            if(!rawLink) return;
+
+            activeRawLink = rawLink;
+            activeDriveId = '';
+
+            if (rawLink.includes('drive.google.com')) {
+                const match = rawLink.match(/[-\w]{25,}/);
+                if (match) activeDriveId = match[0];
+            }
+
+            try { history.pushState({view: 'fullscreen'}, '', '#full'); } catch(e){}
+            const viewer = document.getElementById('fullscreenViewer');
+            const toggleBtn = document.getElementById('pdfModeToggleBtn');
+
+            if (toggleBtn) {
+                if (activeDriveId) {
+                    toggleBtn.classList.remove('hidden');
+                    toggleBtn.classList.add('flex');
+                } else {
+                    toggleBtn.classList.add('hidden');
+                }
+            }
+
+            applyViewerMode(preferredMode);
+
+            if(viewer) viewer.style.display = 'flex';
+            refreshIcons();
+        }
+
+        function closeFullImage() { history.back(); }
+        function closeFullImageUI() { 
+            const viewer = document.getElementById('fullscreenViewer'); 
+            const img = document.getElementById('fullscreenImg');
+            const frame = document.getElementById('fullscreenFrame');
+            if(img) img.src = '';
+            if(frame) frame.src = '';
+            resetZoom();
+            if(viewer) viewer.style.display = 'none'; 
+        }
+
+        function executeSearch() {
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            if(!q) { if(currentViewState !== 'dashboard') goHome(); else renderDashboard(); return; }
+            const res = rawData.filter(i => (i.Topic && i.Topic.toLowerCase().includes(q)) || (i.Subtopic && i.Subtopic.toLowerCase().includes(q)) || (i.Short_Note && i.Short_Note.toLowerCase().includes(q)));
+            if(currentViewState === 'dashboard') { renderDashboard(res); } 
+            else { performPageFlip('view-dashboard', () => renderDashboard(res), true); }
+        }
+
+        window.onload = () => {
+            refreshIcons();
+            updateBookshelfBadges();
+            try { history.replaceState({view: 'hub'}, '', '#hub'); } catch(e){}
+        };
+    </script>
+</body>
+</html>
