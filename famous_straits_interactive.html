@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>বৈশ্বিক কিছু বিখ্যাত প্রণালি — ইন্টারেক্টিভ ফ্ল্যাশকার্ড</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Serif+Bengali:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            --card-bg: rgba(30, 41, 59, 0.75);
+            --card-border: rgba(255, 255, 255, 0.12);
+            --accent-primary: #38bdf8;
+            --accent-secondary: #818cf8;
+            --sep-bg: rgba(244, 63, 94, 0.14);
+            --sep-border: rgba(244, 63, 94, 0.4);
+            --sep-text: #fda4af;
+            --con-bg: rgba(16, 185, 129, 0.14);
+            --con-border: rgba(16, 185, 129, 0.4);
+            --con-text: #6ee7b7;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 24px 16px 60px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 32px;
+            padding: 28px 20px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .badge {
+            display: inline-block;
+            background: linear-gradient(90deg, #0284c7, #4f46e5);
+            color: #fff;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 4px 16px;
+            border-radius: 999px;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        h1 {
+            font-family: 'Noto Serif Bengali', serif;
+            font-size: clamp(1.7rem, 4vw, 2.5rem);
+            background: linear-gradient(to right, #e0f2fe, #7dd3fc, #c7d2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+            max-width: 600px;
+            margin: 0 auto 20px;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-main);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            padding: 9px 18px;
+            border-radius: 12px;
+            font-family: 'Hind Siliguri', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn:hover {
+            background: rgba(56, 189, 248, 0.2);
+            border-color: var(--accent-primary);
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #0284c7, #4f46e5);
+            border-color: transparent;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #0369a1, #4338ca);
+            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.4);
+        }
+
+        .progress-bar-wrap {
+            margin-top: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .progress-track {
+            width: 200px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #38bdf8, #34d399);
+            border-radius: 999px;
+            transition: width 0.4s ease;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 22px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                        box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                        border-color 0.35s ease;
+            user-select: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 18px 35px rgba(0, 0, 0, 0.35);
+            border-color: rgba(56, 189, 248, 0.45);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card.step-1 {
+            border-color: rgba(244, 63, 94, 0.45);
+        }
+
+        .card.step-1::before {
+            background: linear-gradient(90deg, #f43f5e, #fb7185);
+            opacity: 1;
+        }
+
+        .card.step-2 {
+            border-color: rgba(16, 185, 129, 0.5);
+        }
+
+        .card.step-2::before {
+            background: linear-gradient(90deg, #10b981, #34d399);
+            opacity: 1;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .number-pill {
+            background: rgba(56, 189, 248, 0.15);
+            color: #7dd3fc;
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 3px 11px;
+            border-radius: 10px;
+            border: 1px solid rgba(56, 189, 248, 0.25);
+        }
+
+        .step-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .dot.active-1 {
+            background: #fb7185;
+            box-shadow: 0 0 8px #fb7185;
+            transform: scale(1.2);
+        }
+
+        .dot.active-2 {
+            background: #34d399;
+            box-shadow: 0 0 8px #34d399;
+            transform: scale(1.2);
+        }
+
+        .strait-title {
+            font-size: 1.45rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 6px;
+            letter-spacing: 0.2px;
+        }
+
+        .tap-hint {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 8px;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Smooth Accordion / Reveal Transition */
+        .reveal-box {
+            display: grid;
+            grid-template-rows: 0fr;
+            opacity: 0;
+            transform: translateY(10px) scale(0.98);
+            transition: grid-template-rows 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                        opacity 0.4s ease,
+                        transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                        margin-top 0.45s ease;
+            margin-top: 0;
+        }
+
+        .reveal-box.visible {
+            grid-template-rows: 1fr;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            margin-top: 14px;
+        }
+
+        .reveal-inner {
+            overflow: hidden;
+        }
+
+        .info-block {
+            padding: 13px 15px;
+            border-radius: 14px;
+            border: 1px solid transparent;
+        }
+
+        .info-sep {
+            background: var(--sep-bg);
+            border-color: var(--sep-border);
+        }
+
+        .info-con {
+            background: var(--con-bg);
+            border-color: var(--con-border);
+        }
+
+        .info-label {
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .info-sep .info-label {
+            color: var(--sep-text);
+        }
+
+        .info-con .info-label {
+            color: var(--con-text);
+        }
+
+        .info-value {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #f1f5f9;
+        }
+
+        .country-note {
+            color: #cbd5e1;
+            font-weight: 400;
+            font-size: 0.95rem;
+        }
+
+        .card-footer-hint {
+            margin-top: 14px;
+            padding-top: 10px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.1);
+            font-size: 0.82rem;
+            color: #94a3b8;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .reset-single {
+            background: none;
+            border: none;
+            color: #7dd3fc;
+            font-family: inherit;
+            font-size: 0.82rem;
+            cursor: pointer;
+            padding: 2px 6px;
+            border-radius: 6px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease, background 0.2s ease;
+        }
+
+        .reset-single.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .reset-single:hover {
+            background: rgba(56, 189, 248, 0.15);
+        }
+
+        @media (max-width: 600px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            header {
+                padding: 20px 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="badge">সাধারণ জ্ঞান • আন্তর্জাতিক বিষয়াবলি</div>
+        <h1>বৈশ্বিক কিছু বিখ্যাত প্রণালি</h1>
+        <p class="subtitle">প্রতিটি কার্ডে <strong>১ম ক্লিকে</strong> জানুন কাকে পৃথক করেছে (দেশ/অঞ্চলসহ) এবং <strong>২য় ক্লিকে</strong> জানুন কোন সাগর বা মহাসাগরকে সংযুক্ত করেছে।</p>
+        
+        <div class="controls">
+            <button class="btn btn-primary" onclick="revealAllStep1()">১ম ধাপ সব দেখুন (পৃথক করেছে)</button>
+            <button class="btn btn-primary" onclick="revealAllStep2()">সব উত্তর দেখুন (সংযুক্ত করেছে)</button>
+            <button class="btn" onclick="resetAll()">↺ সব রিসেট করুন</button>
+        </div>
+
+        <div class="progress-bar-wrap">
+            <span id="progress-text">সম্পন্ন: ০ / ১৫</span>
+            <div class="progress-track">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+    </header>
+
+    <div class="grid" id="cards-grid"></div>
+</div>
+
+<script>
+    const straitsData = [
+        {
+            id: "০১",
+            name: "পক প্রণালি",
+            separated: "ভারত (তামিলনাড়ু) — শ্রীলঙ্কা (জাফনা/উত্তর প্রদেশ)",
+            connected: "ভারত মহাসাগর (বঙ্গোপসাগর) — আরব সাগর (মান্নার উপসাগর)"
+        },
+        {
+            id: "০২",
+            name: "বেরিং প্রণালি",
+            separated: "এশিয়া (রাশিয়া) — উত্তর আমেরিকা (যুক্তরাষ্ট্র/আলাস্কা)",
+            connected: "চুকচি সাগর (উত্তর মহাসাগর) — বেরিং সাগর"
+        },
+        {
+            id: "০৩",
+            name: "জিব্রাল্টার প্রণালি",
+            separated: "আফ্রিকা (মরক্কো) — ইউরোপ (স্পেন/জিব্রাল্টার)",
+            connected: "আটলান্টিক মহাসাগর — ভূমধ্যসাগর"
+        },
+        {
+            id: "০৪",
+            name: "বসফরাস প্রণালি",
+            separated: "এশিয়া (তুরস্কের এশীয় অংশ) — ইউরোপ (তুরস্কের ইউরোপীয় অংশ)",
+            connected: "মর্মর সাগর — কৃষ্ণ সাগর"
+        },
+        {
+            id: "০৫",
+            name: "বাব-এল মান্দেব প্রণালি",
+            separated: "এশিয়া (ইয়েমেন) — আফ্রিকা (জিবুতি ও ইরিত্রিয়া)",
+            connected: "এডেন উপসাগর (আরব সাগর) — লোহিত সাগর"
+        },
+        {
+            id: "০৬",
+            name: "ইংলিশ চ্যানেল",
+            separated: "ফ্রান্স (ইউরোপের মূল ভূখণ্ড) — ইংল্যান্ড (যুক্তরাজ্য)",
+            connected: "আটলান্টিক মহাসাগর — উত্তর সাগর"
+        },
+        {
+            id: "০৭",
+            name: "হরমুজ প্রণালি",
+            separated: "ইরান — সংযুক্ত আরব আমিরাত ও ওমান",
+            connected: "পারস্য উপসাগর — ওমান উপসাগর"
+        },
+        {
+            id: "০৮",
+            name: "দার্দানেলিস প্রণালি",
+            separated: "এশিয়া (তুরস্ক) — ইউরোপ (তুরস্ক)",
+            connected: "ইজিয়ান সাগর — মর্মর সাগর"
+        },
+        {
+            id: "০৯",
+            name: "ডোভার প্রণালি",
+            separated: "ফ্রান্স — ব্রিটেন (যুক্তরাজ্য)",
+            connected: "ইংলিশ চ্যানেল — উত্তর সাগর"
+        },
+        {
+            id: "১০",
+            name: "ফরমাজা (তাইওয়ান) প্রণালি",
+            separated: "তাইওয়ান — চীন",
+            connected: "পূর্ব চীন সাগর — দক্ষিণ চীন সাগর (টংকিং সাগর)"
+        },
+        {
+            id: "১১",
+            name: "মালাক্কা প্রণালি",
+            separated: "সুমাত্রা দ্বীপ (ইন্দোনেশিয়া) — মালয়েশিয়া (মালয় উপদ্বীপ)",
+            connected: "বঙ্গোপসাগর (আন্দামান সাগর) — জাভা সাগর (দক্ষিণ চীন সাগর)"
+        },
+        {
+            id: "১২",
+            name: "সুন্দা প্রণালি",
+            separated: "সুমাত্রা দ্বীপ (ইন্দোনেশিয়া) — জাভা দ্বীপ (ইন্দোনেশিয়া)",
+            connected: "ভারত মহাসাগর — জাভা সাগর"
+        },
+        {
+            id: "১৩",
+            name: "তাতার প্রণালি",
+            separated: "রাশিয়া (মূল ভূখণ্ড) — শাখালিন দ্বীপ (রাশিয়া)",
+            connected: "জাপান সাগর — ওখটস্ক সাগর"
+        },
+        {
+            id: "১৪",
+            name: "ফ্লোরিডা প্রণালি",
+            separated: "ফ্লোরিডা (যুক্তরাষ্ট্র / USA) — কিউবা",
+            connected: "মেক্সিকো উপসাগর — আটলান্টিক মহাসাগর"
+        },
+        {
+            id: "১৫",
+            name: "মেসিনা প্রণালি",
+            separated: "সিসিলি দ্বীপ (ইতালি) — ইতালি (মূল ভূখণ্ড/ক্যালাব্রিয়া)",
+            connected: "টিরহেনিয়ান সাগর — আইওনিয়ান সাগর"
+        }
+    ];
+
+    const cardStates = new Array(straitsData.length).fill(0);
+    const grid = document.getElementById('cards-grid');
+
+    function formatWithBrackets(text) {
+        return text.replace(/(\([^)]+\))/g, '<span class="country-note">$1</span>');
+    }
+
+    function renderCards() {
+        grid.innerHTML = '';
+        straitsData.forEach((item, index) => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.id = `card-${index}`;
+            card.onclick = () => handleCardClick(index);
+
+            card.innerHTML = `
+                <div>
+                    <div class="card-header">
+                        <span class="number-pill">প্রশ্ন ${item.id}</span>
+                        <div class="step-dots">
+                            <span class="dot" id="dot1-${index}"></span>
+                            <span class="dot" id="dot2-${index}"></span>
+                        </div>
+                    </div>
+                    <div class="strait-title">${item.name}</div>
+
+                    <div class="reveal-box" id="sep-${index}">
+                        <div class="reveal-inner">
+                            <div class="info-block info-sep">
+                                <div class="info-label">✂️ পৃথক করেছে</div>
+                                <div class="info-value">${formatWithBrackets(item.separated)}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="reveal-box" id="con-${index}">
+                        <div class="reveal-inner">
+                            <div class="info-block info-con">
+                                <div class="info-label">🔗 সংযুক্ত করেছে</div>
+                                <div class="info-value">${formatWithBrackets(item.connected)}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer-hint">
+                    <span id="hint-${index}">👆 ১ম ক্লিক: কাকে পৃথক করেছে?</span>
+                    <button class="reset-single" id="reset-${index}" onclick="resetSingle(event, ${index})">রিসেট</button>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    }
+
+    function updateCardUI(index) {
+        const state = cardStates[index];
+        const card = document.getElementById(`card-${index}`);
+        const sepBox = document.getElementById(`sep-${index}`);
+        const conBox = document.getElementById(`con-${index}`);
+        const dot1 = document.getElementById(`dot1-${index}`);
+        const dot2 = document.getElementById(`dot2-${index}`);
+        const hint = document.getElementById(`hint-${index}`);
+        const resetBtn = document.getElementById(`reset-${index}`);
+
+        card.classList.remove('step-1', 'step-2');
+        dot1.classList.remove('active-1');
+        dot2.classList.remove('active-2');
+
+        if (state === 0) {
+            sepBox.classList.remove('visible');
+            conBox.classList.remove('visible');
+            hint.textContent = '👆 ১ম ক্লিক: কাকে পৃথক করেছে?';
+            resetBtn.classList.remove('show');
+        } else if (state === 1) {
+            card.classList.add('step-1');
+            sepBox.classList.add('visible');
+            conBox.classList.remove('visible');
+            dot1.classList.add('active-1');
+            hint.textContent = '👆 ২য় ক্লিক: কাকে সংযুক্ত করেছে?';
+            resetBtn.classList.add('show');
+        } else if (state === 2) {
+            card.classList.add('step-2');
+            sepBox.classList.add('visible');
+            conBox.classList.add('visible');
+            dot1.classList.add('active-1');
+            dot2.classList.add('active-2');
+            hint.textContent = '✅ সম্পূর্ণ তথ্য উন্মোচিত (পুনরায় ক্লিকে রিসেট)';
+            resetBtn.classList.add('show');
+        }
+
+        updateProgress();
+    }
+
+    function handleCardClick(index) {
+        cardStates[index] = (cardStates[index] + 1) % 3;
+        updateCardUI(index);
+    }
+
+    function resetSingle(event, index) {
+        event.stopPropagation();
+        cardStates[index] = 0;
+        updateCardUI(index);
+    }
+
+    function revealAllStep1() {
+        for (let i = 0; i < cardStates.length; i++) {
+            if (cardStates[i] < 1) cardStates[i] = 1;
+            updateCardUI(i);
+        }
+    }
+
+    function revealAllStep2() {
+        for (let i = 0; i < cardStates.length; i++) {
+            cardStates[i] = 2;
+            updateCardUI(i);
+        }
+    }
+
+    function resetAll() {
+        for (let i = 0; i < cardStates.length; i++) {
+            cardStates[i] = 0;
+            updateCardUI(i);
+        }
+    }
+
+    function toBengaliNumber(num) {
+        const bengaliDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+        return num.toString().split('').map(d => bengaliDigits[d] || d).join('');
+    }
+
+    function updateProgress() {
+        const completed = cardStates.filter(s => s === 2).length;
+        const total = straitsData.length;
+        document.getElementById('progress-text').textContent = `সম্পন্ন: ${toBengaliNumber(completed)} / ${toBengaliNumber(total)}`;
+        document.getElementById('progress-fill').style.width = `${(completed / total) * 100}%`;
+    }
+
+    renderCards();
+</script>
+
+</body>
+</html>
