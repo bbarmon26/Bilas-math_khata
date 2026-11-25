@@ -1,0 +1,1723 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f2f4f8" media="(prefers-color-scheme: light)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>ICT ও সাধারণ জ্ঞান — লিখিত প্রশ্নব্যাংক | BILAS Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #eef2f7;
+    --bg-grad-1: rgba(56, 189, 248, 0.16);
+    --bg-grad-2: rgba(129, 140, 248, 0.16);
+    --surface: rgba(255, 255, 255, 0.72);
+    --surface-strong: rgba(255, 255, 255, 0.88);
+    --surface-elevated: rgba(255, 255, 255, 0.94);
+    --border: rgba(15, 23, 42, 0.08);
+    --border-strong: rgba(15, 23, 42, 0.14);
+    --text: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #64748b;
+    --accent: #2563eb;
+    --accent-soft: rgba(37, 99, 235, 0.12);
+    --accent-glow: rgba(37, 99, 235, 0.25);
+    --purple: #7c3aed;
+    --purple-soft: rgba(124, 58, 237, 0.13);
+    --success: #10b981;
+    --success-soft: rgba(16, 185, 129, 0.14);
+    --warning: #f59e0b;
+    --warning-soft: rgba(245, 158, 11, 0.14);
+    --danger: #ef4444;
+    --shadow-sm: 0 2px 10px rgba(15, 23, 42, 0.05);
+    --shadow-md: 0 10px 30px rgba(15, 23, 42, 0.08);
+    --shadow-lg: 0 20px 50px rgba(15, 23, 42, 0.12);
+    --radius-sm: 12px;
+    --radius-md: 18px;
+    --radius-lg: 24px;
+    --radius-pill: 999px;
+    --blur: blur(22px) saturate(180%);
+    --header-h: 64px;
+    --nav-h: 72px;
+  }
+
+  [data-theme="dark"] {
+    --bg: #070b14;
+    --bg-grad-1: rgba(37, 99, 235, 0.20);
+    --bg-grad-2: rgba(139, 92, 246, 0.18);
+    --surface: rgba(17, 25, 40, 0.68);
+    --surface-strong: rgba(22, 32, 52, 0.84);
+    --surface-elevated: rgba(30, 41, 59, 0.90);
+    --border: rgba(255, 255, 255, 0.09);
+    --border-strong: rgba(255, 255, 255, 0.16);
+    --text: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+    --accent: #3b82f6;
+    --accent-soft: rgba(59, 130, 246, 0.18);
+    --accent-glow: rgba(59, 130, 246, 0.35);
+    --purple: #a78bfa;
+    --purple-soft: rgba(167, 139, 250, 0.16);
+    --success: #34d399;
+    --success-soft: rgba(52, 211, 153, 0.16);
+    --warning: #fbbf24;
+    --warning-soft: rgba(251, 191, 36, 0.16);
+    --danger: #f87171;
+    --shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.28);
+    --shadow-md: 0 12px 34px rgba(0, 0, 0, 0.42);
+    --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.55);
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Hind Siliguri', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  body {
+    background-color: var(--bg);
+    background-image:
+      radial-gradient(circle at 15% 10%, var(--bg-grad-1), transparent 42%),
+      radial-gradient(circle at 85% 25%, var(--bg-grad-2), transparent 45%);
+    background-attachment: fixed;
+    color: var(--text);
+    min-height: 100dvh;
+    line-height: 1.65;
+    padding-top: calc(var(--header-h) + 10px);
+    padding-bottom: calc(var(--nav-h) + 28px + env(safe-area-inset-bottom));
+    transition: background-color 0.3s ease, color 0.3s ease;
+    overflow-x: hidden;
+  }
+
+  /* Auto-hiding Glass Header */
+  .app-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--header-h);
+    z-index: 100;
+    background: var(--surface);
+    backdrop-filter: var(--blur);
+    -webkit-backdrop-filter: var(--blur);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.3s ease;
+  }
+
+  .app-header.hidden {
+    transform: translateY(-100%);
+  }
+
+  .header-inner {
+    width: 100%;
+    max-width: 820px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .brand-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  .brand-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: 16px;
+    box-shadow: 0 6px 16px var(--accent-glow);
+    flex-shrink: 0;
+  }
+
+  .brand-text {
+    min-width: 0;
+  }
+
+  .brand-title {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .brand-sub {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .icon-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--surface-strong);
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.16s ease, background-color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .icon-btn:active { transform: scale(0.92); }
+  .icon-btn.active {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* Main Container */
+  .container {
+    width: 100%;
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 14px;
+  }
+
+  .view {
+    display: none;
+    animation: fadeUp 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .view.active { display: block; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Search & Controls Card */
+  .controls-glass {
+    background: var(--surface);
+    backdrop-filter: var(--blur);
+    -webkit-backdrop-filter: var(--blur);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 14px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 14px;
+  }
+
+  /* iOS Segmented Control for Question Type (সব / বড় প্রশ্ন / সংক্ষিপ্ত) */
+  .type-segment {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    padding: 4px;
+    border-radius: 15px;
+    background: var(--border);
+    margin-bottom: 12px;
+  }
+
+  .seg-btn {
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 700;
+    padding: 8px 6px;
+    border-radius: 11px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    transition: all 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .seg-btn .seg-cnt {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 999px;
+    background: rgba(100, 116, 139, 0.16);
+    color: var(--text-muted);
+  }
+
+  .seg-btn.active {
+    background: var(--surface-elevated);
+    color: var(--accent);
+    box-shadow: 0 3px 10px rgba(15, 23, 42, 0.08);
+  }
+
+  .seg-btn.active[data-type="broad"] {
+    background: linear-gradient(135deg, #7c3aed, #4f46e5);
+    color: #fff;
+    box-shadow: 0 5px 14px rgba(124, 58, 237, 0.32);
+  }
+
+  .seg-btn.active[data-type="broad"] .seg-cnt {
+    background: rgba(255, 255, 255, 0.22);
+    color: #fff;
+  }
+
+  .seg-btn.active .seg-cnt {
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+
+  .search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .search-box svg {
+    position: absolute;
+    left: 14px;
+    color: var(--text-muted);
+    pointer-events: none;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 11px 38px 11px 42px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    background: var(--surface-strong);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .search-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+
+  .search-clear {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px;
+    display: none;
+  }
+  .search-clear.show { display: flex; }
+
+  /* Category Pills */
+  .pill-scroll {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .pill-scroll::-webkit-scrollbar { display: none; }
+
+  .pill {
+    flex-shrink: 0;
+    padding: 7px 14px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--border);
+    background: var(--surface-strong);
+    color: var(--text-secondary);
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .pill .badge {
+    font-size: 11px;
+    padding: 1px 6px;
+    border-radius: 999px;
+    background: var(--border);
+    color: var(--text-secondary);
+  }
+
+  .pill.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    box-shadow: 0 4px 12px var(--accent-glow);
+  }
+
+  .pill.active .badge {
+    background: rgba(255, 255, 255, 0.22);
+    color: #fff;
+  }
+
+  /* Toolbar Row */
+  .toolbar-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+
+  .result-info {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+
+  .toolbar-btns {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .chip-btn {
+    padding: 6px 11px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface-strong);
+    color: var(--text-secondary);
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.18s ease;
+  }
+
+  .chip-btn:active { transform: scale(0.95); }
+  .chip-btn.active {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* Question Cards */
+  .qa-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .qa-card {
+    background: var(--surface);
+    backdrop-filter: var(--blur);
+    -webkit-backdrop-filter: var(--blur);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .qa-card.mastered {
+    border-color: rgba(16, 185, 129, 0.35);
+  }
+
+  .qa-card.mastered::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--success);
+  }
+
+  .qa-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .qa-tags {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .q-num {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 2px 9px;
+    border-radius: 999px;
+  }
+
+  .q-cat {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: var(--border);
+    padding: 2px 9px;
+    border-radius: 999px;
+  }
+
+  .q-broad-badge {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--purple);
+    background: var(--purple-soft);
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+
+  .qa-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .mini-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface-strong);
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.18s ease;
+  }
+
+  .mini-btn:active { transform: scale(0.9); }
+
+  .mini-btn.bookmarked {
+    background: var(--warning-soft);
+    border-color: var(--warning);
+    color: var(--warning);
+  }
+
+  .mini-btn.mastered {
+    background: var(--success-soft);
+    border-color: var(--success);
+    color: var(--success);
+  }
+
+  .qa-question {
+    font-size: 16.5px;
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    user-select: none;
+    line-height: 1.55;
+  }
+
+  .qa-reveal-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 10px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--accent);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .qa-answer-wrap {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.28s cubic-bezier(0.22, 1, 0.36, 1), margin-top 0.28s ease;
+  }
+
+  .qa-card.open .qa-answer-wrap {
+    grid-template-rows: 1fr;
+    margin-top: 12px;
+  }
+
+  .qa-card.open .qa-reveal-hint { display: none; }
+  .qa-answer-inner { overflow: hidden; }
+
+  .qa-answer {
+    background: var(--surface-strong);
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 12px 14px;
+    font-size: 15.5px;
+    color: var(--text-secondary);
+    white-space: pre-line;
+    line-height: 1.72;
+  }
+
+  .qa-answer-label {
+    font-size: 11.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: var(--success);
+    margin-bottom: 4px;
+    display: block;
+  }
+
+  /* Flashcard Mode */
+  .fc-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+
+  .fc-counter {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 6px 14px;
+    border-radius: var(--radius-pill);
+    backdrop-filter: var(--blur);
+  }
+
+  .fc-progress-track {
+    width: 100%;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--border);
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+
+  .fc-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), #8b5cf6);
+    border-radius: 999px;
+    transition: width 0.3s ease;
+  }
+
+  .fc-stage {
+    min-height: 360px;
+    background: var(--surface-strong);
+    backdrop-filter: var(--blur);
+    -webkit-backdrop-filter: var(--blur);
+    border: 1px solid var(--border-strong);
+    border-radius: 28px;
+    padding: 24px 20px;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.18s ease, box-shadow 0.25s ease;
+    user-select: none;
+  }
+
+  .fc-stage:active { transform: scale(0.985); }
+
+  .fc-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
+  .fc-q-text {
+    font-size: 19.5px;
+    font-weight: 700;
+    line-height: 1.55;
+    color: var(--text);
+    text-align: center;
+    margin: 14px 0;
+  }
+
+  .fc-tap-prompt {
+    text-align: center;
+    padding: 14px;
+    border-radius: 16px;
+    border: 1.5px dashed var(--border-strong);
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 12px;
+    background: var(--accent-soft);
+  }
+
+  .fc-ans-box {
+    display: none;
+    margin-top: 16px;
+    padding: 16px;
+    border-radius: 18px;
+    background: var(--surface-elevated);
+    border: 1px solid var(--border-strong);
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--text);
+    white-space: pre-line;
+    animation: fadeUp 0.24s ease;
+  }
+
+  .fc-stage.revealed .fc-tap-prompt { display: none; }
+  .fc-stage.revealed .fc-ans-box { display: block; }
+
+  .fc-controls {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr 1fr;
+    gap: 10px;
+    margin-top: 16px;
+  }
+
+  .fc-btn {
+    padding: 13px 14px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    background: var(--surface-strong);
+    backdrop-filter: var(--blur);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 14.5px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.16s ease, background-color 0.2s ease;
+  }
+
+  .fc-btn:active { transform: scale(0.95); }
+
+  .fc-btn.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    box-shadow: 0 8px 20px var(--accent-glow);
+  }
+
+  .fc-btn.success-active {
+    background: var(--success);
+    border-color: var(--success);
+    color: #fff;
+  }
+
+  /* Stats View */
+  .stats-hero {
+    background: var(--surface);
+    backdrop-filter: var(--blur);
+    border: 1px solid var(--border);
+    border-radius: 26px;
+    padding: 24px 18px;
+    text-align: center;
+    box-shadow: var(--shadow-md);
+    margin-bottom: 14px;
+  }
+
+  .ring-wrap {
+    position: relative;
+    width: 144px;
+    height: 144px;
+    margin: 0 auto 14px;
+  }
+
+  .ring-wrap svg {
+    transform: rotate(-90deg);
+    width: 144px;
+    height: 144px;
+  }
+
+  .ring-bg {
+    fill: none;
+    stroke: var(--border-strong);
+    stroke-width: 11;
+  }
+
+  .ring-fg {
+    fill: none;
+    stroke: var(--success);
+    stroke-width: 11;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .ring-center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ring-pct { font-size: 28px; font-weight: 700; line-height: 1.1; }
+  .ring-label { font-size: 12px; color: var(--text-muted); font-weight: 600; }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 16px;
+  }
+
+  .stat-box {
+    background: var(--surface-strong);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 12px 8px;
+  }
+
+  .stat-val { font-size: 20px; font-weight: 700; }
+  .stat-lbl { font-size: 12px; color: var(--text-muted); font-weight: 600; }
+
+  .cat-stat-card {
+    background: var(--surface);
+    backdrop-filter: var(--blur);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    padding: 16px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 14px;
+  }
+
+  .cat-stat-title { font-size: 15.5px; font-weight: 700; margin-bottom: 12px; }
+  .cat-bar-item { margin-bottom: 12px; }
+  .cat-bar-item:last-child { margin-bottom: 0; }
+
+  .cat-bar-head {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13.5px;
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+
+  .cat-bar-track {
+    height: 8px;
+    border-radius: 999px;
+    background: var(--border);
+    overflow: hidden;
+  }
+
+  .cat-bar-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--accent), var(--success));
+    transition: width 0.5s ease;
+  }
+
+  .cat-bar-fill.purple-bar {
+    background: linear-gradient(90deg, #7c3aed, #3b82f6);
+  }
+
+  .danger-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 14px;
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  /* Empty State */
+  .empty-state {
+    text-align: center;
+    padding: 46px 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    color: var(--text-muted);
+  }
+  .empty-state h3 { color: var(--text); margin-bottom: 6px; font-size: 17px; }
+
+  /* Bottom Navigation Bar */
+  .bottom-nav {
+    position: fixed;
+    bottom: max(10px, env(safe-area-inset-bottom));
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 24px);
+    max-width: 520px;
+    height: 62px;
+    background: var(--surface-strong);
+    backdrop-filter: var(--blur);
+    -webkit-backdrop-filter: var(--blur);
+    border: 1px solid var(--border-strong);
+    border-radius: 22px;
+    box-shadow: var(--shadow-lg);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 5px;
+    z-index: 120;
+  }
+
+  .nav-item {
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    font-family: inherit;
+    font-size: 11.5px;
+    font-weight: 600;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .nav-item.active {
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+
+  .load-more-btn {
+    width: 100%;
+    margin-top: 14px;
+    padding: 13px;
+    border-radius: 16px;
+    border: 1px solid var(--border-strong);
+    background: var(--surface-strong);
+    color: var(--accent);
+    font-family: inherit;
+    font-size: 14.5px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .app-footer {
+    text-align: center;
+    padding: 26px 10px 8px;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    color: var(--text-muted);
+    opacity: 0.78;
+  }
+
+  .toast {
+    position: fixed;
+    top: 76px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-16px);
+    background: var(--text);
+    color: var(--bg);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.25s ease;
+    z-index: 200;
+    box-shadow: var(--shadow-md);
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<header class="app-header" id="appHeader">
+  <div class="header-inner">
+    <div class="brand-wrap">
+      <div class="brand-icon">BA</div>
+      <div class="brand-text">
+        <div class="brand-title">ICT ও সাধারণ জ্ঞান — লিখিত</div>
+        <div class="brand-sub" id="headerSub">মোট ২২৯টি বিগত পরীক্ষার প্রশ্নোত্তর</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="icon-btn" id="shuffleHeaderBtn" title="শাফল (Shuffle) চালু/বন্ধ">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg>
+      </button>
+      <button class="icon-btn" id="themeBtn" title="থিম পরিবর্তন করুন">
+        <svg id="themeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="toast" id="toast"></div>
+
+<main class="container">
+  <!-- VIEW 1: STUDY LIST -->
+  <section class="view active" id="view-study">
+    <div class="controls-glass">
+      <!-- Dedicated One-Tap Question Type Switcher -->
+      <div class="type-segment" id="typeSegment">
+        <button class="seg-btn active" data-type="all">সব প্রশ্ন <span class="seg-cnt" id="cntAll">২২৯</span></button>
+        <button class="seg-btn" data-type="broad">বড় প্রশ্ন <span class="seg-cnt" id="cntBroad">৫৩</span></button>
+        <button class="seg-btn" data-type="short">সংক্ষিপ্ত <span class="seg-cnt" id="cntShort">১৭৬</span></button>
+      </div>
+
+      <div class="search-box">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" class="search-input" id="searchInput" placeholder="প্রশ্ন বা উত্তর খুঁজুন (বাংলা / English)...">
+        <button class="search-clear" id="searchClear" aria-label="Clear">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="pill-scroll" id="categoryPills"></div>
+
+      <div class="toolbar-row">
+        <span class="result-info" id="resultInfo">২২৯টি প্রশ্ন</span>
+        <div class="toolbar-btns">
+          <button class="chip-btn" id="filterUnmasteredBtn">অজানাগুলো</button>
+          <button class="chip-btn" id="toggleAllAnsBtn">সব উত্তর দেখুন</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="qa-list" id="qaList"></div>
+    <button class="load-more-btn" id="loadMoreBtn" style="display:none;">আরও প্রশ্ন দেখুন</button>
+  </section>
+
+  <!-- VIEW 2: FLASHCARD MODE -->
+  <section class="view" id="view-flashcard">
+    <div class="fc-topbar">
+      <div class="pill-scroll" id="fcScopePills" style="max-width:100%;">
+        <button class="pill active" data-scope="all">সবগুলো</button>
+        <button class="pill" data-scope="broad">বড় প্রশ্ন</button>
+        <button class="pill" data-scope="short">সংক্ষিপ্ত</button>
+        <button class="pill" data-scope="unmastered">শুধু অজানা</button>
+        <button class="pill" data-scope="bookmarked">বুকমার্ক</button>
+      </div>
+      <div class="fc-counter" id="fcCounter">১ / ২২৯</div>
+    </div>
+
+    <div class="fc-progress-track">
+      <div class="fc-progress-fill" id="fcProgressFill" style="width: 0%;"></div>
+    </div>
+
+    <div id="fcContainer"></div>
+
+    <div class="fc-controls" id="fcControls">
+      <button class="fc-btn" id="fcPrevBtn">← আগের</button>
+      <button class="fc-btn" id="fcMasterBtn">✓ আয়ত্ত হয়েছে</button>
+      <button class="fc-btn primary" id="fcNextBtn">পরের →</button>
+    </div>
+  </section>
+
+  <!-- VIEW 3: BOOKMARKS -->
+  <section class="view" id="view-bookmarks">
+    <div class="controls-glass" style="display:flex;align-items:center;justify-content:space-between;">
+      <div>
+        <div style="font-size:16px;font-weight:700;">বুকমার্ক করা প্রশ্ন</div>
+        <div style="font-size:12.5px;color:var(--text-muted);" id="bmCountSub">গুরুত্বপূর্ণ প্রশ্নগুলো এখানে সংরক্ষিত থাকবে</div>
+      </div>
+      <button class="chip-btn" id="bmToggleAnsBtn">সব উত্তর দেখুন</button>
+    </div>
+    <div class="qa-list" id="bmList"></div>
+  </section>
+
+  <!-- VIEW 4: STATS & PROGRESS -->
+  <section class="view" id="view-stats">
+    <div class="stats-hero">
+      <div class="ring-wrap">
+        <svg viewBox="0 0 144 144">
+          <circle class="ring-bg" cx="72" cy="72" r="60"></circle>
+          <circle class="ring-fg" id="progressRing" cx="72" cy="72" r="60" stroke-dasharray="376.99" stroke-dashoffset="376.99"></circle>
+        </svg>
+        <div class="ring-center">
+          <span class="ring-pct" id="statPct">০%</span>
+          <span class="ring-label">আয়ত্ত হয়েছে</span>
+        </div>
+      </div>
+      <div style="font-size:15px;font-weight:700;" id="statHeadline">প্রস্তুতি শুরু করুন!</div>
+      <div class="stat-grid">
+        <div class="stat-box">
+          <div class="stat-val" id="statTotal" style="color:var(--accent);">২২৯</div>
+          <div class="stat-lbl">মোট প্রশ্ন</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val" id="statMastered" style="color:var(--success);">০</div>
+          <div class="stat-lbl">আয়ত্ত হয়েছে</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val" id="statBookmarked" style="color:var(--warning);">০</div>
+          <div class="stat-lbl">বুকমার্ক</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-stat-card">
+      <div class="cat-stat-title">ধরনভিত্তিক অগ্রগতি (বড় ও সংক্ষিপ্ত)</div>
+      <div id="typeStatBars"></div>
+    </div>
+
+    <div class="cat-stat-card">
+      <div class="cat-stat-title">বিষয়ভিত্তিক অগ্রগতি</div>
+      <div id="catStatBars"></div>
+    </div>
+
+    <div class="cat-stat-card">
+      <div class="cat-stat-title">ডাটা ও সেটিংস</div>
+      <button class="danger-btn" id="resetProgressBtn">সকল অগ্রগতি ও বুকমার্ক রিসেট করুন</button>
+    </div>
+  </section>
+
+  <footer class="app-footer">BILAS Academy</footer>
+</main>
+
+<!-- Floating iOS Bottom Navigation -->
+<nav class="bottom-nav" aria-label="Main Navigation">
+  <button class="nav-item active" data-tab="study">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+    <span>পড়াশোনা</span>
+  </button>
+  <button class="nav-item" data-tab="flashcard">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
+    <span>ফ্ল্যাশকার্ড</span>
+  </button>
+  <button class="nav-item" data-tab="bookmarks">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+    <span>বুকমার্ক</span>
+  </button>
+  <button class="nav-item" data-tab="stats">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+    <span>প্রগতি</span>
+  </button>
+</nav>
+
+<script>
+const QUESTIONS = [{"id": 1, "q": "2-step authentication এ password এর পরে কী নিরাপত্তা স্তর থাকে?", "a": "OTP / Verification Code", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 2, "q": "২টি আর্টিফিশিয়াল ইন্টেলিজেন্স (এআই) সফটওয়্যারের নাম লিখুন।", "a": "ChatGPT, Google Gemini", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 3, "q": "4IR কি? Face Recognition সিস্টেমে 4IR এর কোন Technology ব্যবহৃত হয়?", "a": "ডিজিটাল প্রযুক্তি ব্যবহারের মাধ্যমে উৎপাদন ব্যবস্থায় আধুনিকায়ন ও উন্নয়নই হচ্ছে চতুর্থ শিল্প বিপ্লব বা 4IR। Face Recognition সিস্টেমে 4IR এর Machine Learning Technology ব্যবহৃত হয়।", "cat": "কম্পিউটার ও ICT", "type": "broad"}, {"id": 4, "q": "৪টি আধুনিক কম্পিউটার অপারেটিং সিস্টেমের নাম লিখুন।", "a": "Windows, Linux, MacOS, Unix", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 5, "q": "A4 সাইজের পেপারের সাইজ কত ইঞ্চি বাই কত ইঞ্চি?", "a": "১১.৬৯ ইঞ্চি বাই ৮.২৭ ইঞ্চি", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 6, "q": "Bandwidth কী?", "a": "এক কম্পিউটার থেকে অন্য কম্পিউটারে ডাটা স্থানান্তরের হারকে ব্যান্ডউইথ বলা হয়।", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 7, "q": "BIOS কি?", "a": "BIOS (Basic Input Output System) হল একটি রম চীপে ফার্মওয়্যার যাতে কম্পিউটার বুট হওয়ার জন্য নির্দেশনাগুলো দেওয়া থাকে।", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 8, "q": "Change the sentences as directed: a) I eat rice. (Passive) b) He is present in the meeting. (Negative)", "a": "a) Rice is eaten by me. \nb) He is not absent in the meeting.", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 9, "q": "Chat GPT এর পূর্ণরূপ কী? এর প্রতিষ্ঠাতা কে?", "a": "Chat Generative Pre-trained Transformer; স্যাম অল্টম্যান", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 10, "q": "COBOL কী?", "a": "COBOL = Common Business-Oriented Language হলো একটি প্রোগ্রামিং ভাষা। যা মূলত ব্যবসা বাণিজ্য এবং আর্থিক অ্যাপ্লিকেশনগুলোর জন্য ব্যবহৃত হয়।", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 11, "q": "Computer এর দু'টি প্রধান অংশের নাম লিখুন।", "a": "হার্ডওয়্যার ও সফটওয়্যার", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 12, "q": "Cookie কী?", "a": "কুকি (Cookie) হলো একটি ছোট ডেটা ফাইল যা কোনো ওয়েবসাইট ভিজিট করার সময় ব্রাউজারে সেইভ হয়।", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 13, "q": "CPU এর পূর্ণরূপ কী?", "a": "Central Processing Unit", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 14, "q": "Ctrl+F শর্ট কমান্ড এর কাজ কী?", "a": "কোনো ডকুমেন্ট, ওয়েবপেজ বা ফাইলে নির্দিষ্ট শব্দ বা তথ্য দ্রুত খুঁজে বের করার জন্য Ctrl + F ব্যবহার করা হয়।", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 15, "q": "Ctrl+H শর্ট কমান্ড এর কাজ কী?", "a": "replace text or format", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 16, "q": "Ctrl+W শর্ট কমান্ড এর কাজ কী?", "a": "বর্তমান খোলা ডকুমেন্ট, ফাইল বা ব্রাউজারের ট্যাব বন্ধ (Close) করার জন্য Ctrl+W ব্যবহার করা হয়।", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 17, "q": "Debugging কী?", "a": "প্রোগ্রামের ত্রুটিকে বলা হয় Bug। আর প্রোগ্রামে ত্রুটি (Bug) খুঁজে বের করার ও সমাধান করার প্রক্রিয়াকে বলে Debugging।", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 18, "q": "Excel ফাইলে sort করা বলতে কী বুঝায়?", "a": "তথ্যকে নির্দিষ্ট ক্রমে (Ascending বা Descending) সাজানো।", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 19, "q": "Excel- autosum এর কাজ কী?", "a": "নির্বাচিত সংখ্যাগুলোর যোগফল স্বয়ংক্রিয়ভাবে নির্ণয় করা।", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 20, "q": "F7-এর ফাংশন কী? Ctrl + Z চাপলে কী হয়?", "a": "F7: বানান ও ব্যাকরণ পরীক্ষা (Spelling and Grammar Check) চালু করে। \nCtrl + Z: সর্বশেষ কাজ Undo (বাতিল) করে / পূর্বের অবস্থায় ফিরে যাওয়া।", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 21, "q": "File ও Folder বলতে কি বুঝায়?", "a": "File হলো কম্পিউটারের সিস্টেমের একটি ধারক যা ডেটা, তথ্য, সেটিংস বা কমান্ড সংরক্ষণের জন্য ব্যবহৃত হয়। Folder হলো এক ধরণের কন্টেইনারের মত যেখানে একাধিক ফাইল কিংবা ফোল্ডারও সংরক্ষণ করা যায়।", "cat": "কম্পিউটার ও ICT", "type": "broad"}, {"id": 22, "q": "Find কমান্ড কোন মেনুতে থাকে?", "a": "Home মেনুতে", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 23, "q": "Find' এর কী বোর্ড কমান্ড কী?", "a": "Ctrl + F", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 24, "q": "gmail.com ডোমেইনে ddm123 আইডি দিয়ে e-mail ঠিকানা কী হবে?", "a": "ddm123@gmail.com", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 25, "q": "Google Chrome এ নির্দিষ্ট ওয়েব ঠিকানা সংরক্ষিত রাখতে কী করবেন?", "a": "Bookmark করতে হবে।", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 26, "q": "Google meet সার্ভিস প্রধানত: কী কাজে ব্যবহৃত হয়?", "a": "ভিডিও কনফারেন্স", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 27, "q": "HTML এর উদ্ভাবক কে?", "a": "টিম বার্নার্স লি (Tim Berners-Lee)", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 28, "q": "IP Address কী?", "a": "IP Address হলো একটি নির্দিষ্ট যন্ত্রের সাংখ্যিক ঠিকানা যা একটি নেটওয়ার্কে সংযুক্ত প্রতিটি ডিভাইসকে চিহ্নিত করে এবং ডেটা আদান-প্রদানে সাহায্য করে।", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 29, "q": "Key Board ও mouse কোন ধরনের ডিভাইস?", "a": "ইনপুট ডিভাইস", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 30, "q": "LAN ও MAN কী?", "a": "LAN (Local Area Network): একটি নির্দিষ্ট ভৌগোলিক এলাকার মধ্যে (যেমন - একটি বাড়ি, অফিস, বা স্কুল) কম্পিউটার এবং অন্যান্য ডিভাইসগুলির একটি নেটওয়ার্ক। এটি সাধারণত উচ্চ গতির ডেটা স্থানান্তর এবং রিসোর্স শেয়ার করার জন্য ব্যবহৃত হয়। MAN (Metropolitan Area Network): একটি বৃহত্তর ভৌগোলিক এলাকা জুড়ে (যেমন - একটি শহর বা মেট্রোপলিটন এলাকা) বিস্তৃত একটি কম্পিউটার নেটওয়ার্ক। এটি LAN-এর চেয়ে বড় এবং WAN-এর চেয়ে ছোট।", "cat": "কম্পিউটার ও ICT", "type": "broad"}, {"id": 31, "q": "LAN শব্দের পূর্ণরূপ কোনটি?", "a": "Local Area Network", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 32, "q": "Malware কি?", "a": "কম্পিউটারের জন্য ক্ষতিকর সকল প্রোগ্রামকে ম্যালওয়ার বলে।", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 33, "q": "MAN ও WAN এর পূর্ণরূপ কী? এদের পার্থক্য লিখুন।", "a": "MAN = Metropolitan Area Network; WAN = Wide Area Network। পার্থক্য: LAN (Local Area Network): একটি নির্দিষ্ট ভৌগোলিক এলাকার মধ্যে (যেমন- একটি বাড়ি, অফিস, বা স্কুল) কম্পিউটার এবং অন্যান্য ডিভাইসগুলির একটি নেটওয়ার্ক। এটি সাধারণত উচ্চ গতির ডেটা স্থানান্তর এবং রিসোর্স শেয়ার করার জন্য ব্যবহৃত হয়। MAN (Metropolitan Area Network): একটি বৃহত্তর ভৌগোলিক এলাকা জুড়ে (যেমন - একটি শহর বা মেট্রোপলিটন এলাকা) বিস্তৃত একটি কম্পিউটার নেটওয়ার্ক। এটি LAN-এর চেয়ে বড় এবং WAN-এর চেয়ে ছোট।", "cat": "কম্পিউটার ও ICT", "type": "broad"}, {"id": 34, "q": "MFS সম্পর্কে সংক্ষেপে বর্ণনা করুন?", "a": "MFS (Mobile Financial Services) হলো মোবাইল ফোনের মাধ্যমে আর্থিক লেনদেন এবং অন্যান্য আর্থিক পরিষেবা প্রদানের একটি ব্যবস্থা। এর মাধ্যমে ব্যবহারকারীরা টাকা পাঠানো, গ্রহণ করা, বিল পরিশোধ করা, মোবাইল রিচার্জ করা এবং অন্যান্য আর্থিক কাজ সহজেই করতে পারে। বাংলাদেশে বিকাশ, নগদ, রকেট ইত্যাদি জনপ্রিয় MFS প্রদানকারী প্রতিষ্ঠান।", "cat": "কম্পিউটার ও ICT", "type": "broad"}, {"id": 35, "q": "Microsoft Edge কী?", "a": "ব্রাউজার", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 36, "q": "Microsoft Word এ কোন ফাইলে তথ্য Save করতে Keyboard এর কোন Key গুলো সমন্বিতভাবে ব্যবহার করা হয়?", "a": "Ctrl + s", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 37, "q": "MS Office বলতে কী বোঝায়?", "a": "MS Office হলো ডকুমেন্ট, প্রেজেন্টেশন, স্প্রেডশিটসহ বেশ কিছু ডকুমেন্ট তৈরি ও সম্পাদনা বিষয়ক সফটওয়্যারের একটি প্যাকেজ।", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 38, "q": "Ms Power Point এ Slide Show করার জন্য ব্যবহৃত শর্টকাট Key লিখুন?", "a": "F5", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 39, "q": "Ms Power Point এ নতুন Slide যোগ করার জন্য কোন শর্টকাট Key ব্যবহৃত হয়?", "a": "Ctrl + M", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 40, "q": "MS Word & Line alignment গুলোর নাম কী কী?", "a": "Left Align, Center Align, Right Align, Justify", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 41, "q": "MS Word & Page layout এ orientation কী কী?", "a": "Portrait এবং Landscape", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 42, "q": "MS Word এ Find এর শর্টকাট কমান্ড কী?", "a": "Ctrl + F", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 43, "q": "Ms Word এ Page margin কোন Menu তে থাকে?", "a": "Page Layout মেনুতে", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 44, "q": "Ms Word এ Print Option কোন Menu তে থাকে?", "a": "File মেনুতে", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 45, "q": "MS Word এ চলমান পৃষ্ঠায় স্পেস খালি রেখে পরবর্তী পৃষ্ঠা শুরু করতে কী insert করবেন?", "a": "Page Break", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 46, "q": "MS Word এ বোল্ড ও আন্ডারলাইন করার কীবোর্ড কমান্ড লিখুন।", "a": "Bold = Ctrl + B; Underline = Ctrl + U", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 47, "q": "MS Word এ ব্যবহৃত শর্টকাট কমান্ড গুলি লিখুন: ক) লেখা বোল্ড করতে খ) রিপ্লেস করতে গ) কপি করা লেখা পেস্ট করতে ঘ) ডকুমেন্ট সংরক্ষণ করতে", "a": "ক) লেখা বোল্ড করতে = Ctrl + B; \nখ) রিপ্লেস করতে = Ctrl + H; \nগ) কপি করা লেখা পেস্ট করতে = Ctrl + V; \nঘ) ডকুমেন্ট সংরক্ষণ করতে = Ctrl + S", "cat": "অফিস ও শর্টকাট", "type": "broad"}, {"id": 48, "q": "MS Word ডকুমেন্ট অপরিবর্তিতরূপে স্থানান্তরযোগ্য করতে কী ফাইল ফরম্যাটে save করবেন?", "a": "PDF (.pdf)", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 49, "q": "NOT Gate বলতে কি বুঝ?", "a": "নট গেট (NOT gate) হলো একটি মৌলিক লজিক গেট যা একটি ইনপুট গ্রহণ করে এবং তার বিপরীত আউটপুট তৈরি করে।", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 50, "q": "OMR এর পূর্ণরূপ কী?", "a": "Optical Mark Recognition/Reader", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 51, "q": "Page Break করার কী-বোর্ড কমান্ড কোনটি?", "a": "Ctrl + Enter", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 52, "q": "RAM ও ROM এর পার্থক্য সমূহ লিখুন।", "a": "র‍্যাম ও রোমের মধ্যে পার্থক্য:\n ১. RAM এর পূর্ণ রূপ হলো Random Access Memory এবং ROM এর পূর্ণ রূপ হলো Read Only Memory। \n২. RAM কে ভোলাটাইল মেমোরি বলা হয় আর ROM কে নন-ভোলাটাইল মেমোরি বলা হয়। \n৩. RAM হলো প্রাইমারী স্টোরেজ আর ROM হলো সেকেন্ডারি স্টোরেজ। \n৪. RAM এর তথ্য (ডাটার সমষ্টি) কম্পিউটার প্রসেসর সরাসরি এক্সেস করতে পারে তবে ROM এর তথ্য (ডাটার সমষ্টি) কম্পিউটার প্রসেসর সরাসরি এক্সেস করতে পারে না। \n৫. RAM এ সংরক্ষণকৃত ডাটা Read ও Write উভয়ই করা যায় তবে ROM এ সংরক্ষণকৃত ডাটা শুধু Read করা যায়। \n৬. RAM মেমরি ব্যবহৃত হয় টেম্পোরারি স্টোরেজ হিসেবে কিন্তু ROM মেমরি ব্যবহৃত হয় পারমানেন্ট স্টোরেজ হিসেবে।", "cat": "কম্পিউটার ও ICT", "type": "broad"}, {"id": 53, "q": "RAM কী?", "a": "কম্পিউটারের একটি অস্থায়ী মেমোরি: Random Access Memory", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 54, "q": "ROM ও e-GP এর পূর্ণরূপ কী?", "a": "ROM = Read-Only Memory; e-GP = e-Government Procurement", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 55, "q": "Router ও Switch এর মধ্যে পার্থক্য লিখুন:", "a": "১। Router একাধিক নেটওয়ার্ককে একে অপরের সাথে সংযুক্ত করে। অপরপক্ষে, Switch একই নেটওয়ার্কের একাধিক ডিভাইসকে সংযুক্ত করে। \n২। Router ডাটা প্যাকেট IP Address ব্যবহার করে এক নেটওয়ার্ক থেকে অন্য নেটওয়ার্কে পাঠায়। অপরপক্ষে, Switch ডাটা প্যাকেট MAC Address ব্যবহার করে নির্দিষ্ট ডিভাইসে পাঠায়।", "cat": "কম্পিউটার ও ICT", "type": "broad"}, {"id": 56, "q": "Save কোন মেনুতে রয়েছে?", "a": "File মেনুতে", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 57, "q": "Save- এর জন্য সংক্ষিপ্ত Key কোনটি?", "a": "Ctrl + S", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 58, "q": "Short hand এর বাংলা কী?", "a": "দ্রুতলিখন পদ্ধতি / সাঁটলিপি", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 59, "q": "SSD কি?", "a": "SSD (Solid State Drive) হচ্ছে কম্পিউটারের এক ধরণের স্টোরেজ ডিভাইস।", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 60, "q": "Superscript কোথায় ব্যবহৃত হয়?", "a": "সূচক লেখার ক্ষেত্রে", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 61, "q": "Text clipped when printing সমস্যা হলে প্রথমে কোন দুটি বিষয় মিলিয়ে দেখবেন?", "a": "পেপার সাইজ ও মার্জিন", "cat": "ট্রাবলশুটিং", "type": "short"}, {"id": 62, "q": "Transmission speed কে কী বলা হয়?", "a": "ব্যান্ডউইথ", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 63, "q": "URL কী? এর পূর্ণরূপ কী?", "a": "URL হলো ইন্টারনেটে কোনো ওয়েবসাইট বা ওয়েবপেজের ঠিকানা। পূর্ণরূপ: Uniform Resource Locator।", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 64, "q": "USB এর পূর্ণরূপ কী?", "a": "Universal Serial Bus", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 65, "q": "WAN এবং MAN এর পূর্ণরূপ লিখুন। এদের মধ্যে কোনটি সবচেয়ে বেশি জায়গায় বিস্তৃত হয়ে থাকে।", "a": "WAN – Wide Area Network; MAN – Metropolitan Area Network। MAN বেশি জায়গায় বিস্তৃত হয়ে থাকে।", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 66, "q": "Website কত প্রকার ও কী কী?", "a": "স্ট্যাটিক ও ডাইনামিক", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 67, "q": "Wifi নেটওয়ার্কে Access point বলতে কি বুঝায়?", "a": "Access point একটি নেটওয়ার্কিং হার্ডওয়্যার ডিভাইস যা অন্যান্য Wifi ডিভাইসগুলিকে একটি তারযুক্ত নেটওয়ার্কের সাথে সংযোগ করতে দেয়।", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 68, "q": "WPM এর পূর্ণরূপ কী?", "a": "Words per minute", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 69, "q": "www এর উদ্ভাবক এর নাম লিখুন।", "a": "টিম বার্নার্স লি", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 70, "q": "www এর জনক কে?", "a": "টিম বার্নাস লি", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 71, "q": "অটোসাম (AutoSum) করার কিবোর্ড শর্টকাট কী?", "a": "Alt + =", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 72, "q": "অপটিক্যাল ফাইবারে আলোর কোন ঘটনাটি ঘটে?", "a": "আলোর পূর্ণ অভ্যন্তরীণ প্রতিফলন", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 73, "q": "অফিস সহায়ক' পদের দায়িত্ব ও কর্তব্য সম্পর্কে ৫টি বাক্য লিখুন:", "a": "অফিস সহায়ক এর দায়িত্ব ও কর্তব্য: \nক) অফিসের আসবাবপত্র এবং রেকর্ডসমূহের সুন্দরভাবে বিন্যাস সাধন করা এবং পরিষ্কার পরিচ্ছন্ন রাখা। \nখ) অফিসের ফাইল এবং কাগজপত্র নির্দেশক্রমে একস্থান হইতে অন্যস্থানে কিংবা অন্য অফিসে স্থানান্তর করা।\n গ) হালকা আসবাবপত্র অফিসের মধ্যে একস্থান হইতে অন্যস্থানে সরানো। \nঘ) গোপন অথবা গুরুত্বপূর্ণ ফাইলসমূহ স্টিলের বাক্স বন্দী করিয়া নির্দেশক্রমে এক অফিস হইতে অন্য অফিসে নেয়া। \nঙ) কর্মকর্তা ও কর্মচারীগণকে পানীয় জল পান করাবেন। \nচ) তাহারা অফিসের সমস্ত মনিহারী ও অন্যান্য দ্রব্যাদি সংরক্ষণের জন্য দায়ী থাকিবেন।", "cat": "ভূমি ও প্রশাসন", "type": "broad"}, {"id": 74, "q": "অফিস সহায়কের দায়িত্ব ও কর্তব্য লিখুন।", "a": "অফিস সহায়ক এর দায়িত্ব ও কর্তব্য:\n ১। অফিসের আসবাবপত্র এবং রেকর্ডসমূহের সুন্দরভাবে বিন্যাস সাধন করা এবং পরিষ্কার পরিচ্ছন্ন রাখা। \n২। অফিসের ফাইল এবং কাগজপত্র নির্দেশক্রমে একস্থান হইতে অন্যস্থানে কিংবা অন্য অফিসে স্থানান্তর করা। \n৩। হালকা আসবাবপত্র অফিসের মধ্যে একস্থান হইতে অন্যস্থানে সরানো। \n৪। গোপন অথবা গুরুত্বপূর্ণ ফাইলসমূহ স্টিলের বাক্স বন্দী করিয়া নির্দেশক্রমে এক অফিস হইতে অন্য অফিসে নেয়া। \n৫। কর্মকর্তা ও কর্মচারীগণকে পানীয় জল পান করাবেন।", "cat": "ভূমি ও প্রশাসন", "type": "broad"}, {"id": 75, "q": "অভ্র কী?", "a": "কম্পিউটারে বাংলা লেখার সফটওয়্যার।", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 76, "q": "অর্পিত সম্পত্তি ও পরিত্যক্ত সম্পত্তি বলতে কি বুঝায়?", "a": "অর্পিত সম্পত্তি: ১৯৬৫ সালে ভারত ও পাকিস্তানের মধ্যে যুদ্ধ শুরু হলে যেসকল লোক পাকিস্তান ত্যাগ করে ভারতে গিয়ে বসবাস করছিল তাদের পরিত্যক্ত সম্পত্তি পাকিস্তান সরকার শত্রু সম্পত্তি হিসেবে ঘোষণা করে। ১৯৭৪ সাল থেকে শত্রু সম্পত্তির নতুন নাম দেওয়া হয় অর্পিত সম্পত্তি। পরিত্যক্ত সম্পত্তি: ২৫ মার্চ, ১৯৭১ সালের পর যেকোন সময় গণপ্রজাতন্ত্রী বাংলাদেশ প্রজাতন্ত্রের বিরুদ্ধে যুদ্ধে কিংবা সামরিক অভিযানে নিয়োজিত ছিল এমন কোন রাষ্ট্রের নাগরিকের সম্পত্তি; এবং খ. বাংলাদেশ শিল্প বা বাণিজ্যিক প্রতিষ্ঠানের নিয়ন্ত্রণ ও ব্যবস্থাপনা গ্রহণ আদেশের আওতায় ও নিয়ন্ত্রণে গৃহীত যেকোন সম্পত্তিসহ যে ব্যক্তি বাংলাদেশে উপস্থিত নেই কিংবা যার নিবাস-ঠিকানা ইত্যাদি অজ্ঞাত কিংবা যে ব্যক্তি আর তার সম্পত্তির দখলে নেই কিংবা তত্ত্বাবধানে নেই বা ব্যবস্থাপনাও করছে না এমন সকল সম্পত্তিকে পরিত্যক্ত বলা হয়।", "cat": "ভূমি ও প্রশাসন", "type": "broad"}, {"id": 77, "q": "আইএসপি (ISP) কী? ইন্টারনেট ব্যবহারে জনপ্রিয় তিনটি সার্চ ইঞ্জিনের নাম লিখুন।", "a": "আইএসপি (Internet Service Provider) হলো এমন একটি প্রতিষ্ঠান, যা ব্যবহারকারীদের ইন্টারনেট সংযোগ প্রদান করে। তিনটি জনপ্রিয় সার্চ ইঞ্জিন: ১) Google ২) Bing ৩) Yahoo", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 78, "q": "আধুনিক ব্যাংকিং খাতে ICT এর ভূমিকা লিখুন।", "a": "তথ্য ও যোগাযোগ প্রযুক্তি (ICT) আধুনিক ব্যাংকিং ব্যবস্থায় এক যুগান্তকারী পরিবর্তন এনেছে। ব্যাংকিং খাতে ICT ব্যবহারের ফলে গ্রাহকরা এখন ঘরে বসেই নানা ধরনের আর্থিক সেবা উপভোগ করতে পারছেন। অনলাইন ব্যাংকিংয়ের মাধ্যমে সহজেই টাকা লেনদেন, বিদ্যুৎ বিল বা অন্যান্য বিল পরিশোধ, একাউন্ট ব্যালেন্স দেখা এবং ফান্ড ট্রান্সফারের সুবিধা পাওয়া যায়। মোবাইল ব্যাংকিং ব্যবস্থা যেমন বিকাশ, নগদ ও রকেট গ্রাহকের হাতে মোবাইলের মাধ্যমে নিরাপদ আর দ্রুত আর্থিক লেনদেনের সুবিধা পৌঁছে দিয়েছে। এছাড়া এটিএম, ডেবিট ও ক্রেডিট কার্ডের মাধ্যমে ২৪ ঘণ্টা টাকা উত্তোলন ও পেমেন্ট করা সম্ভব হয়েছে। আধুনিক ব্যাংকিং সিস্টেমে কোর ব্যাংকিং সুবিধার ফলে দেশের যেকোনো শাখা থেকে একাউন্ট পরিচালনা করা যায়। ICT ব্যবহারের ফলে ব্যাংকের হিসাব-নিকাশ, রিপোর্ট তৈরী ও হিসাবরক্ষণ অনেক সহজ ও দ্রুততর হয়েছে। স্মার্ট পেমেন্ট সিস্টেম যেমন QR কোড, ই-ওয়ালেট, অনলাইন পেমেন্ট গেটওয়ে ব্যাংকিং সেবাকে আরও আধুনিক ও গ্রাহকবান্ধব করে তুলেছে এবং দেশের আর্থিক ব্যবস্থায় গতি এনেছে।", "cat": "কম্পিউটার ও ICT", "type": "broad"}, {"id": 79, "q": "আয়তনে বাংলাদেশের সবচেয়ে বড় জেলা কোনটি?", "a": "রাঙ্গামাটি", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 80, "q": "আসন্ন জাতীয় সংসদ নির্বাচন কততম এবং কোন তারিখে অনুষ্ঠিত হবে?", "a": "ত্রয়োদশ (১৩তম) এবং ১২ ফেব্রুয়ারি, ২০২৬ সালে।", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 81, "q": "ই-নামজারি এবং রেকর্ডরুম বলতে কি বুঝায়?", "a": "ই-নামজারি হলো ইন্টারনেট ব্যবহার করে ভূমি মালিকানার হস্তান্তরের প্রক্রিয়া, যেখানে জমির নতুন মালিকের নাম সরকারিভাবে রেকর্ডভুক্ত করা হয়। যখন কোনো জমি বিক্রি, উত্তরাধিকার সূত্রে প্রাপ্তি, হেবা বা অন্য কোনো কারণে মালিকানা পরিবর্তন হয়, তখন নতুন মালিকের নামে জমি রেকর্ড করাতে হয়, এটাকেই নামজারি বলা হয়। রেকর্ডরুম হলো সেই সরকারি দপ্তর বা স্থান যেখানে জমির মালিকানা সংক্রান্ত পুরনো ও গুরুত্বপূর্ণ নথি, দলিলপত্র এবং রেকর্ড সংরক্ষণ করা হয়। এটিকে ভূমি রেকর্ড অফিস বা ল্যান্ড রেকর্ডস অফিসও বলা হয়। এর মূল কাজ হলো: জমির মালিকানার ঐতিহাসিক তথ্য নিরাপদে রাখা। জমির নকশা (Map), খতিয়ান (Record of Rights), পর্চা (Land Ownership Certificate) এবং অন্যান্য ভূমি সংক্রান্ত কাগজপত্র সংরক্ষণ করা।", "cat": "ভূমি ও প্রশাসন", "type": "broad"}, {"id": 82, "q": "ই-নামজারি বলতে কী বোঝায়?", "a": "নামজারি বা মিউটেশন হচ্ছে জমিসংক্রান্ত বিষয়ে মালিকানা পরিবর্তন করা। ভূমির মালিকানা পরিবর্তনের সাথে সাথে সহজে ও দ্রুত নামজারি করার লক্ষ্যে অনলাইনে নামজারি ফি পরিশোধের ব্যবস্থাসহ ডিজিটাল সিস্টেমই হলো ই-নামজারি।", "cat": "ভূমি ও প্রশাসন", "type": "broad"}, {"id": 83, "q": "ই-মেইল এর CC এবং BCC এর পূর্ণরূপ কী? এদের পার্থক্য লিখুন।", "a": "CC = Carbon Copy; \nBCC = Blind Carbon Copy। পার্থক্য: \nCc (Carbon Copy) ও Bcc (Blind Carbon Copy) এর মধ্যে মূল পার্থক্য- \nCc তে দেওয়া সকল অ্যাড্রেস গুলো সকল রিসিপেন্টের কাছে তালিকা আকারে পৌঁছায় অর্থাৎ সেই মেইলটি অন্য কোন ঠিকানায় প্রেরণ করা হয়েছে তা রিসিপেন্টের জানতে পারে। \nপক্ষান্তরে- Bcc তে দেওয়া সকল অ্যাড্রেস গুলো সকল রিসিপেন্টের কাছে তালিকা আকারে পৌঁছায় না। অর্থাৎ সেই মেইলটি অন্য কোন কোন ঠিকানায় প্রেরণ করা হয়েছে তা রিসিপেন্টের জানতে পারে না।", "cat": "কম্পিউটার ও ICT", "type": "broad"}, {"id": 84, "q": "ইউনিয়ন ভূমি অফিস বলতে কি বুঝায়? এ অফিসের তিনটি কাজের নাম লিখুন। উক্ত অফিসে কতজন নৈশ প্রহরী থাকে?", "a": "ইউনিয়ন ভূমি অফিস (Union Bhumi Office) বলতে বোঝায় একটি স্থানীয় সরকারি ভূমি অফিস যা ইউনিয়নের (Union) পর্যায়ে অবস্থিত। ইউনিয়ন ভূমি অফিসের কাজ: ক. ভূমি উন্নয়ন কর আদায় করা খ. সরকারি খাস জমি হেফাজত করা গ. ভূমিহীনদের কৃষি খাস জমি বন্দোবস্ত", "cat": "ভূমি ও প্রশাসন", "type": "broad"}, {"id": 85, "q": "ইনসুলিন মানবদেহের কোন অঙ্গ থেকে নিঃসৃত হয়? ইনসুলিনের একটি কাজ লিখুন।", "a": "অগ্ন্যাশয়; রক্তের গ্লুকোজ কোষে প্রবেশ করতে সাহায্য করে", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 86, "q": "ইন্টারনেট কোন প্রটোকলের অধীনে HTTP আদান করে?", "a": "TCP/IP", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 87, "q": "ইন্টারনেট ব্যবহারে বর্তমানে শীর্ষ দেশের নাম কি?", "a": "চীন", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 88, "q": "ইন্টারনেটে তথ্য খুঁজে বের করার জন্য ব্যবহৃত দু'টি সার্চ ইঞ্জিনের নাম লিখুন।", "a": "Google, Yahoo", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 89, "q": "ইন্টারনেটের মাধ্যমে প্রদত্ত চিকিৎসা পদ্ধতিকে কি বলে?", "a": "টেলিমেডিসিন (Telemedicine)", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 90, "q": "ইমেইলের CC এবং ইন্টারনেটের Mbps এর পূর্ণরূপ লিখুন।", "a": "CC = Carbon Copy; Mbps = Megabits Per Second", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 91, "q": "ইমেইলের ক্ষেত্রে CC এর পূর্ণরূপ কী?", "a": "Carbon Copy", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 92, "q": "ইমেইলের ক্ষেত্রে Spam কী?", "a": "ই-মেইল একাউন্টে প্রায়ই কিছু অপ্রয়োজনীয় ই-মেইল পাওয়া যায় যা আমাদের বিরক্তি ঘটায়। এই ধরনের ই-মেইলকে সাধারণত স্প্যাম মেইল বলে।", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 93, "q": "উপজেলা সেটেলমেন্ট অফিসের পেশকার এর দায়িত্ব ও কর্তব্য সম্পর্কে লিখুন।", "a": "১) জন সাধারণের নিকট হতে অভিযোগের চিঠি গ্রহণ ও নথিতে পেশ করণ। \n২) আদালত হইতে ভূমি সংক্রান্ত মামলার সমন গ্রহণ ও নথিপেশ। \n৩) আপত্তি, আপীল, চূড়ান্ত প্রকাশনা ক্যাম্পের কার্যক্রম গ্রহণ।", "cat": "ভূমি ও প্রশাসন", "type": "broad"}, {"id": 94, "q": "এক কিলোবাইটে কত বাইট?", "a": "১০২৪ বাইট", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 95, "q": "এক বা একাধিক রেকর্ড নিয়ে কি গঠিত হয়?", "a": "ফাইল (File) বা টেবিল (Table)।", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 96, "q": "এক সরল কোণ কত ডিগ্রী?", "a": "১৮০ ডিগ্রী", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 97, "q": "এক স্থানের লেখা মুছে অন্য স্থানে নিতে হলে কী করতে হবে?", "a": "Cut (Ctrl + X) করে Paste (Ctrl + V)", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 98, "q": "একটি Keyboard এ কতটি Function Key থাকে?", "a": "১২টি", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 99, "q": "একটি Table এর সকল border line অদৃশ্য করতে কী কমান্ড ব্যবহৃত হয়?", "a": "Ctrl + Alt + U (টেবিল সিলেক্ট করার পর)", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 100, "q": "একটি আয়তকার জমির দৈর্ঘ্য ৬৬০ ফুট এবং প্রস্থ ৬৬ ফুট হলে জমির ক্ষেত্রফল কত একর?", "a": "১ একর", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 101, "q": "একটি আয়তাকার ঘরের দৈর্ঘ্য ৫ মিটার এবং প্রস্থ ৩ মিটার। ঘরটির ক্ষেত্রফল ও পরিসীমা নির্ণয় করুন।", "a": "ঘরটির ক্ষেত্রফল ১৫ বর্গমিটার, পরিসীমা ১৬ মিটার", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 102, "q": "একটি ওয়ার্কবুকের ভেতরের পাতাগুলোকে কী বলে?", "a": "স্প্রেডশিট/ ওয়ার্কশিট", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 103, "q": "একাধিক প্রাপকের জন্য একই চিঠি তৈরির পদ্ধতি কী?", "a": "মেইল মার্জ (Mail Merge)", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 104, "q": "এক্সেলে ভুল ফর্মুলা লিখলে সাধারণত কোন এরর দেখায়?", "a": "#NAME?", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 105, "q": "ওয়াই-ফাই (Wi-fi) কী?", "a": "ওয়াই-ফাই (Wi-fi) হচ্ছে এমন একটি জনপ্রিয় তারবিহীন প্রযুক্তি যা উচ্চ ফ্রিকুয়েন্সির রেডিও ওয়েভ ব্যবহার করে কোনো ইলেকট্রনিক ডিভাইসকে উচ্চগতি সম্পন্ন ইন্টারনেট সংযোগ কিংবা কম্পিউটার নেটওয়ার্কের মাধ্যমে ডেটা আদান প্রদান করতে পারে। এর জনক ভিক্টর ভিক হেয়েস", "cat": "কম্পিউটার ও ICT", "type": "broad"}, {"id": 106, "q": "কত মেগাবাইটে ১ গিগাবাইট হয়?", "a": "১০২৪ মেগাবাইট", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 107, "q": "কম্পাইলার কী? এর কাজ কী?", "a": "কম্পাইলার (Compiler) হলো এমন একটি সফটওয়্যার, যা উচ্চস্তরের (High-level) প্রোগ্রামিং ভাষাকে মেশিন ভাষায় (Machine Language) রূপান্তর করে। কাজ: সম্পূর্ণ প্রোগ্রাম একবারে অনুবাদ করে এবং ত্রুটি (Error) শনাক্ত করে।", "cat": "কম্পিউটার ও ICT", "type": "broad"}, {"id": 108, "q": "কম্পিউটার কোন দুইটি সংখ্যার প্রয়োগে কাজ করে?", "a": "০, ১", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 109, "q": "কম্পিউটার ঘনঘন হ্যাং করে বা রিবুট/রিস্টার্ট হয়ে যায় — এর সমাধান কী?", "a": "কম্পিউটার ঘন ঘন হ্যাং বা রিস্টার্ট হওয়ার মূল কারণ হলো অতিরিক্ত গরম হওয়া, র‍্যাম বা হার্ড ডিস্কে সমস্যা অথবা ভাইরাস। সমাধান হিসেবে কম্পিউটার পরিষ্কার করে সিপিইউ ফ্যান চেক, অস্থায়ী ফাইল ডিলিট, উইন্ডোজ আপডেট এবং ম্যালওয়্যার স্ক্যান করতে হবে।", "cat": "ট্রাবলশুটিং", "type": "broad"}, {"id": 110, "q": "কম্পিউটার প্রোগ্রামে একই নির্দেশনা বারবার সম্পন্ন করার প্রক্রিয়াকে কী বলে?", "a": "Looping (লুপিং)", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 111, "q": "কম্পিউটার ভাইরাস কী?", "a": "ক্ষতিকারক প্রোগ্রাম", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 112, "q": "কম্পিউটার সিস্টেম ইউনিটে মাইক্রোপ্রসেসর বলতে কী বুঝায়?", "a": "কম্পিউটারের যে অংশে ডেটা প্রক্রিয়াকরণ হয় তাকে মাইক্রোপ্রসেসর বলে। মাইক্রোপ্রসেসরকে কম্পিউটারের ব্রেইন/মস্তিষ্ক বলা হয়। একটি একক সিলিকন চিপের/ ইন্টিগ্রেটেড সার্কিট (IC) মধ্যে এক মিলিয়নের মত বা তার চেয়ে অধিক ট্রানজিস্টর, রেজিস্টার, ক্যাপাসিটর, ডায়োড ইত্যাদি থাকে।", "cat": "কম্পিউটার ও ICT", "type": "broad"}, {"id": 113, "q": "কম্পিউটার হ্যাং বা ফ্রিজ হয়ে যাওয়া — এর সমাধান কী?", "a": "১. অপ্রয়োজনীয় সফটওয়্যার বন্ধ করতে হবে। \n২. কম্পিউটার ভাইরাসমুক্ত রাখতে অ্যান্টিভাইরাস ব্যবহার করতে হবে। \n৩. RAM বা হার্ডডিস্কের সমস্যা আছে কিনা পরীক্ষা করতে হবে। \n৪. নিয়মিত Disk Cleanup ও সফটওয়্যার আপডেট করতে হবে। \n৫. প্রয়োজন হলে কম্পিউটার রিস্টার্ট করতে হবে।", "cat": "ট্রাবলশুটিং", "type": "broad"}, {"id": 114, "q": "কম্পিউটারে বহুল ব্যবহৃত ২টি এন্টিভাইরাসের নাম লিখুন।", "a": "Avast, Kaspersky", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 115, "q": "কম্পিউটারে বাংলা লিখার সফটওয়্যার এর নাম কী?", "a": "অভ্র/ বিজয় বায়ান্নো", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 116, "q": "কম্পিউটারে ভুল ফলাফল দেওয়াকে কী বলে?", "a": "বাগ", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 117, "q": "কম্পিউটারের ২টা আউটপুট ডিভাইস এর নাম লিখুন।", "a": "মনিটর, প্রিন্টার", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 118, "q": "কম্পিউটারের ২টি Anti Virus এর নাম লিখুন?", "a": "ক্যাসপারিস্কি, নরটন", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 119, "q": "কম্পিউটারের ২টি Virus এর নাম লিখুন?", "a": "ট্রোজান হর্স (Trojan Horse), CIH", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 120, "q": "কম্পিউটারের System Software কী? এর কার্যাবলী সম্পর্কে লিখুন।", "a": "সিস্টেম সফটওয়্যার হলো এমন এক ধরনের কম্পিউটার প্রোগ্রাম যা হার্ডওয়্যার এবং অ্যাপ্লিকেশন সফটওয়্যার পরিচালনা ও নিয়ন্ত্রণের জন্য ডিজাইন করা হয়েছে। এটি হার্ডওয়্যার এবং ইউজারের অ্যাপ্লিকেশনের মধ্যে ইন্টারফেস হিসেবে কাজ করে। উদাহরণস্বরূপ অপারেটিং সিস্টেম (Windows, Linux), ডিভাইস ড্রাইভার এবং ইউটিলিটি প্রোগ্রামগুলো সিস্টেম সফটওয়্যারের অন্তর্ভুক্ত। সিস্টেম সফটওয়্যারের কার্যাবলী: হার্ডওয়্যার নিয়ন্ত্রণ (প্রসেসর, মেমরি, ডিস্ক ড্রাইভ এবং পেরিফেরাল ডিভাইস পরিচালনা করা), অপারেটিং সিস্টেম (OS) পরিচালনা (অ্যাপ্লিকেশন সফটওয়্যার চালানোর স্থিতিশীল পরিবেশ প্রদান), রিসোর্স ম্যানেজমেন্ট (মেমরি ও প্রসেসিং ক্ষমতার দক্ষ বণ্টন), ডিভাইস ড্রাইভার ব্যবস্থাপনা (হার্ডওয়্যার ও OS-এর মধ্যে যোগাযোগ রক্ষা), এবং ডায়াগনস্টিক ও ইউটিলিটি (কম্পিউটারের সমস্যা চিহ্নিত ও রক্ষণাবেক্ষণ করা)।", "cat": "কম্পিউটার ও ICT", "type": "broad"}, {"id": 121, "q": "কম্পিউটারের কাজের গতি কি দ্বারা প্রকাশ করা হয়?", "a": "হার্টজ (HZ)", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 122, "q": "কম্পিউটারের কাজের গতি কী দ্বারা প্রকাশ করা হয়?", "a": "ন্যানো সেকেন্ডে", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 123, "q": "কম্পিউটারের কি বোর্ডে নিম্নের ফাংশনগুলোর Shortcut Key লিখুন: ক) Undo the last action খ) Find and replace গ) Paste ঘ) Select all objects on page", "a": "ক) Undo the last action => Ctrl + Z; \nখ) Find and replace => Ctrl + H; \nগ) Paste => Ctrl + V; \nঘ) Select all objects on page => Ctrl + A", "cat": "অফিস ও শর্টকাট", "type": "broad"}, {"id": 124, "q": "কম্পিউটারের কি-বোর্ডে কয় ধরনের কি থাকে?", "a": "৫ ধরনের", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 125, "q": "কম্পিউটারের গতি প্রকাশের একক কোনটি?", "a": "হার্টজ (Hz)", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 126, "q": "কম্পিউটারের ব্রেইন কোনটি?", "a": "মাইক্রোপ্রসেসর", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 127, "q": "কম্পিউটারের ব্রেন বলা হয় কাকে? চ্যাট জিপিটির প্রতিষ্ঠাতা কে?", "a": "মাইক্রোপ্রসেসর; স্যাম অল্টম্যান", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 128, "q": "কম্পিউটারের সিপিইউ অতিরিক্ত গরম হওয়া বা ফ্যান অনেক জোরে ঘুরা — এর সমাধান কী?", "a": "১) সিপিইউ কুলিং ফ্যান ও হিটসিঙ্কের ধুলাবালি পরিষ্কার করা।\n২) প্রসেসরের থার্মাল পেস্ট পরিবর্তন করা।\n৩) ব্যাকগ্রাউন্ডে চলা ভারী বা অপ্রয়োজনীয় প্রোগ্রাম বন্ধ করা এবং কেসিংয়ে পর্যাপ্ত বায়ু চলাচলের ব্যবস্থা রাখা।", "cat": "ট্রাবলশুটিং", "type": "broad"}, {"id": 129, "q": "কম্পিউটারের হার্ড ডিস্ক কী ধরনের মেমরি?", "a": "সহায়ক বা সেকেন্ডারি মেমরি (Secondary / Non-volatile Memory)।", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 130, "q": "কাজ করার সময় হঠাৎ মাউস বা কিবোর্ড কাজ না করা — এর সমাধান কী?", "a": "১) মাউস/কিবোর্ডের ইউএসবি (USB) ক্যাবল খুলে আবার লাগানো বা অন্য পোর্টে সংযোগ দেওয়া (ওয়্যারলেস হলে ব্যাটারি ও রিসিভার পরীক্ষা করা)।\n২) ডিভাইস ম্যানেজার থেকে ড্রাইভার আপডেট বা রি-ইনস্টল করা।\n৩) সমস্যা না মিটলে কম্পিউটার রিস্টার্ট দেওয়া।", "cat": "ট্রাবলশুটিং", "type": "broad"}, {"id": 131, "q": "কি বোর্ড এর F1, F2, Shift, Ctrl, Alt কে কী বলা হয়?", "a": "F1, F2– ফাংশন কি; Shift, Ctrl, Alt– কমান্ড/মডিফাইয়ার কি (key)", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 132, "q": "কি বোর্ডের নিম্নোক্ত Short Command গুলোর কাজ লিখুন: (ক) Ctrl+E (খ) Ctrl+P (গ) Ctrl+F (ঘ) Ctrl+Z (ঙ) Ctrl+H", "a": "(ক) Ctrl+E => Center text; \n(খ) Ctrl+P => Print Word document; \n(গ) Ctrl+F => Find; \n(ঘ) Ctrl+Z => Undo; \n(ঙ) Ctrl+H => Replace", "cat": "অফিস ও শর্টকাট", "type": "broad"}, {"id": 133, "q": "কীবোর্ড শর্টকাট Ctrl + Z এবং Ctrl + P এর কাজ কী?", "a": "Ctrl + Z = Undo; Ctrl + P = Print", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 134, "q": "কৃত্রিম বুদ্ধিমত্তা (Artificial Intelligence) বলতে কী বুঝায়? এর ব্যবহারিক প্রয়োগ সম্পর্কে লিখুন।", "a": "মানুষের চিন্তা ভাবনার অথবা বুদ্ধিমত্তার পদ্ধতিটাকে কৃত্রিম উপায়ে প্রযুক্তি নির্ভর যন্ত্র বা কম্পিউটারের মাধ্যমে বাস্তবায়ন করাই হলো কৃত্রিম বুদ্ধিমত্তা (Artificial Intelligence)। শিক্ষা, স্বাস্থ্য, চিকিৎসা, মেশিন, কৃষি, উদ্ভাবন, আইন-শৃঙ্খলা, রোবোটিক্স, ব্যবসা-বাণিজ্য ইত্যাদি কাজে কৃত্রিম বুদ্ধিমত্তা ব্যবহার হচ্ছে।", "cat": "কম্পিউটার ও ICT", "type": "broad"}, {"id": 135, "q": "কেন্দ্রীয় শহিদ মিনারের স্থপতি কে?", "a": "হামিদুর রহমান", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 136, "q": "কোন দুইটি উৎস থেকে বাংলাদেশ সরকারের সর্বাধিক রাজস্ব আয় হয়?", "a": "মূল্য সংযোজন কর এবং আয়কর।", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 137, "q": "কোন ধরনের প্রিন্টার সবচেয়ে দ্রুতগতিতে উন্নতমানের প্রিন্ট প্রদানে সক্ষম?", "a": "লেজার প্রিন্টার", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 138, "q": "কোনো নোটিশের একটি পৃষ্ঠা window envelope-এ ঢুকবে। কোন margin dimension সবচেয়ে critical?", "a": "Left margin and Top margin", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 139, "q": "খতিয়ান/পর্চা কী? খতিয়ানে কি কি বিষয় উল্লেখ থাকে?", "a": "ভুমি জরিপকালে ভুমি মালিকের মালিকানা নিয়ে যে বিবরণ প্রস্তুত করা হয় তাকে খতিয়ান বলে। চূড়ান্ত খতিয়ানের অনুলিপিকে পর্চা বলে। খতিয়ানে জমির প্রজার নাম, জমির পরিমাণ, দাগ নং, খাজনার হার প্রভৃতি বিষয় লিপিবদ্ধ থাকে।", "cat": "ভূমি ও প্রশাসন", "type": "broad"}, {"id": 140, "q": "খাস জমি বলতে কি বুঝায়?", "a": "কোনো জমি যদি সরকারের হাতে ন্যস্ত হয় এবং সেই জমিগুলি যদি সম্পূর্ণ সরকারের নিয়ন্ত্রণাধীন এবং সরকার এই জমিগুলি সরকার কর্তৃক প্রণীত পদ্ধতি অনুযায়ী বন্দোবস্ত দিতে পারেন অথবা অন্য কোনো ভাবে ব্যবহার করতে পারেন তাহলে উক্ত ভূমিগুলিকে খাস জমি বলে।", "cat": "ভূমি ও প্রশাসন", "type": "broad"}, {"id": 141, "q": "খাসজমি বলতে কি বুঝায়?", "a": "ব্যক্তি সংস্থা বা অন্যান্য সরকারি বিভাগের মালিকানা বহির্ভূত ভূমি মন্ত্রণালয়ের নিয়ন্ত্রণাধীন জমিকে খাস জমি বলে।", "cat": "ভূমি ও প্রশাসন", "type": "short"}, {"id": 142, "q": "চতুর্ভুজের চার কোণের সমষ্টি কত?", "a": "৩৬০ ডিগ্রী", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 143, "q": "জনসংখ্যা বিষয়ক শিক্ষাকে কী বলা হয়?", "a": "ডেমোগ্রাফি বা জনমিতি", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 144, "q": "জরিপে ব্যবহৃত চারটি যন্ত্রের নাম লিখুন।", "a": "থিওডোলাইট (Theodolite), ইলেকট্রনিক টোটাল স্টেশন (Electronic Total Station), জিপিএস রিসিভার (GPS Receiver) এবং পরিমাপক টেপ বা শিকল (Measuring Tape/Chain)", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 145, "q": "জ্ঞ' এর বিশিষ্ট রূপ কী?", "a": "ঞ + জ", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 146, "q": "টীকা লিখুন: ক) অপারেটিং সিস্টেম খ) Green Energy", "a": "ক) অপারেটিং সিস্টেম (Operating System): অপারেটিং সিস্টেম হলো কম্পিউটারের প্রধান সিস্টেম সফটওয়্যার, যা ব্যবহারকারী ও হার্ডওয়্যারের মধ্যে সংযোগ স্থাপন করে। এটি কম্পিউটারের বিভিন্ন হার্ডওয়্যার ও সফটওয়্যার পরিচালনা করে এবং অন্যান্য প্রোগ্রাম চালানোর উপযুক্ত পরিবেশ তৈরি করে। Windows, Linux, macOS এবং Android অপারেটিং সিস্টেমের উদাহরণ। \nখ) Green Energy (সবুজ জ্বালানি): গ্রিন এনার্জি বা সবুজ জ্বালানি হলো পরিবেশবান্ধব ও নবায়নযোগ্য উৎস থেকে উৎপাদিত শক্তি, যা পরিবেশে খুব কম বা কোনো ক্ষতিকর দূষণ সৃষ্টি করে না। সৌরশক্তি, বায়ুশক্তি, জলবিদ্যুৎ ও ভূ-তাপীয় শক্তি গ্রিন এনার্জির প্রধান উৎস। জলবায়ু পরিবর্তন মোকাবিলা ও টেকসই উন্নয়নে গ্রিন এনার্জির গুরুত্ব অপরিসীম।", "cat": "কম্পিউটার ও ICT", "type": "broad"}, {"id": 147, "q": "টেসলা ও স্পেস এক্সের এর প্রধানের নাম কী?", "a": "ইলন মাস্ক", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 148, "q": "ডাটা ট্রান্সমিশন স্পিডকে কী বলা হয়?", "a": "ব্যান্ডউইথ", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 149, "q": "ডিজিটাল নথি ব্যবস্থাপনা কী?", "a": "ডিজিটাল নথি ব্যবস্থাপনা হলো ইলেকট্রনিক পদ্ধতি ব্যবহার করে নথি তৈরি, সংরক্ষণ, পরিচালনা এবং নিষ্পত্তি করার একটি প্রক্রিয়া।", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 150, "q": "ঢাকা সর্বপ্রথম কত সালে বাংলার রাজধানী হয়?", "a": "১৬১০ সালে", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 151, "q": "তথ্য সংরক্ষণের জন্য বহুল প্রচলিত দু'টি Database Management System এর নাম লিখুন।", "a": "Oracle, MySQL", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 152, "q": "তথ্য সুরক্ষার লক্ষ্যে অনুমোদিত ব্যক্তি Password ব্যবহার করে তথ্য ব্যবহার করে থাকেন। এক্ষেত্রে Strong Password বলতে কি বুঝায়?", "a": "যে পাসওয়ার্ডে সংখ্যা, বিশেষ চিহ্ন ও অক্ষর ব্যবহার করা হয় তাকে Strong Password বলে। যেমন, M$p45#c", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 153, "q": "দাখিলা এবং DCR বলতে কী বুঝায়?", "a": "দাখিলা: ভূমির খাজনা বা ভূমি উন্নয়ন কর পরিশোধের পর সরকার কর্তৃক যে রসিদ প্রদান করা হয় তাকে দাখিলা বলা হয়। এটি ভূমির মালিকানার একটি গুরুত্বপূর্ণ প্রমাণপত্র। \nDCR: ভূমি কর ব্যতীত অন্যান্য সরকারি পাওনা আদায় করার পর যে নির্ধারিত ফর্মে রশিদ দেওয়া হয় তাকে DCR (Duplicate Carbon Receipt) বলে।", "cat": "ভূমি ও প্রশাসন", "type": "broad"}, {"id": 154, "q": "দান ও উইলের মধ্যে ২ টি পার্থক্য লিখুন।", "a": "ক) দান হলো কোন ব্যক্তি জীবিত অবস্থায় নিঃশর্তভাবে সম্পত্তি অন্যকে প্রদান করা। অপরপক্ষে, উইল হলো কোন ব্যক্তির মৃত্যুর পর সম্পত্তি কাউকে দিয়ে যাওয়ার ব্যবস্থা করা। \nখ) দান করা হলে জীবদ্দশায় সম্পত্তি দখল হস্তান্তর বাধ্যতামূলক; দান করার সাথে কার্যকর। অপরপক্ষে, উইল করা হলে জীবদ্দশায় দখল হস্তান্তর প্রয়োজন হয় না; উইলকারীর মৃত্যুর পর কার্যকর হয়।", "cat": "ভূমি ও প্রশাসন", "type": "broad"}, {"id": 155, "q": "দু'টি Application Software এর নাম লিখুন।", "a": "Microsoft Word, Adobe Photoshop", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 156, "q": "দু'টি জনপ্রিয় সামাজিক যোগাযোগ মাধ্যমের নাম লিখুন।", "a": "ফেসবুক, এক্স", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 157, "q": "দু'টি বহুল ব্যবহৃত সিস্টেম সফটওয়্যার/অপারেটিং সিস্টেম এর নাম লিখুন।", "a": "Windows, Linux", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 158, "q": "নামজারি করার জন্য কী কী কাগজাদি দাখিল করতে হবে?", "a": "ক্রয় সূত্রে নামজারি আবেদন করতে নিম্নোক্ত তথ্যের প্রয়োজন: \n১. আবেদনকারীর তথ্য। \n২. জমি ক্রয়ের দলিল। \n৩. দলিল অনুযায়ী আবেদনকৃত জমির তফসিল। \n৪. খতিয়ান নম্বর, দাগ নম্বর, হোল্ডিং নম্বর এবং জমির পরিমাণ। \n৫. জমি দাতা এবং সর্বশেষ জরিপ বা মিউটেশন রেকর্ডের মালিক একই না হলে, তাহলে বায়া দলিলের তথ্য।", "cat": "ভূমি ও প্রশাসন", "type": "broad"}, {"id": 159, "q": "নিম্নোক্ত হার্ডওয়্যারগুলোর ধরণ নির্বাচন করুন: ক) Touchscreen খ) Projector", "a": "ক) Touchscreen – Input & output; খ) Projector - output", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 160, "q": "পর্চা বলতে কি বুঝায়? খতিয়ানে কি কি বিষয় উল্লেখ থাকে?", "a": "ভূমি জরিপকালে ভূমি মালিকের মালিকানা নিয়ে যে বিবরণ প্রস্তুত করা হয় তাকে খতিয়ান বলে। চূড়ান্ত খতিয়ানের অনুলিপিকে পর্চা বলে। খতিয়ানে জমির প্রজার নাম, জমির পরিমাণ, দাগ নং, খাজনার হার প্রভৃতি বিষয় লিপিবদ্ধ থাকে।", "cat": "ভূমি ও প্রশাসন", "type": "broad"}, {"id": 161, "q": "পল্লীকবি জসীমউদ্দীন কোন জেলায় জন্মগ্রহণ করেন?", "a": "ফরিদপুর", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 162, "q": "পিকচার এলিমেন্টের সংক্ষিপ্ত রূপ কী?", "a": "Pixel (পিক্সেল)", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 163, "q": "পিপিআর মতে সরকারি ক্রয় পদ্ধতি কত প্রকার ও কী কী?", "a": "৭ প্রকার; যথা: \nক) উন্মুক্ত দরপত্র \nখ) সীমিত দরপত্র \nগ) দুই পর্যায়বিশিষ্ট দরপত্র \nঘ) এক ধাপ দুই খাম দরপত্র \nঙ) কোটেশন প্রদানের অনুরোধ জ্ঞাপন \nচ) বিপরীত নিলাম পদ্ধতি ছ) সরাসরি ক্রয় পদ্ধতি", "cat": "ভূমি ও প্রশাসন", "type": "broad"}, {"id": 164, "q": "পূর্ণরূপ লিখুন: a) USB b) BRICS c) IPCC d) URL e) WTO", "a": "a) USB — Universal Serial Bus; b) BRICS — Brazil, Russia, India, China, South Africa; c) IPCC — Intergovernmental Panel on Climate Change; d) URL — Uniform Resource Locator; e) WTO — World Trade Organization", "cat": "কম্পিউটার ও ICT", "type": "broad"}, {"id": 165, "q": "পূর্ণরূপ লিখুন: BIOS; ASCII; CAD; HTTP", "a": "BIOS = Basic Input Output System\nASCII = American Standard Code for Information Interchange\nCAD = Computer-Aided Design\nHTTP = HyperText Transfer Protocol", "cat": "কম্পিউটার ও ICT", "type": "broad"}, {"id": 166, "q": "পূর্ণরূপ লিখুন: CPU, RAM, ROM, WWW, E-mail, AI", "a": "CPU = Central Processing Unit; RAM = Random Access Memory; ROM = Read Only Memory; WWW = World Wide Web; E-mail = Electronic Mail; AI = Artificial Intelligence", "cat": "কম্পিউটার ও ICT", "type": "broad"}, {"id": 167, "q": "পূর্ণরূপ লিখুন: LAN; VDU; SIM; Wi-Fi", "a": "LAN = Local Area Network; VDU = Visual Display Unit; SIM = Subscriber Identity Module; Wi-Fi = Wireless Fidelity", "cat": "কম্পিউটার ও ICT", "type": "broad"}, {"id": 168, "q": "পূর্ণরূপ লিখুন: URL; IP; BCD; PDF; HTTP", "a": "URL = Uniform Resource Locator; IP = Internet Protocol; BCD = Binary Coded Decimal; PDF = Portable Document Format; HTTP = HyperText Transfer Protocol", "cat": "কম্পিউটার ও ICT", "type": "broad"}, {"id": 169, "q": "পৃথিবীর ১ম গণনার যন্ত্র কোনটি?", "a": "অ্যাবাকাস", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 170, "q": "পৃথিবীর উপগ্রহ কয়টি?", "a": "১ টি, চাঁদ", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 171, "q": "পেনড্রাইভ প্রবেশ করালে কম্পিউটার বন্ধ হয়ে যাওয়া — এর সমাধান কী?", "a": "১. পেনড্রাইভে ভাইরাস আছে কিনা অ্যান্টিভাইরাস দিয়ে স্ক্যান করতে হবে। \n২. অন্য USB পোর্টে লাগিয়ে পরীক্ষা করতে হবে। \n৩. অন্য কম্পিউটারে পেনড্রাইভটি কাজ করে কিনা দেখতে হবে। \n৪. USB Driver আপডেট বা পুনরায় ইনস্টল করতে হবে। \n৫. শর্ট সার্কিট বা হার্ডওয়্যার সমস্যা থাকলে পেনড্রাইভ পরিবর্তন করতে হবে।", "cat": "ট্রাবলশুটিং", "type": "broad"}, {"id": 172, "q": "প্রথম যান্ত্রিক ক্যালকুলেটর তৈরি করেন কে?", "a": "প্যাসকেল", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 173, "q": "প্রম্পট ইঞ্জিনিয়ারিং কি?", "a": "প্রম্পট ইঞ্জিনিয়ারিং (Prompt Engineering) হলো জেনারেটিভ আর্টিফিশিয়াল ইন্টেলিজেন্স (যেমন- ChatGPT, Claude) থেকে সুনির্দিষ্ট, সঠিক এবং উচ্চমানের ফলাফল বের করে আনার জন্য কার্যকর নির্দেশনা বা 'প্রম্পট' ডিজাইন ও পরিমার্জন করার কৌশল। এটি মূলত AI-কে সঠিক কনটেক্সট বা প্রেক্ষাপট দিয়ে কাঙ্ক্ষিত আউটপুট পাওয়ার একটি প্রক্রিয়া।", "cat": "কম্পিউটার ও ICT", "type": "broad"}, {"id": 174, "q": "ফরিদপুরের পূর্ব নাম কী?", "a": "ফতেহাবাদ", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 175, "q": "ফর্মুলা ও ফাংশনের পাঁচটি পার্থক্য লিখুন?", "a": "ফর্মুলা ও ফাংশনের পাঁচটি পার্থক্য হলো: \n১. গঠন: ফর্মুলা গাণিতিক অপারেটর (+, -, *, /) এবং সেল রেফারেন্স ব্যবহার করে তৈরি করা হয়। অপরপক্ষে, ফাংশন একটি পূর্বনির্ধারিত নাম এবং আর্গুমেন্ট সহ তৈরি করা হয়। \n২. উদ্দেশ্য: ফর্মুলা সাধারণত ব্যবহারকারীর নির্দিষ্ট গণনা করার জন্য তৈরি করা হয়। অপরপক্ষে, ফাংশন একটি নির্দিষ্ট কাজ সম্পাদনের জন্য ডিজাইন করা হয়। \n৩. জটিলতা: ফর্মুলা তুলনামূলকভাবে সরল হতে পারে। অপরপক্ষে, ফাংশন জটিল গণনা বা প্রক্রিয়া সম্পাদন করতে পারে। \n৪. পুনর্ব্যবহারযোগ্যতা: ফাংশনগুলি একাধিকবার ব্যবহার করা যেতে পারে। অপরপক্ষে, ফর্মুলা সাধারণত একটি নির্দিষ্ট সেলের জন্য তৈরি করা হয়। \n৫. উদাহরণ: একটি সাধারণ যোগ করার ফর্মুলা হতে পারে ‘=A1+B1’, অপরপক্ষে একটি যোগ করার ফাংশন হতে পারে ‘=SUM(A1:B1)’।", "cat": "অফিস ও শর্টকাট", "type": "broad"}, {"id": 176, "q": "ফাংশন 'কী' তে মোট কতটি কী আছে?", "a": "১২টি (F1-F12)", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 177, "q": "বাইনারি ও দশমিক এর ভিত্তি কত?", "a": "২ ও ১০", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 178, "q": "বায়োমেট্রিক্স কী? এর চারটি ব্যবহার লিখুন।", "a": "বায়োমেট্রিক্স হলো মানুষের শারীরিক বা আচরণগত বৈশিষ্ট্য ব্যবহার করে ব্যক্তিকে শনাক্ত বা যাচাই করার প্রযুক্তি। \nএর চারটি ব্যবহার হলো: \n১. নিরাপত্তা: অ্যাক্সেস কন্ট্রোল (যেমন দরজা খোলা বা কম্পিউটার লগইন)।\n২. শনাক্তকরণ: অপরাধী শনাক্তকরণ বা নিখোঁজ ব্যক্তি খুঁজে বের করা। \n৩. সময় ও উপস্থিতি: কর্মক্ষেত্রে কর্মীদের উপস্থিতি এবং ছুটির হিসাব রাখা। \n৪. স্মার্টফোন আনলক: ব্যক্তিগত ডিভাইসের নিরাপত্তা বৃদ্ধি করা।", "cat": "কম্পিউটার ও ICT", "type": "broad"}, {"id": 179, "q": "বাংলা ভাষার চলিত রীতির ব্যবহারে কার অবদান বেশি?", "a": "প্রমথ চৌধুরী", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 180, "q": "বাংলাদেশে ইন্টারনেট চালু হয় কবে?", "a": "১৯৯৬ সালে", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 181, "q": "বাংলাদেশে জাতীয় কবির নাম কী?", "a": "কাজী নজরুল ইসলাম", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 182, "q": "বাংলাদেশে মোট বিভাগ কয়টি?", "a": "৮টি", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 183, "q": "বাংলাদেশে সর্বশেষ জনশুমারি হয়েছে কত সালে? এ পর্যন্ত কতবার জনশুমারি হয়েছে?", "a": "২০২২ সালে; ৬ বার", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 184, "q": "বাংলাদেশের ২টি সাংবিধানিক প্রতিষ্ঠানের নাম লিখুন।", "a": "নির্বাচন কমিশন ও সরকারি কর্ম কমিশন।", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 185, "q": "বাংলাদেশের একমাত্র সরকারি জ্বালানি তেল শোধনাগার এর নাম কি?", "a": "ইস্টার্ন রিফাইনারি লিমিটেড", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 186, "q": "বাংলাদেশের কয়টি জেলার সাথে সুন্দরবনের সীমানা রয়েছে?", "a": "৫টি", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 187, "q": "বাংলাদেশের কোন নদীকে মৎস্য হেরিটেজ ঘোষণা করা হয়েছে?", "a": "হালদা নদী", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 188, "q": "বাংলাদেশের জাতীয় পতাকার দৈর্ঘ্য ও প্রস্থের অনুপাত কত?", "a": "১০:৬", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 189, "q": "বাংলাদেশের প্রথম সার্চ ইঞ্জিন এর নাম লিখুন।", "a": "পিপীলিকা", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 190, "q": "বাংলাদেশের সাবমেরিন ক্যাবলের ল্যান্ডিং স্টেশন কোথায়?", "a": "কক্সবাজার ও পটুয়াখালী।", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 191, "q": "বিখ্যাত চিত্রকর্ম 'তিন কন্যা'র চিত্রকর কে?", "a": "কামরুল হাসান", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 192, "q": "বিজয় কী-বোর্ড ব্যবহার করার জন্য কি কমান্ড ব্যবহার করতে হবে?", "a": "Ctrl + Alt + B", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 193, "q": "বিশ্বকবি রবীন্দ্রনাথ ঠাকুর কত সালে নোবেল পুরস্কার পান?", "a": "১৯১৩ সালে", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 194, "q": "বিশ্ববিখ্যাত 'মোনালিসা' চিত্রকর্মের শিল্পী কে?", "a": "লিওনার্দো দ্যা ভিঞ্চি", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 195, "q": "বিশ্বব্যাপী বিপর্যয় সৃষ্টিকারী 'CIH' ভাইরাস কত তারিখে কম্পিউটারে আক্রমণ করে?", "a": "২৬ এপ্রিল, ১৯৯৯ সালে।", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 196, "q": "বুড়ো শালিকের ঘাড়ে রোঁ প্রহসনটি কার লেখা?", "a": "মাইকেল মধুসূদন দত্ত", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 197, "q": "ব্রাউজারে কাজের তথ্য মুছে ফেলতে কী করবেন?", "a": "ব্রাউজার হিস্ট্রি ডিলিট করবো (Ctrl + Shift + Delete)", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 198, "q": "ব্রুট ফোর্স অ্যাটাক কী?", "a": "ব্রুট ফোর্স অ্যাটাক হল একটি সাইবার হামলা, যেখানে আক্রমণকারী একটি সিস্টেম বা অ্যাকাউন্টে অননুমোদিত অ্যাক্সেস পাওয়ার জন্য সম্ভাব্য সকল পাসওয়ার্ড বা কী (key) চেষ্টা করে।", "cat": "কম্পিউটার ও ICT", "type": "broad"}, {"id": 199, "q": "ব্লকচেইন প্রযুক্তি এর কাজ কী?", "a": "ব্লকচেইন প্রযুক্তি নিরাপদভাবে তথ্য সংরক্ষণ ও লেনদেন যাচাই করতে ব্যবহৃত হয়। এটি তথ্যকে একাধিক ব্লকে সংরক্ষণ করে, ফলে তথ্য পরিবর্তন বা জালিয়াতি করা কঠিন হয়।", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 200, "q": "মনিটর কোন ধরনের ডিভাইস?", "a": "Output Device", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 201, "q": "মাউস কাজ করে না বা মাউস ডিটেক্ট করে না — এর সমাধান কী?", "a": "মাউস কাজ না করলে বা ডিটেক্ট না হলে প্রথমে USB পোর্ট পরিবর্তন করতে হবে, \nক্যাবল (তার) ঠিক আছে কি না দেখতে হবে, অথবা ওয়্যারলেস হলে ব্যাটারি পরিবর্তন করে দেখতে হবে। \nডিভাইস ম্যানেজার থেকে মাউস ড্রাইভার আপডেট বা রিইনস্টল করা, কম্পিউটার রিস্টার্ট দেওয়া। \nপিসি থেকে মাউসটি খুলে অন্য পোর্টে লাগিয়ে পুনরায় চেক করলে সাধারণত এই সমস্যার সমাধান হয়ে যায়।", "cat": "ট্রাবলশুটিং", "type": "broad"}, {"id": 202, "q": "মিয়ানমার বাংলাদেশের কোন দিকে?", "a": "দক্ষিণপূর্ব", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 203, "q": "মোংলা বন্দর কোন জেলায়?", "a": "বাগেরহাট", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 204, "q": "মৌজা ম্যাপ কোন কোন স্কেলে তৈরি করা হয়?", "a": "১৬ ইঞ্চি = ১ মাইল, ৩২ ইঞ্চি = ১ মাইল, ৬৪ ইঞ্চি = ১ মাইল", "cat": "ভূমি ও প্রশাসন", "type": "short"}, {"id": 205, "q": "ম্যালওয়্যার (Malware) কী? এর পূর্ণরূপ কী?", "a": "ম্যালওয়্যার হলো ক্ষতিকর সফটওয়্যার, যা কম্পিউটার বা নেটওয়ার্কের ক্ষতি করে। পূর্ণরূপ: Malicious Software।", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 206, "q": "যে ত্রিভুজের বাহু সমান নয় তার নাম কী?", "a": "বিষমবাহু ত্রিভুজ", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 207, "q": "যেকোনো ২টি ওয়েব ব্রাউজার এর নাম লিখুন।", "a": "Google Chrome এবং Mozilla Firefox", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 208, "q": "রঙ্গিন মনিটরের পিক্সেলে কয় ধরনের রঙ থাকে?", "a": "৩ ধরনের মৌলিক রঙ থাকে — লাল (Red), সবুজ (Green) এবং নীল (Blue), যাকে সংক্ষেপে RGB বলা হয়।", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 209, "q": "রিলেশনাল ডাটাবেজ কী? তিনটি রিলেশনাল ডাটাবেজ সফটওয়্যারের নাম লিখুন।", "a": "রিলেশনাল ডাটাবেজ হলো এমন একটি ডাটাবেজ যেখানে ডেটা টেবিলের মাধ্যমে সংগঠিত থাকে এবং টেবিলগুলোর মধ্যে সম্পর্ক স্থাপন করা যায়। \nতিনটি রিলেশনাল ডাটাবেজ সফটওয়্যার হলো: ১. ওরাকল (Oracle) ২. মাইএসকিউএল (MySQL) ৩. মাইক্রোসফট এসকিউএল সার্ভার (Microsoft SQL Server)", "cat": "কম্পিউটার ও ICT", "type": "broad"}, {"id": 210, "q": "রূপপুর পারমাণবিক বিদ্যুৎ কেন্দ্র কোন জেলায় অবস্থিত? এর মূল জ্বালানি কী?", "a": "পাবনা; ইউরেনিয়াম-২৩৫", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 211, "q": "রোবটিক্সের জনক কে?", "a": "জর্জ ডেবল", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 212, "q": "শেষের কবিতা কি ধরণের গ্রন্থ?", "a": "উপন্যাস", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 213, "q": "সংজ্ঞা লিখুন: মৌজা, দাখিলা, সিএস রেকর্ড, পরিত্যক্ত সম্পত্তি", "a": "মৌজা: সিএস জরিপের সময় প্রতিটি থানার অধীনে যে ভৌগোলিক এলাকা স্বতন্ত্রভাবে আলাদা পরিচিতি নম্বর দ্বারা পৃথক করা হয়, তা মৌজা নামে পরিচিত। জরিপ এবং ভূমি ব্যবস্থাপনার ইউনিট হলো মৌজা। \nদাখিলা: সরকার বা ভূমির মালিককে নির্দিষ্ট খাজনা (ভূমি উন্নয়ন কর) পরিশোধ করার পর যে অফিশিয়াল রশিদ বা প্রমাণপত্র প্রদান করা হয়, তাকে দাখিলা বা খাজনার রশিদ বলা হয়। \nসিএস রেকর্ড: ব্রিটিশ শাসনামলে ১৯১০ থেকে ১৯৪০ সালের মধ্যে বেঙ্গল টেন্যান্সি অ্যাক্ট ১৮৮৫-এর অধীনে সমগ্র ভারত উপমহাদেশে প্রথম যে আধুনিক ও বৈজ্ঞানিক ভূমি জরিপ সম্পন্ন হয়, তাকে সিএস রেকর্ড বা ক্যাডাস্ট্রাল সার্ভে বলা হয়। \nপরিত্যক্ত সম্পত্তি: এমন কোনো সম্পত্তি যার মালিক বাংলাদেশে উপস্থিত নেই, যার খোঁজ পাওয়া যাচ্ছে না অথবা যিনি নিজে বা কোনো প্রতিনিধির মাধ্যমে নিজের সম্পত্তির দখল, তত্ত্বাবধান বা পরিচালনা ছেড়ে দিয়েছেন, তাকে পরিত্যক্ত সম্পত্তি বলা হয়।", "cat": "ভূমি ও প্রশাসন", "type": "broad"}, {"id": 214, "q": "সফটওয়্যার কোডে ত্রুটি খুঁজে বের করার প্রক্রিয়াকে কী বলা হয়?", "a": "ডিবাগিং", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 215, "q": "সমবাহু ত্রিভুজের প্রত্যেক কোণ কত ডিগ্রী?", "a": "৬০ ডিগ্রী", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 216, "q": "সম্প্রতি চারজন নভোচারী চন্দ্র অভিযান শেষ করেন। তাদের তিনজন মার্কিন যুক্তরাষ্ট্রের, অন্যজন কোন দেশের?", "a": "কানাডা", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 217, "q": "সরকারি অফিসে ব্যবহারের জন্য অনুমোদিত একটি বাংলা ফন্টের নাম লিখুন।", "a": "Nikosh (নিকষ)", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 218, "q": "সাইবার অপরাধ কী? দুটি সাইবার অপরাধের নাম লিখুন।", "a": "কম্পিউটার, ইন্টারনেট বা ডিজিটাল প্রযুক্তি ব্যবহার করে সংঘটিত অপরাধকে সাইবার অপরাধ বলে। দুটি সাইবার অপরাধ: হ্যাকিং (Hacking); ফিশিং (Phishing)।", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 219, "q": "সাইবার নিরাপত্তা কী?", "a": "সাইবার নিরাপত্তা বলতে মূলত বোঝায় সতর্কতা এবং উপায়, যার মাধ্যমে আমরা আমাদের ব্যক্তিগত তথ্য, কম্পিউটার, আমাদের ব্যবহৃত বিভিন্ন ডিজিটাল ডিভাইসকে হ্যাকিং ও বিভিন্ন ধরনের সাইবার আক্রমণ থেকে সুরক্ষিত রাখতে পারি। অতএব, সাইবার নিরাপত্তা বলতে সব ধরনের তথ্যপ্রযুক্তি সেবা ও ডিভাইসের নিরাপদ ব্যবহার, তথ্যের চুরি বা হ্যাক থেকে রক্ষা, এবং বিভিন্ন ধরনের ম্যালওয়্যার থেকে সুরক্ষিত রাখাকে বোঝায়।", "cat": "কম্পিউটার ও ICT", "type": "broad"}, {"id": 220, "q": "সাফ কবলা দলিল এবং এওয়াজ দলিল বলতে কি বুঝায়?", "a": "সাফ কবলা দলিল: যখন কোন দলিল দ্বারা একজনের স্বত্ব দখলীয় জমির উপর ক্রেতার স্বত্ব জন্মায় তখন তা সাফ কবলা দলিল হিসাবে গণ্য হয়। কবলা দলিল অবশ্যই রেজিষ্ট্রি করতে হয়। অন্যথায় ক্রেতার খরিদা জমিতে কোন স্বত্ব জন্মাবে না। \nএওয়াজ দলিল: সম্পত্তির চাষাবাদের সুবিধার জন্য যদি কোন জমির মালিক অন্য কোন মালিকের সঙ্গে তার জমির ভোগদখল হস্তান্তর করে তাহলে তাকে এওয়াজ বদল বলে। এই জাতীয় দলিলের রেজিষ্ট্রেশন বাধ্যতামূলক। পক্ষগণের মধ্যে জমির পরিমাণ কমবেশি হলে দলিলে অবশ্যই টাকার পরিমাণ উল্লেখ করতে হবে।", "cat": "ভূমি ও প্রশাসন", "type": "broad"}, {"id": 221, "q": "সায়রাত মহাল কাকে বলে? ২ টি সায়রাত মহালের নাম লিখুন।", "a": "সায়রাত শব্দের অর্থ ভূমি কর ব্যতীত অন্যান্য বিবিধ কর এবং মহাল শব্দের অর্থ সম্পত্তি। \nসায়রাত মহাল শব্দের অর্থ দাঁড়ায় বিবিধ করভুক্ত সম্পত্তি। সরকারের যে সমস্ত ভূ-সম্পত্তি হইতে ভূমি কর ব্যতীত অন্যান্য বিবিধ কর আদায় করা হয় সেইগুলিকে সায়রাত মহাল বলা হয়। যেমন: জলমহাল, হাট-বাজার, বালু মহাল, ফেরীঘাট/খেয়াঘাট।", "cat": "ভূমি ও প্রশাসন", "type": "broad"}, {"id": 222, "q": "সিকস্তি ও পয়স্তি বলতে কী বোঝায়?", "a": "নদী ভাঙনের ফলে অঞ্চল বিশেষে শত শত গ্রাম বিলীন হয়ে মানুষ পরিণত হয় উদ্বাস্তুতে। উদ্বাস্তুরা অপেক্ষায় থাকে আবার কখন ভেঙে যাওয়া জনপদ নদীগর্ভ থেকে জেগে উঠবে। নদীর এ জেগে উঠাকে বলা হয় নদী শিকস্তি। জনপদ নদীতে বিলীন হয়ে যাওয়াকে বলে নদী পয়স্তি। (বি.দ্র.: বইয়ের উত্তরে উল্টো লেখা আছে; মূলত নদীভাঙনে জমি বিলীন হওয়াকে সিকস্তি এবং নদীগর্ভ থেকে চর জেগে ওঠাকে পয়স্তি বলে)", "cat": "ভূমি ও প্রশাসন", "type": "broad"}, {"id": 223, "q": "সূর্যগ্রহণ ও চন্দ্রগ্রহণ কখন হয়?", "a": "অমাবস্যা তিথিতে যখন চাঁদ, সূর্য ও পৃথিবীর মাঝখানে আসে তখন সূর্যগ্রহণ হয়। আর পূর্ণিমা তিথিতে যখন পৃথিবী, সূর্য ও চাঁদের মাঝখানে আসে তখন চন্দ্রগ্রহণ হয়।", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 224, "q": "স্থায়ী স্মৃতি শক্তিকে কী বলে?", "a": "ROM", "cat": "কম্পিউটার ও ICT", "type": "short"}, {"id": 225, "q": "স্প্যামিং (Spamming) কী?", "a": "স্প্যামিং হল অসংখ্য প্রাপককে অযাচিত, অনাকাঙ্ক্ষিত বা অপ্রাসঙ্গিক বার্তা (স্প্যাম) পাঠানোর একটি প্রক্রিয়া, যা সাধারণত বাণিজ্যিক বিজ্ঞাপন, প্রতারণা, বা ক্ষতিকারক উদ্দেশ্যে করা হয়।", "cat": "কম্পিউটার ও ICT", "type": "broad"}, {"id": 226, "q": "স্প্রেডশিট প্রোগ্রামে অসংখ্য ঘর বিশিষ্ট ছককে কী বলে?", "a": "ওয়ার্কশিট", "cat": "অফিস ও শর্টকাট", "type": "short"}, {"id": 227, "q": "হরমুজ প্রণালী কেন গুরুত্বপূর্ণ?", "a": "পারস্য উপসাগরের একমাত্র জলপথ হলো হরমুজ প্রণালী যা ওমান সাগর এবং আরব সাগরের সাথে সংযুক্ত।", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 228, "q": "হরমুজ প্রণালী কোন দুই উপ-সাগরকে যুক্ত করেছে?", "a": "পারস্য উপসাগর ও ওমান উপসাগর", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}, {"id": 229, "q": "হরমুজ প্রণালী কোন দুটি দেশের মধ্যে অবস্থিত?", "a": "ইরান ও ওমান", "cat": "সাধারণ জ্ঞান ও অন্যান্য", "type": "short"}];
+
+const STORAGE_KEY = 'bilas_ict_gk_written_v1';
+
+const bnDigits = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+function toBn(num) {
+  return String(num).replace(/\d/g, d => bnDigits[d]);
+}
+
+let state = {
+  mastered: [],
+  bookmarked: [],
+  shuffle: false,
+  shuffledOrder: [],
+  theme: 'auto',
+  fcIndex: 0,
+  fcScope: 'all'
+};
+
+function loadState() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    if (saved && typeof saved === 'object') {
+      state = { ...state, ...saved };
+    }
+  } catch (e) {}
+  if (!Array.isArray(state.shuffledOrder) || state.shuffledOrder.length !== QUESTIONS.length) {
+    state.shuffledOrder = fisherYates(QUESTIONS.map(q => q.id));
+  }
+}
+
+function saveState() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch (e) {}
+}
+
+function fisherYates(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// UI State
+let activeTab = 'study';
+let selectedType = 'all'; // 'all' | 'broad' | 'short'
+let selectedCategory = 'সবগুলো';
+let searchQuery = '';
+let onlyUnmastered = false;
+let showAllAnswers = false;
+let bmShowAllAnswers = false;
+let renderLimit = 40;
+let fcRevealed = false;
+
+const qMap = new Map(QUESTIONS.map(q => [q.id, q]));
+
+function getOrderedQuestions() {
+  if (state.shuffle) {
+    return state.shuffledOrder.map(id => qMap.get(id)).filter(Boolean);
+  }
+  return QUESTIONS;
+}
+
+let toastTimer;
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 1900);
+}
+
+function applyTheme() {
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const effective = state.theme === 'auto' ? (prefersDark ? 'dark' : 'light') : state.theme;
+  document.documentElement.setAttribute('data-theme', effective);
+  const icon = document.getElementById('themeIcon');
+  if (effective === 'dark') {
+    icon.innerHTML = '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>';
+  } else {
+    icon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
+  }
+}
+
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+  if (state.theme === 'auto') applyTheme();
+});
+
+let lastScrollY = window.scrollY;
+const headerEl = document.getElementById('appHeader');
+window.addEventListener('scroll', () => {
+  const curY = window.scrollY;
+  if (curY > 70 && curY > lastScrollY + 6) {
+    headerEl.classList.add('hidden');
+  } else if (curY < lastScrollY - 6 || curY <= 20) {
+    headerEl.classList.remove('hidden');
+  }
+  lastScrollY = curY;
+}, { passive: true });
+
+const categories = ['সবগুলো', ...Array.from(new Set(QUESTIONS.map(q => q.cat)))];
+
+function updateTypeCounts() {
+  document.getElementById('cntAll').textContent = toBn(QUESTIONS.length);
+  document.getElementById('cntBroad').textContent = toBn(QUESTIONS.filter(q => q.type === 'broad').length);
+  document.getElementById('cntShort').textContent = toBn(QUESTIONS.filter(q => q.type === 'short').length);
+}
+
+function renderCategoryPills() {
+  const wrap = document.getElementById('categoryPills');
+  wrap.innerHTML = '';
+  const typeFiltered = QUESTIONS.filter(q => selectedType === 'all' || q.type === selectedType);
+  categories.forEach(cat => {
+    const count = cat === 'সবগুলো' ? typeFiltered.length : typeFiltered.filter(q => q.cat === cat).length;
+    if (cat !== 'সবগুলো' && count === 0) return;
+    const btn = document.createElement('button');
+    btn.className = 'pill' + (selectedCategory === cat ? ' active' : '');
+    btn.innerHTML = `${cat} <span class="badge">${toBn(count)}</span>`;
+    btn.onclick = () => {
+      selectedCategory = cat;
+      renderLimit = 40;
+      renderCategoryPills();
+      renderStudyList();
+    };
+    wrap.appendChild(btn);
+  });
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function toggleMastered(id) {
+  const idx = state.mastered.indexOf(id);
+  if (idx > -1) {
+    state.mastered.splice(idx, 1);
+    showToast('আয়ত্ত তালিকা থেকে সরানো হয়েছে');
+  } else {
+    state.mastered.push(id);
+    showToast('আয়ত্ত হয়েছে হিসেবে চিহ্নিত ✓');
+  }
+  saveState();
+  updateHeaderSub();
+}
+
+function toggleBookmark(id) {
+  const idx = state.bookmarked.indexOf(id);
+  if (idx > -1) {
+    state.bookmarked.splice(idx, 1);
+    showToast('বুকমার্ক সরানো হয়েছে');
+  } else {
+    state.bookmarked.push(id);
+    showToast('বুকমার্কে সংরক্ষিত হয়েছে ★');
+  }
+  saveState();
+}
+
+function updateHeaderSub() {
+  document.getElementById('headerSub').textContent =
+    `আয়ত্ত হয়েছে ${toBn(state.mastered.length)} / ${toBn(QUESTIONS.length)}টি প্রশ্ন`;
+}
+
+function createQACard(item, forceOpen) {
+  const isMastered = state.mastered.includes(item.id);
+  const isBookmarked = state.bookmarked.includes(item.id);
+  const broadBadge = item.type === 'broad' ? '<span class="q-broad-badge">বড় প্রশ্ন</span>' : '';
+
+  const card = document.createElement('article');
+  card.className = 'qa-card' + (isMastered ? ' mastered' : '') + (forceOpen ? ' open' : '');
+
+  card.innerHTML = `
+    <div class="qa-meta">
+      <div class="qa-tags">
+        <span class="q-num">#${toBn(item.id)}</span>
+        <span class="q-cat">${escapeHtml(item.cat)}</span>
+        ${broadBadge}
+      </div>
+      <div class="qa-actions">
+        <button class="mini-btn bm-btn ${isBookmarked ? 'bookmarked' : ''}" title="বুকমার্ক">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="${isBookmarked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2.2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+        </button>
+        <button class="mini-btn ms-btn ${isMastered ? 'mastered' : ''}" title="আয়ত্ত হয়েছে">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </button>
+      </div>
+    </div>
+    <div class="qa-question">${escapeHtml(item.q)}</div>
+    <div class="qa-reveal-hint">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      উত্তর দেখতে ট্যাপ করুন
+    </div>
+    <div class="qa-answer-wrap">
+      <div class="qa-answer-inner">
+        <div class="qa-answer">
+          <span class="qa-answer-label">উত্তর</span>
+          ${escapeHtml(item.a)}
+        </div>
+      </div>
+    </div>
+  `;
+
+  const toggleOpen = () => card.classList.toggle('open');
+  card.querySelector('.qa-question').onclick = toggleOpen;
+  card.querySelector('.qa-reveal-hint').onclick = toggleOpen;
+
+  card.querySelector('.bm-btn').onclick = (e) => {
+    e.stopPropagation();
+    toggleBookmark(item.id);
+    if (activeTab === 'bookmarks') renderBookmarks();
+    else {
+      const btn = e.currentTarget;
+      const nowBm = state.bookmarked.includes(item.id);
+      btn.classList.toggle('bookmarked', nowBm);
+      btn.querySelector('svg').setAttribute('fill', nowBm ? 'currentColor' : 'none');
+    }
+  };
+
+  card.querySelector('.ms-btn').onclick = (e) => {
+    e.stopPropagation();
+    toggleMastered(item.id);
+    if (onlyUnmastered && activeTab === 'study') {
+      renderStudyList();
+    } else {
+      const nowMs = state.mastered.includes(item.id);
+      e.currentTarget.classList.toggle('mastered', nowMs);
+      card.classList.toggle('mastered', nowMs);
+    }
+  };
+
+  return card;
+}
+
+function getFilteredStudyItems() {
+  const qLower = searchQuery.trim().toLowerCase();
+  return getOrderedQuestions().filter(item => {
+    if (selectedType !== 'all' && item.type !== selectedType) return false;
+    if (selectedCategory !== 'সবগুলো' && item.cat !== selectedCategory) return false;
+    if (onlyUnmastered && state.mastered.includes(item.id)) return false;
+    if (qLower) {
+      return item.q.toLowerCase().includes(qLower) || item.a.toLowerCase().includes(qLower);
+    }
+    return true;
+  });
+}
+
+function renderStudyList() {
+  const listEl = document.getElementById('qaList');
+  const loadMoreBtn = document.getElementById('loadMoreBtn');
+  const items = getFilteredStudyItems();
+
+  const typeLabel = selectedType === 'broad' ? ' (বড় প্রশ্ন)' : selectedType === 'short' ? ' (সংক্ষিপ্ত)' : '';
+  document.getElementById('resultInfo').textContent = `${toBn(items.length)}টি প্রশ্ন পাওয়া গেছে${typeLabel}`;
+  listEl.innerHTML = '';
+
+  if (items.length === 0) {
+    listEl.innerHTML = `<div class="empty-state"><h3>কোনো প্রশ্ন পাওয়া যায়নি</h3><p>সার্চ বা ফিল্টার পরিবর্তন করে আবার চেষ্টা করুন।</p></div>`;
+    loadMoreBtn.style.display = 'none';
+    return;
+  }
+
+  const slice = items.slice(0, renderLimit);
+  const frag = document.createDocumentFragment();
+  slice.forEach(item => frag.appendChild(createQACard(item, showAllAnswers)));
+  listEl.appendChild(frag);
+
+  if (items.length > renderLimit) {
+    loadMoreBtn.style.display = 'block';
+    loadMoreBtn.textContent = `আরও প্রশ্ন দেখুন (বাকি ${toBn(items.length - renderLimit)}টি)`;
+  } else {
+    loadMoreBtn.style.display = 'none';
+  }
+}
+
+// Flashcard Mode
+function getFlashcardDeck() {
+  const ordered = getOrderedQuestions();
+  if (state.fcScope === 'broad') return ordered.filter(q => q.type === 'broad');
+  if (state.fcScope === 'short') return ordered.filter(q => q.type === 'short');
+  if (state.fcScope === 'unmastered') return ordered.filter(q => !state.mastered.includes(q.id));
+  if (state.fcScope === 'bookmarked') return ordered.filter(q => state.bookmarked.includes(q.id));
+  return ordered;
+}
+
+function renderFlashcard() {
+  const deck = getFlashcardDeck();
+  const container = document.getElementById('fcContainer');
+  const controls = document.getElementById('fcControls');
+  const counter = document.getElementById('fcCounter');
+  const progress = document.getElementById('fcProgressFill');
+
+  if (deck.length === 0) {
+    counter.textContent = '০ / ০';
+    progress.style.width = '0%';
+    controls.style.display = 'none';
+    container.innerHTML = `<div class="empty-state"><h3>এই তালিকায় কোনো ফ্ল্যাশকার্ড নেই</h3><p>অন্য ফিল্টার বা 'সবগুলো' নির্বাচন করুন।</p></div>`;
+    return;
+  }
+
+  controls.style.display = 'grid';
+  if (state.fcIndex >= deck.length) state.fcIndex = 0;
+  if (state.fcIndex < 0) state.fcIndex = deck.length - 1;
+
+  const item = deck[state.fcIndex];
+  const isMastered = state.mastered.includes(item.id);
+  const isBookmarked = state.bookmarked.includes(item.id);
+  const broadBadge = item.type === 'broad' ? '<span class="q-broad-badge">বড় প্রশ্ন</span>' : '';
+
+  counter.textContent = `${toBn(state.fcIndex + 1)} / ${toBn(deck.length)}`;
+  progress.style.width = `${((state.fcIndex + 1) / deck.length) * 100}%`;
+
+  const masterBtn = document.getElementById('fcMasterBtn');
+  masterBtn.classList.toggle('success-active', isMastered);
+  masterBtn.textContent = isMastered ? '✓ আয়ত্ত হয়েছে' : 'আয়ত্ত হিসেবে টিক দিন';
+
+  container.innerHTML = `
+    <div class="fc-stage ${fcRevealed ? 'revealed' : ''}" id="fcStage">
+      <div class="fc-card-head">
+        <div class="qa-tags">
+          <span class="q-num">#${toBn(item.id)}</span>
+          <span class="q-cat">${escapeHtml(item.cat)}</span>
+          ${broadBadge}
+        </div>
+        <button class="mini-btn ${isBookmarked ? 'bookmarked' : ''}" id="fcBmBtn" title="বুকমার্ক">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="${isBookmarked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2.2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+        </button>
+      </div>
+      <div class="fc-q-text">${escapeHtml(item.q)}</div>
+      <div class="fc-tap-prompt">উত্তর দেখতে কার্ডে ট্যাপ করুন</div>
+      <div class="fc-ans-box">
+        <span class="qa-answer-label">সঠিক উত্তর</span>
+        ${escapeHtml(item.a)}
+      </div>
+    </div>
+  `;
+
+  document.getElementById('fcStage').onclick = () => {
+    fcRevealed = !fcRevealed;
+    document.getElementById('fcStage').classList.toggle('revealed', fcRevealed);
+  };
+
+  document.getElementById('fcBmBtn').onclick = (e) => {
+    e.stopPropagation();
+    toggleBookmark(item.id);
+    renderFlashcard();
+  };
+}
+
+// Bookmarks View
+function renderBookmarks() {
+  const listEl = document.getElementById('bmList');
+  const items = getOrderedQuestions().filter(q => state.bookmarked.includes(q.id));
+  document.getElementById('bmCountSub').textContent = `মোট ${toBn(items.length)}টি প্রশ্ন সংরক্ষিত আছে`;
+  listEl.innerHTML = '';
+
+  if (items.length === 0) {
+    listEl.innerHTML = `<div class="empty-state"><h3>কোনো বুকমার্ক করা প্রশ্ন নেই</h3><p>পড়াশোনার সময় যেকোনো প্রশ্নের বুকমার্ক আইকনে ট্যাপ করে এখানে সংরক্ষণ করতে পারবেন।</p></div>`;
+    return;
+  }
+
+  const frag = document.createDocumentFragment();
+  items.forEach(item => frag.appendChild(createQACard(item, bmShowAllAnswers)));
+  listEl.appendChild(frag);
+}
+
+// Stats View
+function renderStats() {
+  const total = QUESTIONS.length;
+  const mastered = state.mastered.length;
+  const bookmarked = state.bookmarked.length;
+  const pct = Math.round((mastered / total) * 100);
+
+  document.getElementById('statPct').textContent = toBn(pct) + '%';
+  document.getElementById('statTotal').textContent = toBn(total);
+  document.getElementById('statMastered').textContent = toBn(mastered);
+  document.getElementById('statBookmarked').textContent = toBn(bookmarked);
+
+  const circumference = 2 * Math.PI * 60;
+  const offset = circumference - (pct / 100) * circumference;
+  document.getElementById('progressRing').style.strokeDashoffset = offset;
+
+  let msg = 'প্রস্তুতি শুরু করুন!';
+  if (pct >= 100) msg = 'অসাধারণ! সকল প্রশ্ন আয়ত্তে চলে এসেছে!';
+  else if (pct >= 70) msg = 'দারুণ অগ্রগতি! প্রায় শেষ পর্যায়ে আছেন।';
+  else if (pct >= 30) msg = 'চমৎকার গতিতে এগোচ্ছেন, চালিয়ে যান!';
+  else if (pct > 0) msg = 'ভালো শুরু হয়েছে! প্রতিদিন একটু করে পড়ুন।';
+  document.getElementById('statHeadline').textContent = msg;
+
+  // Type bars (Broad vs Short)
+  const typeBarsEl = document.getElementById('typeStatBars');
+  typeBarsEl.innerHTML = '';
+  [
+    { key: 'broad', label: 'বড় / বর্ণনামূলক প্রশ্ন', cls: 'purple-bar' },
+    { key: 'short', label: 'সংক্ষিপ্ত প্রশ্ন', cls: '' }
+  ].forEach(t => {
+    const tQs = QUESTIONS.filter(q => q.type === t.key);
+    const tDone = tQs.filter(q => state.mastered.includes(q.id)).length;
+    const tPct = Math.round((tDone / tQs.length) * 100);
+    const row = document.createElement('div');
+    row.className = 'cat-bar-item';
+    row.innerHTML = `
+      <div class="cat-bar-head">
+        <span>${t.label}</span>
+        <span style="color:var(--text-muted);">${toBn(tDone)} / ${toBn(tQs.length)} (${toBn(tPct)}%)</span>
+      </div>
+      <div class="cat-bar-track">
+        <div class="cat-bar-fill ${t.cls}" style="width:${tPct}%"></div>
+      </div>
+    `;
+    typeBarsEl.appendChild(row);
+  });
+
+  // Category bars
+  const barsEl = document.getElementById('catStatBars');
+  barsEl.innerHTML = '';
+  categories.filter(c => c !== 'সবগুলো').forEach(cat => {
+    const catQs = QUESTIONS.filter(q => q.cat === cat);
+    const catDone = catQs.filter(q => state.mastered.includes(q.id)).length;
+    const catPct = Math.round((catDone / catQs.length) * 100);
+    const row = document.createElement('div');
+    row.className = 'cat-bar-item';
+    row.innerHTML = `
+      <div class="cat-bar-head">
+        <span>${escapeHtml(cat)}</span>
+        <span style="color:var(--text-muted);">${toBn(catDone)} / ${toBn(catQs.length)} (${toBn(catPct)}%)</span>
+      </div>
+      <div class="cat-bar-track">
+        <div class="cat-bar-fill" style="width:${catPct}%"></div>
+      </div>
+    `;
+    barsEl.appendChild(row);
+  });
+}
+
+// Event Listeners
+document.querySelectorAll('#typeSegment .seg-btn').forEach(btn => {
+  btn.onclick = () => {
+    selectedType = btn.dataset.type;
+    selectedCategory = 'সবগুলো';
+    renderLimit = 40;
+    document.querySelectorAll('#typeSegment .seg-btn').forEach(b => b.classList.toggle('active', b === btn));
+    renderCategoryPills();
+    renderStudyList();
+  };
+});
+
+document.querySelectorAll('.nav-item').forEach(btn => {
+  btn.onclick = () => {
+    const tab = btn.dataset.tab;
+    activeTab = tab;
+    document.querySelectorAll('.nav-item').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+    document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id === 'view-' + tab));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (tab === 'study') renderStudyList();
+    if (tab === 'flashcard') renderFlashcard();
+    if (tab === 'bookmarks') renderBookmarks();
+    if (tab === 'stats') renderStats();
+  };
+});
+
+document.getElementById('themeBtn').onclick = () => {
+  const cur = document.documentElement.getAttribute('data-theme');
+  state.theme = cur === 'dark' ? 'light' : 'dark';
+  saveState();
+  applyTheme();
+  showToast(state.theme === 'dark' ? 'ডার্ক মোড চালু হয়েছে' : 'লাইট মোড চালু হয়েছে');
+};
+
+const shuffleBtn = document.getElementById('shuffleHeaderBtn');
+function syncShuffleUI() {
+  shuffleBtn.classList.toggle('active', state.shuffle);
+}
+shuffleBtn.onclick = () => {
+  state.shuffle = !state.shuffle;
+  if (state.shuffle) {
+    state.shuffledOrder = fisherYates(QUESTIONS.map(q => q.id));
+    showToast('শাফল মোড চালু হয়েছে (এলোমেলো ক্রম)');
+  } else {
+    showToast('সাধারণ ক্রম ফিরিয়ে আনা হয়েছে');
+  }
+  state.fcIndex = 0;
+  fcRevealed = false;
+  saveState();
+  syncShuffleUI();
+  if (activeTab === 'study') renderStudyList();
+  if (activeTab === 'flashcard') renderFlashcard();
+  if (activeTab === 'bookmarks') renderBookmarks();
+};
+
+const searchInput = document.getElementById('searchInput');
+const searchClear = document.getElementById('searchClear');
+searchInput.addEventListener('input', () => {
+  searchQuery = searchInput.value;
+  searchClear.classList.toggle('show', searchQuery.length > 0);
+  renderLimit = 40;
+  renderStudyList();
+});
+searchClear.onclick = () => {
+  searchInput.value = '';
+  searchQuery = '';
+  searchClear.classList.remove('show');
+  renderStudyList();
+};
+
+document.getElementById('filterUnmasteredBtn').onclick = (e) => {
+  onlyUnmastered = !onlyUnmastered;
+  e.currentTarget.classList.toggle('active', onlyUnmastered);
+  renderLimit = 40;
+  renderStudyList();
+};
+
+document.getElementById('toggleAllAnsBtn').onclick = (e) => {
+  showAllAnswers = !showAllAnswers;
+  e.currentTarget.classList.toggle('active', showAllAnswers);
+  e.currentTarget.textContent = showAllAnswers ? 'সব উত্তর লুকান' : 'সব উত্তর দেখুন';
+  renderStudyList();
+};
+
+document.getElementById('bmToggleAnsBtn').onclick = (e) => {
+  bmShowAllAnswers = !bmShowAllAnswers;
+  e.currentTarget.classList.toggle('active', bmShowAllAnswers);
+  e.currentTarget.textContent = bmShowAllAnswers ? 'সব উত্তর লুকান' : 'সব উত্তর দেখুন';
+  renderBookmarks();
+};
+
+document.getElementById('loadMoreBtn').onclick = () => {
+  renderLimit += 50;
+  renderStudyList();
+};
+
+document.querySelectorAll('#fcScopePills .pill').forEach(p => {
+  p.onclick = () => {
+    state.fcScope = p.dataset.scope;
+    state.fcIndex = 0;
+    fcRevealed = false;
+    saveState();
+    document.querySelectorAll('#fcScopePills .pill').forEach(x => x.classList.toggle('active', x === p));
+    renderFlashcard();
+  };
+});
+
+document.getElementById('fcPrevBtn').onclick = () => {
+  state.fcIndex--;
+  fcRevealed = false;
+  saveState();
+  renderFlashcard();
+};
+
+document.getElementById('fcNextBtn').onclick = () => {
+  state.fcIndex++;
+  fcRevealed = false;
+  saveState();
+  renderFlashcard();
+};
+
+document.getElementById('fcMasterBtn').onclick = () => {
+  const deck = getFlashcardDeck();
+  if (!deck.length) return;
+  const item = deck[state.fcIndex];
+  toggleMastered(item.id);
+  if (state.fcScope === 'unmastered') {
+    fcRevealed = false;
+  }
+  renderFlashcard();
+};
+
+document.getElementById('resetProgressBtn').onclick = () => {
+  if (confirm('আপনি কি নিশ্চিত যে সকল আয়ত্ত করা প্রশ্ন ও বুকমার্ক মুছে ফেলতে চান?')) {
+    state.mastered = [];
+    state.bookmarked = [];
+    state.fcIndex = 0;
+    saveState();
+    updateHeaderSub();
+    renderStats();
+    showToast('সকল অগ্রগতি রিসেট করা হয়েছে');
+  }
+};
+
+// Init
+loadState();
+applyTheme();
+syncShuffleUI();
+updateHeaderSub();
+updateTypeCounts();
+renderCategoryPills();
+document.querySelectorAll('#fcScopePills .pill').forEach(x => x.classList.toggle('active', x.dataset.scope === state.fcScope));
+renderStudyList();
+</script>
+</body>
+</html>
